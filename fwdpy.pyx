@@ -10,7 +10,7 @@ from libcpp.string cimport string
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy":
     cdef cppclass singlepop_t:
-        singlepop_t(unsigned,unsigned)
+        singlepop_t(unsigned)
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
 
@@ -25,13 +25,28 @@ cdef extern from "sample.hpp" namespace "fwdpy":
   
 ##Creat the python classes
 cdef class Singlepop:
+    """
+    Single-deme object
+
+    The constructor takes a single argument, N, which is the initial population number.
+    """
     cdef singlepop_t *thisptr
-    def __cinit__(self,int N, int reserve_size = 100):
-        self.thisptr = new singlepop_t(N,reserve_size)
+    def __cinit__(self,unsigned N):
+        self.thisptr = new singlepop_t(N)
     def __dealloc__(self):
         del self.thisptr
 
 cdef class GSLrng:
+    """
+    A wrapper around a random number generator (rng) 
+    from the GNU Scientific Library (GSL).
+
+    The constructor takes a seed (int) as an argument.
+
+    Example:
+
+    >>> rng = GSLrng(100)
+    """
     cdef GSLrng_t * thisptr
     def __cinit__(self, int seed):
         self.thisptr = new GSLrng_t(seed)
@@ -39,18 +54,15 @@ cdef class GSLrng:
         del self.thisptr
 
 
-##OK--this works!
+def ms_sample(GSLrng rng, Singlepop pop, int nsam):
+    """
+    Return a sample of size nsam from a population.
 
-#def sfs_sample(GSLrng rng, Singlepop pop, int nsam):
-#    return sfs_from_sample(rng.thisptr,pop.thisptr,nsam)
+    :param rng: a random-number generator of type GSLrng
+    :param pop: an object of type Singlepop
+    :param nsam: the desired sample size (should be << than the size of pop)   
+    """
+    return take_sample_from_pop(rng.thisptr,pop.thisptr,nsam)
 
-# def evolve(GSLrng rng,int N,int ngens,double theta, double rho):
-#     pop = Singlepop(N)
-#     evolve_pop(rng.thisptr,pop.thisptr,ngens,theta,rho)
-#     return pop
-
-#def ms_sample(GSLrng rng, Singlepop pop, int nsam):
-#    return take_sample_from_pop(rng.thisptr,pop.thisptr,nsam)
-
-#def TajimasD( vector[pair[double,string]] data ):
-#    return tajd(data)
+def TajimasD( vector[pair[double,string]] data ):
+   return tajd(data)
