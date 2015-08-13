@@ -2,7 +2,7 @@
 # distutils: sources = src/sample.cpp
 
 from libcpp.vector cimport vector
-from libcpp.pair cimport pair
+from libcpp.utility cimport pair
 from libcpp.string cimport string
 
 ##Create hooks to C++ types
