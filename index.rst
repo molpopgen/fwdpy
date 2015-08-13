@@ -13,7 +13,9 @@ Contents:
 
    intro
    
-   
+Functions and classes
+##########################################
+
 .. automodule:: fwdpy
    :members:
    :undoc-members:
