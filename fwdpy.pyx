@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: sources = src/sample.cpp
+# distutils: sources = src/sample.cpp src/neutral.cpp
 
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
@@ -15,8 +15,9 @@ cdef extern from "types.hpp" namespace "fwdpy":
         GSLrng_t(unsigned)
 
 ##Now, wrap the functions
-#cdef extern from "neutral.hpp" namespace "fwdpy":
-#  void evolve_pop(GSLrng_t * rng, singlepop_t * pop, const unsigned & ngens, const double & theta, const double & rho)
+cdef extern from "neutral.hpp" namespace "fwdpy":
+
+  void evolve_pop(GSLrng_t * rng, singlepop_t * pop, const unsigned & ngens, const double & theta, const double & rho)
 #  vector[int] sfs_from_sample(GSLrng_t * rng,const singlepop_t * pop,const unsigned & nsam)
 
 cdef extern from "sample.hpp" namespace "fwdpy":
@@ -45,7 +46,7 @@ cdef class GSLrng:
 
     Example:
 
-    >>> rng = GSLrng(100)
+    >>>rng = fwdpy.GSLrng(100)
     """
     cdef GSLrng_t * thisptr
     def __cinit__(self, int seed):
@@ -65,4 +66,34 @@ def ms_sample(GSLrng rng, Singlepop pop, int nsam):
     return take_sample_from_pop(rng.thisptr,pop.thisptr,nsam)
 
 def TajimasD( vector[pair[double,string]] data ):
-   return tajd(data)
+    """
+    Calculate Tajima's D statistic from a sample
+
+    :param data: a sample from a population
+
+    Example:
+
+    >>>rng = GSLrng(100)
+    >>>pop = evolve(rng,1000,1000,50,50)
+    >>>s = ms_sample(rng,pop,10)
+    >>>d = TajimaD(s)
+    """
+    return tajd(data)
+   
+def evolve(GSLrng rng,int N,int ngens,double theta, double rho):
+    """
+    Evolve a single population
+
+    :param rng: a GSLrng from this module
+    :param ngens: number of generations to simulate
+    :param theta: $\theta = 4N_e\mu$ is the scaled mutation rate to variants not affecting fitness ("neutral mutations")
+    :param rho: $\rho = 4N_er$ is the scaled recombination rate
+
+    Example:
+
+    >>>rng = fwdpy.GSLrng(100)
+    >>>pop = evolve(rng,1000,1000,50,50)
+    """
+    pop = Singlepop(N)
+    evolve_pop(rng.thisptr,pop.thisptr,ngens,theta,rho)
+    return pop
