@@ -5,6 +5,8 @@ from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
 
+import threading
+
 ##Create hooks to C++ types
 
 #Wrap the classes:
@@ -101,3 +103,17 @@ def evolve(GSLrng rng,int N,int ngens,double theta, double rho):
     pop = Singlepop(N)
     evolve_pop(rng.thisptr,pop.thisptr,ngens,theta,rho)
     return pop
+
+def evolve_t_details(GSLrng rng,Singlepop p,int ngens,double theta, double rho):
+    evolve_pop(rng.thisptr,p.thisptr,ngens,theta,rho)
+
+def evolve_t(GSLrng rng,int nthreads,int N,int ngens,double theta, double rho):
+    plist = list()
+    threads = []
+    for i in range(0,nthreads):
+        plist.append(Singlepop(N))
+        threads.append(threading.Thread(target=evolve_t_details,args=(rng,plist[i],ngens,theta,rho)))
+    for i in range(0,nthreads):
+        threads[i].start()
+    return plist
+    
