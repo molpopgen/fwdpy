@@ -46,7 +46,8 @@ cdef class GSLrng:
 
     Example:
 
-    >>>rng = fwdpy.GSLrng(100)
+    >>> import fwdpy
+    >>> rng = fwdpy.GSLrng(100)
     """
     cdef GSLrng_t * thisptr
     def __cinit__(self, int seed):
@@ -71,7 +72,7 @@ def TajimasD( vector[pair[double,string]] data ):
 
     :param data: a sample from a population
 
-    .. doctest::
+    Example:
     
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
@@ -90,12 +91,12 @@ def evolve(GSLrng rng,int N,int ngens,double theta, double rho):
     :param theta: :math:`\\theta = 4N_e\\mu` is the scaled mutation rate to variants not affecting fitness ("neutral mutations")
     :param rho: :math:`\\rho = 4N_er` is the scaled recombination rate
 
-    
-    .. doctest::
-    
+    Example:
+
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
     >>> pop = fwdpy.evolve(rng,1000,1000,50,50)
+
     """
     pop = Singlepop(N)
     evolve_pop(rng.thisptr,pop.thisptr,ngens,theta,rho)
