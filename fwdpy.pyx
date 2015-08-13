@@ -71,12 +71,13 @@ def TajimasD( vector[pair[double,string]] data ):
 
     :param data: a sample from a population
 
-    Example:
-
-    >>>rng = GSLrng(100)
-    >>>pop = evolve(rng,1000,1000,50,50)
-    >>>s = ms_sample(rng,pop,10)
-    >>>d = TajimaD(s)
+    .. doctest::
+    
+    >>> import fwdpy
+    >>> rng = fwdpy.GSLrng(100)
+    >>> pop = fwdpy.evolve(rng,1000,1000,50,50)
+    >>> s = fwdpy.ms_sample(rng,pop,10)
+    >>> d = fwdpy.TajimasD(s)
     """
     return tajd(data)
    
@@ -86,13 +87,15 @@ def evolve(GSLrng rng,int N,int ngens,double theta, double rho):
 
     :param rng: a GSLrng from this module
     :param ngens: number of generations to simulate
-    :param theta: $\theta = 4N_e\mu$ is the scaled mutation rate to variants not affecting fitness ("neutral mutations")
-    :param rho: $\rho = 4N_er$ is the scaled recombination rate
+    :param theta: :math:`\\theta = 4N_e\\mu` is the scaled mutation rate to variants not affecting fitness ("neutral mutations")
+    :param rho: :math:`\\rho = 4N_er` is the scaled recombination rate
 
-    Example:
-
-    >>>rng = fwdpy.GSLrng(100)
-    >>>pop = evolve(rng,1000,1000,50,50)
+    
+    .. doctest::
+    
+    >>> import fwdpy
+    >>> rng = fwdpy.GSLrng(100)
+    >>> pop = fwdpy.evolve(rng,1000,1000,50,50)
     """
     pop = Singlepop(N)
     evolve_pop(rng.thisptr,pop.thisptr,ngens,theta,rho)
