@@ -107,6 +107,7 @@ def evolve(GSLrng rng,int N,int ngens,double theta, double rho):
 def evolve_t_details(GSLrng rng,Singlepop p,int ngens,double theta, double rho):
     evolve_pop(rng.thisptr,p.thisptr,ngens,theta,rho)
 
+##This actually does not work b/c of global interpreter lock in Cython
 def evolve_t(GSLrng rng,int nthreads,int N,int ngens,double theta, double rho):
     plist = list()
     threads = []
