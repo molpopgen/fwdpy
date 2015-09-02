@@ -70,6 +70,7 @@ def evolve_pops_t(GSLrng rng,int npops, int N, int ngens, double theta, double r
     :param rho: :math:`\\rho = 4N_er` is the scaled recombination rate
 
     Example:
+    
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,1000,50,50)
@@ -88,6 +89,7 @@ def ms_sample(GSLrng rng, popvec pops, int nsam):
     :param nsam: the sample size (no. chromosomes) to sample
 
     Example:
+    
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,1000,50,50)
