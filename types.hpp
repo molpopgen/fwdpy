@@ -41,6 +41,14 @@ namespace fwdpy {
     {
       return pops[i]->generation;
     }
+    unsigned popsize(unsigned i) const
+    {
+      return pops[i]->N;
+    }
+    int sane(unsigned i) const
+    {
+      return int(pops[i]->N == pops[i]->diploids.size());
+    }
   };
 
   struct metapop_t : public KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut> >

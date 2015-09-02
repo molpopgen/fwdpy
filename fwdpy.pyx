@@ -15,6 +15,8 @@ cdef extern from "types.hpp" namespace "fwdpy":
         popvector(unsigned,unsigned)
         unsigned size()
         unsigned generation(unsigned)
+        unsigned popsize(unsigned)
+        int sane(unsigned)
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
     cdef cppclass GSLrng_t:
@@ -50,11 +52,29 @@ cdef class popvec:
         return self.thisptr.size()
     def generation(self,unsigned i):
         """
-        Returns the generation that popuation 'i' is currently evolved to
+        Returns the generation that population 'i' is currently evolved to
 
         :param i: index of the population for which to return the generation
         """
         return self.thisptr.generation(i)
+    def popsize(self,unsigned i):
+        """
+        Returns the size of population 'i'
+
+        :param i: index of the population for which to return the population size
+        """
+        return self.thisptr.popsize(i)
+    def sane(self,unsigned i):
+        """
+        Makes sure that population 'i' is in a sane state.
+
+        Internally, this checks that pop[i]->N == pop[i]->diploids.size(),
+        which it should be if the C++ code behind this all is properly updating
+        the data structures!
+
+        :param i: index of the population to check
+        """
+        return self.thisptr.sane(i)
     
 cdef class GSLrng:
     """
