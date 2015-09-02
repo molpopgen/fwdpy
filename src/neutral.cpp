@@ -1,16 +1,16 @@
 #include <neutral.hpp>
 #include <map>
-
+#include <thread>
 using namespace std;
 using namespace KTfwd;
 
 namespace fwdpy {
 
-  void evolve_pop(GSLrng_t * rng,
-		  singlepop_t * pop,
-		  const unsigned & ngens,
-		  const double & theta,
-		  const double & rho)
+  void evolve_pop_details(GSLrng_t * rng,
+			  singlepop_t * pop,
+			  const unsigned & ngens,
+			  const double & theta,
+			  const double & rho)
   {
     double mu = theta/(4.*double(pop->N)),littler=rho/(4.*double(pop->N));
 
@@ -43,6 +43,16 @@ namespace fwdpy {
 	remove_fixed_lost(&pop->mutations,&pop->fixations,&pop->fixation_times,&pop->mut_lookup,generation,2*pop->N);
 	assert(check_sum(pop->gametes,2*pop->N));
       }
+  }
+
+  void evolve_pop(GSLrng_t * rng, popvector * pops,const unsigned & ngens,const double & theta, const double & rho)
+  {
+    vector<thread> threads;
+    for( unsigned i = 0 ; i < pops->pops.size() ; ++i )
+      {
+	threads.push_back( thread(evolve_pop_details,rng,pops->pops[i].get(),ngens,theta,rho) );
+      }
+    for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
 
   std::vector<int> sfs_from_sample(GSLrng_t * rng,const singlepop_t * pop,const unsigned & nsam)
