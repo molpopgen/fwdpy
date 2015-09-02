@@ -7,7 +7,7 @@
 
 namespace fwdpy {
 
-  void evolve_pop(GSLrng_t * rng, popvector * pops,const unsigned & ngens,const double & theta, const double & rho);
+  void evolve_pop(GSLrng_t * rng, popvector * pops,const std::vector<unsigned> & nlist,const double & theta, const double & rho);
 }
 
 #endif

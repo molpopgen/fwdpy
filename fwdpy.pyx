@@ -22,7 +22,7 @@ cdef extern from "types.hpp" namespace "fwdpy":
 
 ##Now, wrap the functions
 cdef extern from "neutral.hpp" namespace "fwdpy":
-    void evolve_pop(GSLrng_t * rng, popvector * pops, const unsigned & ngens, const double & theta, const double & rho)
+    void evolve_pop(GSLrng_t * rng, popvector * pops, const vector[unsigned] nlist, const double & theta, const double & rho)
 
 cdef extern from "sample.hpp" namespace "fwdpy":
     vector[vector[pair[double,string]]] take_sample_from_pop(GSLrng_t * rng,const popvector * pop,const unsigned & nsam)
@@ -74,14 +74,14 @@ cdef class GSLrng:
     def __dealloc__(self):
         del self.thisptr
 
-def evolve_pops_t(GSLrng rng,int npops, int N, int ngens, double theta, double rho):
+def evolve_pops_t(GSLrng rng,int npops, int N, list nlist, double theta, double rho):
     """
     Simulate populations under idealized Wright-Fisher model
 
     :param rng: a GSLrng
     :param npops: The number of populations to simulate.  This is equal to the number of threads that will be used!
     :param N: The diploid population size to simulate
-    :param ngengs: The number of generations to simulate
+    :param nlist: A list of population sizes over time.  This allows the simulation of arbitrary changes in N
     :param theta: :math:`\\theta = 4N_e\\mu` is the scaled mutation rate to variants not affecting fitness ("neutral mutations")
     :param rho: :math:`\\rho = 4N_er` is the scaled recombination rate
 
@@ -89,15 +89,24 @@ def evolve_pops_t(GSLrng rng,int npops, int N, int ngens, double theta, double r
     
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,1000,50,50)
+    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
     """
     p=popvec(npops,N)
     #call the C++ fxn
-    evolve_pop(rng.thisptr,p.thisptr,ngens,theta,rho)
+    evolve_pop(rng.thisptr,p.thisptr,nlist,theta,rho)
     return p
 
-def evolve_pops_more_t(GSLrng rng, popvec pops, int ngens, double theta, double rho):
-    evolve_pop(rng.thisptr,pops.thisptr,ngens,theta,rho);
+def evolve_pops_more_t(GSLrng rng, popvec pops, list nlist, double theta, double rho):
+    """
+    Continue evolving a set of populations
+
+    :param rng: a GSLrng
+    :param pops: A list of populations simulated using evolve_pops_t
+    :param nlist: A list of population sizes over time.  This allows the simulation of arbitrary changes in N
+    :param theta: :math:`\\theta = 4N_e\\mu` is the scaled mutation rate to variants not affecting fitness ("neutral mutations")
+    :param rho: :math:`\\rho = 4N_er` is the scaled recombination rate
+    """
+    evolve_pop(rng.thisptr,pops.thisptr,nlist,theta,rho);
 
 def ms_sample(GSLrng rng, popvec pops, int nsam):
     """
