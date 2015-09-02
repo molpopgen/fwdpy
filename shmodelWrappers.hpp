@@ -6,24 +6,22 @@
   standard models of distributions on selection/
   dominance effects of mutations.
 
-  These structures are currently NOT
-  exported via inst/include/foRward.
-
   Rather, the intended use is that they provide
-  the implementation details of foRward::shmodel,
-  which is found in inst/includefoRward/shmodel.hpp.
-
-  Within the Rcpp world, these structures should be 
-  transparent to the user, returned via:
-  as<wrap><foRward::shmode>( SEXP )
+  the implementation details of fwdpy::shmodel
  */
-#ifndef __FORWARD_SHMODELWRAPPERS_HPP__
-#define __FORWARD_SHMODELWRAPPERS_HPP__
+#ifndef __FWDPY_SHMODELWRAPPERS_HPP__
+#define __FWDPY_SHMODELWRAPPERS_HPP__
 
 #include <gsl/gsl_randist.h>
 #include <cmath>
 
 namespace fwdpy {
+
+  struct shmodel
+  {
+    std::function<double(gsl_rng*)> s,h;
+  };
+  
   struct constsh
   {
     double x;
