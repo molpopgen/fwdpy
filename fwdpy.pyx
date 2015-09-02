@@ -44,8 +44,16 @@ cdef class popvec:
     def __len__(self):
         return self.thisptr.size()
     def size(self):
+        """
+        Returns number of populations (size of underlying C++ vector)
+        """
         return self.thisptr.size()
     def generation(self,unsigned i):
+        """
+        Returns the generation that popuation 'i' is currently evolved to
+
+        :param i: index of the population for which to return the generation
+        """
         return self.thisptr.generation(i)
     
 cdef class GSLrng:
