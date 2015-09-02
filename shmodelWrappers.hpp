@@ -23,7 +23,7 @@
 #include <gsl/gsl_randist.h>
 #include <cmath>
 
-namespace foRward {
+namespace fwdpy {
   struct constsh
   {
     double x;
