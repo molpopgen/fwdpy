@@ -16,7 +16,7 @@ namespace fwdpy {
 
     std::function<double(void)> recmap = std::bind(gsl_rng_uniform,rng->get());
 
-    for( unsigned generation = 0; generation < ngens; ++generation )
+    for( unsigned generation = 0; generation < ngens; ++generation,++pop->generation )
       {
 	//Iterate the population through 1 generation
 	double wbar = sample_diploid(rng->get(),

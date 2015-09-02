@@ -14,6 +14,7 @@ cdef extern from "types.hpp" namespace "fwdpy":
     cdef cppclass popvector:
         popvector(unsigned,unsigned)
         unsigned size()
+        unsigned generation(unsigned)
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
     cdef cppclass GSLrng_t:
@@ -22,7 +23,6 @@ cdef extern from "types.hpp" namespace "fwdpy":
 ##Now, wrap the functions
 cdef extern from "neutral.hpp" namespace "fwdpy":
     void evolve_pop(GSLrng_t * rng, popvector * pops, const unsigned & ngens, const double & theta, const double & rho)
-
 
 cdef extern from "sample.hpp" namespace "fwdpy":
     vector[vector[pair[double,string]]] take_sample_from_pop(GSLrng_t * rng,const popvector * pop,const unsigned & nsam)
@@ -41,8 +41,12 @@ cdef class popvec:
         self.thisptr = new popvector(npops,N)
     def __dealloc__(self):
         del self.thisptr
+    def __len__(self):
+        return self.thisptr.size()
     def size(self):
         return self.thisptr.size()
+    def generation(self,unsigned i):
+        return self.thisptr.generation(i)
     
 cdef class GSLrng:
     """
@@ -83,6 +87,9 @@ def evolve_pops_t(GSLrng rng,int npops, int N, int ngens, double theta, double r
     #call the C++ fxn
     evolve_pop(rng.thisptr,p.thisptr,ngens,theta,rho)
     return p
+
+def evolve_pops_more_t(GSLrng rng, popvec pops, int ngens, double theta, double rho):
+    evolve_pop(rng.thisptr,pops.thisptr,ngens,theta,rho);
 
 def ms_sample(GSLrng rng, popvec pops, int nsam):
     """

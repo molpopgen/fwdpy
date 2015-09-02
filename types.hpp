@@ -33,9 +33,13 @@ namespace fwdpy {
     {
       return pops[i].get();
     }
-    int size() const
+    unsigned size() const
     {
-      return int(pops.size());
+      return unsigned(pops.size());
+    }
+    unsigned generation(unsigned i) const
+    {
+      return pops[i]->generation;
     }
   };
 
