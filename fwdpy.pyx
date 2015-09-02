@@ -13,6 +13,7 @@ import threading
 cdef extern from "types.hpp" namespace "fwdpy":
     cdef cppclass popvector:
         popvector(unsigned,unsigned)
+        unsigned size()
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
     cdef cppclass GSLrng_t:
@@ -27,7 +28,8 @@ cdef extern from "sample.hpp" namespace "fwdpy":
     vector[vector[pair[double,string]]] take_sample_from_pop(GSLrng_t * rng,const popvector * pop,const unsigned & nsam)
     double tajd( const vector[pair[double,string]] & __data )
   
-##Creat the python classes
+##Create the python classes
+
 cdef class popvec:
     """
     Vector of single-deme objects
@@ -39,6 +41,8 @@ cdef class popvec:
         self.thisptr = new popvector(npops,N)
     def __dealloc__(self):
         del self.thisptr
+    def size(self):
+        return self.thisptr.size()
     
 cdef class GSLrng:
     """
