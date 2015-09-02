@@ -21,4 +21,4 @@ You will need a *modern* C++ compiler!  This means GCC >= 4.8.2 and/or clang++ >
 
 .. _Homebrew: http;//brew.sh
 .. _fwdpp: http://molpopgen.github.io/fwdpp 
-.. _libsequence: http://molpohttppgen.github.io/libsequence/
+.. _libsequence: http://molpopgen.github.io/libsequence/
