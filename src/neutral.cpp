@@ -6,7 +6,7 @@ using namespace KTfwd;
 
 namespace fwdpy {
 
-  void evolve_pop_details(GSLrng_t * rng,
+  void evolve_pop_details(gsl_rng * rng,
 			  singlepop_t * pop,
 			  const std::vector<unsigned> & nlist,
 			  const double & theta,
@@ -14,20 +14,20 @@ namespace fwdpy {
   {
     double mu = theta/(4.*double(pop->N)),littler=rho/(4.*double(pop->N));
 
-    std::function<double(void)> recmap = std::bind(gsl_rng_uniform,rng->get());
+    std::function<double(void)> recmap = std::bind(gsl_rng_uniform,rng);
 
     for( unsigned generation = 0; generation < nlist.size() ; ++generation,++pop->generation )
       {
 	//Iterate the population through 1 generation
-	double wbar = sample_diploid(rng->get(),
+	double wbar = sample_diploid(rng,
 				     &pop->gametes,  //non-const pointer to gametes
 				     &pop->diploids, //non-const pointer to diploids
 				     &pop->mutations, //non-const pointer to mutations
 				     pop->N,     //current pop size
 				     nlist[generation], //next pop size,
 				     mu,    //mutation rate per gamete
-				     std::bind(infsites(),rng->get(),&pop->mut_lookup,generation,
-					       mu,0.,[&rng](){return gsl_rng_uniform(rng->get());},[](){return 0.;},[](){return 0.;}),
+				     std::bind(infsites(),rng,&pop->mut_lookup,generation,
+					       mu,0.,[&rng](){return gsl_rng_uniform(rng);},[](){return 0.;},[](){return 0.;}),
 				     //The recombination policy includes the uniform crossover rate
 				     std::bind(genetics101(),std::placeholders::_1,std::placeholders::_2,
 					       std::placeholders::_3,
@@ -35,7 +35,7 @@ namespace fwdpy {
 					       std::ref(pop->neutral),std::ref(pop->selected),
 					       &pop->gametes,
 					       littler,
-					       rng->get(),
+					       rng,
 					       recmap),
 				     std::bind(insert_at_end<singlepop_t::mutation_t,singlepop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
 				     std::bind(insert_at_end<singlepop_t::gamete_t,singlepop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
@@ -51,9 +51,14 @@ namespace fwdpy {
   void evolve_pop(GSLrng_t * rng, popvector * pops,const std::vector<unsigned> & nlist,const double & theta, const double & rho)
   {
     vector<thread> threads;
+    std::vector<GSLrng_t> rngs;
     for( unsigned i = 0 ; i < pops->pops.size() ; ++i )
       {
-	threads.push_back( thread(evolve_pop_details,rng,pops->pops[i].get(),nlist,theta,rho) );
+	rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())));
+      }
+    for( unsigned i = 0 ; i < pops->pops.size() ; ++i )
+      {
+	threads.push_back( thread(evolve_pop_details,rngs[i].get(),pops->pops[i].get(),nlist,theta,rho) );
       }
     for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
