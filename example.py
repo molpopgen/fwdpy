@@ -26,12 +26,6 @@ D = [fwdpy.TajimasD(si) for si in s]
 print (D)
 nsing = [countDerived(si) for si in s]
 print nsing
-print("\n\n")
-print(s[0])
-print("\n\n")
-print(s[1])
-print("\n\n")
-print(s[2])
 
 ##Get s,h for each mutation (all irrelevant here, but just an example...)
 sh = fwdpy.get_sample_details(s,pop)
