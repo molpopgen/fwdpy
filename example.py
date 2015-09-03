@@ -6,7 +6,7 @@ s = fwdpy.ms_sample(rng,pop,10)
 ###fxn to ask if a site is a singleton
 def isSingleton( site ):
     ones=0
-    for i in site:
+    for i in site[1]:
         if i == '1':
             ones += 1
     if ones == 1:
@@ -17,15 +17,29 @@ def isSingleton( site ):
 def countDerived( sample ):
     nsing=0
     for i in range(len(sample)):
-        if isSingleton(sample[i][1]):
+        if isSingleton(sample[i]):
             nsing += 1
     return nsing
 
 #list comprehension for automatic vectorizing
 D = [fwdpy.TajimasD(si) for si in s]
-print (D)
+print "Tajima's D per sample =", D
+
+#number of seg sites per sample
+segsites = [len(si) for si in s]
+print "S per sample =",segsites
+
+#number of singletons per sample
 nsing = [countDerived(si) for si in s]
-print nsing
+print "No. singletons per sample =",nsing
+
+## remove the non-singleton sites from each sample
+sAllSing = [filter( lambda x: isSingleton(x) == True, j ) for j in s]
+print "No. singletons per sample =",[len(i) for i in sAllSing]
+
+##Remove the singletons
+sNoSing = [filter( lambda x: isSingleton(x) == False, j ) for j in s]
+print "No. non-singletons per sample =",[len(i) for i in sNoSing]
 
 ##Get xtra info for each mutation in the sample
 sh = fwdpy.get_sample_details(s,pop)
