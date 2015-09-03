@@ -8,7 +8,9 @@ namespace fwdpy {
   void get_sh( const std::vector< std::vector<std::pair<double,std::string> > >& samples,
 	       const popvector * pops, const unsigned i,
 	       std::vector<double> * s,
-	       std::vector<double> * h);
+	       std::vector<double> * h,
+	       std::vector<double> * p,
+	       std::vector<double> * a);
   double tajd( const std::vector<std::pair<double,std::string> > & __data );
 }
 

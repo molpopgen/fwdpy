@@ -27,7 +27,7 @@ print (D)
 nsing = [countDerived(si) for si in s]
 print nsing
 
-##Get s,h for each mutation (all irrelevant here, but just an example...)
+##Get xtra info for each mutation in the sample
 sh = fwdpy.get_sample_details(s,pop)
 
 ##Now, evolve them some more and end with a bottleneck + recent, partial recovery

@@ -30,7 +30,7 @@ cdef extern from "neutral.hpp" namespace "fwdpy":
 cdef extern from "sample.hpp" namespace "fwdpy":
     vector[vector[pair[double,string]]] take_sample_from_pop(GSLrng_t * rng,const popvector * pop,const unsigned & nsam)
     double tajd( const vector[pair[double,string]] & __data )
-    void get_sh( const vector[vector[pair[double,string]]] & samples, const popvector * pops, const unsigned i,	vector[double] * s,vector[double] * h)
+    void get_sh( const vector[vector[pair[double,string]]] & samples, const popvector * pops, const unsigned i,	vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     
 ##Create the python classes
 
@@ -161,11 +161,15 @@ def get_sample_details(list ms_samples, popvec pops):
     rv = list()
     cdef vector[double] h
     cdef vector[double] s
+    cdef vector[double] p
+    cdef vector[double] a
     for i in range(len(ms_samples)):
         s.clear()
         h.clear()
-        get_sh(ms_samples,pops.thisptr,i,&s,&h)
-        rv.append( pandas.DataFrame({'s':s,'h':h}) )
+        p.clear()
+        a.clear()
+        get_sh(ms_samples,pops.thisptr,i,&s,&h,&p,&a)
+        rv.append( pandas.DataFrame({'s':s,'h':h,'p':p,'a':a}) )
     return rv
 
 def TajimasD( vector[pair[double,string]] data ):

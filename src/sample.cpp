@@ -26,23 +26,35 @@ namespace fwdpy {
 
   void get_sh_details( const std::vector<std::pair<double,std::string> > & sample,
 		       const singlepop_t::mlist_t & mutations,
+		       const unsigned twoN,
+		       const unsigned gen,
 		       std::vector<double> * s,
-		       std::vector<double> * h)
+		       std::vector<double> * h,
+		       std::vector<double> * p,
+		       std::vector<double> * a)
   {
-    std::for_each(sample.begin(),sample.end(),[&mutations,&s,&h](const std::pair<double,std::string> & p) {
-	auto mitr = std::find_if(mutations.begin(),mutations.end(),[&p]( const singlepop_t::mutation_t & m ) {
-	    return p.first==m.pos;
+    std::for_each(sample.begin(),sample.end(),[&mutations,&s,&h,&p,&a,&twoN,&gen](const std::pair<double,std::string> & __pair) {
+	auto mitr = std::find_if(mutations.begin(),mutations.end(),[&__pair]( const singlepop_t::mutation_t & m ) {
+	    return __pair.first==m.pos;
 	  });
 	s->push_back(mitr->s);
 	h->push_back(mitr->h);
+	p->push_back(double(mitr->n)/double(twoN));
+	a->push_back(double(gen-mitr->g)+1.); //mutation age
       });
   }
   
   void get_sh( const std::vector< std::vector<std::pair<double,std::string> > > & samples,
 	       const popvector * pops, const unsigned i,
 	       std::vector<double> * s,
-	       std::vector<double> * h)
+	       std::vector<double> * h,
+	       std::vector<double> * p,
+	       std::vector<double> * a)
   {
-    get_sh_details(samples[i],pops->pops[i].get()->mutations,s,h);
+    get_sh_details(samples[i],
+		   pops->pops[i]->mutations,
+		   2*pops->pops[i]->diploids.size(),
+		   pops->pops[i]->generation,
+		   s,h,p,a);
   }
 }
