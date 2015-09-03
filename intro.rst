@@ -15,7 +15,7 @@ Additional dependencies are:
 * tcmalloc_, which is from Google's "perftools" collection
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp 
-.. _libsequence: http://molpohttppgen.github.io/libsequence/
+.. _libsequence: http://molpopgen.github.io/libsequence/
 .. _Cython: http://www.cython.org/
 .. _GSL:  http://gnu.org/software/gsl
 .. _tcmalloc: https://code.google.com/p/gperftools/
