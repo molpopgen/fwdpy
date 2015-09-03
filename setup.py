@@ -5,7 +5,7 @@ from Cython.Build import cythonize
 
 setup(ext_modules = cythonize(Extension(
            "fwdpy",                                # the extesion name
-           sources=["fwdpy.pyx",'src/sample.cpp'], # the Cython source and
+           sources=["fwdpy.pyx"], # the Cython source and
                                                   # additional C++ source files
            language="c++",                        # generate and compile C++ code
            extra_compile_args=["-std=c++11","-I.","-I.."],
