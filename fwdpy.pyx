@@ -5,8 +5,6 @@ from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
 
-import threading
-
 ##Create hooks to C++ types
 
 #Wrap the classes:
