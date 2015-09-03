@@ -5,6 +5,9 @@ from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
 
+## for DataFrame
+import pandas
+
 ##Create hooks to C++ types
 
 #Wrap the classes:
@@ -27,7 +30,8 @@ cdef extern from "neutral.hpp" namespace "fwdpy":
 cdef extern from "sample.hpp" namespace "fwdpy":
     vector[vector[pair[double,string]]] take_sample_from_pop(GSLrng_t * rng,const popvector * pop,const unsigned & nsam)
     double tajd( const vector[pair[double,string]] & __data )
-  
+    void get_sh( const vector[vector[pair[double,string]]] & samples, const popvector * pops, const unsigned i,	vector[double] * s,vector[double] * h)
+    
 ##Create the python classes
 
 cdef class popvec:
@@ -142,6 +146,27 @@ def ms_sample(GSLrng rng, popvec pops, int nsam):
     >>> s = fwdpy.ms_sample(rng,pop,10)
     """
     return take_sample_from_pop(rng.thisptr,pops.thisptr,nsam)
+
+def get_sample_details(list ms_samples, popvec pops):
+    """
+    Get additional details for population samples
+
+    :param ms_samples: A list returned by fwdpy.ms_sample
+    :param pops: A a popvec containing simulated populations
+
+    :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.
+
+    :rtype: pandas.DataFrame
+    """
+    rv = list()
+    cdef vector[double] h
+    cdef vector[double] s
+    for i in range(len(ms_samples)):
+        s.clear()
+        h.clear()
+        get_sh(ms_samples,pops.thisptr,i,&s,&h)
+        rv.append( pandas.DataFrame({'s':s,'h':h}) )
+    return rv
 
 def TajimasD( vector[pair[double,string]] data ):
     """

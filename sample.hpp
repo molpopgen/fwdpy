@@ -5,6 +5,10 @@
 
 namespace fwdpy {
   std::vector<std::vector<std::pair<double,std::string> >> take_sample_from_pop(GSLrng_t * rng,const popvector * pops,const unsigned & nsam);
+  void get_sh( const std::vector< std::vector<std::pair<double,std::string> > >& samples,
+	       const popvector * pops, const unsigned i,
+	       std::vector<double> * s,
+	       std::vector<double> * h);
   double tajd( const std::vector<std::pair<double,std::string> > & __data );
 }
 
