@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from distutils.core import setup, Extension
-from setuptools import install_requires
 from Cython.Build import cythonize
 
 setup(name="fwdpy",
