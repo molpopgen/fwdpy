@@ -10,7 +10,7 @@ def ms_sample(GSLrng rng, popvec pops, int nsam):
     
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,1000,50,50)
+    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
     >>> s = fwdpy.ms_sample(rng,pop,10)
     """
     return take_sample_from_pop(rng.thisptr,pops.thisptr,nsam)
@@ -50,7 +50,7 @@ def TajimasD( vector[pair[double,string]] data ):
     
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,1000,50,50)
+    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
     >>> s = fwdpy.ms_sample(rng,pop,10)
     >>> d = [fwdpy.TajimasD(si) for si in s]
     """
