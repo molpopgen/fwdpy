@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: sources = src/sample.cpp src/neutral.cpp
+# distutils: sources = fwdpy/src/sample.cpp fwdpy/src/neutral.cpp
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
