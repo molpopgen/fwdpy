@@ -3,7 +3,7 @@ import pandas
 
 rng = fwdpy.GSLrng(100)
 pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*int(1e4),50,50)
-s = fwdpy.ms_sample(rng,pop,10)
+s = [fwdpy.ms_sample(rng,i,10) for i in pop]
 
 ###fxn to ask if a site is a singleton
 def isSingleton( site ):
@@ -41,7 +41,7 @@ sNoSing = [filter( lambda x: isSingleton(x) == False, j ) for j in s]
 print "No. non-singletons per sample =",[len(i) for i in sNoSing]
 
 ##Get xtra info for each mutation in the sample
-sh = fwdpy.get_sample_details(s,pop)
+sh = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]
 
 ##Add a column to each DataFrame specifying the mutation position, count of derived state, and a "replicate ID"
 for i in range(len(sh)):
@@ -50,7 +50,7 @@ for i in range(len(sh)):
     sh[i]['id']=[i]*len(sh[i].index)
 
 ##Write all DataFrames to a file
-pandas.concat(sh).to_csv("test.csv",sep="\t",index_label=False)
+pandas.concat(sh).to_csv("test.csv",sep="\t",index=False)
 
 ##Now, evolve them some more and end with a bottleneck + recent, partial recovery
 fwdpy.evolve_pops_more_t(rng,pop,[1000]*int(1e4) + [500]*100 + [750]*10,50,50)
@@ -58,5 +58,3 @@ fwdpy.evolve_pops_more_t(rng,pop,[1000]*int(1e4) + [500]*100 + [750]*10,50,50)
 ##Check that all is cool with the data structures...
 for i in range(len(pop)):
     print pop.generation(i)," ",pop.popsize(i)," ",pop.sane(i)
-
-

@@ -1,4 +1,4 @@
-def ms_sample(GSLrng rng, popvec pops, int nsam):
+def ms_sample(GSLrng rng, singlepop pop, int nsam):
     """
     Take a sample from a set of simulated populations.
 
@@ -11,11 +11,11 @@ def ms_sample(GSLrng rng, popvec pops, int nsam):
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
-    >>> s = fwdpy.ms_sample(rng,pop,10)
+    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     """
-    return take_sample_from_pop(rng.thisptr,pops.pops,nsam)
+    return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam)
 
-def get_sample_details(list ms_samples, popvec pops):
+def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop):
     """
     Get additional details for population samples
 
@@ -26,19 +26,12 @@ def get_sample_details(list ms_samples, popvec pops):
 
     :rtype: pandas.DataFrame
     """
-    rv = list()
     cdef vector[double] h
     cdef vector[double] s
     cdef vector[double] p
     cdef vector[double] a
-    for i in range(len(ms_samples)):
-        s.clear()
-        h.clear()
-        p.clear()
-        a.clear()
-        get_sh(ms_samples,pops.pops,i,&s,&h,&p,&a)
-        rv.append( pandas.DataFrame({'s':s,'h':h,'p':p,'a':a}) )
-    return rv
+    get_sh(ms_sample,pop.pop.get(),&s,&h,&p,&a)
+    return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
 
 def TajimasD( vector[pair[double,string]] data ):
     """
@@ -51,7 +44,7 @@ def TajimasD( vector[pair[double,string]] data ):
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
-    >>> s = fwdpy.ms_sample(rng,pop,10)
+    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> d = [fwdpy.TajimasD(si) for si in s]
     """
     return tajd(data)
