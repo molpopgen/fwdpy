@@ -411,12 +411,17 @@ AC_CHECK_HEADER(gsl/gsl_rng.h,HAVE_GSL=1,[AC_MSG_ERROR([gsl/gsl_rng.h not found.
 AC_CHECK_HEADER(gsl/gsl_randist.h,HAVE_GSL=1,[AC_MSG_ERROR([gsl/gsl_rng.h not found.  Please install the GNU Scientific Library])])
 AC_CHECK_HEADER(zlib.h,,[AC_MSG_ERROR([zlib.h not found.  zlib >= 1.2.5 is requred])])
 
+dnl check for C run-time libraries
+AC_CHECK_LIB([z],gzungetc,,[AC_MSG_ERROR([zlib run time library not found])])
+AC_CHECK_LIB([gslcblas],[cblas_dgemm],,[AC_MSG_ERROR([gslcblas run-time library not found])])
+AC_CHECK_LIB([gsl],[gsl_blas_dgemm],,[AC_MSG_ERROR([gsl run-time library not found])])
+
+dnl check for C++ libraries that are required
 AC_LANG_SAVE
           AC_LANG_CPLUSPLUS
           AC_REQUIRE_CPP
           AC_CHECK_LIB(sequence, main,,[AC_MSG_ERROR([libsequence runtime library does not seem to be here])])
-	  AC_CHECK_LIB(boost_system,main,,[AC_MSG_WARN([boost containers requested but the boost_system runtime library does not seem to be here])])
-	  AC_CHECK_LIB(boost_unit_test_framework,main,BUNITTESTLIB=1,[AC_MSG_WARN([boost containers requested but the boost_system runtime library does not seem to be here])])
+	  AC_CHECK_LIB([tcmalloc],[tc_cfree],,[AC_MSG_ERROR([tcmalloc not found])])
 	  AM_CONDITIONAL([BUNIT_TEST_LIB_PRESENT], test x$BUNITTESTLIB = x1)
 AC_LANG_RESTORE
 
