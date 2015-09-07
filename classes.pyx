@@ -21,14 +21,12 @@ cdef class singlepop:
         return self.pop.get().generation
     def popsize(self):
         """
-        Returns the size of population 'i'
-
-        :param i: index of the population for which to return the population size
+        Returns the size of the population
         """
         return self.pop.get().N
     def sane(self):
         """
-        Makes sure that population  is in a sane state.
+        Makes sure that the population is in a sane state.
 
         Internally, this checks that pop.N == pop.diploids.size(),
         which it should be if the C++ code behind this all is properly updating
