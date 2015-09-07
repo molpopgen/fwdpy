@@ -40,7 +40,7 @@ cdef class popvec:
     def get(self,unsigned i):
         return self.pypops[i]
     def __len__(self):
-        return self.thisptr.size()
+        return self.pops.size()
     def size(self):
         """
         Returns number of populations (size of underlying C++ vector)
