@@ -7,12 +7,12 @@ from libcpp.memory cimport shared_ptr
 
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy":
-    cdef cppclass popvector:
-        popvector(unsigned,unsigned)
-        unsigned size()
-        unsigned generation(unsigned)
-        unsigned popsize(unsigned)
-        int sane(unsigned)
+#    cdef cppclass popvector:
+#        popvector(unsigned,unsigned)
+#        unsigned size()
+#        unsigned generation(unsigned)
+#        unsigned popsize(unsigned)
+#        int sane(unsigned)
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
         unsigned gen()

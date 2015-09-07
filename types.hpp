@@ -28,6 +28,7 @@ namespace fwdpy {
     }
   };
 
+  /*
   struct popvector
   {
     using poptype = singlepop_t;
@@ -62,7 +63,7 @@ namespace fwdpy {
       return int(pops[i]->N == pops[i]->diploids.size());
     }
   };
-
+  */
   struct metapop_t : public KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut> >
   {
     using base = KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut> >;
