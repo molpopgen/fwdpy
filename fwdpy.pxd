@@ -15,6 +15,8 @@ cdef extern from "types.hpp" namespace "fwdpy":
 #        int sane(unsigned)
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
+        const unsigned N
+        const unsigned generation
         unsigned gen()
         unsigned popsize()
         int sane()

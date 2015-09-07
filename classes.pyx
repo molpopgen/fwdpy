@@ -14,7 +14,29 @@ cdef class singlepop:
     def popsize(self):
        cdef singlepop_t * pp = self.pop.get()
        return pp.popsize()
+    def gen(self):
+        """
+        Returns the generation that the population is currently evolved to
+        """
+        return self.pop.get().generation
+    def popsize(self):
+        """
+        Returns the size of population 'i'
 
+        :param i: index of the population for which to return the population size
+        """
+        return self.pop.get().N
+    def sane(self):
+        """
+        Makes sure that population  is in a sane state.
+
+        Internally, this checks that pop.N == pop.diploids.size(),
+        which it should be if the C++ code behind this all is properly updating
+        the data structures!
+
+        """
+        return self.pop.get().sane()
+    
 cdef class popvec:
     """
     Vector of single-deme objects
@@ -37,6 +59,8 @@ cdef class popvec:
         return iter(self.pypops)
     def __next__(self):
         return next(self.pypops)
+    def __getitem__(self, int i):
+        return self.pypops[i]
     def get(self,unsigned i):
         return self.pypops[i]
     def __len__(self):
@@ -46,34 +70,6 @@ cdef class popvec:
         Returns number of populations (size of underlying C++ vector)
         """
         return self.pops.size()
-    def generation(self,unsigned i):
-        """
-        Returns the generation that population 'i' is currently evolved to
-
-        :param i: index of the population for which to return the generation
-        """
-        cdef const singlepop_t * pp = self.pops[i].get()
-        return pp.gen()
-    def popsize(self,unsigned i):
-        """
-        Returns the size of population 'i'
-
-        :param i: index of the population for which to return the population size
-        """
-        cdef const singlepop_t * pp = self.pops[i].get()
-        return pp.popsize()
-    def sane(self,unsigned i):
-        """
-        Makes sure that population 'i' is in a sane state.
-
-        Internally, this checks that pop[i]->N == pop[i]->diploids.size(),
-        which it should be if the C++ code behind this all is properly updating
-        the data structures!
-
-        :param i: index of the population to check
-        """
-        cdef const singlepop_t * pp = self.pops[i].get()
-        return pp.sane()
 
 cdef class GSLrng:
     """
