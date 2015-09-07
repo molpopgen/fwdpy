@@ -58,6 +58,5 @@ setup(name='@PACKAGE_NAME@',
           extra_compile_args=["-std=c++11","-I.","-I..","-Ifwdpy"],
           extra_link_args=["-std=c++11"],
           libraries=["gsl","gslcblas","tcmalloc","sequence"]),
-          version='@PACKAGE_VERSION@'
           )
      )

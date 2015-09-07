@@ -16,7 +16,7 @@ import platform
 
 
 if platform.system() == 'Linux':
-    doc_dir = '/usr/local/share/doc/fwdpy'
+    doc_dir = '/home/kevin/share/doc/fwdpy'
 else:
     try:
         from win32com.shell import shellcon, shell
@@ -58,6 +58,5 @@ setup(name='fwdpy',
           extra_compile_args=["-std=c++11","-I.","-I..","-Ifwdpy"],
           extra_link_args=["-std=c++11"],
           libraries=["gsl","gslcblas","tcmalloc","sequence"]),
-          version='0.0.1'
           )
      )
