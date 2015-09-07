@@ -4,9 +4,9 @@
 #include <types.hpp>
 
 namespace fwdpy {
-  std::vector<std::vector<std::pair<double,std::string> >> take_sample_from_pop(GSLrng_t * rng,const popvector * pops,const unsigned & nsam);
+  std::vector<std::vector<std::pair<double,std::string> >> take_sample_from_pop(GSLrng_t * rng,const std::vector<std::shared_ptr<singlepop_t> > & pops,const unsigned & nsam);
   void get_sh( const std::vector< std::vector<std::pair<double,std::string> > >& samples,
-	       const popvector * pops, const unsigned i,
+	       const std::vector<std::shared_ptr<singlepop_t> > & pops, const unsigned i,
 	       std::vector<double> * s,
 	       std::vector<double> * h,
 	       std::vector<double> * p,

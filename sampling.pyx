@@ -13,7 +13,7 @@ def ms_sample(GSLrng rng, popvec pops, int nsam):
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
     >>> s = fwdpy.ms_sample(rng,pop,10)
     """
-    return take_sample_from_pop(rng.thisptr,pops.thisptr,nsam)
+    return take_sample_from_pop(rng.thisptr,pops.pops,nsam)
 
 def get_sample_details(list ms_samples, popvec pops):
     """
@@ -36,7 +36,7 @@ def get_sample_details(list ms_samples, popvec pops):
         h.clear()
         p.clear()
         a.clear()
-        get_sh(ms_samples,pops.thisptr,i,&s,&h,&p,&a)
+        get_sh(ms_samples,pops.pops,i,&s,&h,&p,&a)
         rv.append( pandas.DataFrame({'s':s,'h':h,'p':p,'a':a}) )
     return rv
 

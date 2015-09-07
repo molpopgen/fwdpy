@@ -14,6 +14,18 @@ namespace fwdpy {
     singlepop_t(const unsigned & N) : base(N),generation(0)
       {
       }
+    unsigned gen() const
+    {
+      return generation;
+    }
+    unsigned popsize() const
+    {
+      return N;
+    }
+    int sane() const
+    {
+      return int(N == diploids.size());
+    }
   };
 
   struct popvector

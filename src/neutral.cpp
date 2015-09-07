@@ -48,17 +48,17 @@ namespace fwdpy {
       }
   }
 
-  void evolve_pop(GSLrng_t * rng, popvector * pops,const std::vector<unsigned> & nlist,const double & theta, const double & rho)
+  void evolve_pop(GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,const std::vector<unsigned> & nlist,const double & theta, const double & rho)
   {
     vector<thread> threads;
     std::vector<GSLrng_t> rngs;
-    for( unsigned i = 0 ; i < pops->pops.size() ; ++i )
+    for( unsigned i = 0 ; i < pops->size() ; ++i )
       {
 	rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())));
       }
-    for( unsigned i = 0 ; i < pops->pops.size() ; ++i )
+    for( unsigned i = 0 ; i < pops->size() ; ++i )
       {
-	threads.push_back( thread(evolve_pop_details,rngs[i].get(),pops->pops[i].get(),nlist,theta,rho) );
+	threads.push_back( thread(evolve_pop_details,rngs[i].get(),pops->operator[](i).get(),nlist,theta,rho) );
       }
     for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
