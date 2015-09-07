@@ -61,8 +61,6 @@ cdef class popvec:
         return next(self.pypops)
     def __getitem__(self, int i):
         return self.pypops[i]
-    def get(self,unsigned i):
-        return self.pypops[i]
     def __len__(self):
         return self.pops.size()
     def size(self):
