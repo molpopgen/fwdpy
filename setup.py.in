@@ -28,21 +28,22 @@ else:
 
 long_desc = \
 """
+fwdpy is a C++11-based package for running forward simulations in Python
 """
 
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
-      author='',
+      author='Kevin R. Thornton',
       author_email='@PACKAGE_BUGREPORT@',
-      maintainer='',
-      maintainer_email='',
-      url='',
-      description="""""",
+      maintainer='Kevin R. Thornton',
+      maintainer_email='krthornt@uci.edu',
+      url='http://www.molpopgen.org',
+      description="forward simulation using python",
       long_description=long_desc,
-      download_url='',
-      classifiers=[''],
-      platforms=[''],
-      license='',
+      download_url='http://github.com/molpopgen/fwdpy',
+      classifiers=['simulation','population genetics'],
+      platforms=['Linux','OS X'],
+      license='GPL >= 2',
       requires=['pandas'],
       provides=['fwdpy'],
       obsoletes=['none'],
@@ -51,7 +52,7 @@ setup(name='@PACKAGE_NAME@',
       scripts=[],
       data_files=[(doc_dir, ['COPYING', 'README.md'])],
       package_data={},
-      ext_modules=cythonize(Extension("fwdpy.fwdpy",
+      ext_modules=cythonize(Extension("fwdpy",
           sources=["fwdpy/fwdpy.pyx"], # the Cython source and additional C++ source files
           language="c++",                        # generate and compile C++ code
           include_dirs=['.'],
