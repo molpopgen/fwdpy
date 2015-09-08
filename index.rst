@@ -11,8 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   intro
-   dependencies
+   doc/intro
+   doc/dependencies
    
 Functions and classes
 ##########################################
