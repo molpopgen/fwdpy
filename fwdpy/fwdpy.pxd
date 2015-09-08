@@ -31,6 +31,8 @@ cdef extern from "deps.hpp" namespace "fwdpy":
 
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
+    cdef cppclass shmodel:
+        shmodel()
     cdef cppclass constant:
         constant(double)
     cdef cppclass exponential:

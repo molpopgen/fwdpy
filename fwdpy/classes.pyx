@@ -84,3 +84,46 @@ cdef class GSLrng:
         self.thisptr = new GSLrng_t(seed)
     def __dealloc__(self):
         del self.thisptr
+
+##This are the callback wrappers from fwdpp
+cdef class shwrapper:
+    cdef shmodel * thisptr
+    def __cinit__(self):
+        self.thisptr = new shmodel();
+    def __dealloc__(self):
+        del self.thisptr
+
+cdef class constsh:
+    cdef constant * thisptr
+    def __cinit__(self,double val):
+        self.thisptr = new constant(val)
+    def __dealloc__(self):
+        del self.thisptr
+
+cdef class expsh:
+    cdef exponential * thisptr
+    def __cinit__(self,double mean):
+        self.thisptr = new exponential(mean)
+    def __dealloc__(self):
+        del self.thisptr
+
+cdef class betash:
+    cdef beta * thisptr
+    def __cinit__(self,double a, double b, double factor = 1):
+        self.thisptr = new beta(a,b,factor)
+    def __dealloc__(self):
+        del self.thisptr
+
+cdef class gaussiansh:
+    cdef gaussian * thisptr
+    def __cinit__(self,double sd):
+        self.thisptr = new gaussian(sd)
+    def __dealloc__(self):
+        del self.thisptr
+
+cdef class gammash:
+    cdef gamma * thisptr
+    def __cinit__(self,double mean,double shape):
+        self.thisptr = new gamma(mean,shape)
+    def __dealloc__(self):
+        del self.thisptr
