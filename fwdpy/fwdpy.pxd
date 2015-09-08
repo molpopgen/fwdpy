@@ -25,3 +25,6 @@ cdef extern from "sample.hpp" namespace "fwdpy":
     vector[pair[double,string]] take_sample_from_pop(GSLrng_t * rng,const singlepop_t * pop,const unsigned & nsam)
     double tajd( const vector[pair[double,string]] & __data )
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
+
+cdef extern from "deps.hpp" namespace "fwdpy":
+    vector[string] dependencies()
