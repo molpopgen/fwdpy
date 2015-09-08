@@ -85,7 +85,7 @@ cdef class GSLrng:
     def __dealloc__(self):
         del self.thisptr
 
-##This are the callback wrappers from fwdpp
+##These are the callback wrappers from fwdpp
 cdef class shwrapper:
     cdef shmodel * thisptr
     def __cinit__(self):
