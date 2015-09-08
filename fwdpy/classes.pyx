@@ -87,11 +87,9 @@ cdef class GSLrng:
 
 ##These are the callback wrappers from fwdpp
 cdef class shwrapper:
-    cdef shmodel * thisptr
+    cdef shmodel thisptr
     def __cinit__(self):
-        self.thisptr = new shmodel();
-    def __dealloc__(self):
-        del self.thisptr
+        self.thisptr = shmodel();
 
 # cdef class constsh:
 #     cdef constant * thisptr

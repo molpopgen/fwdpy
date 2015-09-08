@@ -62,28 +62,28 @@ def process_sregion_callbacks(list l):
     for i in range(len(l)):
         if isinstance(l[i],GammaS):
             tsh = shwrapper()
-            make_gamma_s(tsh.thisptr,l[i].mean,l[i].shape)
-            make_constant_h(tsh.thisptr,l[i].h)
+            make_gamma_s(&tsh.thisptr,l[i].mean,l[i].shape)
+            make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],ConstantS):
             tsh=shwrapper()
-            make_constant_s(tsh.thisptr,l[i].s)
-            make_constant_h(tsh.thisptr,l[i].h)
+            make_constant_s(&tsh.thisptr,l[i].s)
+            make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],ExpS):
             tsh=shwrapper()
-            make_exp_s(tsh.thisptr,l[i].mean)
-            make_constant_h(tsh.thisptr,l[i].h)
+            make_exp_s(&tsh.thisptr,l[i].mean)
+            make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],UniformS):
             tsh=shwrapper()
-            make_uniform_s(tsh.thisptr,l[i].lo,l[i].hi)
-            make_constant_h(tsh.thisptr,l[i].h)
+            make_uniform_s(&tsh.thisptr,l[i].lo,l[i].hi)
+            make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],GaussianS):
             tsh=shwrapper()
-            make_gaussian_s(tsh.thisptr,l[i].sd)
-            make_constant_h(tsh.thisptr,l[i].h)
+            make_gaussian_s(&tsh.thisptr,l[i].sd)
+            make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         else:
             raise ValueError("invalid callback type encountered")
