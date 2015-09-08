@@ -402,6 +402,34 @@ AC_CONFIG_FILES([Makefile setup.py])
 
 dnl stuff added by KRT
 
+AC_CONFIG_HEADERS([fwdpy/config.h])
+
+FWDPPVERSION=`fwdppConfig --version`
+LIBSEQVERSION=`libsequenceConfig --version`
+GSLVERSION=`gsl-config --version`
+
+dnl Check that fwdpp version is sufficient
+if test "$FWDPPVERSION" \> "0.3.3"
+then
+	echo "fwdpp version $FWDPPVERSION detected"
+else
+	AC_MSG_ERROR([fwdpp >= 0.3.4 required, please install from http://github.com/molpopgen/fwdpp])
+fi
+
+dnl Check that libsequence version is sufficient
+if test "$LIBSEQVERSION" \> "1.8.4"
+then
+	echo "libsequence version $LIBSEQVERSION detected"
+else
+	AC_MSG_ERROR([libsequence >= 1.8.5 required, please install from http://github.com/molpopgen/libsequence])
+fi
+
+echo "GSL version $GSLVERSION detected"
+
+AC_DEFINE_UNQUOTED([FWDPP_VERSION],["$FWDPPVERSION"],[The version of fwdpp used to compile this software])
+AC_DEFINE_UNQUOTED([LIBSEQ_VERSION],["$LIBSEQVERSION"],[The version of libsequence used to compile this software])
+AC_DEFINE_UNQUOTED([GSL_VERSION],["$GSLVERSION"],[The version of GSL used to compile this software])
+
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_LANG(C++)
 
