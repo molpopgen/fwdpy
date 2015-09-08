@@ -28,3 +28,18 @@ cdef extern from "sample.hpp" namespace "fwdpy":
 
 cdef extern from "deps.hpp" namespace "fwdpy":
     vector[string] dependencies()
+
+## fwdpp's extensions sub-library:    
+cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
+    cdef cppclass constant:
+        constant(double)
+    cdef cppclass exponential:
+        exponential(double)
+    cdef cppclass uniform:
+        uniform(double,double)
+    cdef cppclass beta:
+        beta(double,double,double)
+    cdef cppclass gaussian:
+        gaussian(double)
+    cdef cppclass gamma:
+        gamma(double,double)
