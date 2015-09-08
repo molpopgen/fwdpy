@@ -11,8 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   doc/intro
-   doc/dependencies
+   README
    
 Functions and classes
 ##########################################
