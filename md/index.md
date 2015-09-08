@@ -1,4 +1,4 @@
-##The foRward home page
+##The fwdpy home page
 
 This is the homepage for __fwdpy__, which is an Python package for forward-time population- and quantitative- genetic simulations.
 
