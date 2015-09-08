@@ -8,7 +8,7 @@ The library code is [here](https://github.com/molpopgen/fwdpy)
 
 ### Documentation
 
-Coming soon.
+* [Manual](_build/html/index.html) in html format.
 
 
 ###Citation
