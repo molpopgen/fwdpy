@@ -16,11 +16,15 @@ Contents:
 Functions and classes
 ##########################################
 
-.. automodule:: fwdpy
+.. automodule:: fwdpy.fwdpy
    :members:
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: fwdpy
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Indices and tables
 ==================
