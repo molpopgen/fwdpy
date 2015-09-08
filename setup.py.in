@@ -53,7 +53,7 @@ setup(name='@PACKAGE_NAME@',
       data_files=[(doc_dir, ['COPYING', 'README.rst'])],
       package_data={},
       ext_modules=cythonize(Extension("fwdpy.fwdpy",
-          sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/src/*.cpp")+glob.glob("include/*.hpp"), # the Cython source and additional C++ source files
+          sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/src/*.cpp"), # the Cython source and additional C++ source files
           language="c++",                        # generate and compile C++ code
           include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
           extra_compile_args=["-std=c++11"],  
