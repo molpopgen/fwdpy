@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    README
+   docs/notes
    
 Functions and classes
 ##########################################
