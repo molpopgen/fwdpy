@@ -3207,7 +3207,7 @@ ac_config_files="$ac_config_files Makefile setup.py"
 
 
 
-ac_config_headers="$ac_config_headers fwdpy/config.h"
+ac_config_headers="$ac_config_headers config.h"
 
 
 FWDPPVERSION=`fwdppConfig --version`
@@ -5278,7 +5278,7 @@ do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "setup.py") CONFIG_FILES="$CONFIG_FILES setup.py" ;;
-    "fwdpy/config.h") CONFIG_HEADERS="$CONFIG_HEADERS fwdpy/config.h" ;;
+    "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

@@ -402,7 +402,7 @@ AC_CONFIG_FILES([Makefile setup.py])
 
 dnl stuff added by KRT
 
-AC_CONFIG_HEADERS([fwdpy/config.h])
+AC_CONFIG_HEADERS([config.h])
 
 FWDPPVERSION=`fwdppConfig --version`
 LIBSEQVERSION=`libsequenceConfig --version`
