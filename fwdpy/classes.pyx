@@ -5,8 +5,8 @@ cdef class singlepop:
     Object representing data structures for single-deme simulations.
 
     Users are not expected to construct these on their own.  Rather,
-    they should be working with "popvec".  This type exists as
-    the output of iterating through a "popvec".
+    they should be working with :class:`popvec`.  This type exists as
+    the output of iterating through a :class:`popvec`.
     """
     cdef shared_ptr[singlepop_t] pop
     def __del__(self):
@@ -44,6 +44,8 @@ cdef class popvec:
     Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
     have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the "usual"
     Python way.
+
+    See :func:`evolve_pops_t` and :func:`evolve_regions` for use cases.
     """
     cdef vector[shared_ptr[singlepop_t]] pops
     pypops = list()
@@ -84,3 +86,48 @@ cdef class GSLrng:
         self.thisptr = new GSLrng_t(seed)
     def __dealloc__(self):
         del self.thisptr
+
+##These are the callback wrappers from fwdpp
+cdef class shwrappervec:
+    """
+    Wrapper for a vector of callback objects from fwdpp's extension library.
+
+    Users will not interact with this type directly.  Rather, it is used
+    by other module functions to process user inputs.
+    """
+    cdef vector[shmodel] vec
+
+# cdef class constsh:
+#     cdef constant * thisptr
+#     def __cinit__(self,double val):
+#         self.thisptr = new constant(val)
+#     def __dealloc__(self):
+#         del self.thisptr
+
+# cdef class expsh:
+#     cdef exponential * thisptr
+#     def __cinit__(self,double mean):
+#         self.thisptr = new exponential(mean)
+#     def __dealloc__(self):
+#         del self.thisptr
+
+# cdef class betash:
+#     cdef beta * thisptr
+#     def __cinit__(self,double a, double b, double factor = 1):
+#         self.thisptr = new beta(a,b,factor)
+#     def __dealloc__(self):
+#         del self.thisptr
+
+# cdef class gaussiansh:
+#     cdef gaussian * thisptr
+#     def __cinit__(self,double sd):
+#         self.thisptr = new gaussian(sd)
+#     def __dealloc__(self):
+#         del self.thisptr
+
+# cdef class gammash:
+#     cdef gamma * thisptr
+#     def __cinit__(self,double mean,double shape):
+#         self.thisptr = new gamma(mean,shape)
+#     def __dealloc__(self):
+#         del self.thisptr

@@ -28,3 +28,48 @@ cdef extern from "sample.hpp" namespace "fwdpy":
 
 cdef extern from "deps.hpp" namespace "fwdpy":
     vector[string] dependencies()
+
+## fwdpp's extensions sub-library:    
+cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
+    cdef cppclass shmodel:
+        shmodel()
+    cdef cppclass constant:
+        constant(double)
+    cdef cppclass exponential:
+        exponential(double)
+    cdef cppclass uniform:
+        uniform(double,double)
+    cdef cppclass beta:
+        beta(double,double,double)
+    cdef cppclass gaussian:
+        gaussian(double)
+    cdef cppclass gamma:
+        gamma(double,double)
+
+cdef extern from "evolve_regions.hpp" namespace "fwdpy":
+    void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
+		       const unsigned * popsizes,
+               const size_t popsizes_len,
+		       const double mu_neutral,
+		       const double mu_selected,
+		       const double littler,
+		       const double f,
+		       const vector[double] & nbegs,
+		       const vector[double] & nends,
+		       const vector[double] & nweights,
+		       const vector[double] & sbegs,
+		       const vector[double] & sends,
+		       const vector[double] & sweights,
+		       const vector[shmodel] * callbacks,
+		       const vector[double] & rbeg,
+		       const vector[double] & rend,
+		       const vector[double] & rweight,
+		       const char * fitness)
+
+cdef extern from "callbacks.hpp" namespace "fwdpy":
+    void make_gamma_s(shmodel *, double,double)
+    void make_constant_s(shmodel * s, const double scoeff);
+    void make_uniform_s(shmodel * s, const double lo, const double hi);
+    void make_exp_s(shmodel * s, const double mean);
+    void make_gaussian_s(shmodel * s, const double sd);
+    void make_constant_h(shmodel * s, const double h);

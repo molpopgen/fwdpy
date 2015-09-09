@@ -18,9 +18,7 @@ Previous 'releases' on Github are no longer supported and not guaranteed to even
 Citation
 ===========
 
-The digital object identifier (DOI) for this software is available for each release.  You can find it from the [repo page](http://github.com/molpopgen/fwdpy) for this project.
-
-Please cite it if you use this package for your research.
+See the project home page for details (http://molopgen.github.io/fwdpy).
 
 Features:
 ===========
@@ -34,12 +32,12 @@ So far, there is support for:
 * Selfing
 * The ability to vary model parameters over time (recombination rates, genetic maps, selfing, selection, etc.)
 * Sampling populations at various time points
-* Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11's threading mechanism.  This is a "sneaky" around Pythons' Global Interpreter Lock, or GIL.
+* Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11's threading mechanism.  This is a "sneaky" end-run around Pythons' Global Interpreter Lock, or GIL.
 
 The following distributions of selection coefficients are supported:
 
 * constant (*i.e.*, *s* takes on a fixed value)
-* beta
+* uniform
 * exponential
 * gamma
 * gaussian
@@ -47,10 +45,6 @@ The following distributions of selection coefficients are supported:
 The following distributions of dominance are supported:
 
 * constant (*i.e.*, *h* takes on a fixed value)
-* beta
-* uniform
-
-The distributions on *s* and *h* can be mixed and matched as the user sees fit, and these parameters can vary along a simulated region.
 
 Example
 =============
@@ -76,9 +70,29 @@ Let's set up the model and run it:
 
 .. code-block:: python
 
-   #not done yet
-
-They use GNU parallel to run jobs in parallel and impose a wall clock limit.
+    import fwdpy
+    import numpy as np
+    #Our "neutral" regions will be from positions [0,1) and [2,3).
+    #The regions will have equal weights, and thus will each get
+    #1/2 of newly-arising, neutral mutations
+    nregions = [fwdpy.Region(-1,0,1),fwdpy.Region(1,2,1)]
+    #Define the "selected region" parameters
+    sregions = [fwdpy.ConstantS(-1,0,1,0.99/2.0,-0.1,1),fwdpy.ConstantS(1,2,0.99/2.0,-0.1,1),fwdpy.ConstantS(-1,2,0.01,0.001,1)]
+    #Recombination will be uniform along the interval [-2,2).
+    rregions = [fwdpy.Region(-2,2,1)]
+    rng = fwdpy.GSLrng(100)
+    #popsizes are NumPy arrays of 32bit unsigned integers
+    #Initial pop size will be N = 1,000, and
+    #the type must be uint32 (32 bit unsigned integer)
+    popsizes = np.array([1000],dtype=np.uint32)
+    #The simulation will be for 10*N generations,
+    #so we replicate that value in the array
+    popsizes=np.tile(popsizes,10000)
+    #Simulate 1 deme under this model.
+    #The total neutral mutation rate is 1e-3,
+    #which is also the recombination rate.
+    #The total mutation rate to selected variants is 0.1*(the neutral mutation rate).
+    pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
 
 Availability
 ===============
@@ -188,7 +202,7 @@ Doing so will allow $HOME/software/include, etc., to be populated as they were i
 Documentation
 ===================
 
-TBD
+The manual_ is available online in html format at the project web page
 
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp 
@@ -197,3 +211,4 @@ TBD
 .. _GSL:  http://gnu.org/software/gsl
 .. _tcmalloc: https://code.google.com/p/gperftools/
 .. _brew: http://brew.sh
+.. _manual: http://molpopgen.github.io/fwdpy

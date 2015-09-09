@@ -39,7 +39,7 @@ namespace fwdpy {
 					       recmap),
 				     std::bind(insert_at_end<singlepop_t::mutation_t,singlepop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
 				     std::bind(insert_at_end<singlepop_t::gamete_t,singlepop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
-				     std::bind(multiplicative_diploid(),std::placeholders::_1,std::placeholders::_2,2.),
+				     std::bind(multiplicative_diploid(),std::placeholders::_1,2.),
 				     std::bind(mutation_remover(),std::placeholders::_1,0,2*nlist[generation]));
 	//update pop size in data structure
 	pop->N = nlist[generation];
