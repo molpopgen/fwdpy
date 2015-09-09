@@ -14,6 +14,7 @@ Contents:
    README
    docs/notes
    docs/rusers
+   docs/regions
    
 Functions and classes
 ##########################################

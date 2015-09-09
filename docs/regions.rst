@@ -1,4 +1,5 @@
-# Introduction
+Modeling regional variation in mutation and recombination
+======================================================================
 
 Several of the simulation routines allow the details of the mutation and recombination models to vary along a "sequence" or "region".  A user is able to specify the details of such variation by passing _lists_ to package functions.  For example, you are able to:
 
@@ -6,108 +7,77 @@ Several of the simulation routines allow the details of the mutation and recombi
 * Vary the distribution of selection coefficients (and the dominance associated with selected mutations) along a sequence.
 * Vary the recombination rate along a sequence.
 
-The implementation of such variation along a region is _discrete_.  A region is specified by a beginning, and end, and a weight, plus any additional data required to specify selection coefficients, dominance, etc.
+The implementation of such variation along a region is *discrete*.  A region is specified by a beginning, and end, and a weight, plus any additional data required to specify selection coefficients, dominance, etc.
 
-## Background
+Background
+--------------------------------------------------
+The models are parameterized through Python's "new-style" class system.
 
-The models are parameterized through R's S4 class system, which is a method of object-oriented programming in R.  If you are not familiar with it, Hadley Wickham's [tutorial](http://adv-r.had.co.nz/S4.html) is a good place to start.
+Mutation rates, recombination rates, and a weighting system
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-## Mutation rates, recombination rates, and a weighting system
+A simulation will typically have a mutation rate, :math:`\\mu`, which represents the mean of a Poisson number of mutations per gamete per generation), and a recombination rate, :math:`r`, which again is the mean of Poisson number of crossover events (per diploid, per generation).  These parameters are the _total_ rates across an entire simulated region.  Variation in these parameters along the region are affected by a set of positions coupled with "weights", which the user specifies using S4 classes.
 
-A simulation will typically have a mutation rate, $\mu$, which represents the mean of a Poisson number of mutations per gamete per generation), and a recombination rate, $r$, which again is the mean of Poisson number of crossover events (per diploid, per generation).  These parameters are the _total_ rates across an entire simulated region.  Variation in these parameters along the region are affected by a set of positions coupled with "weights", which the user specifies using S4 classes.
+The base class: :class:`fwdpy.fwdpy.Region`
 
-### The base S4 class: 'region'
+A :class:`fwdpy.fwdpy.Region` is an Python class with the following members:
 
-A 'region' is an S4 class with the following slots:
+* :math:`b`, which is the beginning/start of the region. The type is "float". 
+* :math:`e`, which is the end/stop of the region. The type is "float".
+* :math:`w`, which is a weighting factor associated with the region. The type is "float".
 
-* $b$, which is the beginning/start of the region. The type is "numeric" and the default value is 0.
-* $e$, which is the end/stop of the region. The type is "numeric" and the default value is 1.
-* $w$, which is a weighting factor associated with the region. The type is "numeric" and the default value is 1.
-* c$$, which is a logical value which we will explain in more detail below.  The default value is TRUE.
+The members are used to inform the C++ code about the relative abundance of new mutations or recombination events will occur in what region.  Briefly, the number of events that occur in region :math:`i` are proportional to :math:`w_i/\sum_i w`, *i.e*, the weight assigned to region :math:`i` divided by the sum of weights assigned to all regions.  The weights for mutation events and for recombination events are considered separately.  Thus, in order to model a correlation between mutational processes and recombination, it is up to the user to generate regions whose weights are correlated.
 
-These slots are also documented in the help page:
+fwdpy allows the :math:`w` slot to be interpreted in one of two ways:
 
-~~~{r}
-help("region-class")
-~~~
+* It is *not*  affected by the length of region.  Interally, the weight assigned is simply :math:`w`. 
+* It is affected by the length of a region :math:`(e - b)`.
 
-The four slots are used to inform the C++ code about the relative abundance of new mutations or recombination events will occur in what region.  Briefly, the number of events that occur in region $i$ are proportional to $w_i/\sum_i w$, _i.e._, the weight assigned to region $i$ divided by the sum of weights assigned to all regions.  The weights for mutation events and for recombination events are considered separately.  Thus, in order to model a correlation between mutational processes and recombination, it is up to the user to generate regions whose weights are correlated.
+These two options are determined by arguments to class constructors, which we will see in examples below.
 
-foRward allows the $w$ slot to be interpreted in one of two ways:
+These two approaches allow for considerable modeling flexibility.  For example, the latter approach allows :math:`w` to be interpreted as a "per base-pair" rate.  Imagine that you wanted to simulate variation in recombination along discrete 100 kilobase chunks, and the rate of crossing-over *per base pair* increases in each chunk, and includes an initial chunk with no recombination:
 
-* It is affected by the length of a region $(e - b)$.  This is the default, which is specified by $c$ defaulting to TRUE.  Internally, the weight assigned to a region will be converted to $w(b-e)$.
-* It is _not_ affected by the length of region.  Interally, the weight assigned is simply $w$.  This approach is specified by setting $c$ to FALSE.
+1. start=1,stop= :math:`10^5`, :math:`r_{bp}=0`
+2. start= :math:`10^5`,stop= :math:`2 \times 10^5`, :math:`r_{bp}=10^{-8}`
+3. start= :math:`2 \times 10^5`,stop= :math:`3 \times 10^5`, :math:`r_{bp}=10^{-7}`  
 
-These two approaches allow for considerable modeling flexibility.  For example, the former approach allows _w_ to be interpreted as a "per base-pair" rate.  Imagine that you wanted to simulate variation in recombination along discrete 100 kilobase chunks, and the rate of crossing-over _per base pair_ increases in each chunk, and includes an initial chunk with no recombination:
 
-| Start | Stop | $r_{bp}$ |
-|:----:|:----:|:----:|
-| 1 | $10^5$ | 0 |
-| $10^5$ | $2 \times 10^5$ | $10^{-8}$ |
-| $2 \times 10^5$ | $3 \times 10^5$ | $10^{-7}$ |
+This model boils down to the relative number of crossing overs per region occuring in the ratio :math:`0 : 10^{-8} : 10^{-7}`.  This is easily represented using fwdpy's classes:
 
-This model boils down to the relative number of crossing overs per region occuring in the ratio $0 : 10^{-8} : 10^{-7}$.  This is easily represented using foRward's S4 classes:
-
-```{r}
-library(foRward)
-rec.regions1 = list( region1 = new('region',b=1,e=1e5,w=0),
-	    region2 = new('region',b=1e5, e=2e5, w=1e-8),
-	    region3 = new('region',b=2e5, e=3e5, w=1e-7) )
-#Let's calculate the total recombination rate (per diploid, per region, per generation)
-littler = 0
-for( i in 1:length(rec.regions1) )
-{
- littler = littler + rec.regions1[[i]]@w*(rec.regions1[[i]]@e-rec.regions1[[i]]@b)
-}
-print(paste("rec rate is ",littler))
-```
+"``>>>``"
+   >>> import fwdpy 
+   >>> recRegions = [fwdpy.Region(1,1e5,0),fwdpy.Region(1e5,2e5,1e-8),fwdpy.Region(2e5,3e5,1e-7)]
 
 For this hypothetical example, the region lengths are all even, and thus an equivalent specification would be this:
 
-```{r}
-rec.regions2 = list( region1 = new('region',b=0,e=1,w=0,c=FALSE),
-	    region2 = new('region',b=1, e=2, w=1e-8,c=FALSE),
-	    region3 = new('region',b=2, e=3, w=1e-7,c=FALSE) )
-```
+"``>>>``"
+   >>> import fwdpy 
+   >>> recRegions = [fwdpy.Region(1,1e5,0,True),fwdpy.Region(1e5,2e5,1e-8,True),fwdpy.Region(2e5,3e5,1e-7,True)]
+   
+Specific examples
+-------------------
 
-Or this:
+Mutations not affecting fitness ("neutral" mutations)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-```{r}
-rec.regions3 = list( region1 = new('region',b=0,e=1,w=0,c=FALSE),
-	    region2 = new('region',b=1, e=2, w=1,c=FALSE),
-	    region3 = new('region',b=2, e=3, w=10,c=FALSE) )
-```
+You specify regions where neutral mutations arise via the class :class:`fwdpy.fwdpy.Region`.  A region has a beginning, end, and a weight Thus, the following list would specify that 100% of neutral mutations occur on the continuous interval [0,1):
 
-The latter two (rec.regions2 and rec.regions3) are equivalent to rec.regions1 assuming a total recombination rate of `r littler`.  The only difference will be the positions of those crossover events, which should tell you that your mutational "regions" and your recombination "regions" must overlap each other in sensible ways!
-
-## Specific examples
-
-### Mutations not affecting fitness ("neutral" mutations)
-
-You specify regions where neutral mutations arise via the S4 class 'region'.  A region has a beginning, end, and a weight, specified by 'slots' _b_, _e_, and _w_, respectively.  The default values are 0, 1, and 1, respectively.  Thus, the following list would specify that 100% of neutral mutations occur on the continuous interval [0,1):
-
-```{r}
-require("foRward")
-neutral.regions = list( new('region') )
-##or, equivalently:
-neutral.regions.explicit = list( new('region',b=0,e=1,w=1) )
-print(neutral.regions)
-```
+.. code-block:: python
+		
+		neutralRegions = [fwdpy.Region(0,1,1)]
 
 The beginning and end positions can be whatever you like:
 
-```{r}
-##defaulting to weight of 1...
-neutral.regions = list( new('region',b=0,e=100) )
-```
+.. code-block:: python
+		
+		neutralRegions = [fwdpy.Region(0,100,1)]
 
 To specify variation in the netural mutation process along a sequence, combine multiple regions in your list:
 
-```{r}
-neutral.regions = list( new('region',b=0,e=1,w=1),
-		##This region is 10x "bigger", but we want the same mutational weight per hypothetical "base pair"
-		new('region',b=2,e=12,w=1) )
-```
+"``>>>``"
+
+>>> neutralRegions = [fwdpy.Region(beg=0,end=1,weight=1),fwdpy.Region(beg=2,end=12,weight=1,coupled=True)]
+
 
 Internally, the total "mutational weight" of the first region will be a function of its length, which is 1(1-0)=1.  The second region's total weight will be 1*(12-2)=10, and it will have 10xas many new mutations arising as the first region.
 
