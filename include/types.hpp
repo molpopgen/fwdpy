@@ -81,28 +81,7 @@ namespace fwdpy {
     //defind in fwdpy/src/poptypes.cpp
     void updateTraj();
   };
-/*
-  struct singlepop_t : public KTfwd::singlepop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut>>
-  {
-    using base = KTfwd::singlepop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut>>;
-    unsigned generation;
-    singlepop_t(const unsigned & N) : base(N),generation(0)
-      {
-      }
-    unsigned gen() const
-    {
-      return generation;
-    }
-    unsigned popsize() const
-    {
-      return N;
-    }
-    int sane() const
-    {
-      return int(N == diploids.size());
-    }
-  };
-*/
+
   struct metapop_t : public KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut> >
   {
     using base = KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut> >;
