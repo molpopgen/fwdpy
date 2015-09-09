@@ -54,40 +54,31 @@ def process_regions(list l):
             raise ValueError("invalid callback type encountered")
     return pandas.DataFrame({'beg':starts,'end':stops,'weight':weights})
 
-def process_sregion_callbacks(list l):
-    rv = shwrappervec()
-    for i in range(len(l)):
-        print(i)
-        if isinstance(l[i],GammaS):
-            print("GammaS")
-            tsh = shwrapper()
-            make_gamma_s(&tsh.thisptr,l[i].mean,l[i].shape)
-            make_constant_h(&tsh.thisptr,l[i].h)
-            rv.append(tsh)
-        elif isinstance(l[i],ConstantS):
-            print("ConstantS")
-            tsh=shwrapper()
-            make_constant_s(&tsh.thisptr,l[i].s)
-            make_constant_h(&tsh.thisptr,l[i].h)
-            rv.append(tsh)
-        elif isinstance(l[i],ExpS):
-            print("ExpS")
-            tsh=shwrapper()
-            make_exp_s(&tsh.thisptr,l[i].mean)
-            make_constant_h(&tsh.thisptr,l[i].h)
-            rv.append(tsh)
-        elif isinstance(l[i],UniformS):
-            print("UniformS")
-            tsh=shwrapper()
-            make_uniform_s(&tsh.thisptr,l[i].lo,l[i].hi)
-            make_constant_h(&tsh.thisptr,l[i].h)
-            rv.append(tsh)
-        elif isinstance(l[i],GaussianS):
-            print("GaussianS")
-            tsh=shwrapper()
-            make_gaussian_s(&tsh.thisptr,l[i].sd)
-            make_constant_h(&tsh.thisptr,l[i].h)
-            rv.append(tsh)
+def process_sregion_callbacks( shwrappervec v, list sregions ):
+    cdef shmodel temp
+    for i in range(len(sregions)):
+        if not isinstance(sregions[i],Sregion):
+            raise ValueError("fwdpy.process_sregion_callbacks: invalid object type")
+        if isinstance(sregions[i],GammaS):
+            make_gamma_s(&temp,sregions[i].mean,sregions[i].shape)
+            make_constant_h(&temp,sregions[i].h)
+            v.vec.push_back(temp)
+        elif isinstance(sregions[i],ConstantS):
+            make_constant_s(&temp,sregions[i].s)
+            make_constant_h(&temp,sregions[i].h)
+            v.vec.push_back(temp)
+        elif isinstance(sregions[i],ExpS):
+            make_exp_s(&temp,sregions[i].mean)
+            make_constant_h(&temp,sregions[i].h)
+            v.vec.push_back(temp)
+        elif isinstance(sregions[i],UniformS):
+            make_uniform_s(&temp,sregions[i].lo,sregions[i].hi)
+            make_constant_h(&temp,sregions[i].h)
+            v.vec.push_back(temp)
+        elif isinstance(sregions[i],GaussianS):
+            make_gaussian_s(&temp,sregions[i].sd)
+            make_constant_h(&temp,sregions[i].h)
+            v.vec.push_back(temp)
         else:
-            raise ValueError("invalid callback type encountered")
-    return rv
+            raise ValueError("fwdpy.process_sregion_callbacks: unsupported Sregion type")
+            

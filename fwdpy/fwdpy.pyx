@@ -10,7 +10,7 @@ import pandas
 include "classes.pyx"
 include "evolve_simple.pyx"
 include "sampling.pyx"
-include "sregions.pyx"
+include "sregionCallbacks.pyx"
 include "evolve_regions.pyx"
 
 def pkg_dependencies():

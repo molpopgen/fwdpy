@@ -8,7 +8,8 @@
 namespace fwdpy
 {
   void evolve_regions_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			 const std::vector<int> & popsizes,
+			 const unsigned * Nvector,
+			 const size_t Nvector_length,
 			 const double mu_neutral,
 			 const double mu_selected,
 			 const double littler,

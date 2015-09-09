@@ -10,7 +10,8 @@ namespace fwdpy {
 
   void evolve_regions_details( fwdpy::singlepop_t * pop,
 			       gsl_rng * rng,
-			       const std::vector<int> & Nvector,
+			       const unsigned * Nvector,
+			       const size_t Nvector_len,
 			       const double & neutral,
 			       const double & selected,
 			       const double & recrate,
@@ -19,7 +20,7 @@ namespace fwdpy {
 			       const KTfwd::extensions::discrete_mut_model & m,
 			       const KTfwd::extensions::discrete_rec_model & recmap)
   {    
-    const unsigned simlen = Nvector.size()-1;
+    const unsigned simlen = Nvector_len;
     
     const double mu_tot = neutral + selected;
     
@@ -35,12 +36,13 @@ namespace fwdpy {
       }
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
+	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::sample_diploid(rng,
 			      &pop->gametes,  
 			      &pop->diploids, 
 			      &pop->mutations,
-			      unsigned(Nvector[g]),
-			      unsigned(Nvector[g+1]),
+			      pop->N,
+			      pop->N,
 			      mu_tot,
 			      std::bind(&KTfwd::extensions::discrete_mut_model::make_mut<decltype(pop->mut_lookup)>,&m,rng,neutral,selected,pop->generation,&pop->mut_lookup),
 			      std::bind(KTfwd::genetics101(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,
@@ -52,17 +54,19 @@ namespace fwdpy {
 			      std::bind(KTfwd::insert_at_end<fwdpy::singlepop_t::mutation_t,fwdpy::singlepop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
 			      std::bind(KTfwd::insert_at_end<fwdpy::singlepop_t::gamete_t,fwdpy::singlepop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
 			      dipfit,
-			      std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,2*Nvector[g+1]),
+			      std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,2*pop->N),
 			      f);
-	KTfwd::remove_fixed_lost(&pop->mutations,&pop->fixations,&pop->fixation_times,&pop->mut_lookup,pop->generation,2*Nvector[g+1]);
-	assert(KTfwd::check_sum(pop->gametes,2*Nvector[g+1]));
+	pop->N=nextN;
+	KTfwd::remove_fixed_lost(&pop->mutations,&pop->fixations,&pop->fixation_times,&pop->mut_lookup,pop->generation,2*nextN);
+	assert(KTfwd::check_sum(pop->gametes,2*pop->N));
       }
     //Update population's size variable to be the current pop size
     pop->N = pop->diploids.size();
   }
 
   void evolve_regions_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			 const std::vector<int> & popsizes,
+			 const unsigned * Nvector,
+			 const size_t Nvector_len,
 			 const double mu_neutral,
 			 const double mu_selected,
 			 const double littler,
@@ -103,7 +107,7 @@ namespace fwdpy {
     std::vector<std::thread> threads(pops->size());
     for(unsigned i=0;i<pops->size();++i)
       {
-	threads[i]=std::thread(evolve_regions_details,pops->operator[](i).get(),rngs[i].get(),popsizes,
+	threads[i]=std::thread(evolve_regions_details,pops->operator[](i).get(),rngs[i].get(),Nvector,Nvector_len,
 			       mu_neutral,mu_selected,littler,f,fitness,std::cref(m),std::cref(recmap));
       }
     for(unsigned i=0;i<threads.size();++i) threads[i].join();

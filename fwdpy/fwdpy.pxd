@@ -48,7 +48,8 @@ cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
 
 cdef extern from "evolve_regions.hpp" namespace "fwdpy":
     void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
-		       const vector[int] & popsizes,
+		       const unsigned * popsizes,
+               const size_t popsizes_len,
 		       const double mu_neutral,
 		       const double mu_selected,
 		       const double littler,
