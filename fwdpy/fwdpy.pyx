@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: sources = fwdpy/src/sample.cpp fwdpy/src/neutral.cpp fwdpy/src/deps.cc fwdpy/src/callbacks.cc
+# distutils: sources = fwdpy/src/sample.cpp fwdpy/src/neutral.cpp fwdpy/src/deps.cc fwdpy/src/callbacks.cc fwdpy/src/evolve_regions.cc
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
@@ -11,6 +11,7 @@ include "classes.pyx"
 include "evolve_simple.pyx"
 include "sampling.pyx"
 include "sregions.pyx"
+include "evolve_regions.pyx"
 
 def pkg_dependencies():
     """

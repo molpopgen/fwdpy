@@ -29,7 +29,6 @@ cdef extern from "sample.hpp" namespace "fwdpy":
 cdef extern from "deps.hpp" namespace "fwdpy":
     vector[string] dependencies()
 
-
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
     cdef cppclass shmodel:
@@ -46,6 +45,25 @@ cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
         gaussian(double)
     cdef cppclass gamma:
         gamma(double,double)
+
+cdef extern from "evolve_regions.hpp" namespace "fwdpy":
+    void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
+		       const vector[int] & popsizes,
+		       const double mu_neutral,
+		       const double mu_selected,
+		       const double littler,
+		       const double f,
+		       const vector[double] & nbegs,
+		       const vector[double] & nends,
+		       const vector[double] & nweights,
+		       const vector[double] & sbegs,
+		       const vector[double] & sends,
+		       const vector[double] & sweights,
+		       const vector[shmodel] * callbacks,
+		       const vector[double] & rbeg,
+		       const vector[double] & rend,
+		       const vector[double] & rweight,
+		       const char * fitness)
 
 cdef extern from "callbacks.hpp" namespace "fwdpy":
     void make_gamma_s(shmodel *, double,double)

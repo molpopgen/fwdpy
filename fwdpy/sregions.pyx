@@ -1,41 +1,41 @@
 ## Testing
 class Region(object):
-    def __init__(self,beg,end,weight,coupled):
-        self.b=beg
-        self.e=end
-        self.w=weight
+    def __init__(self,beg,end,weight,coupled=False):
+        self.b=float(beg)
+        self.e=float(end)
+        self.w=float(weight)
         self.c=coupled
 
 class Sregion(Region):
     def __init__(self,beg,end,weight,h=1.0,coupled=False):
-        self.h=h
+        self.h=float(h)
         super(Sregion,self).__init__(beg,end,weight,coupled)
         
 class GammaS(Sregion):
     def __init__(self,beg,end,weight,mean,shape,h=1.0,coupled=False):
-        self.mean=mean
-        self.shape=shape
+        self.mean=float(mean)
+        self.shape=float(shape)
         super(GammaS,self).__init__(beg,end,weight,h,coupled)
 
 class ConstantS(Sregion):
     def __init__(self,beg,end,weight,s,h=1.0,coupled=False):
-        self.s=s
+        self.s=float(s)
         super(ConstantS,self).__init__(beg,end,weight,h,coupled)
 
 class UniformS(Sregion):
     def __init__(self,beg,end,weight,lo,hi,h=1.0,coupled=False):
-        self.lo=lo
-        self.hi=hi
+        self.lo=float(lo)
+        self.hi=float(hi)
         super(ConstantS,self).__init__(beg,end,weight,h,coupled)
 
 class ExpS(Sregion):
     def __init__(self,beg,end,weight,mean,h=1.0,coupled=False):
-        self.mean=mean
+        self.mean=float(mean)
         super(ExpS,self).__init__(beg,end,weight,h,coupled)
 
 class GaussianS(Sregion):
     def __init__(self,beg,end,weight,sd,h=1.0,coupled=False):
-        self.sd=sd
+        self.sd=float(sd)
         super(GaussianS,self).__init__(beg,end,weight,h,coupled)
 
 def process_regions(list l):
@@ -55,36 +55,39 @@ def process_regions(list l):
     return pandas.DataFrame({'beg':starts,'end':stops,'weight':weights})
 
 def process_sregion_callbacks(list l):
-    rv = list()
-    starts=list()
-    stops=list()
-    weights=list()
+    rv = shwrappervec()
     for i in range(len(l)):
+        print(i)
         if isinstance(l[i],GammaS):
+            print("GammaS")
             tsh = shwrapper()
             make_gamma_s(&tsh.thisptr,l[i].mean,l[i].shape)
             make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],ConstantS):
+            print("ConstantS")
             tsh=shwrapper()
             make_constant_s(&tsh.thisptr,l[i].s)
             make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],ExpS):
+            print("ExpS")
             tsh=shwrapper()
             make_exp_s(&tsh.thisptr,l[i].mean)
             make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],UniformS):
+            print("UniformS")
             tsh=shwrapper()
             make_uniform_s(&tsh.thisptr,l[i].lo,l[i].hi)
             make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         elif isinstance(l[i],GaussianS):
+            print("GaussianS")
             tsh=shwrapper()
             make_gaussian_s(&tsh.thisptr,l[i].sd)
             make_constant_h(&tsh.thisptr,l[i].h)
             rv.append(tsh)
         else:
             raise ValueError("invalid callback type encountered")
-    return [process_regions(l),rv]
+    return rv

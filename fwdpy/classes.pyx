@@ -91,6 +91,20 @@ cdef class shwrapper:
     def __cinit__(self):
         self.thisptr = shmodel();
 
+cdef class shwrappervec:
+    cdef vector[shmodel] * shmodels
+    def __cinit__(self):
+        shmodels = new vector[shmodel]()
+    def __dealloc__(self):
+        del self.thisptr
+    def append(self,shwrapper shw):
+        print self.shmodels.size()
+        self.shmodels.push_back(shw.thisptr)
+        print("pushed")
+        print self.shmodels.size()
+    def __len__(self):
+        return self.shmodels.size()
+
 # cdef class constsh:
 #     cdef constant * thisptr
 #     def __cinit__(self,double val):
