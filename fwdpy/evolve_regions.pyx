@@ -17,7 +17,7 @@ def evolve_regions(GSLrng rng,
     """
     Evolve a region with variable mutation, fitness effects, and recombination rates.
 
-    :param rng: a GSLrng
+    :param rng: a :class:`GSLrng`
     :param npops: The number of populations to simulate.  This is equal to the number of threads that will be used!
     :param N: The diploid population size to simulate
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
@@ -88,8 +88,8 @@ def evolve_regions_more(GSLrng rng,
     """
     Continute to evolve a region with variable mutation, fitness effects, and recombination rates.
 
-    :param rng: a GSLrng
-    :param pops: A list of populations simulated by fwdpy.evolve_regions
+    :param rng: a :class:`GSLrng`
+    :param pops: A list of populations simulated by :func:`evolve_regions`
     :param N: The diploid population size to simulate
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
     :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.

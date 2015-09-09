@@ -2,8 +2,8 @@ def ms_sample(GSLrng rng, singlepop pop, int nsam):
     """
     Take a sample from a set of simulated populations.
 
-    :param rng: a GSLrng
-    :param pops: a vector of populations ("popvec")
+    :param rng: a :class:`GSLrng`
+    :param pops: a :class:`singlepop`
     :param nsam: the sample size (no. chromosomes) to sample
 
     Example:
@@ -19,8 +19,8 @@ def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop):
     """
     Get additional details for population samples
 
-    :param ms_samples: A list returned by fwdpy.ms_sample
-    :param pops: A a popvec containing simulated populations
+    :param ms_samples: A list returned by :func:`ms_sample`
+    :param pops: A :class:`popvec` containing simulated populations
 
     :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.
 
@@ -37,7 +37,7 @@ def TajimasD( vector[pair[double,string]] data ):
     """
     Calculate Tajima's D statistic from a sample
 
-    :param data: a sample from a population
+    :param data: a sample from a population.  The return value of :func:`ms_sample`.
 
     Example:
     

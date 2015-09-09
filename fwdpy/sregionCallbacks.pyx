@@ -11,6 +11,8 @@ class Region(object):
         e: the end of the region
         
         w: the "weight" assigned to the region
+
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
     def __init__(self,float beg,float end,float weight,coupled=False):
         """
@@ -67,6 +69,8 @@ class Sregion(Region):
         w: the "weight" assigned to the region
 
         h: the dominance term
+
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
     def __init__(self,float beg,float end,float weight,float h=1.0,coupled=False):
         """
@@ -114,6 +118,8 @@ class GammaS(Sregion):
         shape: shape of the Gamma
 
         h: the dominance term
+
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
     def __init__(self,float beg,float end,float weight,float mean,float shape,float h=1.0,coupled=False):
         """
@@ -162,6 +168,8 @@ class ConstantS(Sregion):
         s: the selection coefficient
 
         h: the dominance term
+
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
     def __init__(self,float beg,float end,float weight,float s,float h=1.0,coupled=False):
         """
@@ -207,6 +215,8 @@ class UniformS(Sregion):
         hi: the upper bound on s
         
         h: the dominance term
+
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
     def __init__(self,float beg,float end,float weight,float lo,float hi,float h=1.0,coupled=False):
         """
@@ -256,6 +266,8 @@ class ExpS(Sregion):
         mean: the mean selection coefficient
         
         h: the dominance term
+
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
     def __init__(self,float beg,float end,float weight,float mean,float h=1.0,coupled=False):
         """
@@ -301,6 +313,8 @@ class GaussianS(Sregion):
         h: the dominance term
 
     The mean is zero.
+
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
     def __init__(self,float beg,float end,float weight,float sd,float h=1.0,coupled=False):
         """
@@ -331,6 +345,15 @@ class GaussianS(Sregion):
         super(GaussianS,self).__init__(beg,end,weight,h,coupled)
 
 def process_regions(list l):
+    """
+    Process a list of objects of :class:`Region`
+
+    :param l: a list of objects of :class:`Region`
+
+    :return: a pandas.DataFrame consisting of the beginning ('beg'), end ('end') and weight ('weight') for each elememt in l
+
+    A user will generally not call this function.  Rather, it is used internally by things like :func:`evolve_regions`.
+    """
     starts=list()
     stops=list()
     weights=list()
@@ -347,6 +370,16 @@ def process_regions(list l):
     return pandas.DataFrame({'beg':starts,'end':stops,'weight':weights})
 
 def process_sregion_callbacks( shwrappervec v, list sregions ):
+    """
+    Process a list of objects of :class:`Sregion`
+
+    :param l: a :class:`shwrappervec`
+    :param l: a list of objects of :class:`Sregion`
+
+    :return: Nothing. This function populations v with necessary callbacks for the C++ code to run the desired model.
+
+    A user will generally not call this function.  Rather, it is used internally by things like :func:`evolve_regions`.
+    """
     cdef shmodel temp
     for i in range(len(sregions)):
         if not isinstance(sregions[i],Sregion):
