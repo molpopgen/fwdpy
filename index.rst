@@ -13,6 +13,7 @@ Contents:
 
    README
    docs/notes
+   docs/rusers
    
 Functions and classes
 ##########################################
