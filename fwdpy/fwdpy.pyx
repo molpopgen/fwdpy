@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: sources = fwdpy/src/sample.cpp fwdpy/src/neutral.cpp fwdpy/src/deps.cc fwdpy/src/callbacks.cc fwdpy/src/evolve_regions.cc
+# distutils: sources = fwdpy/src/poptypes.cpp fwdpy/src/sample.cpp fwdpy/src/neutral.cpp fwdpy/src/deps.cc fwdpy/src/callbacks.cc fwdpy/src/evolve_regions.cc
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
