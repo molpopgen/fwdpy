@@ -65,6 +65,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/notes.html">Notes on the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/rusers.html">A note for R users</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/regions.html">Modeling regional variation in mutation and recombination</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/regions.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/regions.html#specific-examples">Specific examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/regions.html#how-to-set-up-a-model">How to set up a model</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="module-fwdpy.fwdpy">
@@ -580,13 +587,12 @@ from the GNU Scientific Library (GSL).</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><p>pandas.DataFrame</p>
-<p>Example:</p>
-</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
 </td>
 </tr>
 </tbody>
 </table>
+<p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
@@ -608,6 +614,7 @@ from the GNU Scientific Library (GSL).</p>
 <li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
 <li><strong>pops</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><tt class="xref py py-class docutils literal"><span class="pre">singlepop</span></tt></a></li>
 <li><strong>nsam</strong> &#8211; the sample size (no. chromosomes) to sample</li>
+<li><strong>removeFixed</strong> &#8211; if True, only polymorphic sites are retained</li>
 </ul>
 </td>
 </tr>
@@ -626,6 +633,21 @@ from the GNU Scientific Library (GSL).</p>
 <dt id="fwdpy.fwdpy.pkg_dependencies">
 <tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">pkg_dependencies</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.pkg_dependencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return version numbers of dependencies.</p>
+<p>This function is very handy when reporting bugs!</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.pkg_version">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">pkg_version</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.pkg_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return version numbers of this package</p>
 <p>This function is very handy when reporting bugs!</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
