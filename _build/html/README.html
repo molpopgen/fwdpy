@@ -67,8 +67,7 @@
 <p>Previous &#8216;releases&#8217; on Github are no longer supported and not guaranteed to even compile.</p>
 <div class="section" id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
-<p>The digital object identifier (DOI) for this software is available for each release.  You can find it from the [repo page](<a class="reference external" href="http://github.com/molpopgen/fwdpy">http://github.com/molpopgen/fwdpy</a>) for this project.</p>
-<p>Please cite it if you use this package for your research.</p>
+<p>See the project home page for details (<a class="reference external" href="http://molopgen.github.io/fwdpy">http://molopgen.github.io/fwdpy</a>).</p>
 </div>
 <div class="section" id="features">
 <h2>Features:<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
@@ -81,12 +80,12 @@
 <li>Selfing</li>
 <li>The ability to vary model parameters over time (recombination rates, genetic maps, selfing, selection, etc.)</li>
 <li>Sampling populations at various time points</li>
-<li>Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11&#8217;s threading mechanism.  This is a &#8220;sneaky&#8221; around Pythons&#8217; Global Interpreter Lock, or GIL.</li>
+<li>Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11&#8217;s threading mechanism.  This is a &#8220;sneaky&#8221; end-run around Pythons&#8217; Global Interpreter Lock, or GIL.</li>
 </ul>
 <p>The following distributions of selection coefficients are supported:</p>
 <ul class="simple">
 <li>constant (<em>i.e.</em>, <em>s</em> takes on a fixed value)</li>
-<li>beta</li>
+<li>uniform</li>
 <li>exponential</li>
 <li>gamma</li>
 <li>gaussian</li>
@@ -94,10 +93,7 @@
 <p>The following distributions of dominance are supported:</p>
 <ul class="simple">
 <li>constant (<em>i.e.</em>, <em>h</em> takes on a fixed value)</li>
-<li>beta</li>
-<li>uniform</li>
 </ul>
-<p>The distributions on <em>s</em> and <em>h</em> can be mixed and matched as the user sees fit, and these parameters can vary along a simulated region.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
@@ -117,10 +113,31 @@
 <p>Recombination is uniform along the interval [-2,2)</p>
 <p>The demographic model is the bottleneck for European <em>Drosophila</em> inferred by Thornton, K., &amp; Andolfatto, P. (2006). Approximate Bayesian inference reveals evidence for a recent, severe bottleneck in a Netherlands population of Drosophila melanogaster. Genetics, 172(3), 1607-1619. <a class="reference external" href="http://doi.org/10.1534/genetics.105.048223">http://doi.org/10.1534/genetics.105.048223</a></p>
 <p>Let&#8217;s set up the model and run it:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#not done yet</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c">#Our &quot;neutral&quot; regions will be from positions [0,1) and [2,3).</span>
+<span class="c">#The regions will have equal weights, and thus will each get</span>
+<span class="c">#1/2 of newly-arising, neutral mutations</span>
+<span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="c">#Define the &quot;selected region&quot; parameters</span>
+<span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.99</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.99</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="c">#Recombination will be uniform along the interval [-2,2).</span>
+<span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="c">#popsizes are NumPy arrays of 32bit unsigned integers</span>
+<span class="c">#Initial pop size will be N = 1,000, and</span>
+<span class="c">#the type must be uint32 (32 bit unsigned integer)</span>
+<span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="c">#The simulation will be for 10*N generations,</span>
+<span class="c">#so we replicate that value in the array</span>
+<span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="c">#Simulate 1 deme under this model.</span>
+<span class="c">#The total neutral mutation rate is 1e-3,</span>
+<span class="c">#which is also the recombination rate.</span>
+<span class="c">#The total mutation rate to selected variants is 0.1*(the neutral mutation rate).</span>
+<span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>They use GNU parallel to run jobs in parallel and impose a wall clock limit.</p>
 </div>
 <div class="section" id="availability">
 <h2>Availability<a class="headerlink" href="#availability" title="Permalink to this headline">¶</a></h2>
@@ -201,7 +218,7 @@
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p>TBD</p>
+<p>The <a class="reference external" href="http://molpopgen.github.io/fwdpy">manual</a> is available online in html format at the project web page</p>
 </div>
 </div>
 
