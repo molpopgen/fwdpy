@@ -19,13 +19,6 @@ def evolve_regions(GSLrng rng,
     nreg = process_regions(nregions)
     sreg = process_regions(sregions)
     recreg = process_regions(recregions)
-    print("here")
-    print(nreg)
-    print(nreg['beg'])
-    print(nreg['beg'].tolist())
-    print(nreg['end'].tolist())
-    print(nreg['weight'].tolist())
-    print(fitness)
     v = shwrappervec()
     process_sregion_callbacks(v,sregions)
     evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
