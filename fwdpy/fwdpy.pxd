@@ -29,6 +29,7 @@ cdef extern from "sample.hpp" namespace "fwdpy":
 
 cdef extern from "deps.hpp" namespace "fwdpy":
     vector[string] dependencies()
+    vector[string] version()
 
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":

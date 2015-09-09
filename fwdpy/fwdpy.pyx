@@ -24,3 +24,13 @@ def pkg_dependencies():
     cdef vector[string] deps = dependencies()
     return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})
 
+def pkg_version():
+    """
+    Return version numbers of this package
+
+    This function is very handy when reporting bugs!
+
+    :returns: dict
+    """
+    cdef vector[string] v = version()
+    return ({'fwdpy':v[0]})
