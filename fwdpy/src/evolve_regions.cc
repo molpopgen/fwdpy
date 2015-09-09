@@ -4,7 +4,6 @@
 #include <thread>
 
 #include <functional>
-#include <iostream>
 
 namespace fwdpy {
 
@@ -83,21 +82,8 @@ namespace fwdpy {
 			 const std::vector<double> & rweight,
 			 const char * fitness)
   {
-    std::cerr << "A " << nbegs.size() << ' ' << nends.size() << ' ' << callbacks->size() << '\n';
-    for( unsigned i = 0 ; i < nbegs.size() ; ++i)
-      std::cerr <<"n: "<< nbegs[i] << ' ' << nends[i] <<' ' << nweights[i] << '\n';
-
-    for(unsigned i = 0 ; i < sbegs.size() ; ++i )
-      std::cerr << "s: "<< sbegs[i] << ' ' << sends[i] << ' ' << sweights[i] << '\n';
-
-    for(unsigned i=0;i<callbacks->size() ;++i)
-      std::cerr << "c: "<< typeid(callbacks->operator[](i).s).name() << ' '
-		<< typeid(callbacks->operator[](i).h).name() << '\n';
-    
     const KTfwd::extensions::discrete_mut_model m(nbegs,nends,nweights,sbegs,sends,sweights,*callbacks);
-    std::cerr << "B\n";
     auto recmap = KTfwd::extensions::discrete_rec_model(rbeg,rend,rweight);
-    std::cerr << "C\n";
     std::vector<GSLrng_t> rngs;
     for(unsigned i=0;i<pops->size();++i)
       {
