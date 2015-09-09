@@ -1,11 +1,12 @@
-def ms_sample(GSLrng rng, singlepop pop, int nsam):
+def ms_sample(GSLrng rng, singlepop pop, int nsam, bint removeFixed = True):
     """
     Take a sample from a set of simulated populations.
 
     :param rng: a :class:`GSLrng`
     :param pops: a :class:`singlepop`
     :param nsam: the sample size (no. chromosomes) to sample
-
+    :param removeFixed: if True, only polymorphic sites are retained
+    
     Example:
     
     >>> import fwdpy
@@ -13,9 +14,9 @@ def ms_sample(GSLrng rng, singlepop pop, int nsam):
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     """
-    return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam)
+    return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
 
-def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop):
+def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop ):
     """
     Get additional details for population samples
 
@@ -26,7 +27,7 @@ def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop):
 
     :rtype: pandas.DataFrame
 
-        Example:
+    Example:
     
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)

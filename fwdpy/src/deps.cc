@@ -12,4 +12,10 @@ namespace fwdpy {
     rv.push_back(string(GSL_VERSION));
     return rv;
   }
+
+  vector<string> version()
+  {
+    return vector<string>(1,string(PACKAGE_VERSION));
+  }
 }
+
