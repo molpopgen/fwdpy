@@ -82,9 +82,11 @@ namespace fwdpy {
     void updateTraj();
   };
 
-  struct metapop_t : public KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut> >
+  struct metapop_t : public KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut>,
+						      diploid_t,diploid_writer,diploid_reader>
   {
-    using base = KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut> >;
+    using base = KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut>,
+					   diploid_t,diploid_writer,diploid_reader>;
     unsigned generation;
     metapop_t( std::initializer_list<unsigned> Ns ) : base(Ns), generation(0)
     {
