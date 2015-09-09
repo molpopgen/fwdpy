@@ -25,6 +25,14 @@ def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop):
     :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.
 
     :rtype: pandas.DataFrame
+
+        Example:
+    
+    >>> import fwdpy
+    >>> rng = fwdpy.GSLrng(100)
+    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
+    >>> details = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]
     """
     cdef vector[double] h
     cdef vector[double] s
