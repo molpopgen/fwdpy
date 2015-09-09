@@ -33,7 +33,7 @@ fwdpy allows the :math:`w` slot to be interpreted in one of two ways:
 * It is *not*  affected by the length of region.  Interally, the weight assigned is simply :math:`w`. 
 * It is affected by the length of a region :math:`(e - b)`.
 
-These two options are determined by arguments to class constructors, which we will see in examples below.
+These two options are determined by arguments to class constructors, which we will see in examples below.  The latter is the default.
 
 These two approaches allow for considerable modeling flexibility.  For example, the latter approach allows :math:`w` to be interpreted as a "per base-pair" rate.  Imagine that you wanted to simulate variation in recombination along discrete 100 kilobase chunks, and the rate of crossing-over *per base pair* increases in each chunk, and includes an initial chunk with no recombination:
 
@@ -52,7 +52,7 @@ For this hypothetical example, the region lengths are all even, and thus an equi
 
 "``>>>``"
    >>> import fwdpy 
-   >>> recRegions = [fwdpy.Region(1,1e5,0,True),fwdpy.Region(1e5,2e5,1e-8,True),fwdpy.Region(2e5,3e5,1e-7,True)]
+   >>> recRegions = [fwdpy.Region(1,1e5,0,False),fwdpy.Region(1e5,2e5,1e-8,False),fwdpy.Region(2e5,3e5,1e-7,False)]
    
 Specific examples
 -------------------
@@ -69,52 +69,38 @@ You specify regions where neutral mutations arise via the class :class:`fwdpy.fw
 The beginning and end positions can be whatever you like:
 
 .. code-block:: python
-		
+
+		#With a weight of 1, we're just rescaling the position here.
 		neutralRegions = [fwdpy.Region(0,100,1)]
 
 To specify variation in the netural mutation process along a sequence, combine multiple regions in your list:
 
 "``>>>``"
 
+>>> #If coupled=False for the second region, the effect would be that region2's mutation rate per base pair is 10x less than region 1!!
 >>> neutralRegions = [fwdpy.Region(beg=0,end=1,weight=1),fwdpy.Region(beg=2,end=12,weight=1,coupled=True)]
 
 
 Internally, the total "mutational weight" of the first region will be a function of its length, which is 1(1-0)=1.  The second region's total weight will be 1*(12-2)=10, and it will have 10xas many new mutations arising as the first region.
 
-### Mutations affecting fitness
+Mutations affecting fitness
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Type types of mutations affecting fitness that we consider will have two parameters associated with them:
 
-* $s$, the selection coefficient
-* $h$, the effect of the mutation in a heterozygote (a.k.a. the "dominance" of the mutation).
+* :math:`s`, the selection coefficient
+* :math:`h`, the effect of the mutation in a heterozygote (a.k.a. the "dominance" of the mutation).
 
-In a simulation, we may place a distribution on either $s$ itself or on the scaled selection parameter $\alpha = 2Ns$.  These two methods are represented by the S4 classes 'sregion' and 'twoNsregion', respectively.  These classes contain/extend the 'region' class described above, and thus inherit their _b_, _e_, and _w_ slots.  These new classes contain the following additional slots:
+In a simulation, we may place a distribution on either :math:`s` itself or on the scaled selection parameter :math:`\alpha = 2Ns`.  These two methods are represented by the class :class:`fwdpy.fwdpy.Sregion`.  These classes contain/extend the :class:`Region` class described above, and thus inherit their members.  :class:`Sregion` adds :math:`h`, which is the dominance of a mutation, and then classes extending :class:`Sregion` add details about the distribution of fitness effects.  These classes are:
 
-* 'sregion' and 'twoNsregion' contain a slot called _dominance_, which is itself a type inheriting the S4 class 'dominance', which we will cover in more detail below.
-* 'twoNsregion' contains the slots _sign_ and _twoN_.  The former is a constant by which a selection coefficient will be multiplied.  A sign of -1 corresponds to a deleterious mutation, and 1 would be a beneficial mutation.  The slot _twoN_ is the value of 2N in the $\alpha = 2Ns$.
-
-The following types extend 'sregion':
-
-* 's.constant' represents a mutation model where selected mutations always have the same effect on fitness.
-* 's.beta' represents a model where $f(s) = x\beta(\alpha,\beta)$, where $x$ is a scaling parameter that the user may specify.
-* 's.gaussian' is a model where $f(s) = N(0,\sigma)$, where $\sigma$ is the standard deviation
-
-The following types extend 'twoNsregion':
-
-* 'twoNs.exp' is a model where $f(\alpha) = \lambda e^{-\lambda \alpha}$, parameterized by a mean equal to $1/\lambda$.
-* 'twoNs.gamma' is a model where $f(\alpha ; \overline{\alpha},\beta) = \frac{(\beta/\overline{\alpha})\alpha^{\overline{\alpha}-1}e^{-\beta \alpha/\overline{\alpha}}}{\Gamma (\beta)}$, which is a Gamma distribution with mean $\alpha$ and scale parameter $\beta$.  See the following paper for the rationale for including this distribution: Eyre-Walker, A. (2010). Evolution in health and medicine Sackler colloquium: Genetic architecture of a complex trait and its implications for fitness and genome-wide association studies. Proceedings of the National Academy of Sciences, 107 Suppl 1(suppl 1), 1752-1756. http://doi.org/10.1073/pnas.0906182107
-
-#### Dominance of mutations affecting fitness
-
-All of the type describe above contain a slot called _dominance_, which represents how the dominance of mutations affecting fitness is calculated.  This slot is an S4 class extending the base type 'dominance', which has no slots.  The following S4 types representing dominance are currently supported:
-
-* 'h.constant' is a model where the dominance of mutations is fixed.  It contains a single slot called _h_, which defaults to 1, which represents a mutation with an additive effect.  _All of the sregions and twoNsregions described above default to this type._
-* 'h.beta' is a model where $f(h) = x\beta (\alpha,\beta)$, where $x$ is a scaling parameter that the user may specify.  The two shape parameters are specified by the slots _alpha_ and _beta_, respectively, and the slot _scaling_ specifies $x$.
-
-
-### Crossover rate variation
-
-Just like neutral mutations, intervals with different crossover rates are specified by different 'region' objects.  Let's set up the following concrete example:
+* :class:`fwdpy.fwdpy.ConstantS`
+* :class:`fwdpy.fwdpy.UniformS`
+* :class:`fwdpy.fwdpy.GammaS`
+* :class:`fwdpy.fwdpy.GaussianS`
+  
+Crossover rate variation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Just like neutral mutations, intervals with different crossover rates are specified by different :class:`Region` objects.  Let's set up the following concrete example:
 
 * A region where crossovers occur between positions [0,1)
 * Positions [0,0.45) and [0.55,1) have uniform recombintion rates
@@ -122,138 +108,60 @@ Just like neutral mutations, intervals with different crossover rates are specif
 
 The above model can be represented as:
 
-```{r}
-library(foRward)
-recrates = list( new('region',b=0,e=0.45,w=1),
-new('region',b=0.55,e=1,w=1),
-##This is the hotspot:
-new('region',b=0.45,e=0.55,w=100) )
+"``>>>``"
 
-print(recrates)
-```
+>>> import fwdpy
+>>> #recrate[2] is the hotspot:
+>>> recrates = [fwdpy.Region(0,0.45,1),fwdpy.Region(0.55,1,1),fwdpy.Region(0.45,0.55,100)]
 
 Internally, this is what will happen to the above input:
 
-* The total weight on the first region will be $w = w \times (e-b)$ = 1*(0.45-0) = 0.45
-* The weight on the second region will be 1*(1-0.55) = 0.45
-* The weight on the hotspot will be 100*(0.55-0.45) = 10
+* The total weight on the first region will be :math:`w = w \times (e-b) = 1\times(0.45-0) = 0.45`
+* The weight on the second region will be :math:`1\times(1-0.55) = 0.45`
+* The weight on the hotspot will be :math:`100\times(0.55-0.45) = 10`
 
 This gives us what we want: the hotspot is 100x hotter "per base", and is 10% of the total region in length.  We therefore expect 10x as many crossovers in that region as in the flanking regions.
 
-## Where to get more help/details/examples
+How to set up a model
+---------------------------------
 
-For any of the types above, help files exist.  For class X, the help is called X-class.  For example:
+When setting up a model, it is important that you think in terms of conditional probabilities.  In other words, if the total rate to neutral variants is :math:`\mu_n`, then the weights passed along to a function have the interpretations "Given that a neutral mutation occurs, the probability that it occurs in a certain interval is :math:`x`, where :math:`x` is determined by the relative weight assigned to an interval.
 
-~~~{r}
-help(h.constant-class)
-~~~
+The 'weights' that you assign are *relative* and need not sum to 1.  Each weight must be :math:`\geq 0`, though.
 
-## How to set up a model
+Example
+~~~~~~~~~~~
 
-When setting up a model, it is important that you think in terms of conditional probabilities.  In other words, if the total rate to neutral variants is $\mu_n$, then the weights passed along to a function have the interpretations "Given that a neutral mutation occurs, the probability that it occurs in a certain interval is $x$", where $x$ is determined by the relative weight assigned to an interval.
+"``>>>``"
 
-The 'weights' that you assign are _relative_ and need not sum to 1.  Each weight must be $> 0$, though.  They are used to generate discrete probability distributions for sampling using code like the following:
+>>> import fwdpy
+>>> import numpy as np
+>>> rng = fwdpy.GSLrng(100)
+>>> ##Some basic parameters
+>>> N=1000
+>>> theta=100.0
+>>> rho=100.0
+>>> ##All neutral muts are [0,1)
+>>> nregions = [ fwdpy.Region(0,1,1) ]
+>>> #Selected mutations.  All are additive, to keep this example simple.
+>>> ##Strongly deleterious mutations to the "left"
+>>> ##Weaker mutations (2Ns = 10 on average) to the "right"
+>>> ## 1% of selected mutations will be positively selected
+>>> ## and uniform throughout the region.  The distribution
+>>> ## of s will be exponential with mean 1e-3
+>>> smodels = [fwdpy.ConstantS(-1,0,0.99/2,-0.1),fwdpy.ExpS(1,2,0.99/2,-10),fwdpy.ExpS(-1,2,0.01,0.001)]
+>>> ##Recombination models--10x hotspot in the middl
+>>> rregions = [fwdpy.Region(-1,1,1),fwdpy.Region(0.45,0.55,10)]
+>>> #set up list of population sizes,
+>>> #which are NumPy arrays of ints
+>>> popsizes = np.array([N],dtype=np.uint32) 
+>>> popsizes = np.tile(popsizes,10*N)
+>>> pops = fwdpy.evolve_regions(rng,1,N,popsizes[0:],theta/(4*N),0.1*theta/(4*N),rho/(4*N),nregions,smodels,rregions)
+>>> #Take a sample of size n = 10 from the population via list comprehension
+>>> popSample = [fwdpy.ms_sample(rng,i,10) for i in pops]
 
-```{r}
-suppressWarnings(library(Rcpp))
-
-Sys.setenv("PKG_LIBS"="-lgsl -lgslcblas","PKG_CXXFLAGS"="-std=c++11")
-
-sourceCpp(code="#include <Rcpp.h>
-#include <vector>
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-
-// Use Rcpp to create an R function
-// [[Rcpp::export()]]
-Rcpp::IntegerVector GSLdiscrete() {
-    //GSL rng setup		    		 
-    gsl_rng * r = gsl_rng_alloc(gsl_rng_mt19937);
-    gsl_rng_set(r,0);
-    
-    //The weights
-    std::vector<double> weights={10.,2.,0.001};
-    //Generate a lookup table for a discrete distribution with the above weights
-    gsl_ran_discrete_t * lookup = gsl_ran_discrete_preproc(weights.size(),&weights[0]);
-
-    //Sample from it
-    Rcpp::IntegerVector rv(1000000);
-    for( int i = 0 ; i < rv.size() ; ++i )
-    {
-	rv[i] = gsl_ran_discrete(r,lookup);
-    }
-    //Cleanup and return
-    gsl_ran_discrete_free(lookup);
-    gsl_rng_free(r);
-    return rv;
-}")
-
-x = GSLdiscrete()
-table(x)
-```
-
-The output should be in proportions similar to the weights set in the above C++ function.
-
-See [here](https://www.gnu.org/software/gsl/manual/html_node/General-Discrete-Distributions.html) for more details on the GSL discrete sampler.
-
-## Example
-
-```{r}
-library(foRward)
-
-n=commandArgs(trailing=TRUE)
-SEED = 202
-
-## Initialize the random number system
-rng = init.gsl.rng(SEED)
-
-##Some basic parameters
-N=1e3
-theta=100
-rho=100
-
-##All neutral muts are [0,1)
-nregions = list( new("region",b=0,e=1,w=1) )
-
-##Selected mutations.  All are additive, to keep this example simple.
-smodels = list(
-    ##Strongly deleterious mutations to the "left"
-    new("s.constant",s=-0.1,b=-1,e=0,w=0.99/2),
-    ##Weaker mutations (2Ns = 10 on average) to the "right"
-    new("s.exp",mean=-10,b=1,e=2,w=0.99/2),
-    ## 1% of selected mutations will be positively selected
-    ## and uniform throughout the region.  The distribution
-    ## of s will be beta(2,10)
-    new("s.beta",alpha=2,beta=10,scaling=1,b=-1,e=2,w=0.01)
-)
-
-##Recombination models
-rmodels = list(
-    ##uniform throughtout the region 
-    new("region",b=-1,e=1,w=1),
-    ## 10x hotspot in middle
-    new("region",b=0.45,e=0.55,w=10)
-)
-
-pop = evolve.regions(rng,
-    ##pop size over time (short sim...)
-    rep(N,1+N),
-    ##neutral mut rate
-    theta/(4*N),
-    ##selected mut rate is 1/10th the neutral mutation rate
-    0.1*theta/(4*N),
-    rho/(4*N),
-    nregions,
-    smodels,
-    rmodels)
-
-#Take a sample from the population.
-pop.sample = sample.single.deme(pop[[1]],rng,10)
-
-print(pop.sample)
-```
-
-## A simple example of "exons"
+A simple example of "exons"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's consider the following model of a "two-exon gene":
 
@@ -267,23 +175,22 @@ For the sake of simplicity, we will ignore:
 
 We can define the following region lengths:
 
-* $l_1 = 0.2$ is the length of Exon 1.
-* $l_2 = 0.4$ is the length of Exon 2.
+* :math:`l_1 = 0.2` is the length of Exon 1.
+* :math:`l_2 = 0.4` is the length of Exon 2.
 
-Thus the relative weights assigned to Exon 1 and 2 must satisfy $w_2/w_1 = l_2/l_1 = 2.$.
+Thus the relative weights assigned to Exon 1 and 2 must satisfy :math:`w_2/w_1 = l_2/l_1 = 2`.
 
-Further, within an exon, $\approx 3/4$ of new mutations will be amino acid replacements.  Thus, 3/4 of the total mutational weight in a region will be on selected mutations.
+Further, within an exon, :math:`\approx 3/4` of new mutations will be amino acid replacements.  Thus, 3/4 of the total mutational weight in a region will be on selected mutations.
 
 Our model looks like this:
 
-~~~{r}
-nregions = list( new('region',b=0.2,e=0.4,w=0.25),
-	 new('region',b=0.6,e=1,w=0.5) )
-sregions = list( new('s.constant',b=0.2,e=0.4,w=0.75,s=-0.01),
-	 new('s.constant',b=0.6,e=0.1,w=1.5,s=-0.01) )
-~~~
+"``>>>``"
 
-If we pass _the same neutral and selected mutation rates to evolve.regions_, then the above model satisfies:
+		>>> nregions = [fwdpy.Region(0.2,0.4,0.25),fwdpy.Region(0.6,1,0.5)]
+		>>> sregions = [fwdpy.ConstantS(0.2,0.4,0.75,-0.01),fwdpy.ConstantS(0.6,1,1.5,-0.01) ]
+
+
+If we pass *the same neutral and selected mutation rates to evolve.regions*, then the above model satisfies:
 
 * The total number of mutations occurring in Exon 2 is 2x the number occuring in Exon 1.
-* Within an expon, 3/4 of all new mutations are deleterious.
+* Within an exon, 3/4 of all new mutations are deleterious.
