@@ -48,8 +48,8 @@ class Region(object):
             raise ValueError("fwdpy.Region: end not a number")
         if math.isnan(weight):
             raise ValueError("fwdpy.Region: weight not a number")
-        if weight <= 0.0:
-            raise ValueError("fwdpy.Region: weight <= 0.0")
+        if weight < 0.0:
+            raise ValueError("fwdpy.Region: weight < 0.0")
         self.b=float(beg)
         self.e=float(end)
         self.w=float(weight)
