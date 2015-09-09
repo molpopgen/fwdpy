@@ -14,7 +14,7 @@ class Region(object):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,coupled=False):
+    def __init__(self,float beg,float end,float weight,coupled=True):
         """
         Constructor
 
@@ -72,7 +72,7 @@ class Sregion(Region):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float h=1.0,coupled=False):
+    def __init__(self,float beg,float end,float weight,float h=1.0,coupled=True):
         """
         Constructor
 
@@ -121,7 +121,7 @@ class GammaS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float mean,float shape,float h=1.0,coupled=False):
+    def __init__(self,float beg,float end,float weight,float mean,float shape,float h=1.0,coupled=True):
         """
         Constructor
 
@@ -171,7 +171,7 @@ class ConstantS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float s,float h=1.0,coupled=False):
+    def __init__(self,float beg,float end,float weight,float s,float h=1.0,coupled=True):
         """
         Constructor
 
@@ -218,7 +218,7 @@ class UniformS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float lo,float hi,float h=1.0,coupled=False):
+    def __init__(self,float beg,float end,float weight,float lo,float hi,float h=1.0,coupled=True):
         """
         Constructor
     
@@ -269,7 +269,7 @@ class ExpS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float mean,float h=1.0,coupled=False):
+    def __init__(self,float beg,float end,float weight,float mean,float h=1.0,coupled=True):
         """
         Constructor
     
@@ -316,7 +316,7 @@ class GaussianS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float sd,float h=1.0,coupled=False):
+    def __init__(self,float beg,float end,float weight,float sd,float h=1.0,coupled=True):
         """
         Constructor
     
