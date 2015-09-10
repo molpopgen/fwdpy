@@ -1,0 +1,2 @@
+recursive-include fwdpy  *.pyx *.px[di] *.cpp
+recursive-include include *.hpp
