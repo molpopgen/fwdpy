@@ -25,7 +25,7 @@ Functions and classes
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: fwdpy
+.. automodule:: fwdpy.internal
    :members:
    :undoc-members:
    :show-inheritance:
