@@ -51,6 +51,7 @@ setup(name='@PACKAGE_NAME@',
       py_modules=[],
       scripts=[],
       data_files=[(doc_dir, ['COPYING', 'README.rst'])],
+      headers=glob.glob("include/*.hpp"),
       package_data={},
       ext_modules=cythonize(Extension("fwdpy.fwdpy",
           sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/src/*.cpp"), # the Cython source and additional C++ source files
