@@ -87,16 +87,6 @@ cdef class GSLrng:
     def __dealloc__(self):
         del self.thisptr
 
-##These are the callback wrappers from fwdpp
-cdef class shwrappervec:
-    """
-    Wrapper for a vector of callback objects from fwdpp's extension library.
-
-    Users will not interact with this type directly.  Rather, it is used
-    by other module functions to process user inputs.
-    """
-    cdef vector[shmodel] vec
-
 # cdef class constsh:
 #     cdef constant * thisptr
 #     def __cinit__(self,double val):

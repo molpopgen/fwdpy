@@ -1,6 +1,8 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 import numpy as np
+from fwdpy.internal cimport shwrappervec
+import internal
 
 def evolve_regions(GSLrng rng,
                     int npops,
@@ -62,11 +64,11 @@ def evolve_regions(GSLrng rng,
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
     pops = popvec(npops,N)
-    nreg = process_regions(nregions)
-    sreg = process_regions(sregions)
-    recreg = process_regions(recregions)
+    nreg = internal.process_regions(nregions)
+    sreg = internal.process_regions(sregions)
+    recreg = internal.process_regions(recregions)
     v = shwrappervec()
-    process_sregion_callbacks(v,sregions)
+    internal.process_sregion_callbacks(v,sregions)
     evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
                     recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
@@ -117,11 +119,11 @@ def evolve_regions_more(GSLrng rng,
     >>> # Evolve for another 5N generations
     >>> fwdpy.evolve_regions_more(rng,pops,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
-    nreg = process_regions(nregions)
-    sreg = process_regions(sregions)
-    recreg = process_regions(recregions)
+    nreg = internal.process_regions(nregions)
+    sreg = internal.process_regions(sregions)
+    recreg = internal.process_regions(recregions)
     v = shwrappervec()
-    process_sregion_callbacks(v,sregions)
+    internal.process_sregion_callbacks(v,sregions)
     evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
                     fitness)

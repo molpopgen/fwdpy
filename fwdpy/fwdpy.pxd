@@ -3,6 +3,8 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 
+from fwdpy.internal cimport *
+
 ##Create hooks to C++ types
 
 #Wrap the classes:
@@ -31,23 +33,6 @@ cdef extern from "deps.hpp" namespace "fwdpy":
     vector[string] fwdpy_dependencies()
     vector[string] fwdpy_version()
 
-## fwdpp's extensions sub-library:    
-cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
-    cdef cppclass shmodel:
-        shmodel()
-    cdef cppclass constant:
-        constant(double)
-    cdef cppclass exponential:
-        exponential(double)
-    cdef cppclass uniform:
-        uniform(double,double)
-    cdef cppclass beta:
-        beta(double,double,double)
-    cdef cppclass gaussian:
-        gaussian(double)
-    cdef cppclass gamma:
-        gamma(double,double)
-
 cdef extern from "evolve_regions.hpp" namespace "fwdpy":
     void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
 		       const unsigned * popsizes,
@@ -67,11 +52,3 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy":
 		       const vector[double] & rend,
 		       const vector[double] & rweight,
 		       const char * fitness)
-
-cdef extern from "callbacks.hpp" namespace "fwdpy":
-    void make_gamma_s(shmodel *, double,double)
-    void make_constant_s(shmodel * s, const double scoeff);
-    void make_uniform_s(shmodel * s, const double lo, const double hi);
-    void make_exp_s(shmodel * s, const double mean);
-    void make_gaussian_s(shmodel * s, const double sd);
-    void make_constant_h(shmodel * s, const double h);

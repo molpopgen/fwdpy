@@ -1,4 +1,5 @@
 import fwdpy
+import fwdpy.internal
 import numpy as np
 
 nregions = [fwdpy.Region(0,1,1),
@@ -7,9 +8,9 @@ sregions = [fwdpy.ExpS(1,2,1,-0.1),
             fwdpy.ExpS(1,2,0.01,0.001)]
 rregions = [fwdpy.Region(0,3,1)]
 
-nr = fwdpy.process_regions(nregions)
-sr = fwdpy.process_regions(sregions)
-rr = fwdpy.process_regions(rregions)
+#nr = fwdpy.internal.process_regions(nregions)
+#sr = fwdpy.internal.process_regions(sregions)
+#rr = fwdpy.internal.process_regions(rregions)
 
 #print type(sr)
 rng = fwdpy.GSLrng(100)

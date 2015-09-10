@@ -31,6 +31,22 @@ long_desc = \
 fwdpy is a C++11-based package for running forward simulations in Python
 """
 
+extensions = [
+    Extension("fwdpy.fwdpy",
+        sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/fwdpy/*.cpp"), # the Cython source and additional C++ source files
+        language="c++",                        # generate and compile C++ code
+        include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
+        extra_compile_args=["-std=c++11"],  
+        extra_link_args=["-std=c++11"],
+        libraries=["gsl","gslcblas","tcmalloc","sequence"]),
+    Extension("fwdpy.internal",
+        sources=["fwdpy/internal.pyx"]+glob.glob("fwdpy/internal/*.cc"),
+        language="c++",                    
+        include_dirs=['.','include','..'], 
+        extra_compile_args=["-std=c++11"],  
+        extra_link_args=["-std=c++11"],
+        libraries=["gsl","gslcblas"]),
+        ]
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
       author='Kevin R. Thornton',
@@ -55,12 +71,5 @@ setup(name='@PACKAGE_NAME@',
       headers=glob.glob("include/*.hpp"),
       package_data={'fwdpy':['*.pxd'],
                     'include':['*.hpp']},
-      ext_modules=cythonize(Extension("fwdpy.fwdpy",
-          sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/src/*.cpp"), # the Cython source and additional C++ source files
-          language="c++",                        # generate and compile C++ code
-          include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
-          extra_compile_args=["-std=c++11"],  
-          extra_link_args=["-std=c++11"],
-          libraries=["gsl","gslcblas","tcmalloc","sequence"]),
-          )
+      ext_modules=cythonize(extensions),
      )
