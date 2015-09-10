@@ -51,7 +51,10 @@ setup(name='@PACKAGE_NAME@',
       py_modules=[],
       scripts=[],
       data_files=[(doc_dir, ['COPYING', 'README.rst'])],
-      package_data={},
+      ##Note: when installing the git repo, headers will be put in /usr/local/include/pythonVERSION/fwdpy
+      headers=glob.glob("include/*.hpp"),
+      package_data={'fwdpy':['*.pxd'],
+                    'include':['*.hpp']},
       ext_modules=cythonize(Extension("fwdpy.fwdpy",
           sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/src/*.cpp"), # the Cython source and additional C++ source files
           language="c++",                        # generate and compile C++ code

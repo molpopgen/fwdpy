@@ -4,7 +4,7 @@
 using namespace std;
 
 namespace fwdpy {
-  vector<string> dependencies()
+  vector<string> fwdpy_dependencies()
   {
     vector<string> rv;
     rv.push_back(string(FWDPP_VERSION));
@@ -13,7 +13,7 @@ namespace fwdpy {
     return rv;
   }
 
-  vector<string> version()
+  vector<string> fwdpy_version()
   {
     return vector<string>(1,string(PACKAGE_VERSION));
   }

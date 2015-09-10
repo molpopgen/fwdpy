@@ -1,0 +1,7 @@
+recursive-include fwdpy  *.pyx *.px[di] *.cpp
+recursive-include include *.hpp
+include configure
+include setup.py.in
+include config.h.in
+include Makefile.in
+include conf.py.in
