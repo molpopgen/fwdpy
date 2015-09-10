@@ -3,6 +3,6 @@
 
 namespace fwdpy
 {
-  std::vector<std::string> dependencies();
-  std::vector<std::string> version();
+  std::vector<std::string> fwdpy_dependencies();
+  std::vector<std::string> fwdpy_version();
 }

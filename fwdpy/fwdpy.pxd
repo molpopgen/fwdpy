@@ -28,8 +28,8 @@ cdef extern from "sample.hpp" namespace "fwdpy":
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
 
 cdef extern from "deps.hpp" namespace "fwdpy":
-    vector[string] dependencies()
-    vector[string] version()
+    vector[string] fwdpy_dependencies()
+    vector[string] fwdpy_version()
 
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
