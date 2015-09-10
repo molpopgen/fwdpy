@@ -51,6 +51,7 @@ setup(name='@PACKAGE_NAME@',
       py_modules=[],
       scripts=[],
       data_files=[(doc_dir, ['COPYING', 'README.rst'])],
+      ##Note: when installing the git repo, headers will be put in /usr/local/include/pythonVERSION/fwdpy
       headers=glob.glob("include/*.hpp"),
       package_data={},
       ext_modules=cythonize(Extension("fwdpy.fwdpy",
