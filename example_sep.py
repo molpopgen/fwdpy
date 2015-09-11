@@ -3,7 +3,7 @@ import pandas
 
 rng = fwdpy.GSLrng(100)
 pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*int(1e4),50,50)
-s = [fwdpy.sample_from_pops(rng,i,[10,]) for i in pop]
+s = [fwdpy.get_samples(rng,i,[10,]) for i in pop]
 
 ###fxn to ask if a site is a singleton
 def isSingleton( site ):
