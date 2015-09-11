@@ -148,6 +148,11 @@ cdef class GSLrng:
     """
     cdef GSLrng_t * thisptr
     def __cinit__(self, int seed):
+        """
+        Constructor:
+
+        :param seed: The seed for the RNG
+        """
         self.thisptr = new GSLrng_t(seed)
     def __dealloc__(self):
         del self.thisptr
