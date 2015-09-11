@@ -38,6 +38,10 @@ cdef extern from "deps.hpp" namespace "fwdpy":
     vector[string] fwdpy_dependencies()
     vector[string] fwdpy_version()
 
+cdef extern from "metapop.hpp" namespace "fwdpy":
+    void re_init_mpop( metapop_t * mpop, const singlepop_t & pop)
+    void copy_deme( metapop_t * mpop, const size_t i, const int update_counts)
+
 cdef extern from "evolve_regions.hpp" namespace "fwdpy":
     void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
 		       const unsigned * popsizes,
