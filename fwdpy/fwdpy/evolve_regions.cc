@@ -30,7 +30,7 @@ namespace fwdpy {
     std::function<double(const fwdpy::singlepop_t::dipvector_t::iterator &)> dipfit = std::bind(KTfwd::multiplicative_diploid(),std::placeholders::_1,2.);
     if( std::string(fitness) == "additive" )
       {
-     	dipfit = std::bind(KTfwd::multiplicative_diploid(),std::placeholders::_1,2.);
+     	dipfit = std::bind(KTfwd::additive_diploid(),std::placeholders::_1,2.);
       }
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
