@@ -11,9 +11,6 @@ cdef class singlepop:
     cdef shared_ptr[singlepop_t] pop
     def __del__(self):
        self.pop.reset()
-    # def popsize(self):
-    #    cdef singlepop_t * pp = self.pop.get()
-    #    return pp.popsize()
     def gen(self):
         """
         Returns the generation that the population is currently evolved to
@@ -39,8 +36,6 @@ cdef class popvec:
     """
     Vector of single-deme objects
 
-    The constructor takes two objects: the number of pops, and the initial population size (which is the same for each pop).
-
     Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
     have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the "usual"
     Python way.
@@ -50,6 +45,12 @@ cdef class popvec:
     cdef vector[shared_ptr[singlepop_t]] pops
     pypops = list()
     def __cinit__(self,unsigned npops,unsigned N):
+        """
+        Constructor:
+
+        :param npops: The number of populations
+        :param N: Initial population number for each population
+        """
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_t](new singlepop_t(N)))
             pi = singlepop()
@@ -108,6 +109,12 @@ cdef class mpopvec:
     cdef vector[shared_ptr[metapop_t]] pops
     pypops = list()
     def __cinit__(self,unsigned npops,list Ns):
+        """
+        Constructor:
+
+        :param npops: Number of metapopulations
+        :param Ns: A list of population sizes.  The length of this list is the number of demes in each metapopulation
+        """
         for i in range(npops):
             self.pops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
             pi = metapop()
