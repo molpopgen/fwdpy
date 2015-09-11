@@ -3,7 +3,7 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 
-from fwdpy.internal cimport *
+from fwdpy.internal.internal cimport *
 
 ##Create hooks to C++ types
 

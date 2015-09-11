@@ -1,7 +1,7 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 import numpy as np
-from fwdpy.internal cimport shwrappervec
+from internal.internal cimport shwrappervec
 import internal
 
 def evolve_regions(GSLrng rng,
