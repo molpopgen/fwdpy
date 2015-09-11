@@ -44,8 +44,8 @@ def get_samples(GSLrng rng, poptype pop, list nsam, bint removeFixed = True):
     :param nsam: List of sample sizes (no. chromosomes) to sample.
     :param removeFixed: if True, only polymorphic sites are retained
 
-    Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations
-    
+    :return: A list for a single deme simulation.  Element 0 is neutral mutations, and element 1 is selected mutations.  A dict is returned for metapopulation simulations, with the key being a simple integer label for each deme.  The inner elements are as for single deme output.
+
     Example:
     
     >>> import fwdpy
