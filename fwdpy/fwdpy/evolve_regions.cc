@@ -1,6 +1,7 @@
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 #include <types.hpp>
+#include <metapop.hpp>
 #include <thread>
 
 #include <functional>
@@ -98,16 +99,6 @@ namespace fwdpy {
     for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
 
-  //Should move to a more general .cpp file in future
-  size_t migpop(const size_t & source_pop, gsl_rng * r, const double & mig_prob)
-  {
-    if( gsl_rng_uniform(r) < mig_prob )
-      {
-	return ! source_pop;
-      }
-    return source_pop;
-  }
-  
   void split_and_evolve_details(metapop_t * mpop, 
 				gsl_rng * rng,
 				const unsigned * Nvector_A,
@@ -118,7 +109,6 @@ namespace fwdpy {
 				const double & selected,
 				const double & recrate,
 				const std::vector<double> & fs,
-				const std::string & fmodel,
 				const KTfwd::extensions::discrete_mut_model & m,
 				const KTfwd::extensions::discrete_rec_model & recmap,
 				const char * fitness)
@@ -171,6 +161,57 @@ namespace fwdpy {
 	//4*N b/c it needs to be fixed in the metapopulation
 	KTfwd::remove_fixed_lost(&mpop->mutations,&mpop->fixations,&mpop->fixation_times,&mpop->mut_lookup,mpop->generation,4*N);
       }
+  }
+  
+  //Wow, that's too many args
+  void split_and_evolve_t(GSLrng_t * rng,
+			  std::vector<std::shared_ptr<metapop_t> > * mpops,
+			  const unsigned * Nvector_A,
+			  const size_t Nvector_A_len,
+			  const unsigned * Nvector_B,
+			  const size_t Nvector_B_len,
+			  const double & neutral,
+			  const double & selected,
+			  const double & recrate,
+			  const std::vector<double> & fs,
+			  const char * fitness,
+			  const std::vector<double> & nbegs,
+			  const std::vector<double> & nends,
+			  const std::vector<double> & nweights,
+			  const std::vector<double> & sbegs,
+			  const std::vector<double> & sends,
+			  const std::vector<double> & sweights,
+			  const std::vector<KTfwd::extensions::shmodel> * callbacks,
+			  const std::vector<double> & rbeg,
+			  const std::vector<double> & rend,
+			  const std::vector<double> & rweight)
+  {
+    const KTfwd::extensions::discrete_mut_model m(nbegs,nends,nweights,sbegs,sends,sweights,*callbacks);
+    auto recmap = KTfwd::extensions::discrete_rec_model(rbeg,rend,rweight);
+    std::vector<GSLrng_t> rngs;
+    for(unsigned i=0;i<mpops->size();++i)
+      {
+	//Give each thread a new RNG + seed
+	rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())) );
+      }
+    std::vector<std::thread> threads(mpops->size());
+    for(unsigned i=0;i<mpops->size();++i)
+      {
+  	threads[i]=std::thread(split_and_evolve_details,
+			       mpops->operator[](i).get(),
+			       rngs[i].get(),
+			       Nvector_A,
+			       Nvector_A_len,
+			       Nvector_B,
+			       Nvector_B_len,
+			       neutral,
+			       selected,
+			       recrate,
+			       fs,
+			       std::cref(m),std::cref(recmap),
+			       fitness);
+      }
+    for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
 }
 
