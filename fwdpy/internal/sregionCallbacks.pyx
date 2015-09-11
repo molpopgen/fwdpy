@@ -10,7 +10,7 @@ def process_regions(list l):
 
     :return: a pandas.DataFrame consisting of the beginning ('beg'), end ('end') and weight ('weight') for each elememt in l
 
-    A user will generally not call this function.  Rather, it is used internally by things like :func:`evolve_regions`.
+    A user will generally not call this function.  Rather, it is used internally by things like :func:`fwdpy.fwdpy.evolve_regions`.
     """
     starts=list()
     stops=list()
@@ -36,7 +36,7 @@ def process_sregion_callbacks( shwrappervec v, list sregions ):
 
     :return: Nothing. This function populations v with necessary callbacks for the C++ code to run the desired model.
 
-    A user will generally not call this function.  Rather, it is used internally by things like :func:`evolve_regions`.
+    A user will generally not call this function.  Rather, it is used internally by things like :func:`fwdpy.fwdpy.evolve_regions`.
     """
     cdef shmodel temp
     for i in range(len(sregions)):
