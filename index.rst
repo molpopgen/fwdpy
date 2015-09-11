@@ -22,12 +22,10 @@ Functions and classes
 
 .. automodule:: fwdpy.fwdpy
    :members:
-   :undoc-members:
    :show-inheritance:
 
 .. automodule:: fwdpy.internal.internal
    :members:
-   :undoc-members:
    :show-inheritance:
 
 Indices and tables
