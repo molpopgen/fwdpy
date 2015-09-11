@@ -1,6 +1,12 @@
 ##Create the python classes
 
-cdef class singlepop:
+cdef class poptype(object):
+    """
+    Empty base class for a population object.
+    """
+    pass
+
+cdef class singlepop(poptype):
     """
     Object representing data structures for single-deme simulations.
 
@@ -11,9 +17,6 @@ cdef class singlepop:
     cdef shared_ptr[singlepop_t] pop
     def __del__(self):
        self.pop.reset()
-    def popsize(self):
-       cdef singlepop_t * pp = self.pop.get()
-       return pp.popsize()
     def gen(self):
         """
         Returns the generation that the population is currently evolved to
@@ -39,8 +42,6 @@ cdef class popvec:
     """
     Vector of single-deme objects
 
-    The constructor takes two objects: the number of pops, and the initial population size (which is the same for each pop).
-
     Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
     have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the "usual"
     Python way.
@@ -50,6 +51,12 @@ cdef class popvec:
     cdef vector[shared_ptr[singlepop_t]] pops
     pypops = list()
     def __cinit__(self,unsigned npops,unsigned N):
+        """
+        Constructor:
+
+        :param npops: The number of populations
+        :param N: Initial population number for each population
+        """
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_t](new singlepop_t(N)))
             pi = singlepop()
@@ -69,6 +76,73 @@ cdef class popvec:
         """
         return self.pops.size()
 
+cdef class metapop(poptype):
+    """
+    Object representing data structures for single-deme simulations.
+
+    Users are not expected to construct these on their own.  Rather,
+    they should be working with :class:`mpopvec`.  This type exists as
+    the output of iterating through a :class:`mpopvec`.
+    """
+    cdef shared_ptr[metapop_t] mpop
+    def __del__(self):
+       self.mpop.reset()
+    def gen(self):
+        """
+        Returns the generation that the population is currently evolved to
+        """
+        return self.mpop.get().generation
+    def popsizes(self):
+        """
+        Returns the size of the population
+        """
+        return self.mpop.get().Ns
+    def sane(self):
+        """
+        Makes sure that the population is in a sane state.
+
+        Internally, this checks that pop.N == pop.diploids.size(),
+        which it should be if the C++ code behind this all is properly updating
+        the data structures!
+
+        """
+        return self.mpop.get().sane()
+    
+cdef class mpopvec:
+    """
+    Vector of metapopulation objects
+    """
+    cdef vector[shared_ptr[metapop_t]] mpops
+    pympops = list()
+    def __cinit__(self,unsigned nmpops,list Ns):
+        """
+        Constructor:
+
+        :param nmpops: Number of metapopulations
+        :param Ns: A list of population sizes.  The length of this list is the number of demes in each metapopulation
+        """
+        for i in range(len(Ns)):
+            if Ns[i] < 0:
+                raise ValueError("mpopvec: deme size < 0 encountered")
+        for i in range(nmpops):
+            self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
+            pi = metapop()
+            pi.mpop = self.mpops[i]
+            self.pympops.append(pi)
+    def __iter__(self):
+        return iter(self.pympops)
+    def __next__(self):
+        return next(self.pympops)
+    def __getitem__(self, int i):
+        return self.pympops[i]
+    def __len__(self):
+        return self.mpops.size()
+    def size(self):
+        """
+        Returns number of populations (size of underlying C++ vector)
+        """
+        return self.mpops.size()
+    
 cdef class GSLrng:
     """
     A wrapper around a random number generator (rng) 
@@ -83,19 +157,14 @@ cdef class GSLrng:
     """
     cdef GSLrng_t * thisptr
     def __cinit__(self, int seed):
+        """
+        Constructor:
+
+        :param seed: The seed for the RNG
+        """
         self.thisptr = new GSLrng_t(seed)
     def __dealloc__(self):
         del self.thisptr
-
-##These are the callback wrappers from fwdpp
-cdef class shwrappervec:
-    """
-    Wrapper for a vector of callback objects from fwdpp's extension library.
-
-    Users will not interact with this type directly.  Rather, it is used
-    by other module functions to process user inputs.
-    """
-    cdef vector[shmodel] vec
 
 # cdef class constsh:
 #     cdef constant * thisptr

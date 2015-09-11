@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: sources = fwdpy/src/poptypes.cpp fwdpy/src/sample.cpp fwdpy/src/neutral.cpp fwdpy/src/deps.cc fwdpy/src/callbacks.cc fwdpy/src/evolve_regions.cc
+# distutils: sources = fwdpy/fwdpy/poptypes.cpp fwdpy/fwdpy/sample.cpp fwdpy/fwdpy/neutral.cpp fwdpy/fwdpy/deps.cc fwdpy/fwdpy/evolve_regions.cc
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
@@ -10,8 +10,8 @@ import pandas
 include "classes.pyx"
 include "evolve_simple.pyx"
 include "sampling.pyx"
-include "sregionCallbacks.pyx"
 include "evolve_regions.pyx"
+include "regions.pyx"
 
 def pkg_dependencies():
     """
