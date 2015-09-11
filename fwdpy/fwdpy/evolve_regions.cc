@@ -97,5 +97,80 @@ namespace fwdpy {
       }
     for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
+
+  //Should move to a more general .cpp file in future
+  size_t migpop(const size_t & source_pop, gsl_rng * r, const double & mig_prob)
+  {
+    if( gsl_rng_uniform(r) < mig_prob )
+      {
+	return ! source_pop;
+      }
+    return source_pop;
+  }
+  
+  void split_and_evolve_details(metapop_t * mpop, 
+				gsl_rng * rng,
+				const unsigned * Nvector_A,
+				const size_t Nvector_A_len,
+				const unsigned * Nvector_B,
+				const size_t Nvector_B_len,
+				const double & neutral,
+				const double & selected,
+				const double & recrate,
+				const std::vector<double> & fs,
+				const std::string & fmodel,
+				const KTfwd::extensions::discrete_mut_model & m,
+				const KTfwd::extensions::discrete_rec_model & recmap,
+				const char * fitness)
+  {  
+    const unsigned simlen = Nvector_A_len;
+    const double mu_tot = neutral + selected;
+    
+    std::function<double(void)> recpos = std::bind(&KTfwd::extensions::discrete_rec_model::operator(),&recmap,rng);
+    
+    //The fitness model
+    std::function<double(const fwdpy::singlepop_t::dipvector_t::iterator &)> dipfit = std::bind(KTfwd::multiplicative_diploid(),std::placeholders::_1,2.);
+    if( std::string(fitness) == "additive" )
+      {
+     	dipfit = std::bind(KTfwd::additive_diploid(),std::placeholders::_1,2.);
+      }
+    
+    //vector of fitness models
+    std::vector<decltype(dipfit)> fmodels({dipfit,dipfit});
+
+    //FIX later
+    const double migrate = 0.;
+    
+    //Finally, we can evolve this thing
+    for( unsigned g = 0 ; g < simlen ; ++g, ++mpop->generation )
+      {
+	std::vector<unsigned> Ns({unsigned(Nvector_A[g]),unsigned(Nvector_A[g])}),
+	  Ns_next({unsigned(Nvector_A[g]),unsigned(Nvector_A[g])});
+	unsigned N = std::accumulate(Ns.begin(),Ns.end(),0u);
+	std::vector<double> wbars = sample_diploid(rng,
+						   &mpop->gametes,
+						   &mpop->diploids,
+						   &mpop->mutations,
+						   &Ns[0],
+						   &Ns_next[0],
+						   mu_tot,
+						   std::bind(&KTfwd::extensions::discrete_mut_model::make_mut<decltype(mpop->mut_lookup)>,&m,rng,neutral,selected,mpop->generation,&mpop->mut_lookup),
+						   std::bind(KTfwd::genetics101(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,
+							     std::ref(mpop->neutral),std::ref(mpop->selected),
+							     &mpop->gametes,
+							     recrate,
+							     rng,
+							     recpos),
+						   std::bind(KTfwd::insert_at_end<metapop_t::mutation_t,metapop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
+						   std::bind(KTfwd::insert_at_end<metapop_t::gamete_t,metapop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
+						   fmodels,
+						   //4*N b/c it needs to be fixed in the metapopulation
+						   std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,4*N),
+						   std::bind(migpop,std::placeholders::_1,rng,migrate),
+						   &fs[0]);
+	//4*N b/c it needs to be fixed in the metapopulation
+	KTfwd::remove_fixed_lost(&mpop->mutations,&mpop->fixations,&mpop->fixation_times,&mpop->mut_lookup,mpop->generation,4*N);
+      }
+  }
 }
 
