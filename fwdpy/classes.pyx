@@ -1,6 +1,12 @@
 ##Create the python classes
 
-cdef class singlepop:
+cdef class poptype(object):
+    """
+    Empty base class for a population object.
+    """
+    pass
+
+cdef class singlepop(poptype):
     """
     Object representing data structures for single-deme simulations.
 
@@ -70,7 +76,7 @@ cdef class popvec:
         """
         return self.pops.size()
 
-cdef class metapop:
+cdef class metapop(poptype):
     """
     Object representing data structures for single-deme simulations.
 
