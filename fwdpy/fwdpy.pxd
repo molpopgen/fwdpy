@@ -16,6 +16,11 @@ cdef extern from "types.hpp" namespace "fwdpy":
         unsigned gen()
         unsigned popsize()
         int sane()
+    cdef cppclass metapop_t:
+        metapop_t(vector[unsigned])
+        unsigned generation
+        vector[unsigned] Ns
+        int sane()
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
 

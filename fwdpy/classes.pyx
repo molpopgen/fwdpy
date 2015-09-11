@@ -69,6 +69,64 @@ cdef class popvec:
         """
         return self.pops.size()
 
+cdef class metapop:
+    """
+    Object representing data structures for single-deme simulations.
+
+    Users are not expected to construct these on their own.  Rather,
+    they should be working with :class:`mpopvec`.  This type exists as
+    the output of iterating through a :class:`mpopvec`.
+    """
+    cdef shared_ptr[metapop_t] pop
+    def __del__(self):
+       self.pop.reset()
+    def gen(self):
+        """
+        Returns the generation that the population is currently evolved to
+        """
+        return self.pop.get().generation
+    def popsizes(self):
+        """
+        Returns the size of the population
+        """
+        return self.pop.get().Ns
+    def sane(self):
+        """
+        Makes sure that the population is in a sane state.
+
+        Internally, this checks that pop.N == pop.diploids.size(),
+        which it should be if the C++ code behind this all is properly updating
+        the data structures!
+
+        """
+        return self.pop.get().sane()
+    
+cdef class mpopvec:
+    """
+    Vector of metapopulation objects
+    """
+    cdef vector[shared_ptr[metapop_t]] pops
+    pypops = list()
+    def __cinit__(self,unsigned npops,list Ns):
+        for i in range(npops):
+            self.pops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
+            pi = metapop()
+            pi.pop = self.pops[i]
+            self.pypops.append(pi)
+    def __iter__(self):
+        return iter(self.pypops)
+    def __next__(self):
+        return next(self.pypops)
+    def __getitem__(self, int i):
+        return self.pypops[i]
+    def __len__(self):
+        return self.pops.size()
+    def size(self):
+        """
+        Returns number of populations (size of underlying C++ vector)
+        """
+        return self.pops.size()
+    
 cdef class GSLrng:
     """
     A wrapper around a random number generator (rng) 

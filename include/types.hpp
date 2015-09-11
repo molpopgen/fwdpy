@@ -88,8 +88,24 @@ namespace fwdpy {
     using base = KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut>,
 					   diploid_t,diploid_writer,diploid_reader>;
     unsigned generation;
-    metapop_t( std::initializer_list<unsigned> Ns ) : base(Ns), generation(0)
+    metapop_t( const std::vector<unsigned> &Ns ) : base(&Ns[0],Ns.size()), generation(0)
     {
+    }
+    unsigned gen() const
+    {
+      return generation;
+    }
+    std::vector<unsigned> popsizes() const
+    {
+      return Ns;
+    }
+    int sane() const
+    {
+      for(unsigned i=0;i<diploids.size();++i)
+	{
+	  if(diploids[i].size()!=Ns[i]) return 0;
+	}
+      return 1;
     }
   };
   
