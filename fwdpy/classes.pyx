@@ -115,6 +115,9 @@ cdef class mpopvec:
         :param npops: Number of metapopulations
         :param Ns: A list of population sizes.  The length of this list is the number of demes in each metapopulation
         """
+        for i in range(Ns);
+            if Ns[i] < 0:
+                raise ValueError("mpopvec: deme size < 0 encountered")
         for i in range(npops):
             self.pops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
             pi = metapop()
