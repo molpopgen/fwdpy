@@ -14,6 +14,7 @@ Contents:
    README
    docs/notes
    docs/rusers
+   docs/popsizes
    docs/regions
    
 Functions and classes
@@ -21,12 +22,10 @@ Functions and classes
 
 .. automodule:: fwdpy.fwdpy
    :members:
-   :undoc-members:
    :show-inheritance:
 
-.. automodule:: fwdpy
+.. automodule:: fwdpy.internal.internal
    :members:
-   :undoc-members:
    :show-inheritance:
 
 Indices and tables
