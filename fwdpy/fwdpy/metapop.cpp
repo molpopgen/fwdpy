@@ -14,9 +14,9 @@ namespace fwdpy {
   }
 
   void re_init_mpop( metapop_t * mpop,
-		     const singlepop_t & pop)
+		     const singlepop_t * pop)
   {
-    singlepop_t spop(pop);
+    singlepop_t spop(*pop);
     mpop->diploids.clear();
     mpop->gametes.clear();
       

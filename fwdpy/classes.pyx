@@ -78,19 +78,19 @@ cdef class metapop:
     they should be working with :class:`mpopvec`.  This type exists as
     the output of iterating through a :class:`mpopvec`.
     """
-    cdef shared_ptr[metapop_t] pop
+    cdef shared_ptr[metapop_t] mpop
     def __del__(self):
-       self.pop.reset()
+       self.mpop.reset()
     def gen(self):
         """
         Returns the generation that the population is currently evolved to
         """
-        return self.pop.get().generation
+        return self.mpop.get().generation
     def popsizes(self):
         """
         Returns the size of the population
         """
-        return self.pop.get().Ns
+        return self.mpop.get().Ns
     def sane(self):
         """
         Makes sure that the population is in a sane state.
@@ -100,42 +100,42 @@ cdef class metapop:
         the data structures!
 
         """
-        return self.pop.get().sane()
+        return self.mpop.get().sane()
     
 cdef class mpopvec:
     """
     Vector of metapopulation objects
     """
-    cdef vector[shared_ptr[metapop_t]] pops
-    pypops = list()
-    def __cinit__(self,unsigned npops,list Ns):
+    cdef vector[shared_ptr[metapop_t]] mpops
+    pympops = list()
+    def __cinit__(self,unsigned nmpops,list Ns):
         """
         Constructor:
 
-        :param npops: Number of metapopulations
+        :param nmpops: Number of metapopulations
         :param Ns: A list of population sizes.  The length of this list is the number of demes in each metapopulation
         """
         for i in range(len(Ns)):
             if Ns[i] < 0:
                 raise ValueError("mpopvec: deme size < 0 encountered")
-        for i in range(npops):
-            self.pops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
+        for i in range(nmpops):
+            self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
             pi = metapop()
-            pi.pop = self.pops[i]
-            self.pypops.append(pi)
+            pi.mpop = self.mpops[i]
+            self.pympops.append(pi)
     def __iter__(self):
-        return iter(self.pypops)
+        return iter(self.pympops)
     def __next__(self):
-        return next(self.pypops)
+        return next(self.pympops)
     def __getitem__(self, int i):
-        return self.pypops[i]
+        return self.pympops[i]
     def __len__(self):
-        return self.pops.size()
+        return self.mpops.size()
     def size(self):
         """
         Returns number of populations (size of underlying C++ vector)
         """
-        return self.pops.size()
+        return self.mpops.size()
     
 cdef class GSLrng:
     """

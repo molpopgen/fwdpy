@@ -127,3 +127,54 @@ def evolve_regions_more(GSLrng rng,
     evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
                     fitness)
+
+def evolve_regions_split(GSLrng rng,
+                            popvec pops,
+                            unsigned[:] nlist1,
+                            unsigned[:] nlist2,
+                            double mu_neutral,
+                            double mu_selected,
+                            double recrate,
+                            list nregions,
+                            list sregions,
+                            list recregions,
+                            double f = 0,
+                            const char * fitness = "multiplicative"):
+    """
+    Take the output of a single-deme simulation, split into two demes, and evolve.
+    
+    Example:
+
+    >>> #The first part is the same as the example for fwdpy.evolve_regions
+    >>> import fwdpy
+    >>> import numpy as np
+    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
+    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
+    >>> rregions = [fwdpy.Region(0,3,1)]
+    >>> rng = fwdpy.GSLrng(100)
+    >>> popsizes = np.array([1000],dtype=np.uint32)
+    >>> # Evolve for 5N generations initially
+    >>> popsizes=np.tile(popsizes,10000)
+    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
+    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions)
+    """
+    mpv = mpopvec(0,[0])
+    for i in range(len(pops)):
+        #Step 1: Make the ith single pop the first deme in each metapop
+        mpv.mpops.push_back(shared_ptr[metapop_t](new metapop_t([0])))
+        re_init_mpop(mpv.mpops[i].get(),pops.pops[0].get())
+        #Step 2: copy the first deme into a second deme
+        copy_deme(mpv.mpops[i].get(),0,0)
+        #Step 3: make the python list have another shared_ptr to the metapop
+        tt = metapop()
+        tt.mpop = mpv.mpops[i]
+        mpv.pympops.append(tt)
+        
+    nreg = internal.process_regions(nregions)
+    sreg = internal.process_regions(sregions)
+    recreg = internal.process_regions(recregions)
+    v = shwrappervec()
+    internal.process_sregion_callbacks(v,sregions)
+    
+    return mpv
