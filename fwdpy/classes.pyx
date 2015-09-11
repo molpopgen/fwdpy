@@ -11,9 +11,9 @@ cdef class singlepop:
     cdef shared_ptr[singlepop_t] pop
     def __del__(self):
        self.pop.reset()
-    def popsize(self):
-       cdef singlepop_t * pp = self.pop.get()
-       return pp.popsize()
+    # def popsize(self):
+    #    cdef singlepop_t * pp = self.pop.get()
+    #    return pp.popsize()
     def gen(self):
         """
         Returns the generation that the population is currently evolved to
