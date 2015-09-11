@@ -42,6 +42,19 @@ namespace fwdpy {
     return rv;
   }
 
+  std::pair<std::vector<std::pair<double,std::string> >,
+			std::vector<std::pair<double,std::string> > >
+  take_sample_from_pop_sep(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
+  {
+    auto rv = KTfwd::ms_sample_separate(rng->get(),&(pop->diploids),nsam,remove_fixed);
+    if(! remove_fixed)
+      {
+	add_fixations(&rv.first,pop->fixations,nsam,treat_neutral::NEUTRAL);
+	add_fixations(&rv.second,pop->fixations,nsam,treat_neutral::SELECTED);
+      }
+    return rv;
+  }
+
   std::pair< std::vector<std::pair<double,std::string > >,
 	     std::vector<std::pair<double,std::string> > >
   sample_specific_diploids(const singlepop_t * pop, const std::vector<unsigned> & indlist, const int remove_fixed)
