@@ -33,7 +33,7 @@ fwdpy is a C++11-based package for running forward simulations in Python
 
 extensions = [
     Extension("fwdpy.fwdpy",
-        sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/fwdpy/*.cpp"), # the Cython source and additional C++ source files
+        sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
         language="c++",                        # generate and compile C++ code
         include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
         extra_compile_args=["-std=c++11"],  
