@@ -43,7 +43,7 @@ namespace fwdpy {
   }
 
   std::pair<std::vector<std::pair<double,std::string> >,
-			std::vector<std::pair<double,std::string> > >
+	    std::vector<std::pair<double,std::string> > >
   take_sample_from_pop_sep(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
   {
     auto rv = KTfwd::ms_sample_separate(rng->get(),&(pop->diploids),nsam,remove_fixed);
@@ -114,12 +114,12 @@ namespace fwdpy {
       });
   }
   
-void get_sh( const std::vector<std::pair<double,std::string> > & samples,
-	     const singlepop_t * pop,
-	     std::vector<double> * s,
-	     std::vector<double> * h,
-	     std::vector<double> * p,
-	     std::vector<double> * a)
+  void get_sh( const std::vector<std::pair<double,std::string> > & samples,
+	       const singlepop_t * pop,
+	       std::vector<double> * s,
+	       std::vector<double> * h,
+	       std::vector<double> * p,
+	       std::vector<double> * a)
   {
     get_sh_details(samples,
 		   pop->mutations,
@@ -127,4 +127,24 @@ void get_sh( const std::vector<std::pair<double,std::string> > & samples,
 		   pop->generation,
 		   s,h,p,a);
   }
+
+  void get_sh( const std::vector<std::pair<double,std::string> > & samples,
+	       const metapop_t * pop,
+	       std::vector<double> * s,
+	       std::vector<double> * h,
+	       std::vector<double> * p,
+	       std::vector<double> * a)
+  {
+    unsigned ttlN=0;
+    for(auto itr = pop->diploids.begin();itr!=pop->diploids.end();++itr)
+      {
+	ttlN+=itr->size();
+      }
+    get_sh_details(samples,
+		   pop->mutations,
+		   ttlN,
+		   pop->generation,
+		   s,h,p,a);
+  }
 }
+
