@@ -79,16 +79,16 @@ def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrat
             weight=elements[t[0]][key]/ttlweights[t[0]]
             if mt[1] == 'f':
                 if mt[2] == 0.:  #is a neutral mutation
-                    mun = mun + mutrate*weight*(eend-ebeg+1.)
+                    mun = mun + mutrate*weight*(eend-ebeg)
                     nregions.append(fwdpy.Region(ebeg,eend,mutrate*weight))
                 else:
-                    mus = mus + mutrate*weight*(eend-ebeg+1.)
+                    mus = mus + mutrate*weight*(eend-ebeg)
                     sregions.append(fwdpy.ConstantS(ebeg,eend,mutrate*weight,mt[2],mt[0]))
             elif mt[1] == 'e':
-                mus = mus + mutrate*weight*(eend-ebeg+1.)
+                mus = mus + mutrate*weight*(eend-ebeg)
                 sregions.append(fwdpy.ExpS(ebeg,eend,mutrate*weight,mt[2],mt[0]))
             elif mt[1] == 'g':
-                mus = mus + mutrate*weight*(eend-ebeg+1.)
+                mus = mus + mutrate*weight*(eend-ebeg)
                 sregions.append(fwdpy.GammaS(ebeg,eend,mutrate*weight,mt[2],mt[3],mt[0]))
             else:
                 raise RuntimeError("invalid DFE encountered")
