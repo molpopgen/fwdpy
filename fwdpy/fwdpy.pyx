@@ -12,6 +12,7 @@ include "evolve_simple.pyx"
 include "sampling.pyx"
 include "evolve_regions.pyx"
 include "regions.pyx"
+include "slim.pyx"
 
 def pkg_dependencies():
     """
