@@ -12,6 +12,22 @@ def ms_sample_metapop_sep(GSLrng rng, metapop pop, list nsam, bint removeFixed):
         rv[i]=temp[i]
     return rv
 
+cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
+                    singlepop pop,
+                    vector[double] * s,
+                    vector[double] * h,
+                    vector[double] * p,
+                    vector[double] * a):
+    get_sh(ms_sample,pop.pop.get(),s,h,p,a)
+
+cdef get_sh_metapop(const vector[pair[double,string] ] & ms_sample,
+                    metapop pop,
+                    vector[double] * s,
+                    vector[double] * h,
+                    vector[double] * p,
+                    vector[double] * a):
+    get_sh(ms_sample,pop.mpop.get(),s,h,p,a)  
+
 def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     """
     Take a sample from a set of simulated populations.
@@ -60,12 +76,12 @@ def get_samples(GSLrng rng, poptype pop, list nsam, bint removeFixed = True):
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop ):
+def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
     """
     Get additional details for population samples
 
     :param ms_samples: A list returned by :func:`ms_sample`
-    :param pops: A :class:`popvec` containing simulated populations
+    :param pops: A :class:`poptype`
 
     :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.
 
@@ -83,7 +99,10 @@ def get_sample_details( vector[pair[double,string]] ms_sample, singlepop pop ):
     cdef vector[double] s
     cdef vector[double] p
     cdef vector[double] a
-    get_sh(ms_sample,pop.pop.get(),&s,&h,&p,&a)
+    if isinstance(pop,singlepop):
+        get_sh_single(ms_sample,pop,&s,&h,&p,&a)
+    elif isinstance(pop,metapop):
+        get_sh_metapop(ms_sample,pop,&s,&h,&p,&a)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
 
 def TajimasD( vector[pair[double,string]] data ):
