@@ -77,19 +77,23 @@ def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrat
         for key in elements[t[0]]:
             mt = mtypes[key]
             weight=elements[t[0]][key]/ttlweights[t[0]]
+            ##In this block, we halve s or mean s,
+            ##and double h, to convert from SLiM's
+            ##fitness model of 1,1+hs,1+s to the
+            ##1,1+sh,1+2s used here.
             if mt[1] == 'f':
                 if mt[2] == 0.:  #is a neutral mutation
                     mun = mun + mutrate*weight*(eend-ebeg)
                     nregions.append(fwdpy.Region(ebeg,eend,mutrate*weight))
                 else:
                     mus = mus + mutrate*weight*(eend-ebeg)
-                    sregions.append(fwdpy.ConstantS(ebeg,eend,mutrate*weight,mt[2],mt[0]))
+                    sregions.append(fwdpy.ConstantS(ebeg,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
             elif mt[1] == 'e':
                 mus = mus + mutrate*weight*(eend-ebeg)
-                sregions.append(fwdpy.ExpS(ebeg,eend,mutrate*weight,mt[2],mt[0]))
+                sregions.append(fwdpy.ExpS(ebeg,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
             elif mt[1] == 'g':
                 mus = mus + mutrate*weight*(eend-ebeg)
-                sregions.append(fwdpy.GammaS(ebeg,eend,mutrate*weight,mt[2],mt[3],mt[0]))
+                sregions.append(fwdpy.GammaS(ebeg,eend,mutrate*weight,0.2*mt[2],mt[3],2*mt[0]))
             else:
                 raise RuntimeError("invalid DFE encountered")
     return {'nregions':nregions,'sregions':sregions,'mu_neutral':mun,'mu_selected':mus}
