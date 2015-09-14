@@ -53,6 +53,11 @@ class Region(object):
         self.e=float(end)
         self.w=float(weight)
         self.c=coupled
+    def __str__(self):
+        bstr="{:.9f}".format(self.b)
+        estr="{:.9f}".format(self.e)
+        wstr="{:.9f}".format(self.w)
+        return "beg = " +bstr+ ", end = " + estr+ ", weight = "+wstr
         
 class Sregion(Region):
     """
