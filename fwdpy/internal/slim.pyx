@@ -83,17 +83,17 @@ def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrat
             ##1,1+sh,1+2s used here.
             if mt[1] == 'f':
                 if mt[2] == 0.:  #is a neutral mutation
-                    mun = mun + mutrate*weight*(eend-ebeg)
-                    nregions.append(fwdpy.Region(ebeg,eend,mutrate*weight))
+                    mun = mun + mutrate*weight*(eend-(ebeg-1.))
+                    nregions.append(fwdpy.Region(ebeg-1.,eend,mutrate*weight))
                 else:
-                    mus = mus + mutrate*weight*(eend-ebeg)
-                    sregions.append(fwdpy.ConstantS(ebeg,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
+                    mus = mus + mutrate*weight*(eend-(ebeg-1.))
+                    sregions.append(fwdpy.ConstantS(ebeg-1.,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
             elif mt[1] == 'e':
-                mus = mus + mutrate*weight*(eend-ebeg)
-                sregions.append(fwdpy.ExpS(ebeg,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
+                mus = mus + mutrate*weight*(eend-(ebeg-1.))
+                sregions.append(fwdpy.ExpS(ebeg-1.,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
             elif mt[1] == 'g':
-                mus = mus + mutrate*weight*(eend-ebeg)
-                sregions.append(fwdpy.GammaS(ebeg,eend,mutrate*weight,0.2*mt[2],mt[3],2*mt[0]))
+                mus = mus + mutrate*weight*(eend-(ebeg-1.))
+                sregions.append(fwdpy.GammaS(ebeg-1.,eend,mutrate*weight,0.5*mt[2],mt[3],2*mt[0]))
             else:
                 raise RuntimeError("invalid DFE encountered")
     return {'nregions':nregions,'sregions':sregions,'mu_neutral':mun,'mu_selected':mus}
@@ -107,14 +107,15 @@ def parse_slim_recrates(list lines):
 
     regions = []
     recrate = 0.
-    laststart=float(1.0)
+    laststart=float(0.0)
     for i in lines[start+1:start+1+end]:
         t=i.split()
         stop = float(t[0])
         weight=float(t[1])
         if weight > 0.:
+            ##NEED TO DOCUMENT THE + 1
             regions.append(fwdpy.Region(laststart,stop,weight))
-            recrate = recrate + weight*(stop-laststart+1.)
-            laststart=float(stop)
+            recrate = recrate + weight*(stop-laststart)
+        laststart=float(stop)
 
     return {'recrate':recrate,'recregions':regions}
