@@ -83,6 +83,12 @@
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#how-to-set-up-a-model">How to set up a model</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docs/slim.html">Processing SLiM input files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/slim.html#differences-between-slim-and-fwdpy">Differences between SLiM and fwdpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/slim.html#a-word-of-caution">A word of caution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/slim.html#limitations">Limitations</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="module-fwdpy.fwdpy">
@@ -613,7 +619,7 @@ from the GNU Scientific Library (GSL).</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>ms_samples</strong> &#8211; A list returned by <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">ms_sample()</span></tt></a></li>
-<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">popvec</span></tt></a> containing simulated populations</li>
+<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">poptype</span></tt></a></li>
 </ul>
 </td>
 </tr>
@@ -801,6 +807,43 @@ Python way.</p>
 <dd><p>Returns number of populations (size of underlying C++ vector)</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.readslim">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">readslim</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.readslim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process a &#8220;SLiM&#8221; input file.</p>
+<p>This function parses the input files for Phillip Messer&#8217;s &#8220;SLiM&#8221; software (<a class="reference external" href="http://messerlab.org/software/">http://messerlab.org/software/</a>).</p>
+<p>Thus function only parses the following blocks in a file:
+1. MUTATION RATE
+2. MUTATION TYPES
+3. RECOMBINATION RATE
+4. GENOMIC ELEMENTS
+5. CHROMOSOME ORGANIZATION</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; An input file for the SLiM simulation software</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dict containing the following data members:</td>
+</tr>
+</tbody>
+</table>
+<p>&#8216;nregions&#8217; A list of type <a class="reference internal" href="#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></tt></a>.  This list represents regions where neutral muations occur.</p>
+<p>&#8216;sregions&#8217; A list of types inheriting from <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a>.  This list represents regions where mutations affecting fitness occur.</p>
+<p>&#8216;recregion&#8217; A list of type :class:&#8217;fwdpy.fwdpy.Region` representing recombination rate variation</p>
+<p>&#8216;mu_neutral&#8217; is the total mutation rate to neutral variants (per gamete, per generation).</p>
+<p>&#8216;mu_selected&#8217; is the total mutation rate to selected variants (per gamete, per generation).</p>
+<p>&#8216;recrate&#8217; is the total recombination rate (per diploid, per generation).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A dictionary containing the parsing results.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
