@@ -4,13 +4,8 @@ def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed)
 def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
     return take_sample_from_pop_sep(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
 
-#This returns a dict
-def ms_sample_metapop_sep(GSLrng rng, metapop pop, list nsam, bint removeFixed):
-    temp = take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed))
-    rv = {}
-    for i in range(len(temp)):
-        rv[i]=temp[i]
-    return rv
+def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme):
+    return take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed), deme)
 
 cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     singlepop pop,
@@ -51,7 +46,7 @@ def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_samples(GSLrng rng, poptype pop, list nsam, bint removeFixed = True):
+def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):
     """
     Take a sample from a set of simulated populations.
 
@@ -67,12 +62,14 @@ def get_samples(GSLrng rng, poptype pop, list nsam, bint removeFixed = True):
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
-    >>> s = [fwdpy.get_samples(rng,i,[10,]) for i in pop]
+    >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
     """
     if isinstance(pop,singlepop):
-        return ms_sample_single_deme_sep(rng,pop,nsam[0],removeFixed)
+        return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
     elif isinstance(pop,metapop):
-        return ms_sample_metapop_sep(rng,pop,nsam,removeFixed)
+        if deme is None:
+            raise RuntimeError("deme may not be set to None when sampling from a meta-population")
+        return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 

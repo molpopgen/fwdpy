@@ -31,7 +31,7 @@ cdef extern from "neutral.hpp" namespace "fwdpy":
 cdef extern from "sample.hpp" namespace "fwdpy":
     vector[pair[double,string]] take_sample_from_pop(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
     pair[vector[pair[double,string]],vector[pair[double,string]]] take_sample_from_pop_sep(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
-    vector[pair[vector[pair[double,string]],vector[pair[double,string]]]] take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const vector[unsigned] & nsam, const int remove_fixed)
+    pair[vector[pair[double,string]],vector[pair[double,string]]] take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
     pair[vector[pair[double,string]],vector[pair[double,string]]] sample_specific_diploids(const singlepop_t * pop, const vector[unsigned] & indlist, const int remove_fixed)
     double tajd( const vector[pair[double,string]] & __data )
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)

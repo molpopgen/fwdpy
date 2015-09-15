@@ -4,7 +4,7 @@
 #include <Sequence/PolySIM.hpp>
 #include <fwdpp/diploid.hh>
 #include <algorithm>
-
+#include <iostream>
 namespace {
   enum class treat_neutral {ALL,NEUTRAL,SELECTED};
   void add_fixations( std::vector<std::pair<double,std::string>> * sample,
@@ -55,23 +55,18 @@ namespace fwdpy {
     return rv;
   }
 
-  std::vector<std::pair<std::vector<std::pair<double,std::string> >,
-			std::vector<std::pair<double,std::string> > > >
-  take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const std::vector<unsigned> & nsam, const int remove_fixed)
+  std::pair<std::vector<std::pair<double,std::string> >,
+	    std::vector<std::pair<double,std::string> > >
+  take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
   {
-    std::vector<std::pair<std::vector<std::pair<double,std::string> >,
-			  std::vector<std::pair<double,std::string> > > > rv;
-    for(unsigned i = 0 ; i < nsam.size() ; ++i )
+    std::cerr << mpop->diploids[deme].size() << ' ' << mpop->mutations.size() << '\n';
+    auto temp = KTfwd::ms_sample_separate(rng->get(),&(mpop->diploids[deme]),nsam,remove_fixed);
+    if(! remove_fixed)
       {
-	auto temp = KTfwd::ms_sample_separate(rng->get(),&(mpop->diploids[i]),nsam[i],remove_fixed);
-	if(! remove_fixed)
-	  {
-	    add_fixations(&temp.first,mpop->fixations,nsam[i],treat_neutral::NEUTRAL);
-	    add_fixations(&temp.second,mpop->fixations,nsam[i],treat_neutral::SELECTED);
-	  }
-	rv.emplace_back(std::move(temp));
+	add_fixations(&temp.first,mpop->fixations,nsam,treat_neutral::NEUTRAL);
+	add_fixations(&temp.second,mpop->fixations,nsam,treat_neutral::SELECTED);
       }
-    return rv;
+    return temp;
   }
 
   std::pair< std::vector<std::pair<double,std::string > >,
