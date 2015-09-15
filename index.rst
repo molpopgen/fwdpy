@@ -16,6 +16,7 @@ Contents:
    docs/rusers
    docs/popsizes
    docs/regions
+   docs/slim
    
 Functions and classes
 ##########################################

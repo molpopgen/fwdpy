@@ -53,6 +53,11 @@ class Region(object):
         self.e=float(end)
         self.w=float(weight)
         self.c=coupled
+    def __str__(self):
+        bstr="{:.9f}".format(self.b)
+        estr="{:.9f}".format(self.e)
+        wstr="{:.9f}".format(self.w)
+        return "beg = " +bstr+ ", end = " + estr+ ", weight = "+wstr
         
 class Sregion(Region):
     """
@@ -100,6 +105,8 @@ class Sregion(Region):
             raise ValueError("fwdpy.Segion: h not a number")
         self.h=float(h)
         super(Sregion,self).__init__(beg,end,weight,coupled)
+    def __str__(self):
+        return "h = "+"{:.9f}".format(self.h)+", "+super(Sregion,self).__str__()
         
 class GammaS(Sregion):
     """
@@ -152,6 +159,8 @@ class GammaS(Sregion):
         self.mean=float(mean)
         self.shape=float(shape)
         super(GammaS,self).__init__(beg,end,weight,h,coupled)
+    def __str__(self):
+        return "Gamma DFE, mean = "+"{:.9f}".format(self.mean)+", shape = "+"{:.9f}".format(self.shape)+", "+super(GammaS,self).__str__()
         
 class ConstantS(Sregion):
     """
@@ -197,6 +206,8 @@ class ConstantS(Sregion):
             raise ValueError("fwdpy.ConstantS: s not a number")
         self.s=float(s)
         super(ConstantS,self).__init__(beg,end,weight,h,coupled)
+    def __str__(self):
+        return "Constant s DFE, s = "+"{:.9f}".format(self.s)+", "+super(ConstantS,self).__str__()
 
 class UniformS(Sregion):
     """
@@ -250,6 +261,8 @@ class UniformS(Sregion):
         self.lo=float(lo)
         self.hi=float(hi)
         super(UniformS,self).__init__(beg,end,weight,h,coupled)
+    def __str__(self):
+        return "Uniform s DFE, lo = "+"{:.9f}".format(self.lo)+", hi = "+"{:.9f}".format(self.hi)+", "+super(UniformS,self).__str__()
 
 class ExpS(Sregion):
     """
@@ -295,6 +308,8 @@ class ExpS(Sregion):
             raise ValueError("fwdpy.ExpS: mean not a number")
         self.mean=float(mean)
         super(ExpS,self).__init__(beg,end,weight,h,coupled)
+    def __str__(self):
+        return "Exponential DFE, mean = "+"{:.9f}".format(self.mean)+", "+super(ExpS,self).__str__()
 
 class GaussianS(Sregion):
     """
@@ -342,3 +357,5 @@ class GaussianS(Sregion):
             raise ValueError("fwdpy.GaussianS: sd not a number")
         self.sd=float(sd)
         super(GaussianS,self).__init__(beg,end,weight,h,coupled)
+    def __str__(self):
+        return "Gaussian DFE, s.d. = "+"{:.9f}".format(self.sd)+", "+super(GaussianS,self).__str__()
