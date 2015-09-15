@@ -107,6 +107,10 @@ namespace fwdpy {
 	}
       return 1;
     }
+    int size() const
+    {
+      return diploids.size();
+    }
   };
   
 }

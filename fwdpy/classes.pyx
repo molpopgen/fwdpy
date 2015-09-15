@@ -96,6 +96,8 @@ cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
     def __del__(self):
        self.mpop.reset()
+    def __len__(self):
+        return self.mpop.get().size()
     def gen(self):
         """
         Returns the generation that the population is currently evolved to

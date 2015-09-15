@@ -21,6 +21,7 @@ cdef extern from "types.hpp" namespace "fwdpy":
         unsigned generation
         vector[unsigned] Ns
         int sane()
+        int size()
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
 
