@@ -128,7 +128,14 @@ OS X users are recommended to use brew_ to install the various dependencies:
 
 For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
 
-The required Python package dependencies are in the requirements.txt file that comes with the source.  
+The required Python package dependencies are in the requirements.txt file that comes with the source.
+
+What Python version?
+=================
+
+I'm developing the package using Python 2.7.6 on an Ubuntu machine.  To the best of my knowledge, the code should be compatible with Python 3.4.0 as well.
+
+However, Cython generates unusual module names for the compiled code under Python 3.4.0, which breaks the package.  I'm looking into it, but Python 3 support may be held up for some time.
 
 Installation
 ==============

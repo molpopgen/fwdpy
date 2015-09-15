@@ -166,6 +166,11 @@
 <p>For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.</p>
 <p>The required Python package dependencies are in the requirements.txt file that comes with the source.</p>
 </div>
+<div class="section" id="what-python-version">
+<h2>What Python version?<a class="headerlink" href="#what-python-version" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;m developing the package using Python 2.7.6 on an Ubuntu machine.  To the best of my knowledge, the code should be compatible with Python 3.4.0 as well.</p>
+<p>However, Cython generates unusual module names for the compiled code under Python 3.4.0, which breaks the package.  I&#8217;m looking into it, but Python 3 support may be held up for some time.</p>
+</div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>First, install the dependencies (see above).</p>
@@ -236,6 +241,7 @@
 <li><a class="reference internal" href="#example">Example</a></li>
 <li><a class="reference internal" href="#availability">Availability</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li><a class="reference internal" href="#what-python-version">What Python version?</a></li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
 <li><a class="reference internal" href="#rough-guide-to-installation-on-uci-hpc">Rough guide to installation on UCI HPC</a></li>
 <li><a class="reference internal" href="#troubleshooting-the-installation">Troubleshooting the installation</a><ul>
