@@ -1,18 +1,20 @@
 import fwdpy
 
 ## These functions are intentionally undocumented
+def get_next_block_starts(list lines, int start):
+    nbloc = [i for i,j in enumerate(lines[start+1:]) if j[0]=='#']
+    end = len(lines)
+    if len(nbloc):
+        end=nbloc[0]
+    return end
 
 def parse_slim_mutrate(list lines):
     start = lines.index("#MUTATION RATE")
     return float(lines[start+1])
         
 def parse_slim_muttypes(list lines):
-
     start = lines.index("#MUTATION TYPES")
-    nbloc = [i for i,j in enumerate(lines[start+1:]) if j[0]=='#']
-    end = len(lines)
-    if len(nbloc):
-        end=nbloc[0]
+    end = get_next_block_starts(lines,start)
 
     mtypes = {}
     for i in lines[start+1:start+1+end]:
@@ -38,11 +40,7 @@ def parse_slim_muttypes(list lines):
 
 def parse_slim_elements(list lines):
     start = lines.index("#GENOMIC ELEMENT TYPES")
-    nbloc = [i for i,j in enumerate(lines[start+1:]) if j[0]=='#']
-    end = len(lines)
-    if len(nbloc):
-        end=nbloc[0]
-
+    end = get_next_block_starts(lines,start)
     gtypes = {}
     for i in lines[start+1:start+1+end]:
         t=i.split()
@@ -55,12 +53,8 @@ def parse_slim_elements(list lines):
 
 def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrate):
     start = lines.index("#CHROMOSOME ORGANIZATION")
-    nbloc = [i for i,j in enumerate(lines[start+1:]) if j[0]=='#']
-    end = len(lines)
-    if len(nbloc):
-        end=nbloc[0]
-
-    #need to get sum of all weights
+    end = get_next_block_starts(lines,start)
+    #need to get sum of all weights per mutation type
     ttlweights = {}
     for key1 in elements:
         ttlweights[key1]=0.
@@ -83,16 +77,16 @@ def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrat
             ##1,1+sh,1+2s used here.
             if mt[1] == 'f':
                 if mt[2] == 0.:  #is a neutral mutation
-                    mun = mun + mutrate*weight*(eend-(ebeg-1.))
+                    mun = mun + mutrate*weight*(eend-ebeg+1.)
                     nregions.append(fwdpy.Region(ebeg-1.,eend,mutrate*weight))
                 else:
-                    mus = mus + mutrate*weight*(eend-(ebeg-1.))
+                    mus = mus + mutrate*weight*(eend-ebeg+1.)
                     sregions.append(fwdpy.ConstantS(ebeg-1.,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
             elif mt[1] == 'e':
-                mus = mus + mutrate*weight*(eend-(ebeg-1.))
+                mus = mus + mutrate*weight*(eend-ebeg+1.)
                 sregions.append(fwdpy.ExpS(ebeg-1.,eend,mutrate*weight,0.5*mt[2],2*mt[0]))
             elif mt[1] == 'g':
-                mus = mus + mutrate*weight*(eend-(ebeg-1.))
+                mus = mus + mutrate*weight*(eend-ebeg+1.)
                 sregions.append(fwdpy.GammaS(ebeg-1.,eend,mutrate*weight,0.5*mt[2],mt[3],2*mt[0]))
             else:
                 raise RuntimeError("invalid DFE encountered")
@@ -100,11 +94,7 @@ def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrat
 
 def parse_slim_recrates(list lines):
     start = lines.index("#RECOMBINATION RATE")
-    nbloc = [i for i,j in enumerate(lines[start+1:]) if j[0]=='#']
-    end = len(lines)
-    if len(nbloc):
-        end=nbloc[0]
-
+    end = get_next_block_starts(lines,start)
     regions = []
     recrate = 0.
     laststart=float(0.0)
