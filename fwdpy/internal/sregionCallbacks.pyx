@@ -2,11 +2,11 @@ from libcpp.vector cimport vector
 import pandas
 import fwdpy
     
-def process_regions(list l):
+def process_regions(list regions):
     """
     Process a list of objects of :class:`Region`
 
-    :param l: a list of objects of :class:`Region`
+    :param regions: a list of objects of :class:`Region`
 
     :return: a pandas.DataFrame consisting of the beginning ('beg'), end ('end') and weight ('weight') for each elememt in l
 
@@ -15,13 +15,13 @@ def process_regions(list l):
     starts=list()
     stops=list()
     weights=list()
-    for i in range(len(l)):
-        if isinstance(l[i],fwdpy.Region):
-            starts.append(l[i].b)
-            stops.append(l[i].e)
-            wTemp=l[i].w
-            if(l[i].c):
-                wTemp = wTemp*(l[i].e-l[i].b)
+    for i in range(len(regions)):
+        if isinstance(regions[i],fwdpy.Region):
+            starts.append(regions[i].b)
+            stops.append(regions[i].e)
+            wTemp=regions[i].w
+            if(regions[i].c):
+                wTemp = wTemp*(regions[i].e-regions[i].b)
             weights.append(wTemp)
         else:
             raise ValueError("invalid callback type encountered")
@@ -31,8 +31,8 @@ def process_sregion_callbacks( shwrappervec v, list sregions ):
     """
     Process a list of objects of :class:`Sregion`
 
-    :param l: a :class:`shwrappervec`
-    :param l: a list of objects of :class:`Sregion`
+    :param v: a :class:`shwrappervec`
+    :param sregions: a list of objects of :class:`Sregion`
 
     :return: Nothing. This function populations v with necessary callbacks for the C++ code to run the desired model.
 
