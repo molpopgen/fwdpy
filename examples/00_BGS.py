@@ -25,16 +25,16 @@ nlist = np.array([N]*10*N,dtype=np.uint32)
 rng = fp.GSLrng(101)
 
 #Simulate 4 replicate populations.  This uses C++11 threads behind the scenes:
-pops = fp.evolve_regions(rng,
-                         4,
-                         N,
-                         nlist[0:],
-                         0.005,
-                         0.01,
-                         0.005,
-                         nregions,
-                         sregions,
-                         recregions)
+pops = fp.evolve_regions(rng,       #The random number generator 
+                         4,         #The number of pops to simulate = number of threads to use.
+                         N,         #Initial population size for each of the 4 demes
+                         nlist[0:], #List of population sizes over time.
+                         0.005,     #Neutral mutation rate (per gamete, per generation)
+                         0.01,      #Deleterious mutation rate (per gamete, per generation)
+                         0.005,     #Recombination rate (per diploid, per generation)
+                         nregions,  #Defined above
+                         sregions,  #Defined above
+                         recregions)#Defined above
 
 #Now, pops is a Python list with len(pops) = 4
 #Each element's type is fwdpy.singlepop
