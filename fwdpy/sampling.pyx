@@ -5,6 +5,8 @@ def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFi
     return take_sample_from_pop_sep(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
 
 def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme):
+    if deme >= len(pop):
+        raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
     return take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed), deme)
 
 cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
