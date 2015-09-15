@@ -11,7 +11,10 @@ class Region(object):
         
         w: the "weight" assigned to the region
 
-    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation.
+
+    This class is extended by:
+        * :class:`fwdpy.fwdpy.Sregion`
     """
     def __init__(self,float beg,float end,float weight,coupled=True):
         """
@@ -74,7 +77,15 @@ class Sregion(Region):
 
         h: the dominance term
 
-    See :func:`evolve_regions` for how this class may be used to parameterize a simulation
+    See :func:`evolve_regions` for how this class may be used to parameterize a simulation.
+
+    This class cannot be used directly to parameterize a simulation.  Rather, you must used
+    a derived type that specifies a distribution of fitness effects.  These types include:
+        * :class:`fwdpy.fwdpy.ConstantS`
+        * :class:`fwdpy.fwdpy.UniformS`
+        * :class:`fwdpy.fwdpy.ExpS`
+        * :class:`fwdpy.fwdpy.GammaS`
+        * :class:`fwdpy.fwdpy.GaussianS`
     """
     def __init__(self,float beg,float end,float weight,float h=1.0,coupled=True):
         """
