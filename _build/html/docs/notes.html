@@ -66,6 +66,10 @@
 <h2>&#8220;Internal&#8221; modules<a class="headerlink" href="#internal-modules" title="Permalink to this headline">¶</a></h2>
 <p>Some of the modules have &#8220;internal&#8221; as part of their name.  These modules represent the inner workings of the C++ layer.  As such, <em>they are not intended to be called directly by people using this package</em>.  However, they are included in the documentation in order to provide docstring tests for the developer and to document their existence for other developers interested in extending the package.</p>
 </div>
+<div class="section" id="undocumented-functions">
+<h2>Undocumented functions<a class="headerlink" href="#undocumented-functions" title="Permalink to this headline">¶</a></h2>
+<p>Some functions are left intentionally undocumented.  Some of these are &#8216;workhorse` that recieve an object of a derived type from a function whose arguments are specified in terms of base types.  Others are tedious implementation details.  Sometimes they may be found in the same &#8216;pyx&#8217; file as functions calling them.  However, if they are in a different &#8216;pyx&#8217; file, there should be a comment as to where to find them.</p>
+</div>
 </div>
 
 
@@ -78,6 +82,7 @@
   <ul>
 <li><a class="reference internal" href="#">Notes on the documentation</a><ul>
 <li><a class="reference internal" href="#internal-modules">&#8220;Internal&#8221; modules</a></li>
+<li><a class="reference internal" href="#undocumented-functions">Undocumented functions</a></li>
 </ul>
 </li>
 </ul>

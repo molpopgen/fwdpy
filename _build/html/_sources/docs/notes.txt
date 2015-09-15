@@ -17,3 +17,8 @@ It is important to keep this in mind when reading the reference manual.  Many ob
 ----------------------------
 
 Some of the modules have "internal" as part of their name.  These modules represent the inner workings of the C++ layer.  As such, *they are not intended to be called directly by people using this package*.  However, they are included in the documentation in order to provide docstring tests for the developer and to document their existence for other developers interested in extending the package.
+
+Undocumented functions
+--------------------------------------------------------
+
+Some functions are left intentionally undocumented.  Some of these are 'workhorse` that recieve an object of a derived type from a function whose arguments are specified in terms of base types.  Others are tedious implementation details.  Sometimes they may be found in the same 'pyx' file as functions calling them.  However, if they are in a different 'pyx' file, there should be a comment as to where to find them.

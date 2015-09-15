@@ -66,6 +66,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/notes.html">Notes on the documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/notes.html#internal-modules">&#8220;Internal&#8221; modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/notes.html#undocumented-functions">Undocumented functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/rusers.html">A note for R users</a></li>
@@ -705,7 +706,7 @@ the data structures!</p>
 <dl class="class">
 <dt id="fwdpy.fwdpy.mpopvec">
 <em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">mpopvec</tt><a class="headerlink" href="#fwdpy.fwdpy.mpopvec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></tt></a></p>
 <p>Vector of metapopulation objects</p>
 <dl class="attribute">
 <dt id="fwdpy.fwdpy.mpopvec.next">
@@ -780,16 +781,25 @@ the data structures!</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="fwdpy.fwdpy.popcont">
+<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">popcont</tt><a class="headerlink" href="#fwdpy.fwdpy.popcont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Empty base class for containers of population objects.</p>
+<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></tt></a> and <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
 <dt id="fwdpy.fwdpy.poptype">
 <em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">poptype</tt><a class="headerlink" href="#fwdpy.fwdpy.poptype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Empty base class for a population object.</p>
+<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></tt></a> and <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></tt></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.popvec">
 <em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">popvec</tt><a class="headerlink" href="#fwdpy.fwdpy.popvec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></tt></a></p>
 <p>Vector of single-deme objects</p>
 <p>Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
 have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the &#8220;usual&#8221;
@@ -885,7 +895,7 @@ the data structures!</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> &#8211; a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>regions</strong> &#8211; a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a pandas.DataFrame consisting of the beginning (&#8216;beg&#8217;), end (&#8216;end&#8217;) and weight (&#8216;weight&#8217;) for each elememt in l</td>
 </tr>
@@ -903,8 +913,8 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>l</strong> &#8211; a <a class="reference internal" href="#fwdpy.internal.internal.shwrappervec" title="fwdpy.internal.internal.shwrappervec"><tt class="xref py py-class docutils literal"><span class="pre">shwrappervec</span></tt></a></li>
-<li><strong>l</strong> &#8211; a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Sregion</span></tt></li>
+<li><strong>v</strong> &#8211; a <a class="reference internal" href="#fwdpy.internal.internal.shwrappervec" title="fwdpy.internal.internal.shwrappervec"><tt class="xref py py-class docutils literal"><span class="pre">shwrappervec</span></tt></a></li>
+<li><strong>sregions</strong> &#8211; a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Sregion</span></tt></li>
 </ul>
 </td>
 </tr>
