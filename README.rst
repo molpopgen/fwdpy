@@ -131,7 +131,7 @@ For brew users, you may or may not have luck with their version of fwdpp.  That 
 The required Python package dependencies are in the requirements.txt file that comes with the source.
 
 What Python version?
-=================
+==================================
 
 I'm developing the package using Python 2.7.6 on an Ubuntu machine.  To the best of my knowledge, the code should be compatible with Python 3.4.0 as well.
 
