@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Notes on the documentation &mdash; fwdpy 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="fwdpy 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="A note for R users" href="rusers.html" />
+    <link rel="prev" title="fwdpy: forward simulation in Python using fwdpp" href="../README.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rusers.html" title="A note for R users"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../README.html" title="fwdpy: forward simulation in Python using fwdpp"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="notes-on-the-documentation">
+<h1>Notes on the documentation<a class="headerlink" href="#notes-on-the-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This package is split up into several modules.</p>
+<p>The &#8220;base&#8221; functionality is in the module fwdpy.fwdpy.  This module is automatically loaded when fwdpy is imported into the name space &#8216;fwdpy&#8217;.</p>
+<p>In other words, code like this will allow fwdpy.fwdpy.foo to be referred to as just fwdpy.foo:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">fwdpy</span>
+</pre></div>
+</div>
+<p>It is important to keep this in mind when reading the reference manual.  Many objects will be documented as fwdpy.fwdpy.something but example code will refer to fwdpy.something, which is correct.</p>
+<div class="section" id="internal-modules">
+<h2>&#8220;Internal&#8221; modules<a class="headerlink" href="#internal-modules" title="Permalink to this headline">¶</a></h2>
+<p>Some of the modules have &#8220;internal&#8221; as part of their name.  These modules represent the inner workings of the C++ layer.  As such, <em>they are not intended to be called directly by people using this package</em>.  However, they are included in the documentation in order to provide docstring tests for the developer and to document their existence for other developers interested in extending the package.</p>
+</div>
+<div class="section" id="undocumented-functions">
+<h2>Undocumented functions<a class="headerlink" href="#undocumented-functions" title="Permalink to this headline">¶</a></h2>
+<p>Some functions are left intentionally undocumented.  Some of these are &#8216;workhorse` that recieve an object of a derived type from a function whose arguments are specified in terms of base types.  Others are tedious implementation details.  Sometimes they may be found in the same &#8216;pyx&#8217; file as functions calling them.  However, if they are in a different &#8216;pyx&#8217; file, there should be a comment as to where to find them.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Notes on the documentation</a><ul>
+<li><a class="reference internal" href="#internal-modules">&#8220;Internal&#8221; modules</a></li>
+<li><a class="reference internal" href="#undocumented-functions">Undocumented functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../README.html"
+                        title="previous chapter">fwdpy: forward simulation in Python using fwdpp</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rusers.html"
+                        title="next chapter">A note for R users</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/docs/notes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rusers.html" title="A note for R users"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../README.html" title="fwdpy: forward simulation in Python using fwdpp"
+             >previous</a> |</li>
+        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
