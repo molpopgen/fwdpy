@@ -38,6 +38,8 @@ def readslim(const char * filename):
         raise IOError("fwdpy.readslim: "+filename+" does not appear to be a regular file")
     f = open(filename,'r')
     lines = f.read().splitlines()
+    ##Remove all leading and trailing whitespace, just in case the user added some in
+    lines = [i.strip() for i in lines]
     f.close()
     ##First character must be a hash
     if not lines[0][0] == '#':
