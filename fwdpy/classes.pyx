@@ -37,8 +37,13 @@ cdef class singlepop(poptype):
 
         """
         return self.pop.get().sane()
+
+cdef class popcont(object):
+    """
+    Empty base class for containers of population objects
+    """
     
-cdef class popvec:
+cdef class popvec(popcont):
     """
     Vector of single-deme objects
 
@@ -108,7 +113,7 @@ cdef class metapop(poptype):
         """
         return self.mpop.get().sane()
     
-cdef class mpopvec:
+cdef class mpopvec(popcont):
     """
     Vector of metapopulation objects
     """
