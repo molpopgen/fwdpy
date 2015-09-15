@@ -3,6 +3,8 @@
 cdef class poptype(object):
     """
     Empty base class for a population object.
+
+    Example derived types include :class:`fwdpy.fwdpy.singlepop` and :class:`fwdpy.fwdpy.metapop`
     """
     pass
 
@@ -40,7 +42,9 @@ cdef class singlepop(poptype):
 
 cdef class popcont(object):
     """
-    Empty base class for containers of population objects
+    Empty base class for containers of population objects.
+
+    Example derived types include :class:`fwdpy.fwdpy.popvec` and :class:`fwdpy.fwdpy.mpopvec`
     """
     
 cdef class popvec(popcont):
