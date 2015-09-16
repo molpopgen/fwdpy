@@ -409,11 +409,11 @@ LIBSEQVERSION=`libsequenceConfig --version`
 GSLVERSION=`gsl-config --version`
 
 dnl Check that fwdpp version is sufficient
-if test "$FWDPPVERSION" \> "0.3.6"
+if test "$FWDPPVERSION" \> "0.3.7"
 then
 	echo "fwdpp version $FWDPPVERSION detected"
 else
-	AC_MSG_ERROR([fwdpp >= 0.3.7 required, please install from http://github.com/molpopgen/fwdpp])
+	AC_MSG_ERROR([fwdpp >= 0.3.8 required, please install from http://github.com/molpopgen/fwdpp])
 fi
 
 dnl Check that libsequence version is sufficient
