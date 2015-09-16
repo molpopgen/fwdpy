@@ -12,8 +12,17 @@
 
 from distutils.core import setup, Extension
 from Cython.Build import cythonize
-import platform, glob
+import platform, glob, sys
 
+##These check dependencies:
+try:
+    import pandas
+except ImportError:
+    sys.exit("import pandas failed.  Please install pandas")
+try:
+    import numpy
+except ImportError:
+    sys.exit("import numpy failed.  Please install numpy")        
 
 if platform.system() == 'Linux' or platform.system() == 'Darwin':
     doc_dir = '@prefix@/share/doc/@PACKAGE_TARNAME@'
