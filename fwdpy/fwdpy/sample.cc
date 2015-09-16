@@ -1,7 +1,4 @@
 #include <sample.hpp>
-
-#include <Sequence/SimData.hpp>
-#include <Sequence/PolySIM.hpp>
 #include <fwdpp/diploid.hh>
 #include <algorithm>
 
@@ -80,15 +77,7 @@ namespace fwdpy {
       }
     return rv;
   }
-    
-
-  double tajd( const std::vector<std::pair<double,std::string> > & __data )
-  {
-    Sequence::SimData d(__data.begin(),__data.end());
-    Sequence::PolySIM ad(&d);
-    return ad.TajimasD();
-  }
-
+  
   void get_sh_details( const std::vector<std::pair<double,std::string> > & sample,
 		       const singlepop_t::mlist_t & mutations,
 		       const unsigned & twoN, const unsigned & gen,

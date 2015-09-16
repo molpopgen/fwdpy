@@ -25,7 +25,11 @@ Functions and classes
    :members:
    :show-inheritance:
 
-.. automodule:: fwdpy.internal.internal
+.. automodule:: fwdpy.libseq.libseq
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.internal
    :members:
    :show-inheritance:
 
