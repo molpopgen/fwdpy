@@ -4,7 +4,7 @@
 #include <Sequence/PolySIM.hpp>
 #include <fwdpp/diploid.hh>
 #include <algorithm>
-#include <iostream>
+
 namespace {
   enum class treat_neutral {ALL,NEUTRAL,SELECTED};
   void add_fixations( std::vector<std::pair<double,std::string>> * sample,
@@ -105,7 +105,7 @@ namespace fwdpy {
 	s->push_back(mitr->s);
 	h->push_back(mitr->h);
 	p->push_back(double(mitr->n)/double(twoN));
-	a->push_back(double(gen-mitr->g)+1.); //mutation age
+	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
       });
   }
   
