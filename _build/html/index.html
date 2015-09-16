@@ -295,7 +295,14 @@ from the GNU Scientific Library (GSL).</p>
 <p class="last">w: the &#8220;weight&#8221; assigned to the region</p>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation.</p>
+<dl class="docutils">
+<dt>This class is extended by:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a></li>
+</ul>
+</dd>
+</dl>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -339,7 +346,18 @@ from the GNU Scientific Library (GSL).</p>
 <p class="last">h: the dominance term</p>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation.</p>
+<p>This class cannot be used directly to parameterize a simulation.  Rather, you must used
+a derived type that specifies a distribution of fitness effects.  These types include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#fwdpy.fwdpy.ConstantS" title="fwdpy.fwdpy.ConstantS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ConstantS</span></tt></a></li>
+<li><a class="reference internal" href="#fwdpy.fwdpy.UniformS" title="fwdpy.fwdpy.UniformS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.UniformS</span></tt></a></li>
+<li><a class="reference internal" href="#fwdpy.fwdpy.ExpS" title="fwdpy.fwdpy.ExpS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ExpS</span></tt></a></li>
+<li><a class="reference internal" href="#fwdpy.fwdpy.GammaS" title="fwdpy.fwdpy.GammaS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GammaS</span></tt></a></li>
+<li><a class="reference internal" href="#fwdpy.fwdpy.GaussianS" title="fwdpy.fwdpy.GaussianS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GaussianS</span></tt></a></li>
+</ul>
+</div></blockquote>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
