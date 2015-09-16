@@ -15,7 +15,7 @@ from Cython.Build import cythonize
 import platform, glob
 
 
-if platform.system() == 'Linux':
+if platform.system() == 'Linux' or platform.system() == 'Darwin':
     doc_dir = '@prefix@/share/doc/@PACKAGE_TARNAME@'
 else:
     try:
