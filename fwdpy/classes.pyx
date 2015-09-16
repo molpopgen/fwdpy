@@ -58,7 +58,7 @@ cdef class popvec(popcont):
     See :func:`evolve_pops_t` and :func:`evolve_regions` for use cases.
     """
     cdef vector[shared_ptr[singlepop_t]] pops
-    pypops = list()
+    cdef public object pypops
     def __cinit__(self,unsigned npops,unsigned N):
         """
         Constructor:
@@ -66,11 +66,7 @@ cdef class popvec(popcont):
         :param npops: The number of populations
         :param N: Initial population number for each population
         """
-        if not self.pops.empty():
-            raise RuntimeError("self.pops not empty")
-        if len(self.pypops):
-            raise RuntimeError("self.pypops not empty: ",len(self.pypops))
-        pypops=[]
+        self.pypops=list()
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_t](new singlepop_t(N)))
             pi = singlepop()
@@ -84,7 +80,7 @@ cdef class popvec(popcont):
         return self.pypops[i]
     def __len__(self):
         if self.pops.size() != len(self.pypops):
-            raise RuntimeError("popvec internal data structures out of sync")
+            raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
     def size(self):
         """
@@ -131,7 +127,7 @@ cdef class mpopvec(popcont):
     Vector of metapopulation objects
     """
     cdef vector[shared_ptr[metapop_t]] mpops
-    pympops = list()
+    cdef public object pympops
     def __cinit__(self,unsigned nmpops,list Ns):
         """
         Constructor:
@@ -139,6 +135,7 @@ cdef class mpopvec(popcont):
         :param nmpops: Number of metapopulations
         :param Ns: A list of population sizes.  The length of this list is the number of demes in each metapopulation
         """
+        self.pympops=[]
         for i in range(len(Ns)):
             if Ns[i] < 0:
                 raise ValueError("mpopvec: deme size < 0 encountered")
@@ -154,6 +151,8 @@ cdef class mpopvec(popcont):
     def __getitem__(self, int i):
         return self.pympops[i]
     def __len__(self):
+        if self.mpops.size() != len(self.pympops):
+            raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
         return self.mpops.size()
     def size(self):
         """
