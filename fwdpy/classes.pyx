@@ -66,6 +66,10 @@ cdef class popvec(popcont):
         :param npops: The number of populations
         :param N: Initial population number for each population
         """
+        if not self.pops.empty():
+            raise RuntimeError("self.pops not empty")
+        if len(self.pypops):
+            raise RuntimeError("self.pypops not empty: ",len(self.pypops))
         pypops=[]
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_t](new singlepop_t(N)))
@@ -80,7 +84,7 @@ cdef class popvec(popcont):
         return self.pypops[i]
     def __len__(self):
         if self.pops.size() != len(self.pypops):
-            raise RuntimeError("popvec internal data structures out of sync:"+str(self.pops.size())+" "+str(len*self.pypops))
+            raise RuntimeError("popvec internal data structures out of sync")
         return self.pops.size()
     def size(self):
         """
