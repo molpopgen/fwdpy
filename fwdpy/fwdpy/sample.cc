@@ -59,7 +59,6 @@ namespace fwdpy {
 	    std::vector<std::pair<double,std::string> > >
   take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
   {
-    std::cerr << mpop->diploids[deme].size() << ' ' << mpop->mutations.size() << '\n';
     auto temp = KTfwd::ms_sample_separate(rng->get(),&(mpop->diploids[deme]),nsam,remove_fixed);
     if(! remove_fixed)
       {
