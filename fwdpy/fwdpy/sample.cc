@@ -4,7 +4,7 @@
 #include <Sequence/PolySIM.hpp>
 #include <fwdpp/diploid.hh>
 #include <algorithm>
-#include <iostream>
+
 namespace {
   enum class treat_neutral {ALL,NEUTRAL,SELECTED};
   void add_fixations( std::vector<std::pair<double,std::string>> * sample,
@@ -59,7 +59,6 @@ namespace fwdpy {
 	    std::vector<std::pair<double,std::string> > >
   take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
   {
-    std::cerr << mpop->diploids[deme].size() << ' ' << mpop->mutations.size() << '\n';
     auto temp = KTfwd::ms_sample_separate(rng->get(),&(mpop->diploids[deme]),nsam,remove_fixed);
     if(! remove_fixed)
       {
@@ -105,7 +104,7 @@ namespace fwdpy {
 	s->push_back(mitr->s);
 	h->push_back(mitr->h);
 	p->push_back(double(mitr->n)/double(twoN));
-	a->push_back(double(gen-mitr->g)+1.); //mutation age
+	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
       });
   }
   
