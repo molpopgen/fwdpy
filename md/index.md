@@ -10,6 +10,9 @@ The library code is [here](https://github.com/molpopgen/fwdpy)
 
 * [Manual](_build/html/index.html) in html format.
 
+#### Examples
+
+[Background selection](examples/BGS.html)
 
 ###Citation
 
