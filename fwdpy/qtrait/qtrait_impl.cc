@@ -238,8 +238,7 @@ namespace fwdpy
 			   const std::vector<KTfwd::extensions::shmodel> * callbacks,
 			   const std::vector<double> & rbeg,
 			   const std::vector<double> & rend,
-			   const std::vector<double> & rweight,
-			   const char * fitness)
+			   const std::vector<double> & rweight)
     {
       const KTfwd::extensions::discrete_mut_model m(nbegs,nends,nweights,sbegs,sends,sweights,*callbacks);
       auto recmap = KTfwd::extensions::discrete_rec_model(rbeg,rend,rweight);

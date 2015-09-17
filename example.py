@@ -21,8 +21,8 @@ def countDerived( sample ):
     return nsing
 
 #list comprehension for automatic vectorizing
-D = [fwdpy.TajimasD(si) for si in s]
-print "Tajima's D per sample =", D
+#D = [fwdpy.TajimasD(si) for si in s]
+#print "Tajima's D per sample =", D
 
 #number of seg sites per sample
 segsites = [len(si) for si in s]

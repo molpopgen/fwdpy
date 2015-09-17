@@ -28,8 +28,7 @@ namespace fwdpy
 			   const std::vector<KTfwd::extensions::shmodel> * callbacks,
 			   const std::vector<double> & rbeg,
 			   const std::vector<double> & rend,
-			   const std::vector<double> & rweight,
-			   const char * fitness);
+			   const std::vector<double> & rweight);
   }
 }
 

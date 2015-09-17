@@ -25,8 +25,7 @@ cdef extern from "evolve_qtraits.hpp" namespace "fwdpy::qtrait":
         const vector[shmodel] * callbacks,
         const vector[double] & rbeg,
         const vector[double] & rend,
-        const vector[double] & rweight,
-        const char * fitness)
+        const vector[double] & rweight)
 
 def evolve_qtrait(GSLrng rng,
                     int npops,
@@ -41,8 +40,7 @@ def evolve_qtrait(GSLrng rng,
                     double sigmaE,
                     double optimum = 0.,
                     bint track = False,
-                    double f = 0.,
-                    const char * fitness = "multiplicative"):
+                    double f = 0.):
     pops = popvec(npops,N)
     nreg = internal.process_regions(nregions)
     sreg = internal.process_regions(sregions)
@@ -52,6 +50,28 @@ def evolve_qtrait(GSLrng rng,
     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,track,
                     nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
-                    recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
-                    fitness)
+                    recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
     return pops
+
+def evolve_qtrait_more(GSLrng rng,
+                    popvec pops,
+                    unsigned[:] nlist,
+                    double mu_neutral,
+                    double mu_selected,
+                    double recrate,
+                    list nregions,
+                    list sregions,
+                    list recregions,
+                    double sigmaE,
+                    double optimum = 0.,
+                    bint track = False,
+                    double f = 0.):
+    nreg = internal.process_regions(nregions)
+    sreg = internal.process_regions(sregions)
+    recreg = internal.process_regions(recregions)
+    v = shwrappervec()
+    internal.process_sregion_callbacks(v,sregions)
+    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,track,
+                    nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
+                    sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
+                    recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
