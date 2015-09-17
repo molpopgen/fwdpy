@@ -46,7 +46,8 @@ cdef class popcont(object):
 
     Example derived types include :class:`fwdpy.fwdpy.popvec` and :class:`fwdpy.fwdpy.mpopvec`
     """
-    
+    pass
+
 cdef class popvec(popcont):
     """
     Vector of single-deme objects
