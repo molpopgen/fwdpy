@@ -1,12 +1,5 @@
 ##Create the python classes
 
-cdef class poptype(object):
-    """
-    Empty base class for a population object.
-
-    Example derived types include :class:`fwdpy.fwdpy.singlepop` and :class:`fwdpy.fwdpy.metapop`
-    """
-    pass
 
 cdef class singlepop(poptype):
     """
@@ -16,7 +9,6 @@ cdef class singlepop(poptype):
     they should be working with :class:`popvec`.  This type exists as
     the output of iterating through a :class:`popvec`.
     """
-    cdef shared_ptr[singlepop_t] pop
     def __del__(self):
        self.pop.reset()
     def gen(self):
@@ -40,14 +32,6 @@ cdef class singlepop(poptype):
         """
         return self.pop.get().sane()
 
-cdef class popcont(object):
-    """
-    Empty base class for containers of population objects.
-
-    Example derived types include :class:`fwdpy.fwdpy.popvec` and :class:`fwdpy.fwdpy.mpopvec`
-    """
-    pass
-
 cdef class popvec(popcont):
     """
     Vector of single-deme objects
@@ -58,8 +42,6 @@ cdef class popvec(popcont):
 
     See :func:`evolve_pops_t` and :func:`evolve_regions` for use cases.
     """
-    cdef vector[shared_ptr[singlepop_t]] pops
-    cdef public object pypops
     def __cinit__(self,unsigned npops,unsigned N):
         """
         Constructor:
@@ -97,7 +79,6 @@ cdef class metapop(poptype):
     they should be working with :class:`mpopvec`.  This type exists as
     the output of iterating through a :class:`mpopvec`.
     """
-    cdef shared_ptr[metapop_t] mpop
     def __del__(self):
        self.mpop.reset()
     def __len__(self):
@@ -127,8 +108,6 @@ cdef class mpopvec(popcont):
     """
     Vector of metapopulation objects
     """
-    cdef vector[shared_ptr[metapop_t]] mpops
-    cdef public object pympops
     def __cinit__(self,unsigned nmpops,list Ns):
         """
         Constructor:
@@ -173,7 +152,6 @@ cdef class GSLrng:
     >>> import fwdpy
     >>> rng = fwdpy.GSLrng(100)
     """
-    cdef GSLrng_t * thisptr
     def __cinit__(self, int seed):
         """
         Constructor:

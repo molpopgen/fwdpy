@@ -25,6 +25,42 @@ cdef extern from "types.hpp" namespace "fwdpy":
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
 
+#Now, provied definitions for classes in classes.pyx
+cdef class poptype(object):
+    """
+    Empty base class for a population object.
+
+    Example derived types include :class:`fwdpy.fwdpy.singlepop` and :class:`fwdpy.fwdpy.metapop`
+    """
+    pass
+
+cdef class singlepop(poptype):
+    cdef shared_ptr[singlepop_t] pop
+
+cdef class metapop(poptype):
+    cdef shared_ptr[metapop_t] mpop
+
+cdef class popcont(object):
+    """
+    Empty base class for containers of population objects.
+
+    Example derived types include :class:`fwdpy.fwdpy.popvec` and :class:`fwdpy.fwdpy.mpopvec`
+    """
+    pass
+
+cdef class popvec(popcont):
+    cdef vector[shared_ptr[singlepop_t]] pops
+    cdef public object pypops
+
+cdef class mpopvec(popcont):
+    cdef vector[shared_ptr[metapop_t]] mpops
+    cdef public object pympops
+    
+cdef class GSLrng:
+    cdef GSLrng_t * thisptr
+
+
+    
 ##Now, wrap the functions
 cdef extern from "neutral.hpp" namespace "fwdpy":
     void evolve_pop(GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops, const vector[unsigned] nlist, const double & theta, const double & rho)
