@@ -4,10 +4,13 @@
 #include <vector>
 #include <utility>
 #include <string>
-
-namespace fwdpy {
-  namespace libseq {
-  double tajd( const std::vector<std::pair<double,std::string> > & __data );
-  }}
+#include <map>
+namespace fwdpy
+{
+  namespace libseq
+  {
+    std::map<std::string,double> libseq_basic_stats( const std::vector<std::pair<double,std::string> > & __data );
+  }
+}
 
 #endif

@@ -1,8 +1,8 @@
-def TajimasD( vector[pair[double,string]] data ):
+def summstats(vector[pair[double,string]] data ):
     """
-    Calculate Tajima's D statistic from a sample
+    Calculate common summary statistics from a sample
 
-    :param data: a sample from a population.  The return value of :func:`ms_sample`.
+    :param data: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
 
     Example:
     
@@ -11,6 +11,6 @@ def TajimasD( vector[pair[double,string]] data ):
     >>> rng = fwdpy.GSLrng(100)
     >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
-    >>> d = [lseq.TajimasD(si) for si in s]
+    >>> d = [lseq.summstats(si) for si in s]
     """
-    return tajd(data)
+    return libseq_basic_stats(data)

@@ -1,14 +1,30 @@
 #include <Sequence/SimData.hpp>
 #include <Sequence/PolySIM.hpp>
+#include <map>
+#include <string>
 
-namespace fwdpy {
+using namespace std;
 
-  namespace libseq {
-    double tajd( const std::vector<std::pair<double,std::string> > & __data )
+namespace fwdpy
+{
+  namespace libseq
+  {
+    map<string,double> libseq_basic_stats( const vector<pair<double,string> > & __data )
     {
       Sequence::SimData d(__data.begin(),__data.end());
       Sequence::PolySIM ad(&d);
-      return ad.TajimasD();
+      map<string,double> rv;
+
+      rv["S"] = ad.NumPoly();
+      rv["singletons"] = ad.NumSingletons();
+      rv["dsingletons"] = ad.NumExternalMutations();
+      rv["thetaw"] = ad.ThetaW();
+      rv["thetapi"] = ad.ThetaPi();
+      rv["tajd"] = ad.TajimasD();
+      rv["thetah"] = ad.ThetaH();
+      rv["hprime"] = ad.Hprime();
+      rv["tajd"] = ad.TajimasD();
+      return rv;
     }
   }
 }
