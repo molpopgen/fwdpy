@@ -29,12 +29,13 @@ namespace qtrait {
     std::function<double(void)> recpos = std::bind(&KTfwd::extensions::discrete_rec_model::operator(),&recmap,rng);
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
+	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::experimental::sample_diploid(rng,
 					    &pop->gametes,  
 					    &pop->diploids, 
 					    &pop->mutations,
-					    unsigned(Nvector[g]),
-					    unsigned(Nvector[g+1]),
+					    pop->N,
+					    nextN,
 					    mu_tot,
 					    std::bind(&KTfwd::extensions::discrete_mut_model::make_mut<decltype(pop->mut_lookup)>,&m,rng,neutral,selected,pop->generation,&pop->mut_lookup),
 					    std::bind(KTfwd::genetics101(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,
@@ -53,7 +54,7 @@ namespace qtrait {
 	KTfwd::remove_lost(&pop->mutations,&pop->mut_lookup);
 	//This being put here ignores any mutation existing for only 1 generation
 	if(track) pop->updateTraj();
-	assert(KTfwd::check_sum(pop->gametes,2*Nvector[g+1]));
+	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size
     pop->N = pop->diploids.size();
