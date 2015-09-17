@@ -26,7 +26,6 @@ namespace fwdpy {
 	       std::vector<double> * h,
 	       std::vector<double> * p,
 	       std::vector<double> * a);
-  double tajd( const std::vector<std::pair<double,std::string> > & __data );
 }
 
 #endif

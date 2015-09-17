@@ -12,7 +12,9 @@ The library code is [here](https://github.com/molpopgen/fwdpy)
 
 #### Examples
 
-[Background selection](examples/BGS.html)
+Here are some examples generated using [Iptyhon](http://ipython.org/)/[Jupyter](https://jupyter.org/):
+
+* [Background selection](examples/BGS.html)
 
 ###Citation
 

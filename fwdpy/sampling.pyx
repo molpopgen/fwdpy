@@ -106,19 +106,3 @@ def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
     elif isinstance(pop,metapop):
         get_sh_metapop(ms_sample,pop,&s,&h,&p,&a)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
-
-def TajimasD( vector[pair[double,string]] data ):
-    """
-    Calculate Tajima's D statistic from a sample
-
-    :param data: a sample from a population.  The return value of :func:`ms_sample`.
-
-    Example:
-    
-    >>> import fwdpy
-    >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
-    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
-    >>> d = [fwdpy.TajimasD(si) for si in s]
-    """
-    return tajd(data)
