@@ -29,9 +29,12 @@ Functions and classes
    :members:
    :show-inheritance:
 
-.. automodule:: fwdpy.internal
+.. automodule:: fwdpy.internal.internal
    :members:
    :show-inheritance:
+
+
+
 
 Indices and tables
 ==================
