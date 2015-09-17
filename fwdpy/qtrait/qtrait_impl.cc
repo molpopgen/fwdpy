@@ -226,6 +226,7 @@ namespace fwdpy
 			   const double mu_selected,
 			   const double littler,
 			   const double f,
+			   const double sigmaE,
 			   const double optimum,
 			   const int track,
 			   const std::vector<double> & nbegs,
@@ -240,6 +241,28 @@ namespace fwdpy
 			   const std::vector<double> & rweight,
 			   const char * fitness)
     {
+      const KTfwd::extensions::discrete_mut_model m(nbegs,nends,nweights,sbegs,sends,sweights,*callbacks);
+      auto recmap = KTfwd::extensions::discrete_rec_model(rbeg,rend,rweight);
+      std::vector<GSLrng_t> rngs;
+      std::vector<qtrait_model_rules> rules;
+      for(unsigned i=0;i<pops->size();++i)
+	{
+	  //Give each thread a new RNG + seed
+	  rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())) );
+	  rules.emplace_back(qtrait_model_rules(sigmaE,optimum,*std::max_element(Nvector,Nvector+Nvector_length)));
+	}
+      std::vector<std::thread> threads(pops->size());
+      for(unsigned i=0;i<pops->size();++i)
+	{
+	  threads[i]=std::thread(fwdpy::qtrait::qtrait_sim_details_t<qtrait_model_rules>,
+				 rngs[i].get(),
+				 pops->operator[](i).get(),
+				 Nvector,Nvector_length,
+				 mu_neutral,mu_selected,littler,f,sigmaE,optimum,track,
+				 std::cref(m),std::cref(recmap),
+				 std::ref(rules[i]));
+	}
+      for(unsigned i=0;i<threads.size();++i) threads[i].join();
     }
   
   } //ns qtrait

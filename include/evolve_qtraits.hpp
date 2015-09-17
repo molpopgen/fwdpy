@@ -16,6 +16,7 @@ namespace fwdpy
 			   const double mu_selected,
 			   const double littler,
 			   const double f,
+			   const double sigmaE,
 			   const double optimum,
 			   const int track,
 			   const std::vector<double> & nbegs,

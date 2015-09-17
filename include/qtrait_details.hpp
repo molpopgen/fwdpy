@@ -4,24 +4,25 @@
 #include "types.hpp"
 #include <fwdpp/extensions/regions.hpp>
 
-namespace fwpdy {
+namespace fwdpy {
 namespace qtrait {
   template<typename rules>
-  void qtrait_sim_details_t( fwdpy::singlepop_t * pop,
-			     gsl_rng * rng,
-			     const std::vector<int> & Nvector,
+  void qtrait_sim_details_t( gsl_rng * rng,
+			     fwdpy::singlepop_t * pop,
+			     const unsigned * Nvector,
+			     const size_t Nvector_len,
 			     const double & neutral,
 			     const double & selected,
 			     const double & recrate,
-			     const double & sigmaE,
 			     const double & f,
+			     const double & sigmaE,
 			     const double optimum ,
 			     const bool track,  //do we want to track the trajectories of all mutations?
 			     const KTfwd::extensions::discrete_mut_model & m,
 			     const KTfwd::extensions::discrete_rec_model & recmap,
 			     rules & model_rules)   
   {
-    const unsigned simlen = Nvector.size()-1;
+    const unsigned simlen = Nvector_len;
     
     const double mu_tot = neutral + selected;
     
