@@ -63,6 +63,16 @@ extensions = [
         extra_link_args=["-std=c++11"],
         libraries=["sequence"]),
         ]
+extensions.extend([
+    Extension("fwdpy.qtrait.qtrait",
+    sources=["fwdpy/qtrait/qtrait.pyx"]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
+    language="c++",                        # generate and compile C++ code
+    include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
+    extra_compile_args=["-std=c++11"],  
+    extra_link_args=["-std=c++11"],
+    libraries=["gsl","gslcblas","tcmalloc","sequence"]),
+    ])
+
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
       author='Kevin R. Thornton',
