@@ -11,11 +11,18 @@
 
 # In[1]:
 
-#Import the package:
+#The next two lines let plots show up
+#in the notbook:
 get_ipython().magic(u'matplotlib inline')
 get_ipython().magic(u'pylab inline')
+#Use Pyhon 3's print a a function.
+#This future-proofs the code in the notebook
 from __future__ import print_function
+#Import fwdpy.  Give it a shorter name
 import fwdpy as fp
+#Import the module for summary statistics. Give it a shorter name
+import fwdpy.libseq as libseq
+##Other libs we need
 import numpy as np
 import pandas
 import math
@@ -177,73 +184,22 @@ print(BigTable)
 
 # # Summary statistics from samples
 # 
-# Currently, there is limited support for summary statistic calculation in fwdpy.
-# KRT is still deciding whether or not to put it here or to make a lightweight
-# Cython interface to the relevant part of libsequence.
+# The sub-module fwdpy.libseq (which we have imported as 'libseq') has a function, 'summstats', which calculates many commonly-used summaries of variation data.
 
 # In[16]:
 
-#So far, what we can do is calculate Tajima's D:
-
-DvalsNeutral = [fp.TajimasD(i[0]) for i in samples]
-DvalsSelected = [fp.TajimasD(i[1]) for i in samples]
-print("The distribution of D for neutral variants:",DvalsNeutral)
-print("The distribution of D for selected variants:",DvalsSelected)
-
-
-# We don't need to wait for KRT to help us, though. Summary stats are easy to code up:
-
-# In[17]:
-
-###fxn to ask if a site is a derived singleton
-def isSingleton( site ):
-    ones=site[1].count('1')
-    if ones == 1:
-        return True
-    return False
-
-##fxn to count derived singletonss in a sample
-def countDerived( sample ):
-    nsing=0
-    for i in range(len(sample)):
-        if isSingleton(sample[i]):
-            nsing += 1
-    return nsing
-
-##fxn to calculate "pi" at a site
-def pisite( site ):
-    ssh = 0.0 #sum of site homozygosity
-    ones=site[1].count('1')
-    nsam=len(site[1])
-    p1=float(ones)/float(nsam)
-    p2=float(ones-1)/float(nsam-1)
-    ssh = ssh + p1*p2
-    zeroes=site[1].count('0')
-    p1=float(zeroes)/float(nsam)
-    p2=float(zeroes-1)/float(nsam-1)
-    ssh = ssh + p1*p2
-    return 1.-ssh
-
-##Calculate pi for whole sample
-def pisample(sample):
-    pivals = [pisite(i) for i in sample]
-    return sum(pivals)
-
-##Apply our new functions:
-
-##No. singletons at neutral sites
-nsing = [countDerived(i[0]) for i in samples]
-#No. singletons at selected sites
-ssing = [countDerived(i[1]) for i in samples]
-##Pi at neutral sites
-pn = [pisample(i[0]) for i in samples]
-##Pi at selected sites
-ps = [pisample(i[1]) for i in samples]
-
-print("Dist. of number of derived neutral singletons is:",nsing)
-print("Dist. of number of derived selected singletons is:",ssing)
-print("Dist. of pi at neutral mutations is:",pn)
-print("Dist. of pi at selected mutations is:",ps)
+##This is an example of where you can do a lot in a 1-liner.
+##We use nested list comprehensions to:
+##  1. Get summary statistics for each element in samples.  We do neutral mutations (element 0)
+##     and selected mutations (element 1) separately.
+##  2. Turn each dict from libseq.summstats into a pandas.DataFrame
+##  3. Combine all those DataFrame objects into one large DataFrame
+NeutralMutStats=pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value']) 
+                               for i in [libseq.summstats(j[0]) for j in samples]])
+SelectedMutStats=pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value'])
+                               for i in [libseq.summstats(j[1]) for j in samples]])
+print(NeutralMutStats)
+print(SelectedMutStats)
 
 
 # ## The average $\pi$ under the model
@@ -254,7 +210,7 @@ print("Dist. of pi at selected mutations is:",ps)
 # 
 # For our parameters, we have $E[\pi] = 20e^{-\frac{0.02}{0.1+0.005}},$ which equals:
 
-# In[18]:
+# In[17]:
 
 print(20*math.exp(-0.02/(0.1+0.005)))
 
@@ -263,7 +219,7 @@ print(20*math.exp(-0.02/(0.1+0.005)))
 # 
 # We will use standard Python to grow "pn", which is our list of $\pi$ values calculated from neutral mutations from each replicate.
 
-# In[19]:
+# In[18]:
 
 for i in range(0,124,1):
     pops = fp.evolve_regions(rng,  
@@ -276,17 +232,29 @@ for i in range(0,124,1):
                          nregions, 
                          sregions, 
                          recregions)
-    pn.extend([pisample(i[0]) for i in [fp.get_samples(rng,j,20) for j in pops]])
+    ##This is another heavy one-liner.
+    ##We're taking samples of n=20 from each pop,
+    ##Getting summstats for each neutral block from each sample,
+    ##Turning the dict into pandas DataFrame objects,
+    ##and returning a big DataFrame for all the data.
+    temp = pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value']) 
+                          for i in [libseq.summstats(j[0]) for j in [fp.get_samples(rng,k,20) for k in pops]]])
+    NeutralMutStats=pandas.concat([NeutralMutStats,temp])
 
-print("The mean pi at neutral sites is:",sum(pn)/float(len(pn)),"based on",len(pn),"replicates.")
+
+# #### Getting the mean diversity
+# We've collected everything into a big pandas DataFrame.  We can easily get the mean using the builti-in groupby and mean functions.  
+# 
+# For users happier in R, you could write this DataFrame to a text file and process it using R's [dplyr](http://cran.r-project.org/web/packages/dplyr/index.html) package, which is a really excellent tool for this sort of thing.
+
+# In[19]:
+
+NeutralMutStats.groupby(['stat']).mean()
 
 
-# In[21]:
+# The 'thetapi' record is our mean $\pi$ from all of the simulations, and it is quite close to the theoretical value. 
 
-#Now, let's plot a histogram of the pi values 
-n, bins, patches=plt.hist(pn)
-plt.rc('text', usetex=True)
-plt.xlabel(r'\pi')
-plt.ylabel("Number of occurrences")
-plt.show()
+# In[ ]:
+
+
 
