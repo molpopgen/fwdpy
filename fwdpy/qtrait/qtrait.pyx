@@ -3,7 +3,7 @@
 from libcpp.vector cimport vector
 from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
-import internal
+import fwdpy.internal as internal
 
 cdef extern from "evolve_qtraits.hpp" namespace "fwdpy::qtrait":
     void evolve_qtraits_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t] ] * pops,
