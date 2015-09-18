@@ -82,7 +82,7 @@ def evolve_qtrait_more(GSLrng rng,
                     recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
 
 def popstats( singlepop pop ):
-    return pandas.DataFrame.from_dict(qtrait_pop_props(pop.pop.get()))
+    return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])
 
 def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):
     return pandas.DataFrame.from_dict(get_qtrait_traj(pop.pop.get(),minsojourn,minfreq))
