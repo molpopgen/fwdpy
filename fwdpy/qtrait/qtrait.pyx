@@ -1,11 +1,13 @@
 # distutils: language = c++
 # distutils: sources = fwdpy/qtrait/qtrait_impl.cc
 from libcpp.vector cimport vector
+from libcpp.map cimport map
 from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
 import fwdpy.internal as internal
+import pandas
 
-cdef extern from "evolve_qtraits.hpp" namespace "fwdpy::qtrait":
+cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
     void evolve_qtraits_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t] ] * pops,
         const unsigned * Nvector,
         const size_t Nvector_length,
@@ -26,7 +28,10 @@ cdef extern from "evolve_qtraits.hpp" namespace "fwdpy::qtrait":
         const vector[double] & rbeg,
         const vector[double] & rend,
         const vector[double] & rweight)
-
+    map[string,double] qtrait_pop_props( const singlepop_t * pop );
+    map[string,vector[double]] get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
+    map[string,vector[double]] qtrait_esize_freq(const singlepop_t * pop)
+    
 def evolve_qtrait(GSLrng rng,
                     int npops,
                     int N,
@@ -75,3 +80,13 @@ def evolve_qtrait_more(GSLrng rng,
                     nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
                     recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
+
+def popstats( singlepop pop ):
+    return pandas.DataFrame.from_dict(qtrait_pop_props(pop.pop.get()))
+
+def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):
+    return pandas.DataFrame.from_dict(get_qtrait_traj(pop.pop.get(),minsojourn,minfreq))
+
+def esize_freq(singlepop pop):
+    return pandas.DataFrame.from_dict(qtrait_esize_freq(pop.pop.get()))
+

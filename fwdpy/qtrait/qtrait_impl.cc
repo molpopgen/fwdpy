@@ -19,10 +19,7 @@
 #include <memory>
 #include <limits>
 
-//Boost stuff--will have to add autoconf tests for later
-#include <boost/accumulators/accumulators.hpp>
-#include <boost/accumulators/statistics/stats.hpp>
-#include <boost/accumulators/statistics/variance.hpp>
+#include <gsl/gsl_statistics_double.h>
 
 //Libsequence
 #include <Sequence/PolySIM.hpp>
@@ -263,176 +260,98 @@ namespace fwdpy
 	}
       for(unsigned i=0;i<threads.size();++i) threads[i].join();
     }
-  
+
+    //Get properties out from the population
+    std::map<string,double> qtrait_pop_props( const fwdpy::singlepop_t * pop )
+    {
+      std::vector<double> VG,VE,wbar,esize;
+      
+      //Get data from the diploids
+      for( auto itr = pop->diploids.cbegin() ; itr != pop->diploids.cend() ; ++itr )
+	{
+	  VG.push_back( itr->g );
+	  VE.push_back( itr->e );
+	  wbar.push_back( itr->w );
+	}
+      
+      //Get data from the mutations
+      for( auto itr = pop->mutations.cbegin() ; itr != pop->mutations.cend() ; ++itr )
+	{
+	  esize.push_back( itr->s );
+	}
+      
+      //Find the "leading factor"
+      double twoN = 2.*double(pop->diploids.size());
+      auto itr = std::max_element(pop->mutations.cbegin(),pop->mutations.cend(),
+				  [&twoN]( const poptype::mutation_t & m1,
+					   const poptype::mutation_t & m2 ) {
+				    double p1 = double(m1.n)/twoN,p2=double(m2.n)/twoN;
+				    return p1*(1.-p1)*std::pow(m1.s,2.) < p2*(1.-p2)*std::pow(m2.s,2.);
+				  });
+      
+      double mvexpl = std::numeric_limits<double>::quiet_NaN(),leading_e=std::numeric_limits<double>::quiet_NaN(),leading_f=std::numeric_limits<double>::quiet_NaN();
+      if(itr != pop->mutations.end())
+	{
+	  mvexpl = 2.*(double(itr->n)/twoN)*(1.-(double(itr->n)/twoN))*std::pow(itr->s,2.);
+	  leading_e = itr->s;
+	  leading_f = double(itr->n)/twoN;
+	}
+      map<string,double> rv;
+      rv["VG"] = gsl_stats_variance(&VG[0],1,VG.size());
+      rv["VE"] = gsl_stats_variance(&VE[0],1,VE.size());
+      rv["wbar"] = gsl_stats_mean(&wbar[0],1,wbar.size());
+      rv["max_expl"] = mvexpl;
+      rv["leading_e"] = leading_e;
+      rv["leading_q"] = leading_f;
+      return rv;
+    }
+
+    map<string,vector<double> > get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
+    {
+      std::vector<double> pos,freq,s;
+      std::vector<double> generations;
+      /*
+	Key is origin, (pos,s), trajectories
+      */
+      //using trajtype = std::map< std::pair<unsigned,std::pair<double,double> >, std::vector<double> >;
+      for( poptype::trajtype::const_iterator itr = pop->trajectories.begin() ;
+	   itr != pop->trajectories.end() ; ++itr )
+	{
+	  double maxfreq = *std::max_element(itr->second.cbegin(),itr->second.cend());
+	  if( itr->second.size() >= minsojourn && maxfreq >= minfreq )
+	    {
+	      std::vector<unsigned> times(itr->second.size());
+	      unsigned itime = itr->first.first;
+	      std::generate(times.begin(),times.end(),[&itime]{ return itime++; });
+	      generations.insert(generations.end(),times.begin(),times.end());
+	      std::fill_n(std::back_inserter(pos),itr->second.size(),itr->first.second.first);
+	      std::fill_n(std::back_inserter(s),itr->second.size(),itr->first.second.second);
+	      std::copy(itr->second.begin(),itr->second.end(),std::back_inserter(freq));
+	    }
+	}
+      map<string,vector<double>> rv;
+      rv["pos"]=std::move(pos);
+      rv["freq"]=std::move(freq);
+      rv["generation"]=std::move(generations);
+      rv["esize"]=std::move(s);
+      return rv;
+    }
+
+    map<string,vector<double> > qtrait_esize_freq(const singlepop_t * pop)
+    {
+      double twoN = 2.*double(pop->diploids.size());
+      std::vector<double> esize,freq;
+      for( const auto & __m : pop->mutations )
+	{
+	  esize.push_back(__m.s);
+	  freq.push_back(double(__m.n)/twoN);
+	}
+      map<string,vector<double>>rv;
+      rv["esize"]=std::move(esize);
+      rv["freq"]=std::move(freq);
+      return rv;
+    }
   } //ns qtrait
 } //ns fwdpy
 
-
-
-//'Get mutation trajectories from House-of-Cards simulation
-//'@param ppop External pointer to simuated population
-//'@param minsojourn Minimum sojourn time for a mutation. Don't include trajectories whose length is less than this value.
-//'@param minfreq Don't include mutations that never get to at least this value.
-//'@examples
-//'sregions = list( new('s.gaussian',sd=0.1) )
-//'recregions = list(new('region'))
-//'rng = init.gsl.rng(101)
-//'N=500
-//'pop = qtrait.evolve(rng,rep(N,10*N),0,0.1/(2*N),10/(4*N),0.1,list(),sregions,recregions,track=TRUE)
-//'pop.traj = qtrait.get.traj(pop[[1]],5)
-// [[Rcpp::export("qtrait.get.traj")]]
-// Rcpp::DataFrame get_qtrait_traj(SEXP ppop,const unsigned minsojourn = 0,const double minfreq = 0.)
-// {
-//   Rcpp::XPtr<poptype> pop(ppop);
-//   std::vector<double> pos,freq,s;
-//   std::vector<unsigned> generations;
-//   /*
-//     Key is origin, (pos,s), trajectories
-//   */
-//   //using trajtype = std::map< std::pair<unsigned,std::pair<double,double> >, std::vector<double> >;
-//   for( poptype::trajtype::const_iterator itr = pop->trajectories.begin() ;
-//        itr != pop->trajectories.end() ; ++itr )
-//     {
-//       double maxfreq = *std::max_element(itr->second.cbegin(),itr->second.cend());
-//       if( itr->second.size() >= minsojourn && maxfreq >= minfreq )
-// 	{
-// 	  std::vector<unsigned> times(itr->second.size());
-// 	  unsigned itime = itr->first.first;
-// 	  std::generate(times.begin(),times.end(),[&itime]{ return itime++; });
-// 	  generations.insert(generations.end(),times.begin(),times.end());
-// 	  std::fill_n(std::back_inserter(pos),itr->second.size(),itr->first.second.first);
-// 	  std::fill_n(std::back_inserter(s),itr->second.size(),itr->first.second.second);
-// 	  std::copy(itr->second.begin(),itr->second.end(),std::back_inserter(freq));
-// 	}
-//     }
-//   return Rcpp::DataFrame::create( Rcpp::Named("pos")=pos,
-// 				  Rcpp::Named("generation") = generations,
-// 				  Rcpp::Named("esize")=s,
-// 				  Rcpp::Named("freq")=freq );				  
-// }
-
-
-//' Obtain a sample from a infinitely-many sites House-of-Cards simulation
-//' @param ppop Pointer to a population returned by evolve.qtrait or evolve.qtrait.more
-//' @param prng Pointer to a GSL rng
-//' @param nsam The sample size
-//' @param remove_fixed Remove variants where the derived state is present in all samples
-// [[Rcpp::export("qtrait.sample")]]
-// SEXP sample_qtrait( SEXP ppop,SEXP prng, const unsigned & nsam, const bool remove_fixed = true )
-// {
-//    Rcpp::XPtr<poptype> pop(ppop);
-//    Rcpp::XPtr<foRward::GSLrng> rng(prng);
-//    Rcpp::IntegerVector diplist(nsam);
-//    for(unsigned i=0;i<nsam;++i)
-//      {
-//        diplist[i] = unsigned(gsl_ran_flat(rng->get(),0,pop->diploids.size()));
-//      }
-//    Rcpp::List view = foRward::build_diploid_view_details(*pop,diplist);
-//    Rcpp::DataFrame neutral(view["neutral"]),selected(view["selected"]);
-//    Rcpp::IntegerVector indlist_neutral = neutral["ind"],
-//      indlist_selected = selected["ind"];
-//    Rcpp::NumericVector G(indlist_neutral.size()),E(indlist_neutral.size()),w(indlist_neutral.size()),
-//      G_s(indlist_selected.size()),E_s(indlist_selected.size()),w_s(indlist_selected.size()); //pheno data and fitness for this diploids
-//    for( unsigned i = 0 ; i < indlist_neutral.size() ; ++i )
-//      {
-//        G[i] = pop->diploids[ diplist[indlist_neutral[i]-1] ].g;
-//        E[i] = pop->diploids[ diplist[indlist_neutral[i]-1] ].e;
-//        w[i] = pop->diploids[ diplist[indlist_neutral[i]-1] ].w;
-//      }
-//    for( unsigned i = 0 ; i < indlist_selected.size() ; ++i )
-//      {
-//        G_s[i] = pop->diploids[ diplist[indlist_selected[i]-1] ].g;
-//        E_s[i] = pop->diploids[ diplist[indlist_selected[i]-1] ].e;
-//        w_s[i] = pop->diploids[ diplist[indlist_selected[i]-1] ].w;
-//      }
-//    return Rcpp::List::create(Rcpp::Named("neutral") = Rcpp::DataFrame::create(Rcpp::Named("ind") = neutral["ind"],
-// 									      Rcpp::Named("chrom") = neutral["chrom"],
-// 									      Rcpp::Named("pos") = neutral["pos"],
-// 									      Rcpp::Named("s") = neutral["s"],
-// 									      Rcpp::Named("h") = neutral["h"],
-// 									      Rcpp::Named("n") = neutral["n"],
-// 									      Rcpp::Named("G") = G,
-// 									      Rcpp::Named("E") = E,
-// 									      Rcpp::Named("w") = w),
-// 			     Rcpp::Named("selected") = Rcpp::DataFrame::create(Rcpp::Named("ind") = selected["ind"],
-// 									       Rcpp::Named("chrom") = selected["chrom"],
-// 									       Rcpp::Named("pos") = selected["pos"],
-// 									       Rcpp::Named("s") = selected["s"],
-// 									       Rcpp::Named("h") = selected["h"],
-// 									       Rcpp::Named("n") = selected["n"],
-// 									       Rcpp::Named("G") = G_s,
-// 									       Rcpp::Named("E") = E_s,
-// 									       Rcpp::Named("w") = w_s)
-// 			     );
-// }
-
-// Summary stats of a population
-// [[Rcpp::export("qtrait.pop.properties")]]
-// SEXP qtrait_pop_props( SEXP ppop )
-// {
-//   Rcpp::XPtr<poptype> pop(ppop);
-
-//   using namespace boost::accumulators;
-//   accumulator_set< double, boost::accumulators::stats<tag::variance> > VG,VE;
-//   accumulator_set< double, boost::accumulators::stats<tag::mean> > wbar,esize;
-
-//   //Get data from the diploids
-//   for( auto itr = pop->diploids.cbegin() ; itr != pop->diploids.cend() ; ++itr )
-//     {
-//       VG( itr->g );
-//       VE( itr->e );
-//       wbar( itr->w );
-//     }
-
-//   //Get data from the mutations
-//   for( auto itr = pop->mutations.cbegin() ; itr != pop->mutations.cend() ; ++itr )
-//     {
-//       esize( itr->s );
-//     }
-
-//   //Find the "leading factor"
-//   double twoN = 2.*double(pop->diploids.size());
-//   auto itr = std::max_element(pop->mutations.cbegin(),pop->mutations.cend(),
-// 			      [&twoN]( const poptype::mutation_t & m1,
-// 				       const poptype::mutation_t & m2 ) {
-// 				double p1 = double(m1.n)/twoN,p2=double(m2.n)/twoN;
-// 				return p1*(1.-p1)*std::pow(m1.s,2.) < p2*(1.-p2)*std::pow(m2.s,2.);
-// 			      });
-  
-//   double mvexpl = std::numeric_limits<double>::quiet_NaN(),leading_e=std::numeric_limits<double>::quiet_NaN(),leading_f=std::numeric_limits<double>::quiet_NaN();
-//   if(itr != pop->mutations.end())
-//     {
-//       mvexpl = 2.*(double(itr->n)/twoN)*(1.-(double(itr->n)/twoN))*std::pow(itr->s,2.);
-//       leading_e = itr->s;
-//       leading_f = double(itr->n)/twoN;
-//     }
-
-//   return Rcpp::DataFrame::create( Rcpp::Named("generation") = pop->generation,
-// 				  Rcpp::Named("VG") = variance(VG),
-// 				  Rcpp::Named("VE") = variance(VE),
-// 				  Rcpp::Named("wbar") = boost::accumulators::mean(wbar),
-// 				  Rcpp::Named("mean.esize") =boost::accumulators::mean(esize),
-// 				  Rcpp::Named("max.var.expl") = mvexpl,
-// 				  Rcpp::Named("leading.esize") = leading_e,
-// 				  Rcpp::Named("leading.freq") =  leading_f
-// 				  );
-// }
-
-//' Effect size vs frequency
-//' @param ppop External pointer to population.
-//' @return A data.frame with all mutation effect sizes and frequencies.
-// [[Rcpp::export("qtrait.esize.freq")]]
-// SEXP qtrait_esize_freq(SEXP ppop)
-// {
-//   Rcpp::XPtr<poptype> pop(ppop);
-//   double twoN = 2.*double(pop->diploids.size());
-//   std::vector<double> esize,freq;
-//   for( const auto & __m : pop->mutations )
-//     {
-//       esize.push_back(__m.s);
-//       freq.push_back(double(__m.n)/twoN);
-//     }
-//   return Rcpp::DataFrame::create( Rcpp::Named("esize") = esize,
-// 				  Rcpp::Named("freq") = freq );
-// }
   

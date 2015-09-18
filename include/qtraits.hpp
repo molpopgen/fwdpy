@@ -1,15 +1,17 @@
-#ifndef __FWDPY_EVOLVE_QTRAITS_HPP__
-#define __FWDPY_EVOLVE_QTRAITS_HPP__
+#ifndef __FWDPY_QTRAITS_HPP__
+#define __FWDPY_QTRAITS_HPP__
 
 #include <types.hpp>
 #include <vector>
+#include <map>
+#include <string>
 #include <fwdpp/extensions/callbacks.hpp>
 
 namespace fwdpy
 {
   namespace qtrait
   {
-    void evolve_qtraits_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+    void evolve_qtraits_t( GSLrng_t * rng, std::vector<std::shared_ptr<fwdpy::singlepop_t> > * pops,
 			   const unsigned * Nvector,
 			   const size_t Nvector_length,
 			   const double mu_neutral,
@@ -29,6 +31,13 @@ namespace fwdpy
 			   const std::vector<double> & rbeg,
 			   const std::vector<double> & rend,
 			   const std::vector<double> & rweight);
+    
+    std::map<std::string,double> qtrait_pop_props( const fwdpy::singlepop_t * pop );
+
+    std::map<std::string,std::vector<double> > get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq);
+
+    std::map<std::string,std::vector<double> > qtrait_esize_freq(const singlepop_t * pop);
+
   }
 }
 
