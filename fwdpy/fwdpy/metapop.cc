@@ -19,7 +19,7 @@ namespace fwdpy {
     singlepop_t spop(*pop);
     mpop->diploids.clear();
     mpop->gametes.clear();
-      
+    mpop->Ns.clear();
     // //Move construct from spop into mpop
     mpop->fixations = std::move(spop.fixations);
     mpop->fixation_times = std::move(spop.fixation_times);
@@ -27,7 +27,7 @@ namespace fwdpy {
     mpop->gametes = std::move(spop.gametes);
     mpop->diploids.emplace_back(std::move(spop.diploids));
     mpop->mut_lookup = std::move(spop.mut_lookup);
-    
+    mpop->Ns.push_back(mpop->diploids[0].size());
     //Update other data
     mpop->generation = spop.generation;
   }
@@ -38,6 +38,7 @@ namespace fwdpy {
 		  const int update_counts)
   {
     mpop->diploids.push_back(metapop_t::dipvector_t(mpop->diploids[i]));
+    mpop->Ns.push_back(mpop->diploids[i].size());
     size_t newpop_idx = mpop->diploids.size()-1;
     if( update_counts ) //normally not needed--the next "sample_diploid" call will do the trick
       {
