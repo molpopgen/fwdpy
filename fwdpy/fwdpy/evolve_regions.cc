@@ -41,7 +41,7 @@ namespace fwdpy {
 			      &pop->diploids, 
 			      &pop->mutations,
 			      pop->N,
-			      pop->N,
+			      nextN,
 			      mu_tot,
 			      std::bind(&KTfwd::extensions::discrete_mut_model::make_mut<decltype(pop->mut_lookup)>,&m,rng,neutral,selected,pop->generation,&pop->mut_lookup),
 			      std::bind(KTfwd::genetics101(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,
@@ -53,11 +53,11 @@ namespace fwdpy {
 			      std::bind(KTfwd::insert_at_end<fwdpy::singlepop_t::mutation_t,fwdpy::singlepop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
 			      std::bind(KTfwd::insert_at_end<fwdpy::singlepop_t::gamete_t,fwdpy::singlepop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
 			      dipfit,
-			      std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,2*pop->N),
+			      std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,2*nextN),
 			      f);
 	pop->N=nextN;
 	KTfwd::remove_fixed_lost(&pop->mutations,&pop->fixations,&pop->fixation_times,&pop->mut_lookup,pop->generation,2*nextN);
-	assert(KTfwd::check_sum(pop->gametes,2*pop->N));
+	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size
     pop->N = pop->diploids.size();
@@ -134,14 +134,13 @@ namespace fwdpy {
     //Finally, we can evolve this thing
     for( unsigned g = 0 ; g < simlen ; ++g, ++mpop->generation )
       {
-	std::vector<unsigned> Ns({unsigned(Nvector_A[g]),unsigned(Nvector_A[g])}),
-	  Ns_next({unsigned(Nvector_A[g]),unsigned(Nvector_A[g])});
-	unsigned N = std::accumulate(Ns.begin(),Ns.end(),0u);
+	std::vector<unsigned> Ns_next({unsigned(Nvector_A[g]),unsigned(Nvector_A[g])});
+	unsigned N = std::accumulate(Ns_next.begin(),Ns_next.end(),0u);
 	std::vector<double> wbars = sample_diploid(rng,
 						   &mpop->gametes,
 						   &mpop->diploids,
 						   &mpop->mutations,
-						   &Ns[0],
+						   &mpop->Ns[0],
 						   &Ns_next[0],
 						   mu_tot,
 						   std::bind(&KTfwd::extensions::discrete_mut_model::make_mut<decltype(mpop->mut_lookup)>,&m,rng,neutral,selected,mpop->generation,&mpop->mut_lookup),
@@ -158,6 +157,7 @@ namespace fwdpy {
 						   std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,4*N),
 						   std::bind(migpop,std::placeholders::_1,rng,migrate),
 						   &fs[0]);
+	mpop->Ns = Ns_next;
 	//4*N b/c it needs to be fixed in the metapopulation
 	KTfwd::remove_fixed_lost(&mpop->mutations,&mpop->fixations,&mpop->fixation_times,&mpop->mut_lookup,mpop->generation,4*N);
       }
