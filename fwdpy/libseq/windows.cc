@@ -18,6 +18,13 @@ namespace fwdpy
 			 const double starting_pos,
 			 const double ending_pos)
     {
+      if(! is_sorted(sample.cbegin(),sample.cend(),
+		     []( const pair<double,string> & a,const pair<double,string> & b ) {
+		       return a.first < b.first;
+		     }))
+	{
+	  throw runtime_error("data not sorted");
+	}
       std::vector< std::vector<std::pair<double,std::string> > > rv;
       if(sample.empty()) return rv;
       
