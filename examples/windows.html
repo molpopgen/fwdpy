@@ -256,7 +256,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c">#For each of the neutral mutations in each sample, we will split</span>
 <span class="c">#the samples up into non-overlapping windows of size 0.1</span>
-<span class="n">windows</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">windows</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
+<span class="n">windows</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">windows</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -293,12 +293,6 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Printing these outputs will be messy.  Let's just look at the first one. We'll help ourselves by printing out the window boundaries.</p>
-<p>Note the limitation in the output:</p>
-<ul>
-<li>Our simulation positions (defined above) are the half-open interval $[0,3)$.</li>
-<li>In the output below, the last window is $[2.8,2.9)$.</li>
-<li>The final empty window, $[2.9,3.0)$, is missing due to a limitation in libsequence that I'll need to fix soon.</li>
-</ul>
 
 </div>
 </div>
@@ -310,8 +304,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">j</span><span class="o">=</span><span class="mi">0</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">0.1</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="s">&quot; to &quot;</span><span class="p">,(</span><span class="n">i</span><span class="o">+</span><span class="mf">0.1</span><span class="p">),</span><span class="s">&quot;: &quot;</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="s">&quot; to &quot;</span><span class="p">,(</span><span class="n">i</span><span class="o">+</span><span class="mf">0.1</span><span class="p">),</span><span class="s">&quot;: &quot;</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
     <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span>
 </pre></div>
 
@@ -354,6 +347,7 @@ div#notebook {
 2.6  to  2.7 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
 2.7  to  2.8 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
 2.8  to  2.9 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
+2.9  to  3.0 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
 </pre>
 </div>
 </div>
