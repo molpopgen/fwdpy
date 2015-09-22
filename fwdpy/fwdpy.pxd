@@ -37,10 +37,16 @@ cdef class poptype(object):
 
 cdef class singlepop(poptype):
     cdef shared_ptr[singlepop_t] pop
-
+    cpdef gen(self)
+    cpdef popsize(self)
+    cpdef sane(self)
+    
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
-
+    cpdef gen(self)
+    cpdef popsizes(self)
+    cpdef sane(self)
+    
 cdef class popcont(object):
     """
     Empty base class for containers of population objects.
@@ -52,10 +58,12 @@ cdef class popcont(object):
 cdef class popvec(popcont):
     cdef vector[shared_ptr[singlepop_t]] pops
     cdef public object pypops
-
+    cpdef size(self)
+    
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
+    cpdef size(self)
     
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
