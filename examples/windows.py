@@ -41,7 +41,7 @@ samples = [fp.get_samples(rng,i,20) for i in pops]
 
 #For each of the neutral mutations in each sample, we will split
 #the samples up into non-overlapping windows of size 0.1
-windows = [fp.windows(i[0],0.1,0.1,0.,3) for i in samples]
+windows = [lseq.windows(i[0],0.1,0.1,0.,3) for i in samples]
 
 
 # ### Summary stats from each window
