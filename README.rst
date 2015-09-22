@@ -106,7 +106,7 @@ This section assumes that all packages are installed in fairly standard location
 
 A lot of them:
 
-* Cython_, preferably something like 0.22 or more recent.  (I'm not really sure what the minimum version requirement here is.)
+* Cython_, version $>= 0.23$.  This package depends on wrappers to C++11 smart pointers that were introduced in 0.23.  Once this package starts to stabilize a bit, I will modify the build system to not require Cython.  
 * GSL_
 * fwdpp_ 
 * libsequence_
