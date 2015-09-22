@@ -1,3 +1,6 @@
+##Undocumented fxns are wrappers to enable run-time polymorphism within the Py environs.
+##These fxns make calls to the C++ layer
+
 def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
 
@@ -8,6 +11,12 @@ def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,in
     if deme >= len(pop):
         raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
     return take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed), deme)
+
+def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):
+    return diploid_view_cpp(pop.pop.get(),ind,removeFixed)
+
+def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):
+    return diploid_view_cpp(mpop.mpop.get(),ind,removeFixed,deme)
 
 cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     singlepop pop,
@@ -106,3 +115,96 @@ def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
     elif isinstance(pop,metapop):
         get_sh_metapop(ms_sample,pop,&s,&h,&p,&a)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
+
+def diploid_view( poptype pop, list indlist, bint removeFixed = False, deme = None ):
+    """
+    Get detailed information about a list of diploids.
+
+    :param pop: A :class:`poptype`
+    :param indlist: A list of *indexes* of individuals to sample. (Start counting from 0.)
+    :param removeFixed: If non-zero, fixations will be excluded.
+    :param deme: If pop is of type :class:`metapop`, deme is the index of the sub-population from which to get the individuals
+
+    :return: A pandas.DataFrame containing information about each mutation for each individual in indlist.
+
+    :rtype: pandas.DataFrame
+
+    :raises: IndexError if any item in indlist is out of range, or if deme is out of range.
+
+    .. note:: This return value of this function does not allow the calculation of fixation times.
+       In order to do that, a change must be made to fwdpp, which may or may not happen
+       soon.
+
+    Example:
+
+    >>> import fwdpy as fp
+    >>> import numpy as np
+    >>> rng = fp.GSLrng(100)
+    >>> nregions = [fp.Region(0,1,1),fp.Region(2,3,1)]
+    >>> sregions = [fp.ExpS(1,2,1,-0.1),fp.ExpS(1,2,0.01,0.001)]
+    >>> rregions = [fp.Region(0,3,1)]
+    >>> popsizes = np.array([1000],dtype=np.uint32)
+    >>> # Evolve for 5N generations initially
+    >>> popsizes=np.tile(popsizes,10000)
+    >>> pops = fp.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> #Take a "view" of the first 5 diploids:
+    >>> view = fp.diploid_view(pops[0],[0,1,2,3,4])
+    """
+    if isinstance(pop,singlepop):
+        rv = pandas.DataFrame()
+        for i in indlist:
+            temp = diploid_view_singlepop(pop,i,removeFixed)
+            rv = pandas.concat([rv,pandas.DataFrame.from_dict(temp)])
+        return rv
+    elif isinstance(pop,metapop):
+        if deme is None:
+            raise RuntimeError("deme may not be set to None when taking a view from a meta-population")
+        rv = pandas.DataFrame()
+        for i in indlist:
+            temp = diploid_view_metapop(pop,i,removeFixed)
+            rv = pandas.concat([rv,pandas.DataFrame.from_dict(temp)])
+        return rv
+    else:
+        raise ValueError("diploid_view: type of pop is not supported")
+
+def windows(vector[pair[double,string]] ms_sample, double windowSize,
+            double stepSize, double startPos):
+    """
+    Split a sample up into "windows" based on physical distance.
+
+    :param ms_sample: The return value of a function like :func:`get_samples`
+    :param windowSize: The length of each window, in same units as your simulation's regions.
+    :param stepSize: The step size between windows, in same units as your simulation's regions.
+    :param startPos: The minimum position possible (see Example below)
+
+    :return: A list of samples for each window.  Each element in the list is a list of tuples (the same type as the input data ms_sample).
+
+    :rtype: A list
+    
+    .. note:: Empty elements in the return value represent windows with no variation.
+    
+    Example:
+
+    >>> import fwdpy as fp
+    >>> import numpy as np
+    >>> rng = fp.GSLrng(100)
+    >>> nregions = [fp.Region(0,1,1),fp.Region(2,3,1)]
+    >>> sregions = [fp.ExpS(1,2,1,-0.1),fp.ExpS(1,2,0.01,0.001)]
+    >>> rregions = [fp.Region(0,3,1)]
+    >>> popsizes = np.array([1000],dtype=np.uint32)
+    >>> # Evolve for 5N generations initially
+    >>> popsizes=np.tile(popsizes,10000)
+    >>> pops = fp.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> #Get sample of size n = 10
+    >>> s = fp.get_samples(rng,pops[0],10)
+    >>> #Split the neutral variants in the sample up into non-overlapping windows of size 0.1
+    >>> #The minimum position in all of nregions, sregions, and rregions is 0,
+    >>> #and so 0 must be passed as 'startPos'.
+    >>> #(If you were to input a value < 0., you'd get a bunch of empty windows in the return value.)
+    >>> windows = fp.windows(s[0],0.1,0.1,0)
+    """
+    if windowSize <= 0.:
+        raise RuntimeError("fwdpy.windows: windowSize must be > 0.")
+    if stepSize <= 0.:
+        raise RuntimeError("fwdpy.windows: stepSize must be > 0.")
+    return sliding_windows_cpp(ms_sample,windowSize,stepSize,startPos)

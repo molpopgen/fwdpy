@@ -15,6 +15,7 @@ The library code is [here](https://github.com/molpopgen/fwdpy)
 Here are some examples generated using [Iptyhon](http://ipython.org/)/[Jupyter](https://jupyter.org/):
 
 * [Background selection](examples/BGS.html)
+* [Sliding windows](examples/windows.html)
 
 ###Citation
 

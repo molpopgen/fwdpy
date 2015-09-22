@@ -26,6 +26,19 @@ namespace fwdpy {
 	       std::vector<double> * h,
 	       std::vector<double> * p,
 	       std::vector<double> * a);
+  std::map<std::string, std::vector<double> > diploid_view_cpp(const singlepop_t *pop,
+							       const size_t ind,
+							       const int remove_fixed);
+
+  std::map<std::string, std::vector<double> > diploid_view_cpp(const metapop_t * pop,
+							       const size_t ind,
+							       const int remove_fixed,
+							       const int deme);
+  std::vector< std::vector<std::pair<double,std::string> > >
+  sliding_windows_cpp( const std::vector<std::pair<double,std::string> > & sample,
+		       const double window_size,
+		       const double steplen,
+		       const double starting_pos );
 }
 
 #endif

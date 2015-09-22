@@ -69,23 +69,20 @@ class Sregion(Region):
     This class is the base class for a general set of objects representing distributions of fitness effects.
 
     Attributes:
-        b: the beginning of the region
-        
-        e: the end of the region
-        
-        w: the "weight" assigned to the region
-
-        h: the dominance term
+        * b: the beginning of the region
+        * e: the end of the region
+        * w: the "weight" assigned to the region
+        * h: the dominance term
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation.
 
-    This class cannot be used directly to parameterize a simulation.  Rather, you must used
-    a derived type that specifies a distribution of fitness effects.  These types include:
-        * :class:`fwdpy.fwdpy.ConstantS`
-        * :class:`fwdpy.fwdpy.UniformS`
-        * :class:`fwdpy.fwdpy.ExpS`
-        * :class:`fwdpy.fwdpy.GammaS`
-        * :class:`fwdpy.fwdpy.GaussianS`
+    .. note:: This class cannot be used directly to parameterize a simulation.  Rather, you must used
+       a derived type that specifies a distribution of fitness effects.  These types include:
+       :class:`fwdpy.fwdpy.ConstantS`,
+       :class:`fwdpy.fwdpy.UniformS`,
+       :class:`fwdpy.fwdpy.ExpS`,
+       :class:`fwdpy.fwdpy.GammaS`, and 
+       :class:`fwdpy.fwdpy.GaussianS`
     """
     def __init__(self,float beg,float end,float weight,float h=1.0,coupled=True):
         """
@@ -124,17 +121,12 @@ class GammaS(Sregion):
     Gamma distribution of fitness effects
 
     Attributes:
-        b: the beginning of the region
-        
-        e: the end of the region
-        
-        w: the "weight" assigned to the region
-
-        mean: mean of the Gamma
-
-        shape: shape of the Gamma
-
-        h: the dominance term
+        * b: the beginning of the region
+        * e: the end of the region
+        * w: the "weight" assigned to the region
+        * mean: mean of the Gamma
+        * shape: shape of the Gamma
+        * h: the dominance term
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -178,15 +170,11 @@ class ConstantS(Sregion):
     Constant/fixed selection coefficient
 
     Attributes:
-        b: the beginning of the region
-        
-        e: the end of the region
-        
-        w: the "weight" assigned to the region
-
-        s: the selection coefficient
-
-        h: the dominance term
+        * b: the beginning of the region
+        * e: the end of the region
+        * w: the "weight" assigned to the region
+        * s: the selection coefficient
+        * h: the dominance term
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -225,17 +213,12 @@ class UniformS(Sregion):
     Uniform distribution on selection coefficients
 
     Attributes:
-        b: the beginning of the region
-        
-        e: the end of the region
-        
-        w: the "weight" assigned to the region
-
-        lo: the lower bound on s
-
-        hi: the upper bound on s
-        
-        h: the dominance term
+        * b: the beginning of the region
+        * e: the end of the region
+        * w: the "weight" assigned to the region
+        * lo: the lower bound on s
+        * hi: the upper bound on s
+        * h: the dominance term
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -280,15 +263,11 @@ class ExpS(Sregion):
     Exponential distribution on selection coefficients
 
     Attributes:
-        b: the beginning of the region
-        
-        e: the end of the region
-        
-        w: the "weight" assigned to the region
-
-        mean: the mean selection coefficient
-        
-        h: the dominance term
+        * b: the beginning of the region
+        * e: the end of the region
+        * w: the "weight" assigned to the region
+        * mean: the mean selection coefficient
+        * h: the dominance term
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -327,15 +306,11 @@ class GaussianS(Sregion):
     Gaussian distribution on selection coefficients (effect sizes for sims of quantitative traits)
 
     Attributes:
-        b: the beginning of the region
-        
-        e: the end of the region
-        
-        w: the "weight" assigned to the region
-
-        sd: the standard deviation
-        
-        h: the dominance term
+        * b: the beginning of the region
+        * e: the end of the region
+        * w: the "weight" assigned to the region
+        * sd: the standard deviation
+        * h: the dominance term
 
     The mean is zero.
 

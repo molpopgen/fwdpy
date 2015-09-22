@@ -1,6 +1,9 @@
 #include <sample.hpp>
 #include <fwdpp/diploid.hh>
 #include <algorithm>
+#include <stdexcept>
+#include <limits>
+#include <Sequence/PolyTableSlice.hpp>
 
 namespace {
   enum class treat_neutral {ALL,NEUTRAL,SELECTED};
@@ -24,6 +27,76 @@ namespace {
 	    sample->emplace_back( std::make_pair(f.pos,std::string(nsam,'1')) );
 	  }
       }
+  }
+
+  void fill_diploid_view_details( std::map<std::string, std::vector<double> > & rv,
+				  //that's a mouthful!
+				  const fwdpy::singlepop_t::gamete_t::mutation_container & muts,
+				  const size_t ind,
+				  const unsigned twoN,
+				  const int remove_fixed,
+				  const int chrom)
+  {
+    for( const auto itr : muts )
+      {
+	//is mutation fixed or not?
+	double p = double(itr->n)/double(twoN);
+	if( p < 1. || !remove_fixed )
+	  {
+	    rv["ind"].push_back(double(ind));
+	    rv["pos"].push_back(itr->pos);
+	    rv["esize"].push_back(itr->s);
+	    rv["h"].push_back(itr->h);
+	    rv["p"].push_back(p);
+	    rv["hap"].push_back(double(chrom));
+	    rv["origin"].push_back(double(itr->g));
+	  }
+      }
+  }
+  /*
+    This will work for singlepop_t and metapop_t dipvectors, as they instantiate to the same type.
+    Can throw std::out_of_range
+  */
+  std::map<std::string, std::vector<double> > diploid_view_details(const fwdpy::singlepop_t::dipvector_t & diploids,
+								   const size_t ind,
+								   const int remove_fixed)
+  {
+    if(ind >= diploids.size())
+      {
+	throw std::out_of_range("diploid_view_details: individual index out of range");
+      }
+    const unsigned twoN = 2*diploids.size();
+
+    using vd = std::vector<double>;
+    std::map<std::string, vd > rv;
+    std::vector<std::string> rvlabels = {"ind","pos","esize","h","p","hap","origin"};
+    for (const auto & l : rvlabels)
+      {
+	rv[l]=vd();
+      }
+    if( diploids[ind].first->mutations.empty() &&
+	diploids[ind].first->smutations.empty() &&
+	diploids[ind].second->mutations.empty() &&
+	diploids[ind].second->smutations.empty() )
+      {
+	//diploid has no mutations!
+	rv["ind"].push_back(double(ind));
+	for (const auto & l : rvlabels)
+	  {
+	    if(l!="ind")
+	      {
+		rv[l].push_back(std::numeric_limits<double>::quiet_NaN());
+	      }
+	  }
+      }
+    else
+      {
+	fill_diploid_view_details(rv,diploids[ind].first->mutations,ind,twoN,remove_fixed,0);
+	fill_diploid_view_details(rv,diploids[ind].first->smutations,ind,twoN,remove_fixed,0);
+	fill_diploid_view_details(rv,diploids[ind].second->mutations,ind,twoN,remove_fixed,1);
+	fill_diploid_view_details(rv,diploids[ind].second->smutations,ind,twoN,remove_fixed,1);
+      }
+    return rv;
   }
 }
 
@@ -128,6 +201,42 @@ namespace fwdpy {
 		   ttlN,
 		   pop->generation,
 		   s,h,p,a);
+  }
+
+  std::map<std::string, std::vector<double> > diploid_view_cpp(const singlepop_t *pop,
+							       const size_t ind,
+							       const int remove_fixed)
+  {
+    return diploid_view_details(pop->diploids,ind,remove_fixed);
+  }
+
+  std::map<std::string, std::vector<double> > diploid_view_cpp(const metapop_t * pop,
+							       const size_t ind,
+							       const int remove_fixed,
+							       const int deme)
+  {
+    if (unsigned(deme) >= pop->diploids.size())
+      {
+	throw std::out_of_range("diploid_view: deme index out of range");
+      }
+    return diploid_view_details(pop->diploids[deme],ind,remove_fixed);
+  }
+
+  std::vector< std::vector<std::pair<double,std::string> > >
+  sliding_windows_cpp( const std::vector<std::pair<double,std::string> > & sample,
+		       const double window_size,
+		       const double steplen,
+		       const double starting_pos )
+  {
+    std::vector< std::vector<std::pair<double,std::string> > > rv;
+    if(sample.empty()) return rv;
+    
+    Sequence::SimData d(sample.begin(),sample.end());
+    Sequence::PolyTableSlice<Sequence::SimData> s(d.sbegin(),d.send(),window_size,steplen,starting_pos);
+    std::for_each(s.cbegin(),s.cend(),[&rv](const Sequence::PolyTableSlice<Sequence::SimData>::const_iterator::value_type & v) {
+	rv.push_back( std::vector<std::pair<double,std::string> >(v.first,v.second) );
+      });
+    return rv;
   }
 }
 
