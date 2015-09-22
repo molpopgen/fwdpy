@@ -1,5 +1,6 @@
 import fwdpy
 import pandas
+import fwdpy.libseq
 
 rng = fwdpy.GSLrng(100)
 pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*int(1e4),50,50)
@@ -21,8 +22,8 @@ def countDerived( sample ):
     return nsing
 
 #list comprehension for automatic vectorizing
-D = [fwdpy.TajimasD(si) for si in s]
-print "Tajima's D per sample =", D
+D = [fwdpy.libseq.summstats(si) for si in s]
+print D
 
 #number of seg sites per sample
 segsites = [len(si) for si in s]
