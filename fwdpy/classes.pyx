@@ -11,17 +11,17 @@ cdef class singlepop(poptype):
     """
     def __del__(self):
        self.pop.reset()
-    def gen(self):
+    cpdef gen(self):
         """
         Returns the generation that the population is currently evolved to
         """
         return self.pop.get().generation
-    def popsize(self):
+    cpdef popsize(self):
         """
         Returns the size of the population
         """
         return self.pop.get().N
-    def sane(self):
+    cpdef sane(self):
         """
         Makes sure that the population is in a sane state.
 
@@ -65,7 +65,7 @@ cdef class popvec(popcont):
         if self.pops.size() != len(self.pypops):
             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
-    def size(self):
+    cpdef size(self):
         """
         Returns number of populations (size of underlying C++ vector)
         """
@@ -83,17 +83,17 @@ cdef class metapop(poptype):
        self.mpop.reset()
     def __len__(self):
         return self.mpop.get().size()
-    def gen(self):
+    cpdef gen(self):
         """
         Returns the generation that the population is currently evolved to
         """
         return self.mpop.get().generation
-    def popsizes(self):
+    cpdef popsizes(self):
         """
         Returns the size of the population
         """
         return self.mpop.get().Ns
-    def sane(self):
+    cpdef sane(self):
         """
         Makes sure that the population is in a sane state.
 
@@ -134,7 +134,7 @@ cdef class mpopvec(popcont):
         if self.mpops.size() != len(self.pympops):
             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
         return self.mpops.size()
-    def size(self):
+    cpdef size(self):
         """
         Returns number of populations (size of underlying C++ vector)
         """
