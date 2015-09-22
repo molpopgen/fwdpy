@@ -1,3 +1,6 @@
+##Undocumented fxns are wrappers to enable run-time polymorphism within the Py environs.
+##These fxns make calls to the C++ layer
+
 def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
 
