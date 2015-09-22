@@ -8,8 +8,10 @@
 # In[1]:
 
 #import our modules
+from __future__ import print_function
 import fwdpy as fp
 import fwdpy.libseq as lseq
+import pandas
 import numpy as np
 
 
@@ -52,13 +54,22 @@ windows = [lseq.windows(i[0],0.1,0.1,0.,3) for i in samples]
 stats = [[lseq.summstats(i) for i in j] for j in windows]
 
 
-# Printing these outputs will be messy.  Let's just look at the first one. We'll help ourselves by printing out the window boundaries.
+# Printing these outputs will be messy as the output is a bunch of dict objects.  Let's merge all the output into a giant pandas.DataFrame for easier handling.
 
 # In[7]:
 
+allstats=pandas.DataFrame()
+starts = np.arange(0.,3.,0.1)
+stops = starts + 0.1
 
-j=0
-for i in np.arange(0,3,0.1):
-    print i," to ",(i+0.1),": ",stats[0][j]
-    j=j+1
+for i in range(len(stats)):
+    temp = pandas.DataFrame.from_dict(stats[i])
+    temp['replicate']=[i]*len(temp.index)
+    temp['starts']=starts
+    temp['stops']=stops
+    allstats=pandas.concat([allstats,temp])
+
+#Now, that's cleaner!
+print (allstats.head())
+print (allstats.tail())
 
