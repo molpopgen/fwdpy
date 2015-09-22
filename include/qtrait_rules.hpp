@@ -80,7 +80,7 @@ namespace fwdpy
 							 fitness += (mut->h*mut->s);
 						       },
 						       0.);
-	offspring->e = gsl_ran_gaussian(r,sigE);
+	offspring->e = gsl_ran_gaussian_ziggurat(r,sigE);
 	double dev = (offspring->g+offspring->e-optimum);
 	offspring->w = std::exp( -(dev*dev)/2. );
 	assert( std::isfinite(offspring->w) );
