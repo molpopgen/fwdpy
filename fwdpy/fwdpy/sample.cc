@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <limits>
+#include <Sequence/PolyTableSlice.hpp>
 
 namespace {
   enum class treat_neutral {ALL,NEUTRAL,SELECTED};
@@ -219,6 +220,23 @@ namespace fwdpy {
 	throw std::out_of_range("diploid_view: deme index out of range");
       }
     return diploid_view_details(pop->diploids[deme],ind,remove_fixed);
+  }
+
+  std::vector< std::vector<std::pair<double,std::string> > >
+  sliding_windows_cpp( const std::vector<std::pair<double,std::string> > & sample,
+		       const double window_size,
+		       const double steplen,
+		       const double starting_pos )
+  {
+    std::vector< std::vector<std::pair<double,std::string> > > rv;
+    if(sample.empty()) return rv;
+    
+    Sequence::SimData d(sample.begin(),sample.end());
+    Sequence::PolyTableSlice<Sequence::SimData> s(d.sbegin(),d.send(),window_size,steplen,starting_pos);
+    std::for_each(s.cbegin(),s.cend(),[&rv](const Sequence::PolyTableSlice<Sequence::SimData>::const_iterator::value_type & v) {
+	rv.push_back( std::vector<std::pair<double,std::string> >(v.first,v.second) );
+      });
+    return rv;
   }
 }
 
