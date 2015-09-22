@@ -184,8 +184,10 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="c">#import our modules</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">fwdpy</span> <span class="kn">as</span> <span class="nn">fp</span>
 <span class="kn">import</span> <span class="nn">fwdpy.libseq</span> <span class="kn">as</span> <span class="nn">lseq</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 </pre></div>
 
@@ -292,7 +294,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Printing these outputs will be messy.  Let's just look at the first one. We'll help ourselves by printing out the window boundaries.</p>
+<p>Printing these outputs will be messy as the output is a bunch of dict objects.  Let's merge all the output into a giant pandas.DataFrame for easier handling.</p>
 
 </div>
 </div>
@@ -302,10 +304,20 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">j</span><span class="o">=</span><span class="mi">0</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mf">0.1</span><span class="p">):</span>
-    <span class="k">print</span> <span class="n">i</span><span class="p">,</span><span class="s">&quot; to &quot;</span><span class="p">,(</span><span class="n">i</span><span class="o">+</span><span class="mf">0.1</span><span class="p">),</span><span class="s">&quot;: &quot;</span><span class="p">,</span><span class="n">stats</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
-    <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">allstats</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">3.</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">stops</span> <span class="o">=</span> <span class="n">starts</span> <span class="o">+</span> <span class="mf">0.1</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stats</span><span class="p">)):</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">temp</span><span class="p">[</span><span class="s">&#39;replicate&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">temp</span><span class="p">[</span><span class="s">&#39;starts&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">starts</span>
+    <span class="n">temp</span><span class="p">[</span><span class="s">&#39;stops&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">stops</span>
+    <span class="n">allstats</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">allstats</span><span class="p">,</span><span class="n">temp</span><span class="p">])</span>
+
+<span class="c">#Now, that&#39;s cleaner!</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">allstats</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="k">print</span> <span class="p">(</span><span class="n">allstats</span><span class="o">.</span><span class="n">tail</span><span class="p">())</span>
 </pre></div>
 
 </div>
@@ -318,36 +330,36 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>0.0  to  0.1 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-0.1  to  0.2 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-0.2  to  0.3 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-0.3  to  0.4 :  {&apos;thetapi&apos;: 0.39473684210526316, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: 0.7226143606182066, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 1.1842105263157894, &apos;hprime&apos;: -1.8711116674803954, &apos;thetaw&apos;: 0.28186961182070197}
-0.4  to  0.5 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-0.5  to  0.6 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-0.6  to  0.7 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-0.7  to  0.8 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-0.8  to  0.9 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
-0.9  to  1.0 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
-1.0  to  1.1 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.1  to  1.2 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.2  to  1.3 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.3  to  1.4 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.4  to  1.5 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.5  to  1.6 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.6  to  1.7 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.7  to  1.8 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.8  to  1.9 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-1.9  to  2.0 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-2.0  to  2.1 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
-2.1  to  2.2 :  {&apos;thetapi&apos;: 0.2, &apos;dsingletons&apos;: 2.0, &apos;S&apos;: 2.0, &apos;tajd&apos;: -1.5128356903928148, &apos;singletons&apos;: 2.0, &apos;thetah&apos;: 0.010526315789473684, &apos;hprime&apos;: 0.299198956808438, &apos;thetaw&apos;: 0.5637392236414039}
-2.2  to  2.3 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
-2.3  to  2.4 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
-2.4  to  2.5 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-2.5  to  2.6 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
-2.6  to  2.7 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-2.7  to  2.8 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
-2.8  to  2.9 :  {&apos;thetapi&apos;: 0.1, &apos;dsingletons&apos;: 1.0, &apos;S&apos;: 1.0, &apos;tajd&apos;: -1.1643910542533689, &apos;singletons&apos;: 1.0, &apos;thetah&apos;: 0.005263157894736842, &apos;hprime&apos;: 0.22453340009764747, &apos;thetaw&apos;: 0.28186961182070197}
-2.9  to  3.0 :  {&apos;thetapi&apos;: 0.0, &apos;dsingletons&apos;: 0.0, &apos;S&apos;: 0.0, &apos;tajd&apos;: nan, &apos;singletons&apos;: 0.0, &apos;thetah&apos;: 0.0, &apos;hprime&apos;: nan, &apos;thetaw&apos;: 0.0}
+<pre>   S  dsingletons    hprime  replicate  singletons  starts  stops      tajd  \
+0  0            0       NaN          0           0     0.0    0.1       NaN   
+1  0            0       NaN          0           0     0.1    0.2       NaN   
+2  0            0       NaN          0           0     0.2    0.3       NaN   
+3  1            0 -1.871112          0           0     0.3    0.4  0.722614   
+4  0            0       NaN          0           0     0.4    0.5       NaN   
+
+     thetah   thetapi   thetaw  
+0  0.000000  0.000000  0.00000  
+1  0.000000  0.000000  0.00000  
+2  0.000000  0.000000  0.00000  
+3  1.184211  0.394737  0.28187  
+4  0.000000  0.000000  0.00000  
+
+[5 rows x 11 columns]
+    S  dsingletons    hprime  replicate  singletons  starts  stops      tajd  \
+25  0            0       NaN          3           0     2.5    2.6       NaN   
+26  2            1  0.498665          3           1     2.6    2.7  0.063253   
+27  0            0       NaN          3           0     2.7    2.8       NaN   
+28  1            0 -1.397097          3           0     2.8    2.9  1.025883   
+29  1            1  0.224533          3           1     2.9    3.0 -1.164391   
+
+      thetah   thetapi    thetaw  
+25  0.000000  0.000000  0.000000  
+26  0.263158  0.578947  0.563739  
+27  0.000000  0.000000  0.000000  
+28  1.031579  0.442105  0.281870  
+29  0.005263  0.100000  0.281870  
+
+[5 rows x 11 columns]
 </pre>
 </div>
 </div>
