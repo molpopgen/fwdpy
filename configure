@@ -3221,11 +3221,11 @@ else
 	as_fn_error $? "fwdpp >= 0.3.8 required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
 fi
 
-if test "$LIBSEQVERSION" \> "1.8.4"
+if test "$LIBSEQVERSION" \> "1.8.6"
 then
 	echo "libsequence version $LIBSEQVERSION detected"
 else
-	as_fn_error $? "libsequence >= 1.8.5 required, please install from http://github.com/molpopgen/libsequence" "$LINENO" 5
+	as_fn_error $? "libsequence >= 1.8.7 required, please install from http://github.com/molpopgen/libsequence" "$LINENO" 5
 fi
 
 echo "GSL version $GSLVERSION detected"

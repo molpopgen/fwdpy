@@ -38,7 +38,8 @@ namespace fwdpy {
   sliding_windows_cpp( const std::vector<std::pair<double,std::string> > & sample,
 		       const double window_size,
 		       const double steplen,
-		       const double starting_pos );
+		       const double starting_pos,
+		       const double ending_pos);
 }
 
 #endif

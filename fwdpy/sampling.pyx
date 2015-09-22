@@ -168,7 +168,7 @@ def diploid_view( poptype pop, list indlist, bint removeFixed = False, deme = No
         raise ValueError("diploid_view: type of pop is not supported")
 
 def windows(vector[pair[double,string]] ms_sample, double windowSize,
-            double stepSize, double startPos):
+            double stepSize, double startPos, double endPos):
     """
     Split a sample up into "windows" based on physical distance.
 
@@ -176,6 +176,7 @@ def windows(vector[pair[double,string]] ms_sample, double windowSize,
     :param windowSize: The length of each window, in same units as your simulation's regions.
     :param stepSize: The step size between windows, in same units as your simulation's regions.
     :param startPos: The minimum position possible (see Example below)
+    :param endPos: The maximum position possible (see Example below)
 
     :return: A list of samples for each window.  Each element in the list is a list of tuples (the same type as the input data ms_sample).
 
@@ -199,12 +200,12 @@ def windows(vector[pair[double,string]] ms_sample, double windowSize,
     >>> s = fp.get_samples(rng,pops[0],10)
     >>> #Split the neutral variants in the sample up into non-overlapping windows of size 0.1
     >>> #The minimum position in all of nregions, sregions, and rregions is 0,
-    >>> #and so 0 must be passed as 'startPos'.
+    >>> #and so 0 must be passed as 'startPos'.  Likewise, endPos must be 3.
     >>> #(If you were to input a value < 0., you'd get a bunch of empty windows in the return value.)
-    >>> windows = fp.windows(s[0],0.1,0.1,0)
+    >>> windows = fp.windows(s[0],0.1,0.1,0,3)
     """
     if windowSize <= 0.:
         raise RuntimeError("fwdpy.windows: windowSize must be > 0.")
     if stepSize <= 0.:
         raise RuntimeError("fwdpy.windows: stepSize must be > 0.")
-    return sliding_windows_cpp(ms_sample,windowSize,stepSize,startPos)
+    return sliding_windows_cpp(ms_sample,windowSize,stepSize,startPos,endPos)

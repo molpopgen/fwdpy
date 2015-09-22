@@ -75,7 +75,7 @@ cdef extern from "sample.hpp" namespace "fwdpy":
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
     map[string,vector[double]] diploid_view_cpp(const singlepop_t *pop, const size_t ind, const int remove_fixed) except +
     map[string,vector[double]] diploid_view_cpp(const metapop_t * pop, const size_t ind, const int remove_fixed, const int deme) except +
-    vector[vector[pair[double,string]]] sliding_windows_cpp( const vector[pair[double,string]] & sample, const double window_size, const double steplen, const double starting_pos )
+    vector[vector[pair[double,string]]] sliding_windows_cpp( const vector[pair[double,string]] & sample, const double window_size, const double steplen, const double starting_pos, const double ending_pos )
     
 cdef extern from "deps.hpp" namespace "fwdpy":
     vector[string] fwdpy_dependencies()
