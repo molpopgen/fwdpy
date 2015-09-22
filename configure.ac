@@ -417,11 +417,11 @@ else
 fi
 
 dnl Check that libsequence version is sufficient
-if test "$LIBSEQVERSION" \> "1.8.4"
+if test "$LIBSEQVERSION" \> "1.8.6"
 then
 	echo "libsequence version $LIBSEQVERSION detected"
 else
-	AC_MSG_ERROR([libsequence >= 1.8.5 required, please install from http://github.com/molpopgen/libsequence])
+	AC_MSG_ERROR([libsequence >= 1.8.7 required, please install from http://github.com/molpopgen/libsequence])
 fi
 
 echo "GSL version $GSLVERSION detected"
