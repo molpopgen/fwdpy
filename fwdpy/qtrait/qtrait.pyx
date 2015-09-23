@@ -31,7 +31,8 @@ cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
     map[string,double] qtrait_pop_props( const singlepop_t * pop );
     map[string,vector[double]] get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
     map[string,vector[double]] qtrait_esize_freq(const singlepop_t * pop)
-    vector[double] ew2010_traits_cpp(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
+    map[double,double] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
+    vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,double] & effects) except +
     
 def evolve_qtrait(GSLrng rng,
                     int npops,
@@ -152,19 +153,23 @@ def esize_freq(singlepop pop):
     """
     return pandas.DataFrame.from_dict(qtrait_esize_freq(pop.pop.get()))
 
-def ew2010_traits(GSLrng rng, singlepop pop, double tau, double sigma):
+def ew2010_effects(GSLrng rng, singlepop pop, double tau, double sigma):
     """
-    Implement model of Eyre-Walker 2010
-
     :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.qtrait.qtrait.evolve_qtrait` and/or :func:`fwdp.qtrait.qtrait.evolve_qtrait_more`
-    :param pop: The coupling of trait value to fitness effect of mutation
+    :param tau: The coupling of trait value to fitness effect of mutation
     :param sigma: The standard deviation for Gaussian noise applied to trait value.  Generates the :math:`\epsilon` term in E-W's paper
-
-    .. note:: The citation is www.pnas.org/cgi/doi/10.1073/pnas.0906182107.
-       We implement the simple additive case here.
     """
     if tau < 0.:
         raise RuntimeError("tau cannot be < 0.")
     if sigma < 0.:
         raise RuntimeError("sigma cannot be < 0.")
-    return ew2010_traits_cpp(rng.thisptr,pop.pop.get(),tau,sigma)
+    return ew2010_assign_effects(rng.thisptr,pop.pop.get(),tau,sigma)
+    
+def ew2010_traits(singlepop pop,list effects):
+    """
+    Implement model of Eyre-Walker 2010
+    
+    .. note:: The citation is www.pnas.org/cgi/doi/10.1073/pnas.0906182107.
+       We implement the simple additive case here.
+    """
+    return ew2010_traits_cpp(pop.pop.get(),effects)

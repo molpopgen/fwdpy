@@ -40,20 +40,26 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    //returns a list of trait values for each diploid
-    vector<double> ew2010_traits_cpp(GSLrng_t * rng,
-				     const fwdpy::singlepop_t * pop,
-				     const double tau,
-				     const double sigma)
+    map<double,double> ew2010_assign_effects(GSLrng_t * rng,
+					     const fwdpy::singlepop_t * pop,
+					     const double tau,
+					     const double sigma)
     {
-      auto effects = ew2010_effects_details(rng->get(),pop->mutations,double(4.*pop->diploids.size()),tau,sigma);
+      return ew2010_effects_details(rng->get(),pop->mutations,double(4.*pop->diploids.size()),tau,sigma);
+    }
+    
+    //returns a list of trait values for each diploid
+    vector<double> ew2010_traits_cpp(const fwdpy::singlepop_t * pop,
+				     const map<double,double> & effects)
+    {
       vector<double> rv;
       const auto sum_lambda = [&effects](const double & sum, const fwdpy::singlepop_t::gamete_t::mutation_list_type_iterator & mitr) {
-	if(effects.find(mitr->pos) == effects.end())
+	auto effects_itr = effects.find(mitr->pos);
+	if(effects_itr == effects.end())
 	  {
 	    throw runtime_error("diploid contains a mutation at an unknown position");
 	  }
-	return sum + effects[mitr->pos];
+	return sum + effects_itr->second;
       };
       for_each(pop->diploids.cbegin(),pop->diploids.cend(),[&rv,&sum_lambda]( const fwdpy::singlepop_t::diploid_t & dip )
 	       {
