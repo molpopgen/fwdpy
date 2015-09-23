@@ -1,7 +1,8 @@
-Modeling regional variation in mutation and recombination
+
+Example: Modeling regional variation in mutation and recombination
 ======================================================================
 
-Several of the simulation routines allow the details of the mutation and recombination models to vary along a "sequence" or "region".  A user is able to specify the details of such variation by passing _lists_ to package functions.  For example, you are able to:
+Several of the simulation routines allow the details of the mutation and recombination models to vary along a "sequence" or "region".  A user is able to specify the details of such variation by passing *lists* to package functions.  For example, you are able to:
 
 * Vary the neutral mutation rate along a sequence.
 * Vary the distribution of selection coefficients (and the dominance associated with selected mutations) along a sequence.
@@ -44,16 +45,39 @@ These two approaches allow for considerable modeling flexibility.  For example, 
 
 This model boils down to the relative number of crossing overs per region occuring in the ratio :math:`0 : 10^{-8} : 10^{-7}`.  This is easily represented using fwdpy's classes:
 
-"``>>>``"
-   >>> import fwdpy 
-   >>> recRegions = [fwdpy.Region(1,1e5,0),fwdpy.Region(1e5,2e5,1e-8),fwdpy.Region(2e5,3e5,1e-7)]
+.. code:: python
 
-For this hypothetical example, the region lengths are all even, and thus an equivalent specification would be this:
+    from __future__ import print_function
+    import fwdpy 
+    recRegions = [fwdpy.Region(1,1e5,0),fwdpy.Region(1e5,2e5,1e-8),fwdpy.Region(2e5,3e5,1e-7)]
+    for i in recRegions:
+        print (i)
 
-"``>>>``"
-   >>> import fwdpy 
-   >>> recRegions = [fwdpy.Region(1,1e5,0,False),fwdpy.Region(1e5,2e5,1e-8,False),fwdpy.Region(2e5,3e5,1e-7,False)]
-   
+
+.. parsed-literal::
+
+    beg = 1.000000000, end = 100000.000000000, weight = 0.000000000
+    beg = 100000.000000000, end = 200000.000000000, weight = 0.001000000
+    beg = 200000.000000000, end = 300000.000000000, weight = 0.010000000
+
+
+For this hypothetical example, the region lengths are all identical, and
+thus an equivalent specification would be this:
+
+.. code:: python
+
+    recRegions = [fwdpy.Region(1,1e5,0,False),fwdpy.Region(1e5,2e5,1e-8,False),fwdpy.Region(2e5,3e5,1e-7,False)]
+    for i in recRegions:
+        print (i)
+
+
+.. parsed-literal::
+
+    beg = 1.000000000, end = 100000.000000000, weight = 0.000000000
+    beg = 100000.000000000, end = 200000.000000000, weight = 0.000000010
+    beg = 200000.000000000, end = 300000.000000000, weight = 0.000000100
+
+
 Specific examples
 -------------------
 
@@ -62,26 +86,54 @@ Mutations not affecting fitness ("neutral" mutations)
 
 You specify regions where neutral mutations arise via the class :class:`fwdpy.fwdpy.Region`.  A region has a beginning, end, and a weight Thus, the following list would specify that 100% of neutral mutations occur on the continuous interval [0,1):
 
-.. code-block:: python
-		
-		neutralRegions = [fwdpy.Region(0,1,1)]
+.. code:: python
+
+    neutralRegions = [fwdpy.Region(0,1,1)]
 
 The beginning and end positions can be whatever you like:
 
-.. code-block:: python
+.. code:: python
 
-		#With a weight of 1, we're just rescaling the position here.
-		neutralRegions = [fwdpy.Region(0,100,1)]
+    #With a weight of 1, we're just rescaling the position here.
+    neutralRegions = [fwdpy.Region(0,100,1)]
 
-To specify variation in the netural mutation process along a sequence, combine multiple regions in your list:
+To specify variation in the netural mutation process along a sequence,
+combine multiple regions in your list:
 
-"``>>>``"
+.. code:: python
 
->>> #If coupled=False for the second region, the effect would be that region2's mutation rate per base pair is 10x less than region 1!!
->>> neutralRegions = [fwdpy.Region(beg=0,end=1,weight=1),fwdpy.Region(beg=2,end=12,weight=1,coupled=True)]
+    #If coupled=False for the second region, the effect would be that region2's mutation rate per base pair is 10x less than region 1!!
+    neutralRegions = [fwdpy.Region(beg=0,end=1,weight=1),fwdpy.Region(beg=2,end=12,weight=1,coupled=True)]
+
+Internally, the total "mutational weight" of the first region will be a
+function of its length, which is 1(1-0)=1. The second region's total
+weight will be 1\*(12-2)=10, and it will have 10xas many new mutations
+arising as the first region.
+
+.. code:: python
+
+    #Let's see what happens if we set coupled=False:
+    neutralRegions2 = [fwdpy.Region(beg=0,end=1,weight=1),fwdpy.Region(beg=2,end=12,weight=1,coupled=False)]
+    print("The set with coupled=True:")
+    for i in neutralRegions:
+        print(i)
+    print("The set with coupled=False:")
+    for i in neutralRegions2:
+        print(i)
 
 
-Internally, the total "mutational weight" of the first region will be a function of its length, which is 1(1-0)=1.  The second region's total weight will be 1*(12-2)=10, and it will have 10xas many new mutations arising as the first region.
+.. parsed-literal::
+
+    The set with coupled=True:
+    beg = 0.000000000, end = 1.000000000, weight = 1.000000000
+    beg = 2.000000000, end = 12.000000000, weight = 10.000000000
+    The set with coupled=False:
+    beg = 0.000000000, end = 1.000000000, weight = 1.000000000
+    beg = 2.000000000, end = 12.000000000, weight = 1.000000000
+
+
+See the difference in the above? (Look at the "weight" term in the
+second line of each set.)
 
 Mutations affecting fitness
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,11 +160,22 @@ Just like neutral mutations, intervals with different crossover rates are specif
 
 The above model can be represented as:
 
-"``>>>``"
+.. code:: python
 
->>> import fwdpy
->>> #recrate[2] is the hotspot:
->>> recrates = [fwdpy.Region(0,0.45,1),fwdpy.Region(0.55,1,1),fwdpy.Region(0.45,0.55,100)]
+    #recrate[2] is the hotspot:
+    recrates = [fwdpy.Region(0.,0.45,1.),fwdpy.Region(0.55,1.,1.,),fwdpy.Region(0.45,0.55,100.)]
+    for i in recrates:
+        print (i)
+
+
+.. parsed-literal::
+
+    beg = 0.000000000, end = 0.449999988, weight = 0.449999988
+    beg = 0.550000012, end = 1.000000000, weight = 0.449999988
+    beg = 0.449999988, end = 0.550000012, weight = 10.000002384
+
+
+**Please note:** the apparent 'slop' that you see above (*e.g.*, the output looks oddly rounded vis-a-vis the input) does not appear to be passed on to the C++ internals, which is where it really matters.  This appears to simply be a display issue.
 
 Internally, this is what will happen to the above input:
 
@@ -132,65 +195,75 @@ The 'weights' that you assign are *relative* and need not sum to 1.  Each weight
 Example
 ~~~~~~~~~~~
 
-"``>>>``"
+.. code:: python
 
->>> import fwdpy
->>> import numpy as np
->>> rng = fwdpy.GSLrng(100)
->>> ##Some basic parameters
->>> N=1000
->>> theta=100.0
->>> rho=100.0
->>> ##All neutral muts are [0,1)
->>> nregions = [ fwdpy.Region(0,1,1) ]
->>> #Selected mutations.  All are additive, to keep this example simple.
->>> ##Strongly deleterious mutations to the "left"
->>> ##Weaker mutations (2Ns = 10 on average) to the "right"
->>> ## 1% of selected mutations will be positively selected
->>> ## and uniform throughout the region.  The distribution
->>> ## of s will be exponential with mean 1e-3
->>> smodels = [fwdpy.ConstantS(-1,0,0.99/2,-0.1),fwdpy.ExpS(1,2,0.99/2,-10),fwdpy.ExpS(-1,2,0.01,0.001)]
->>> ##Recombination models--10x hotspot in the middl
->>> rregions = [fwdpy.Region(-1,1,1),fwdpy.Region(0.45,0.55,10)]
->>> #set up list of population sizes,
->>> #which are NumPy arrays of ints
->>> popsizes = np.array([N],dtype=np.uint32) 
->>> popsizes = np.tile(popsizes,10*N)
->>> pops = fwdpy.evolve_regions(rng,1,N,popsizes[0:],theta/(4*N),0.1*theta/(4*N),rho/(4*N),nregions,smodels,rregions)
->>> #Take a sample of size n = 10 from the population via list comprehension
->>> popSample = [fwdpy.ms_sample(rng,i,10) for i in pops]
-
-A simple example of "exons"
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Let's consider the following model of a "two-exon gene":
-
-* Exon 1 spans positions 0.2 to 0.4.
-* Exon 2 spans positions 0.6 to 1.
-* There will be selection against amino acid replacements.
-
-For the sake of simplicity, we will ignore:
-
-* mutations in the introns and UTR regions
-
-We can define the following region lengths:
-
-* :math:`l_1 = 0.2` is the length of Exon 1.
-* :math:`l_2 = 0.4` is the length of Exon 2.
-
-Thus the relative weights assigned to Exon 1 and 2 must satisfy :math:`w_2/w_1 = l_2/l_1 = 2`.
-
-Further, within an exon, :math:`\approx 3/4` of new mutations will be amino acid replacements.  Thus, 3/4 of the total mutational weight in a region will be on selected mutations.
-
-Our model looks like this:
-
-"``>>>``"
-
-		>>> nregions = [fwdpy.Region(0.2,0.4,0.25),fwdpy.Region(0.6,1,0.5)]
-		>>> sregions = [fwdpy.ConstantS(0.2,0.4,0.75,-0.01),fwdpy.ConstantS(0.6,1,1.5,-0.01) ]
-
+    import fwdpy
+    import numpy as np
+    rng = fwdpy.GSLrng(100)
+    ##Some basic parameters
+    N=1000
+    theta=100.0
+    rho=100.0
+    ##All neutral muts are [0,1)
+    nregions = [ fwdpy.Region(0,1,1) ]
+    #Selected mutations.  All are additive, to keep this example simple.
+    ##Strongly deleterious mutations to the "left"
+    ##Weaker mutations (2Ns = 10 on average) to the "right"
+    ## 1% of selected mutations will be positively selected
+    ## and uniform throughout the region.  The distribution
+    ## of s will be exponential with mean 1e-3
+    smodels = [fwdpy.ConstantS(-1,0,0.99/2,-0.1),fwdpy.ExpS(1,2,0.99/2,-10),fwdpy.ExpS(-1,2,0.01,0.001)]
+    ##Recombination models--10x hotspot in the middl
+    rregions = [fwdpy.Region(-1,1,1),fwdpy.Region(0.45,0.55,10)]
+    #set up list of population sizes,
+    #which are NumPy arrays of ints
+    popsizes = np.array([N],dtype=np.uint32) 
+    popsizes = np.tile(popsizes,10*N)
+    pops = fwdpy.evolve_regions(rng,1,N,popsizes[0:],theta/(4*N),0.1*theta/(4*N),rho/(4*N),nregions,smodels,rregions)
+    #Take a sample of size n = 10 from the population via list comprehension
+    popSample = [fwdpy.get_samples(rng,i,100) for i in pops]
 
 If we pass *the same neutral and selected mutation rates to evolve.regions*, then the above model satisfies:
 
 * The total number of mutations occurring in Exon 2 is 2x the number occuring in Exon 1.
 * Within an exon, 3/4 of all new mutations are deleterious.
+
+.. code:: python
+
+    #Let's convert from tuples to pandas DataFrames.
+    #Ideally, one would further split each tuple element into a list,
+    #but this example let's us get the point...
+    import pandas
+    neutralMuts = pandas.DataFrame.from_records(popSample[0][0],columns=['pos','genotypes'])
+    selectedMuts = pandas.DataFrame.from_records(popSample[0][1],columns=['pos','genotypes'])
+
+.. code:: python
+
+    print(neutralMuts.head())
+
+
+.. parsed-literal::
+
+            pos                                          genotypes
+    0  0.006588  0000000000000000000000001000010000000000000000...
+    1  0.012971  1000000000010101000001000010101000000000000010...
+    2  0.014566  0110000010000010000010010000000111001000010000...
+    3  0.014729  0000000000000000000000000000000000000000100000...
+    4  0.020637  0000010000000000000000000000000000000000000000...
+
+
+.. code:: python
+
+    print(selectedMuts.head())
+
+
+.. parsed-literal::
+
+            pos                                          genotypes
+    0  1.016680  0101110011001110000011010011011001010000011100...
+    1  1.192438  1010001100110001111100101100100110101111100011...
+    2  1.197182  0101110011001110000011010011011001010000011100...
+    3  1.365021  0101110011001110000011010011011001010000011100...
+    4  1.402332  1010001100110001111100101100100110101111100011...
+
+

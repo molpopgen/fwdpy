@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Modeling changes in population size &mdash; fwdpy 0.0.1 documentation</title>
+    <title>Example: modeling changes in population size &mdash; fwdpy 0.0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="fwdpy 0.0.1 documentation" href="../index.html" />
-    <link rel="next" title="Modeling regional variation in mutation and recombination" href="regions.html" />
+    <link rel="next" title="Example: Modeling regional variation in mutation and recombination" href="regions.html" />
     <link rel="prev" title="A note for R users" href="rusers.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="regions.html" title="Modeling regional variation in mutation and recombination"
+          <a href="regions.html" title="Example: Modeling regional variation in mutation and recombination"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="rusers.html" title="A note for R users"
@@ -53,72 +53,98 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="modeling-changes-in-population-size">
-<h1>Modeling changes in population size<a class="headerlink" href="#modeling-changes-in-population-size" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="example-modeling-changes-in-population-size">
+<h1>Example: modeling changes in population size<a class="headerlink" href="#example-modeling-changes-in-population-size" title="Permalink to this headline">¶</a></h1>
 <p>Many simulation functions in this package accept an array of integers as an argument.  See, for example, the &#8216;nlist&#8217; argument of <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></tt></a>.  This array represents the population size over time, and the length of the array is the number of generations to simulate.  The array is a <a class="reference external" href="http://www.numpy.org">NumPy</a> array of 32-bit unsigned integers, and a &#8220;view&#8221; of the array is passed to the simulation function.</p>
 <div class="section" id="simple-example">
 <h2>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h2>
 <p>Let&#8217;s look at an example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="c">#population size</span>
-<span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
-<span class="c">#nlist corresponds to a constant population size for 10N generations</span>
-<span class="c">#note the &quot;dtype&quot; argument.  Without it, we&#39;d be defaulting to int64,</span>
-<span class="c">#which is a 64-bit signed integer.</span>
-<span class="n">nlist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="c">#This is a &#39;view&#39; of the array starting from the beginning:</span>
-<span class="n">nlist</span><span class="p">[</span><span class="mi">0</span><span class="p">:]</span>
+<div class="code python highlight-python"><div class="highlight"><pre>%matplotlib inline
+%pylab inline
+from __future__ import print_function
+import numpy as np
+import matplotlib.pyplot as plt
+#population size
+N=1000
+#nlist corresponds to a constant population size for 10N generations
+#note the &quot;dtype&quot; argument.  Without it, we&#39;d be defaulting to int64,
+#which is a 64-bit signed integer.
+nlist=np.array([N]*(10*N),dtype=np.uint32)
+#This is a &#39;view&#39; of the array starting from the beginning:
+nlist[0:]
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>Populating the interactive namespace from numpy and matplotlib
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint32</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="simple-bottleneck">
-<h2>Simple bottleneck<a class="headerlink" href="#simple-bottleneck" title="Permalink to this headline">¶</a></h2>
-<p>In order to change population size, one simply has to change the values in the &#8220;nlist&#8221;.   For example, here is a population bottleneck:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
-<span class="c">#Evolve for 10N generations,</span>
+<div class="section" id="a-simple-bottleneck">
+<h2>A simple bottleneck<a class="headerlink" href="#a-simple-bottleneck" title="Permalink to this headline">¶</a></h2>
+<p>In order to change population size, one simply has to change the values
+in the &#8220;nlist&#8221;. For example, here is a population bottleneck:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Evolve for 10N generations,</span>
 <span class="c">#bottleneck to 0.25N for 100 generations,</span>
 <span class="c">#recover to N for 50 generations</span>
 <span class="n">nlist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="p">),[</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.25</span><span class="o">*</span><span class="n">N</span><span class="p">)]</span><span class="o">*</span><span class="mi">100</span><span class="p">,[</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="mi">50</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">nlist</span><span class="p">[</span><span class="mi">0</span><span class="p">:])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.5</span><span class="o">*</span><span class="n">N</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Please note the last command, which changes the concatenated array from an array of 64 bit signed integers to 32 bit unsigned integers.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1500.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/popsizes_5_1.png" src="../_images/popsizes_5_1.png" />
+<p>Please note the last command, which changes the concatenated array from
+an array of 64 bit signed integers to 32 bit unsigned integers.</p>
 </div>
 <div class="section" id="exponential-growth">
 <h2>Exponential growth<a class="headerlink" href="#exponential-growth" title="Permalink to this headline">¶</a></h2>
-<p>Now, let&#8217;s do population growth, where we evolve for 10N generations, and then grow the population five fold in the next 500 generations.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">math</span>
-
-<span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
+<p>Now, let&#8217;s do population growth, where we evolve for 10N generations,
+and then grow the population five fold in the next 500 generations.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">math</span>
 <span class="n">N2</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="n">N</span>
 <span class="n">tgrowth</span><span class="o">=</span><span class="mi">500</span>
-
 <span class="c">#G is the growth rate</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">tgrowth</span><span class="p">)</span> <span class="p">)</span>
-
 <span class="n">nlist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="o">+</span><span class="n">tgrowth</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-
 <span class="c">#Now, modify the list according to expoential growth rate</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tgrowth</span><span class="p">):</span>
      <span class="n">nlist</span><span class="p">[</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="o">+</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span> <span class="n">N</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">)</span>
+<span class="c">##Now, we see that the population does grown from</span>
+<span class="c">##N=1,000 to N=5,000 during the last 500 generations</span>
+<span class="c">## We need the + 1 below to transform</span>
+<span class="c">## from the generation&#39;s index to the generation itself</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="o">+</span><span class="mi">501</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">nlist</span><span class="p">[</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="p">:])</span>
 </pre></div>
 </div>
+<div class="highlight-python"><div class="highlight"><pre>[&lt;matplotlib.lines.Line2D at 0x1050a9450&gt;]
+</pre></div>
 </div>
-<div class="section" id="potential-caveats">
-<h2>Potential caveats:<a class="headerlink" href="#potential-caveats" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/popsizes_8_1.png" src="../_images/popsizes_8_1.png" />
+</div>
+<div class="section" id="potential-caveat">
+<h2>Potential caveat<a class="headerlink" href="#potential-caveat" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Forgetting the &#8216;dtype&#8217;.  You will get a run-time error if you don&#8217;t get the integer type right.  Python will raise a ValueError exception about a buffer type mismatch.</li>
+<li>Forgetting the &#8216;dtype&#8217;. You will get a run-time error if you don&#8217;t
+get the integer type right. Python will raise a ValueError exception
+about a buffer type mismatch.</li>
 </ul>
 </div>
 <div class="section" id="rationale">
 <h2>Rationale<a class="headerlink" href="#rationale" title="Permalink to this headline">¶</a></h2>
-<p>Why do things with <a class="reference external" href="http://www.numpy.org">NumPy</a> arrays?  Lots of reasons:</p>
+<p>Why do things with <a class="reference external" href="http://www.numpy.org">NumPy</a> arrays? Lots of
+reasons:</p>
 <ol class="arabic simple">
 <li>They are fast</li>
-<li>The uint32 is the same type used in <a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a></li>
-<li>The 32 bit integer takes half the memory as the default 64 bit intger type of a Python list.</li>
-<li>Cython lets us directly pass the underlying data to C++, eliminating the need for a copy when going from Python to C++.</li>
+<li>The uint32 is the same type used in
+<a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a></li>
+<li>The 32 bit integer takes half the memory as the default 64 bit intger
+type of a Python list.</li>
+<li>Cython lets us directly pass the underlying data to C++, eliminating
+the need for a copy when going from Python to C++.</li>
 </ol>
 </div>
 </div>
@@ -131,11 +157,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Modeling changes in population size</a><ul>
+<li><a class="reference internal" href="#">Example: modeling changes in population size</a><ul>
 <li><a class="reference internal" href="#simple-example">Simple example</a></li>
-<li><a class="reference internal" href="#simple-bottleneck">Simple bottleneck</a></li>
+<li><a class="reference internal" href="#a-simple-bottleneck">A simple bottleneck</a></li>
 <li><a class="reference internal" href="#exponential-growth">Exponential growth</a></li>
-<li><a class="reference internal" href="#potential-caveats">Potential caveats:</a></li>
+<li><a class="reference internal" href="#potential-caveat">Potential caveat</a></li>
 <li><a class="reference internal" href="#rationale">Rationale</a></li>
 </ul>
 </li>
@@ -146,7 +172,7 @@
                         title="previous chapter">A note for R users</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="regions.html"
-                        title="next chapter">Modeling regional variation in mutation and recombination</a></p>
+                        title="next chapter">Example: Modeling regional variation in mutation and recombination</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/docs/popsizes.txt"
@@ -179,7 +205,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="regions.html" title="Modeling regional variation in mutation and recombination"
+          <a href="regions.html" title="Example: Modeling regional variation in mutation and recombination"
              >next</a> |</li>
         <li class="right" >
           <a href="rusers.html" title="A note for R users"

@@ -70,18 +70,28 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/rusers.html">A note for R users</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/popsizes.html">Modeling changes in population size</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/popsizes.html">Example: modeling changes in population size</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#simple-example">Simple example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#simple-bottleneck">Simple bottleneck</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#a-simple-bottleneck">A simple bottleneck</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#exponential-growth">Exponential growth</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#potential-caveats">Potential caveats:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#potential-caveat">Potential caveat</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#rationale">Rationale</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="docs/regions.html">Modeling regional variation in mutation and recombination</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/regions.html">Example: Modeling regional variation in mutation and recombination</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#specific-examples">Specific examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#how-to-set-up-a-model">How to set up a model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docs/BGS.html">Example: background selection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/BGS.html#setting-up-the-simulation">Setting up the simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/BGS.html#taking-samples-from-simulated-populations">Taking samples from simulated populations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/BGS.html#summary-statistics-from-samples">Summary statistics from samples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docs/windows.html">Example: Sliding windows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/windows.html#calculating-sliding-windows">Calculating sliding windows</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/slim.html">Processing SLiM input files</a><ul>
@@ -956,6 +966,8 @@ the data structures!</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></td>
 </tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">RuntimeError if data are not sorted in increasing order according to position</td>
+</tr>
 </tbody>
 </table>
 <p>Example:</p>
@@ -978,7 +990,7 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ms_sample</strong> &#8211; The return value of a function like <tt class="xref py py-func docutils literal"><span class="pre">get_samples()</span></tt></li>
+<li><strong>data</strong> &#8211; The return value of a function like <tt class="xref py py-func docutils literal"><span class="pre">get_samples()</span></tt>. A list of tuples with the variation data.</li>
 <li><strong>windowSize</strong> &#8211; The length of each window, in same units as your simulation&#8217;s regions.</li>
 <li><strong>stepSize</strong> &#8211; The step size between windows, in same units as your simulation&#8217;s regions.</li>
 <li><strong>startPos</strong> &#8211; The minimum position possible (see Example below)</li>
@@ -986,10 +998,13 @@ the data structures!</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of samples for each window.  Each element in the list is a list of tuples (the same type as the input data ms_sample).</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of samples for each window.  Each element in the list is a list of tuples (the same type as the input data data).</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A list</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">A list</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if data are not sorted in increasing order according to position</p>
 </td>
 </tr>
 </tbody>
