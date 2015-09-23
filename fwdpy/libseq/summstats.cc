@@ -12,13 +12,6 @@ namespace fwdpy
   {
     map<string,double> libseq_basic_stats( const vector<pair<double,string> > & __data )
     {
-      if(! is_sorted(__data.cbegin(),__data.cend(),
-		     []( const pair<double,string> & a,const pair<double,string> & b ) {
-		       return a.first < b.first;
-		     }))
-	{
-	  throw runtime_error("data not sorted");
-	}
       Sequence::SimData d(__data.begin(),__data.end());
       Sequence::PolySIM ad(&d);
       map<string,double> rv;
