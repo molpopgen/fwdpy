@@ -16,6 +16,8 @@ Contents:
    docs/rusers
    docs/popsizes
    docs/regions
+   docs/BGS
+   docs/windows
    docs/slim
    
 Functions and classes
