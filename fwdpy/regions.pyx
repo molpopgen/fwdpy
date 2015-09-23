@@ -56,6 +56,8 @@ class Region(object):
         self.e=float(end)
         self.w=float(weight)
         self.c=coupled
+        if self.c is True:
+            self.w = (self.e-self.b)*self.w
     def __str__(self):
         bstr="{:.9f}".format(self.b)
         estr="{:.9f}".format(self.e)
