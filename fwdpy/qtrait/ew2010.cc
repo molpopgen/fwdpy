@@ -15,9 +15,9 @@ using namespace std;
 
 namespace
 {
-  map<double,double> ew2010_effects_details(gsl_rng * r, const fwdpy::singlepop_t::mlist_t & mutations, const double fourN, const double tau, const double sigma)
+  map<double,pair<double,double>> ew2010_effects_details(gsl_rng * r, const fwdpy::singlepop_t::mlist_t & mutations, const double fourN, const double tau, const double sigma)
   {
-    map<double,double> rv;
+    map<double,pair<double,double> > rv;
     for( auto itr = mutations.cbegin() ; itr != mutations.cend() ; ++itr )
       {
 	if(!itr->neutral)
@@ -29,7 +29,7 @@ namespace
 	    double d = (gsl_rng_uniform(r) < 0.5) ? -1. : 1.;
 	    double power = pow(fourN*fabs(itr->s),tau);
 	    if (itr->s < 0.) power *= -1.;
-	    rv[itr->pos] = d*power*(1. + gsl_ran_gaussian_ziggurat(r,sigma));
+	    rv[itr->pos] = make_pair(d*power*(1. + gsl_ran_gaussian_ziggurat(r,sigma)),2.*double(itr->n)/fourN);
 	  }
       }
     return rv;
@@ -40,7 +40,7 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    map<double,double> ew2010_assign_effects(GSLrng_t * rng,
+    map<double,pair<double,double>> ew2010_assign_effects(GSLrng_t * rng,
 					     const fwdpy::singlepop_t * pop,
 					     const double tau,
 					     const double sigma)
@@ -50,7 +50,7 @@ namespace fwdpy
     
     //returns a list of trait values for each diploid
     vector<double> ew2010_traits_cpp(const fwdpy::singlepop_t * pop,
-				     const map<double,double> & effects)
+				     const map<double,pair<double,double>> & effects)
     {
       vector<double> rv;
       const auto sum_lambda = [&effects](const double & sum, const fwdpy::singlepop_t::gamete_t::mutation_list_type_iterator & mitr) {
@@ -59,7 +59,7 @@ namespace fwdpy
 	  {
 	    throw runtime_error("diploid contains a mutation at an unknown position");
 	  }
-	return sum + effects_itr->second;
+	return sum + effects_itr->second.first;
       };
       for_each(pop->diploids.cbegin(),pop->diploids.cend(),[&rv,&sum_lambda]( const fwdpy::singlepop_t::diploid_t & dip )
 	       {

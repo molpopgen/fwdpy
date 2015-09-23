@@ -4,6 +4,7 @@
 #include <types.hpp>
 #include <vector>
 #include <map>
+#include <utility>
 #include <string>
 #include <fwdpp/extensions/callbacks.hpp>
 
@@ -38,12 +39,12 @@ namespace fwdpy
 
     std::map<std::string,std::vector<double> > qtrait_esize_freq(const singlepop_t * pop);
 
-    std::map<double,double> ew2010_assign_effects(GSLrng_t * rng,
-						  const fwdpy::singlepop_t * pop,
-						  const double tau,
-						  const double sigma);
+    std::map<double,std::pair<double,double>> ew2010_assign_effects(GSLrng_t * rng,
+							       const fwdpy::singlepop_t * pop,
+							       const double tau,
+							       const double sigma);
     std::vector<double> ew2010_traits_cpp(const fwdpy::singlepop_t * pop,
-					  const std::map<double,double> & effects);
+					  const std::map<double,std::pair<double,double> > & effects);
   }
 }
 

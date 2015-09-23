@@ -31,8 +31,8 @@ cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
     map[string,double] qtrait_pop_props( const singlepop_t * pop );
     map[string,vector[double]] get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
     map[string,vector[double]] qtrait_esize_freq(const singlepop_t * pop)
-    map[double,double] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
-    vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,double] & effects) except +
+    map[double,pair[double,double]] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
+    vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,pair[double,double]] & effects) except +
     
 def evolve_qtrait(GSLrng rng,
                     int npops,
