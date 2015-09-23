@@ -299,7 +299,7 @@ namespace fwdpy
       map<string,double> rv;
       rv["VG"] = gsl_stats_variance(&VG[0],1,VG.size());
       rv["VE"] = gsl_stats_variance(&VE[0],1,VE.size());
-      rv["H2"] = rv["VG"]/rv["VE"];
+      rv["H2"] = rv["VG"]/(rv["VG"]+rv["VE"]);
       rv["wbar"] = gsl_stats_mean(&wbar[0],1,wbar.size());
       rv["max_expl"] = mvexpl;
       rv["leading_e"] = leading_e;
