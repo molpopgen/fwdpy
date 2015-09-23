@@ -27,7 +27,7 @@ namespace
 		throw runtime_error("multiple mutations at same position");
 	      }
 	    double d = (gsl_rng_uniform(r) < 0.5) ? -1. : 1.;
-	    rv[itr->pos] = d*pow(fourN*itr->s,tau)*(1. + gsl_ran_gaussian_ziggurat(r,sigma));
+	    rv[itr->pos] = d*pow(fourN*std::fabs(itr->s)c,tau)*(1. + gsl_ran_gaussian_ziggurat(r,sigma));
 	  }
       }
     return rv;
