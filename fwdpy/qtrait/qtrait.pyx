@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: sources = fwdpy/qtrait/qtrait_impl.cc
+# distutils: sources = fwdpy/qtrait/qtrait_impl.cc fwdpy/qtrait/ew2010.cc
 from libcpp.vector cimport vector
 from libcpp.map cimport map
 from fwdpy.fwdpy cimport *
@@ -31,6 +31,7 @@ cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
     map[string,double] qtrait_pop_props( const singlepop_t * pop );
     map[string,vector[double]] get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
     map[string,vector[double]] qtrait_esize_freq(const singlepop_t * pop)
+    vector[double] ew2010_traits_cpp(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma)
     
 def evolve_qtrait(GSLrng rng,
                     int npops,
@@ -90,3 +91,5 @@ def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):
 def esize_freq(singlepop pop):
     return pandas.DataFrame.from_dict(qtrait_esize_freq(pop.pop.get()))
 
+def ew2010_traits(GSLrng rng, singlepop pop, double tau, double sigma):
+    return ew2010_traits_cpp(rng.thisptr,pop.pop.get(),tau,sigma)
