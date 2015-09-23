@@ -1,7 +1,9 @@
 # distutils: language = c++
 # distutils: sources = fwdpy/qtrait/qtrait_impl.cc fwdpy/qtrait/ew2010.cc
+from cython.operator cimport dereference as deref,preincrement as inc
 from libcpp.vector cimport vector
 from libcpp.map cimport map
+from libcpp.utility cimport pair
 from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
 import fwdpy.internal as internal
@@ -31,8 +33,12 @@ cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
     map[string,double] qtrait_pop_props( const singlepop_t * pop );
     map[string,vector[double]] get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
     map[string,vector[double]] qtrait_esize_freq(const singlepop_t * pop)
-    map[double,pair[double,double]] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
-    vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,pair[double,double]] & effects) except +
+    cdef struct ew_mut_details:
+       double s
+       double e
+       double p
+    map[double,ew_mut_details] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
+    vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,ew_mut_details] & effects) except +
     
 def evolve_qtrait(GSLrng rng,
                     int npops,
@@ -163,7 +169,14 @@ def ew2010_effects(GSLrng rng, singlepop pop, double tau, double sigma):
         raise RuntimeError("tau cannot be < 0.")
     if sigma < 0.:
         raise RuntimeError("sigma cannot be < 0.")
-    return ew2010_assign_effects(rng.thisptr,pop.pop.get(),tau,sigma)
+    cdef map[double,ew_mut_details] x = ew2010_assign_effects(rng.thisptr,pop.pop.get(),tau,sigma)
+    cdef map[double,ew_mut_details].iterator itr = x.begin()
+    rv = list()
+    while itr != x.end():
+        temp = deref(itr)
+        rv.append( {temp.first : {'s':temp.second.s,'e':temp.second.e,'p':temp.second.p}} )
+        inc(itr)
+    return rv
     
 def ew2010_traits(singlepop pop,list effects):
     """
@@ -172,4 +185,12 @@ def ew2010_traits(singlepop pop,list effects):
     .. note:: The citation is www.pnas.org/cgi/doi/10.1073/pnas.0906182107.
        We implement the simple additive case here.
     """
-    return ew2010_traits_cpp(pop.pop.get(),effects)
+    cdef map[double,ew_mut_details] temp
+    cdef ew_mut_details tstruct
+    for i in effects:
+        for j in i:
+            tstruct.s = i[j]['s']
+            tstruct.e = i[j]['e']
+            tstruct.p = i[j]['p']
+            temp.insert( pair[double,ew_mut_details](j,tstruct) )
+    return ew2010_traits_cpp(pop.pop.get(),temp)

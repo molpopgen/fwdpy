@@ -10,47 +10,41 @@
 #include <algorithm>
 #include <numeric>
 #include <types.hpp>
+#include <qtraits.hpp>
 
 using namespace std;
-
-namespace
-{
-  map<double,pair<double,double>> ew2010_effects_details(gsl_rng * r, const fwdpy::singlepop_t::mlist_t & mutations, const double fourN, const double tau, const double sigma)
-  {
-    map<double,pair<double,double> > rv;
-    for( auto itr = mutations.cbegin() ; itr != mutations.cend() ; ++itr )
-      {
-	if(!itr->neutral)
-	  {
-	    if(rv.find(itr->pos) != rv.end())
-	      {
-		throw runtime_error("multiple mutations at same position");
-	      }
-	    double d = (gsl_rng_uniform(r) < 0.5) ? -1. : 1.;
-	    double power = pow(fourN*fabs(itr->s),tau);
-	    if (itr->s < 0.) power *= -1.;
-	    rv[itr->pos] = make_pair(d*power*(1. + gsl_ran_gaussian_ziggurat(r,sigma)),2.*double(itr->n)/fourN);
-	  }
-      }
-    return rv;
-  }
-}
 
 namespace fwdpy
 {
   namespace qtrait
   {
-    map<double,pair<double,double>> ew2010_assign_effects(GSLrng_t * rng,
-					     const fwdpy::singlepop_t * pop,
-					     const double tau,
-					     const double sigma)
+    map<double,ew_mut_details> ew2010_assign_effects(GSLrng_t * rng,
+						     const fwdpy::singlepop_t * pop,
+						     const double tau,
+						     const double sigma)
     {
-      return ew2010_effects_details(rng->get(),pop->mutations,double(4.*pop->diploids.size()),tau,sigma);
+      const double fourN=4.*double(pop->diploids.size());
+      map<double,ew_mut_details > rv;
+      for( auto itr = pop->mutations.cbegin() ; itr != pop->mutations.cend() ; ++itr )
+	{
+	  if(!itr->neutral)
+	    {
+	      if(rv.find(itr->pos) != rv.end())
+		{
+		  throw runtime_error("multiple mutations at same position");
+		}
+	      double d = (gsl_rng_uniform(rng->get()) < 0.5) ? -1. : 1.;
+	      double power = pow(fourN*fabs(itr->s),tau);
+	      if (itr->s < 0.) power *= -1.;
+	      rv.insert(std::make_pair(itr->pos,ew_mut_details(itr->s,d*power*(1. + gsl_ran_gaussian_ziggurat(rng->get(),sigma)),2.*double(itr->n)/fourN)));
+	    }
+	}
+      return rv;
     }
     
     //returns a list of trait values for each diploid
     vector<double> ew2010_traits_cpp(const fwdpy::singlepop_t * pop,
-				     const map<double,pair<double,double>> & effects)
+				     const map<double,ew_mut_details> & effects)
     {
       vector<double> rv;
       const auto sum_lambda = [&effects](const double & sum, const fwdpy::singlepop_t::gamete_t::mutation_list_type_iterator & mitr) {
@@ -59,7 +53,7 @@ namespace fwdpy
 	  {
 	    throw runtime_error("diploid contains a mutation at an unknown position");
 	  }
-	return sum + effects_itr->second.first;
+	return sum + effects_itr->second.e;
       };
       for_each(pop->diploids.cbegin(),pop->diploids.cend(),[&rv,&sum_lambda]( const fwdpy::singlepop_t::diploid_t & dip )
 	       {
