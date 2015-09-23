@@ -13,9 +13,19 @@ import fwdpy as fp
 import fwdpy.libseq as lseq
 import pandas
 import numpy as np
+import datetime
+import time
 
 
 # In[2]:
+
+##Info
+dt=datetime.datetime.now()
+print("This example was processed using ",fp.pkg_version(), "on",dt.month,"/",dt.day,"/",dt.year)
+print("The dependency versions are",fp.pkg_dependencies())
+
+
+# In[3]:
 
 #set up our sim
 rng = fp.GSLrng(101)
@@ -25,13 +35,13 @@ rregions = [fp.Region(0,3,1)]
 popsizes = np.array([1000]*10000,dtype=np.uint32)
 
 
-# In[3]:
+# In[4]:
 
 #Run the sim
 pops = fp.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
 
 
-# In[4]:
+# In[5]:
 
 #Take samples from the simulation
 samples = [fp.get_samples(rng,i,20) for i in pops]
@@ -39,7 +49,7 @@ samples = [fp.get_samples(rng,i,20) for i in pops]
 
 # ## Calculating sliding windows
 
-# In[5]:
+# In[6]:
 
 #For each of the neutral mutations in each sample, we will split
 #the samples up into non-overlapping windows of size 0.1
@@ -48,7 +58,7 @@ windows = [lseq.windows(i[0],0.1,0.1,0.,3) for i in samples]
 
 # ### Summary stats from each window
 
-# In[6]:
+# In[7]:
 
 #For each window in each sample, get the basic summary statistics
 stats = [[lseq.summstats(i) for i in j] for j in windows]
@@ -56,7 +66,7 @@ stats = [[lseq.summstats(i) for i in j] for j in windows]
 
 # Printing these outputs will be messy as the output is a bunch of dict objects.  Let's merge all the output into a giant pandas.DataFrame for easier handling.
 
-# In[7]:
+# In[8]:
 
 allstats=pandas.DataFrame()
 starts = np.arange(0.,3.,0.1)

@@ -19,10 +19,7 @@ def process_regions(list regions):
         if isinstance(regions[i],fwdpy.Region):
             starts.append(regions[i].b)
             stops.append(regions[i].e)
-            wTemp=regions[i].w
-            if(regions[i].c):
-                wTemp = wTemp*(regions[i].e-regions[i].b)
-            weights.append(wTemp)
+            weights.append(regions[i].w)
         else:
             raise ValueError("invalid callback type encountered")
     return pandas.DataFrame({'beg':starts,'end':stops,'weight':weights})

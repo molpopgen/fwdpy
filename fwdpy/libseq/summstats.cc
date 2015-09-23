@@ -2,7 +2,8 @@
 #include <Sequence/PolySIM.hpp>
 #include <map>
 #include <string>
-
+#include <algorithm>
+#include <stdexcept>
 using namespace std;
 
 namespace fwdpy

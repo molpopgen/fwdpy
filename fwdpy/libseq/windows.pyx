@@ -1,18 +1,20 @@
 
-def windows(vector[pair[double,string]] ms_sample, double windowSize,
+def windows(vector[pair[double,string]] data, double windowSize,
             double stepSize, double startPos, double endPos):
     """
     Split a sample up into "windows" based on physical distance.
 
-    :param ms_sample: The return value of a function like :func:`get_samples`
+    :param data: The return value of a function like :func:`get_samples`. A list of tuples with the variation data.
     :param windowSize: The length of each window, in same units as your simulation's regions.
     :param stepSize: The step size between windows, in same units as your simulation's regions.
     :param startPos: The minimum position possible (see Example below)
     :param endPos: The maximum position possible (see Example below)
 
-    :return: A list of samples for each window.  Each element in the list is a list of tuples (the same type as the input data ms_sample).
+    :return: A list of samples for each window.  Each element in the list is a list of tuples (the same type as the input data data).
 
     :rtype: A list
+
+    :raises: RuntimeError if data are not sorted in increasing order according to position
     
     .. note:: Empty elements in the return value represent windows with no variation.
     
@@ -41,4 +43,4 @@ def windows(vector[pair[double,string]] ms_sample, double windowSize,
         raise RuntimeError("fwdpy.windows: windowSize must be > 0.")
     if stepSize <= 0.:
         raise RuntimeError("fwdpy.windows: stepSize must be > 0.")
-    return sliding_windows_cpp(ms_sample,windowSize,stepSize,startPos,endPos)
+    return sliding_windows_cpp(data,windowSize,stepSize,startPos,endPos)
