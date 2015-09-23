@@ -5,6 +5,7 @@ def summstats(vector[pair[double,string]] data ):
     :param data: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
 
     :raises: RuntimeError if data are not sorted in increasing order according to position
+    
     Example:
     
     >>> import fwdpy
