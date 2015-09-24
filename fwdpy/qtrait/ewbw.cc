@@ -70,20 +70,20 @@ namespace fwdpy
       return KTfwd::popgenmut(pos,exp(log(temp)/tau),h,generation,1);
     }
     
-    void qtrait_sim_details_t( gsl_rng * rng,
-			       fwdpy::singlepop_t * pop,
-			       const unsigned * Nvector,
-			       const size_t Nvector_len,
-			       const double & neutral,
-			       const double & selected,
-			       const double & recrate,
-			       const double & tau,
-			       const double & sigma,
-			       const double & h,
-			       const double & f,
-			       const bool track,  //do we want to track the trajectories of all mutations?
-			       const ew_backwards_rules & model_rules,
-			       esize_lookup * esizes) //this is our "hack"
+    void ewbw_sim_details_t( gsl_rng * rng,
+			     fwdpy::singlepop_t * pop,
+			     const unsigned * Nvector,
+			     const size_t Nvector_len,
+			     const double & neutral,
+			     const double & selected,
+			     const double & recrate,
+			     const double & tau,
+			     const double & sigma,
+			     const double & h,
+			     const double & f,
+			     const bool track,  //do we want to track the trajectories of all mutations?
+			     const ew_backwards_rules & model_rules,
+			     esize_lookup * esizes) //this is our "hack"
     {
       const unsigned simlen = Nvector_len;
     
