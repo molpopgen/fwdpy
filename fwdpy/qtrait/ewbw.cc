@@ -92,7 +92,7 @@ namespace fwdpy
       function<double(void)> recmap = bind(gsl_rng_uniform,rng);
       for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
 	{
-	  const unsigned nextN = 	*(Nvector+g);
+	  const unsigned nextN = *(Nvector+g);
 	  KTfwd::experimental::sample_diploid(rng,
 					      &pop->gametes,  
 					      &pop->diploids, 
