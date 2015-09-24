@@ -84,46 +84,46 @@ namespace fwdpy
 			       const bool track,  //do we want to track the trajectories of all mutations?
 			       const ew_backwards_rules & model_rules,
 			       esize_lookup * esizes) //this is our "hack"
-  {
-    const unsigned simlen = Nvector_len;
+    {
+      const unsigned simlen = Nvector_len;
     
-    const double mu_tot = neutral + selected;
+      const double mu_tot = neutral + selected;
     
-    function<double(void)> recmap = bind(gsl_rng_uniform,rng);
-    for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
-      {
-	const unsigned nextN = 	*(Nvector+g);
-	KTfwd::experimental::sample_diploid(rng,
-					    &pop->gametes,  
-					    &pop->diploids, 
-					    &pop->mutations,
-					    pop->N,
-					    nextN,
-					    mu_tot,
-					    bind(ewbw_mut_model,rng,&pop->mut_lookup,esizes,pop->generation,neutral,selected,h,tau,sigma),
-					    //The recombination policy includes the uniform crossover rate
-					    bind(KTfwd::genetics101(),placeholders::_1,placeholders::_2,
-						      placeholders::_3,
-						      //Pass as reference
-						      ref(pop->neutral),ref(pop->selected),
-						      &pop->gametes,
-						      recrate,
-						      rng,
-						      recmap),
-					    bind(KTfwd::insert_at_end<typename fwdpy::singlepop_t::mutation_t,typename fwdpy::singlepop_t::mlist_t>,placeholders::_1,placeholders::_2),
-					    bind(KTfwd::insert_at_end<typename fwdpy::singlepop_t::gamete_t,typename fwdpy::singlepop_t::glist_t>,placeholders::_1,placeholders::_2),
-					    //We use an empty fitness fxn here b/c the rules policies keep track of it separately.
-					    []( typename fwdpy::singlepop_t::dipvector_t::const_iterator & ) { return 0.; },
-					    KTfwd::remove_nothing(),
-					    f,
-					    model_rules);
-	KTfwd::remove_lost(&pop->mutations,&pop->mut_lookup);
-	//This being put here ignores any mutation existing for only 1 generation
-	if(track) pop->updateTraj();
-	assert(KTfwd::check_sum(pop->gametes,2*nextN));
-      }
-    //Update population's size variable to be the current pop size
-    pop->N = pop->diploids.size();
-  }
+      function<double(void)> recmap = bind(gsl_rng_uniform,rng);
+      for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
+	{
+	  const unsigned nextN = 	*(Nvector+g);
+	  KTfwd::experimental::sample_diploid(rng,
+					      &pop->gametes,  
+					      &pop->diploids, 
+					      &pop->mutations,
+					      pop->N,
+					      nextN,
+					      mu_tot,
+					      bind(ewbw_mut_model,rng,&pop->mut_lookup,esizes,pop->generation,neutral,selected,h,tau,sigma),
+					      //The recombination policy includes the uniform crossover rate
+					      bind(KTfwd::genetics101(),placeholders::_1,placeholders::_2,
+						   placeholders::_3,
+						   //Pass as reference
+						   ref(pop->neutral),ref(pop->selected),
+						   &pop->gametes,
+						   recrate,
+						   rng,
+						   recmap),
+					      bind(KTfwd::insert_at_end<typename fwdpy::singlepop_t::mutation_t,typename fwdpy::singlepop_t::mlist_t>,placeholders::_1,placeholders::_2),
+					      bind(KTfwd::insert_at_end<typename fwdpy::singlepop_t::gamete_t,typename fwdpy::singlepop_t::glist_t>,placeholders::_1,placeholders::_2),
+					      //We use an empty fitness fxn here b/c the rules policies keep track of it separately.
+					      []( typename fwdpy::singlepop_t::dipvector_t::const_iterator & ) { return 0.; },
+					      KTfwd::remove_nothing(),
+					      f,
+					      model_rules);
+	  KTfwd::remove_lost(&pop->mutations,&pop->mut_lookup);
+	  //This being put here ignores any mutation existing for only 1 generation
+	  if(track) pop->updateTraj();
+	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
+	}
+      //Update population's size variable to be the current pop size
+      pop->N = pop->diploids.size();
+    }
   }
 }
