@@ -1,7 +1,7 @@
 #ifndef __FWDPY_EW_BACKWARDS_RULES_HPP__
 #define __FWDPY_EW_BACKWARDS_RULES_HPP__
 
-#include <gsl/gsl_statistics/double.h>
+#include <gsl/gsl_statistics_double.h>
 #include <cmath>
 #include <types.hpp>
 #include <fwdpp/diploid.hh>
@@ -17,7 +17,7 @@ namespace fwdpy
     struct qtrait_model_rules
     {
       mutable double wbar,tau,h2w,vwlocus;
-      mutable std::vector<double> fitnesses;
+      mutable std::vector<double> fitnesses,gterms;
       mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
       const double optimum;
       qtrait_model_rules(const double __tau,
@@ -25,9 +25,10 @@ namespace fwdpy
 			 const double __optimum = 0.,
 			 const unsigned __maxN = 100000) :wbar(0.),
 							  tau(__tau),
-							  hw2(__h2w),
+							  h2w(__h2w),
 							  vwlocus(0.),
 							  fitnesses(std::vector<double>(__maxN)),
+							  gterms(std::vector<double>(__maxN)),
 							  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr)),
 							  optimum(__optimum)
       {
@@ -45,12 +46,13 @@ namespace fwdpy
 	    itr->first->n=0;
 	    itr->second->n=0;
 	    fitnesses[i] = itr->w;
+	    gterms[i] = itr->g;
 	    wbar += itr->w;
 	  }
 	assert(itr == diploids->cend());
 	wbar/=double(N_curr);
 	//Update variance in fitness due to this locus
-	vwlocus = gsl_stats_double(&fitnesses[0],1,N_curr);
+	vwlocus = gsl_stats_variance(&gterms[0],1,N_curr);
 	lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(N_curr,&fitnesses[0]));
       }
 
@@ -85,7 +87,7 @@ namespace fwdpy
 						       0.);
 	//Here, 'e' is used as the additional component of variance in fitness
 	offspring->e = gsl_ran_gaussian_ziggurat(r,std::sqrt(vwlocus*(1.-h2w)/h2w));
-	offspring->w = std::max(0.,offpsring->g + offspring->e);
+	offspring->w = std::max(0.,offspring->g + offspring->e);
 	return;
       }
     };
