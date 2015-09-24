@@ -14,13 +14,13 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    struct qtrait_model_rules
+    struct ew_backwards_rules
     {
       mutable double wbar,tau,h2w,vwlocus;
       mutable std::vector<double> fitnesses,gterms;
       mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
       const double optimum;
-      qtrait_model_rules(const double __tau,
+      ew_backwards_rules(const double __tau,
 			 const double __h2w,
 			 const double __optimum = 0.,
 			 const unsigned __maxN = 100000) :wbar(0.),
