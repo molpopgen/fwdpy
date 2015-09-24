@@ -1,6 +1,7 @@
 #ifndef __FWDPY_HOCRULES_HPP__
 #define __FWDPY_HOCRULES_HPP__
 
+#include <cmath>
 #include <types.hpp>
 #include <fwdpp/diploid.hh>
 /*
