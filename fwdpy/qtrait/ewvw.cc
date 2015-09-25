@@ -3,6 +3,11 @@
   contribute to 100% of variation in fitness.
 
   Will this really be any different from what is in qtrait_impl.cc?
+
+  Is this not mathematically equivalent to increasing V(S), the 
+  variance in the Gaussian fitness fxn?
+
+  TODO: It isn't equivalent.  Need to make an ipynb on why not...
 */
 
 #include <thread>
