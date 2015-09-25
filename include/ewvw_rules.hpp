@@ -22,17 +22,15 @@ namespace fwdpy
     struct ewvw_rules
     {
       gsl_rng * rng;
-      mutable double wbar,tau,h2w;
+      mutable double wbar,h2w;
       mutable std::vector<double> fitnesses,gterms;
       mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
       const double optimum;
       ewvw_rules(gsl_rng * r,
-		 const double __tau,
 		 const double __h2w,
 		 const double __optimum = 0.,
 		 const unsigned __maxN = 100000) :rng(r),
 						  wbar(0.),
-						  tau(__tau),
 						  h2w(__h2w),
 						  fitnesses(std::vector<double>(__maxN)),
 						  gterms(std::vector<double>(__maxN)),

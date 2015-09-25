@@ -1,30 +1,16 @@
-//Eyre-Walker 2010, backwards
+/*
+  Eyre-Walker 2010, but trait does not 
+  contribute to 100% of variation in fitness.
+
+  Will this really be any different from what is in qtrait_impl.cc?
+*/
+
+#include <thread>
 #include <ewvw_rules.hpp>
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/extensions/callbacks.hpp>
 #include <fwdpp/extensions/regions.hpp>
-/*
-  Problems that we'll have:
-  We need a way to track effects sizes on trait value.
 
-  Currently, fwdpp's popgenmut doesn't have any extra available members.
-
-  Some hacks are possible:
-  1. Usurp the 'h' term in popgenmut for the mutation effect size.
-  2. Pass the 'h' for fitness on to the rules struct
-
-  Or:
-
-  1. Keep a totally different data type relating mutation to trait size
-
-  Both have pros and cons...
-
-  I think I like the following:
-
-  vector<pair<double,double> >
-
-  we'll keep it sorted and use log-time search
-*/
 
 using namespace std;
 //using esize_lookup = vector<pair<double,double> >;
@@ -71,21 +57,19 @@ namespace fwdpy
     //   // s = exp(log(temp)/tau)
     //   return KTfwd::popgenmut(pos,exp(log(temp)/tau),h,generation,1);
     // }
-    
-    void ewbw_sim_details_t( gsl_rng * rng,
+
+    void ewvw_sim_details_t( gsl_rng * rng,
 			     fwdpy::singlepop_t * pop,
 			     const unsigned * Nvector,
 			     const size_t Nvector_len,
 			     const double & neutral,
 			     const double & selected,
 			     const double & recrate,
-			     const double & h,
 			     const double & f,
 			     const bool track,  //do we want to track the trajectories of all mutations?
-			     const ewvw_rules & model_rules,
 			     const KTfwd::extensions::discrete_mut_model & m,
-			     const KTfwd::extensions::discrete_rec_model & recmap)
-    //esize_lookup * esizes) //this is our "hack"
+			     const KTfwd::extensions::discrete_rec_model & recmap,
+			     ewvw_rules & model_rules)
     {
       const unsigned simlen = Nvector_len;
     
@@ -123,6 +107,51 @@ namespace fwdpy
 	}
       //Update population's size variable to be the current pop size
       pop->N = pop->diploids.size();
+    }
+
+    void evolve_ewvw_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+			const unsigned * Nvector,
+			const size_t Nvector_length,
+			const double mu_neutral,
+			const double mu_selected,
+			const double littler,
+			const double f,
+			const double prop_vw,
+			const double optimum,
+			const int track,
+			const std::vector<double> & nbegs,
+			const std::vector<double> & nends,
+			const std::vector<double> & nweights,
+			const std::vector<double> & sbegs,
+			const std::vector<double> & sends,
+			const std::vector<double> & sweights,
+			const std::vector<KTfwd::extensions::shmodel> * callbacks,
+			const std::vector<double> & rbeg,
+			const std::vector<double> & rend,
+			const std::vector<double> & rweight)
+    {
+      const KTfwd::extensions::discrete_mut_model m(nbegs,nends,nweights,sbegs,sends,sweights,*callbacks);
+      auto recmap = KTfwd::extensions::discrete_rec_model(rbeg,rend,rweight);
+      std::vector<GSLrng_t> rngs;
+      std::vector<ewvw_rules> rules;
+      for(unsigned i=0;i<pops->size();++i)
+	{
+	  //Give each thread a new RNG + seed
+	  rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())) );
+	  rules.emplace_back(ewvw_rules(rngs[i].get(),prop_vw,optimum,*std::max_element(Nvector,Nvector+Nvector_length)));
+	}
+      std::vector<std::thread> threads(pops->size());
+      for(unsigned i=0;i<pops->size();++i)
+	{
+    	  threads[i]=std::thread(ewvw_sim_details_t,
+	  			 rngs[i].get(),
+	  			 pops->operator[](i).get(),
+	  			 Nvector,Nvector_length,
+	  			 mu_neutral,mu_selected,littler,f,track,
+	  			 std::cref(m),std::cref(recmap),
+	  			 std::ref(rules[i]));
+	}
+      for(unsigned i=0;i<threads.size();++i) threads[i].join();
     }
   }
 }
