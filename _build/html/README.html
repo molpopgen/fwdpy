@@ -63,8 +63,8 @@
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a>, which is a C++11 template library for implementing efficient population genetic simulations</li>
 <li><a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>, which is a C++11 library for various population-genetic calculations.</li>
 </ol>
-<p>Please note that this package is likely to be quite unstable/actively developed.  The first quasi-stable, but usable, release is 0.0.4.</p>
-<p>Previous &#8216;releases&#8217; on Github are no longer supported and not guaranteed to even compile.</p>
+<p>Please note that this package is likely to be quite unstable/actively developed.</p>
+<p>The package is usable now (in fact, we are currently using it for research), but the API, etc., could change without warning.</p>
 <div class="section" id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
 <p>See the project home page for details (<a class="reference external" href="http://molopgen.github.io/fwdpy">http://molopgen.github.io/fwdpy</a>).</p>
@@ -192,12 +192,18 @@
 </div>
 <div class="section" id="rough-guide-to-installation-on-uci-hpc">
 <h3>Rough guide to installation on UCI HPC<a class="headerlink" href="#rough-guide-to-installation-on-uci-hpc" title="Permalink to this headline">¶</a></h3>
+<p>Use the following module:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>module load krthornt/thorntonlab
+</pre></div>
+</div>
+<p>That command loads the proper dependencies for compiling much of the tools that we use.</p>
+<p><strong>Note</strong>: this module replaces/over-rules some modules already on HPC.  The &#8220;thorntonlab&#8221; modules are all consistently compiled with a GCC version that we&#8217;ve deemed suitable.</p>
 </div>
 <div class="section" id="troubleshooting-the-installation">
 <h3>Troubleshooting the installation<a class="headerlink" href="#troubleshooting-the-installation" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="incorrect-fwdpp-version">
 <h4>Incorrect fwdpp version<a class="headerlink" href="#incorrect-fwdpp-version" title="Permalink to this headline">¶</a></h4>
-<p>This package is compatible with fwdpp &gt;= 0.3.3, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:</p>
+<p>This package is compatible with fwdpp &gt;= 0.3.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>which fwdppConfig
 </pre></div>
 </div>

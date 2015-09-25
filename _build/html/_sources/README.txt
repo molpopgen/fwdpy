@@ -11,9 +11,9 @@ This package is implemented in terms of:
 2. fwdpp_, which is a C++11 template library for implementing efficient population genetic simulations
 3. libsequence_, which is a C++11 library for various population-genetic calculations.
 
-Please note that this package is likely to be quite unstable/actively developed.  The first quasi-stable, but usable, release is 0.0.4.
+Please note that this package is likely to be quite unstable/actively developed.
 
-Previous 'releases' on Github are no longer supported and not guaranteed to even compile.
+The package is usable now (in fact, we are currently using it for research), but the API, etc., could change without warning.
 
 Citation
 ===========
@@ -168,6 +168,15 @@ To uninstall:
 Rough guide to installation on UCI HPC
 -----------------------------------------
 
+Use the following module:
+
+.. code-block:: bash
+
+   $ module load krthornt/thorntonlab
+
+That command loads the proper dependencies for compiling much of the tools that we use.
+
+**Note**: this module replaces/over-rules some modules already on HPC.  The "thorntonlab" modules are all consistently compiled with a GCC version that we've deemed suitable.
 
 Troubleshooting the installation
 -----------------------------------------
@@ -175,7 +184,7 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.3.3, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.3.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
