@@ -76,6 +76,7 @@ namespace fwdpy
 		       [this,sigma_rest,vwtot](const double gi) {
 			 double gttl = gi + gsl_ran_gaussian_ziggurat(this->rng,sigma_rest);
 			 double w = exp( -pow(gttl-optimum,2.)/(2.*vwtot) );
+			 assert( std::isfinite(w) );
 			 this->wbar += w;
 			 return w;
 		       });
