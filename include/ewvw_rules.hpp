@@ -23,7 +23,7 @@ namespace fwdpy
     {
       gsl_rng * rng;
       mutable double wbar,tau,h2w;
-      mutable std::vector<double> fitnesses,gterms,zi;
+      mutable std::vector<double> fitnesses,gterms;
       mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
       const double optimum;
       ewvw_rules(gsl_rng * r,
@@ -36,7 +36,6 @@ namespace fwdpy
 						  h2w(__h2w),
 						  fitnesses(std::vector<double>(__maxN)),
 						  gterms(std::vector<double>(__maxN)),
-						  zi(std::vector<double>(__maxN)),
 						  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr)),
 						  optimum(__optimum)
       {
@@ -50,7 +49,6 @@ namespace fwdpy
 	  {
 	    fitnesses.resize(N_curr);
 	    gterms.resize(N_curr);
-	    zi.resize(N_curr);
 	  }
 
 	auto itr = diploids->cbegin();
