@@ -8,6 +8,11 @@
 
 /*
   Custom "rules" policy for the "Eyre-Walker 2010" scheme where the trait is not 100% of variation in fitness
+
+  v(w) at this trait is N(0,1)
+  h2w is the proportion of variance in fitness due to this trait.  This is the "heritability in fitness due to variation in this trait".
+
+  This allows for optimum shifts.
 */
 
 namespace fwdpy
@@ -53,33 +58,32 @@ namespace fwdpy
 	  {
 	    itr->first->n=0;
 	    itr->second->n=0;
-	    gterms[i] = itr->g;
+	    //The fitness value at this trait is a unit Gaussian w.r.t. the optimum.
+	    gterms[i] = exp( -pow(itr->g - optimum,2.)/2. );
 	  }
-	//Get z-scores for genetic values in fitness
-	double meang = gsl_stats_mean(&gterms[0],1,N_curr);
+	assert(itr == diploids->cend());
+	/*
+	  Variance in fitness due to this trait
+	*/
 	double vwlocus = gsl_stats_variance(&gterms[0],1,N_curr);
-	std::transform(gterms.begin(),gterms.begin()+N_curr,
-		       zi.begin(),[meang,vwlocus](const double gi) {
-			 return (gi-meang)/vwlocus;
-		       });
-	//variance in Z
-	double vz = gsl_stats_variance(&zi[0],1,N_curr);
-	double sigma = vz*(1.-h2w)/h2w;
-	double sigmaw = sqrt(vz+pow(sigma,2.));
-	//update the z-scores to reflect individual deviation w.r.to total variance in fitness
-	//update fitnesses, too.
+	/*
+	  Rest of variance in fitness (effects of other loci in linkage equilibrium w/this trait
+	  and/or V(E)
+	*/
+	double vwrest = vwlocus*(1.-h2w)/h2w;
+	double sigma_rest = sqrt(vwrest);
+	double vwtot = vwlocus+vwrest;
 	wbar = 0.;
-	std::transform(zi.begin(),zi.begin()+N_curr,
-		       fitnesses.begin(),[this,sigma,sigmaw](const double zi) {
-			 double zprime = zi + gsl_ran_gaussian_ziggurat(rng,sigma);
-			 double w = gsl_ran_gaussian_pdf(zprime,sigmaw);
-			 wbar += w;
+	//Now, calculate the fitnesses
+	std::transform(gterms.cbegin(),gterms.cbegin()+N_curr,
+		       fitnesses.begin(),
+		       [this,sigma_rest,vwtot](const double gi) {
+			 double gttl = gi + gsl_ran_gaussian_ziggurat(this->rng,sigma_rest);
+			 double w = exp( -pow(gttl-optimum,2.)/(2.*vwtot) );
+			 this->wbar += w;
 			 return w;
 		       });
-	assert(itr == diploids->cend());
-	wbar/=double(N_curr);
-	//Update variance in fitness due to this locus
-
+	wbar /= double(N_curr);
 	lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(N_curr,&fitnesses[0]));
       }
 
