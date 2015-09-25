@@ -1,5 +1,5 @@
 //Eyre-Walker 2010, backwards
-#include <ew_backwards_rules.hpp>
+#include <ewvw_rules.hpp>
 #include <fwdpp/experimental/sample_diploid.hpp>
 /*
   Problems that we'll have:
@@ -82,7 +82,7 @@ namespace fwdpy
 			     const double & h,
 			     const double & f,
 			     const bool track,  //do we want to track the trajectories of all mutations?
-			     const ew_backwards_rules & model_rules,
+			     const ewvw_rules & model_rules,
 			     esize_lookup * esizes) //this is our "hack"
     {
       const unsigned simlen = Nvector_len;

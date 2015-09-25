@@ -1,5 +1,5 @@
-#ifndef __FWDPY_EW_BACKWARDS_RULES_HPP__
-#define __FWDPY_EW_BACKWARDS_RULES_HPP__
+#ifndef __FWDPY_EWVW_RULES_HPP__
+#define __FWDPY_EWVW_RULES_HPP__
 
 #include <gsl/gsl_statistics_double.h>
 #include <cmath>
@@ -7,30 +7,33 @@
 #include <fwdpp/diploid.hh>
 
 /*
-  Custom "rules" policy for the "backwards Eyre-Walker 2010" scheme
+  Custom "rules" policy for the "Eyre-Walker 2010" scheme where the trait is not 100% of variation in fitness
 */
 
 namespace fwdpy
 {
   namespace qtrait
   {
-    struct ew_backwards_rules
+    struct ewvw_rules
     {
-      mutable double wbar,tau,h2w,vwlocus;
-      mutable std::vector<double> fitnesses,gterms;
+      gsl_rng * rng;
+      mutable double wbar,tau,h2w;
+      mutable std::vector<double> fitnesses,gterms,zi;
       mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
       const double optimum;
-      ew_backwards_rules(const double __tau,
-			 const double __h2w,
-			 const double __optimum = 0.,
-			 const unsigned __maxN = 100000) :wbar(0.),
-							  tau(__tau),
-							  h2w(__h2w),
-							  vwlocus(0.),
-							  fitnesses(std::vector<double>(__maxN)),
-							  gterms(std::vector<double>(__maxN)),
-							  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr)),
-							  optimum(__optimum)
+      ewvw_rules(gsl_rng * r,
+		 const double __tau,
+		 const double __h2w,
+		 const double __optimum = 0.,
+		 const unsigned __maxN = 100000) :rng(r),
+						  wbar(0.),
+						  tau(__tau),
+						  h2w(__h2w),
+						  fitnesses(std::vector<double>(__maxN)),
+						  gterms(std::vector<double>(__maxN)),
+						  zi(std::vector<double>(__maxN)),
+						  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr)),
+						  optimum(__optimum)
       {
       }
 
@@ -38,21 +41,45 @@ namespace fwdpy
       void w( const T * diploids, const ff & fitness_func ) const
       {
 	unsigned N_curr = diploids->size();
-	if(fitnesses.size() < N_curr) fitnesses.resize(N_curr);
-	wbar = 0.;
+	if(fitnesses.size() < N_curr)
+	  {
+	    fitnesses.resize(N_curr);
+	    gterms.resize(N_curr);
+	    zi.resize(N_curr);
+	  }
+
 	auto itr = diploids->cbegin();
 	for( unsigned i = 0 ; i < N_curr ; ++i,++itr )
 	  {
 	    itr->first->n=0;
 	    itr->second->n=0;
-	    fitnesses[i] = itr->w;
 	    gterms[i] = itr->g;
-	    wbar += itr->w;
 	  }
+	//Get z-scores for genetic values in fitness
+	double meang = gsl_stats_mean(&gterms[0],1,N_curr);
+	double vwlocus = gsl_stats_variance(&gterms[0],1,N_curr);
+	std::transform(gterms.begin(),gterms.begin()+N_curr,
+		       zi.begin(),[meang,vwlocus](const double gi) {
+			 return (gi-meang)/vwlocus;
+		       });
+	//variance in Z
+	double vz = gsl_stats_variance(&zi[0],1,N_curr);
+	double sigma = vz*(1.-h2w)/h2w;
+	double sigmaw = sqrt(vz+pow(sigma,2.));
+	//update the z-scores to reflect individual deviation w.r.to total variance in fitness
+	//update fitnesses, too.
+	wbar = 0.;
+	std::transform(zi.begin(),zi.begin()+N_curr,
+		       fitnesses.begin(),[this,sigma,sigmaw](const double zi) {
+			 double zprime = zi + gsl_ran_gaussian_ziggurat(rng,sigma);
+			 double w = gsl_ran_gaussian_pdf(zprime,sigmaw);
+			 wbar += w;
+			 return w;
+		       });
 	assert(itr == diploids->cend());
 	wbar/=double(N_curr);
 	//Update variance in fitness due to this locus
-	vwlocus = gsl_stats_variance(&gterms[0],1,N_curr);
+
 	lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(N_curr,&fitnesses[0]));
       }
 
@@ -85,9 +112,6 @@ namespace fwdpy
 							 fitness += (mut->h*mut->s);
 						       },
 						       0.);
-	//Here, 'e' is used as the additional component of variance in fitness
-	offspring->e = gsl_ran_gaussian_ziggurat(r,std::sqrt(vwlocus*(1.-h2w)/h2w));
-	offspring->w = std::max(0.,offspring->g + offspring->e);
 	return;
       }
     };

@@ -1,5 +1,5 @@
 # distutils: language = c++
-# distutils: sources = fwdpy/qtrait/qtrait_impl.cc fwdpy/qtrait/ew2010.cc fwdpy/qtrait/ewbw.cc
+# distutils: sources = fwdpy/qtrait/qtrait_impl.cc fwdpy/qtrait/ew2010.cc fwdpy/qtrait/ewvw.cc
 from cython.operator cimport dereference as deref,preincrement as inc
 from libcpp.vector cimport vector
 from libcpp.map cimport map
