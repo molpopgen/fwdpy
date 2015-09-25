@@ -5,7 +5,7 @@
 #include <cmath>
 #include <types.hpp>
 #include <fwdpp/diploid.hh>
-
+#include <iostream>
 /*
   Custom "rules" policy for the "Eyre-Walker 2010" scheme where the trait is not 100% of variation in fitness
 
@@ -63,32 +63,44 @@ namespace fwdpy
 	  Variance in fitness due to this trait.  It is critical that "G" values for 
 	  this trait be normalized
 	*/
-	double mglocus = gsl_stats_variance(&gterms[0],1,N_curr);
+	double mglocus = gsl_stats_mean(&gterms[0],1,N_curr);
 	double sdglocus = gsl_stats_sd(&gterms[0],1,N_curr);
 	std::transform(gterms.cbegin(),gterms.cbegin()+N_curr,
-		       gterms.begin(),
+		       fitnesses.begin(),
 		       [mglocus,sdglocus](const double g) {
-			 return exp( -( pow((g-mglocus)/sdglocus,2. )/2.) );
+			 return exp( -( pow((g-mglocus)/sdglocus,2.)/2.) );
 		       });
-	double vwlocus = gsl_stats_variance(&gterms[0],1,N_curr);
+	double vwlocus = gsl_stats_variance(&fitnesses[0],1,N_curr);
 	/*
 	  Rest of variance in fitness (effects of other loci in linkage equilibrium w/this trait
 	  and/or V(E)
 	*/
 	double vwrest = vwlocus*(1.-h2w)/h2w;
 	double sigma_rest = sqrt(vwrest);
+	std::cerr << h2w << ' ' << mglocus << ' ' << sdglocus << ' ' << vwlocus << ' ' << ' ' << vwrest << ' ' << sigma_rest << ' ';
 	double vwtot = vwlocus+vwrest;
 	wbar = 0.;
-	//Now, calculate the fitnesses
+	//Now, calculate the new, modified trait values
 	std::transform(gterms.cbegin(),gterms.cbegin()+N_curr,
-		       fitnesses.begin(),
+		       gterms.begin(),
 		       [this,sigma_rest,vwtot](const double gi) {
 			 double gttl = gi + gsl_ran_gaussian_ziggurat(this->rng,sigma_rest);
-			 double w = exp( -pow(gttl-optimum,2.)/(2.*vwtot) );
-			 assert( std::isfinite(w) );
-			 this->wbar += w;
+			 return gttl;
+			 //double w = exp( -pow(gttl-optimum,2.)/(2.*vwtot) );
+			 //assert( std::isfinite(w) );
+			 //this->wbar += w;
+			 //return w;
+		       });
+	//re-use variables for global fitness calcs
+	mglocus = gsl_stats_mean(&gterms[0],1,N_curr);
+	sdglocus = gsl_stats_sd(&gterms[0],1,N_curr);
+	std::transform(gterms.cbegin(),gterms.cbegin()+N_curr,fitnesses.begin(),
+		       [this,mglocus,sdglocus,vwlocus,vwtot](const double d) {
+			 double w = exp( -pow((d-mglocus)/sdglocus,2.)/(2.*vwtot) );
+			 this->wbar+=w;
 			 return w;
 		       });
+	std::cerr <<"| "<< mglocus << ' ' << sdglocus << ' ' << gsl_stats_variance(&fitnesses[0],1,N_curr) << '\n';
 	wbar /= double(N_curr);
 	lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(N_curr,&fitnesses[0]));
       }
