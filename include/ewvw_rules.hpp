@@ -55,12 +55,21 @@ namespace fwdpy
 	    itr->first->n=0;
 	    itr->second->n=0;
 	    //The fitness value at this trait is a unit Gaussian w.r.t. the optimum.
-	    gterms[i] = exp( -pow(itr->g - optimum,2.)/2. );
+	    gterms[i] = itr->g;
+	    //exp( -pow(itr->g - optimum,2.)/2. );
 	  }
 	assert(itr == diploids->cend());
 	/*
-	  Variance in fitness due to this trait
+	  Variance in fitness due to this trait.  It is critical that "G" values for 
+	  this trait be normalized
 	*/
+	double mglocus = gsl_stats_variance(&gterms[0],1,N_curr);
+	double sdglocus = gsl_stats_sd(&gterms[0],1,N_curr);
+	std::transform(gterms.cbegin(),gterms.cbegin()+N_curr,
+		       gterms.begin(),
+		       [mglocus,sdglocus](const double g) {
+			 return exp( -( pow((g-mglocus)/sdglocus,2. )/2.) );
+		       });
 	double vwlocus = gsl_stats_variance(&gterms[0],1,N_curr);
 	/*
 	  Rest of variance in fitness (effects of other loci in linkage equilibrium w/this trait
