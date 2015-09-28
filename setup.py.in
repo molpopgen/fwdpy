@@ -99,5 +99,5 @@ setup(name='@PACKAGE_NAME@',
                     'fwdpy.internal':['*.pxd'],
                     'fwdpy.libseq':['*.pxd'],
                     'include':['*.hpp']},
-      ext_modules=cythonize(extensions),
+      ext_modules=cythonize(extensions,gdb_debug=@USEGDB@),
      )
