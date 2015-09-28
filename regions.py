@@ -20,7 +20,7 @@ popsizes = np.array([1000],dtype=np.uint32)
 popsizes = np.tile(popsizes,10*1000)
 
 pops = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-s = [fwdpy.get_samples(rng,i,[10,]) for i in pops]
+s = [fwdpy.get_samples(rng,i,10) for i in pops]
 
 for i in range(len(s)):
     print s[i],"\n\n"
@@ -29,7 +29,7 @@ print [i.gen() for i in pops]
 
 fwdpy.evolve_regions_more(rng,pops,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
 
-s = [fwdpy.get_samples(rng,i,[10,]) for i in pops]
+s = [fwdpy.get_samples(rng,i,10) for i in pops]
 
 for i in range(len(s)):
     print s[i],"\n\n"
