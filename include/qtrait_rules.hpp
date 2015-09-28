@@ -22,16 +22,18 @@ namespace fwdpy
     struct qtrait_model_rules
     {
       mutable double wbar;
+      const double sigE,optimum,VS;
       mutable std::vector<double> fitnesses;
       mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
-      const double sigE,optimum;
       qtrait_model_rules(const double & __sigE,
 			 const double & __optimum,
+			 const double & __VS,
 			 const unsigned __maxN = 100000) :wbar(0.),
-							  fitnesses(std::vector<double>(__maxN)),
-							  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr)),
 							  sigE(__sigE),
-							  optimum(__optimum)
+							  optimum(__optimum),
+							  VS(__VS),
+							  fitnesses(std::vector<double>(__maxN)),
+							  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
       {
       }
 
@@ -83,7 +85,7 @@ namespace fwdpy
 						       0.);
 	offspring->e = gsl_ran_gaussian_ziggurat(r,sigE);
 	double dev = (offspring->g+offspring->e-optimum);
-	offspring->w = std::exp( -(dev*dev)/2. );
+	offspring->w = std::exp( -(dev*dev)/(2.*VS) );
 	assert( std::isfinite(offspring->w) );
 	return;
       }

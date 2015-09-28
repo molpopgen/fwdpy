@@ -22,6 +22,7 @@ namespace fwdpy
 			   const double f,
 			   const double sigmaE,
 			   const double optimum,
+			   const double VS,
 			   const int track,
 			   const std::vector<double> & nbegs,
 			   const std::vector<double> & nends,

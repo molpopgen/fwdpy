@@ -225,7 +225,8 @@ namespace fwdpy
 			   const double f,
 			   const double sigmaE,
 			   const double optimum,
-			   const int track,
+			   const double VS,
+			   const int track,			   
 			   const std::vector<double> & nbegs,
 			   const std::vector<double> & nends,
 			   const std::vector<double> & nweights,
@@ -245,7 +246,7 @@ namespace fwdpy
 	{
 	  //Give each thread a new RNG + seed
 	  rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())) );
-	  rules.emplace_back(qtrait_model_rules(sigmaE,optimum,*std::max_element(Nvector,Nvector+Nvector_length)));
+	  rules.emplace_back(qtrait_model_rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length)));
 	}
       std::vector<std::thread> threads(pops->size());
       for(unsigned i=0;i<pops->size();++i)

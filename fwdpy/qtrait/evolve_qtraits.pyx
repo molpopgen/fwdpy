@@ -9,6 +9,7 @@ def evolve_qtrait(GSLrng rng,
                     list sregions,
                     list recregions,
                     double sigmaE,
+                    double VS=1,
                     double optimum = 0.,
                     bint track = False,
                     double f = 0.):
@@ -36,7 +37,7 @@ def evolve_qtrait(GSLrng rng,
     recreg = internal.process_regions(recregions)
     v = shwrappervec()
     internal.process_sregion_callbacks(v,sregions)
-    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,track,
+    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
                     nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
                     recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
@@ -52,6 +53,7 @@ def evolve_qtrait_more(GSLrng rng,
                     list sregions,
                     list recregions,
                     double sigmaE,
+                    double VS = 1,
                     double optimum = 0.,
                     bint track = False,
                     double f = 0.):
@@ -69,6 +71,7 @@ def evolve_qtrait_more(GSLrng rng,
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
     :param sigmaE: The standard deviation in random variation to add to trait value
+    :oaran VS: The variance in the Gaussian fitness function.  Under certaing strong assumtions, :math:`V(G) \approx 4\times\mu\timesV(S)`, where :math:`\mu` is mu_selected.
     :param optimum: The optimum trait value.
     :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!
     :param f: The selfing probabilty
@@ -78,7 +81,7 @@ def evolve_qtrait_more(GSLrng rng,
     recreg = internal.process_regions(recregions)
     v = shwrappervec()
     internal.process_sregion_callbacks(v,sregions)
-    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,track,
+    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
                     nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
                     recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())

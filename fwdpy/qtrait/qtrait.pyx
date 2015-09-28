@@ -19,6 +19,7 @@ cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
         const double f,
         const double sigmaE,
         const double optimum,
+        const double VS,
         const int track,
         const vector[double] & nbegs,
         const vector[double] & nends,
