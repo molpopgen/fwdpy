@@ -2,7 +2,7 @@
 from cython.view cimport array as cvarray
 import numpy as np
 from internal.internal cimport shwrappervec
-import internal
+import internal,warnings
 
 def evolve_regions(GSLrng rng,
                     int npops,
@@ -63,6 +63,15 @@ def evolve_regions(GSLrng rng,
     >>> #The total mutation rate to selected variants is 0.1*(the neutral mutation rate).
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
     pops = popvec(npops,N)
     nreg = internal.process_regions(nregions)
     sreg = internal.process_regions(sregions)
@@ -119,6 +128,15 @@ def evolve_regions_more(GSLrng rng,
     >>> # Evolve for another 5N generations
     >>> fwdpy.evolve_regions_more(rng,pops,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
     nreg = internal.process_regions(nregions)
     sreg = internal.process_regions(sregions)
     recreg = internal.process_regions(recregions)
@@ -159,6 +177,17 @@ def evolve_regions_split(GSLrng rng,
     >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    for i in range(fs.size()):
+        if fs[i] < 0.:
+            warnings.warn("f[i] < 0 will be treated as 0")
+            fs[i]=0.0
+        
     mpv = mpopvec(0,[0])
     for i in range(len(pops)):
         #Step 1: Make the ith single pop the first deme in each metapop
