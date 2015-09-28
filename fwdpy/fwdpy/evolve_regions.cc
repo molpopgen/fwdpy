@@ -175,20 +175,11 @@ namespace fwdpy {
 			  const double & selected,
 			  const double & recrate,
 			  const std::vector<double> & fs,
-			  const char * fitness,
-			  const std::vector<double> & nbegs,
-			  const std::vector<double> & nends,
-			  const std::vector<double> & nweights,
-			  const std::vector<double> & sbegs,
-			  const std::vector<double> & sends,
-			  const std::vector<double> & sweights,
-			  const std::vector<KTfwd::extensions::shmodel> * callbacks,
-			  const std::vector<double> & rbeg,
-			  const std::vector<double> & rend,
-			  const std::vector<double> & rweight)
+			  const fwdpy::internal::region_manager * rm,
+			  const char * fitness)
   {
-    const KTfwd::extensions::discrete_mut_model m(nbegs,nends,nweights,sbegs,sends,sweights,*callbacks);
-    auto recmap = KTfwd::extensions::discrete_rec_model(rbeg,rend,rweight);
+    const KTfwd::extensions::discrete_mut_model m(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks);
+    auto recmap = KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw);
     std::vector<GSLrng_t> rngs;
     for(unsigned i=0;i<mpops->size();++i)
       {

@@ -113,14 +113,5 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy":
                 const double & selected,
                 const double & recrate,
                 const vector[double] & fs,
-                const char * fitness,
-                const vector[double] & nbegs,
-                const vector[double] & nends,
-                const vector[double] & nweights,
-                const vector[double] & sbegs,
-                const vector[double] & sends,
-                const vector[double] & sweights,
-                const vector[shmodel] * callbacks,
-                const vector[double] & rbeg,
-                const vector[double] & rend,
-                const vector[double] & rweight)
+                const region_manager * rm,
+                const char * fitness)

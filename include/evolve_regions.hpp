@@ -27,17 +27,8 @@ namespace fwdpy
 			  const double & selected,
 			  const double & recrate,
 			  const std::vector<double> & fs,
-			  const char * fitness,
-			  const std::vector<double> & nbegs,
-			  const std::vector<double> & nends,
-			  const std::vector<double> & nweights,
-			  const std::vector<double> & sbegs,
-			  const std::vector<double> & sends,
-			  const std::vector<double> & sweights,
-			  const std::vector<KTfwd::extensions::shmodel> * callbacks,
-			  const std::vector<double> & rbeg,
-			  const std::vector<double> & rend,
-			  const std::vector<double> & rweight);
+			  const internal::region_manager * rm,
+			  const char * fitness);
 }
 
 #endif

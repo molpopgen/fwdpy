@@ -196,12 +196,7 @@ def evolve_regions_split(GSLrng rng,
         tt.mpop = mpv.mpops[i]
         mpv.pympops.append(tt)
         
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
-    split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],len(nlist1),&nlist2[0],len(nlist2),mu_neutral,mu_selected,recrate,fs,fitness,
-                        nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
-                        sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],len(nlist1),&nlist2[0],len(nlist2),mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
     return mpv
