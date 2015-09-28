@@ -430,6 +430,10 @@ AC_DEFINE_UNQUOTED([FWDPP_VERSION],["$FWDPPVERSION"],[The version of fwdpp used 
 AC_DEFINE_UNQUOTED([LIBSEQ_VERSION],["$LIBSEQVERSION"],[The version of libsequence used to compile this software])
 AC_DEFINE_UNQUOTED([GSL_VERSION],["$GSLVERSION"],[The version of GSL used to compile this software])
 
+USEGDB=
+AC_ARG_ENABLE([gdb],AS_HELP_STRING([--enable-gdb],[enable debugging of module with gdb]),[AC_SUBST(USEGDB,"True")],[AC_SUBST(USEGDB,"False")])
+
+
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_LANG(C++)
 
