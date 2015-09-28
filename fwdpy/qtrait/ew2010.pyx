@@ -27,11 +27,21 @@ def evolve_ewvw(GSLrng rng,
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
     :param sigmaE: Gaussian noise to add to fitness due to variation in "the trait".
-    :param VS_total: The total variance in fitness. This is the variance in fitness due to "the trait", plus all remaining variance.
+    :param VS_total: The total variance in fitness. This is the variance in fitness due to "the trait", plus all remaining variance. This parameter must be >= 1.
     :param optimum: The optimum trait value.
     :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!
     :param f: The selfing probabilty
     """
+    if mu_neutral < 0.0:
+        raise RuntimeError("neutral mutation rate must be >= 0")
+    if mu_selected < 0.0:
+        raise RuntimeError("selected mutation rate must be >= 0")
+    if recrate < 0.0:
+        raise RuntimeError("recombination rate must be >= 0")
+    if sigmaE < 0.:
+        raise RuntimeError("sigmaE must be >= 0")
+    if VS_total < 1:
+        raise RuntimeError("VS_total must be >= 1")
     pops = popvec(npops,N)
     nreg = internal.process_regions(nregions)
     sreg = internal.process_regions(sregions)
