@@ -24,16 +24,7 @@ cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
         const double optimum,
         const double VS,
         const int track,
-        const vector[double] & nbegs,
-        const vector[double] & nends,
-        const vector[double] & nweights,
-        const vector[double] & sbegs,
-        const vector[double] & sends,
-        const vector[double] & sweights,
-        const vector[shmodel] * callbacks,
-        const vector[double] & rbeg,
-        const vector[double] & rend,
-        const vector[double] & rweight)
+        const region_manager * rm)
     map[string,double] qtrait_pop_props( const singlepop_t * pop );
     map[string,vector[double]] get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
     map[string,vector[double]] qtrait_esize_freq(const singlepop_t * pop)

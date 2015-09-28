@@ -49,15 +49,10 @@ def evolve_qtrait(GSLrng rng,
     if VS < 0.:
         raise RuntimeError("VS must be >= 0.")
     pops = popvec(npops,N)
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
+    rmgr = region_manager_wrapper();
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
-                    nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
-                    sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
-                    recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
+                    rmgr.thisptr)
     return pops
 
 def evolve_qtrait_more(GSLrng rng,
@@ -108,12 +103,7 @@ def evolve_qtrait_more(GSLrng rng,
         raise RuntimeError("sigmaE must be >= 0.")
     if VS < 0.:
         raise RuntimeError("VS must be >= 0.")
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
+    rmgr = region_manager_wrapper();
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
-                    nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
-                    sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
-                    recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
+                     rmgr.thisptr)
