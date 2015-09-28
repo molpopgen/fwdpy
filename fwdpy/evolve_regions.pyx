@@ -112,6 +112,8 @@ def evolve_regions_more(GSLrng rng,
     :param f: The selfing probabilty
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
+    :raises: RuntimeError if parameters do not pass checks
+    
     Example:
 
     >>> # See docstring for fwdpy.evolve_regions for the gory details
@@ -160,6 +162,8 @@ def evolve_regions_split(GSLrng rng,
                             const char * fitness = "multiplicative"):
     """
     Take the output of a single-deme simulation, split into two demes, and evolve.
+
+    :raises: RuntimeError if parameters do not pass checks
     
     Example:
 
@@ -176,6 +180,7 @@ def evolve_regions_split(GSLrng rng,
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions)
+
     """
     if mu_neutral < 0:
         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
