@@ -11,7 +11,8 @@ cdef class region_manager_wrapper:
         del self.thisptr
         
 ##Returns a region_manager_wrapper
-def make_region_manager(list nregions,
+def make_region_manager(region_manager_wrapper rv,
+                        list nregions,
                         list sregions,
                         list recregions):
     nreg = process_regions(nregions)
@@ -19,7 +20,6 @@ def make_region_manager(list nregions,
     recreg = process_regions(recregions)
     v = shwrappervec()
     process_sregion_callbacks(v,sregions)
-    rv = region_manager_wrapper()
     rv.thisptr.callbacks = v.vec
     rv.thisptr.nb = nreg['beg'].tolist()
     rv.thisptr.ne = nreg['end'].tolist()
@@ -30,4 +30,3 @@ def make_region_manager(list nregions,
     rv.thisptr.rb = recreg['beg'].tolist()
     rv.thisptr.re = recreg['end'].tolist()
     rv.thisptr.rw = recreg['weight'].tolist()
-    return rv;

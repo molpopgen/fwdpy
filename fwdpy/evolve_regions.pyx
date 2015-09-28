@@ -1,8 +1,7 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 import numpy as np
-from internal.internal cimport shwrappervec
-import internal,warnings
+import warnings
 
 def evolve_regions(GSLrng rng,
                     int npops,
@@ -73,15 +72,9 @@ def evolve_regions(GSLrng rng,
         warnings.warn("f < 0 will be treated as 0")
         f=0
     pops = popvec(npops,N)
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
-                    sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
-                    recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
-                    fitness)
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
     return pops
     
                 
@@ -139,14 +132,9 @@ def evolve_regions_more(GSLrng rng,
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
-                    sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
-                    fitness)
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
 
 def evolve_regions_split(GSLrng rng,
                             popvec pops,

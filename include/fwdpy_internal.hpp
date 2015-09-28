@@ -2,7 +2,6 @@
 #define __FWDPY_INTERNAL_HPP__
 
 #include <vector>
-#include <callbacks.hpp>
 #include <fwdpp/extensions/callbacks.hpp>
 
 namespace fwdpy

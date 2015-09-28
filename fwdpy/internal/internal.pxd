@@ -25,7 +25,7 @@ cdef extern from "callbacks.hpp" namespace "fwdpy::internal":
     void make_gaussian_s(shmodel * s, const double sd);
     void make_constant_h(shmodel * s, const double h);
 
-cdef extern from "internal.hpp" namespace "fwdpy::internal":
+cdef extern from "fwdpy_internal.hpp" namespace "fwdpy::internal":
     cdef cppclass region_manager:
         region_manager()
         vector[shmodel] callbacks
@@ -49,5 +49,6 @@ cdef class shwrappervec:
     """
     cdef vector[shmodel] vec
 
+##Quick wrapper for region_manager
 cdef class region_manager_wrapper:
     cdef region_manager * thisptr

@@ -3,7 +3,7 @@
 
 #include <types.hpp>
 #include <vector>
-#include <fwdpp/extensions/callbacks.hpp>
+#include <fwdpy_internal.hpp>
 
 namespace fwdpy
 {
@@ -14,16 +14,7 @@ namespace fwdpy
 			 const double mu_selected,
 			 const double littler,
 			 const double f,
-			 const std::vector<double> & nbegs,
-			 const std::vector<double> & nends,
-			 const std::vector<double> & nweights,
-			 const std::vector<double> & sbegs,
-			 const std::vector<double> & sends,
-			 const std::vector<double> & sweights,
-			 const std::vector<KTfwd::extensions::shmodel> * callbacks,
-			 const std::vector<double> & rbeg,
-			 const std::vector<double> & rend,
-			 const std::vector<double> & rweight,
+			 const internal::region_manager * rm,
 			 const char * fitness);
 
   void split_and_evolve_t(GSLrng_t * rng,
