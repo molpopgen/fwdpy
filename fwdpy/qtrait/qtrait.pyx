@@ -41,14 +41,16 @@ cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
     vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,ew_mut_details] & effects) except +
 
 cdef extern from "ewvw.hpp" namespace "fwdpy::qtrait":
-    void evolve_ewvw_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
+    void evolve_ewvw_t( GSLrng_t * rng,
+        vector[shared_ptr[singlepop_t]] * pops,
         const unsigned * Nvector,
         const size_t Nvector_length,
         const double mu_neutral,
         const double mu_selected,
         const double littler,
         const double f,
-        const double prop_vw,
+        const double sigmaE,
+        const double VS_total,
         const double optimum,
         const int track,
         const vector[double] & nbegs,

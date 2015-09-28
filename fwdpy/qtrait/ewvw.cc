@@ -114,14 +114,16 @@ namespace fwdpy
       pop->N = pop->diploids.size();
     }
 
-    void evolve_ewvw_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+    void evolve_ewvw_t( GSLrng_t * rng,
+			std::vector<std::shared_ptr<singlepop_t> > * pops,
 			const unsigned * Nvector,
 			const size_t Nvector_length,
 			const double mu_neutral,
 			const double mu_selected,
 			const double littler,
 			const double f,
-			const double prop_vw,
+			const double sigmaE,
+			const double VS_total,
 			const double optimum,
 			const int track,
 			const std::vector<double> & nbegs,
@@ -143,7 +145,7 @@ namespace fwdpy
 	{
 	  //Give each thread a new RNG + seed
 	  rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())) );
-	  rules.emplace_back(ewvw_rules(rngs[i].get(),prop_vw,optimum,*std::max_element(Nvector,Nvector+Nvector_length)));
+	  rules.emplace_back(ewvw_rules(VS_total,sigmaE,optimum,*std::max_element(Nvector,Nvector+Nvector_length)));
 	}
       std::vector<std::thread> threads(pops->size());
       for(unsigned i=0;i<pops->size();++i)

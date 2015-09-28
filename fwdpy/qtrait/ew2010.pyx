@@ -8,7 +8,8 @@ def evolve_ewvw(GSLrng rng,
                 list nregions,
                 list sregions,
                 list recregions,
-                double prop_vw,
+                double sigmaE,
+                double VS_total,
                 double optimum = 0.,
                 bint track = False,
                 double f = 0.):
@@ -25,7 +26,8 @@ def evolve_ewvw(GSLrng rng,
     :param nregions: A list specifying where neutral mutations occur
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
-    :param prop_vw: The proportion of total variance in fitness due to this trait
+    :param sigmaE: Gaussian noise to add to fitness due to variation in "the trait".
+    :param VS_total: The total variance in fitness. This is the variance in fitness due to "the trait", plus all remaining variance.
     :param optimum: The optimum trait value.
     :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!
     :param f: The selfing probabilty
@@ -36,7 +38,29 @@ def evolve_ewvw(GSLrng rng,
     recreg = internal.process_regions(recregions)
     v = shwrappervec()
     internal.process_sregion_callbacks(v,sregions)
-    evolve_ewvw_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,prop_vw,optimum,track,
+        # void evolve_ewvw_t( GSLrng_t * rng,
+        # vector[shared_ptr[singlepop_t]] * pops,
+        # const unsigned * Nvector,
+        # const size_t Nvector_length,
+        # const double mu_neutral,
+        # const double mu_selected,
+        # const double littler,
+        # const double f,
+        # const double sigmaE,
+        # const double VS_total,
+        # const double optimum,
+        # const int track,
+        # const vector[double] & nbegs,
+        # const vector[double] & nends,
+        # const vector[double] & nweights,
+        # const vector[double] & sbegs,
+        # const vector[double] & sends,
+        # const vector[double] & sweights,
+        # const vector[shmodel] * callbacks,
+        # const vector[double] & rbeg,
+        # const vector[double] & rend,
+        # const vector[double] & rweight)
+    evolve_ewvw_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,VS_total,optimum,track,
                     nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
                     sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
                     recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
