@@ -1,3 +1,5 @@
+import warnings
+
 def evolve_qtrait(GSLrng rng,
                     int npops,
                     int N,
@@ -30,7 +32,22 @@ def evolve_qtrait(GSLrng rng,
     :param optimum: The optimum trait value.
     :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!
     :param f: The selfing probabilty
+
+    :raises: RuntimeError if parameters do not pass checks
     """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
+    if sigmaE < 0.:
+        raise RuntimeError("sigmaE must be >= 0.")
+    if VS < 0.:
+        raise RuntimeError("VS must be >= 0.")
     pops = popvec(npops,N)
     nreg = internal.process_regions(nregions)
     sreg = internal.process_regions(sregions)
@@ -75,7 +92,22 @@ def evolve_qtrait_more(GSLrng rng,
     :param optimum: The optimum trait value.
     :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!
     :param f: The selfing probabilty
+
+    :raises: RuntimeError if parameters do not pass checks
     """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
+    if sigmaE < 0.:
+        raise RuntimeError("sigmaE must be >= 0.")
+    if VS < 0.:
+        raise RuntimeError("VS must be >= 0.")
     nreg = internal.process_regions(nregions)
     sreg = internal.process_regions(sregions)
     recreg = internal.process_regions(recregions)
