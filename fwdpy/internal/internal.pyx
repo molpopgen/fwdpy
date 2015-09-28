@@ -27,7 +27,7 @@ def make_region_manager(list nregions,
     rv.thisptr.sb = sreg['beg'].tolist()
     rv.thisptr.se = sreg['end'].tolist()
     rv.thisptr.sw = sreg['weight'].tolist()
-    rv.thisptr.rb = sreg['beg'].tolist()
-    rv.thisptr.re = sreg['end'].tolist()
-    rv.thisptr.rw = sreg['weight'].tolist()
+    rv.thisptr.rb = recreg['beg'].tolist()
+    rv.thisptr.re = recreg['end'].tolist()
+    rv.thisptr.rw = recreg['weight'].tolist()
     return rv;
