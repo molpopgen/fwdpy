@@ -1,8 +1,7 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 import numpy as np
-from internal.internal cimport shwrappervec
-import internal
+import warnings
 
 def evolve_regions(GSLrng rng,
                     int npops,
@@ -63,16 +62,19 @@ def evolve_regions(GSLrng rng,
     >>> #The total mutation rate to selected variants is 0.1*(the neutral mutation rate).
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
     pops = popvec(npops,N)
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
-                    sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,
-                    recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
-                    fitness)
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
     return pops
     
                 
@@ -103,6 +105,8 @@ def evolve_regions_more(GSLrng rng,
     :param f: The selfing probabilty
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
+    :raises: RuntimeError if parameters do not pass checks
+    
     Example:
 
     >>> # See docstring for fwdpy.evolve_regions for the gory details
@@ -119,14 +123,18 @@ def evolve_regions_more(GSLrng rng,
     >>> # Evolve for another 5N generations
     >>> fwdpy.evolve_regions_more(rng,pops,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,nreg['beg'].tolist(),nreg['end'].tolist(),nreg['weight'].tolist(),
-                    sreg['beg'].tolist(),sreg['end'].tolist(),sreg['weight'].tolist(),&v.vec,recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist(),
-                    fitness)
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
 
 def evolve_regions_split(GSLrng rng,
                             popvec pops,
@@ -138,10 +146,12 @@ def evolve_regions_split(GSLrng rng,
                             list nregions,
                             list sregions,
                             list recregions,
-                            double f = 0,
+                            vector[double] fs,
                             const char * fitness = "multiplicative"):
     """
     Take the output of a single-deme simulation, split into two demes, and evolve.
+
+    :raises: RuntimeError if parameters do not pass checks
     
     Example:
 
@@ -158,7 +168,19 @@ def evolve_regions_split(GSLrng rng,
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions)
+
     """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    for i in range(fs.size()):
+        if fs[i] < 0.:
+            warnings.warn("f[i] < 0 will be treated as 0")
+            fs[i]=0.0
+        
     mpv = mpopvec(0,[0])
     for i in range(len(pops)):
         #Step 1: Make the ith single pop the first deme in each metapop
@@ -174,10 +196,7 @@ def evolve_regions_split(GSLrng rng,
         tt.mpop = mpv.mpops[i]
         mpv.pympops.append(tt)
         
-    nreg = internal.process_regions(nregions)
-    sreg = internal.process_regions(sregions)
-    recreg = internal.process_regions(recregions)
-    v = shwrappervec()
-    internal.process_sregion_callbacks(v,sregions)
-    
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],len(nlist1),&nlist2[0],len(nlist2),mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
     return mpv
