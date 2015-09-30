@@ -619,7 +619,7 @@ soon.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
 <li><strong>pops</strong> &#8211; A list of populations simulated by <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a></li>
 <li><strong>N</strong> &#8211; The diploid population size to simulate</li>
@@ -633,6 +633,9 @@ soon.</p>
 <li><strong>f</strong> &#8211; The selfing probabilty</li>
 <li><strong>fitness</strong> &#8211; The fitness model.  Must be either &#8220;multiplicative&#8221; or &#8220;additive&#8221;.</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if parameters do not pass checks</p>
 </td>
 </tr>
 </tbody>
@@ -659,6 +662,14 @@ soon.</p>
 <dt id="fwdpy.fwdpy.evolve_regions_split">
 <tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">evolve_regions_split</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_split" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take the output of a single-deme simulation, split into two demes, and evolve.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">RuntimeError if parameters do not pass checks</td>
+</tr>
+</tbody>
+</table>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#The first part is the same as the example for fwdpy.evolve_regions</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
