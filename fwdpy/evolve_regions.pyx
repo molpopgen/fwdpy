@@ -167,7 +167,7 @@ def evolve_regions_split(GSLrng rng,
     >>> popsizes=np.tile(popsizes,10000)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
-    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0.,0.])
 
     """
     if mu_neutral < 0:
