@@ -2,9 +2,12 @@
 #include <limits>
 #include <vector>
 #include <functional>
+#include <algorithm>
+#include <stdexcept>
 #include <Sequence/SimData.hpp>
 #include <Sequence/SummStats/nSL.hpp>
 #include <Sequence/SummStats/Garud.hpp>
+
 using namespace std;
 
 namespace fwdpy
@@ -16,6 +19,14 @@ namespace fwdpy
 					      const double binsize,
 					      const std::vector<double> & gmap)
     {
+      if ( !is_sorted(__data.begin(),__data.end(),
+		     []( const pair<double,string> & a,
+			 const pair<double,string> & b ) {
+		       return a.first<b.first;
+		     } ))
+	{
+	  throw runtime_error("libseq_extra_ld_stats: input data not sorted in ascending order of variant position");
+	}
       Sequence::SimData d(__data.begin(),__data.end());
       Sequence::PolySIM ad(&d);
       map<string,double> rv;
