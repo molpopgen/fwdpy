@@ -4315,11 +4315,11 @@ fi
 done
 
 
-ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SimDataIO.hpp" "ac_cv_header_Sequence_SimDataIO_hpp" "$ac_includes_default"
-if test "x$ac_cv_header_Sequence_SimDataIO_hpp" = xyes; then :
+ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/Garud.hpp" "ac_cv_header_Sequence_SummStats_Garud_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_Sequence_SummStats_Garud_hpp" = xyes; then :
 
 else
-  as_fn_error $? "Sequence/SimDataIO.hpp not found. libsequence (www.molpopgen.org) >= 1.7.8 required." "$LINENO" 5
+  as_fn_error $? "Sequence/SummStats/Garud.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required." "$LINENO" 5
 fi
 
 
