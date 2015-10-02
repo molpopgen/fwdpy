@@ -106,7 +106,6 @@ This section assumes that all packages are installed in fairly standard location
 
 A lot of them:
 
-* Cython_, version :math:`>= 0.23`.  This package depends on wrappers to C++11 smart pointers that were introduced in 0.23.  Once this package starts to stabilize a bit, I will modify the build system to not require Cython.  
 * GSL_
 * fwdpp_ 
 * libsequence_
@@ -124,7 +123,7 @@ OS X users are recommended to use brew_ to install the various dependencies:
    $ brew install libsequence
    $ ##Risky:
    $ brew install fwdpp
-
+   $ brew install google-perftools
 
 For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
 
@@ -163,6 +162,19 @@ To uninstall:
 
    $ #use 'sudo' here if it is installed system-wide...
    $ pip uninstall fwdpy
+
+Note for developers
+=================================
+
+If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
+
+To do this, use the configure script as follows:
+
+.. code-block:: bash
+
+   $ ./configure --enable-cython
+
+Now, Cython will be a compilation depdendency, meaning that any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the "CPython" part of the interface.
 
 
 Rough guide to installation on UCI HPC
