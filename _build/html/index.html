@@ -62,6 +62,7 @@
 <li class="toctree-l2"><a class="reference internal" href="README.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#what-python-version">What Python version?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#note-for-developers">Note for developers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#documentation">Documentation</a></li>
 </ul>
 </li>
@@ -683,7 +684,39 @@ soon.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.freqfilter">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">freqfilter</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.freqfilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove low-frequency variants from a sample.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></li>
+<li><strong>minfreq</strong> &#8211; Remove all sites with frequency &lt; minfreq</li>
+<li><strong>derived</strong> &#8211; if True, filter on derived allele frequency.  If False, filter on minor allele frequency.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do <strong>not</strong> use this function to calculate <span class="math">\(\pi\)</span> (a.k.a. <span class="math">\(\hat\theta_\pi\)</span>, a.k.a. &#8220;sum of site heterozygosity&#8221;).
+<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.  Please use <a class="reference internal" href="#fwdpy.libseq.libseq.summstats" title="fwdpy.libseq.libseq.summstats"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.libseq.libseq.summstats()</span></tt></a> instead.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s2</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">freqfilter</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mf">0.2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -748,6 +781,69 @@ soon.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.getfreq">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">getfreq</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.getfreq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get mutation frequencies</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>site</strong> &#8211; A tuple. See example</li>
+<li><strong>derived</strong> &#8211; If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do <strong>not</strong> use this function to calculate <span class="math">\(\pi\)</span> (a.k.a. <span class="math">\(\hat\theta_\pi\)</span>, a.k.a. &#8220;sum of site heterozygosity&#8221;).
+<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.  Please use <a class="reference internal" href="#fwdpy.libseq.libseq.summstats" title="fwdpy.libseq.libseq.summstats"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.libseq.libseq.summstats()</span></tt></a> instead.
+In general, it will be more convenient to call <a class="reference internal" href="#fwdpy.fwdpy.getfreqs" title="fwdpy.fwdpy.getfreqs"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.getfreqs()</span></tt></a> on a list of tuples.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#DAF = 7/10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#MAF = 3/10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="s">&#39;0111111100&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">getfreq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="bp">True</span><span class="p">),</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">0.7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">getfreq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="bp">False</span><span class="p">),</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">0.3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.getfreqs">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">getfreqs</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.getfreqs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience wrapper around <a class="reference internal" href="#fwdpy.fwdpy.getfreq" title="fwdpy.fwdpy.getfreq"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.getfreq()</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></li>
+<li><strong>derived</strong> &#8211; If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">getfreqs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -826,6 +922,62 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.nderived">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">nderived</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.nderived" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience wrapper around <a class="reference internal" href="#fwdpy.fwdpy.nderived" title="fwdpy.fwdpy.nderived"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.nderived()</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nd</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">nderived</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.nderived_site">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">nderived_site</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.nderived_site" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the number of derived mutations at a site.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>site</strong> &#8211; A tuple.  See example</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In general, it will be more convenient to call <a class="reference internal" href="#fwdpy.fwdpy.nderived" title="fwdpy.fwdpy.nderived"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.nderived()</span></tt></a> on a list of tuples.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#Create a site at position 0.1 with the</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#genotypes as the second element. 0/1 = ancestral/derived</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="s">&#39;01100111&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fwdpy</span><span class="o">.</span><span class="n">nderived_site</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#Process simulation results:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">ndi</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">nderived_site</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -968,6 +1120,38 @@ the data structures!</p>
 </dd></dl>
 
 <span class="target" id="module-fwdpy.libseq.libseq"></span><dl class="function">
+<dt id="fwdpy.libseq.libseq.hapstats">
+<tt class="descclassname">fwdpy.libseq.libseq.</tt><tt class="descname">hapstats</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.libseq.libseq.hapstats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate haplotype-based statistics from a sample</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></li>
+<li><strong>minfreq</strong> &#8211; exclude sites with minor allele frequency &lt; minfreq</li>
+<li><strong>binsize</strong> &#8211; The frequency window size for binning</li>
+<li><strong>gmap</strong> &#8211; A list of values containing the position of each variant in the data&#8217;s location on the genetic map.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if data are not sorted in increasing order according to position</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.libseq</span> <span class="kn">as</span> <span class="nn">lseq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="n">lseq</span><span class="o">.</span><span class="n">hapstats</span><span class="p">(</span><span class="n">si</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)</span> <span class="k">for</span> <span class="n">si</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="fwdpy.libseq.libseq.summstats">
 <tt class="descclassname">fwdpy.libseq.libseq.</tt><tt class="descname">summstats</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.libseq.libseq.summstats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate common summary statistics from a sample</p>
@@ -976,8 +1160,6 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">RuntimeError if data are not sorted in increasing order according to position</td>
 </tr>
 </tbody>
 </table>

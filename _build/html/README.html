@@ -148,7 +148,6 @@
 <p>This section assumes that all packages are installed in fairly standard locations, such as /usr/local.  See the troubleshooting section for more complex setups.</p>
 <p>A lot of them:</p>
 <ul class="simple">
-<li><a class="reference external" href="http://www.cython.org/">Cython</a>, version <span class="math">\(&gt;= 0.23\)</span>.  This package depends on wrappers to C++11 smart pointers that were introduced in 0.23.  Once this package starts to stabilize a bit, I will modify the build system to not require Cython.</li>
 <li><a class="reference external" href="http://gnu.org/software/gsl">GSL</a></li>
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a></li>
 <li><a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a></li>
@@ -161,6 +160,7 @@
 <span class="nv">$ </span>brew install libsequence
 <span class="nv">$ </span><span class="c">##Risky:</span>
 <span class="nv">$ </span>brew install fwdpp
+<span class="nv">$ </span>brew install google-perftools
 </pre></div>
 </div>
 <p>For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.</p>
@@ -190,6 +190,15 @@
 <span class="nv">$ </span>pip uninstall fwdpy
 </pre></div>
 </div>
+</div>
+<div class="section" id="note-for-developers">
+<h2>Note for developers<a class="headerlink" href="#note-for-developers" title="Permalink to this headline">¶</a></h2>
+<p>If you wish to modify the package, then you will want setup.py to &#8220;re-Cythonize&#8221; when you make changes to the package source code.</p>
+<p>To do this, use the configure script as follows:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>./configure --enable-cython
+</pre></div>
+</div>
+<p>Now, Cython will be a compilation depdendency, meaning that any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the &#8220;CPython&#8221; part of the interface.</p>
 <div class="section" id="rough-guide-to-installation-on-uci-hpc">
 <h3>Rough guide to installation on UCI HPC<a class="headerlink" href="#rough-guide-to-installation-on-uci-hpc" title="Permalink to this headline">¶</a></h3>
 <p>Use the following module:</p>
@@ -248,7 +257,8 @@
 <li><a class="reference internal" href="#availability">Availability</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li><a class="reference internal" href="#what-python-version">What Python version?</a></li>
-<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#note-for-developers">Note for developers</a><ul>
 <li><a class="reference internal" href="#rough-guide-to-installation-on-uci-hpc">Rough guide to installation on UCI HPC</a></li>
 <li><a class="reference internal" href="#troubleshooting-the-installation">Troubleshooting the installation</a><ul>
 <li><a class="reference internal" href="#incorrect-fwdpp-version">Incorrect fwdpp version</a></li>
