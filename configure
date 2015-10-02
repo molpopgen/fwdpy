@@ -636,6 +636,7 @@ CPPFLAGS
 LDFLAGS
 CXXFLAGS
 CXX
+EXTENSION
 USEGDB
 pkgpyexecdir
 pyexecdir
@@ -694,6 +695,7 @@ ac_user_opts='
 enable_option_checking
 with_virtualenv
 enable_gdb
+enable_cython
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1318,6 +1320,7 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-gdb            enable debugging of module with gdb
+  --enable-cython         Use Cython for compilation
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -3264,6 +3267,14 @@ else
 
 fi
 
+# Check whether --enable-cython was given.
+if test "${enable_cython+set}" = set; then :
+  enableval=$enable_cython; EXTENSION=".pyx"
+
+else
+  EXTENSION=".cpp"
+
+fi
 
 
 ac_ext=cpp

@@ -432,7 +432,7 @@ AC_DEFINE_UNQUOTED([GSL_VERSION],["$GSLVERSION"],[The version of GSL used to com
 
 USEGDB=
 AC_ARG_ENABLE([gdb],AS_HELP_STRING([--enable-gdb],[enable debugging of module with gdb]),[AC_SUBST(USEGDB,"True")],[AC_SUBST(USEGDB,"False")])
-
+AC_ARG_ENABLE([cython],AS_HELP_STRING([--enable-cython],[Use Cython for compilation]),[AC_SUBST(EXTENSION,".pyx")],[AC_SUBST(EXTENSION,".cpp")])
 
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_LANG(C++)
