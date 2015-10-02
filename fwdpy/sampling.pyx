@@ -166,3 +166,120 @@ def diploid_view( poptype pop, list indlist, bint removeFixed = False, deme = No
         return rv
     else:
         raise ValueError("diploid_view: type of pop is not supported")
+
+###### Functions for manipulating samples.
+def nderived_site(tuple site):
+    """
+    Get the number of derived mutations at a site.
+
+    :param site: A tuple.  See example
+
+    .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.
+    
+    Example:
+
+    >>> import fwdpy
+    >>> #Create a site at position 0.1 with the
+    >>> #genotypes as the second element. 0/1 = ancestral/derived
+    >>> x = (0.1,'01100111')
+    >>> fwdpy.nderived_site(x)
+    5
+    >>> #Process simulation results:
+    >>> rng = fwdpy.GSLrng(100)
+    >>> pop = fwdpy.evolve_pops_t(rng,1,1000,[1000]*1000,50,50)
+    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
+    >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
+    """
+    return site[1].count('1')
+
+def nderived( list sample ):
+    """
+    Convenience wrapper around :func:`fwdpy.fwdpy.nderived`
+
+    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
+
+    Example:
+
+    >>> import fwdpy
+
+    >>> rng = fwdpy.GSLrng(100)
+    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
+    >>> nd = [fwdpy.nderived(i) for i in s]
+    """
+    return [nderived_site(i) for i in sample]
+
+def getfreq(tuple site,bint derived = True):
+    """
+    Get mutation frequencies
+
+    :param site: A tuple. See example
+    :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)
+
+    .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\pi`, a.k.a. "sum of site heterozygosity").
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.
+       In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.
+       
+    Example:
+
+    >>> import fwdpy
+    >>> #DAF = 7/10
+    >>> #MAF = 3/10
+    >>> x = (0.1,'0111111100')
+    >>> round(fwdpy.getfreq(x,True),3)
+    0.7
+    >>> round(fwdpy.getfreq(x,False),3)
+    0.3
+    """
+    o = nderived_site(site)
+    dfreq = float(o)/float(len(site[1]))
+    if derived is True:
+        return dfreq
+    return min(dfreq,1.0-dfreq)
+
+def getfreqs(list sample,bint derived = True):
+    """
+    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`
+
+    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
+    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).
+    
+    Example:
+
+    >>> import fwdpy
+
+    >>> rng = fwdpy.GSLrng(100)
+    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
+    >>> freqs = [fwdpy.getfreqs(i) for i in s]
+    """
+    return [getfreq(i,derived) for i in sample]
+
+def freqfilter( list sample,
+                float minfreq,
+                bint derived = True ):
+    """
+    Remove low-frequency variants from a sample.
+
+    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
+    :param minfreq: Remove all sites with frequency < minfreq
+    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.
+
+    .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. "sum of site heterozygosity").
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.
+       
+    Example:
+    
+    >>> import fwdpy
+    >>> rng = fwdpy.GSLrng(100)
+    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
+    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]
+    """
+    rv=list()
+    for i in sample:
+        if type(i) is not tuple:
+            raise RuntimeError("values is sample must be tuples, not"+str(type(i)))
+        if getfreq(i,derived)>=minfreq:
+            rv.append(i)
+    return rv

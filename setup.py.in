@@ -40,23 +40,25 @@ long_desc = \
 fwdpy is a C++11-based package for running forward simulations in Python
 """
 
+EXTENSION="@EXTENSION@"
+
 extensions = [
     Extension("fwdpy.fwdpy",
-        sources=["fwdpy/fwdpy.pyx"]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
+        sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
         language="c++",                        # generate and compile C++ code
         include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
         extra_compile_args=["-std=c++11"],  
         extra_link_args=["-std=c++11"],
         libraries=["gsl","gslcblas","tcmalloc"]),
         Extension("fwdpy.internal.internal",
-        sources=["fwdpy/internal/internal.pyx"]+glob.glob("fwdpy/internal/*.cc"),
+        sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
         language="c++",                    
         include_dirs=['.','include','..'], 
         extra_compile_args=["-std=c++11"],  
         extra_link_args=["-std=c++11"],
         libraries=["gsl","gslcblas"]),
         Extension("fwdpy.libseq.libseq",
-        sources=["fwdpy/libseq/libseq.pyx"]+glob.glob("fwdpy/libseq/*.cc"),
+        sources=["fwdpy/libseq/libseq"+EXTENSION]+glob.glob("fwdpy/libseq/*.cc"),
         language="c++",                    
         include_dirs=['.','include','..'], 
         extra_compile_args=["-std=c++11"],  
