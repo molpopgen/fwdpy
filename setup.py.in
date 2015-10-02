@@ -67,7 +67,7 @@ extensions = [
         ]
 extensions.extend([
     Extension("fwdpy.qtrait.qtrait",
-    sources=["fwdpy/qtrait/qtrait.pyx"]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
+    sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
     language="c++",                        # generate and compile C++ code
     include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
     extra_compile_args=["-std=c++11"],  
