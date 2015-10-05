@@ -899,10 +899,14 @@ static char __pyx_k_serialize_single[] = "serialize_single";
 static char __pyx_k_serialize_line_15[] = "serialize (line 15)";
 static char __pyx_k_fwdpy_fwdpyio_fwdpyio[] = "fwdpy.fwdpyio.fwdpyio";
 static char __pyx_k_deserialize_singlepops[] = "deserialize_singlepops";
-static char __pyx_k_Return_a_binary_representation[] = "\n    Return a binary representation of an evolved population\n\n    Example:\n\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    ";
+static char __pyx_k_Return_a_binary_representation[] = "\n    Return a binary representation of an evolved population\n\n    :param pop: A list of :class:`fwdpy.fwdpy.poptype`\n    \n    Example:\n\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    ";
+static char __pyx_k_deserialize_singlepops_line_39[] = "deserialize_singlepops (line 39)";
+static char __pyx_k_Convert_binary_representation_b[] = "\n    Convert binary representation back to a popvec\n\n    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`\n\n    :returns: :func:`fwdpy.fwdpy.popvec`\n\n    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.\n        \n    Example:\n    \n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    >>> pops2 = fpio.deserialize_singlepops(strings)\n    ";
 static char __pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp[] = "/home/kevin/src/fwdpy/fwdpy/fwdpyio/fwdpyio.pyx";
+static PyObject *__pyx_kp_u_Convert_binary_representation_b;
 static PyObject *__pyx_kp_u_Return_a_binary_representation;
 static PyObject *__pyx_n_s_deserialize_singlepops;
+static PyObject *__pyx_kp_u_deserialize_singlepops_line_39;
 static PyObject *__pyx_n_s_fwdpy_fwdpyio_fwdpyio;
 static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp;
 static PyObject *__pyx_n_s_main;
@@ -1009,7 +1013,7 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_serialize_single(CYTHON_UNUSE
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_3serialize(PyObject *__pyx_self, PyObject *__pyx_v_pop); /*proto*/
-static char __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_2serialize[] = "\n    Return a binary representation of an evolved population\n\n    Example:\n\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    ";
+static char __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_2serialize[] = "\n    Return a binary representation of an evolved population\n\n    :param pop: A list of :class:`fwdpy.fwdpy.poptype`\n    \n    Example:\n\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_7fwdpyio_7fwdpyio_3serialize = {"serialize", (PyCFunction)__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_3serialize, METH_O, __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_2serialize};
 static PyObject *__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_3serialize(PyObject *__pyx_self, PyObject *__pyx_v_pop) {
   CYTHON_UNUSED int __pyx_lineno = 0;
@@ -1044,7 +1048,7 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_2serialize(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("serialize", 0);
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":33
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":35
  *     >>> strings = [fpio.serialize(i) for i in pops]
  *     """
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -1055,7 +1059,7 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_2serialize(CYTHON_UNUSED PyOb
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "fwdpy/fwdpyio/fwdpyio.pyx":34
+    /* "fwdpy/fwdpyio/fwdpyio.pyx":36
  *     """
  *     if isinstance(pop,singlepop):
  *         return serialize_single(pop)             # <<<<<<<<<<<<<<
@@ -1063,7 +1067,7 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_2serialize(CYTHON_UNUSED PyOb
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_serialize_single); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_serialize_single); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -1076,16 +1080,16 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_2serialize(CYTHON_UNUSED PyOb
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_pop)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_pop)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
     } else {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_INCREF(((PyObject *)__pyx_v_pop));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_pop));
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, ((PyObject *)__pyx_v_pop));
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -1094,7 +1098,7 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_2serialize(CYTHON_UNUSED PyOb
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/fwdpyio/fwdpyio.pyx":33
+    /* "fwdpy/fwdpyio/fwdpyio.pyx":35
  *     >>> strings = [fpio.serialize(i) for i in pops]
  *     """
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -1127,17 +1131,18 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_2serialize(CYTHON_UNUSED PyOb
   return __pyx_r;
 }
 
-/* "fwdpy/fwdpyio/fwdpyio.pyx":37
+/* "fwdpy/fwdpyio/fwdpyio.pyx":39
  * 
  * 
  * def deserialize_singlepops(list strings):             # <<<<<<<<<<<<<<
- *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
- *     pops=popvec(0,0)
+ *     """
+ *     Convert binary representation back to a popvec
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops(PyObject *__pyx_self, PyObject *__pyx_v_strings); /*proto*/
-static PyMethodDef __pyx_mdef_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops = {"deserialize_singlepops", (PyCFunction)__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops, METH_O, 0};
+static char __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_4deserialize_singlepops[] = "\n    Convert binary representation back to a popvec\n\n    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`\n\n    :returns: :func:`fwdpy.fwdpy.popvec`\n\n    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.\n        \n    Example:\n    \n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    >>> pops2 = fpio.deserialize_singlepops(strings)\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops = {"deserialize_singlepops", (PyCFunction)__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops, METH_O, __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_4deserialize_singlepops};
 static PyObject *__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops(PyObject *__pyx_self, PyObject *__pyx_v_strings) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
@@ -1145,7 +1150,7 @@ static PyObject *__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops(PyObj
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("deserialize_singlepops (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strings), (&PyList_Type), 1, "strings", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strings), (&PyList_Type), 1, "strings", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_4deserialize_singlepops(__pyx_self, ((PyObject*)__pyx_v_strings));
 
   /* function exit code */
@@ -1169,39 +1174,39 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_4deserialize_singlepops(CYTHO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("deserialize_singlepops", 0);
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":38
- * 
- * def deserialize_singlepops(list strings):
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":64
+ *     >>> pops2 = fpio.deserialize_singlepops(strings)
+ *     """
  *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)             # <<<<<<<<<<<<<<
  *     pops=popvec(0,0)
  *     pops.reset(test)
  */
-  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_strings); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_strings); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_test = fwdpy::serialize::deserialize_singlepop(__pyx_t_1);
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":39
- * def deserialize_singlepops(list strings):
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":65
+ *     """
  *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
  *     pops=popvec(0,0)             # <<<<<<<<<<<<<<
  *     pops.reset(test)
  *     return pops
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_popvec), __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_popvec), __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":40
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":66
  *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
  *     pops=popvec(0,0)
  *     pops.reset(test)             # <<<<<<<<<<<<<<
  *     return pops
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec *)__pyx_v_pops->__pyx_vtab)->reset(__pyx_v_pops, __pyx_v_test); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = ((struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec *)__pyx_v_pops->__pyx_vtab)->reset(__pyx_v_pops, __pyx_v_test); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":41
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":67
  *     pops=popvec(0,0)
  *     pops.reset(test)
  *     return pops             # <<<<<<<<<<<<<<
@@ -1211,12 +1216,12 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_4deserialize_singlepops(CYTHO
   __pyx_r = ((PyObject *)__pyx_v_pops);
   goto __pyx_L0;
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":37
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":39
  * 
  * 
  * def deserialize_singlepops(list strings):             # <<<<<<<<<<<<<<
- *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
- *     pops=popvec(0,0)
+ *     """
+ *     Convert binary representation back to a popvec
  */
 
   /* function exit code */
@@ -1679,8 +1684,10 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_u_Convert_binary_representation_b, __pyx_k_Convert_binary_representation_b, sizeof(__pyx_k_Convert_binary_representation_b), 0, 1, 0, 0},
   {&__pyx_kp_u_Return_a_binary_representation, __pyx_k_Return_a_binary_representation, sizeof(__pyx_k_Return_a_binary_representation), 0, 1, 0, 0},
   {&__pyx_n_s_deserialize_singlepops, __pyx_k_deserialize_singlepops, sizeof(__pyx_k_deserialize_singlepops), 0, 0, 1, 1},
+  {&__pyx_kp_u_deserialize_singlepops_line_39, __pyx_k_deserialize_singlepops_line_39, sizeof(__pyx_k_deserialize_singlepops_line_39), 0, 1, 0, 0},
   {&__pyx_n_s_fwdpy_fwdpyio_fwdpyio, __pyx_k_fwdpy_fwdpyio_fwdpyio, sizeof(__pyx_k_fwdpy_fwdpyio_fwdpyio), 0, 0, 1, 1},
   {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -1703,14 +1710,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":39
- * def deserialize_singlepops(list strings):
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":65
+ *     """
  *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
  *     pops=popvec(0,0)             # <<<<<<<<<<<<<<
  *     pops.reset(test)
  *     return pops
  */
-  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple_ = PyTuple_Pack(2, __pyx_int_0, __pyx_int_0); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -1738,17 +1745,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__4);
   __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_serialize, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":37
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":39
  * 
  * 
  * def deserialize_singlepops(list strings):             # <<<<<<<<<<<<<<
- *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
- *     pops=popvec(0,0)
+ *     """
+ *     Convert binary representation back to a popvec
  */
-  __pyx_tuple__6 = PyTuple_Pack(3, __pyx_n_s_strings, __pyx_n_s_test, __pyx_n_s_pops); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__6 = PyTuple_Pack(3, __pyx_n_s_strings, __pyx_n_s_test, __pyx_n_s_pops); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_deserialize_singlepops, 37, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_deserialize_singlepops, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1895,16 +1902,16 @@ PyMODINIT_FUNC PyInit_fwdpyio(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_serialize, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":37
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":39
  * 
  * 
  * def deserialize_singlepops(list strings):             # <<<<<<<<<<<<<<
- *     cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
- *     pops=popvec(0,0)
+ *     """
+ *     Convert binary representation back to a popvec
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops, NULL, __pyx_n_s_fwdpy_fwdpyio_fwdpyio); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_7fwdpyio_7fwdpyio_5deserialize_singlepops, NULL, __pyx_n_s_fwdpy_fwdpyio_fwdpyio); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_deserialize_singlepops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_deserialize_singlepops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/fwdpyio/fwdpyio.pyx":1
@@ -1915,6 +1922,7 @@ PyMODINIT_FUNC PyInit_fwdpyio(void)
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_serialize_line_15, __pyx_kp_u_Return_a_binary_representation) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_deserialize_singlepops_line_39, __pyx_kp_u_Convert_binary_representation_b) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test_2, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
