@@ -59,6 +59,7 @@ cdef class popvec(popcont):
     cdef vector[shared_ptr[singlepop_t]] pops
     cdef public object pypops
     cpdef size(self)
+    cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
     
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
