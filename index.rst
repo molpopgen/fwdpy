@@ -31,7 +31,11 @@ Functions and classes
    :members:
    :show-inheritance:
 
-.. automodule:: fwdpy.internal.internal
+.. automodule:: fwdpy.internal.internal 
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.fwdpyio.fwdpyio
    :members:
    :show-inheritance:
 
