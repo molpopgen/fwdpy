@@ -19,7 +19,7 @@ def serialize(poptype pop):
     Example:
 
     >>> import fwdpy
-    >>> import fwdpy.io as fpio
+    >>> import fwdpy.fwdpyio as fpio
     >>> import numpy as np
     >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
     >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
