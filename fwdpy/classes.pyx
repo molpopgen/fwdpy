@@ -65,6 +65,13 @@ cdef class popvec(popcont):
         if self.pops.size() != len(self.pypops):
             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
+    cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):
+        self.pops=newpops
+        self.pypops=list()
+        for i in range(self.pops.size()):
+            pi = singlepop();
+            pi.pop=self.pops[i]
+            self.pypops.append(pi)
     cpdef size(self):
         """
         Returns number of populations (size of underlying C++ vector)
