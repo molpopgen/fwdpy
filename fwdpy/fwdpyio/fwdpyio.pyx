@@ -1,12 +1,12 @@
 # distutils: language = c++
-# distutils: sources = fwdpy/fpio/serialize.cc
+# distutils: sources = fwdpy/fwdpyio/serialize.cc
 
 from libcpp.string cimport string
 from fwdpy.fwdpy cimport *
 
 cdef extern from "serialize.hpp" namespace "fwdpy::serialize":
     string serialize_singlepop(const singlepop_t * pop)
-    void deserialize_singlepop(const vector[string] & strings, vector[shared_ptr[singlepop_t]] * pops)
+    vector[shared_ptr[singlepop_t]] deserialize_singlepop(const vector[string] & strings)
     
 ##Undocumented fxns are implementation details
 def serialize_single(singlepop pop):
@@ -33,8 +33,9 @@ def serialize(poptype pop):
     if isinstance(pop,singlepop):
         return serialize_single(pop)
 
+
 def deserialize_singlepops(list strings):
-    pops = popvec(len(strings),0)
-    print len(pops)
-    deserialize_singlepop(strings,&pops.pops)
+    cdef vector[shared_ptr[singlepop_t]] test = deserialize_singlepop(strings)
+    pops=popvec(0,0)
+    pops.reset(test)
     return pops

@@ -12,8 +12,7 @@ namespace fwdpy
   namespace serialize
   {
     std::string serialize_singlepop(const singlepop_t * spop);
-    void deserialize_singlepop(const std::vector<std::string> & strings,
-			       std::vector<std::shared_ptr<singlepop_t> > * pops);
+    std::vector<std::shared_ptr<singlepop_t> > deserialize_singlepop(const std::vector<std::string> & strings);
   }
 }
   
