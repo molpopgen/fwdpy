@@ -45,6 +45,6 @@ for i in range(25):
         tri[j]['rep']=[k]*len(tri[j].index)
         k=k+1
         #write each data frame to h5 file
-        hdf.append('tr',tri[i])
+        hdf.append('tr',tri[j])
 
 hdf.close()
