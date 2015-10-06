@@ -149,7 +149,7 @@ cdef class mpopvec(popcont):
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):
         self.mpops = mpops
         self.pympops = []
-        for i in range(self.nmpops):
+        for i in range(self.mpops.size()):
             pi = metapop()
             pi.mpop = self.mpops[i]
             self.pympops.append(pi)

@@ -3,7 +3,7 @@
 
 #include <types.hpp>
 #include <vector>
-#include <fwdpy_internal.hpp>
+#include <internal/internal.hpp>
 
 namespace fwdpy
 {
