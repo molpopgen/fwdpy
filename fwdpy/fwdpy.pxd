@@ -118,3 +118,6 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy":
                 const vector[double] & fs,
                 const region_manager * rm,
                 const char * fitness)
+
+cdef extern from "trajectories.hpp" namespace "fwdpy":
+    map[string,vector[double] ] get_singlepop_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)

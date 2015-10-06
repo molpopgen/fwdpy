@@ -12,6 +12,7 @@
             "include/metapop.hpp", 
             "include/neutral.hpp", 
             "include/sample.hpp", 
+            "include/trajectories.hpp", 
             "include/types.hpp"
         ], 
         "extra_compile_args": [
@@ -301,6 +302,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "deps.hpp"
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
+#include "trajectories.hpp"
 #include "fwdpyio/serialize.hpp"
 #ifdef _OPENMP
 #include <omp.h>
