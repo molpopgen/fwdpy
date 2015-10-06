@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tracking mutation frequencies &mdash; fwdpy 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="fwdpy 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="Processing SLiM input files" href="slim.html" />
+    <link rel="prev" title="Example: Sliding windows" href="windows.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="slim.html" title="Processing SLiM input files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="windows.html" title="Example: Sliding windows"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tracking-mutation-frequencies">
+<h1>Tracking mutation frequencies<a class="headerlink" href="#tracking-mutation-frequencies" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre>%matplotlib inline
+%pylab inline
+import fwdpy as fp
+import pandas as pd
+import matplotlib
+import matplotlib.pyplot as plt
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>Populating the interactive namespace from numpy and matplotlib
+</pre></div>
+</div>
+<div class="section" id="run-a-simulation">
+<h2>Run a simulation<a class="headerlink" href="#run-a-simulation" title="Permalink to this headline">¶</a></h2>
+<p>This is the same example that you see in <a class="reference internal" href="../index.html#fwdpy.fwdpy.trajectories" title="fwdpy.fwdpy.trajectories"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.trajectories()</span></tt></a>, except that I&#8217;ve changed the random number seed.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">201</span><span class="p">)</span>
+<span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,</span><span class="n">track</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">trajectories</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="group-mutation-trajectories-by-position-and-effect-size">
+<h2>Group mutation trajectories by position and effect size<a class="headerlink" href="#group-mutation-trajectories-by-position-and-effect-size" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="max-mutation-frequencies">
+<h3>Max mutation frequencies<a class="headerlink" href="#max-mutation-frequencies" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">mfreq</span> <span class="o">=</span> <span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">&#39;pos&#39;</span><span class="p">,</span><span class="s">&#39;esize&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="c">#Print out info for all mutations that hit a frequency of 1 (e.g., fixed)</span>
+<span class="n">mfreq</span><span class="p">[</span><span class="n">mfreq</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pos</th>
+      <th>esize</th>
+      <th>freq</th>
+      <th>generation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>16467</th>
+      <td> 1.817526</td>
+      <td> 0.001171</td>
+      <td> 1</td>
+      <td> 4587</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 4 columns</p>
+</div><p>The only fixation has an &#8216;esize&#8217; <span class="math">\(&gt; 0\)</span>, which means that it was
+positively selected,</p>
+</div>
+<div class="section" id="frequency-trajectory-of-fixations">
+<h3>Frequency trajectory of fixations<a class="headerlink" href="#frequency-trajectory-of-fixations" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Get positions of mutations that hit q = 1</span>
+<span class="n">mpos</span><span class="o">=</span><span class="n">mfreq</span><span class="p">[</span><span class="n">mfreq</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;pos&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Frequency trajectories of fixations</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (generations)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Mutation frequency&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;generation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;generation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpos</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;pos&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">i</span><span class="p">][</span><span class="s">&#39;generation&#39;</span><span class="p">],</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">&#39;pos&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">i</span><span class="p">][</span><span class="s">&#39;freq&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<img alt="../_images/trajectories_11_0.png" src="../_images/trajectories_11_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Let&#39;s get histogram of effect sizes for all mutations that did not fix</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">r&#39;$s$ (selection coefficient)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Number of mutations&quot;</span><span class="p">)</span>
+<span class="n">mfreq</span><span class="p">[</span><span class="n">mfreq</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mf">1.0</span><span class="p">][</span><span class="s">&#39;esize&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;matplotlib.axes.AxesSubplot at 0x7fa486531ed0&gt;
+</pre></div>
+</div>
+<img alt="../_images/trajectories_12_1.png" src="../_images/trajectories_12_1.png" />
+</div>
+</div>
+<div class="section" id="reducing-the-memory-footprint">
+<h2>Reducing the memory footprint<a class="headerlink" href="#reducing-the-memory-footprint" title="Permalink to this headline">¶</a></h2>
+<p>In cases of long simulations and/or large mutation rates and/or large
+population sizes, it can take a lot of RAM to track mutation
+frequencies.</p>
+<p>However, you do not have to keep all frequencies in memory!</p>
+<p>Let&#8217;s do something better, and store them every 1,000 generations to an
+h5 file.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Let&#39;s redo the simulation above, but with different variables, etc.</span>
+<span class="n">rng2</span><span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">201</span><span class="p">)</span>
+<span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="c">##Now, popsizes will be 10x smaller...</span>
+<span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="c">#Evolve the first &#39;N&#39; generations:</span>
+<span class="n">pops2</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,</span><span class="n">track</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c">#get the trajectories:</span>
+<span class="n">traj2</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">trajectories</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops2</span><span class="p">]</span>
+
+<span class="c">#open an hdf 5 file:</span>
+<span class="n">hdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">HDFStore</span><span class="p">(</span><span class="s">&quot;trajectories.h5&quot;</span><span class="p">,</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">hdf</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="c">#Write the first set of trajectories</span>
+<span class="n">hdf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;traj&#39;</span><span class="p">,</span><span class="n">traj2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c">#clear out trajectories in every population</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops2</span><span class="p">:</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">clearTraj</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Evolve for another 9N generations</span>
+<span class="c">#Update the h5 file after each chunk, and then clear out trajectories</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">):</span>
+    <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions_more</span><span class="p">(</span><span class="n">rng2</span><span class="p">,</span><span class="n">pops2</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,</span><span class="n">track</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">traj2</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">trajectories</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops2</span><span class="p">]</span>
+    <span class="n">hdf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;traj&#39;</span><span class="p">,</span><span class="n">traj2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">pops2</span><span class="p">:</span>
+        <span class="n">j</span><span class="o">.</span><span class="n">clearTraj</span><span class="p">()</span>
+<span class="c">##Close the h5 file</span>
+<span class="n">hdf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c">##Get the data frame out</span>
+<span class="n">traj2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s">&#39;trajectories.h5&#39;</span><span class="p">,</span><span class="s">&#39;traj&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="nb">len</span><span class="p">(</span><span class="n">traj2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">False</span>
+</pre></div>
+</div>
+<p>Why are the two objects not the same length?  We did the same thing, right, but in chunks the second time?  Well, not quite.</p>
+<p>Each time we call <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></tt></a> and/or <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions_more" title="fwdpy.fwdpy.evolve_regions_more"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions_more()</span></tt></a>, we are using the existing random number generator (RNG) to randomly seed RNGs for each thread.  Thus, the total number of calls to the global RNG (the variable called <em>rng2</em> in our code) differs from the number of calls to the <em>rng</em> variable above.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">mfreq2</span> <span class="o">=</span> <span class="n">traj2</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">&#39;pos&#39;</span><span class="p">,</span><span class="s">&#39;esize&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="c">#Print out info for all mutations that hit a frequency of 1 (e.g., fixed)</span>
+<span class="n">mfreq2</span><span class="p">[</span><span class="n">mfreq2</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <td>Int64Index([], dtype='int64')</td>
+      <td>Empty DataFrame</td>
+    </tr>
+  </tbody>
+</table>
+<p>0 rows × 4 columns</p>
+</div><p>See, no fixations this time!</p>
+<p>You can run the simulation in chunks to save RAM, but you won&#8217;t get the
+same result because this method uses the RNG differently.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tracking mutation frequencies</a><ul>
+<li><a class="reference internal" href="#run-a-simulation">Run a simulation</a></li>
+<li><a class="reference internal" href="#group-mutation-trajectories-by-position-and-effect-size">Group mutation trajectories by position and effect size</a><ul>
+<li><a class="reference internal" href="#max-mutation-frequencies">Max mutation frequencies</a></li>
+<li><a class="reference internal" href="#frequency-trajectory-of-fixations">Frequency trajectory of fixations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#reducing-the-memory-footprint">Reducing the memory footprint</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="windows.html"
+                        title="previous chapter">Example: Sliding windows</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="slim.html"
+                        title="next chapter">Processing SLiM input files</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/docs/trajectories.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="slim.html" title="Processing SLiM input files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="windows.html" title="Example: Sliding windows"
+             >previous</a> |</li>
+        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

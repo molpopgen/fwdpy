@@ -95,6 +95,12 @@
 <li class="toctree-l2"><a class="reference internal" href="docs/windows.html#calculating-sliding-windows">Calculating sliding windows</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docs/trajectories.html">Tracking mutation frequencies</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/trajectories.html#run-a-simulation">Run a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/trajectories.html#group-mutation-trajectories-by-position-and-effect-size">Group mutation trajectories by position and effect size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/trajectories.html#reducing-the-memory-footprint">Reducing the memory footprint</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="docs/slim.html">Processing SLiM input files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/slim.html#differences-between-slim-and-fwdpy">Differences between SLiM and fwdpy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/slim.html#a-word-of-caution">A word of caution</a></li>
@@ -1119,6 +1125,45 @@ the data structures!</p>
 
 </dd></dl>
 
+<dl class="function">
+<dt id="fwdpy.fwdpy.trajectories">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">trajectories</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.trajectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the frequency trajactories of mutations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></tt></a> simulated using <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></tt></a> and/or <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions_more" title="fwdpy.fwdpy.evolve_regions_more"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions_more()</span></tt></a></li>
+<li><strong>minsojounrn</strong> &#8211; Exclude all mutations that did not exist in the population for <span class="math">\(\geq\ \mathrm{minsojourn}\)</span> generations</li>
+<li><strong>minfreq</strong> &#8211; Exclude all mutations that did not read a minimum frequency of <span class="math">\(\geq\ \mathrm{minfreq}\)</span></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A pandas.DataFrame</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#Same example as fwdpy.evolve_regions</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,</span><span class="n">track</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">trajectories</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <span class="target" id="module-fwdpy.libseq.libseq"></span><dl class="function">
 <dt id="fwdpy.libseq.libseq.hapstats">
 <tt class="descclassname">fwdpy.libseq.libseq.</tt><tt class="descname">hapstats</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.libseq.libseq.hapstats" title="Permalink to this definition">¶</a></dt>
@@ -1275,6 +1320,114 @@ the data structures!</p>
 <p>Wrapper for a vector of callback objects from fwdpp&#8217;s extension library.</p>
 <p>Users will not interact with this type directly.  Rather, it is used
 by other module functions to process user inputs.</p>
+</dd></dl>
+
+<span class="target" id="module-fwdpy.fwdpyio.fwdpyio"></span><dl class="function">
+<dt id="fwdpy.fwdpyio.fwdpyio.deserialize_metapops">
+<tt class="descclassname">fwdpy.fwdpyio.fwdpyio.</tt><tt class="descname">deserialize_metapops</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_metapops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert binary representation of populations back to a <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></tt></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#The first part is the same as the example for :func:`fwdpy.fwdpy.evolve_regions_split`</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.fwdpyio</span> <span class="kn">as</span> <span class="nn">fpio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Evolve for 5N generations initially</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#Serialize</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bstrings</span> <span class="o">=</span> <span class="p">[</span><span class="n">fpio</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">bstrings</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#Deserialize</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops2</span> <span class="o">=</span> <span class="n">fpio</span><span class="o">.</span><span class="n">deserialize_metapops</span><span class="p">(</span><span class="n">bstrings</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpyio.fwdpyio.deserialize_singlepops">
+<tt class="descclassname">fwdpy.fwdpyio.fwdpyio.</tt><tt class="descname">deserialize_singlepops</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_singlepops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert binary representation back to a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></tt></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.popvec()</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.fwdpyio</span> <span class="kn">as</span> <span class="nn">fpio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="n">fpio</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops2</span> <span class="o">=</span> <span class="n">fpio</span><span class="o">.</span><span class="n">deserialize_singlepops</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpyio.fwdpyio.serialize">
+<tt class="descclassname">fwdpy.fwdpyio.fwdpyio.</tt><tt class="descname">serialize</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a binary representation of an evolved population</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; A list of <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.fwdpyio</span> <span class="kn">as</span> <span class="nn">fpio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="n">fpio</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>

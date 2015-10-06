@@ -1,6 +1,0 @@
-
-This is a test
-==============
-
-This is an rst reference to :func:`fwdpy.fwdpy.evolve_regions`
-
