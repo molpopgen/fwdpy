@@ -7,14 +7,14 @@
 */
 
 #include <types.hpp>
-#include <fwdpy_internal.hpp>
-#include <qtrait_rules.hpp>
+#include <internal/internal.hpp>
+#include <qtrait/rules.hpp>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/sugar/singlepop.hpp>
 #include <fwdpp/sugar/popgenmut.hpp>
 
-#include <qtrait_details.hpp>
+#include <qtrait/details.hpp>
 #include <thread>
 #include <algorithm>
 #include <memory>

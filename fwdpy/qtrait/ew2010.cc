@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <numeric>
 #include <types.hpp>
-#include <qtraits.hpp>
+#include <qtrait/qtraits.hpp>
 
 using namespace std;
 

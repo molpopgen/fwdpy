@@ -11,7 +11,7 @@
 */
 
 #include <thread>
-#include <ewvw_rules.hpp>
+#include <qtrait/ewvw_rules.hpp>
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/extensions/callbacks.hpp>
 #include <fwdpp/extensions/regions.hpp>

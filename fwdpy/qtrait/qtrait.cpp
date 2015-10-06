@@ -4,13 +4,13 @@
 {
     "distutils": {
         "depends": [
-            "include/callbacks.hpp", 
             "include/deps.hpp", 
             "include/evolve_regions.hpp", 
-            "include/fwdpy_internal.hpp", 
+            "include/internal/callbacks.hpp", 
+            "include/internal/internal.hpp", 
             "include/metapop.hpp", 
             "include/neutral.hpp", 
-            "include/qtraits.hpp", 
+            "include/qtrait/qtraits.hpp", 
             "include/sample.hpp", 
             "include/types.hpp"
         ], 
@@ -296,15 +296,15 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <string>
 #include <memory>
 #include "fwdpp/extensions/callbacks.hpp"
-#include "callbacks.hpp"
-#include "fwdpy_internal.hpp"
+#include "internal/callbacks.hpp"
+#include "internal/internal.hpp"
 #include "types.hpp"
 #include "neutral.hpp"
 #include "sample.hpp"
 #include "deps.hpp"
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
-#include "qtraits.hpp"
+#include "qtrait/qtraits.hpp"
 #include "pythread.h"
 #include "stdlib.h"
 #include "stdio.h"
@@ -740,8 +740,8 @@ struct __pyx_obj_5fwdpy_5fwdpy_mpopvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":69
- *     cpdef size(self)
+/* "fwdpy/fwdpy.pxd":70
+ *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
  * 
  * cdef class GSLrng:             # <<<<<<<<<<<<<<
  *     cdef GSLrng_t * thisptr
@@ -887,6 +887,7 @@ static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec *__pyx_vtabptr_5fwdpy_5fwdpy
 
 struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec {
   PyObject *(*size)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, int __pyx_skip_dispatch);
+  PyObject *(*reset)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, std::vector<std::shared_ptr<fwdpy::metapop_t> >  const &);
 };
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec *__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec;
 
@@ -17480,7 +17481,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
   __pyx_vtabptr_5fwdpy_5fwdpy_popvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_5fwdpy_5fwdpy_mpopvec = __Pyx_ImportType("fwdpy.fwdpy", "mpopvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_mpopvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_mpopvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/
@@ -17511,7 +17512,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * import fwdpy.internal as internal
  * import pandas             # <<<<<<<<<<<<<<
  * 
- * cdef extern from "qtraits.hpp" namespace "fwdpy::qtrait":
+ * cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait":
  */
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);

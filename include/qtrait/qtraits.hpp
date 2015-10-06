@@ -8,7 +8,7 @@
 #include <string>
 #include <limits>
 #include <fwdpp/extensions/callbacks.hpp>
-#include <fwdpy_internal.hpp>
+#include <internal/internal.hpp>
 namespace fwdpy
 {
   namespace qtrait
