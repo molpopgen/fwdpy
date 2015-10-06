@@ -146,6 +146,13 @@ cdef class mpopvec(popcont):
         Returns number of populations (size of underlying C++ vector)
         """
         return self.mpops.size()
+    cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):
+        self.mpops = mpops
+        self.pympops = []
+        for i in range(self.nmpops):
+            pi = metapop()
+            pi.mpop = self.mpops[i]
+            self.pympops.append(pi)
     
 cdef class GSLrng:
     """

@@ -65,6 +65,7 @@ cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
     cpdef size(self)
+    cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
