@@ -17,6 +17,7 @@ cdef extern from "types.hpp" namespace "fwdpy":
         unsigned gen()
         unsigned popsize()
         int sane()
+        void clearTrajectories()
     cdef cppclass metapop_t:
         metapop_t(vector[unsigned])
         unsigned generation
@@ -40,6 +41,7 @@ cdef class singlepop(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
+    cpdef clearTraj(self)
     
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
@@ -65,6 +67,7 @@ cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
     cpdef size(self)
+    cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
@@ -101,6 +104,7 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy":
 		       const double mu_selected,
 		       const double littler,
 		       const double f,
+               const int track,
 		       const region_manager * rm,
 		       const char * fitness)
 
@@ -116,3 +120,6 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy":
                 const vector[double] & fs,
                 const region_manager * rm,
                 const char * fitness)
+
+cdef extern from "trajectories.hpp" namespace "fwdpy":
+    map[string,vector[double] ] get_singlepop_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)

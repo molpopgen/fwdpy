@@ -3,7 +3,7 @@
 
 #include <types.hpp>
 #include <vector>
-#include <fwdpy_internal.hpp>
+#include <internal/internal.hpp>
 
 namespace fwdpy
 {
@@ -14,6 +14,7 @@ namespace fwdpy
 			 const double mu_selected,
 			 const double littler,
 			 const double f,
+			 const int track,
 			 const internal::region_manager * rm,
 			 const char * fitness);
 

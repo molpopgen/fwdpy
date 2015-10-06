@@ -636,8 +636,9 @@ CPPFLAGS
 LDFLAGS
 CXXFLAGS
 CXX
+CYTHONIZE
+CYTHONIMPORT
 EXTENSION
-USEGDB
 pkgpyexecdir
 pyexecdir
 PYTHON_EXEC_PREFIX
@@ -694,7 +695,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 with_virtualenv
-enable_gdb
 enable_cython
 '
       ac_precious_vars='build_alias
@@ -1319,7 +1319,6 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-gdb            enable debugging of module with gdb
   --enable-cython         Use Cython for compilation
 
 Optional Packages:
@@ -3257,22 +3256,16 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-USEGDB=
-# Check whether --enable-gdb was given.
-if test "${enable_gdb+set}" = set; then :
-  enableval=$enable_gdb; USEGDB="True"
-
-else
-  USEGDB="False"
-
-fi
-
 # Check whether --enable-cython was given.
 if test "${enable_cython+set}" = set; then :
   enableval=$enable_cython; EXTENSION=".pyx"
+ CYTHONIMPORT="from Cython.Build import cythonize"
+ CYTHONIZE="cythonize(extensions,gdb_debug=False)"
 
 else
   EXTENSION=".cpp"
+ CYTHONIMPORT=""
+ CYTHONIZE="extensions"
 
 fi
 

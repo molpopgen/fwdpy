@@ -17,7 +17,7 @@ cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
     cdef cppclass gamma:
         gamma(double,double)
 
-cdef extern from "callbacks.hpp" namespace "fwdpy::internal":
+cdef extern from "internal/callbacks.hpp" namespace "fwdpy::internal":
     void make_gamma_s(shmodel *, double,double)
     void make_constant_s(shmodel * s, const double scoeff);
     void make_uniform_s(shmodel * s, const double lo, const double hi);
@@ -25,7 +25,7 @@ cdef extern from "callbacks.hpp" namespace "fwdpy::internal":
     void make_gaussian_s(shmodel * s, const double sd);
     void make_constant_h(shmodel * s, const double h);
 
-cdef extern from "fwdpy_internal.hpp" namespace "fwdpy::internal":
+cdef extern from "internal/internal.hpp" namespace "fwdpy::internal":
     cdef cppclass region_manager:
         region_manager()
         vector[shmodel] callbacks

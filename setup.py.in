@@ -11,7 +11,7 @@
 
 
 from distutils.core import setup, Extension
-from Cython.Build import cythonize
+@CYTHONIMPORT@
 import platform, glob, sys
 
 ##These check dependencies:
@@ -70,7 +70,7 @@ extensions = [
         include_dirs=['.','include','..'], 
         extra_compile_args=["-std=c++11"],  
         extra_link_args=["-std=c++11"],
-        libraries=["sequence"]),
+        libraries=["sequence","tcmalloc"]),
         ]
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
@@ -99,5 +99,5 @@ setup(name='@PACKAGE_NAME@',
                     'fwdpy.libseq':['*.pxd'],
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
-      ext_modules=cythonize(extensions,gdb_debug=@USEGDB@),
+      ext_modules=@CYTHONIZE@,
      )
