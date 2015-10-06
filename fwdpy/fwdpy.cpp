@@ -1818,6 +1818,7 @@ static char __pyx_k_make_region_manager[] = "make_region_manager";
 static char __pyx_k_parse_slim_elements[] = "parse_slim_elements";
 static char __pyx_k_parse_slim_muttypes[] = "parse_slim_muttypes";
 static char __pyx_k_parse_slim_recrates[] = "parse_slim_recrates";
+static char __pyx_k_trajectories_line_1[] = "trajectories (line 1)";
 static char __pyx_k_Exponential_DFE_mean[] = "Exponential DFE, mean = ";
 static char __pyx_k_diploid_view_metapop[] = "diploid_view_metapop";
 static char __pyx_k_evolve_pops_t_line_1[] = "evolve_pops_t (line 1)";
@@ -1873,6 +1874,7 @@ static char __pyx_k_fwdpy_Region_end_not_a_number[] = "fwdpy.Region: end not a n
 static char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static char __pyx_k_Get_detailed_information_about[] = "\n    Get detailed information about a list of diploids.\n\n    :param pop: A :class:`poptype`\n    :param indlist: A list of *indexes* of individuals to sample. (Start counting from 0.)\n    :param removeFixed: If non-zero, fixations will be excluded.\n    :param deme: If pop is of type :class:`metapop`, deme is the index of the sub-population from which to get the individuals\n\n    :return: A pandas.DataFrame containing information about each mutation for each individual in indlist.\n\n    :rtype: pandas.DataFrame\n\n    :raises: IndexError if any item in indlist is out of range, or if deme is out of range.\n\n    .. note:: This return value of this function does not allow the calculation of fixation times.\n       In order to do that, a change must be made to fwdpp, which may or may not happen\n       soon.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import numpy as np\n    >>> rng = fp.GSLrng(100)\n    >>> nregions = [fp.Region(0,1,1),fp.Region(2,3,1)]\n    >>> sregions = [fp.ExpS(1,2,1,-0.1),fp.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fp.Region(0,3,1)]\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> # Evolve for 5N generations initially\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fp.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> #Take a \"view\" of the first 5 diploids:\n    >>> view = fp.diploid_view(pops[0],[0,1,2,3,4])\n    ";
 static char __pyx_k_Get_mutation_frequencies_param[] = "\n    Get mutation frequencies\n\n    :param site: A tuple. See example\n    :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.\n       In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.\n       \n    Example:\n\n    >>> import fwdpy\n    >>> #DAF = 7/10\n    >>> #MAF = 3/10\n    >>> x = (0.1,'0111111100')\n    >>> round(fwdpy.getfreq(x,True),3)\n    0.7\n    >>> round(fwdpy.getfreq(x,False),3)\n    0.3\n    ";
+static char __pyx_k_Get_the_frequency_trajactories[] = "\n    Get the frequency trajactories of mutations\n\n    :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.fwdpy.evolve_regions` and/or :func:`fwdpy.fwdpy.evolve_regions_more`\n    :param minsojounrn: Exclude all mutations that did not exist in the population for :math:`\\geq\\ \\mathrm{minsojourn}` generations\n    :param minfreq: Exclude all mutations that did not read a minimum frequency of :math:`\\geq\\ \\mathrm{minfreq}`\n\n    :return: A pandas.DataFrame\n\n    :rtype: pandas.DataFrame\n\n    Example:\n\n    >>> #Same example as fwdpy.evolve_regions\n    >>> import fwdpy\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions,track=True)\n    >>> traj = [fwdpy.trajectories(i) for i in pops]\n    ";
 static char __pyx_k_fwdpy_ConstantS_s_not_a_number[] = "fwdpy.ConstantS: s not a number";
 static char __pyx_k_fwdpy_GammaS_mean_not_a_number[] = "fwdpy.GammaS: mean not a number";
 static char __pyx_k_fwdpy_Region_weight_not_finite[] = "fwdpy.Region: weight not finite";
@@ -1987,6 +1989,7 @@ static PyObject *__pyx_kp_s_Gaussian_distribution_on_select;
 static PyObject *__pyx_kp_u_Get_additional_details_for_popu;
 static PyObject *__pyx_kp_u_Get_detailed_information_about;
 static PyObject *__pyx_kp_u_Get_mutation_frequencies_param;
+static PyObject *__pyx_kp_u_Get_the_frequency_trajactories;
 static PyObject *__pyx_kp_u_Get_the_number_of_derived_mutat;
 static PyObject *__pyx_n_s_IOError;
 static PyObject *__pyx_n_s_IndexError;
@@ -2263,6 +2266,7 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_theta;
 static PyObject *__pyx_n_s_track;
 static PyObject *__pyx_n_s_trajectories;
+static PyObject *__pyx_kp_u_trajectories_line_1;
 static PyObject *__pyx_n_s_tt;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
@@ -15609,7 +15613,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_38readslim(CYTHON_UNUSED PyObject *__pyx
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_41trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_40trajectories[] = "\n    Get the frequency trajactories of mutations\n\n    :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.fwdpy.evolve_regions` and/or :func:`fwdpy.fwdpy.evolve_regions_more`\n    :param minsojounrn: Exclude all mutations that did not exist in the population for :math:`\\geq\\ \\mathrm{minsojourn}` generations\n    :param minfreq: Exclude all mutations that did not read a minimum frequency of :math:`\\geq\\ \\mathrm{minfreq}`\n\n    :return: A pandas.DataFrame\n\n    :rtype: pandas.DataFrame\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_40trajectories[] = "\n    Get the frequency trajactories of mutations\n\n    :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.fwdpy.evolve_regions` and/or :func:`fwdpy.fwdpy.evolve_regions_more`\n    :param minsojounrn: Exclude all mutations that did not exist in the population for :math:`\\geq\\ \\mathrm{minsojourn}` generations\n    :param minfreq: Exclude all mutations that did not read a minimum frequency of :math:`\\geq\\ \\mathrm{minfreq}`\n\n    :return: A pandas.DataFrame\n\n    :rtype: pandas.DataFrame\n\n    Example:\n\n    >>> #Same example as fwdpy.evolve_regions\n    >>> import fwdpy\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,10000)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions,track=True)\n    >>> traj = [fwdpy.trajectories(i) for i in pops]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_41trajectories = {"trajectories", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_41trajectories, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_40trajectories};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_41trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop = 0;
@@ -15707,21 +15711,21 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_40trajectories(CYTHON_UNUSED PyObject *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("trajectories", 0);
 
-  /* "fwdpy/trajectories.pyx":13
- *     :rtype: pandas.DataFrame
+  /* "fwdpy/trajectories.pyx":27
+ *     >>> traj = [fwdpy.trajectories(i) for i in pops]
  *     """
  *     return pandas.DataFrame.from_dict(get_singlepop_traj(pop.pop.get(),minsojourn,minfreq))             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_from_dict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_from_dict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(fwdpy::get_singlepop_traj(__pyx_v_pop->pop.get(), __pyx_v_minsojourn, __pyx_v_minfreq)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(fwdpy::get_singlepop_traj(__pyx_v_pop->pop.get(), __pyx_v_minsojourn, __pyx_v_minfreq)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -15734,17 +15738,17 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_40trajectories(CYTHON_UNUSED PyObject *_
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
@@ -30175,6 +30179,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Get_additional_details_for_popu, __pyx_k_Get_additional_details_for_popu, sizeof(__pyx_k_Get_additional_details_for_popu), 0, 1, 0, 0},
   {&__pyx_kp_u_Get_detailed_information_about, __pyx_k_Get_detailed_information_about, sizeof(__pyx_k_Get_detailed_information_about), 0, 1, 0, 0},
   {&__pyx_kp_u_Get_mutation_frequencies_param, __pyx_k_Get_mutation_frequencies_param, sizeof(__pyx_k_Get_mutation_frequencies_param), 0, 1, 0, 0},
+  {&__pyx_kp_u_Get_the_frequency_trajactories, __pyx_k_Get_the_frequency_trajactories, sizeof(__pyx_k_Get_the_frequency_trajactories), 0, 1, 0, 0},
   {&__pyx_kp_u_Get_the_number_of_derived_mutat, __pyx_k_Get_the_number_of_derived_mutat, sizeof(__pyx_k_Get_the_number_of_derived_mutat), 0, 1, 0, 0},
   {&__pyx_n_s_IOError, __pyx_k_IOError, sizeof(__pyx_k_IOError), 0, 0, 1, 1},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
@@ -30451,6 +30456,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_theta, __pyx_k_theta, sizeof(__pyx_k_theta), 0, 0, 1, 1},
   {&__pyx_n_s_track, __pyx_k_track, sizeof(__pyx_k_track), 0, 0, 1, 1},
   {&__pyx_n_s_trajectories, __pyx_k_trajectories, sizeof(__pyx_k_trajectories), 0, 0, 1, 1},
+  {&__pyx_kp_u_trajectories_line_1, __pyx_k_trajectories_line_1, sizeof(__pyx_k_trajectories_line_1), 0, 1, 0, 0},
   {&__pyx_n_s_tt, __pyx_k_tt, sizeof(__pyx_k_tt), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
@@ -32667,6 +32673,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_UniformS___init___line_227, __pyx_kp_u_Constructor_param_beg_the_begin_5) < 0) {__pyx_filename = __pyx_f[7]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_ExpS___init___line_276, __pyx_kp_u_Constructor_param_beg_the_begin_6) < 0) {__pyx_filename = __pyx_f[7]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_GaussianS___init___line_321, __pyx_kp_u_Constructor_param_beg_the_begin_7) < 0) {__pyx_filename = __pyx_f[7]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_trajectories_line_1, __pyx_kp_u_Get_the_frequency_trajactories) < 0) {__pyx_filename = __pyx_f[7]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[7]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
