@@ -14,6 +14,7 @@ def evolve_regions(GSLrng rng,
                     list sregions,
                     list recregions,
                     double f = 0,
+                    const bint track = False,
                     const char * fitness = "multiplicative"):
     """
     Evolve a region with variable mutation, fitness effects, and recombination rates.
@@ -74,7 +75,7 @@ def evolve_regions(GSLrng rng,
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
     return pops
     
                 
@@ -88,6 +89,7 @@ def evolve_regions_more(GSLrng rng,
                         list sregions,
                         list recregions,
                         double f = 0,
+                        const bint track = False,
                         const char * fitness = "multiplicative"):
     """
     Continute to evolve a region with variable mutation, fitness effects, and recombination rates.
@@ -134,7 +136,7 @@ def evolve_regions_more(GSLrng rng,
         f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
 
 def evolve_regions_split(GSLrng rng,
                             popvec pops,

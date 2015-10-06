@@ -102,6 +102,7 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy":
 		       const double mu_selected,
 		       const double littler,
 		       const double f,
+               const int track,
 		       const region_manager * rm,
 		       const char * fitness)
 

@@ -16,6 +16,7 @@ namespace fwdpy {
 			       const double & selected,
 			       const double & recrate,
 			       const double & f,
+			       const int track,
 			       const char * fitness,
 			       const KTfwd::extensions::discrete_mut_model & m,
 			       const KTfwd::extensions::discrete_rec_model & recmap)
@@ -55,6 +56,7 @@ namespace fwdpy {
 			      dipfit,
 			      std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,2*nextN),
 			      f);
+	if (track) pop->updateTraj();
 	pop->N=nextN;
 	KTfwd::remove_fixed_lost(&pop->mutations,&pop->fixations,&pop->fixation_times,&pop->mut_lookup,pop->generation,2*nextN);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
@@ -70,6 +72,7 @@ namespace fwdpy {
 			 const double mu_selected,
 			 const double littler,
 			 const double f,
+			 const int track,
 			 const fwdpy::internal::region_manager * rm,
 			 // const std::vector<double> & nbegs,
 			 // const std::vector<double> & nends,
@@ -95,7 +98,7 @@ namespace fwdpy {
     for(unsigned i=0;i<pops->size();++i)
       {
 	threads[i]=std::thread(evolve_regions_details,pops->operator[](i).get(),rngs[i].get(),Nvector,Nvector_len,
-			       mu_neutral,mu_selected,littler,f,fitness,std::cref(m),std::cref(recmap));
+			       mu_neutral,mu_selected,littler,f,track,fitness,std::cref(m),std::cref(recmap));
       }
     for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
