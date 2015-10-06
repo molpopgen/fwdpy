@@ -18,6 +18,7 @@ Contents:
    docs/regions
    docs/BGS
    docs/windows
+   docs/trajectories
    docs/slim
    
 Functions and classes
