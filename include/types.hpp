@@ -102,6 +102,10 @@ namespace fwdpy {
 	    }
 	}
     }
+    void clearTrajectories()
+    {
+      trajectories.clear();
+    }
   };
 
   struct metapop_t : public KTfwd::metapop_serialized<KTfwd::popgenmut,KTfwd::mutation_writer,KTfwd::mutation_reader<KTfwd::popgenmut>,

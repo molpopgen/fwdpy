@@ -17,6 +17,7 @@ cdef extern from "types.hpp" namespace "fwdpy":
         unsigned gen()
         unsigned popsize()
         int sane()
+        void clearTrajectories()
     cdef cppclass metapop_t:
         metapop_t(vector[unsigned])
         unsigned generation
@@ -40,6 +41,7 @@ cdef class singlepop(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
+    cpdef clearTraj(self)
     
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
