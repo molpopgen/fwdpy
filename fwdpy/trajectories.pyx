@@ -1,6 +1,6 @@
 def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):
     """
-    Get the frequency trajactories of mutations
+    Get the frequency trajectories of (non-neutral) mutations.
 
     :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.fwdpy.evolve_regions` and/or :func:`fwdpy.fwdpy.evolve_regions_more`
     :param minsojounrn: Exclude all mutations that did not exist in the population for :math:`\geq\ \mathrm{minsojourn}` generations
