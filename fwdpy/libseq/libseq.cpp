@@ -4,7 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "include/libseq.hpp"
+            "include/libseq/libseq.hpp"
         ], 
         "extra_compile_args": [
             "-std=c++11"
@@ -284,7 +284,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "string.h"
 #include <string>
 #include <map>
-#include "libseq.hpp"
+#include "libseq/libseq.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */

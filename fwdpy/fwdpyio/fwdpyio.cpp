@@ -4,14 +4,14 @@
 {
     "distutils": {
         "depends": [
-            "include/callbacks.hpp", 
             "include/deps.hpp", 
             "include/evolve_regions.hpp", 
-            "include/fwdpy_internal.hpp", 
+            "include/fwdpyio/serialize.hpp", 
+            "include/internal/callbacks.hpp", 
+            "include/internal/internal.hpp", 
             "include/metapop.hpp", 
             "include/neutral.hpp", 
             "include/sample.hpp", 
-            "include/serialize.hpp", 
             "include/types.hpp"
         ], 
         "extra_compile_args": [
@@ -293,15 +293,15 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <memory>
 #include <map>
 #include "fwdpp/extensions/callbacks.hpp"
-#include "callbacks.hpp"
-#include "fwdpy_internal.hpp"
+#include "internal/callbacks.hpp"
+#include "internal/internal.hpp"
 #include "types.hpp"
 #include "neutral.hpp"
 #include "sample.hpp"
 #include "deps.hpp"
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
-#include "serialize.hpp"
+#include "fwdpyio/serialize.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */

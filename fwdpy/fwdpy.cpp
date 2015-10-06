@@ -4,10 +4,10 @@
 {
     "distutils": {
         "depends": [
-            "include/callbacks.hpp", 
             "include/deps.hpp", 
             "include/evolve_regions.hpp", 
-            "include/fwdpy_internal.hpp", 
+            "include/internal/callbacks.hpp", 
+            "include/internal/internal.hpp", 
             "include/metapop.hpp", 
             "include/neutral.hpp", 
             "include/sample.hpp", 
@@ -296,8 +296,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <memory>
 #include <map>
 #include "fwdpp/extensions/callbacks.hpp"
-#include "callbacks.hpp"
-#include "fwdpy_internal.hpp"
+#include "internal/callbacks.hpp"
+#include "internal/internal.hpp"
 #include "types.hpp"
 #include "neutral.hpp"
 #include "sample.hpp"

@@ -4,7 +4,7 @@
 #include <fwdpp/extensions/regions.hpp>
 #include <types.hpp>
 #include <metapop.hpp>
-#include <fwdpy_internal.hpp>
+#include <evolve_regions.hpp>
 
 namespace fwdpy {
 

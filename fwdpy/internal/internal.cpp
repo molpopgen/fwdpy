@@ -4,8 +4,8 @@
 {
     "distutils": {
         "depends": [
-            "include/callbacks.hpp", 
-            "include/fwdpy_internal.hpp"
+            "include/internal/callbacks.hpp", 
+            "include/internal/internal.hpp"
         ], 
         "extra_compile_args": [
             "-std=c++11"
@@ -281,8 +281,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "stdexcept"
 #include "typeinfo"
 #include "fwdpp/extensions/callbacks.hpp"
-#include "callbacks.hpp"
-#include "fwdpy_internal.hpp"
+#include "internal/callbacks.hpp"
+#include "internal/internal.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
