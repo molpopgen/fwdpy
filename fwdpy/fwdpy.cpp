@@ -1470,7 +1470,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 static PyObject *__pyx_f_5fwdpy_5fwdpy_9singlepop_gen(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_9singlepop_popsize(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_9singlepop_sane(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
-static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, std::vector<std::shared_ptr<fwdpy::singlepop_t> >  const __pyx_v_newpops); /* proto*/
+static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, std::vector<std::shared_ptr<fwdpy::singlepop_t> >  const &__pyx_v_newpops); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_gen(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
@@ -3391,7 +3391,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
  *         if self.pops.size() != len(self.pypops):
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):
+ *     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
  */
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
@@ -3412,7 +3412,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
  *         if self.pops.size() != len(self.pypops):
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()             # <<<<<<<<<<<<<<
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):
+ *     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
  *         self.pops=newpops
  */
   __pyx_r = __pyx_v_self->pops.size();
@@ -3439,12 +3439,12 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
 /* "fwdpy/classes.pyx":68
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):             # <<<<<<<<<<<<<<
+ *     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):             # <<<<<<<<<<<<<<
  *         self.pops=newpops
  *         self.pypops=list()
  */
 
-static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, std::vector<std::shared_ptr<fwdpy::singlepop_t> >  const __pyx_v_newpops) {
+static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, std::vector<std::shared_ptr<fwdpy::singlepop_t> >  const &__pyx_v_newpops) {
   size_t __pyx_v_i;
   struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pi = NULL;
   PyObject *__pyx_r = NULL;
@@ -3460,7 +3460,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
 
   /* "fwdpy/classes.pyx":69
  *         return self.pops.size()
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):
+ *     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
  *         self.pops=newpops             # <<<<<<<<<<<<<<
  *         self.pypops=list()
  *         for i in range(self.pops.size()):
@@ -3468,7 +3468,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
   __pyx_v_self->pops = __pyx_v_newpops;
 
   /* "fwdpy/classes.pyx":70
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):
+ *     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
  *         self.pops=newpops
  *         self.pypops=list()             # <<<<<<<<<<<<<<
  *         for i in range(self.pops.size()):
@@ -3527,7 +3527,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
   /* "fwdpy/classes.pyx":68
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):             # <<<<<<<<<<<<<<
+ *     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):             # <<<<<<<<<<<<<<
  *         self.pops=newpops
  *         self.pypops=list()
  */
@@ -30132,7 +30132,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         if self.pops.size() != len(self.pypops):
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):
+ *     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
  */
   __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_fwdpy_popvec_internal_data_struc); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);

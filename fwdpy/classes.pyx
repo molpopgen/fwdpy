@@ -65,7 +65,7 @@ cdef class popvec(popcont):
         if self.pops.size() != len(self.pypops):
             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
-    cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops):
+    cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
         self.pops=newpops
         self.pypops=list()
         for i in range(self.pops.size()):
