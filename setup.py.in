@@ -70,7 +70,7 @@ extensions = [
         include_dirs=['.','include','..'], 
         extra_compile_args=["-std=c++11"],  
         extra_link_args=["-std=c++11"],
-        libraries=["sequence"]),
+        libraries=["sequence","tcmalloc"]),
         ]
 extensions.extend([
     Extension("fwdpy.qtrait.qtrait",
