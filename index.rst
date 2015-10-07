@@ -19,6 +19,7 @@ Contents:
    docs/BGS
    docs/windows
    docs/trajectories
+   docs/copypops
    docs/slim
    
 Functions and classes
