@@ -26,7 +26,6 @@ cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait":
         const int track,
         const region_manager * rm)
     map[string,double] qtrait_pop_props( const singlepop_t * pop );
-    map[string,vector[double]] get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
     map[string,vector[double]] qtrait_esize_freq(const singlepop_t * pop)
     cdef struct ew_mut_details:
        double s

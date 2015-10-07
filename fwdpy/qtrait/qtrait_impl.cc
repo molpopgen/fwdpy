@@ -118,38 +118,7 @@ namespace fwdpy
       rv["leading_q"] = leading_f;
       return rv;
     }
-
-    map<string,vector<double> > get_qtrait_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
-    {
-      std::vector<double> pos,freq,s;
-      std::vector<double> generations;
-      /*
-	Key is origin, (pos,s), trajectories
-      */
-      //using trajtype = std::map< std::pair<unsigned,std::pair<double,double> >, std::vector<double> >;
-      for( poptype::trajtype::const_iterator itr = pop->trajectories.begin() ;
-	   itr != pop->trajectories.end() ; ++itr )
-	{
-	  double maxfreq = *std::max_element(itr->second.cbegin(),itr->second.cend());
-	  if( itr->second.size() >= minsojourn && maxfreq >= minfreq )
-	    {
-	      std::vector<unsigned> times(itr->second.size());
-	      unsigned itime = itr->first.first;
-	      std::generate(times.begin(),times.end(),[&itime]{ return itime++; });
-	      generations.insert(generations.end(),times.begin(),times.end());
-	      std::fill_n(std::back_inserter(pos),itr->second.size(),itr->first.second.first);
-	      std::fill_n(std::back_inserter(s),itr->second.size(),itr->first.second.second);
-	      std::copy(itr->second.begin(),itr->second.end(),std::back_inserter(freq));
-	    }
-	}
-      map<string,vector<double>> rv;
-      rv["pos"]=std::move(pos);
-      rv["freq"]=std::move(freq);
-      rv["generation"]=std::move(generations);
-      rv["esize"]=std::move(s);
-      return rv;
-    }
-
+    
     map<string,vector<double> > qtrait_esize_freq(const singlepop_t * pop)
     {
       double twoN = 2.*double(pop->diploids.size());

@@ -8,7 +8,7 @@ nlist = np.array([1000]*10000,dtype=np.uint32)
 hdf = pandas.HDFStore("foo2.h5",'w')
 hdf.open()
 k=0
-for i in range(25):
+for i in range(2):
     print i
     #Evolve to equilibrium
     pops = qt.evolve_qtrait(rng,
@@ -39,7 +39,7 @@ for i in range(25):
     #Get the mutation frequency trajectories, etc.
     #for all mutations that ever happened
     #tri is a list of pandas.DataFrame
-    tri=[qt.trajectories(p,10) for p in pops]
+    tri=[fp.trajectories(p,10) for p in pops]
     #Add a 'replicate ID' to each element in tri
     for j in range(len(tri)):
         tri[j]['rep']=[k]*len(tri[j].index)

@@ -12,6 +12,7 @@
             "include/neutral.hpp", 
             "include/qtrait/qtraits.hpp", 
             "include/sample.hpp", 
+            "include/trajectories.hpp", 
             "include/types.hpp"
         ], 
         "extra_compile_args": [
@@ -304,6 +305,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "deps.hpp"
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
+#include "trajectories.hpp"
 #include "qtrait/qtraits.hpp"
 #include "pythread.h"
 #include "stdlib.h"
@@ -658,7 +660,7 @@ struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper {
 };
 
 
-/* "fwdpy/fwdpy.pxd":30
+/* "fwdpy/fwdpy.pxd":31
  * 
  * #Now, provied definitions for classes in classes.pyx
  * cdef class poptype(object):             # <<<<<<<<<<<<<<
@@ -670,7 +672,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_poptype {
 };
 
 
-/* "fwdpy/fwdpy.pxd":38
+/* "fwdpy/fwdpy.pxd":39
  *     pass
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
@@ -684,8 +686,8 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop {
 };
 
 
-/* "fwdpy/fwdpy.pxd":44
- *     cpdef sane(self)
+/* "fwdpy/fwdpy.pxd":46
+ *     cpdef clearTraj(self)
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
  *     cdef shared_ptr[metapop_t] mpop
@@ -698,7 +700,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_metapop {
 };
 
 
-/* "fwdpy/fwdpy.pxd":50
+/* "fwdpy/fwdpy.pxd":52
  *     cpdef sane(self)
  * 
  * cdef class popcont(object):             # <<<<<<<<<<<<<<
@@ -710,7 +712,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popcont {
 };
 
 
-/* "fwdpy/fwdpy.pxd":58
+/* "fwdpy/fwdpy.pxd":60
  *     pass
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
@@ -725,7 +727,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":64
+/* "fwdpy/fwdpy.pxd":66
  *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -740,7 +742,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_mpopvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":70
+/* "fwdpy/fwdpy.pxd":72
  *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
  * 
  * cdef class GSLrng:             # <<<<<<<<<<<<<<
@@ -830,7 +832,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "fwdpy/fwdpy.pxd":38
+/* "fwdpy/fwdpy.pxd":39
  *     pass
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
@@ -842,12 +844,13 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop {
   PyObject *(*gen)(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int __pyx_skip_dispatch);
   PyObject *(*popsize)(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int __pyx_skip_dispatch);
   PyObject *(*sane)(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int __pyx_skip_dispatch);
+  PyObject *(*clearTraj)(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop;
 
 
-/* "fwdpy/fwdpy.pxd":44
- *     cpdef sane(self)
+/* "fwdpy/fwdpy.pxd":46
+ *     cpdef clearTraj(self)
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
  *     cdef shared_ptr[metapop_t] mpop
@@ -862,7 +865,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop *__pyx_vtabptr_5fwdpy_5fwdpy_metapop;
 
 
-/* "fwdpy/fwdpy.pxd":58
+/* "fwdpy/fwdpy.pxd":60
  *     pass
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
@@ -877,7 +880,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec *__pyx_vtabptr_5fwdpy_5fwdpy_popvec;
 
 
-/* "fwdpy/fwdpy.pxd":64
+/* "fwdpy/fwdpy.pxd":66
  *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -1522,7 +1525,6 @@ static char __pyx_k_columns[] = "columns";
 static char __pyx_k_effects[] = "effects";
 static char __pyx_k_fortran[] = "fortran";
 static char __pyx_k_memview[] = "memview";
-static char __pyx_k_minfreq[] = "minfreq";
 static char __pyx_k_optimum[] = "optimum";
 static char __pyx_k_recrate[] = "recrate";
 static char __pyx_k_tstruct[] = "tstruct";
@@ -1540,7 +1542,6 @@ static char __pyx_k_from_dict[] = "from_dict";
 static char __pyx_k_IndexError[] = "IndexError";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_esize_freq[] = "esize_freq";
-static char __pyx_k_minsojourn[] = "minsojourn";
 static char __pyx_k_mu_neutral[] = "mu_neutral";
 static char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static char __pyx_k_recregions[] = "recregions";
@@ -1548,7 +1549,6 @@ static char __pyx_k_MemoryError[] = "MemoryError";
 static char __pyx_k_mu_selected[] = "mu_selected";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
 static char __pyx_k_VS_must_be_0[] = "VS must be >= 0.";
-static char __pyx_k_trajectories[] = "trajectories";
 static char __pyx_k_evolve_qtrait[] = "evolve_qtrait";
 static char __pyx_k_ew2010_traits[] = "ew2010_traits";
 static char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
@@ -1663,8 +1663,6 @@ static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_make_region_manager;
 static PyObject *__pyx_n_s_memview;
-static PyObject *__pyx_n_s_minfreq;
-static PyObject *__pyx_n_s_minsojourn;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_mu_neutral;
 static PyObject *__pyx_n_s_mu_selected;
@@ -1714,7 +1712,6 @@ static PyObject *__pyx_kp_s_tau_cannot_be_0;
 static PyObject *__pyx_n_s_temp;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_track;
-static PyObject *__pyx_n_s_trajectories;
 static PyObject *__pyx_n_s_tstruct;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
@@ -1728,8 +1725,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4ew2010_effects(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, double __pyx_v_tau, double __pyx_v_sigma); /* proto */
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_6ew2010_traits(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, PyObject *__pyx_v_effects); /* proto */
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_8popstats(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop); /* proto */
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_10trajectories(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, int __pyx_v_minsojourn, double __pyx_v_minfreq); /* proto */
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_12esize_freq(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop); /* proto */
+static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_10esize_freq(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -1803,18 +1799,16 @@ static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__37;
 static PyObject *__pyx_tuple__39;
 static PyObject *__pyx_tuple__41;
+static PyObject *__pyx_tuple__42;
 static PyObject *__pyx_tuple__43;
 static PyObject *__pyx_tuple__44;
 static PyObject *__pyx_tuple__45;
-static PyObject *__pyx_tuple__46;
-static PyObject *__pyx_tuple__47;
 static PyObject *__pyx_codeobj__30;
 static PyObject *__pyx_codeobj__32;
 static PyObject *__pyx_codeobj__34;
 static PyObject *__pyx_codeobj__36;
 static PyObject *__pyx_codeobj__38;
 static PyObject *__pyx_codeobj__40;
-static PyObject *__pyx_codeobj__42;
 
 /* "fwdpy/qtrait/evolve_qtraits.pyx":3
  * import warnings
@@ -3635,7 +3629,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_8popstats(CYTHON_UNUSED PyObjec
  *     """
  *     return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])             # <<<<<<<<<<<<<<
  * 
- * def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):
+ * def esize_freq(singlepop pop):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -3715,203 +3709,24 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_8popstats(CYTHON_UNUSED PyObjec
 /* "fwdpy/qtrait/misc.pyx":11
  *     return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])
  * 
- * def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):             # <<<<<<<<<<<<<<
- *     """
- *     Get the frequency trajactories of mutations
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_11trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_6qtrait_6qtrait_10trajectories[] = "\n    Get the frequency trajactories of mutations\n\n    :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.qtrait.qtrait.evolve_qtrait` and/or :func:`fwdp.qtrait.qtrait.evolve_qtrait_more`\n    :param minsojounrn: Exclude all mutations that did not exist in the population for :math:`\\geq\\ \\mathrm{minsojourn}` generations\n    :param minfreq: Exclude all mutations that did not read a minimum frequency of :math:`\\geq\\ \\mathrm{minfreq}`\n\n    :return: A pandas.DataFrame\n\n    :rtype: pandas.DataFrame\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_6qtrait_6qtrait_11trajectories = {"trajectories", (PyCFunction)__pyx_pw_5fwdpy_6qtrait_6qtrait_11trajectories, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_6qtrait_6qtrait_10trajectories};
-static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_11trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop = 0;
-  int __pyx_v_minsojourn;
-  double __pyx_v_minfreq;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("trajectories (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_pop,&__pyx_n_s_minsojourn,&__pyx_n_s_minfreq,0};
-    PyObject* values[3] = {0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pop)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        case  1:
-        if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_minsojourn);
-          if (value) { values[1] = value; kw_args--; }
-        }
-        case  2:
-        if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_minfreq);
-          if (value) { values[2] = value; kw_args--; }
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "trajectories") < 0)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-      }
-    } else {
-      switch (PyTuple_GET_SIZE(__pyx_args)) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-    }
-    __pyx_v_pop = ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)values[0]);
-    if (values[1]) {
-      __pyx_v_minsojourn = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_minsojourn == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    } else {
-      __pyx_v_minsojourn = ((int)0);
-    }
-    if (values[2]) {
-      __pyx_v_minfreq = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_minfreq == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    } else {
-      __pyx_v_minfreq = ((double)0.);
-    }
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("trajectories", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("fwdpy.qtrait.qtrait.trajectories", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop, 1, "pop", 0))) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_5fwdpy_6qtrait_6qtrait_10trajectories(__pyx_self, __pyx_v_pop, __pyx_v_minsojourn, __pyx_v_minfreq);
-
-  /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_10trajectories(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, int __pyx_v_minsojourn, double __pyx_v_minfreq) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("trajectories", 0);
-
-  /* "fwdpy/qtrait/misc.pyx":23
- *     :rtype: pandas.DataFrame
- *     """
- *     return pandas.DataFrame.from_dict(get_qtrait_traj(pop.pop.get(),minsojourn,minfreq))             # <<<<<<<<<<<<<<
- * 
- * def esize_freq(singlepop pop):
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_from_dict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(fwdpy::qtrait::get_qtrait_traj(__pyx_v_pop->pop.get(), __pyx_v_minsojourn, __pyx_v_minfreq)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-  } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
-    __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "fwdpy/qtrait/misc.pyx":11
- *     return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])
- * 
- * def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):             # <<<<<<<<<<<<<<
- *     """
- *     Get the frequency trajactories of mutations
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("fwdpy.qtrait.qtrait.trajectories", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "fwdpy/qtrait/misc.pyx":25
- *     return pandas.DataFrame.from_dict(get_qtrait_traj(pop.pop.get(),minsojourn,minfreq))
- * 
  * def esize_freq(singlepop pop):             # <<<<<<<<<<<<<<
  *     """
  *     Returns effect size vs frequency
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_13esize_freq(PyObject *__pyx_self, PyObject *__pyx_v_pop); /*proto*/
-static char __pyx_doc_5fwdpy_6qtrait_6qtrait_12esize_freq[] = "\n    Returns effect size vs frequency\n\n    :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.qtrait.qtrait.evolve_qtrait` and/or :func:`fwdp.qtrait.qtrait.evolve_qtrait_more`\n\n    :rtype: pandas.DataFrame\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_6qtrait_6qtrait_13esize_freq = {"esize_freq", (PyCFunction)__pyx_pw_5fwdpy_6qtrait_6qtrait_13esize_freq, METH_O, __pyx_doc_5fwdpy_6qtrait_6qtrait_12esize_freq};
-static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_13esize_freq(PyObject *__pyx_self, PyObject *__pyx_v_pop) {
+static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_11esize_freq(PyObject *__pyx_self, PyObject *__pyx_v_pop); /*proto*/
+static char __pyx_doc_5fwdpy_6qtrait_6qtrait_10esize_freq[] = "\n    Returns effect size vs frequency\n\n    :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.qtrait.qtrait.evolve_qtrait` and/or :func:`fwdp.qtrait.qtrait.evolve_qtrait_more`\n\n    :rtype: pandas.DataFrame\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_6qtrait_6qtrait_11esize_freq = {"esize_freq", (PyCFunction)__pyx_pw_5fwdpy_6qtrait_6qtrait_11esize_freq, METH_O, __pyx_doc_5fwdpy_6qtrait_6qtrait_10esize_freq};
+static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_11esize_freq(PyObject *__pyx_self, PyObject *__pyx_v_pop) {
   CYTHON_UNUSED int __pyx_lineno = 0;
   CYTHON_UNUSED const char *__pyx_filename = NULL;
   CYTHON_UNUSED int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("esize_freq (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop, 1, "pop", 0))) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_5fwdpy_6qtrait_6qtrait_12esize_freq(__pyx_self, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop, 1, "pop", 0))) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5fwdpy_6qtrait_6qtrait_10esize_freq(__pyx_self, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop));
 
   /* function exit code */
   goto __pyx_L0;
@@ -3922,7 +3737,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_13esize_freq(PyObject *__pyx_se
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_12esize_freq(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop) {
+static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_10esize_freq(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3935,21 +3750,21 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_12esize_freq(CYTHON_UNUSED PyOb
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("esize_freq", 0);
 
-  /* "fwdpy/qtrait/misc.pyx":33
+  /* "fwdpy/qtrait/misc.pyx":19
  *     :rtype: pandas.DataFrame
  *     """
  *     return pandas.DataFrame.from_dict(qtrait_esize_freq(pop.pop.get()))             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_from_dict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_from_dict); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(fwdpy::qtrait::qtrait_esize_freq(__pyx_v_pop->pop.get())); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(fwdpy::qtrait::qtrait_esize_freq(__pyx_v_pop->pop.get())); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3962,17 +3777,17 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_12esize_freq(CYTHON_UNUSED PyOb
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
@@ -3981,8 +3796,8 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_12esize_freq(CYTHON_UNUSED PyOb
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/qtrait/misc.pyx":25
- *     return pandas.DataFrame.from_dict(get_qtrait_traj(pop.pop.get(),minsojourn,minfreq))
+  /* "fwdpy/qtrait/misc.pyx":11
+ *     return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])
  * 
  * def esize_freq(singlepop pop):             # <<<<<<<<<<<<<<
  *     """
@@ -16815,8 +16630,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_make_region_manager, __pyx_k_make_region_manager, sizeof(__pyx_k_make_region_manager), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
-  {&__pyx_n_s_minfreq, __pyx_k_minfreq, sizeof(__pyx_k_minfreq), 0, 0, 1, 1},
-  {&__pyx_n_s_minsojourn, __pyx_k_minsojourn, sizeof(__pyx_k_minsojourn), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_n_s_mu_neutral, __pyx_k_mu_neutral, sizeof(__pyx_k_mu_neutral), 0, 0, 1, 1},
   {&__pyx_n_s_mu_selected, __pyx_k_mu_selected, sizeof(__pyx_k_mu_selected), 0, 0, 1, 1},
@@ -16866,7 +16679,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_temp, __pyx_k_temp, sizeof(__pyx_k_temp), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_track, __pyx_k_track, sizeof(__pyx_k_track), 0, 0, 1, 1},
-  {&__pyx_n_s_trajectories, __pyx_k_trajectories, sizeof(__pyx_k_trajectories), 0, 0, 1, 1},
   {&__pyx_n_s_tstruct, __pyx_k_tstruct, sizeof(__pyx_k_tstruct), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
@@ -17257,26 +17069,14 @@ static int __Pyx_InitCachedConstants(void) {
   /* "fwdpy/qtrait/misc.pyx":11
  *     return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])
  * 
- * def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):             # <<<<<<<<<<<<<<
- *     """
- *     Get the frequency trajactories of mutations
- */
-  __pyx_tuple__39 = PyTuple_Pack(3, __pyx_n_s_pop, __pyx_n_s_minsojourn, __pyx_n_s_minfreq); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_3, __pyx_n_s_trajectories, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "fwdpy/qtrait/misc.pyx":25
- *     return pandas.DataFrame.from_dict(get_qtrait_traj(pop.pop.get(),minsojourn,minfreq))
- * 
  * def esize_freq(singlepop pop):             # <<<<<<<<<<<<<<
  *     """
  *     Returns effect size vs frequency
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_pop); if (unlikely(!__pyx_tuple__41)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_3, __pyx_n_s_esize_freq, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_n_s_pop); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_3, __pyx_n_s_esize_freq, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "View.MemoryView":278
  *         return self.name
@@ -17285,9 +17085,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__43)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__41)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
 
   /* "View.MemoryView":279
  * 
@@ -17296,9 +17096,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__44)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__44);
-  __Pyx_GIVEREF(__pyx_tuple__44);
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__42)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
 
   /* "View.MemoryView":280
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -17307,9 +17107,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__45)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__45);
-  __Pyx_GIVEREF(__pyx_tuple__45);
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__43)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
 
   /* "View.MemoryView":283
  * 
@@ -17318,9 +17118,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__46)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__46);
-  __Pyx_GIVEREF(__pyx_tuple__46);
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__44)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
 
   /* "View.MemoryView":284
  * 
@@ -17329,9 +17129,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__47)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__47);
-  __Pyx_GIVEREF(__pyx_tuple__47);
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__45)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -17471,17 +17271,17 @@ PyMODINIT_FUNC PyInit_qtrait(void)
   /*--- Type import code ---*/
   __pyx_ptype_5fwdpy_8internal_8internal_shwrappervec = __Pyx_ImportType("fwdpy.internal.internal", "shwrappervec", sizeof(struct __pyx_obj_5fwdpy_8internal_8internal_shwrappervec), 1); if (unlikely(!__pyx_ptype_5fwdpy_8internal_8internal_shwrappervec)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper = __Pyx_ImportType("fwdpy.internal.internal", "region_manager_wrapper", sizeof(struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper), 1); if (unlikely(!__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_poptype = __Pyx_ImportType("fwdpy.fwdpy", "poptype", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_poptype), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_poptype)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_singlepop = __Pyx_ImportType("fwdpy.fwdpy", "singlepop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_metapop = __Pyx_ImportType("fwdpy.fwdpy", "metapop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_metapop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_metapop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_5fwdpy_5fwdpy_metapop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_metapop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_metapop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_popcont = __Pyx_ImportType("fwdpy.fwdpy", "popcont", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popcont), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popcont)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_popvec = __Pyx_ImportType("fwdpy.fwdpy", "popvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_5fwdpy_5fwdpy_popvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_mpopvec = __Pyx_ImportType("fwdpy.fwdpy", "mpopvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_mpopvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_mpopvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_poptype = __Pyx_ImportType("fwdpy.fwdpy", "poptype", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_poptype), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_poptype)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_singlepop = __Pyx_ImportType("fwdpy.fwdpy", "singlepop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_metapop = __Pyx_ImportType("fwdpy.fwdpy", "metapop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_metapop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_metapop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_5fwdpy_5fwdpy_metapop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_metapop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_metapop)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_popcont = __Pyx_ImportType("fwdpy.fwdpy", "popcont", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popcont), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popcont)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_popvec = __Pyx_ImportType("fwdpy.fwdpy", "popvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_5fwdpy_5fwdpy_popvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_mpopvec = __Pyx_ImportType("fwdpy.fwdpy", "mpopvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_mpopvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_mpopvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/
@@ -17590,25 +17390,13 @@ PyMODINIT_FUNC PyInit_qtrait(void)
   /* "fwdpy/qtrait/misc.pyx":11
  *     return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])
  * 
- * def trajectories( singlepop pop, int minsojourn = 0, double minfreq = 0.):             # <<<<<<<<<<<<<<
- *     """
- *     Get the frequency trajactories of mutations
- */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_6qtrait_6qtrait_11trajectories, NULL, __pyx_n_s_fwdpy_qtrait_qtrait); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_trajectories, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "fwdpy/qtrait/misc.pyx":25
- *     return pandas.DataFrame.from_dict(get_qtrait_traj(pop.pop.get(),minsojourn,minfreq))
- * 
  * def esize_freq(singlepop pop):             # <<<<<<<<<<<<<<
  *     """
  *     Returns effect size vs frequency
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_6qtrait_6qtrait_13esize_freq, NULL, __pyx_n_s_fwdpy_qtrait_qtrait); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_6qtrait_6qtrait_11esize_freq, NULL, __pyx_n_s_fwdpy_qtrait_qtrait); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_esize_freq, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_esize_freq, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/qtrait/qtrait.pyx":1
@@ -17641,7 +17429,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_2);
@@ -17655,7 +17443,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_2);
@@ -17669,7 +17457,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_2);
@@ -17683,7 +17471,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_2);
@@ -17697,7 +17485,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
