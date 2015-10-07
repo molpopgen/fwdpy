@@ -101,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="docs/trajectories.html#reducing-the-memory-footprint">Reducing the memory footprint</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docs/copypops.html">Copying populations in memory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs/slim.html">Processing SLiM input files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/slim.html#differences-between-slim-and-fwdpy">Differences between SLiM and fwdpy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/slim.html#a-word-of-caution">A word of caution</a></li>
@@ -457,6 +458,46 @@ a derived type that specifies a distribution of fitness effects.  These types in
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#s is uniform on [0,-1]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">constantS</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">UniformS</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.copypop">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">copypop</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.copypop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a population</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; the population to copy.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></tt></a> of the same (derived) type as pop</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The function is implemented in terms of the serialization routines in the fwdpy.fwdpyio module.  The return value can be evolved and not affect the input value.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.copypops">
+<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">copypops</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.copypops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a population</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pops</strong> &#8211; the list of population to copy.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></tt></a> of the same (derived) type as pop</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The function is implemented in terms of the serialization routines in the fwdpy.fwdpyio module.  The return value can be evolved and not affect the input value.</p>
 </div>
 </dd></dl>
 
@@ -1128,7 +1169,7 @@ the data structures!</p>
 <dl class="function">
 <dt id="fwdpy.fwdpy.trajectories">
 <tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">trajectories</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.trajectories" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the frequency trajactories of mutations</p>
+<dd><p>Get the frequency trajectories of (non-neutral) mutations.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
