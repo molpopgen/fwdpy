@@ -14,6 +14,7 @@ include "evolve_regions.pyx"
 include "regions.pyx"
 include "slim.pyx"
 include "trajectories.pyx"
+include "copy.pyx"
 
 def pkg_dependencies():
     """
