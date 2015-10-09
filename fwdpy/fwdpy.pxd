@@ -3,10 +3,25 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 from libcpp.map cimport map
+from libcpp.list cimport list as cpplist
+from libcpp cimport bool
 
 from fwdpy.internal.internal cimport *
 
 ##Create hooks to C++ types
+
+##We will expose some low-level types from fwdpp:
+cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd":
+    cdef cppclass mutation_base:
+        double pos
+        unsigned n
+        bool neutral
+
+cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd":
+    cdef cppclass popgenmut(mutation_base):
+        unsigned g
+        double s
+        double h
 
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy":
@@ -14,14 +29,21 @@ cdef extern from "types.hpp" namespace "fwdpy":
         singlepop_t(unsigned)
         const unsigned N
         const unsigned generation
+        cpplist[popgenmut] mutations
+        vector[popgenmut] fixations
+        vector[unsigned] fixation_times
         unsigned gen()
         unsigned popsize()
         int sane()
         void clearTrajectories()
+
     cdef cppclass metapop_t:
         metapop_t(vector[unsigned])
         unsigned generation
         vector[unsigned] Ns
+        cpplist[popgenmut] mutations
+        vector[popgenmut] fixations
+        vector[unsigned] fixation_times
         int sane()
         int size()
     cdef cppclass GSLrng_t:

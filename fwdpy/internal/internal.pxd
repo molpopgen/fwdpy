@@ -1,4 +1,7 @@
 from libcpp.vector cimport vector
+from libcpp.list cimport list as cpplist 
+
+from fwdpy.fwdpy cimport popgenmut,singlepop_t,metapop_t
 
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
@@ -52,3 +55,9 @@ cdef class shwrappervec:
 ##Quick wrapper for region_manager
 cdef class region_manager_wrapper:
     cdef region_manager * thisptr
+
+cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator end, float twoN, unsigned nmuts,bint all)
+
+##TODO: change to const vector once Cython implements those types
+cdef add_fixations( vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all )
+
