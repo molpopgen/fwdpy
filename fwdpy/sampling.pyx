@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 ##Undocumented fxns are wrappers to enable run-time polymorphism within the Py environs.
 ##These fxns make calls to the C++ layer
 

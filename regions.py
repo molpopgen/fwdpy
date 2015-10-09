@@ -43,4 +43,5 @@ print [i.popsize() for i in pops]
 
 info = [fwdpy.get_sample_details(i[1],j) for i,j in zip(s,pops)]
 
-print info
+for i in pops:
+    print fwdpy.getmuts(i,fixations=True)
