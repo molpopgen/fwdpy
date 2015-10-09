@@ -10,7 +10,7 @@ namespace fwdpy {
 
   using gamete_t = KTfwd::gamete_base<KTfwd::popgenmut>;
   using glist_t = std::list<gamete_t,std::allocator<gamete_t>>;
-  
+
   struct diploid_t : public KTfwd::tags::custom_diploid_t
   {
     using first_type = glist_t::iterator;
@@ -21,6 +21,8 @@ namespace fwdpy {
     diploid_t() : first(first_type()),second(second_type()),g(0.),e(0.),w(0.) {}
     diploid_t(first_type g1, first_type g2) : first(g1),second(g2),g(0.),e(0.),w(0.) {}
   };
+
+  using dipvector_t = std::vector<diploid_t>;
 
   struct diploid_writer
   {
