@@ -23,13 +23,32 @@ cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd":
         double s
         double h
 
+cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd":
+    cdef cppclass gamete_base[popgenmut]:
+        unsigned n
+        vector[cpplist[popgenmut].iterator] mutations
+        vector[cpplist[popgenmut].iterator] smutations
+
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy":
+    ctypedef gamete_base[popgenmut] gamete_t
+    ctypedef cpplist[gamete_t] glist_t
+    ctypedef cpplist[popgenmut] mlist_t
+
+    cdef cppclass diploid_t:
+        cpplist[gamete_t].iterator first
+        cpplist[gamete_t].iterator second
+        double g,e,w
+
+    ctypedef vector[diploid_t] dipvector_t
+
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
         const unsigned N
         const unsigned generation
-        cpplist[popgenmut] mutations
+        mlist_t mutations
+        glist_t gametes
+        dipvector_t diploids
         vector[popgenmut] fixations
         vector[unsigned] fixation_times
         unsigned gen()
@@ -41,7 +60,9 @@ cdef extern from "types.hpp" namespace "fwdpy":
         metapop_t(vector[unsigned])
         unsigned generation
         vector[unsigned] Ns
-        cpplist[popgenmut] mutations
+        mlist_t mutations
+        glist_t gametes
+        vector[dipvector_t] diploids
         vector[popgenmut] fixations
         vector[unsigned] fixation_times
         int sane()
