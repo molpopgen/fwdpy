@@ -56,8 +56,5 @@ cdef class shwrappervec:
 cdef class region_manager_wrapper:
     cdef region_manager * thisptr
 
-cdef getmuts_details(cpplist[popgenmut].const_iterator itr,cpplist[popgenmut].const_iterator end, float twoN, unsigned nmuts,bint all)
 
-##TODO: change to const vector once Cython implements those types
-cdef add_fixations( const vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all )
 

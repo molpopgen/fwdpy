@@ -1059,8 +1059,6 @@ static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
 static int __Pyx_check_binary_version(void);
 
-static int __Pyx_ExportFunction(const char *name, void (*f)(void), const char *sig);
-
 #if !defined(__Pyx_PyIdentifier_FromString)
 #if PY_MAJOR_VERSION < 3
   #define __Pyx_PyIdentifier_FromString(s) PyString_FromString(s)
@@ -9521,8 +9519,6 @@ PyMODINIT_FUNC PyInit_internal(void)
   /*--- Global init code ---*/
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
-  if (__Pyx_ExportFunction("getmuts_details", (void (*)(void))__pyx_f_5fwdpy_8internal_8internal_getmuts_details, "PyObject *(std::list<KTfwd::popgenmut> ::const_iterator, std::list<KTfwd::popgenmut> ::const_iterator, float, unsigned int, int)") < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ExportFunction("add_fixations", (void (*)(void))__pyx_f_5fwdpy_8internal_8internal_add_fixations, "PyObject *(std::vector<KTfwd::popgenmut>  const &, std::vector<unsigned int>  const &, float, int)") < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Type init code ---*/
   if (PyType_Ready(&__pyx_type_5fwdpy_8internal_8internal_shwrappervec) < 0) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5fwdpy_8internal_8internal_shwrappervec.tp_print = 0;
@@ -12053,42 +12049,6 @@ static int __Pyx_check_binary_version(void) {
         return PyErr_WarnEx(NULL, message, 1);
     }
     return 0;
-}
-
-static int __Pyx_ExportFunction(const char *name, void (*f)(void), const char *sig) {
-    PyObject *d = 0;
-    PyObject *cobj = 0;
-    union {
-        void (*fp)(void);
-        void *p;
-    } tmp;
-    d = PyObject_GetAttrString(__pyx_m, (char *)"__pyx_capi__");
-    if (!d) {
-        PyErr_Clear();
-        d = PyDict_New();
-        if (!d)
-            goto bad;
-        Py_INCREF(d);
-        if (PyModule_AddObject(__pyx_m, (char *)"__pyx_capi__", d) < 0)
-            goto bad;
-    }
-    tmp.fp = f;
-#if PY_VERSION_HEX >= 0x02070000
-    cobj = PyCapsule_New(tmp.p, sig, 0);
-#else
-    cobj = PyCObject_FromVoidPtrAndDesc(tmp.p, (void *)sig, 0);
-#endif
-    if (!cobj)
-        goto bad;
-    if (PyDict_SetItemString(d, name, cobj) < 0)
-        goto bad;
-    Py_DECREF(cobj);
-    Py_DECREF(d);
-    return 0;
-bad:
-    Py_XDECREF(cobj);
-    Py_XDECREF(d);
-    return -1;
 }
 
 #ifndef __PYX_HAVE_RT_ImportModule
