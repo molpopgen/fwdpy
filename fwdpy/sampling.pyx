@@ -154,19 +154,11 @@ def diploid_view( poptype pop, list indlist, bint removeFixed = False, deme = No
     >>> view = fp.diploid_view(pops[0],[0,1,2,3,4])
     """
     if isinstance(pop,singlepop):
-        rv = pandas.DataFrame()
-        for i in indlist:
-            temp = diploid_view_singlepop(pop,i,removeFixed)
-            rv = pandas.concat([rv,pandas.DataFrame.from_dict(temp)])
-        return rv
+        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [diploid_view_singlepop(pop,j,removeFixed) for j in indlist]] )
     elif isinstance(pop,metapop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when taking a view from a meta-population")
-        rv = pandas.DataFrame()
-        for i in indlist:
-            temp = diploid_view_metapop(pop,i,removeFixed)
-            rv = pandas.concat([rv,pandas.DataFrame.from_dict(temp)])
-        return rv
+        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [diploid_view_metapop(pop,j,removeFixed,deme) for j in indlist]] )
     else:
         raise ValueError("diploid_view: type of pop is not supported")
 
