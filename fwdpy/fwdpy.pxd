@@ -128,8 +128,6 @@ cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     pair[vector[pair[double,string]],vector[pair[double,string]]] sample_specific_diploids(const singlepop_t * pop, const vector[unsigned] & indlist, const int remove_fixed)
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
-    map[string,vector[double]] diploid_view_cpp(const singlepop_t *pop, const size_t ind, const int remove_fixed) except +
-    map[string,vector[double]] diploid_view_cpp(const metapop_t * pop, const size_t ind, const int remove_fixed, const int deme) except +
     
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_dependencies()

@@ -1,3 +1,4 @@
+from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta
 import numpy as np
 import pandas as pd
 
@@ -14,12 +15,6 @@ def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,in
     if deme >= len(pop):
         raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
     return take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed), deme)
-
-def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):
-    return diploid_view_cpp(pop.pop.get(),ind,removeFixed)
-
-def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):
-    return diploid_view_cpp(mpop.mpop.get(),ind,removeFixed,deme)
 
 cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     singlepop pop,
@@ -154,11 +149,11 @@ def diploid_view( poptype pop, list indlist, bint removeFixed = False, deme = No
     >>> view = fp.diploid_view(pops[0],[0,1,2,3,4])
     """
     if isinstance(pop,singlepop):
-        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [diploid_view_singlepop(pop,j,removeFixed) for j in indlist]] )
+        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [view_single(pop,j,removeFixed) for j in indlist]] )
     elif isinstance(pop,metapop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when taking a view from a meta-population")
-        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [diploid_view_metapop(pop,j,removeFixed,deme) for j in indlist]] )
+        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [view_meta(pop,j,removeFixed,deme) for j in indlist]] )
     else:
         raise ValueError("diploid_view: type of pop is not supported")
 

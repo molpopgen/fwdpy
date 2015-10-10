@@ -8,6 +8,7 @@
 namespace fwdpy {
   using GSLrng_t = KTfwd::GSLrng_t<KTfwd::GSL_RNG_MT19937>;
 
+  using mlist_t = std::list<KTfwd::popgenmut>;
   using gamete_t = KTfwd::gamete_base<KTfwd::popgenmut>;
   using glist_t = std::list<gamete_t,std::allocator<gamete_t>>;
 
