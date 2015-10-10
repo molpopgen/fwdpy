@@ -1104,8 +1104,8 @@ static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_GSLrng = 0;
 /* Module declarations from 'fwdpy.internal.internal' */
 static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_shwrappervec = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper = 0;
-static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KTfwd::popgenmut> ::iterator, std::list<KTfwd::popgenmut> ::iterator, float, unsigned int, int); /*proto*/
-static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KTfwd::popgenmut>  &, std::vector<unsigned int>  const &, float, int); /*proto*/
+static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KTfwd::popgenmut> ::const_iterator, std::list<KTfwd::popgenmut> ::const_iterator, float, unsigned int, int); /*proto*/
+static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KTfwd::popgenmut>  const &, std::vector<unsigned int>  const &, float, int); /*proto*/
 static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::dipvector_t const &, size_t const , int const ); /*proto*/
 static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyObject_string_to_py_std__in_string(std::string const &); /*proto*/
@@ -5286,12 +5286,12 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_14parse_slim_recrates(CYTHO
 /* "fwdpy/internal/getmuts.pyx":7
  * import numpy as np
  * 
- * cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator end, float twoN, unsigned nmuts,bint all):             # <<<<<<<<<<<<<<
+ * cdef getmuts_details(cpplist[popgenmut].const_iterator itr,cpplist[popgenmut].const_iterator end, float twoN, unsigned nmuts,bint all):             # <<<<<<<<<<<<<<
  *     buff = np.array([np.nan]*(4*nmuts),dtype=np.float64)
  *     i=0
  */
 
-static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KTfwd::popgenmut> ::iterator __pyx_v_itr, std::list<KTfwd::popgenmut> ::iterator __pyx_v_end, float __pyx_v_twoN, unsigned int __pyx_v_nmuts, int __pyx_v_all) {
+static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KTfwd::popgenmut> ::const_iterator __pyx_v_itr, std::list<KTfwd::popgenmut> ::const_iterator __pyx_v_end, float __pyx_v_twoN, unsigned int __pyx_v_nmuts, int __pyx_v_all) {
   PyObject *__pyx_v_buff = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_a = NULL;
@@ -5312,7 +5312,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KT
 
   /* "fwdpy/internal/getmuts.pyx":8
  * 
- * cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator end, float twoN, unsigned nmuts,bint all):
+ * cdef getmuts_details(cpplist[popgenmut].const_iterator itr,cpplist[popgenmut].const_iterator end, float twoN, unsigned nmuts,bint all):
  *     buff = np.array([np.nan]*(4*nmuts),dtype=np.float64)             # <<<<<<<<<<<<<<
  *     i=0
  *     while itr != end:
@@ -5360,7 +5360,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KT
   __pyx_t_5 = 0;
 
   /* "fwdpy/internal/getmuts.pyx":9
- * cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator end, float twoN, unsigned nmuts,bint all):
+ * cdef getmuts_details(cpplist[popgenmut].const_iterator itr,cpplist[popgenmut].const_iterator end, float twoN, unsigned nmuts,bint all):
  *     buff = np.array([np.nan]*(4*nmuts),dtype=np.float64)
  *     i=0             # <<<<<<<<<<<<<<
  *     while itr != end:
@@ -5576,7 +5576,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KT
   /* "fwdpy/internal/getmuts.pyx":7
  * import numpy as np
  * 
- * cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator end, float twoN, unsigned nmuts,bint all):             # <<<<<<<<<<<<<<
+ * cdef getmuts_details(cpplist[popgenmut].const_iterator itr,cpplist[popgenmut].const_iterator end, float twoN, unsigned nmuts,bint all):             # <<<<<<<<<<<<<<
  *     buff = np.array([np.nan]*(4*nmuts),dtype=np.float64)
  *     i=0
  */
@@ -5602,15 +5602,15 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KT
 /* "fwdpy/internal/getmuts.pyx":22
  * 
  * ##TODO: change to const vector once Cython implements those types
- * cdef add_fixations( vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):             # <<<<<<<<<<<<<<
+ * cdef add_fixations( const vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):             # <<<<<<<<<<<<<<
  *     buff = np.array([np.nan]*(5*ftimes.size()),dtype=np.float64)
- *     cdef vector[popgenmut].iterator fbeg = fixations.begin()
+ *     cdef vector[popgenmut].const_iterator fbeg = fixations.const_begin()
  */
 
-static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KTfwd::popgenmut>  &__pyx_v_fixations, std::vector<unsigned int>  const &__pyx_v_ftimes, float __pyx_v_twoN, int __pyx_v_all) {
+static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KTfwd::popgenmut>  const &__pyx_v_fixations, std::vector<unsigned int>  const &__pyx_v_ftimes, float __pyx_v_twoN, int __pyx_v_all) {
   PyObject *__pyx_v_buff = NULL;
-  std::vector<KTfwd::popgenmut> ::iterator __pyx_v_fbeg;
-  std::vector<KTfwd::popgenmut> ::iterator __pyx_v_fend;
+  std::vector<KTfwd::popgenmut> ::const_iterator __pyx_v_fbeg;
+  std::vector<KTfwd::popgenmut> ::const_iterator __pyx_v_fend;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_j = NULL;
   PyObject *__pyx_v_a = NULL;
@@ -5632,10 +5632,10 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KT
 
   /* "fwdpy/internal/getmuts.pyx":23
  * ##TODO: change to const vector once Cython implements those types
- * cdef add_fixations( vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):
+ * cdef add_fixations( const vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):
  *     buff = np.array([np.nan]*(5*ftimes.size()),dtype=np.float64)             # <<<<<<<<<<<<<<
- *     cdef vector[popgenmut].iterator fbeg = fixations.begin()
- *     cdef vector[popgenmut].iterator fend = fixations.end()
+ *     cdef vector[popgenmut].const_iterator fbeg = fixations.const_begin()
+ *     cdef vector[popgenmut].const_iterator fend = fixations.const_end()
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -5680,26 +5680,26 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KT
   __pyx_t_5 = 0;
 
   /* "fwdpy/internal/getmuts.pyx":24
- * cdef add_fixations( vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):
+ * cdef add_fixations( const vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):
  *     buff = np.array([np.nan]*(5*ftimes.size()),dtype=np.float64)
- *     cdef vector[popgenmut].iterator fbeg = fixations.begin()             # <<<<<<<<<<<<<<
- *     cdef vector[popgenmut].iterator fend = fixations.end()
+ *     cdef vector[popgenmut].const_iterator fbeg = fixations.const_begin()             # <<<<<<<<<<<<<<
+ *     cdef vector[popgenmut].const_iterator fend = fixations.const_end()
  *     i=0
  */
   __pyx_v_fbeg = __pyx_v_fixations.begin();
 
   /* "fwdpy/internal/getmuts.pyx":25
  *     buff = np.array([np.nan]*(5*ftimes.size()),dtype=np.float64)
- *     cdef vector[popgenmut].iterator fbeg = fixations.begin()
- *     cdef vector[popgenmut].iterator fend = fixations.end()             # <<<<<<<<<<<<<<
+ *     cdef vector[popgenmut].const_iterator fbeg = fixations.const_begin()
+ *     cdef vector[popgenmut].const_iterator fend = fixations.const_end()             # <<<<<<<<<<<<<<
  *     i=0
  *     j=0
  */
   __pyx_v_fend = __pyx_v_fixations.end();
 
   /* "fwdpy/internal/getmuts.pyx":26
- *     cdef vector[popgenmut].iterator fbeg = fixations.begin()
- *     cdef vector[popgenmut].iterator fend = fixations.end()
+ *     cdef vector[popgenmut].const_iterator fbeg = fixations.const_begin()
+ *     cdef vector[popgenmut].const_iterator fend = fixations.const_end()
  *     i=0             # <<<<<<<<<<<<<<
  *     j=0
  *     while fbeg != fend:
@@ -5708,7 +5708,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KT
   __pyx_v_i = __pyx_int_0;
 
   /* "fwdpy/internal/getmuts.pyx":27
- *     cdef vector[popgenmut].iterator fend = fixations.end()
+ *     cdef vector[popgenmut].const_iterator fend = fixations.const_end()
  *     i=0
  *     j=0             # <<<<<<<<<<<<<<
  *     while fbeg != fend:
@@ -5955,9 +5955,9 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KT
   /* "fwdpy/internal/getmuts.pyx":22
  * 
  * ##TODO: change to const vector once Cython implements those types
- * cdef add_fixations( vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):             # <<<<<<<<<<<<<<
+ * cdef add_fixations( const vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):             # <<<<<<<<<<<<<<
  *     buff = np.array([np.nan]*(5*ftimes.size()),dtype=np.float64)
- *     cdef vector[popgenmut].iterator fbeg = fixations.begin()
+ *     cdef vector[popgenmut].const_iterator fbeg = fixations.const_begin()
  */
 
   /* function exit code */
@@ -5983,8 +5983,8 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KT
  *     return pd.DataFrame(a,columns=["pos","count","esize","h","ftime"])
  * 
  * def getmuts_singlepop(singlepop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  */
 
 /* Python wrapper */
@@ -6064,8 +6064,8 @@ static PyObject *__pyx_pw_5fwdpy_8internal_8internal_17getmuts_singlepop(PyObjec
 }
 
 static PyObject *__pyx_pf_5fwdpy_8internal_8internal_16getmuts_singlepop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, int __pyx_v_all, int __pyx_v_fixations) {
-  std::list<KTfwd::popgenmut> ::iterator __pyx_v_itr;
-  std::list<KTfwd::popgenmut> ::iterator __pyx_v_end;
+  std::list<KTfwd::popgenmut> ::const_iterator __pyx_v_itr;
+  std::list<KTfwd::popgenmut> ::const_iterator __pyx_v_end;
   PyObject *__pyx_v_segregating = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -6084,24 +6084,24 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_16getmuts_singlepop(CYTHON_
   /* "fwdpy/internal/getmuts.pyx":42
  * 
  * def getmuts_singlepop(singlepop pop,bint all,bint fixations):
- *     cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()             # <<<<<<<<<<<<<<
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*pop.popsize(),pop.pop.get().mutations.size(),all)
  */
   __pyx_v_itr = __pyx_v_pop->pop.get()->mutations.begin();
 
   /* "fwdpy/internal/getmuts.pyx":43
  * def getmuts_singlepop(singlepop pop,bint all,bint fixations):
- *     cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()             # <<<<<<<<<<<<<<
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()             # <<<<<<<<<<<<<<
  *     segregating = getmuts_details(itr,end,2*pop.popsize(),pop.pop.get().mutations.size(),all)
  *     if fixations is False:
  */
   __pyx_v_end = __pyx_v_pop->pop.get()->mutations.end();
 
   /* "fwdpy/internal/getmuts.pyx":44
- *     cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*pop.popsize(),pop.pop.get().mutations.size(),all)             # <<<<<<<<<<<<<<
  *     if fixations is False:
  *         return segregating
@@ -6119,7 +6119,7 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_16getmuts_singlepop(CYTHON_
   __pyx_t_2 = 0;
 
   /* "fwdpy/internal/getmuts.pyx":45
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*pop.popsize(),pop.pop.get().mutations.size(),all)
  *     if fixations is False:             # <<<<<<<<<<<<<<
  *         return segregating
@@ -6141,7 +6141,7 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_16getmuts_singlepop(CYTHON_
     goto __pyx_L0;
 
     /* "fwdpy/internal/getmuts.pyx":45
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*pop.popsize(),pop.pop.get().mutations.size(),all)
  *     if fixations is False:             # <<<<<<<<<<<<<<
  *         return segregating
@@ -6215,8 +6215,8 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_16getmuts_singlepop(CYTHON_
  *     return pd.DataFrame(a,columns=["pos","count","esize","h","ftime"])
  * 
  * def getmuts_singlepop(singlepop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  */
 
   /* function exit code */
@@ -6239,8 +6239,8 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_16getmuts_singlepop(CYTHON_
  *         return pd.concat([segregating,add_fixations(pop.pop.get().fixations,pop.pop.get().fixation_times,2*pop.popsize(),all)])
  * 
  * def getmuts_metapop(metapop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  */
 
 /* Python wrapper */
@@ -6320,8 +6320,8 @@ static PyObject *__pyx_pw_5fwdpy_8internal_8internal_19getmuts_metapop(PyObject 
 }
 
 static PyObject *__pyx_pf_5fwdpy_8internal_8internal_18getmuts_metapop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_pop, int __pyx_v_all, int __pyx_v_fixations) {
-  std::list<KTfwd::popgenmut> ::iterator __pyx_v_itr;
-  std::list<KTfwd::popgenmut> ::iterator __pyx_v_end;
+  std::list<KTfwd::popgenmut> ::const_iterator __pyx_v_itr;
+  std::list<KTfwd::popgenmut> ::const_iterator __pyx_v_end;
   PyObject *__pyx_v_segregating = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -6340,24 +6340,24 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_18getmuts_metapop(CYTHON_UN
   /* "fwdpy/internal/getmuts.pyx":51
  * 
  * def getmuts_metapop(metapop pop,bint all,bint fixations):
- *     cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()             # <<<<<<<<<<<<<<
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*sum(pop.posizes()),pop.mpop.get().mutations.size(),all)
  */
   __pyx_v_itr = __pyx_v_pop->mpop.get()->mutations.begin();
 
   /* "fwdpy/internal/getmuts.pyx":52
  * def getmuts_metapop(metapop pop,bint all,bint fixations):
- *     cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()             # <<<<<<<<<<<<<<
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()             # <<<<<<<<<<<<<<
  *     segregating = getmuts_details(itr,end,2*sum(pop.posizes()),pop.mpop.get().mutations.size(),all)
  *     if fixations is False:
  */
   __pyx_v_end = __pyx_v_pop->mpop.get()->mutations.end();
 
   /* "fwdpy/internal/getmuts.pyx":53
- *     cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*sum(pop.posizes()),pop.mpop.get().mutations.size(),all)             # <<<<<<<<<<<<<<
  *     if fixations is False:
  *         return segregating
@@ -6401,7 +6401,7 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_18getmuts_metapop(CYTHON_UN
   __pyx_t_2 = 0;
 
   /* "fwdpy/internal/getmuts.pyx":54
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*sum(pop.posizes()),pop.mpop.get().mutations.size(),all)
  *     if fixations is False:             # <<<<<<<<<<<<<<
  *         return segregating
@@ -6423,7 +6423,7 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_18getmuts_metapop(CYTHON_UN
     goto __pyx_L0;
 
     /* "fwdpy/internal/getmuts.pyx":54
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  *     segregating = getmuts_details(itr,end,2*sum(pop.posizes()),pop.mpop.get().mutations.size(),all)
  *     if fixations is False:             # <<<<<<<<<<<<<<
  *         return segregating
@@ -6513,8 +6513,8 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_18getmuts_metapop(CYTHON_UN
  *         return pd.concat([segregating,add_fixations(pop.pop.get().fixations,pop.pop.get().fixation_times,2*pop.popsize(),all)])
  * 
  * def getmuts_metapop(metapop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  */
 
   /* function exit code */
@@ -6537,13 +6537,13 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_18getmuts_metapop(CYTHON_UN
  * from fwdpy.fwdpy cimport popgenmut,dipvector_t
  * 
  * cdef fill_diploid_view_details( map[string,vector[double]] & rv,             # <<<<<<<<<<<<<<
- *                                 vector[cpplist[popgenmut].iterator] & muts,
+ *                                 const vector[cpplist[popgenmut].iterator] & muts,
  *                                 const size_t ind,
  */
 
-static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(std::map<std::string,std::vector<double> >  &__pyx_v_rv, std::vector<std::list<KTfwd::popgenmut> ::iterator>  &__pyx_v_muts, size_t const __pyx_v_ind, unsigned int const __pyx_v_twoN, int const __pyx_v_remove_fixed, int const __pyx_v_chrom) {
-  std::vector<std::list<KTfwd::popgenmut> ::iterator> ::iterator __pyx_v_beg;
-  std::vector<std::list<KTfwd::popgenmut> ::iterator> ::iterator __pyx_v_end;
+static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(std::map<std::string,std::vector<double> >  &__pyx_v_rv, std::vector<std::list<KTfwd::popgenmut> ::iterator>  const &__pyx_v_muts, size_t const __pyx_v_ind, unsigned int const __pyx_v_twoN, int const __pyx_v_remove_fixed, int const __pyx_v_chrom) {
+  std::vector<std::list<KTfwd::popgenmut> ::iterator> ::const_iterator __pyx_v_beg;
+  std::vector<std::list<KTfwd::popgenmut> ::iterator> ::const_iterator __pyx_v_end;
   std::list<KTfwd::popgenmut> ::iterator __pyx_v_mitr;
   double __pyx_v_p;
   PyObject *__pyx_r = NULL;
@@ -6559,23 +6559,23 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(st
   /* "fwdpy/internal/popviews.pyx":14
  *                                 const int remove_fixed,
  *                                 const int chrom ):
- *     cdef vector[cpplist[popgenmut].iterator].iterator beg = muts.begin()             # <<<<<<<<<<<<<<
- *     cdef vector[cpplist[popgenmut].iterator].iterator end = muts.end()
+ *     cdef vector[cpplist[popgenmut].iterator].const_iterator beg = muts.const_begin()             # <<<<<<<<<<<<<<
+ *     cdef vector[cpplist[popgenmut].iterator].const_iterator end = muts.const_end()
  *     cdef cpplist[popgenmut].iterator mitr
  */
   __pyx_v_beg = __pyx_v_muts.begin();
 
   /* "fwdpy/internal/popviews.pyx":15
  *                                 const int chrom ):
- *     cdef vector[cpplist[popgenmut].iterator].iterator beg = muts.begin()
- *     cdef vector[cpplist[popgenmut].iterator].iterator end = muts.end()             # <<<<<<<<<<<<<<
+ *     cdef vector[cpplist[popgenmut].iterator].const_iterator beg = muts.const_begin()
+ *     cdef vector[cpplist[popgenmut].iterator].const_iterator end = muts.const_end()             # <<<<<<<<<<<<<<
  *     cdef cpplist[popgenmut].iterator mitr
  *     while beg != end:
  */
   __pyx_v_end = __pyx_v_muts.end();
 
   /* "fwdpy/internal/popviews.pyx":17
- *     cdef vector[cpplist[popgenmut].iterator].iterator end = muts.end()
+ *     cdef vector[cpplist[popgenmut].iterator].const_iterator end = muts.const_end()
  *     cdef cpplist[popgenmut].iterator mitr
  *     while beg != end:             # <<<<<<<<<<<<<<
  *         mitr = deref(beg)
@@ -6744,7 +6744,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(st
  * from fwdpy.fwdpy cimport popgenmut,dipvector_t
  * 
  * cdef fill_diploid_view_details( map[string,vector[double]] & rv,             # <<<<<<<<<<<<<<
- *                                 vector[cpplist[popgenmut].iterator] & muts,
+ *                                 const vector[cpplist[popgenmut].iterator] & muts,
  *                                 const size_t ind,
  */
 
@@ -9360,8 +9360,8 @@ static int __Pyx_InitCachedConstants(void) {
  *     return pd.DataFrame(a,columns=["pos","count","esize","h","ftime"])
  * 
  * def getmuts_singlepop(singlepop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  */
   __pyx_tuple__38 = PyTuple_Pack(6, __pyx_n_s_pop, __pyx_n_s_all, __pyx_n_s_fixations, __pyx_n_s_itr, __pyx_n_s_end, __pyx_n_s_segregating); if (unlikely(!__pyx_tuple__38)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__38);
@@ -9372,8 +9372,8 @@ static int __Pyx_InitCachedConstants(void) {
  *         return pd.concat([segregating,add_fixations(pop.pop.get().fixations,pop.pop.get().fixation_times,2*pop.popsize(),all)])
  * 
  * def getmuts_metapop(metapop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  */
   __pyx_tuple__40 = PyTuple_Pack(6, __pyx_n_s_pop, __pyx_n_s_all, __pyx_n_s_fixations, __pyx_n_s_itr, __pyx_n_s_end, __pyx_n_s_segregating); if (unlikely(!__pyx_tuple__40)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__40);
@@ -9521,8 +9521,8 @@ PyMODINIT_FUNC PyInit_internal(void)
   /*--- Global init code ---*/
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
-  if (__Pyx_ExportFunction("getmuts_details", (void (*)(void))__pyx_f_5fwdpy_8internal_8internal_getmuts_details, "PyObject *(std::list<KTfwd::popgenmut> ::iterator, std::list<KTfwd::popgenmut> ::iterator, float, unsigned int, int)") < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ExportFunction("add_fixations", (void (*)(void))__pyx_f_5fwdpy_8internal_8internal_add_fixations, "PyObject *(std::vector<KTfwd::popgenmut>  &, std::vector<unsigned int>  const &, float, int)") < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("getmuts_details", (void (*)(void))__pyx_f_5fwdpy_8internal_8internal_getmuts_details, "PyObject *(std::list<KTfwd::popgenmut> ::const_iterator, std::list<KTfwd::popgenmut> ::const_iterator, float, unsigned int, int)") < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_ExportFunction("add_fixations", (void (*)(void))__pyx_f_5fwdpy_8internal_8internal_add_fixations, "PyObject *(std::vector<KTfwd::popgenmut>  const &, std::vector<unsigned int>  const &, float, int)") < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Type init code ---*/
   if (PyType_Ready(&__pyx_type_5fwdpy_8internal_8internal_shwrappervec) < 0) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5fwdpy_8internal_8internal_shwrappervec.tp_print = 0;
@@ -9709,7 +9709,7 @@ PyMODINIT_FUNC PyInit_internal(void)
  * import pandas as pd
  * import numpy as np             # <<<<<<<<<<<<<<
  * 
- * cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator end, float twoN, unsigned nmuts,bint all):
+ * cdef getmuts_details(cpplist[popgenmut].const_iterator itr,cpplist[popgenmut].const_iterator end, float twoN, unsigned nmuts,bint all):
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 5; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -9720,8 +9720,8 @@ PyMODINIT_FUNC PyInit_internal(void)
  *     return pd.DataFrame(a,columns=["pos","count","esize","h","ftime"])
  * 
  * def getmuts_singlepop(singlepop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_8internal_8internal_17getmuts_singlepop, NULL, __pyx_n_s_fwdpy_internal_internal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -9732,8 +9732,8 @@ PyMODINIT_FUNC PyInit_internal(void)
  *         return pd.concat([segregating,add_fixations(pop.pop.get().fixations,pop.pop.get().fixation_times,2*pop.popsize(),all)])
  * 
  * def getmuts_metapop(metapop pop,bint all,bint fixations):             # <<<<<<<<<<<<<<
- *     cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()
- *     cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+ *     cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()
+ *     cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_8internal_8internal_19getmuts_metapop, NULL, __pyx_n_s_fwdpy_internal_internal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);

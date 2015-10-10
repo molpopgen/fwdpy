@@ -6,13 +6,13 @@ from libcpp.list cimport list as cpplist
 from fwdpy.fwdpy cimport popgenmut,dipvector_t
 
 cdef fill_diploid_view_details( map[string,vector[double]] & rv,
-                                vector[cpplist[popgenmut].iterator] & muts,
+                                const vector[cpplist[popgenmut].iterator] & muts,
                                 const size_t ind,
                                 const unsigned twoN,
                                 const int remove_fixed,
                                 const int chrom ):
-    cdef vector[cpplist[popgenmut].iterator].iterator beg = muts.begin()
-    cdef vector[cpplist[popgenmut].iterator].iterator end = muts.end()
+    cdef vector[cpplist[popgenmut].iterator].const_iterator beg = muts.const_begin()
+    cdef vector[cpplist[popgenmut].iterator].const_iterator end = muts.const_end()
     cdef cpplist[popgenmut].iterator mitr
     while beg != end:
         mitr = deref(beg)

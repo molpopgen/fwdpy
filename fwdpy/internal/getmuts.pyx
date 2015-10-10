@@ -4,7 +4,7 @@ import fwdpy
 import pandas as pd
 import numpy as np
 
-cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator end, float twoN, unsigned nmuts,bint all):
+cdef getmuts_details(cpplist[popgenmut].const_iterator itr,cpplist[popgenmut].const_iterator end, float twoN, unsigned nmuts,bint all):
     buff = np.array([np.nan]*(4*nmuts),dtype=np.float64)
     i=0
     while itr != end:
@@ -19,10 +19,10 @@ cdef getmuts_details(cpplist[popgenmut].iterator itr,cpplist[popgenmut].iterator
     return pandas.DataFrame(a,columns=["pos","freq","esize","h"])
 
 ##TODO: change to const vector once Cython implements those types
-cdef add_fixations( vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):
+cdef add_fixations( const vector[popgenmut] & fixations, const vector[unsigned] & ftimes, float twoN, bint all ):
     buff = np.array([np.nan]*(5*ftimes.size()),dtype=np.float64)
-    cdef vector[popgenmut].iterator fbeg = fixations.begin()
-    cdef vector[popgenmut].iterator fend = fixations.end()
+    cdef vector[popgenmut].const_iterator fbeg = fixations.const_begin()
+    cdef vector[popgenmut].const_iterator fend = fixations.const_end()
     i=0
     j=0
     while fbeg != fend:
@@ -39,8 +39,8 @@ cdef add_fixations( vector[popgenmut] & fixations, const vector[unsigned] & ftim
     return pd.DataFrame(a,columns=["pos","count","esize","h","ftime"])
 
 def getmuts_singlepop(singlepop pop,bint all,bint fixations):
-    cdef cpplist[popgenmut].iterator itr = pop.pop.get().mutations.begin()
-    cdef cpplist[popgenmut].iterator end = pop.pop.get().mutations.end()
+    cdef cpplist[popgenmut].const_iterator itr = pop.pop.get().mutations.const_begin()
+    cdef cpplist[popgenmut].const_iterator end = pop.pop.get().mutations.const_end()
     segregating = getmuts_details(itr,end,2*pop.popsize(),pop.pop.get().mutations.size(),all)
     if fixations is False:
         return segregating
@@ -48,8 +48,8 @@ def getmuts_singlepop(singlepop pop,bint all,bint fixations):
         return pd.concat([segregating,add_fixations(pop.pop.get().fixations,pop.pop.get().fixation_times,2*pop.popsize(),all)])
 
 def getmuts_metapop(metapop pop,bint all,bint fixations):
-    cdef cpplist[popgenmut].iterator itr = pop.mpop.get().mutations.begin()
-    cdef cpplist[popgenmut].iterator end = pop.mpop.get().mutations.end()
+    cdef cpplist[popgenmut].const_iterator itr = pop.mpop.get().mutations.const_begin()
+    cdef cpplist[popgenmut].const_iterator end = pop.mpop.get().mutations.const_end()
     segregating = getmuts_details(itr,end,2*sum(pop.posizes()),pop.mpop.get().mutations.size(),all)
     if fixations is False:
         return segregating
