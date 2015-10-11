@@ -1,4 +1,6 @@
+from cython.operator cimport dereference as deref
 from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta
+from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
 import numpy as np
 import pandas as pd
 
@@ -6,15 +8,15 @@ import pandas as pd
 ##These fxns make calls to the C++ layer
 
 def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
-    return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+    return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
 
 def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
-    return take_sample_from_pop_sep(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+    return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
 def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme):
     if deme >= len(pop):
         raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
-    return take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed), deme)
+    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
 
 cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     singlepop pop,
@@ -66,6 +68,8 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.
     
     :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.
+
+    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`
 
     Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.
 

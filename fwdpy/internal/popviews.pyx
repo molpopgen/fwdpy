@@ -25,7 +25,8 @@ cdef fill_diploid_view_details( map[string,vector[double]] & rv,
             rv["p"].push_back(p);
             rv["hap"].push_back(float(chrom));
             rv["origin"].push_back(float(deref(mitr).g));
-	  
+        inc(beg)
+
 cdef diploid_view_details(const dipvector_t & diploids,
                           const size_t ind,
                           const int remove_fixed):
@@ -46,7 +47,10 @@ cdef diploid_view_details(const dipvector_t & diploids,
                         else:
                         #WARNING: there's a big assumption here!
                             rv[i].push_back(np.nan)
-                    return rv
+    fill_diploid_view_details(rv,deref(diploids[ind].first).mutations,ind,2*diploids.size(),remove_fixed,0)
+    fill_diploid_view_details(rv,deref(diploids[ind].first).smutations,ind,2*diploids.size(),remove_fixed,0)
+    fill_diploid_view_details(rv,deref(diploids[ind].second).mutations,ind,2*diploids.size(),remove_fixed,1)
+    fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)
     
 def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):
     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)

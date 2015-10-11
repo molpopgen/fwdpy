@@ -3926,6 +3926,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
+
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -4317,6 +4318,22 @@ _ACEOF
 fi
 
 done
+
+
+ac_fn_cxx_check_header_mongrel "$LINENO" "fwdpp/diploid.hh" "ac_cv_header_fwdpp_diploid_hh" "$ac_includes_default"
+if test "x$ac_cv_header_fwdpp_diploid_hh" = xyes; then :
+
+else
+  as_fn_error meaning fwdppConfig was found "fwdpp/diploid.hh not found.  Please install the library.  Something is likely amiss with your system.  We got this far" "$LINENO" 5
+fi
+
+
+ac_fn_cxx_check_header_mongrel "$LINENO" "fwdpp/sugar/sampling.hpp" "ac_cv_header_fwdpp_sugar_sampling_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_fwdpp_sugar_sampling_hpp" = xyes; then :
+
+else
+  as_fn_error $? "fwdpp/sugar/sampling.hpp not found.  This probably means that you need a dev branch of fwdpp.  You probably need to email KRT directly and ask which one.  Sorry!" "$LINENO" 5
+fi
 
 
 ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/Garud.hpp" "ac_cv_header_Sequence_SummStats_Garud_hpp" "$ac_includes_default"

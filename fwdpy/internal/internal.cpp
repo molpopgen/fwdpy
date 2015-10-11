@@ -288,14 +288,14 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "stdexcept"
 #include "typeinfo"
 #include <list>
-#include "fwdpp/forward_types.hpp"
-#include "fwdpp/sugar/popgenmut.hpp"
-#include "fwdpp/extensions/callbacks.hpp"
-#include "internal/callbacks.hpp"
-#include "internal/internal.hpp"
 #include <utility>
 #include "string.h"
 #include <string>
+#include "gsl/gsl_rng.h"
+#include "fwdpp/forward_types.hpp"
+#include "fwdpp/sugar/popgenmut.hpp"
+#include "fwdpp/sugar/sampling.hpp"
+#include "fwdpp/extensions/callbacks.hpp"
 #include <memory>
 #include <map>
 #include "types.hpp"
@@ -305,6 +305,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
 #include "trajectories.hpp"
+#include "internal/callbacks.hpp"
+#include "internal/internal.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -535,7 +537,7 @@ struct __pyx_obj_5fwdpy_8internal_8internal_shwrappervec;
 struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper;
 
 /* "fwdpy/fwdpy.pxd":54
- * 
+ *         gsl_rng * get()
  * #Now, provied definitions for classes in classes.pyx
  * cdef class poptype(object):             # <<<<<<<<<<<<<<
  *     """
@@ -1080,13 +1082,13 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from 'libcpp' */
 
-/* Module declarations from 'fwdpy.fwdpp' */
-
 /* Module declarations from 'libcpp.utility' */
 
 /* Module declarations from 'libc.string' */
 
 /* Module declarations from 'libcpp.string' */
+
+/* Module declarations from 'fwdpy.fwdpp' */
 
 /* Module declarations from 'libcpp.memory' */
 
@@ -1106,15 +1108,9 @@ static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_shwrappervec = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper = 0;
 static PyObject *__pyx_f_5fwdpy_8internal_8internal_getmuts_details(std::list<KTfwd::popgenmut> ::const_iterator, std::list<KTfwd::popgenmut> ::const_iterator, float, unsigned int, int); /*proto*/
 static PyObject *__pyx_f_5fwdpy_8internal_8internal_add_fixations(std::vector<KTfwd::popgenmut>  const &, std::vector<unsigned int>  const &, float, int); /*proto*/
+static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(std::map<std::string,std::vector<double> >  &, std::vector<std::list<KTfwd::popgenmut> ::iterator>  const &, size_t const , unsigned int const , int const , int const ); /*proto*/
 static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::dipvector_t const &, size_t const , int const ); /*proto*/
 static std::string __pyx_convert_string_from_py_std__in_string(PyObject *); /*proto*/
-static CYTHON_INLINE PyObject *__pyx_convert_PyObject_string_to_py_std__in_string(std::string const &); /*proto*/
-static CYTHON_INLINE PyObject *__pyx_convert_PyUnicode_string_to_py_std__in_string(std::string const &); /*proto*/
-static CYTHON_INLINE PyObject *__pyx_convert_PyStr_string_to_py_std__in_string(std::string const &); /*proto*/
-static CYTHON_INLINE PyObject *__pyx_convert_PyBytes_string_to_py_std__in_string(std::string const &); /*proto*/
-static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_string(std::string const &); /*proto*/
-static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &); /*proto*/
-static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(std::map<std::string,std::vector<double> >  const &); /*proto*/
 static std::vector<double>  __pyx_convert_vector_from_py_double(PyObject *); /*proto*/
 #define __Pyx_MODULE_NAME "fwdpy.internal.internal"
 int __pyx_module_is_main_fwdpy__internal__internal = 0;
@@ -6705,7 +6701,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(st
  *             rv["p"].push_back(p);
  *             rv["hap"].push_back(float(chrom));             # <<<<<<<<<<<<<<
  *             rv["origin"].push_back(float(deref(mitr).g));
- * 
+ *         inc(beg)
  */
       __pyx_t_3 = __pyx_convert_string_from_py_std__in_string(__pyx_n_b_hap); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       try {
@@ -6719,8 +6715,8 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(st
  *             rv["p"].push_back(p);
  *             rv["hap"].push_back(float(chrom));
  *             rv["origin"].push_back(float(deref(mitr).g));             # <<<<<<<<<<<<<<
+ *         inc(beg)
  * 
- * cdef diploid_view_details(const dipvector_t & diploids,
  */
       __pyx_t_3 = __pyx_convert_string_from_py_std__in_string(__pyx_n_b_origin); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       try {
@@ -6738,6 +6734,15 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(st
  *             rv["pos"].push_back(deref(mitr).pos);
  */
     }
+
+    /* "fwdpy/internal/popviews.pyx":28
+ *             rv["hap"].push_back(float(chrom));
+ *             rv["origin"].push_back(float(deref(mitr).g));
+ *         inc(beg)             # <<<<<<<<<<<<<<
+ * 
+ * cdef diploid_view_details(const dipvector_t & diploids,
+ */
+    (++__pyx_v_beg);
   }
 
   /* "fwdpy/internal/popviews.pyx":8
@@ -6760,15 +6765,15 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(st
   return __pyx_r;
 }
 
-/* "fwdpy/internal/popviews.pyx":29
- *             rv["origin"].push_back(float(deref(mitr).g));
+/* "fwdpy/internal/popviews.pyx":30
+ *         inc(beg)
  * 
  * cdef diploid_view_details(const dipvector_t & diploids,             # <<<<<<<<<<<<<<
  *                           const size_t ind,
  *                           const int remove_fixed):
  */
 
-static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::dipvector_t const &__pyx_v_diploids, size_t const __pyx_v_ind, CYTHON_UNUSED int const __pyx_v_remove_fixed) {
+static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::dipvector_t const &__pyx_v_diploids, size_t const __pyx_v_ind, int const __pyx_v_remove_fixed) {
   CYTHON_UNUSED size_t __pyx_v_twoN;
   PyObject *__pyx_v_rvlabels = NULL;
   std::map<std::string,std::vector<double> >  __pyx_v_rv;
@@ -6788,7 +6793,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("diploid_view_details", 0);
 
-  /* "fwdpy/internal/popviews.pyx":32
+  /* "fwdpy/internal/popviews.pyx":33
  *                           const size_t ind,
  *                           const int remove_fixed):
  *     if ind > diploids.size():             # <<<<<<<<<<<<<<
@@ -6798,20 +6803,20 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
   __pyx_t_1 = ((__pyx_v_ind > __pyx_v_diploids.size()) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/internal/popviews.pyx":33
+    /* "fwdpy/internal/popviews.pyx":34
  *                           const int remove_fixed):
  *     if ind > diploids.size():
  *         raise RuntimeError("diploid_view_details: individual index out of range");             # <<<<<<<<<<<<<<
  *     twoN = 2*diploids.size()
  *     rvlabels = ["ind","pos","esize","h","p","hap","origin"]
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[3]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[3]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/internal/popviews.pyx":32
+    /* "fwdpy/internal/popviews.pyx":33
  *                           const size_t ind,
  *                           const int remove_fixed):
  *     if ind > diploids.size():             # <<<<<<<<<<<<<<
@@ -6820,7 +6825,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
  */
   }
 
-  /* "fwdpy/internal/popviews.pyx":34
+  /* "fwdpy/internal/popviews.pyx":35
  *     if ind > diploids.size():
  *         raise RuntimeError("diploid_view_details: individual index out of range");
  *     twoN = 2*diploids.size()             # <<<<<<<<<<<<<<
@@ -6829,14 +6834,14 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
  */
   __pyx_v_twoN = (2 * __pyx_v_diploids.size());
 
-  /* "fwdpy/internal/popviews.pyx":35
+  /* "fwdpy/internal/popviews.pyx":36
  *         raise RuntimeError("diploid_view_details: individual index out of range");
  *     twoN = 2*diploids.size()
  *     rvlabels = ["ind","pos","esize","h","p","hap","origin"]             # <<<<<<<<<<<<<<
  *     cdef map[string,vector[double]] rv
  *     for i in rvlabels:
  */
-  __pyx_t_2 = PyList_New(7); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_New(7); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_ind);
   __Pyx_GIVEREF(__pyx_n_s_ind);
@@ -6862,7 +6867,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
   __pyx_v_rvlabels = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "fwdpy/internal/popviews.pyx":37
+  /* "fwdpy/internal/popviews.pyx":38
  *     rvlabels = ["ind","pos","esize","h","p","hap","origin"]
  *     cdef map[string,vector[double]] rv
  *     for i in rvlabels:             # <<<<<<<<<<<<<<
@@ -6873,15 +6878,15 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/internal/popviews.pyx":38
+    /* "fwdpy/internal/popviews.pyx":39
  *     cdef map[string,vector[double]] rv
  *     for i in rvlabels:
  *         rv[i] = vector[double]()             # <<<<<<<<<<<<<<
@@ -6892,12 +6897,12 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
       __pyx_t_5 = std::vector<double> ();
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      {__pyx_filename = __pyx_f[3]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[3]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_6 = __pyx_convert_string_from_py_std__in_string(__pyx_v_i); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __pyx_convert_string_from_py_std__in_string(__pyx_v_i); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     (__pyx_v_rv[__pyx_t_6]) = __pyx_t_5;
 
-    /* "fwdpy/internal/popviews.pyx":37
+    /* "fwdpy/internal/popviews.pyx":38
  *     rvlabels = ["ind","pos","esize","h","p","hap","origin"]
  *     cdef map[string,vector[double]] rv
  *     for i in rvlabels:             # <<<<<<<<<<<<<<
@@ -6907,7 +6912,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/internal/popviews.pyx":39
+  /* "fwdpy/internal/popviews.pyx":40
  *     for i in rvlabels:
  *         rv[i] = vector[double]()
  *     if deref(diploids[ind].first).mutations.empty():             # <<<<<<<<<<<<<<
@@ -6917,7 +6922,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
   __pyx_t_1 = ((*(__pyx_v_diploids[__pyx_v_ind]).first).mutations.empty() != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/internal/popviews.pyx":40
+    /* "fwdpy/internal/popviews.pyx":41
  *         rv[i] = vector[double]()
  *     if deref(diploids[ind].first).mutations.empty():
  *         if deref(diploids[ind].first).smutations.empty():             # <<<<<<<<<<<<<<
@@ -6927,7 +6932,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
     __pyx_t_1 = ((*(__pyx_v_diploids[__pyx_v_ind]).first).smutations.empty() != 0);
     if (__pyx_t_1) {
 
-      /* "fwdpy/internal/popviews.pyx":41
+      /* "fwdpy/internal/popviews.pyx":42
  *     if deref(diploids[ind].first).mutations.empty():
  *         if deref(diploids[ind].first).smutations.empty():
  *             if deref(diploids[ind].second).mutations.empty():             # <<<<<<<<<<<<<<
@@ -6937,7 +6942,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
       __pyx_t_1 = ((*(__pyx_v_diploids[__pyx_v_ind]).second).mutations.empty() != 0);
       if (__pyx_t_1) {
 
-        /* "fwdpy/internal/popviews.pyx":42
+        /* "fwdpy/internal/popviews.pyx":43
  *         if deref(diploids[ind].first).smutations.empty():
  *             if deref(diploids[ind].second).mutations.empty():
  *                 if deref(diploids[ind].second).smutations.empty():             # <<<<<<<<<<<<<<
@@ -6947,7 +6952,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
         __pyx_t_1 = ((*(__pyx_v_diploids[__pyx_v_ind]).second).smutations.empty() != 0);
         if (__pyx_t_1) {
 
-          /* "fwdpy/internal/popviews.pyx":43
+          /* "fwdpy/internal/popviews.pyx":44
  *             if deref(diploids[ind].second).mutations.empty():
  *                 if deref(diploids[ind].second).smutations.empty():
  *                     for i in rvlabels:             # <<<<<<<<<<<<<<
@@ -6958,40 +6963,40 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
           for (;;) {
             if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
             #if CYTHON_COMPILING_IN_CPYTHON
-            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+            __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
             #else
-            __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+            __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
             __Pyx_GOTREF(__pyx_t_4);
             #endif
             __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
             __pyx_t_4 = 0;
 
-            /* "fwdpy/internal/popviews.pyx":44
+            /* "fwdpy/internal/popviews.pyx":45
  *                 if deref(diploids[ind].second).smutations.empty():
  *                     for i in rvlabels:
  *                         if i == 'ind':             # <<<<<<<<<<<<<<
  *                             rv[i].push_back(ind)
  *                         else:
  */
-            __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_i, __pyx_n_s_ind, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+            __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_i, __pyx_n_s_ind, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
             if (__pyx_t_1) {
 
-              /* "fwdpy/internal/popviews.pyx":45
+              /* "fwdpy/internal/popviews.pyx":46
  *                     for i in rvlabels:
  *                         if i == 'ind':
  *                             rv[i].push_back(ind)             # <<<<<<<<<<<<<<
  *                         else:
  *                         #WARNING: there's a big assumption here!
  */
-              __pyx_t_6 = __pyx_convert_string_from_py_std__in_string(__pyx_v_i); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+              __pyx_t_6 = __pyx_convert_string_from_py_std__in_string(__pyx_v_i); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
               try {
                 (__pyx_v_rv[__pyx_t_6]).push_back(__pyx_v_ind);
               } catch(...) {
                 __Pyx_CppExn2PyErr();
-                {__pyx_filename = __pyx_f[3]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                {__pyx_filename = __pyx_f[3]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
               }
 
-              /* "fwdpy/internal/popviews.pyx":44
+              /* "fwdpy/internal/popviews.pyx":45
  *                 if deref(diploids[ind].second).smutations.empty():
  *                     for i in rvlabels:
  *                         if i == 'ind':             # <<<<<<<<<<<<<<
@@ -7001,32 +7006,32 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
               goto __pyx_L12;
             }
 
-            /* "fwdpy/internal/popviews.pyx":48
+            /* "fwdpy/internal/popviews.pyx":49
  *                         else:
  *                         #WARNING: there's a big assumption here!
  *                             rv[i].push_back(np.nan)             # <<<<<<<<<<<<<<
- *                     return rv
- * 
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).mutations,ind,2*diploids.size(),remove_fixed,0)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).smutations,ind,2*diploids.size(),remove_fixed,0)
  */
             /*else*/ {
-              __pyx_t_6 = __pyx_convert_string_from_py_std__in_string(__pyx_v_i); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-              __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+              __pyx_t_6 = __pyx_convert_string_from_py_std__in_string(__pyx_v_i); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+              __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
               __Pyx_GOTREF(__pyx_t_4);
-              __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_nan); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+              __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_nan); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
               __Pyx_GOTREF(__pyx_t_7);
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-              __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+              __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
               __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
               try {
                 (__pyx_v_rv[__pyx_t_6]).push_back(__pyx_t_8);
               } catch(...) {
                 __Pyx_CppExn2PyErr();
-                {__pyx_filename = __pyx_f[3]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+                {__pyx_filename = __pyx_f[3]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
               }
             }
             __pyx_L12:;
 
-            /* "fwdpy/internal/popviews.pyx":43
+            /* "fwdpy/internal/popviews.pyx":44
  *             if deref(diploids[ind].second).mutations.empty():
  *                 if deref(diploids[ind].second).smutations.empty():
  *                     for i in rvlabels:             # <<<<<<<<<<<<<<
@@ -7036,21 +7041,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
           }
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-          /* "fwdpy/internal/popviews.pyx":49
- *                         #WARNING: there's a big assumption here!
- *                             rv[i].push_back(np.nan)
- *                     return rv             # <<<<<<<<<<<<<<
- * 
- * def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):
- */
-          __Pyx_XDECREF(__pyx_r);
-          __pyx_t_2 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(__pyx_v_rv); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_r = __pyx_t_2;
-          __pyx_t_2 = 0;
-          goto __pyx_L0;
-
-          /* "fwdpy/internal/popviews.pyx":42
+          /* "fwdpy/internal/popviews.pyx":43
  *         if deref(diploids[ind].first).smutations.empty():
  *             if deref(diploids[ind].second).mutations.empty():
  *                 if deref(diploids[ind].second).smutations.empty():             # <<<<<<<<<<<<<<
@@ -7059,7 +7050,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
  */
         }
 
-        /* "fwdpy/internal/popviews.pyx":41
+        /* "fwdpy/internal/popviews.pyx":42
  *     if deref(diploids[ind].first).mutations.empty():
  *         if deref(diploids[ind].first).smutations.empty():
  *             if deref(diploids[ind].second).mutations.empty():             # <<<<<<<<<<<<<<
@@ -7068,7 +7059,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
  */
       }
 
-      /* "fwdpy/internal/popviews.pyx":40
+      /* "fwdpy/internal/popviews.pyx":41
  *         rv[i] = vector[double]()
  *     if deref(diploids[ind].first).mutations.empty():
  *         if deref(diploids[ind].first).smutations.empty():             # <<<<<<<<<<<<<<
@@ -7077,7 +7068,7 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
  */
     }
 
-    /* "fwdpy/internal/popviews.pyx":39
+    /* "fwdpy/internal/popviews.pyx":40
  *     for i in rvlabels:
  *         rv[i] = vector[double]()
  *     if deref(diploids[ind].first).mutations.empty():             # <<<<<<<<<<<<<<
@@ -7086,8 +7077,52 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
  */
   }
 
-  /* "fwdpy/internal/popviews.pyx":29
- *             rv["origin"].push_back(float(deref(mitr).g));
+  /* "fwdpy/internal/popviews.pyx":50
+ *                         #WARNING: there's a big assumption here!
+ *                             rv[i].push_back(np.nan)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).mutations,ind,2*diploids.size(),remove_fixed,0)             # <<<<<<<<<<<<<<
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).smutations,ind,2*diploids.size(),remove_fixed,0)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).mutations,ind,2*diploids.size(),remove_fixed,1)
+ */
+  __pyx_t_2 = __pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(__pyx_v_rv, (*(__pyx_v_diploids[__pyx_v_ind]).first).mutations, __pyx_v_ind, (2 * __pyx_v_diploids.size()), __pyx_v_remove_fixed, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "fwdpy/internal/popviews.pyx":51
+ *                             rv[i].push_back(np.nan)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).mutations,ind,2*diploids.size(),remove_fixed,0)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).smutations,ind,2*diploids.size(),remove_fixed,0)             # <<<<<<<<<<<<<<
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).mutations,ind,2*diploids.size(),remove_fixed,1)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)
+ */
+  __pyx_t_2 = __pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(__pyx_v_rv, (*(__pyx_v_diploids[__pyx_v_ind]).first).smutations, __pyx_v_ind, (2 * __pyx_v_diploids.size()), __pyx_v_remove_fixed, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "fwdpy/internal/popviews.pyx":52
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).mutations,ind,2*diploids.size(),remove_fixed,0)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).smutations,ind,2*diploids.size(),remove_fixed,0)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).mutations,ind,2*diploids.size(),remove_fixed,1)             # <<<<<<<<<<<<<<
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)
+ * 
+ */
+  __pyx_t_2 = __pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(__pyx_v_rv, (*(__pyx_v_diploids[__pyx_v_ind]).second).mutations, __pyx_v_ind, (2 * __pyx_v_diploids.size()), __pyx_v_remove_fixed, 1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "fwdpy/internal/popviews.pyx":53
+ *     fill_diploid_view_details(rv,deref(diploids[ind].first).smutations,ind,2*diploids.size(),remove_fixed,0)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).mutations,ind,2*diploids.size(),remove_fixed,1)
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)             # <<<<<<<<<<<<<<
+ * 
+ * def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):
+ */
+  __pyx_t_2 = __pyx_f_5fwdpy_8internal_8internal_fill_diploid_view_details(__pyx_v_rv, (*(__pyx_v_diploids[__pyx_v_ind]).second).smutations, __pyx_v_ind, (2 * __pyx_v_diploids.size()), __pyx_v_remove_fixed, 1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "fwdpy/internal/popviews.pyx":30
+ *         inc(beg)
  * 
  * cdef diploid_view_details(const dipvector_t & diploids,             # <<<<<<<<<<<<<<
  *                           const size_t ind,
@@ -7111,8 +7146,8 @@ static PyObject *__pyx_f_5fwdpy_8internal_8internal_diploid_view_details(fwdpy::
   return __pyx_r;
 }
 
-/* "fwdpy/internal/popviews.pyx":51
- *                     return rv
+/* "fwdpy/internal/popviews.pyx":55
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)
  * 
  * def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
@@ -7153,16 +7188,16 @@ static PyObject *__pyx_pw_5fwdpy_8internal_8internal_21diploid_view_singlepop(Py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ind)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("diploid_view_singlepop", 1, 3, 3, 1); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("diploid_view_singlepop", 1, 3, 3, 1); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_removeFixed)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("diploid_view_singlepop", 1, 3, 3, 2); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("diploid_view_singlepop", 1, 3, 3, 2); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "diploid_view_singlepop") < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "diploid_view_singlepop") < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -7172,18 +7207,18 @@ static PyObject *__pyx_pw_5fwdpy_8internal_8internal_21diploid_view_singlepop(Py
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_pop = ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)values[0]);
-    __pyx_v_ind = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_ind == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_ind = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_ind == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("diploid_view_singlepop", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("diploid_view_singlepop", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.internal.internal.diploid_view_singlepop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop, 1, "pop", 0))) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop, 1, "pop", 0))) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_8internal_8internal_20diploid_view_singlepop(__pyx_self, __pyx_v_pop, __pyx_v_ind, __pyx_v_removeFixed);
 
   /* function exit code */
@@ -7204,7 +7239,7 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_20diploid_view_singlepop(CY
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("diploid_view_singlepop", 0);
 
-  /* "fwdpy/internal/popviews.pyx":52
+  /* "fwdpy/internal/popviews.pyx":56
  * 
  * def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)             # <<<<<<<<<<<<<<
@@ -7212,14 +7247,14 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_20diploid_view_singlepop(CY
  * def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_8internal_8internal_diploid_view_details(__pyx_v_pop->pop.get()->diploids, __pyx_v_ind, __pyx_v_removeFixed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_8internal_8internal_diploid_view_details(__pyx_v_pop->pop.get()->diploids, __pyx_v_ind, __pyx_v_removeFixed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/internal/popviews.pyx":51
- *                     return rv
+  /* "fwdpy/internal/popviews.pyx":55
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)
  * 
  * def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
@@ -7237,7 +7272,7 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_20diploid_view_singlepop(CY
   return __pyx_r;
 }
 
-/* "fwdpy/internal/popviews.pyx":54
+/* "fwdpy/internal/popviews.pyx":58
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
  * 
  * def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):             # <<<<<<<<<<<<<<
@@ -7280,21 +7315,21 @@ static PyObject *__pyx_pw_5fwdpy_8internal_8internal_23diploid_view_metapop(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ind)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, 1); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, 1); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_removeFixed)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, 2); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, 2); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, 3); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, 3); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "diploid_view_metapop") < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "diploid_view_metapop") < 0)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -7305,19 +7340,19 @@ static PyObject *__pyx_pw_5fwdpy_8internal_8internal_23diploid_view_metapop(PyOb
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
     }
     __pyx_v_mpop = ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)values[0]);
-    __pyx_v_ind = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_ind == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_deme = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_deme == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_ind = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_ind == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_deme == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("diploid_view_metapop", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.internal.internal.diploid_view_metapop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpop), __pyx_ptype_5fwdpy_5fwdpy_metapop, 1, "mpop", 0))) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpop), __pyx_ptype_5fwdpy_5fwdpy_metapop, 1, "mpop", 0))) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_8internal_8internal_22diploid_view_metapop(__pyx_self, __pyx_v_mpop, __pyx_v_ind, __pyx_v_removeFixed, __pyx_v_deme);
 
   /* function exit code */
@@ -7338,19 +7373,19 @@ static PyObject *__pyx_pf_5fwdpy_8internal_8internal_22diploid_view_metapop(CYTH
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("diploid_view_metapop", 0);
 
-  /* "fwdpy/internal/popviews.pyx":55
+  /* "fwdpy/internal/popviews.pyx":59
  * 
  * def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):
  *     return diploid_view_details(mpop.mpop.get().diploids[deme],ind,removeFixed)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_8internal_8internal_diploid_view_details((__pyx_v_mpop->mpop.get()->diploids[__pyx_v_deme]), __pyx_v_ind, __pyx_v_removeFixed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_8internal_8internal_diploid_view_details((__pyx_v_mpop->mpop.get()->diploids[__pyx_v_deme]), __pyx_v_ind, __pyx_v_removeFixed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/internal/popviews.pyx":54
+  /* "fwdpy/internal/popviews.pyx":58
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
  * 
  * def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):             # <<<<<<<<<<<<<<
@@ -8136,436 +8171,6 @@ static std::string __pyx_convert_string_from_py_std__in_string(PyObject *__pyx_v
   return __pyx_r;
 }
 
-/* "string.to_py":31
- * 
- * @cname("__pyx_convert_PyObject_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyObject_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyObject_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-static CYTHON_INLINE PyObject *__pyx_convert_PyObject_string_to_py_std__in_string(std::string const &__pyx_v_s) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_PyObject_string_to_py_std__in_string", 0);
-
-  /* "string.to_py":32
- * @cname("__pyx_convert_PyObject_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyObject_string_to_py_std__in_string(const string& s):
- *     return __Pyx_PyObject_FromStringAndSize(s.data(), s.size())             # <<<<<<<<<<<<<<
- * cdef extern from *:
- *     cdef object __Pyx_PyUnicode_FromStringAndSize(char*, size_t)
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_FromStringAndSize(__pyx_v_s.data(), __pyx_v_s.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "string.to_py":31
- * 
- * @cname("__pyx_convert_PyObject_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyObject_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyObject_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("string.to_py.__pyx_convert_PyObject_string_to_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "string.to_py":37
- * 
- * @cname("__pyx_convert_PyUnicode_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyUnicode_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyUnicode_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-static CYTHON_INLINE PyObject *__pyx_convert_PyUnicode_string_to_py_std__in_string(std::string const &__pyx_v_s) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_PyUnicode_string_to_py_std__in_string", 0);
-
-  /* "string.to_py":38
- * @cname("__pyx_convert_PyUnicode_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyUnicode_string_to_py_std__in_string(const string& s):
- *     return __Pyx_PyUnicode_FromStringAndSize(s.data(), s.size())             # <<<<<<<<<<<<<<
- * cdef extern from *:
- *     cdef object __Pyx_PyStr_FromStringAndSize(char*, size_t)
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyUnicode_FromStringAndSize(__pyx_v_s.data(), __pyx_v_s.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "string.to_py":37
- * 
- * @cname("__pyx_convert_PyUnicode_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyUnicode_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyUnicode_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("string.to_py.__pyx_convert_PyUnicode_string_to_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "string.to_py":43
- * 
- * @cname("__pyx_convert_PyStr_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyStr_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyStr_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-static CYTHON_INLINE PyObject *__pyx_convert_PyStr_string_to_py_std__in_string(std::string const &__pyx_v_s) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_PyStr_string_to_py_std__in_string", 0);
-
-  /* "string.to_py":44
- * @cname("__pyx_convert_PyStr_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyStr_string_to_py_std__in_string(const string& s):
- *     return __Pyx_PyStr_FromStringAndSize(s.data(), s.size())             # <<<<<<<<<<<<<<
- * cdef extern from *:
- *     cdef object __Pyx_PyBytes_FromStringAndSize(char*, size_t)
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyStr_FromStringAndSize(__pyx_v_s.data(), __pyx_v_s.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "string.to_py":43
- * 
- * @cname("__pyx_convert_PyStr_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyStr_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyStr_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("string.to_py.__pyx_convert_PyStr_string_to_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "string.to_py":49
- * 
- * @cname("__pyx_convert_PyBytes_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyBytes_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyBytes_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-static CYTHON_INLINE PyObject *__pyx_convert_PyBytes_string_to_py_std__in_string(std::string const &__pyx_v_s) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_PyBytes_string_to_py_std__in_string", 0);
-
-  /* "string.to_py":50
- * @cname("__pyx_convert_PyBytes_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyBytes_string_to_py_std__in_string(const string& s):
- *     return __Pyx_PyBytes_FromStringAndSize(s.data(), s.size())             # <<<<<<<<<<<<<<
- * cdef extern from *:
- *     cdef object __Pyx_PyByteArray_FromStringAndSize(char*, size_t)
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBytes_FromStringAndSize(__pyx_v_s.data(), __pyx_v_s.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "string.to_py":49
- * 
- * @cname("__pyx_convert_PyBytes_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyBytes_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyBytes_FromStringAndSize(s.data(), s.size())
- * cdef extern from *:
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("string.to_py.__pyx_convert_PyBytes_string_to_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "string.to_py":55
- * 
- * @cname("__pyx_convert_PyByteArray_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyByteArray_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyByteArray_FromStringAndSize(s.data(), s.size())
- * 
- */
-
-static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_string(std::string const &__pyx_v_s) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_PyByteArray_string_to_py_std__in_string", 0);
-
-  /* "string.to_py":56
- * @cname("__pyx_convert_PyByteArray_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyByteArray_string_to_py_std__in_string(const string& s):
- *     return __Pyx_PyByteArray_FromStringAndSize(s.data(), s.size())             # <<<<<<<<<<<<<<
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyByteArray_FromStringAndSize(__pyx_v_s.data(), __pyx_v_s.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "string.to_py":55
- * 
- * @cname("__pyx_convert_PyByteArray_string_to_py_std__in_string")
- * cdef inline object __pyx_convert_PyByteArray_string_to_py_std__in_string(const string& s):             # <<<<<<<<<<<<<<
- *     return __Pyx_PyByteArray_FromStringAndSize(s.data(), s.size())
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("string.to_py.__pyx_convert_PyByteArray_string_to_py_std__in_string", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "vector.to_py":67
- * 
- * @cname("__pyx_convert_vector_to_py_double")
- * cdef object __pyx_convert_vector_to_py_double(vector[X]& v):             # <<<<<<<<<<<<<<
- *     return [X_to_py(v[i]) for i in range(v.size())]
- * 
- */
-
-static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &__pyx_v_v) {
-  size_t __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  size_t __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_double", 0);
-
-  /* "vector.to_py":68
- * @cname("__pyx_convert_vector_to_py_double")
- * cdef object __pyx_convert_vector_to_py_double(vector[X]& v):
- *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_v_v.size();
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
-    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  }
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "vector.to_py":67
- * 
- * @cname("__pyx_convert_vector_to_py_double")
- * cdef object __pyx_convert_vector_to_py_double(vector[X]& v):             # <<<<<<<<<<<<<<
- *     return [X_to_py(v[i]) for i in range(v.size())]
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "map.to_py":227
- * 
- * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
- * cdef object __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
- *     o = {}
- *     cdef const map[X,Y].value_type *key_value
- */
-
-static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(std::map<std::string,std::vector<double> >  const &__pyx_v_s) {
-  PyObject *__pyx_v_o = NULL;
-  std::map<std::string,std::vector<double> > ::value_type const *__pyx_v_key_value;
-  std::map<std::string,std::vector<double> > ::const_iterator __pyx_v_iter;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___", 0);
-
-  /* "map.to_py":228
- * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
- * cdef object __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(const map[X,Y]& s):
- *     o = {}             # <<<<<<<<<<<<<<
- *     cdef const map[X,Y].value_type *key_value
- *     cdef map[X,Y].const_iterator iter = s.begin()
- */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 228; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_o = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-
-  /* "map.to_py":230
- *     o = {}
- *     cdef const map[X,Y].value_type *key_value
- *     cdef map[X,Y].const_iterator iter = s.begin()             # <<<<<<<<<<<<<<
- *     while iter != s.end():
- *         key_value = &cython.operator.dereference(iter)
- */
-  __pyx_v_iter = __pyx_v_s.begin();
-
-  /* "map.to_py":231
- *     cdef const map[X,Y].value_type *key_value
- *     cdef map[X,Y].const_iterator iter = s.begin()
- *     while iter != s.end():             # <<<<<<<<<<<<<<
- *         key_value = &cython.operator.dereference(iter)
- *         o[X_to_py(key_value.first)] = Y_to_py(key_value.second)
- */
-  while (1) {
-    __pyx_t_2 = ((__pyx_v_iter != __pyx_v_s.end()) != 0);
-    if (!__pyx_t_2) break;
-
-    /* "map.to_py":232
- *     cdef map[X,Y].const_iterator iter = s.begin()
- *     while iter != s.end():
- *         key_value = &cython.operator.dereference(iter)             # <<<<<<<<<<<<<<
- *         o[X_to_py(key_value.first)] = Y_to_py(key_value.second)
- *         cython.operator.preincrement(iter)
- */
-    __pyx_v_key_value = (&(*__pyx_v_iter));
-
-    /* "map.to_py":233
- *     while iter != s.end():
- *         key_value = &cython.operator.dereference(iter)
- *         o[X_to_py(key_value.first)] = Y_to_py(key_value.second)             # <<<<<<<<<<<<<<
- *         cython.operator.preincrement(iter)
- *     return o
- */
-    __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_key_value->second); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __pyx_convert_PyObject_string_to_py_std__in_string(__pyx_v_key_value->first); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyDict_SetItem(__pyx_v_o, __pyx_t_3, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-    /* "map.to_py":234
- *         key_value = &cython.operator.dereference(iter)
- *         o[X_to_py(key_value.first)] = Y_to_py(key_value.second)
- *         cython.operator.preincrement(iter)             # <<<<<<<<<<<<<<
- *     return o
- */
-    (++__pyx_v_iter);
-  }
-
-  /* "map.to_py":235
- *         o[X_to_py(key_value.first)] = Y_to_py(key_value.second)
- *         cython.operator.preincrement(iter)
- *     return o             # <<<<<<<<<<<<<<
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_o);
-  __pyx_r = __pyx_v_o;
-  goto __pyx_L0;
-
-  /* "map.to_py":227
- * 
- * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
- * cdef object __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
- *     o = {}
- *     cdef const map[X,Y].value_type *key_value
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("map.to_py.__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_o);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
 /* "vector.from_py":49
  * 
  * @cname("__pyx_convert_vector_from_py_double")
@@ -9249,14 +8854,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "fwdpy/internal/popviews.pyx":33
+  /* "fwdpy/internal/popviews.pyx":34
  *                           const int remove_fixed):
  *     if ind > diploids.size():
  *         raise RuntimeError("diploid_view_details: individual index out of range");             # <<<<<<<<<<<<<<
  *     twoN = 2*diploids.size()
  *     rvlabels = ["ind","pos","esize","h","p","hap","origin"]
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_diploid_view_details_individual); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_diploid_view_details_individual); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
 
@@ -9380,28 +8985,28 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__40);
   __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_3, __pyx_n_s_getmuts_metapop, 50, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/internal/popviews.pyx":51
- *                     return rv
+  /* "fwdpy/internal/popviews.pyx":55
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)
  * 
  * def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
  * 
  */
-  __pyx_tuple__42 = PyTuple_Pack(3, __pyx_n_s_pop, __pyx_n_s_ind, __pyx_n_s_removeFixed); if (unlikely(!__pyx_tuple__42)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__42 = PyTuple_Pack(3, __pyx_n_s_pop, __pyx_n_s_ind, __pyx_n_s_removeFixed); if (unlikely(!__pyx_tuple__42)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
-  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_4, __pyx_n_s_diploid_view_singlepop, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_4, __pyx_n_s_diploid_view_singlepop, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/internal/popviews.pyx":54
+  /* "fwdpy/internal/popviews.pyx":58
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
  * 
  * def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):             # <<<<<<<<<<<<<<
  *     return diploid_view_details(mpop.mpop.get().diploids[deme],ind,removeFixed)
  */
-  __pyx_tuple__44 = PyTuple_Pack(4, __pyx_n_s_mpop, __pyx_n_s_ind, __pyx_n_s_removeFixed, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__44)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__44 = PyTuple_Pack(4, __pyx_n_s_mpop, __pyx_n_s_ind, __pyx_n_s_removeFixed, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__44)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_4, __pyx_n_s_diploid_view_metapop, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_4, __pyx_n_s_diploid_view_metapop, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "fwdpy/internal/internal.pyx":16
  * 
@@ -9738,27 +9343,27 @@ PyMODINIT_FUNC PyInit_internal(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_getmuts_metapop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/internal/popviews.pyx":51
- *                     return rv
+  /* "fwdpy/internal/popviews.pyx":55
+ *     fill_diploid_view_details(rv,deref(diploids[ind].second).smutations,ind,2*diploids.size(),remove_fixed,1)
  * 
  * def diploid_view_singlepop(singlepop pop, int ind, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_8internal_8internal_21diploid_view_singlepop, NULL, __pyx_n_s_fwdpy_internal_internal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_8internal_8internal_21diploid_view_singlepop, NULL, __pyx_n_s_fwdpy_internal_internal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_diploid_view_singlepop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_diploid_view_singlepop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/internal/popviews.pyx":54
+  /* "fwdpy/internal/popviews.pyx":58
  *     return diploid_view_details(pop.pop.get().diploids,ind,removeFixed)
  * 
  * def diploid_view_metapop(metapop mpop, int ind, bint removeFixed, int deme):             # <<<<<<<<<<<<<<
  *     return diploid_view_details(mpop.mpop.get().diploids[deme],ind,removeFixed)
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_8internal_8internal_23diploid_view_metapop, NULL, __pyx_n_s_fwdpy_internal_internal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_8internal_8internal_23diploid_view_metapop, NULL, __pyx_n_s_fwdpy_internal_internal); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_diploid_view_metapop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_diploid_view_metapop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/internal/internal.pyx":16
