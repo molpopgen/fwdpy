@@ -26,6 +26,7 @@ namespace fwdpy {
 	       std::vector<double> * h,
 	       std::vector<double> * p,
 	       std::vector<double> * a);
+  /*
   std::map<std::string, std::vector<double> > diploid_view_cpp(const singlepop_t *pop,
 							       const size_t ind,
 							       const int remove_fixed);
@@ -34,6 +35,7 @@ namespace fwdpy {
 							       const size_t ind,
 							       const int remove_fixed,
 							       const int deme);
+  */
 }
 
 #endif

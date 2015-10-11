@@ -3,34 +3,14 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 from libcpp.map cimport map
-from libcpp.list cimport list as cpplist
-from libcpp cimport bool
 
 from fwdpy.internal.internal cimport *
+from fwdpy.fwdpp cimport popgenmut,gamete_base
 
 ##Create hooks to C++ types
 
-##We will expose some low-level types from fwdpp:
-cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd":
-    cdef cppclass mutation_base:
-        double pos
-        unsigned n
-        bool neutral
-
-cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd":
-    cdef cppclass popgenmut(mutation_base):
-        unsigned g
-        double s
-        double h
-
-cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd":
-    cdef cppclass gamete_base[popgenmut]:
-        unsigned n
-        vector[cpplist[popgenmut].iterator] mutations
-        vector[cpplist[popgenmut].iterator] smutations
-
 #Wrap the classes:
-cdef extern from "types.hpp" namespace "fwdpy":
+cdef extern from "types.hpp" namespace "fwdpy" nogil:
     ctypedef gamete_base[popgenmut] gamete_t
     ctypedef cpplist[gamete_t] glist_t
     ctypedef cpplist[popgenmut] mlist_t
@@ -118,38 +98,36 @@ cdef class GSLrng:
 
     
 ##Now, wrap the functions
-cdef extern from "neutral.hpp" namespace "fwdpy":
+cdef extern from "neutral.hpp" namespace "fwdpy" nogil:
     void evolve_pop(GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops, const vector[unsigned] nlist, const double & theta, const double & rho)
 
-cdef extern from "sample.hpp" namespace "fwdpy":
+cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     vector[pair[double,string]] take_sample_from_pop(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
     pair[vector[pair[double,string]],vector[pair[double,string]]] take_sample_from_pop_sep(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
     pair[vector[pair[double,string]],vector[pair[double,string]]] take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
     pair[vector[pair[double,string]],vector[pair[double,string]]] sample_specific_diploids(const singlepop_t * pop, const vector[unsigned] & indlist, const int remove_fixed)
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
-    map[string,vector[double]] diploid_view_cpp(const singlepop_t *pop, const size_t ind, const int remove_fixed) except +
-    map[string,vector[double]] diploid_view_cpp(const metapop_t * pop, const size_t ind, const int remove_fixed, const int deme) except +
     
-cdef extern from "deps.hpp" namespace "fwdpy":
+cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_dependencies()
     vector[string] fwdpy_version()
 
-cdef extern from "metapop.hpp" namespace "fwdpy":
+cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void re_init_mpop( metapop_t * mpop, const singlepop_t * pop)
     void copy_deme( metapop_t * mpop, const size_t i, const int update_counts)
 
-cdef extern from "evolve_regions.hpp" namespace "fwdpy":
+cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
     void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
-		       const unsigned * popsizes,
-               const size_t popsizes_len,
-		       const double mu_neutral,
-		       const double mu_selected,
-		       const double littler,
-		       const double f,
-               const int track,
-		       const region_manager * rm,
-		       const char * fitness)
+                           const unsigned * popsizes,
+                           const size_t popsizes_len,
+                           const double mu_neutral,
+                           const double mu_selected,
+                           const double littler,
+                           const double f,
+                           const int track,
+                           const region_manager * rm,
+                           const char * fitness)
 
     void split_and_evolve_t(GSLrng_t * rng,
                 vector[shared_ptr[metapop_t]] * mpops,
@@ -164,5 +142,5 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy":
                 const region_manager * rm,
                 const char * fitness)
 
-cdef extern from "trajectories.hpp" namespace "fwdpy":
+cdef extern from "trajectories.hpp" namespace "fwdpy" nogil:
     map[string,vector[double] ] get_singlepop_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
