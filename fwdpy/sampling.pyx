@@ -69,6 +69,8 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     
     :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.
 
+    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`
+
     Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.
 
     Example:

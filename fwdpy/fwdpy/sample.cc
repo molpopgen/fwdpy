@@ -139,18 +139,18 @@ namespace fwdpy {
   //   return temp;
   // }
 
-  std::pair< std::vector<std::pair<double,std::string > >,
-	     std::vector<std::pair<double,std::string> > >
-  sample_specific_diploids(const singlepop_t * pop, const std::vector<unsigned> & indlist, const int remove_fixed)
-  {
-    auto rv = KTfwd::fwdpp_internal::ms_sample_separate_single_deme(&(pop->diploids),indlist,2*indlist.size(),remove_fixed);
-    if(!remove_fixed)
-      {
-	KTfwd::add_fixations(&rv.first,pop->fixations,2*indlist.size(),KTfwd::treat_neutral::NEUTRAL);
-	KTfwd::add_fixations(&rv.first,pop->fixations,2*indlist.size(),KTfwd::treat_neutral::SELECTED);
-      }
-    return rv;
-  }
+  // std::pair< std::vector<std::pair<double,std::string > >,
+  // 	     std::vector<std::pair<double,std::string> > >
+  // sample_specific_diploids(const singlepop_t * pop, const std::vector<unsigned> & indlist, const int remove_fixed)
+  // {
+  //   auto rv = KTfwd::fwdpp_internal::ms_sample_separate_single_deme(&(pop->diploids),indlist,2*indlist.size(),remove_fixed);
+  //   if(!remove_fixed)
+  //     {
+  // 	KTfwd::add_fixations(&rv.first,pop->fixations,2*indlist.size(),KTfwd::treat_neutral::NEUTRAL);
+  // 	KTfwd::add_fixations(&rv.first,pop->fixations,2*indlist.size(),KTfwd::treat_neutral::SELECTED);
+  //     }
+  //   return rv;
+  // }
   
   void get_sh_details( const std::vector<std::pair<double,std::string> > & sample,
 		       const singlepop_t::mlist_t & mutations,
