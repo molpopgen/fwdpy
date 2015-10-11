@@ -296,8 +296,6 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/sugar/popgenmut.hpp"
 #include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"
-#include "internal/callbacks.hpp"
-#include "internal/internal.hpp"
 #include <memory>
 #include <map>
 #include "types.hpp"
@@ -307,6 +305,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
 #include "trajectories.hpp"
+#include "internal/callbacks.hpp"
+#include "internal/internal.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
