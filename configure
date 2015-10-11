@@ -4319,6 +4319,14 @@ fi
 done
 
 
+ac_fn_cxx_check_header_mongrel "$LINENO" "fwdpp/sugar/sampling.hpp" "ac_cv_header_fwdpp_sugar_sampling_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_fwdpp_sugar_sampling_hpp" = xyes; then :
+
+else
+  as_fn_error $? "fwdpp/sugar/sampling.hpp not found.  This probably means that you need a dev branch of fwdpp.  You probably need to email KRT directly and ask which one.  Sorry!" "$LINENO" 5
+fi
+
+
 ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/Garud.hpp" "ac_cv_header_Sequence_SummStats_Garud_hpp" "$ac_includes_default"
 if test "x$ac_cv_header_Sequence_SummStats_Garud_hpp" = xyes; then :
 
