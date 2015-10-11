@@ -41,6 +41,7 @@ cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
 cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
     ctypedef vector[pair[double,string]] sample_t
     ctypedef pair[sample_t,sample_t] sep_sample_t
+    sample_t sample[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
     sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
     sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed)
 

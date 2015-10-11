@@ -1,6 +1,6 @@
 from cython.operator cimport dereference as deref
 from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta
-from fwdpy.fwdpp cimport sample_separate,gsl_rng
+from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
 import numpy as np
 import pandas as pd
 
@@ -8,7 +8,7 @@ import pandas as pd
 ##These fxns make calls to the C++ layer
 
 def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
-    return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+    return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
 
 def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)

@@ -4,30 +4,31 @@
 #include <stdexcept>
 #include <limits>
 
+#include <fwdpp/sugar/sampling.hpp>
 
 namespace {
-  enum class treat_neutral {ALL,NEUTRAL,SELECTED};
-  void add_fixations( std::vector<std::pair<double,std::string>> * sample,
-		      const fwdpy::singlepop_t::mvector_t & fixations,
-		      const unsigned nsam,
-		      const treat_neutral treat )
-  {
-    for( const auto & f : fixations)
-      {
-	if( treat == treat_neutral::ALL )
-	  {
-	    sample->emplace_back( std::make_pair(f.pos,std::string(nsam,'1')) );
-	  }
-	else if (treat == treat_neutral::NEUTRAL && f.neutral ) //only add neutral mutations
-	  {
-	    sample->emplace_back( std::make_pair(f.pos,std::string(nsam,'1')) );
-	  }
-	else if (treat == treat_neutral::SELECTED && !f.neutral ) //only add selected mutations
-	  {
-	    sample->emplace_back( std::make_pair(f.pos,std::string(nsam,'1')) );
-	  }
-      }
-  }
+  // enum class treat_neutral {ALL,NEUTRAL,SELECTED};
+  // void add_fixations( std::vector<std::pair<double,std::string>> * sample,
+  // 		      const fwdpy::singlepop_t::mvector_t & fixations,
+  // 		      const unsigned nsam,
+  // 		      const treat_neutral treat )
+  // {
+  //   for( const auto & f : fixations)
+  //     {
+  // 	if( treat == treat_neutral::ALL )
+  // 	  {
+  // 	    sample->emplace_back( std::make_pair(f.pos,std::string(nsam,'1')) );
+  // 	  }
+  // 	else if (treat == treat_neutral::NEUTRAL && f.neutral ) //only add neutral mutations
+  // 	  {
+  // 	    sample->emplace_back( std::make_pair(f.pos,std::string(nsam,'1')) );
+  // 	  }
+  // 	else if (treat == treat_neutral::SELECTED && !f.neutral ) //only add selected mutations
+  // 	  {
+  // 	    sample->emplace_back( std::make_pair(f.pos,std::string(nsam,'1')) );
+  // 	  }
+  //     }
+  // }
 
   // void fill_diploid_view_details( std::map<std::string, std::vector<double> > & rv,
   // 				  //that's a mouthful!
@@ -102,41 +103,41 @@ namespace {
 
 namespace fwdpy {
   
-  std::vector<std::pair<double,std::string>> take_sample_from_pop(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
-  {
-    auto rv = KTfwd::ms_sample(rng->get(),&(pop->diploids),nsam,remove_fixed);
-    if(! remove_fixed)
-      {
-	add_fixations(&rv,pop->fixations,nsam,treat_neutral::ALL);
-      }
-    return rv;
-  }
+  // std::vector<std::pair<double,std::string>> take_sample_from_pop(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
+  // {
+  //   auto rv = KTfwd::ms_sample(rng->get(),&(pop->diploids),nsam,remove_fixed);
+  //   if(! remove_fixed)
+  //     {
+  // 	add_fixations(&rv,pop->fixations,nsam,treat_neutral::ALL);
+  //     }
+  //   return rv;
+  // }
 
-  std::pair<std::vector<std::pair<double,std::string> >,
-	    std::vector<std::pair<double,std::string> > >
-  take_sample_from_pop_sep(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
-  {
-    auto rv = KTfwd::ms_sample_separate(rng->get(),&(pop->diploids),nsam,remove_fixed);
-    if(! remove_fixed)
-      {
-	add_fixations(&rv.first,pop->fixations,nsam,treat_neutral::NEUTRAL);
-	add_fixations(&rv.second,pop->fixations,nsam,treat_neutral::SELECTED);
-      }
-    return rv;
-  }
+  // std::pair<std::vector<std::pair<double,std::string> >,
+  // 	    std::vector<std::pair<double,std::string> > >
+  // take_sample_from_pop_sep(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
+  // {
+  //   auto rv = KTfwd::ms_sample_separate(rng->get(),&(pop->diploids),nsam,remove_fixed);
+  //   if(! remove_fixed)
+  //     {
+  // 	add_fixations(&rv.first,pop->fixations,nsam,treat_neutral::NEUTRAL);
+  // 	add_fixations(&rv.second,pop->fixations,nsam,treat_neutral::SELECTED);
+  //     }
+  //   return rv;
+  // }
 
-  std::pair<std::vector<std::pair<double,std::string> >,
-	    std::vector<std::pair<double,std::string> > >
-  take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
-  {
-    auto temp = KTfwd::ms_sample_separate(rng->get(),&(mpop->diploids[deme]),nsam,remove_fixed);
-    if(! remove_fixed)
-      {
-	add_fixations(&temp.first,mpop->fixations,nsam,treat_neutral::NEUTRAL);
-	add_fixations(&temp.second,mpop->fixations,nsam,treat_neutral::SELECTED);
-      }
-    return temp;
-  }
+  // std::pair<std::vector<std::pair<double,std::string> >,
+  // 	    std::vector<std::pair<double,std::string> > >
+  // take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
+  // {
+  //   auto temp = KTfwd::ms_sample_separate(rng->get(),&(mpop->diploids[deme]),nsam,remove_fixed);
+  //   if(! remove_fixed)
+  //     {
+  // 	add_fixations(&temp.first,mpop->fixations,nsam,treat_neutral::NEUTRAL);
+  // 	add_fixations(&temp.second,mpop->fixations,nsam,treat_neutral::SELECTED);
+  //     }
+  //   return temp;
+  // }
 
   std::pair< std::vector<std::pair<double,std::string > >,
 	     std::vector<std::pair<double,std::string> > >
@@ -145,8 +146,8 @@ namespace fwdpy {
     auto rv = KTfwd::fwdpp_internal::ms_sample_separate_single_deme(&(pop->diploids),indlist,2*indlist.size(),remove_fixed);
     if(!remove_fixed)
       {
-	add_fixations(&rv.first,pop->fixations,2*indlist.size(),treat_neutral::NEUTRAL);
-	add_fixations(&rv.first,pop->fixations,2*indlist.size(),treat_neutral::SELECTED);
+	KTfwd::add_fixations(&rv.first,pop->fixations,2*indlist.size(),KTfwd::treat_neutral::NEUTRAL);
+	KTfwd::add_fixations(&rv.first,pop->fixations,2*indlist.size(),KTfwd::treat_neutral::SELECTED);
       }
     return rv;
   }

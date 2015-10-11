@@ -5832,7 +5832,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2evolve_pops_more_t(CYTHON_UNUSED PyObje
  * ##These fxns make calls to the C++ layer
  * 
  * def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  */
 
@@ -5934,12 +5934,12 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ms_sample_single_deme(CYTHON_UNUSED PyO
   /* "fwdpy/sampling.pyx":11
  * 
  * def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))             # <<<<<<<<<<<<<<
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))             # <<<<<<<<<<<<<<
  * 
  * def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(fwdpy::take_sample_from_pop(__pyx_v_rng->thisptr, __pyx_v_pop->pop.get(), __pyx_v_nsam, ((int const )__pyx_v_removeFixed))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(KTfwd::sample<fwdpy::singlepop_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->pop.get()), __pyx_v_nsam, ((int const )__pyx_v_removeFixed))); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5949,7 +5949,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ms_sample_single_deme(CYTHON_UNUSED PyO
  * ##These fxns make calls to the C++ layer
  * 
  * def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  */
 
@@ -5965,7 +5965,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ms_sample_single_deme(CYTHON_UNUSED PyO
 }
 
 /* "fwdpy/sampling.pyx":13
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  * def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
@@ -6082,7 +6082,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6ms_sample_single_deme_sep(CYTHON_UNUSED
   goto __pyx_L0;
 
   /* "fwdpy/sampling.pyx":13
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  * def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
@@ -31896,7 +31896,7 @@ static int __Pyx_InitCachedConstants(void) {
  * ##These fxns make calls to the C++ layer
  * 
  * def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  */
   __pyx_tuple__65 = PyTuple_Pack(4, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_nsam, __pyx_n_s_removeFixed); if (unlikely(!__pyx_tuple__65)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -31905,7 +31905,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__66 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__65, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_ms_sample_single_deme, 10, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__66)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "fwdpy/sampling.pyx":13
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  * def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
@@ -32613,7 +32613,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   /* "fwdpy/sampling.pyx":2
  * from cython.operator cimport dereference as deref
  * from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta             # <<<<<<<<<<<<<<
- * from fwdpy.fwdpp cimport sample_separate,gsl_rng
+ * from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
  * import numpy as np
  */
   __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 2; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -32639,7 +32639,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
 
   /* "fwdpy/sampling.pyx":4
  * from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta
- * from fwdpy.fwdpp cimport sample_separate,gsl_rng
+ * from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
  * import numpy as np             # <<<<<<<<<<<<<<
  * import pandas as pd
  * 
@@ -32650,7 +32650,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/sampling.pyx":5
- * from fwdpy.fwdpp cimport sample_separate,gsl_rng
+ * from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
  * import numpy as np
  * import pandas as pd             # <<<<<<<<<<<<<<
  * 
@@ -32665,7 +32665,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * ##These fxns make calls to the C++ layer
  * 
  * def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_5ms_sample_single_deme, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -32674,7 +32674,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/sampling.pyx":13
- *     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+ *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  * def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):             # <<<<<<<<<<<<<<
  *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
