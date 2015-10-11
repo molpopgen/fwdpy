@@ -11,8 +11,13 @@ simplifying the API considerably over the "raw" fwdpp API.
 """
 
 from libcpp cimport bool
+from libcpp.utility cimport pair
+from libcpp.string cimport string
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist
+
+cdef extern from "gsl/gsl_rng.h" nogil:
+    ctypedef struct gsl_rng
 
 ##We will expose some low-level types from fwdpp:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
@@ -32,6 +37,12 @@ cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
         unsigned n
         vector[cpplist[popgenmut].iterator] mutations
         vector[cpplist[popgenmut].iterator] smutations
+
+cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
+    ctypedef vector[pair[double,string]] sample_t
+    ctypedef pair[sample_t,sample_t] sep_sample_t
+    sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
+    sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed)
 
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":

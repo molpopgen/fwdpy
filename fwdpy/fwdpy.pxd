@@ -5,7 +5,7 @@ from libcpp.memory cimport shared_ptr
 from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
-from fwdpy.fwdpp cimport popgenmut,gamete_base
+from fwdpy.fwdpp cimport popgenmut,gamete_base,gsl_rng
 
 ##Create hooks to C++ types
 
@@ -49,7 +49,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         int size()
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
-
+        gsl_rng * get()
 #Now, provied definitions for classes in classes.pyx
 cdef class poptype(object):
     """

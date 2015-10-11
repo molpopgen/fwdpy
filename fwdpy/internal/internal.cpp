@@ -288,14 +288,16 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "stdexcept"
 #include "typeinfo"
 #include <list>
-#include "fwdpp/forward_types.hpp"
-#include "fwdpp/sugar/popgenmut.hpp"
-#include "fwdpp/extensions/callbacks.hpp"
-#include "internal/callbacks.hpp"
-#include "internal/internal.hpp"
 #include <utility>
 #include "string.h"
 #include <string>
+#include "gsl/gsl_rng.h"
+#include "fwdpp/forward_types.hpp"
+#include "fwdpp/sugar/popgenmut.hpp"
+#include "fwdpp/sugar/sampling.hpp"
+#include "fwdpp/extensions/callbacks.hpp"
+#include "internal/callbacks.hpp"
+#include "internal/internal.hpp"
 #include <memory>
 #include <map>
 #include "types.hpp"
@@ -535,7 +537,7 @@ struct __pyx_obj_5fwdpy_8internal_8internal_shwrappervec;
 struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper;
 
 /* "fwdpy/fwdpy.pxd":54
- * 
+ *         gsl_rng * get()
  * #Now, provied definitions for classes in classes.pyx
  * cdef class poptype(object):             # <<<<<<<<<<<<<<
  *     """
@@ -1080,13 +1082,13 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from 'libcpp' */
 
-/* Module declarations from 'fwdpy.fwdpp' */
-
 /* Module declarations from 'libcpp.utility' */
 
 /* Module declarations from 'libc.string' */
 
 /* Module declarations from 'libcpp.string' */
+
+/* Module declarations from 'fwdpy.fwdpp' */
 
 /* Module declarations from 'libcpp.memory' */
 

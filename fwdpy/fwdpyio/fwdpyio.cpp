@@ -294,8 +294,10 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <memory>
 #include <map>
 #include <list>
+#include "gsl/gsl_rng.h"
 #include "fwdpp/forward_types.hpp"
 #include "fwdpp/sugar/popgenmut.hpp"
+#include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"
 #include "internal/callbacks.hpp"
 #include "internal/internal.hpp"
@@ -559,7 +561,7 @@ struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper {
 
 
 /* "fwdpy/fwdpy.pxd":54
- * 
+ *         gsl_rng * get()
  * #Now, provied definitions for classes in classes.pyx
  * cdef class poptype(object):             # <<<<<<<<<<<<<<
  *     """

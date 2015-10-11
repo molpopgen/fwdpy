@@ -1,4 +1,6 @@
+from cython.operator cimport dereference as deref
 from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta
+from fwdpy.fwdpp cimport sample_separate,gsl_rng
 import numpy as np
 import pandas as pd
 
@@ -9,12 +11,12 @@ def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed)
     return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
 
 def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
-    return take_sample_from_pop_sep(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+    return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
 def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme):
     if deme >= len(pop):
         raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
-    return take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed), deme)
+    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
 
 cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     singlepop pop,
