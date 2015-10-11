@@ -59,3 +59,6 @@ fwdpy.evolve_pops_more_t(rng,pop,[1000]*int(1e4) + [500]*100 + [750]*10,50,50)
 ##Check that all is cool with the data structures...
 for i in range(len(pop)):
     print pop[i].gen()," ",pop[i].popsize()," ",pop[i].sane()
+
+for i in pop:
+    print fwdpy.getmuts(i)
