@@ -132,9 +132,9 @@ The required Python package dependencies are in the requirements.txt file that c
 What Python version?
 ==================================
 
-I'm developing the package using Python 2.7.6 on an Ubuntu machine.  To the best of my knowledge, the code should be compatible with Python 3.4.0 as well.
+I'm developing the package using Python 2.7.6 on an Ubuntu machine.  
 
-However, Cython generates unusual module names for the compiled code under Python 3.4.0, which breaks the package.  I'm looking into it, but Python 3 support may be held up for some time.
+Currently, the package is not 100% compatible with Python 3.  The goal is to make it work, though.
 
 Installation
 ==============

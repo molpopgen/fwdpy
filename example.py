@@ -1,3 +1,4 @@
+from __future__ import print_function
 import fwdpy
 import pandas
 import fwdpy.libseq
@@ -8,7 +9,7 @@ s = [fwdpy.ms_sample(rng,i,10) for i in pop]
 
 ###fxn to ask if a site is a singleton
 def isSingleton( site ):
-    ones=site[1].count('1')
+    ones=str(site[1]).count('1')
     if ones == 1:
         return True
     return False
@@ -23,23 +24,23 @@ def countDerived( sample ):
 
 #list comprehension for automatic vectorizing
 D = [fwdpy.libseq.summstats(si) for si in s]
-print D
+#print D
 
 #number of seg sites per sample
 segsites = [len(si) for si in s]
-print "S per sample =",segsites
+#print "S per sample =",segsites
 
 #number of singletons per sample
 nsing = [countDerived(si) for si in s]
-print "No. singletons per sample =",nsing
+#print "No. singletons per sample =",nsing
 
 ## remove the non-singleton sites from each sample
 sAllSing = [filter( lambda x: isSingleton(x) == True, j ) for j in s]
-print "No. singletons per sample =",[len(i) for i in sAllSing]
+#print "No. singletons per sample =",[len(i) for i in sAllSing]
 
 ##Remove the singletons
 sNoSing = [filter( lambda x: isSingleton(x) == False, j ) for j in s]
-print "No. non-singletons per sample =",[len(i) for i in sNoSing]
+#print "No. non-singletons per sample =",[len(i) for i in sNoSing]
 
 ##Get xtra info for each mutation in the sample
 sh = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]
@@ -47,7 +48,7 @@ sh = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]
 ##Add a column to each DataFrame specifying the mutation position, count of derived state, and a "replicate ID"
 for i in range(len(sh)):
     sh[i]['pos']=[x[0] for x in s[i]]
-    sh[i]['freq']=[ x[1].count('1') for x in s[i]]
+    sh[i]['freq']=[ str(x[1]).count('1') for x in s[i]]
     sh[i]['id']=[i]*len(sh[i].index)
 
 ##Write all DataFrames to a file
@@ -57,8 +58,8 @@ pandas.concat(sh).to_csv("test.csv",sep="\t",index=False)
 fwdpy.evolve_pops_more_t(rng,pop,[1000]*int(1e4) + [500]*100 + [750]*10,50,50)
 
 ##Check that all is cool with the data structures...
-for i in range(len(pop)):
-    print pop[i].gen()," ",pop[i].popsize()," ",pop[i].sane()
+#for i in range(len(pop)):
+    #print pop[i].gen()," ",pop[i].popsize()," ",pop[i].sane()
 
-for i in pop:
-    print fwdpy.getmuts(i)
+#for i in pop:
+    #print fwdpy.getmuts(i)

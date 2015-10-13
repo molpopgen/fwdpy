@@ -1,1 +1,1 @@
-from libseq import *
+from .libseq import *
