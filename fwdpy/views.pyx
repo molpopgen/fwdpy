@@ -46,7 +46,9 @@ def view_mutations( poptype p ):
         return view_mutations_singlepop(p)
     elif isinstance(p,metapop):
         return view_mutations_metapop(p)
-
+    else:
+        raise RuntimeError("view_mutations: unsupported poptype")
+    
 cdef view_gametes_details( cpplist[gamete_t].iterator beg,
                            cpplist[gamete_t].iterator end ):
     rv=[]
@@ -71,6 +73,8 @@ def view_gametes( poptype p ):
         return view_gametes_singlepop(p)
     elif isinstance(p,metapop):
         return view_gametes_metapop(p)
+    else:
+        raise RuntimeError("view_gametes: unsupported poptype")
 
 ##This really should be const...
 cdef view_diploids_details( vector[diploid_t] & diploids,
@@ -98,3 +102,5 @@ def view_diploids( poptype p, list indlist, deme = None ):
         if deme is None:
             raise RuntimeError("view_diploids: deme index required for metapopulation")
         return view_diploids_metapop(p,indlist,deme)
+    else:
+        raise RuntimeError("view_diploids: unsupported poptype")
