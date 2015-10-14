@@ -18,7 +18,7 @@ cdef get_gamete( const cpplist[gamete_t].iterator & itr ):
     while beg != end:
         selected.append(get_mutation(deref(beg)))
         inc(beg)
-    return {'neutral':neutral,'selected':selected}
+    return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
 
 cdef get_diploid( const vector[diploid_t].iterator itr ):
     return {'chrom0':get_gamete(deref(itr).first),

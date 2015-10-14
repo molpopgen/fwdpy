@@ -16129,6 +16129,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_gamete(std::list<fwdpy::gamete_t> ::i
   PyObject *__pyx_t_1 = NULL;
   int __pyx_t_2;
   int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -16243,7 +16244,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_gamete(std::list<fwdpy::gamete_t> ::i
  *     while beg != end:
  *         selected.append(get_mutation(deref(beg)))             # <<<<<<<<<<<<<<
  *         inc(beg)
- *     return {'neutral':neutral,'selected':selected}
+ *     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
  */
     __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_get_mutation((*__pyx_v_beg)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
@@ -16254,7 +16255,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_gamete(std::list<fwdpy::gamete_t> ::i
  *     while beg != end:
  *         selected.append(get_mutation(deref(beg)))
  *         inc(beg)             # <<<<<<<<<<<<<<
- *     return {'neutral':neutral,'selected':selected}
+ *     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
  * 
  */
     (__pyx_v_beg++);
@@ -16263,13 +16264,17 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_gamete(std::list<fwdpy::gamete_t> ::i
   /* "fwdpy/views.pyx":21
  *         selected.append(get_mutation(deref(beg)))
  *         inc(beg)
- *     return {'neutral':neutral,'selected':selected}             # <<<<<<<<<<<<<<
+ *     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}             # <<<<<<<<<<<<<<
  * 
  * cdef get_diploid( const vector[diploid_t].iterator itr ):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int((*__pyx_v_itr).n); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_n, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_neutral, __pyx_v_neutral) < 0) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_selected, __pyx_v_selected) < 0) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_1;
@@ -16287,6 +16292,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_gamete(std::list<fwdpy::gamete_t> ::i
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("fwdpy.fwdpy.get_gamete", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -16298,7 +16304,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_gamete(std::list<fwdpy::gamete_t> ::i
 }
 
 /* "fwdpy/views.pyx":23
- *     return {'neutral':neutral,'selected':selected}
+ *     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
  * 
  * cdef get_diploid( const vector[diploid_t].iterator itr ):             # <<<<<<<<<<<<<<
  *     return {'chrom0':get_gamete(deref(itr).first),
@@ -16346,7 +16352,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_diploid(std::vector<fwdpy::diploid_t>
   goto __pyx_L0;
 
   /* "fwdpy/views.pyx":23
- *     return {'neutral':neutral,'selected':selected}
+ *     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
  * 
  * cdef get_diploid( const vector[diploid_t].iterator itr ):             # <<<<<<<<<<<<<<
  *     return {'chrom0':get_gamete(deref(itr).first),
