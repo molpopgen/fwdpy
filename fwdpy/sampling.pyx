@@ -1,5 +1,4 @@
 from cython.operator cimport dereference as deref
-from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta
 from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
 import numpy as np
 import pandas as pd
@@ -118,48 +117,6 @@ def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
         get_sh_metapop(ms_sample,pop,&s,&h,&p,&a)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
 
-def diploid_view( poptype pop, list indlist, bint removeFixed = False, deme = None ):
-    """
-    Get detailed information about a list of diploids.
-
-    :param pop: A :class:`poptype`
-    :param indlist: A list of *indexes* of individuals to sample. (Start counting from 0.)
-    :param removeFixed: If non-zero, fixations will be excluded.
-    :param deme: If pop is of type :class:`metapop`, deme is the index of the sub-population from which to get the individuals
-
-    :return: A pandas.DataFrame containing information about each mutation for each individual in indlist.
-
-    :rtype: pandas.DataFrame
-
-    :raises: IndexError if any item in indlist is out of range, or if deme is out of range.
-
-    .. note:: This return value of this function does not allow the calculation of fixation times.
-       In order to do that, a change must be made to fwdpp, which may or may not happen
-       soon.
-
-    Example:
-
-    >>> import fwdpy as fp
-    >>> import numpy as np
-    >>> rng = fp.GSLrng(100)
-    >>> nregions = [fp.Region(0,1,1),fp.Region(2,3,1)]
-    >>> sregions = [fp.ExpS(1,2,1,-0.1),fp.ExpS(1,2,0.01,0.001)]
-    >>> rregions = [fp.Region(0,3,1)]
-    >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> # Evolve for 5N generations initially
-    >>> popsizes=np.tile(popsizes,10000)
-    >>> pops = fp.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> #Take a "view" of the first 5 diploids:
-    >>> view = fp.diploid_view(pops[0],[0,1,2,3,4])
-    """
-    if isinstance(pop,singlepop):
-        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [view_single(pop,j,removeFixed) for j in indlist]] )
-    elif isinstance(pop,metapop):
-        if deme is None:
-            raise RuntimeError("deme may not be set to None when taking a view from a meta-population")
-        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [view_meta(pop,j,removeFixed,deme) for j in indlist]] )
-    else:
-        raise ValueError("diploid_view: type of pop is not supported")
 
 ###### Functions for manipulating samples.
 def nderived_site(tuple site):
