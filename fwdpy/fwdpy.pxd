@@ -95,8 +95,11 @@ cdef class mpopvec(popcont):
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
+##Define some low-level functions that may be useful for others
+cdef get_mutation( const cpplist[popgenmut].iterator & )
+cdef get_gamete( const cpplist[gamete_t].iterator & )
+cdef get_diploid( const vector[diploid_t].iterator itr )
 
-    
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
