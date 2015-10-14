@@ -97,7 +97,9 @@ cdef class GSLrng:
 
 
     
-##Now, wrap the functions
+##Now, wrap the functions.
+##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
+##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
 cdef extern from "neutral.hpp" namespace "fwdpy" nogil:
     void evolve_pop(GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops, const vector[unsigned] nlist, const double & theta, const double & rho)
 
