@@ -144,7 +144,7 @@ def view_diploids( poptype p, list indlist, deme = None ):
 
     :param p: a :class:`fwdpy.fwdpy.poptype`
 
-    :rtype: a list of dictionaries.  Each dictionary contains mutation position, count (n), origin time (g), effect size (s), and dominance (h)
+    :rtype: a list of dictionaries.  See Note.
 
     Example:
 
