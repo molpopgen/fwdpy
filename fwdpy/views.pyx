@@ -35,7 +35,6 @@ cdef view_gametes_details( cpplist[gamete_t].iterator beg,
                            cpplist[gamete_t].iterator end ):
     rv=[]
     while beg != end:
-        print "here!"
         rv.append(get_gamete(beg))
         inc(beg)
     return rv
@@ -62,6 +61,30 @@ def view_mutations_metapop(metapop p):
     return view_mutations_details(beg,end)
 
 def view_mutations( poptype p ):
+    """
+    Get detailed list of all mutations in the population
+
+    :param p: a :class:`fwdpy.fwdpy.poptype`
+
+    :rtype: a list of dictionaries.  See Note.
+
+    Example:
+
+    >>> import fwdpy
+    >>> import numpy as np
+    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
+    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
+    >>> rregions = [fwdpy.Region(0,3,1)]
+    >>> rng = fwdpy.GSLrng(100)
+    >>> popsizes = np.array([1000],dtype=np.uint32)
+    >>> popsizes=np.tile(popsizes,10000)
+    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> muts = [fwdpy.view_mutations(i) for i in pops]
+    >>> type(muts[0])
+    <type 'list'>
+    >>> type(muts[0][0])
+    <type 'dict'>
+    """
     if isinstance(p,singlepop):
         return view_mutations_singlepop(p)
     elif isinstance(p,metapop):
@@ -80,6 +103,26 @@ def view_gametes_metapop( metapop p ):
     return view_gametes_details(beg,end)
 
 def view_gametes( poptype p ):
+    """
+    Get detailed list of all gametes in the population
+
+    :param p: a :class:`fwdpy.fwdpy.poptype`
+
+    :rtype: a list of dictionaries.  See note.
+
+    Example:
+
+    >>> import fwdpy
+    >>> import numpy as np
+    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
+    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
+    >>> rregions = [fwdpy.Region(0,3,1)]
+    >>> rng = fwdpy.GSLrng(100)
+    >>> popsizes = np.array([1000],dtype=np.uint32)
+    >>> popsizes=np.tile(popsizes,10000)
+    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> dips = [fwdpy.view_gametes(i) for i in pops]
+    """
     if isinstance(p,singlepop):
         return view_gametes_singlepop(p)
     elif isinstance(p,metapop):
@@ -96,6 +139,26 @@ def view_diploids_metapop( metapop p, list indlist, unsigned deme ):
     return view_diploids_details(p.mpop.get().diploids[deme],indlist)
     
 def view_diploids( poptype p, list indlist, deme = None ):
+    """
+    Get detailed list of a set of diploids in the population
+
+    :param p: a :class:`fwdpy.fwdpy.poptype`
+
+    :rtype: a list of dictionaries.  Each dictionary contains mutation position, count (n), origin time (g), effect size (s), and dominance (h)
+
+    Example:
+
+    >>> import fwdpy
+    >>> import numpy as np
+    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
+    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
+    >>> rregions = [fwdpy.Region(0,3,1)]
+    >>> rng = fwdpy.GSLrng(100)
+    >>> popsizes = np.array([1000],dtype=np.uint32)
+    >>> popsizes=np.tile(popsizes,10000)
+    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> gams = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
+    """
     if isinstance(p,singlepop):
         return view_diploids_singlepop(p,indlist)
     elif isinstance(p,metapop):
