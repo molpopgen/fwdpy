@@ -31,6 +31,26 @@ cdef view_mutations_details(cpplist[popgenmut].iterator beg,cpplist[popgenmut].i
         inc(beg)
     return rv
 
+cdef view_gametes_details( cpplist[gamete_t].iterator beg,
+                           cpplist[gamete_t].iterator end ):
+    rv=[]
+    while beg != end:
+        print "here!"
+        rv.append(get_gamete(beg))
+        inc(beg)
+    return rv
+
+##This really should be const...
+cdef view_diploids_details( vector[diploid_t] & diploids,
+                            const vector[unsigned] indlist ):
+    cdef vector[diploid_t].iterator itr = diploids.begin()
+    rv=[]
+    for i in range(indlist.size()):
+        if i >= diploids.size():
+            raise IndexError("view_diploids: index out of range")
+        rv.append(get_diploid(itr+indlist[i]))
+    return rv
+
 def view_mutations_singlepop(singlepop p):
     cdef cpplist[popgenmut].iterator beg = p.pop.get().mutations.begin()
     cdef cpplist[popgenmut].iterator end = p.pop.get().mutations.end()
@@ -49,15 +69,6 @@ def view_mutations( poptype p ):
     else:
         raise RuntimeError("view_mutations: unsupported poptype")
     
-cdef view_gametes_details( cpplist[gamete_t].iterator beg,
-                           cpplist[gamete_t].iterator end ):
-    rv=[]
-    while beg != end:
-        print "here!"
-        rv.append(get_gamete(beg))
-        inc(beg)
-    return rv
-
 def view_gametes_singlepop( singlepop p ):
     cdef cpplist[gamete_t].iterator beg = p.pop.get().gametes.begin()
     cdef cpplist[gamete_t].iterator end = p.pop.get().gametes.end()
@@ -75,17 +86,6 @@ def view_gametes( poptype p ):
         return view_gametes_metapop(p)
     else:
         raise RuntimeError("view_gametes: unsupported poptype")
-
-##This really should be const...
-cdef view_diploids_details( vector[diploid_t] & diploids,
-                            const vector[unsigned] indlist ):
-    cdef vector[diploid_t].iterator itr = diploids.begin()
-    rv=[]
-    for i in range(indlist.size()):
-        if i >= diploids.size():
-            raise IndexError("view_diploids: index out of range")
-        rv.append(get_diploid(itr+indlist[i]))
-    return rv
 
 def view_diploids_singlepop( singlepop p, list indlist ):
     return view_diploids_details(p.pop.get().diploids,indlist)
