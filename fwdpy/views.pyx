@@ -157,7 +157,7 @@ def view_diploids( poptype p, list indlist, deme = None ):
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> popsizes=np.tile(popsizes,10000)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> gams = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
+    >>> dips = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
     """
     if isinstance(p,singlepop):
         return view_diploids_singlepop(p,indlist)
