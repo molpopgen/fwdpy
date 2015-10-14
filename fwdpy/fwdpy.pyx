@@ -16,6 +16,7 @@ include "slim.pyx"
 include "trajectories.pyx"
 include "copy.pyx"
 include "getmuts.pyx"
+include "views.pyx"
 
 def pkg_dependencies():
     """
