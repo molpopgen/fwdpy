@@ -179,7 +179,7 @@ def view_diploids_singlepop( singlepop p, list indlist ):
     
 def view_diploids_metapop( metapop p, list indlist, unsigned deme ):
     if deme >= len(p.popsizes()):
-        raise RuntimeError("view_diploids: deme index out of range")
+        raise IndexError("view_diploids: deme index out of range")
     return view_diploids_details(p.mpop.get().diploids[deme],indlist)
     
 def view_diploids( poptype p, list indlist, deme = None ):
