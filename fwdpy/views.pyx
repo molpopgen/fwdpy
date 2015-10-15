@@ -256,7 +256,7 @@ def view_diploids( poptype p, list indlist, deme = None ):
      ...
     IndexError: view_diploids: deme index out of range
 
-    It will also thrown an exception if an individual's index is out of range:
+    It will also throw an exception if an individual's index is out of range:
 
     >>> dips = [fwdpy.view_diploids(i,[0,101,201,301,1000],0) for i in mpops]
     Traceback (most recent call last):
