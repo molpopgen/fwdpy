@@ -20,7 +20,7 @@ cdef get_gamete( const cpplist[gamete_t].iterator & itr ):
         inc(beg)
     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
 
-cdef get_diploid( const dipvector_t_itr itr ):
+cdef get_diploid( const dipvector_t_itr & itr ):
     return {'chrom0':get_gamete(deref(itr).first),
             'chrom1':get_gamete(deref(itr).second)}
 
@@ -53,14 +53,35 @@ cdef view_diploids_details( vector[diploid_t] & diploids,
 def view_mutations_singlepop(singlepop p):
     cdef mlist_t_itr beg = p.pop.get().mutations.begin()
     cdef mlist_t_itr end = p.pop.get().mutations.end()
-    return view_mutations_details(beg,end)
+    return sorted(view_mutations_details(beg,end),key = lambda x:x['pos'])
 
-def view_mutations_metapop(metapop p):
-    cdef mlist_t_itr beg = p.mpop.get().mutations.begin()
-    cdef mlist_t_itr end = p.mpop.get().mutations.end()
-    return view_mutations_details(beg,end)
+def view_mutations_metapop(metapop p,deme):
+    if deme >= len(p.popsizes()):
+        raise RuntimeError("view_mutations: deme index out of range")
+    #get the gametes from this population
+    gams = view_gametes_metapop(p,deme)
+    #extract the mutations from each gamete
+    allmuts = []
+    umuts = []
+    for g in gams:
+        for m in g['neutral']:
+            allmuts.append(m)
+            if umuts.count(m) == 0:
+                umuts.append(m)
+        for m in g['selected']:
+            allmuts.append(m)
+            if umuts.count(m) == 0:
+                umuts.append(m)
 
-def view_mutations( poptype p ):
+    rv = []
+    dummy=0
+    for i in umuts:
+        rv.append(i)
+        rv[dummy]['n'] = allmuts.count(i)
+        dummy+=1
+    return sorted(rv, key = lambda x : x['pos'])
+
+def view_mutations( poptype p, deme = None ):
     """
     Get detailed list of all mutations in the population
 
@@ -84,11 +105,21 @@ def view_mutations( poptype p ):
     <type 'list'>
     >>> type(muts[0][0])
     <type 'dict'>
+
+    Metapopulation example:
+
+    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
+    >>> muts_deme_0 = [fwdpy.view_mutations(i,0) for i in mpops]
+    >>> muts_deme_1 = [fwdpy.view_mutations(i,1) for i in mpops]
+    
     """
     if isinstance(p,singlepop):
         return view_mutations_singlepop(p)
     elif isinstance(p,metapop):
-        return view_mutations_metapop(p)
+        print "deme = ",deme
+        if deme is None:
+            raise RuntimeError("view_mutations: deme cannot be none for metapops")
+        return view_mutations_metapop(p,deme)
     else:
         raise RuntimeError("view_mutations: unsupported poptype")
     
