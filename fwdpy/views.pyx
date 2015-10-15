@@ -238,6 +238,13 @@ def view_diploids( poptype p, list indlist, deme = None ):
     Traceback (most recent call last):
      ...
     IndexError: view_diploids: deme index out of range
+
+    Finally, an exception will be thrown if deme is None and p is a :class:`fwdpy.fwdpy.metapop`:
+
+    >>> dips = [fwdpy.view_diploids(i,[1000]) for i in mpops]
+    Traceback (most recent call last):
+     ...
+    RuntimeError: view_diploids: deme index required for metapopulation
     """
     if isinstance(p,singlepop):
         return view_diploids_singlepop(p,indlist)
