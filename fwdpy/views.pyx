@@ -116,7 +116,6 @@ def view_mutations( poptype p, deme = None ):
     if isinstance(p,singlepop):
         return view_mutations_singlepop(p)
     elif isinstance(p,metapop):
-        print "deme = ",deme
         if deme is None:
             raise RuntimeError("view_mutations: deme cannot be none for metapops")
         return view_mutations_metapop(p,deme)
@@ -126,7 +125,7 @@ def view_mutations( poptype p, deme = None ):
 def view_gametes_singlepop( singlepop p ):
     cdef glist_t_itr beg = p.pop.get().gametes.begin()
     cdef glist_t_itr end = p.pop.get().gametes.end()
-    return view_gametes_details(beg,end)
+    return sorted(view_gametes_details(beg,end),key=lambda x:x['n'],reverse=True)
 
 def view_gametes_metapop( metapop p, deme):
     if deme >= len(p.popsizes()):
@@ -149,7 +148,7 @@ def view_gametes_metapop( metapop p, deme):
         temp1.append(i)
         temp1[dummy]['n'] = allgams.count(i)
         dummy+=1
-    return temp1
+    return sorted(temp1,key=lambda x:x['n'],reverse=True)
 
 def view_gametes( poptype p ,deme = None):
     """
