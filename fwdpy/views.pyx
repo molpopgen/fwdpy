@@ -98,24 +98,26 @@ def view_gametes_singlepop( singlepop p ):
     return view_gametes_details(beg,end)
 
 def view_gametes_metapop( metapop p, deme):
-    if deme >= sum(p.popsizes()):
+    if deme >= len(p.popsizes()):
         raise IndexError("view_gametes: deme index out of ramge")
-    temp1 = view_diploids(p,range(2*p.mpop.get().diploids[deme].size()),deme)
+    temp1 = view_diploids(p,range(p.mpop.get().diploids[deme].size()),deme)
     #Get unique list of haplotypes
     temp2 = []
+    temp3 = []
     for i in temp1:
         if temp2.count(i['chrom0'])==0:
             temp2.append(i['chrom0'])
         if temp2.count(i['chrom1'])==0:
             temp2.append(i['chrom1'])
-    #clear temp1 and fill it with unique gametess + their counds in this deme
-    temp1 = []
+        temp3.append(i['chrom0'])
+        temp3.append(i['chrom1'])
+    #clear temp1 and fill it with unique gametes + their counts in this deme
+    temp1=[]
     dummy=0
     for i in temp2:
         temp1.append(i)
-        temp1[dummy]['n'] = temp2.count(i)
-    #clear temp2
-    temp2 = []
+        temp1[dummy]['n'] = temp3.count(i)
+        dummy+=1
     return temp1
 
 def view_gametes( poptype p ,deme = None):
@@ -142,6 +144,7 @@ def view_gametes( poptype p ,deme = None):
 
     Example for a metapopulation:
 
+    >>> from __future__ import print_function
     >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
     >>> sregions = [fwdpy.ExpS(1,2,1,-0.001,0.0),fwdpy.ExpS(1,2,0.01,0.001)]
     >>> rregions = [fwdpy.Region(0,3,1)]
@@ -152,11 +155,17 @@ def view_gametes( poptype p ,deme = None):
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
-    >>> gams = [fwdpy.view_gametes(i,0) for i in pops]
+    >>> gams = [fwdpy.view_gametes(i,0) for i in mpops]
+    >>> #The sum of the gamete counts must be 2*(deme size):
     >>> n=0
     >>> for i in gams[0]: n += i['n']
     >>> n
     2000
+    >>> #Exceptions will be thrown if deme is out of range:
+    >>> gams = [fwdpy.view_gametes(i,2) for i in mpops]
+    Traceback (most recent call last):
+     ...
+    IndexError: view_gametes: deme index out of ramge
     """
     if isinstance(p,singlepop):
         return view_gametes_singlepop(p)
