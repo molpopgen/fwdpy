@@ -97,20 +97,37 @@ def view_gametes_singlepop( singlepop p ):
     cdef cpplist[gamete_t].iterator end = p.pop.get().gametes.end()
     return view_gametes_details(beg,end)
 
-def view_gametes_metapop( metapop p ):
-    cdef cpplist[gamete_t].iterator beg = p.mpop.get().gametes.begin()
-    cdef cpplist[gamete_t].iterator end = p.mpop.get().gametes.end()
-    return view_gametes_details(beg,end)
+def view_gametes_metapop( metapop p, deme):
+    if deme >= sum(p.popsizes()):
+        raise IndexError("view_gametes: deme index out of ramge")
+    temp1 = view_diploids(p,range(2*p.mpop.get().diploids[deme].size()),deme)
+    #Get unique list of haplotypes
+    temp2 = []
+    for i in temp1:
+        if temp2.count(i['chrom0'])==0:
+            temp2.append(i['chrom0'])
+        if temp2.count(i['chrom1'])==0:
+            temp2.append(i['chrom1'])
+    #clear temp1 and fill it with unique gametess + their counds in this deme
+    temp1 = []
+    dummy=0
+    for i in temp2:
+        temp1.append(i)
+        temp1[dummy]['n'] = temp2.count(i)
+    #clear temp2
+    temp2 = []
+    return temp1
 
-def view_gametes( poptype p ):
+def view_gametes( poptype p ,deme = None):
     """
     Get detailed list of all gametes in the population
 
     :param p: a :class:`fwdpy.fwdpy.poptype`
+    :param deme: If p is a :class:`fwdpy.fwdpy.metapop`, deme is the index of the deme to view
 
     :rtype: a list of dictionaries.  See note.
 
-    Example:
+    Example for a single deme:
 
     >>> import fwdpy
     >>> import numpy as np
@@ -122,11 +139,29 @@ def view_gametes( poptype p ):
     >>> popsizes=np.tile(popsizes,10000)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_gametes(i) for i in pops]
+
+    Example for a metapopulation:
+
+    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
+    >>> sregions = [fwdpy.ExpS(1,2,1,-0.001,0.0),fwdpy.ExpS(1,2,0.01,0.001)]
+    >>> rregions = [fwdpy.Region(0,3,1)]
+    >>> rng = fwdpy.GSLrng(100)
+    >>> popsizes = np.array([1000],dtype=np.uint32)
+    >>> # Evolve for 5N generations initially
+    >>> popsizes=np.tile(popsizes,10000)
+    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
+    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
+    >>> gams = [fwdpy.view_gametes(i,0) for i in pops]
+    >>> n=0
+    >>> for i in gams[0]: n += i['n']
+    >>> n
+    2000
     """
     if isinstance(p,singlepop):
         return view_gametes_singlepop(p)
     elif isinstance(p,metapop):
-        return view_gametes_metapop(p)
+        return view_gametes_metapop(p,deme)
     else:
         raise RuntimeError("view_gametes: unsupported poptype")
 

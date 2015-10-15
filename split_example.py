@@ -15,4 +15,12 @@ mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.00
 samples = [fwdpy.get_samples(rng,i,500,deme=0) for i in mpops]
 
 print samples
+gams = [fwdpy.view_gametes(i,0) for i in pops]
+
+n=0
+for i in gams[0]:
+    n+=i['n']
+
+print n
+
 
