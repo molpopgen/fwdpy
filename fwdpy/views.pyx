@@ -1,11 +1,11 @@
 from cython.operator import dereference as deref,postincrement as inc
 
-cdef get_mutation( const cpplist[popgenmut].iterator & itr):
+cdef get_mutation( const mlist_t_itr & itr):
     return {'pos':deref(itr).pos,'n':deref(itr).n,'g':deref(itr).g,'s':deref(itr).s,'h':deref(itr).h}
 
 cdef get_gamete( const cpplist[gamete_t].iterator & itr ):
-    cdef vector[cpplist[popgenmut].iterator].iterator beg = deref(itr).mutations.begin()
-    cdef vector[cpplist[popgenmut].iterator].iterator end = deref(itr).mutations.end()
+    cdef vector[mlist_t_itr].iterator beg = deref(itr).mutations.begin()
+    cdef vector[mlist_t_itr].iterator end = deref(itr).mutations.end()
     neutral = []
     selected = []
     
@@ -20,11 +20,11 @@ cdef get_gamete( const cpplist[gamete_t].iterator & itr ):
         inc(beg)
     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
 
-cdef get_diploid( const vector[diploid_t].iterator itr ):
+cdef get_diploid( const dipvector_t_itr itr ):
     return {'chrom0':get_gamete(deref(itr).first),
             'chrom1':get_gamete(deref(itr).second)}
 
-cdef view_mutations_details(cpplist[popgenmut].iterator beg,cpplist[popgenmut].iterator end):
+cdef view_mutations_details(mlist_t_itr beg,mlist_t_itr end):
     rv=[]
     while beg != end:
         rv.append(get_mutation(beg))
@@ -42,7 +42,7 @@ cdef view_gametes_details( cpplist[gamete_t].iterator beg,
 ##This really should be const...
 cdef view_diploids_details( vector[diploid_t] & diploids,
                             const vector[unsigned] indlist ):
-    cdef vector[diploid_t].iterator itr = diploids.begin()
+    cdef dipvector_t_itr itr = diploids.begin()
     rv=[]
     for i in range(indlist.size()):
         if indlist[i] >= diploids.size():
@@ -51,13 +51,13 @@ cdef view_diploids_details( vector[diploid_t] & diploids,
     return rv
 
 def view_mutations_singlepop(singlepop p):
-    cdef cpplist[popgenmut].iterator beg = p.pop.get().mutations.begin()
-    cdef cpplist[popgenmut].iterator end = p.pop.get().mutations.end()
+    cdef mlist_t_itr beg = p.pop.get().mutations.begin()
+    cdef mlist_t_itr end = p.pop.get().mutations.end()
     return view_mutations_details(beg,end)
 
 def view_mutations_metapop(metapop p):
-    cdef cpplist[popgenmut].iterator beg = p.mpop.get().mutations.begin()
-    cdef cpplist[popgenmut].iterator end = p.mpop.get().mutations.end()
+    cdef mlist_t_itr beg = p.mpop.get().mutations.begin()
+    cdef mlist_t_itr end = p.mpop.get().mutations.end()
     return view_mutations_details(beg,end)
 
 def view_mutations( poptype p ):
@@ -93,8 +93,8 @@ def view_mutations( poptype p ):
         raise RuntimeError("view_mutations: unsupported poptype")
     
 def view_gametes_singlepop( singlepop p ):
-    cdef cpplist[gamete_t].iterator beg = p.pop.get().gametes.begin()
-    cdef cpplist[gamete_t].iterator end = p.pop.get().gametes.end()
+    cdef glist_t_itr beg = p.pop.get().gametes.begin()
+    cdef glist_t_itr end = p.pop.get().gametes.end()
     return view_gametes_details(beg,end)
 
 def view_gametes_metapop( metapop p, deme):
