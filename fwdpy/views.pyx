@@ -102,21 +102,21 @@ def view_gametes_metapop( metapop p, deme):
         raise IndexError("view_gametes: deme index out of ramge")
     temp1 = view_diploids(p,range(p.mpop.get().diploids[deme].size()),deme)
     #Get unique list of haplotypes
-    temp2 = []
-    temp3 = []
+    unique_gams = []
+    allgams = []
     for i in temp1:
-        if temp2.count(i['chrom0'])==0:
-            temp2.append(i['chrom0'])
-        if temp2.count(i['chrom1'])==0:
-            temp2.append(i['chrom1'])
-        temp3.append(i['chrom0'])
-        temp3.append(i['chrom1'])
+        if unique_gams.count(i['chrom0'])==0:
+            unique_gams.append(i['chrom0'])
+        if unique_gams.count(i['chrom1'])==0:
+            unique_gams.append(i['chrom1'])
+        allgams.append(i['chrom0'])
+        allgams.append(i['chrom1'])
     #clear temp1 and fill it with unique gametes + their counts in this deme
     temp1=[]
     dummy=0
-    for i in temp2:
+    for i in unique_gams:
         temp1.append(i)
-        temp1[dummy]['n'] = temp3.count(i)
+        temp1[dummy]['n'] = allgams.count(i)
         dummy+=1
     return temp1
 
