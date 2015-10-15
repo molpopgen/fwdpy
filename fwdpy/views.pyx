@@ -45,7 +45,7 @@ cdef view_diploids_details( vector[diploid_t] & diploids,
     cdef vector[diploid_t].iterator itr = diploids.begin()
     rv=[]
     for i in range(indlist.size()):
-        if i >= diploids.size():
+        if indlist[i] >= diploids.size():
             raise IndexError("view_diploids: index out of range")
         rv.append(get_diploid(itr+indlist[i]))
     return rv
@@ -202,6 +202,11 @@ def view_diploids( poptype p, list indlist, deme = None ):
     >>> popsizes=np.tile(popsizes,10000)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
+    >>> #Will raise exception if a diploid index is out of range:
+    >>> dips = [fwdpy.view_diploids(i,[0,101,201,301,1000]) for i in pops]
+    Traceback (most recent call last):
+     ...
+    IndexError: view_diploids: index out of ramge
     """
     if isinstance(p,singlepop):
         return view_diploids_singlepop(p,indlist)
