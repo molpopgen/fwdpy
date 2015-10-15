@@ -144,16 +144,6 @@ def view_gametes( poptype p ,deme = None):
 
     Example for a metapopulation:
 
-    >>> from __future__ import print_function
-    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
-    >>> sregions = [fwdpy.ExpS(1,2,1,-0.001,0.0),fwdpy.ExpS(1,2,0.01,0.001)]
-    >>> rregions = [fwdpy.Region(0,3,1)]
-    >>> rng = fwdpy.GSLrng(100)
-    >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> # Evolve for 5N generations initially
-    >>> popsizes=np.tile(popsizes,10000)
-    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
     >>> gams = [fwdpy.view_gametes(i,0) for i in mpops]
     >>> #The sum of the gamete counts must be 2*(deme size):
@@ -161,15 +151,26 @@ def view_gametes( poptype p ,deme = None):
     >>> for i in gams[0]: n += i['n']
     >>> n
     2000
-    >>> #Exceptions will be thrown if deme is out of range:
+
+    Exceptions will be thrown if deme is out of range:
+    
     >>> gams = [fwdpy.view_gametes(i,2) for i in mpops]
     Traceback (most recent call last):
      ...
     IndexError: view_gametes: deme index out of ramge
+
+    An exception will be raised if deme is None when p is a :class:`fwdpy.fwdpy.metapop`
+
+    >>> gams = [fwdpy.view_gametes(i) for i in mpops]
+    Traceback (most recent call last):
+     ...
+    RuntimeError: view_gametes: deme cannot be None when p is a metapop
     """
     if isinstance(p,singlepop):
         return view_gametes_singlepop(p)
     elif isinstance(p,metapop):
+        if deme is None:
+            raise RuntimeError("view_gametes: deme cannot be None when p is a metapop")
         return view_gametes_metapop(p,deme)
     else:
         raise RuntimeError("view_gametes: unsupported poptype")
