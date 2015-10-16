@@ -98,7 +98,7 @@ def view_mutations( poptype p, deme = None ):
     >>> rregions = [fwdpy.Region(0,3,1)]
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> muts = [fwdpy.view_mutations(i) for i in pops]
     >>> type(muts[0])
@@ -168,7 +168,7 @@ def view_gametes( poptype p ,deme = None):
     >>> rregions = [fwdpy.Region(0,3,1)]
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_gametes(i) for i in pops]
 
@@ -231,7 +231,7 @@ def view_diploids( poptype p, list indlist, deme = None ):
     >>> rregions = [fwdpy.Region(0,3,1)]
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
 
