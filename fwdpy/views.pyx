@@ -1,7 +1,7 @@
 from cython.operator import dereference as deref,postincrement as inc
 
 cdef get_mutation( const mlist_t_itr & itr):
-    return {'pos':deref(itr).pos,'n':deref(itr).n,'g':deref(itr).g,'s':deref(itr).s,'h':deref(itr).h}
+    return {'pos':deref(itr).pos,'n':deref(itr).n,'g':deref(itr).g,'s':deref(itr).s,'h':deref(itr).h,'neutral':deref(itr).neutral}
 
 cdef get_gamete( const cpplist[gamete_t].iterator & itr ):
     cdef vector[mlist_t_itr].iterator beg = deref(itr).mutations.begin()
@@ -231,3 +231,6 @@ def view_diploids( poptype p, list indlist, deme = None ):
         return view_diploids_metapop(p,indlist,deme)
     else:
         raise RuntimeError("view_diploids: unsupported poptype")
+
+    
+
