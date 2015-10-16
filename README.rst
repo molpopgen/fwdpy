@@ -163,6 +163,15 @@ To uninstall:
    $ #use 'sudo' here if it is installed system-wide...
    $ pip uninstall fwdpy
 
+To build the package in place and run the unit tets:
+
+.. code-block:: bash
+
+   $ #build package locally:
+   $ python setup.py build_ext -i
+   $ #run the unit tests:
+   $ python -m unittest discover unit_test
+
 Note for developers
 =================================
 
