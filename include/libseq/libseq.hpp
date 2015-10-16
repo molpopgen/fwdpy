@@ -17,6 +17,7 @@ namespace fwdpy
     std::map<std::string,double> libseq_extra_ld_stats( const std::vector<std::pair<double,std::string> > & __data,
 							const double minfreq,
 							const double binsize );
+    std::vector<double> lhaf( const std::vector<std::pair<double,std::string> > & __data, const double l );
     std::vector< std::vector<std::pair<double,std::string> > >
     sliding_windows_cpp( const std::vector<std::pair<double,std::string> > & sample,
 			 const double window_size,

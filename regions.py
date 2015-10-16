@@ -64,4 +64,6 @@ for i in pops:
     #    print j
     dipsample =fwdpy.diploid_view_to_sample(dips)
     stats = fwdpy.libseq.summstats(dipsample['selected'])
-    print stats
+    print fwdpy.libseq.lHAF(dipsample['neutral'],1.0)
+    print fwdpy.libseq.lHAF(dipsample['neutral'],0.01)
+    #print stats

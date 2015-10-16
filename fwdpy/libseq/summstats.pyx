@@ -42,4 +42,15 @@ def hapstats(vector[pair[double,string]] data,
         return libseq_extra_ld_stats(data,minfreq,binsize)
     else:
         return libseq_extra_ld_stats(data,minfreq,binsize,gmap)
+
+def lHAF( vector[pair[double,string]] data, double l ):
+    """
+    Calculate :math:`l-HAF` from doi:10.1371/journal.pgen.1005527.g001
+
+    :param data: A sample from a population.  See :func:`fwdpy.fwdpy.get_samples` for details
+    :param l: the exponent i :math:`l-HAF`
+
+    :rtype: A list of values, which is the :math:`l-HAF` score for each haplotype 
+    """
+    return lhaf(data,l)
     
