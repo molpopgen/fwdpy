@@ -57,7 +57,7 @@ def view_mutations_singlepop(singlepop p):
 
 def view_mutations_metapop(metapop p,deme):
     if deme >= len(p.popsizes()):
-        raise RuntimeError("view_mutations: deme index out of range")
+        raise IndexError("view_mutations: deme index out of range")
     #get the gametes from this population
     gams = view_gametes_metapop(p,deme)
     #extract the mutations from each gamete
@@ -130,7 +130,7 @@ def view_gametes_singlepop( singlepop p ):
 def view_gametes_metapop( metapop p, deme):
     if deme >= len(p.popsizes()):
         raise IndexError("view_gametes: deme index out of ramge")
-    temp1 = view_diploids(p,range(p.mpop.get().diploids[deme].size()),deme)
+    temp1 = view_diploids(p,list(range(p.mpop.get().diploids[deme].size())),deme)
     #Get unique list of haplotypes
     unique_gams = []
     allgams = []
