@@ -3,7 +3,6 @@
 
 include "sregionCallbacks.pyx"
 include "slim.pyx"
-include "getmuts.pyx"
 
 cdef class region_manager_wrapper:
     def __cinit__(self):
