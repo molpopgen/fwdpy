@@ -4344,11 +4344,11 @@ else
 fi
 
 
-ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/lHap.hpp" "ac_cv_header_Sequence_SummStats_lHap_hpp" "$ac_includes_default"
-if test "x$ac_cv_header_Sequence_SummStats_lHap_hpp" = xyes; then :
+ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/lHaf.hpp" "ac_cv_header_Sequence_SummStats_lHaf_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_Sequence_SummStats_lHaf_hpp" = xyes; then :
 
 else
-  as_fn_error $? "Sequence/SummStats/lHap.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required." "$LINENO" 5
+  as_fn_error $? "Sequence/SummStats/lHaf.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required." "$LINENO" 5
 fi
 
 
