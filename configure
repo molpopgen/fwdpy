@@ -3224,11 +3224,11 @@ FWDPPVERSION=`fwdppConfig --version`
 LIBSEQVERSION=`libsequenceConfig --version`
 GSLVERSION=`gsl-config --version`
 
-if test "$FWDPPVERSION" \> "0.3.7"
+if test "$FWDPPVERSION" \> "0.3.9"
 then
 	echo "fwdpp version $FWDPPVERSION detected"
 else
-	as_fn_error $? "fwdpp >= 0.3.8 required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
+	as_fn_error $? "fwdpp >= 0.4.0 required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
 fi
 
 if test "$LIBSEQVERSION" \> "1.8.6"

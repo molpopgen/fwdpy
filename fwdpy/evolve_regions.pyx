@@ -56,7 +56,7 @@ def evolve_regions(GSLrng rng,
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> #The simulation will be for 10*N generations,
     >>> #so we replicate that value in the array
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> #Simulate 1 deme under this model.
     >>> #The total neutral mutation rate is 1e-3,
     >>> #which is also the recombination rate.
@@ -166,7 +166,7 @@ def evolve_regions_split(GSLrng rng,
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> # Evolve for 5N generations initially
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0.,0.])
@@ -182,7 +182,9 @@ def evolve_regions_split(GSLrng rng,
         if fs[i] < 0.:
             warnings.warn("f[i] < 0 will be treated as 0")
             fs[i]=0.0
-        
+    if len(nlist1) != len(nlist2):
+        raise RuntimeError("len(nlist1) must equal len(nlist2)")
+    
     mpv = mpopvec(0,[0])
     for i in range(len(pops)):
         #Step 1: Make the ith single pop the first deme in each metapop
