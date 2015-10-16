@@ -182,7 +182,9 @@ def evolve_regions_split(GSLrng rng,
         if fs[i] < 0.:
             warnings.warn("f[i] < 0 will be treated as 0")
             fs[i]=0.0
-        
+    if len(nlist1) != len(nlist2):
+        raise RuntimeError("len(nlist1) must equal len(nlist2)")
+    
     mpv = mpopvec(0,[0])
     for i in range(len(pops)):
         #Step 1: Make the ith single pop the first deme in each metapop
