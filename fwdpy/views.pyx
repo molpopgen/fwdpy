@@ -1,5 +1,16 @@
 from cython.operator import dereference as deref,postincrement as inc
 
+cdef extern from "<algorithm>" namespace "std":
+    OUTPUT move[INPUT,OUTPUT](INPUT,INPUT,OUTPUT)
+cdef extern from "<iterator>" namespace "std":
+    cdef cppclass iterator[Category,T,Distance,Pointer,Reference]:
+        pass
+    cdef cppclass output_iterator_tag:
+        pass
+    cdef cppclass back_insert_iterator[T](iterator[output_iterator_tag,void,void,void,void]):
+        pass
+    back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
+
 cdef get_mutation( const mlist_t_itr & itr):
     return {'pos':deref(itr).pos,'n':deref(itr).n,'g':deref(itr).g,'s':deref(itr).s,'h':deref(itr).h,'neutral':deref(itr).neutral}
 
@@ -232,5 +243,76 @@ def view_diploids( poptype p, list indlist, deme = None ):
     else:
         raise RuntimeError("view_diploids: unsupported poptype")
 
-    
+cdef diploid_view_to_sample_init_containers( list mutations, map[double,string] * rmap, list info, const size_t ttl_nsam ):
+    cdef map[double,string].iterator map_itr
+    cdef char ancestral = '0'
+    rmap_info = []
+    for mut in mutations:
+        map_itr = rmap.find(mut['pos'])
+        if map_itr == rmap.end():
+            rmap.insert( pair[double,string](mut['pos'],string(ttl_nsam,ancestral)) )
+            info.append(mut)
+    return info
 
+cdef diploid_view_to_sample_fill_containers_details( list mutations, map[double,string] * data, const unsigned offset ):
+    cdef char derived = '1'
+    cdef map[double,string].iterator map_itr
+    for mut in mutations:
+        map_itr = data.find(mut['pos'])
+        if map_itr == data.end():
+            raise RuntimeError("diploid_view_to_sample_fill_containers_details: fatal error due to mutation position not being found")
+        if offset >= deref(map_itr).second.size():
+            raise IndexError("diploid_view_to_sample_fill_containers_details: offset out of range")
+        deref(map_itr).second[offset]=derived
+
+cdef diploid_view_to_sample_fill_containers( list view, map[double,string] * neutral, map[double,string] * selected ): 
+    cdef unsigned I = 0
+    cdef size_t ttl_nsam = 2*len(view)
+    for dip in view:
+        diploid_view_to_sample_fill_containers_details(dip['chrom0']['neutral'],neutral,2*I)
+        diploid_view_to_sample_fill_containers_details(dip['chrom1']['neutral'],neutral,2*I+1)
+        diploid_view_to_sample_fill_containers_details(dip['chrom0']['selected'],selected,2*I)
+        diploid_view_to_sample_fill_containers_details(dip['chrom1']['selected'],selected,2*I+1)
+        I+=1
+    if I != len(view):
+        raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")
+                        
+ctypedef vector[pair[double,string]].iterator vec_itr
+ctypedef vector[pair[double,string]] fwdpy_sample_t
+ctypedef back_insert_iterator[fwdpy_sample_t] back_insert_itr
+
+#This doesn't appear to actually move, but it is cool that it compiles!
+cdef copy_map( map[double,string] & m, vector[pair[double,string]] & v):
+    move[map[double,string].iterator,back_insert_itr](m.begin(),m.end(),back_inserter[fwdpy_sample_t](v))
+
+def diploid_view_to_sample(list view):
+    cdef size_t ttl_nsam = 2*len(view)
+    if ttl_nsam == 0:
+        return []
+
+    cdef map[double,string] neutral
+    cdef map[double,string] selected
+    cdef map[double,string].iterator map_itr
+    neutral_info = []
+    selected_info = []
+    cdef char ancestral = '0'
+    cdef char derived = '0'
+    for dip in view:
+        neutral_info = diploid_view_to_sample_init_containers(dip['chrom0']['neutral'],&neutral,neutral_info,ttl_nsam)
+        neutral_info = diploid_view_to_sample_init_containers(dip['chrom1']['neutral'],&neutral,neutral_info,ttl_nsam)
+        selected_info = diploid_view_to_sample_init_containers(dip['chrom0']['selected'],&selected,selected_info,ttl_nsam)
+        selected_info = diploid_view_to_sample_init_containers(dip['chrom1']['selected'],&selected,selected_info,ttl_nsam)
+    if neutral.size() != len(neutral_info):
+        raise RuntimeError("diploid_view: unequal container sizes for neutral mutations")
+    if selected.size() != len(selected_info):
+        raise RuntimeError("diploid_view: unequal container sizes for selected mutations")
+    diploid_view_to_sample_fill_containers(view,&neutral,&selected)
+
+    ##Now, we convert from maps to vectors.
+    ##We attempt to do this with C++11 move, which may or may not happen...
+    cdef vector[pair[double,string]] vneutral
+    cdef vector[pair[double,string]] vselected
+    copy_map(neutral,vneutral)
+    copy_map(selected,vselected)
+
+    return {'neutral':vneutral,'selected':vselected,'neutral_info':neutral_info,'selected_info':selected_info}
