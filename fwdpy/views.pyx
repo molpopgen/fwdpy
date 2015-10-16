@@ -1,4 +1,5 @@
 from cython.operator import dereference as deref,postincrement as inc
+import pandas as pd
 
 cdef extern from "<algorithm>" namespace "std":
     OUTPUT move[INPUT,OUTPUT](INPUT,INPUT,OUTPUT)
@@ -286,6 +287,20 @@ cdef copy_map( map[double,string] & m, vector[pair[double,string]] & v):
     move[map[double,string].iterator,back_insert_itr](m.begin(),m.end(),back_inserter[fwdpy_sample_t](v))
 
 def diploid_view_to_sample(list view):
+    """
+    Convert a "view" of diploids into the data types returned from :func:`fwdpy.fwdpy.get_samples`
+    
+    :param view: An object returned by :func:`fwdpy.fwdpy.view_diploids`
+
+    :return: A dict.  See Note
+
+    :rtype: dict
+
+    .. note:: The return value is a dict containing two lists of tuples ('neutral', and 'selected')  These lists are the same format 
+       as objects returned by :func:`fwdpy.fwdpy.get_samples`.  The dict also contains 'neutral_info' and 'selected_info', which are
+       pandas.DataFrame objects with the information about the mutations present in the other two lists.
+
+    """
     cdef size_t ttl_nsam = 2*len(view)
     if ttl_nsam == 0:
         return []
@@ -315,4 +330,16 @@ def diploid_view_to_sample(list view):
     copy_map(neutral,vneutral)
     copy_map(selected,vselected)
 
-    return {'neutral':vneutral,'selected':vselected,'neutral_info':neutral_info,'selected_info':selected_info}
+    neutral_df = pd.DataFrame()
+    if len(neutral_info)>0:
+        neutral_df = pd.concat([pd.DataFrame(i,index=[0]) for i in neutral_info])
+        neutral_df['index']=list(range(len(neutral_df.index)))
+        neutral_df = neutral_df.set_index('index')
+
+    selected_df = pd.DataFrame()
+    if len(selected_info)>0:
+        selected_df = pd.concat([pd.DataFrame(i,index=[0]) for i in selected_info])
+        selected_df['index']=list(range(len(selected_df.index)))
+        selected_df = selected_df.set_index('index')
+
+    return {'neutral':vneutral,'selected':vselected,'neutral_info':neutral_df,'selected_info':selected_df}
