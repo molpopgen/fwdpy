@@ -24,7 +24,7 @@ def serialize(poptype pop):
     >>> rregions = [fwdpy.Region(0,3,1)]
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> strings = [fpio.serialize(i) for i in pops]
     """
@@ -55,7 +55,7 @@ def deserialize_singlepops(list strings):
     >>> rregions = [fwdpy.Region(0,3,1)]
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> strings = [fpio.serialize(i) for i in pops]
     >>> len(strings)
@@ -89,7 +89,7 @@ def deserialize_metapops(list strings):
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> # Evolve for 5N generations initially
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0.,0.])
