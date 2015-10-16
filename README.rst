@@ -175,6 +175,21 @@ To build the package in place and run the unit tets:
 Note for developers
 =================================
 
+Cython is a static compiler.  Code written in Cython is compiled into C or, in the case of this package, C++.  Finally, the system's C/C++ compiler is used to compile the final Python module.
+
+In order to modify the package, you will need Cython installed:
+
+.. code-block:: bash
+
+   $ pip install Cython
+
+You need Cython >= 0.22.2, so upgrade if you need to:
+
+.. code-block:: bash
+
+   $ pip install --upgrade Cython
+
+
 If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
 
 To do this, use the configure script as follows:
@@ -183,7 +198,7 @@ To do this, use the configure script as follows:
 
    $ ./configure --enable-cython
 
-Now, Cython will be a compilation depdendency, meaning that any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the "CPython" part of the interface.
+Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the "CPython" part of the interface.
 
 
 Rough guide to installation on UCI HPC
