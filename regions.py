@@ -1,5 +1,6 @@
 import fwdpy
 import fwdpy.internal
+import fwdpy.libseq
 import numpy as np
 import pandas as pd
 
@@ -56,4 +57,11 @@ for i in pops:
         for mut in gam:
             x = pd.concat([x,pd.DataFrame(mut,index=[GAM])])
         GAM+=1
-    print x
+    dips = fwdpy.view_diploids(i,[0,1,3,5,7,9,11,13])
+    
+    #print dips[2]
+    #for j in dips:
+    #    print j
+    dipsample =fwdpy.diploid_view_to_sample(dips)
+    stats = fwdpy.libseq.summstats(dipsample['selected'])
+    print stats
