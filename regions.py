@@ -1,6 +1,7 @@
 import fwdpy
 import fwdpy.internal
 import numpy as np
+import pandas as pd
 
 nregions = [fwdpy.Region(0,1,1),
             fwdpy.Region(2,3,1)]
@@ -44,4 +45,15 @@ print [i.popsize() for i in pops]
 info = [fwdpy.get_sample_details(i[1],j) for i,j in zip(s,pops)]
 
 for i in pops:
-    print fwdpy.getmuts(i,fixations=True)
+    m = fwdpy.view_mutations(i)
+    g = fwdpy.view_gametes(i)
+    print sum([j['n'] for j in g])
+    print len(g[0]['selected'])
+    n = [j['selected'] for j in g]
+    x=pd.DataFrame()
+    GAM=0
+    for gam in n:
+        for mut in gam:
+            x = pd.concat([x,pd.DataFrame(mut,index=[GAM])])
+        GAM+=1
+    print x
