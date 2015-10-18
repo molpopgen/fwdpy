@@ -2,7 +2,14 @@
 Example: modeling changes in population size
 ============================================
 
-Many simulation functions in this package accept an array of integers as an argument.  See, for example, the 'nlist' argument of :func:`fwdpy.fwdpy.evolve_regions`.  This array represents the population size over time, and the length of the array is the number of generations to simulate.  The array is a NumPy_ array of 32-bit unsigned integers, and a "view" of the array is passed to the simulation function.
+Many simulation functions in this package accept an array of integers as an argument.  See, for example, the 'nlist' argument of :func:`fwdpy.fwdpy.evolve_regions`.  This array represents the population size over time, and the length of the array is the number of generations to simulate.  
+
+The array may be on of the following types:
+
+* A Python array_ of 32-bit unsigned integers
+* A NumPy_ array of 32-bit unsigned integers, and a "view" of the array is passed to the simulation function.
+
+Most of the examples in the package documentation use the Numpy array.  However, the array.array views have a similar syntax, outside of the initial initialization.
 
 Simple example
 --------------
@@ -15,6 +22,7 @@ Let's look at an example:
     %pylab inline
     from __future__ import print_function
     import numpy as np
+    import array
     import matplotlib.pyplot as plt
     #population size
     N=1000
@@ -98,7 +106,7 @@ and then grow the population five fold in the next 500 generations.
 
 .. parsed-literal::
 
-    [<matplotlib.lines.Line2D at 0x1050a9450>]
+    [<matplotlib.lines.Line2D at 0x1047e21d0>]
 
 
 
@@ -109,15 +117,15 @@ and then grow the population five fold in the next 500 generations.
 Potential caveat
 ----------------
 
--  Forgetting the 'dtype'. You will get a run-time error if you don't
-   get the integer type right. Python will raise a ValueError exception
-   about a buffer type mismatch.
+-  Getting the integer type incorrect. With numpy, it must by
+   dtype=uint32. With array.array, it must be 'I'. Getting it wrong will
+   result in a run-time error.
 
 Rationale
 ---------
 
-Why do things with `NumPy <http://www.numpy.org>`__ arrays? Lots of
-reasons:
+Why do things with `NumPy <http://www.numpy.org>`__ arrays or Python's
+array.array? Lots of reasons:
 
 1. They are fast
 2. The uint32 is the same type used in
@@ -128,3 +136,4 @@ reasons:
    the need for a copy when going from Python to C++.
 
 .. _NumPy: http://www.numpy.org
+.. _array: https://docs.python.org/2/library/array.html
