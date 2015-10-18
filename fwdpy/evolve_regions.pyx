@@ -1,5 +1,6 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
+from cpython cimport array
 import numpy as np
 import warnings
 
