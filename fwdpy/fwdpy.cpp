@@ -38423,21 +38423,9 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_freqfilter, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":4
- * from cython.view cimport array as cvarray
- * from cpython cimport array
- * import numpy as np             # <<<<<<<<<<<<<<
- * import warnings
- * 
- */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 4; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 4; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
   /* "fwdpy/evolve_regions.pyx":5
  * from cpython cimport array
- * import numpy as np
+ * #import numpy as np
  * import warnings             # <<<<<<<<<<<<<<
  * 
  * def evolve_regions(GSLrng rng,
