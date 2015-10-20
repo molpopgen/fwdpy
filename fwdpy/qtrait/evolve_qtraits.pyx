@@ -1,4 +1,6 @@
 import warnings
+from cython.view cimport array as cvarray
+from cpython cimport array
 
 def evolve_qtrait(GSLrng rng,
                     int npops,
