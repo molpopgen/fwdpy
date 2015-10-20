@@ -16,6 +16,7 @@ Contents:
    docs/rusers
    docs/popsizes
    docs/regions
+   docs/summstats
    docs/BGS
    docs/windows
    docs/trajectories

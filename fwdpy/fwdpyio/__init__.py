@@ -1,1 +1,1 @@
-from fwdpyio import *
+from .fwdpyio import *

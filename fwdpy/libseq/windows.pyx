@@ -29,7 +29,7 @@ def windows(vector[pair[double,string]] data, double windowSize,
     >>> rregions = [fp.Region(0,3,1)]
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> # Evolve for 5N generations initially
-    >>> popsizes=np.tile(popsizes,10000)
+    >>> popsizes=np.tile(popsizes,100)
     >>> pops = fp.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> #Get sample of size n = 10
     >>> s = fp.get_samples(rng,pops[0],10)

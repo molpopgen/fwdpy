@@ -50,6 +50,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
         gsl_rng * get()
+
 #Now, provied definitions for classes in classes.pyx
 cdef class poptype(object):
     """
@@ -95,9 +96,20 @@ cdef class mpopvec(popcont):
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
+#Typedefs for convenience
+ctypedef cpplist[popgenmut].iterator mlist_t_itr
+ctypedef vector[mlist_t_itr] mut_container_t
+ctypedef cpplist[gamete_t].iterator glist_t_itr
+ctypedef vector[diploid_t].iterator dipvector_t_itr
 
-    
-##Now, wrap the functions
+##Define some low-level functions that may be useful for others
+cdef get_mutation( const cpplist[popgenmut].iterator & )
+cdef get_gamete( const cpplist[gamete_t].iterator & )
+cdef get_diploid( const vector[diploid_t].iterator & itr )
+
+##Now, wrap the functions.
+##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
+##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
 cdef extern from "neutral.hpp" namespace "fwdpy" nogil:
     void evolve_pop(GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops, const vector[unsigned] nlist, const double & theta, const double & rho)
 

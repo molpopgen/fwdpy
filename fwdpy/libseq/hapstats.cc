@@ -7,6 +7,7 @@
 #include <Sequence/SimData.hpp>
 #include <Sequence/SummStats/nSL.hpp>
 #include <Sequence/SummStats/Garud.hpp>
+#include <Sequence/SummStats/lHaf.hpp>
 
 using namespace std;
 
@@ -46,6 +47,12 @@ namespace fwdpy
 					      const double binsize)
     {
       return libseq_extra_ld_stats(__data,minfreq,binsize,vector<double>());
+    }
+
+    std::vector<double> lhaf( const std::vector<std::pair<double,std::string> > & __data, const double l )
+    {
+      Sequence::SimData d(__data.begin(),__data.end());
+      return Sequence::lHaf(d,l);
     }
   } //ns libseq
 } //ns fwdpy
