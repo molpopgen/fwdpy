@@ -16,8 +16,19 @@ from libcpp.string cimport string
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist
 
+cdef extern from "<memory>" namespace "std":
+    cdef cppclass unique_ptr[T,DELETER]:
+        T* get()
+
 cdef extern from "gsl/gsl_rng.h" nogil:
     ctypedef struct gsl_rng
+    ctypedef struct gsl_ran_discrete_t
+    size_t gsl_ran_discrete ( gsl_rng * ,  gsl_ran_discrete_t *)
+    
+cdef extern from "fwdpp/internal/gsl_discrete.hpp" namespace "KTfwd::internal" nogil:
+    cdef cppclass gsl_ran_discrete_t_deleter:
+        pass
+    ctypedef unique_ptr[gsl_ran_discrete_t,gsl_ran_discrete_t_deleter] gsl_ran_discrete_t_ptr 
 
 ##We will expose some low-level types from fwdpp:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
