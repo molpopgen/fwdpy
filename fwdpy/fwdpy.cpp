@@ -1710,6 +1710,8 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
 
 /* Module declarations from 'libcpp.list' */
 
+/* Module declarations from 'fwdpy.gsl' */
+
 /* Module declarations from 'fwdpy.fwdpp' */
 
 /* Module declarations from 'fwdpy.internal.internal' */
