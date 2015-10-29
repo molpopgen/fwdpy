@@ -4344,6 +4344,14 @@ else
 fi
 
 
+ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/lHaf.hpp" "ac_cv_header_Sequence_SummStats_lHaf_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_Sequence_SummStats_lHaf_hpp" = xyes; then :
+
+else
+  as_fn_error $? "Sequence/SummStats/lHaf.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required." "$LINENO" 5
+fi
+
+
 ac_fn_cxx_check_header_mongrel "$LINENO" "gsl/gsl_rng.h" "ac_cv_header_gsl_gsl_rng_h" "$ac_includes_default"
 if test "x$ac_cv_header_gsl_gsl_rng_h" = xyes; then :
   HAVE_GSL=1

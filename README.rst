@@ -18,7 +18,7 @@ The package is usable now (in fact, we are currently using it for research), but
 Citation
 ===========
 
-See the project home page for details (http://molopgen.github.io/fwdpy).
+See the project home page for details (http://molpopgen.github.io/fwdpy).
 
 Features:
 ===========

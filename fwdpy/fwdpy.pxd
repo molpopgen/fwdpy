@@ -5,7 +5,8 @@ from libcpp.memory cimport shared_ptr
 from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
-from fwdpy.fwdpp cimport popgenmut,gamete_base,gsl_rng
+from fwdpy.fwdpp cimport popgenmut,gamete_base
+from fwdpy.gsl cimport gsl_rng
 
 ##Create hooks to C++ types
 

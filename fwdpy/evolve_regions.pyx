@@ -1,6 +1,6 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
-import numpy as np
+from cpython cimport array
 import warnings
 
 def evolve_regions(GSLrng rng,

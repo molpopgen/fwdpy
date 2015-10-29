@@ -15,9 +15,8 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist
+from fwdpy.gsl cimport gsl_rng
 
-cdef extern from "gsl/gsl_rng.h" nogil:
-    ctypedef struct gsl_rng
 
 ##We will expose some low-level types from fwdpp:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
