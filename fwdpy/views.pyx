@@ -33,7 +33,10 @@ cdef get_gamete( const cpplist[gamete_t].iterator & itr ):
     return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
 
 cdef get_diploid( const dipvector_t_itr & itr ):
-    return {'chrom0':get_gamete(deref(itr).first),
+    return {'g':deref(itr).g,
+            'e':deref(itr).e,
+            'w':deref(itr).w,
+            'chrom0':get_gamete(deref(itr).first),
             'chrom1':get_gamete(deref(itr).second)}
 
 cdef view_mutations_details(mlist_t_itr beg,mlist_t_itr end):
