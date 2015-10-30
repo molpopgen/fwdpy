@@ -112,21 +112,6 @@ namespace fwdpy
       rv["leading_q"] = leading_f;
       return rv;
     }
-    
-    map<string,vector<double> > qtrait_esize_freq(const singlepop_t * pop)
-    {
-      double twoN = 2.*double(pop->diploids.size());
-      std::vector<double> esize,freq;
-      for( const auto & __m : pop->mutations )
-	{
-	  esize.push_back(__m.s);
-	  freq.push_back(double(__m.n)/twoN);
-	}
-      map<string,vector<double>>rv;
-      rv["esize"]=std::move(esize);
-      rv["freq"]=std::move(freq);
-      return rv;
-    }
   } //ns qtrait
 } //ns fwdpy
 
