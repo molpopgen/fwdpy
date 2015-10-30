@@ -72,7 +72,7 @@ extensions.extend([
     include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
     extra_compile_args=["-std=c++11"],  
     extra_link_args=["-std=c++11"],
-    libraries=["gsl","gslcblas","tcmalloc","sequence"]),
+    libraries=["gsl","gslcblas","tcmalloc"]),
     ])
 
 setup(name='@PACKAGE_NAME@',
