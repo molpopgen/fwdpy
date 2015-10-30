@@ -28,8 +28,6 @@ namespace fwdpy
     
     std::map<std::string,double> qtrait_pop_props( const fwdpy::singlepop_t * pop );
 
-    std::map<std::string,std::vector<double> > qtrait_esize_freq(const singlepop_t * pop);
-
     struct ew_mut_details
     {
       double s,e,p;
