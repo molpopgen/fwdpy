@@ -22,11 +22,6 @@
 
 #include <gsl/gsl_statistics_double.h>
 
-//Libsequence
-#include <Sequence/PolySIM.hpp>
-//Note: requires libseq >= 1.8.5!!!!
-#include <Sequence/PolyTableSlice.hpp>
-
 using namespace std;
 using namespace Sequence;
 
