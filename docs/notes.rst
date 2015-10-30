@@ -4,7 +4,6 @@ Modules in this package
 This package provides the following modules for use in Python programs:
 
 * fwdpy: this is the main module/namespace
-* fwdpy.libseq: this module provides access to functionality based on [libsequence](http://github.com/molpopgen/libsequence).
 * fwdpy.internal: this module contains "implementation details" of functionality in other modules.  Objects in this module may not be documented.  Generally-speaking, a user should never need to interact with this stuff directly.  
 
 
