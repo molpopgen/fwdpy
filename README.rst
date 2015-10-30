@@ -9,7 +9,6 @@ This package is implemented in terms of:
 
 1. Cython_, which is a package allowing C++ and Python to work together
 2. fwdpp_, which is a C++11 template library for implementing efficient population genetic simulations
-3. libsequence_, which is a C++11 library for various population-genetic calculations.
 
 Please note that this package is likely to be quite unstable/actively developed.
 
@@ -108,7 +107,7 @@ A lot of them:
 
 * GSL_
 * fwdpp_ 
-* libsequence_
+* libsequence_  (Technically, libsequence is not needed for this package, but it is a dependency of fwdpp)
 * tcmalloc_
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.

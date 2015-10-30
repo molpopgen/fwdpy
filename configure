@@ -2467,7 +2467,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 for ac_prog in python \
      python3 \
      python2 \
-                         python3.3                    python3.2                    python3.1                    python3.0                                                            python2.7
+                         python3.3                    python3.2                    python3.1                    python3.0                                                            python
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
 set dummy $ac_prog; ac_word=$2
@@ -3221,7 +3221,6 @@ ac_config_headers="$ac_config_headers config.h"
 
 
 FWDPPVERSION=`fwdppConfig --version`
-LIBSEQVERSION=`libsequenceConfig --version`
 GSLVERSION=`gsl-config --version`
 
 if test "$FWDPPVERSION" \> "0.3.9"
@@ -3231,23 +3230,11 @@ else
 	as_fn_error $? "fwdpp >= 0.4.0 required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
 fi
 
-if test "$LIBSEQVERSION" \> "1.8.6"
-then
-	echo "libsequence version $LIBSEQVERSION detected"
-else
-	as_fn_error $? "libsequence >= 1.8.7 required, please install from http://github.com/molpopgen/libsequence" "$LINENO" 5
-fi
-
 echo "GSL version $GSLVERSION detected"
 
 
 cat >>confdefs.h <<_ACEOF
 #define FWDPP_VERSION "$FWDPPVERSION"
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define LIBSEQ_VERSION "$LIBSEQVERSION"
 _ACEOF
 
 
@@ -4336,22 +4323,6 @@ else
 fi
 
 
-ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/Garud.hpp" "ac_cv_header_Sequence_SummStats_Garud_hpp" "$ac_includes_default"
-if test "x$ac_cv_header_Sequence_SummStats_Garud_hpp" = xyes; then :
-
-else
-  as_fn_error $? "Sequence/SummStats/Garud.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required." "$LINENO" 5
-fi
-
-
-ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SummStats/lHaf.hpp" "ac_cv_header_Sequence_SummStats_lHaf_hpp" "$ac_includes_default"
-if test "x$ac_cv_header_Sequence_SummStats_lHaf_hpp" = xyes; then :
-
-else
-  as_fn_error $? "Sequence/SummStats/lHaf.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required." "$LINENO" 5
-fi
-
-
 ac_fn_cxx_check_header_mongrel "$LINENO" "gsl/gsl_rng.h" "ac_cv_header_gsl_gsl_rng_h" "$ac_includes_default"
 if test "x$ac_cv_header_gsl_gsl_rng_h" = xyes; then :
   HAVE_GSL=1
@@ -4526,47 +4497,6 @@ ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
-
-          { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lsequence" >&5
-$as_echo_n "checking for main in -lsequence... " >&6; }
-if ${ac_cv_lib_sequence_main+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lsequence  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-
-int
-main ()
-{
-return main ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_sequence_main=yes
-else
-  ac_cv_lib_sequence_main=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_sequence_main" >&5
-$as_echo "$ac_cv_lib_sequence_main" >&6; }
-if test "x$ac_cv_lib_sequence_main" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBSEQUENCE 1
-_ACEOF
-
-  LIBS="-lsequence $LIBS"
-
-else
-  as_fn_error $? "libsequence runtime library does not seem to be here" "$LINENO" 5
-fi
 
 	  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for tc_cfree in -ltcmalloc" >&5
 $as_echo_n "checking for tc_cfree in -ltcmalloc... " >&6; }

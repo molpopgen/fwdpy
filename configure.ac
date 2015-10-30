@@ -405,7 +405,6 @@ dnl stuff added by KRT
 AC_CONFIG_HEADERS([config.h])
 
 FWDPPVERSION=`fwdppConfig --version`
-LIBSEQVERSION=`libsequenceConfig --version`
 GSLVERSION=`gsl-config --version`
 
 dnl Check that fwdpp version is sufficient
@@ -416,18 +415,9 @@ else
 	AC_MSG_ERROR([fwdpp >= 0.4.0 required, please install from http://github.com/molpopgen/fwdpp])
 fi
 
-dnl Check that libsequence version is sufficient
-if test "$LIBSEQVERSION" \> "1.8.6"
-then
-	echo "libsequence version $LIBSEQVERSION detected"
-else
-	AC_MSG_ERROR([libsequence >= 1.8.7 required, please install from http://github.com/molpopgen/libsequence])
-fi
-
 echo "GSL version $GSLVERSION detected"
 
 AC_DEFINE_UNQUOTED([FWDPP_VERSION],["$FWDPPVERSION"],[The version of fwdpp used to compile this software])
-AC_DEFINE_UNQUOTED([LIBSEQ_VERSION],["$LIBSEQVERSION"],[The version of libsequence used to compile this software])
 AC_DEFINE_UNQUOTED([GSL_VERSION],["$GSLVERSION"],[The version of GSL used to compile this software])
 
 AC_ARG_ENABLE([cython],AS_HELP_STRING([--enable-cython],[Use Cython for compilation]),[AC_SUBST(EXTENSION,".pyx") AC_SUBST(CYTHONIMPORT,"from Cython.Build import cythonize") AC_SUBST(CYTHONIZE,"cythonize(extensions,gdb_debug=False)")],[AC_SUBST(EXTENSION,".cpp") AC_SUBST(CYTHONIMPORT,"") AC_SUBST(CYTHONIZE,"extensions")])
@@ -439,8 +429,6 @@ dnl check for things that are required to compile all examples and/or use librar
 
 AC_CHECK_HEADER(fwdpp/diploid.hh,,[AC_MSG_ERROR(fwdpp/diploid.hh not found.  Please install the library.  Something is likely amiss with your system.  We got this far, meaning fwdppConfig was found, but we failed here, meaning the headers were not found.  That should not be possible unless fwdpp has been installed and then partially deleted from your system.)])
 AC_CHECK_HEADER(fwdpp/sugar/sampling.hpp,,[AC_MSG_ERROR([fwdpp/sugar/sampling.hpp not found.  This probably means that you need a dev branch of fwdpp.  You probably need to email KRT directly and ask which one.  Sorry!])])
-AC_CHECK_HEADER(Sequence/SummStats/Garud.hpp, , [AC_MSG_ERROR([Sequence/SummStats/Garud.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required.])])
-AC_CHECK_HEADER(Sequence/SummStats/lHaf.hpp, , [AC_MSG_ERROR([Sequence/SummStats/lHaf.hpp not found. libsequence (www.molpopgen.org) >= 1.8.8 required.])])
 AC_CHECK_HEADER(gsl/gsl_rng.h,HAVE_GSL=1,[AC_MSG_ERROR([gsl/gsl_rng.h not found.  Please install the GNU Scientific Library])])
 AC_CHECK_HEADER(gsl/gsl_randist.h,HAVE_GSL=1,[AC_MSG_ERROR([gsl/gsl_rng.h not found.  Please install the GNU Scientific Library])])
 AC_CHECK_HEADER(zlib.h,,[AC_MSG_ERROR([zlib.h not found.  zlib >= 1.2.5 is requred])])
@@ -454,7 +442,6 @@ dnl check for C++ libraries that are required
 AC_LANG_SAVE
           AC_LANG_CPLUSPLUS
           AC_REQUIRE_CPP
-          AC_CHECK_LIB(sequence, main,,[AC_MSG_ERROR([libsequence runtime library does not seem to be here])])
 	  AC_CHECK_LIB([tcmalloc],[tc_cfree],,[AC_MSG_ERROR([tcmalloc not found])])
 	  AM_CONDITIONAL([BUNIT_TEST_LIB_PRESENT], test x$BUNITTESTLIB = x1)
 AC_LANG_RESTORE
