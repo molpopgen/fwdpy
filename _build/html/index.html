@@ -8,7 +8,7 @@
     
     <title>Welcome to fwdpy’s documentation! &mdash; fwdpy 0.0.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,12 +23,12 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="fwdpy 0.0.1 documentation" href="#" />
     <link rel="next" title="fwdpy: forward simulation in Python using fwdpp" href="README.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,14 +40,14 @@
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              accesskey="N">next</a> |</li>
-        <li><a href="#">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="welcome-to-fwdpy-s-documentation">
 <h1>Welcome to fwdpy&#8217;s documentation!<a class="headerlink" href="#welcome-to-fwdpy-s-documentation" title="Permalink to this headline">¶</a></h1>
@@ -85,6 +85,7 @@
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#how-to-set-up-a-model">How to set up a model</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docs/summstats.html">Calculating summary statistics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs/BGS.html">Example: background selection</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/BGS.html#setting-up-the-simulation">Setting up the simulation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/BGS.html#taking-samples-from-simulated-populations">Taking samples from simulated populations</a></li>
@@ -114,8 +115,8 @@
 <span id="functions-and-classes"></span><h2>Functions and classes<a class="headerlink" href="#module-fwdpy.fwdpy" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="fwdpy.fwdpy.ConstantS">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">ConstantS</tt><a class="headerlink" href="#fwdpy.fwdpy.ConstantS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">ConstantS</code><a class="headerlink" href="#fwdpy.fwdpy.ConstantS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></p>
 <p>Constant/fixed selection coefficient</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -128,7 +129,7 @@
 </ul>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation</p>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -159,8 +160,8 @@
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.ExpS">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">ExpS</tt><a class="headerlink" href="#fwdpy.fwdpy.ExpS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">ExpS</code><a class="headerlink" href="#fwdpy.fwdpy.ExpS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></p>
 <p>Exponential distribution on selection coefficients</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -173,7 +174,7 @@
 </ul>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation</p>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -204,8 +205,8 @@
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.GSLrng">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">GSLrng</tt><a class="headerlink" href="#fwdpy.fwdpy.GSLrng" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">GSLrng</code><a class="headerlink" href="#fwdpy.fwdpy.GSLrng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>A wrapper around a random number generator (rng) 
 from the GNU Scientific Library (GSL).</p>
 <p>The constructor takes a seed (int) as an argument.</p>
@@ -218,8 +219,8 @@ from the GNU Scientific Library (GSL).</p>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.GammaS">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">GammaS</tt><a class="headerlink" href="#fwdpy.fwdpy.GammaS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">GammaS</code><a class="headerlink" href="#fwdpy.fwdpy.GammaS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></p>
 <p>Gamma distribution of fitness effects</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -233,7 +234,7 @@ from the GNU Scientific Library (GSL).</p>
 </ul>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation</p>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -264,8 +265,8 @@ from the GNU Scientific Library (GSL).</p>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.GaussianS">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">GaussianS</tt><a class="headerlink" href="#fwdpy.fwdpy.GaussianS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">GaussianS</code><a class="headerlink" href="#fwdpy.fwdpy.GaussianS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></p>
 <p>Gaussian distribution on selection coefficients (effect sizes for sims of quantitative traits)</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -279,7 +280,7 @@ from the GNU Scientific Library (GSL).</p>
 </dd>
 </dl>
 <p>The mean is zero.</p>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation</p>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -310,8 +311,8 @@ from the GNU Scientific Library (GSL).</p>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.Region">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">Region</tt><a class="headerlink" href="#fwdpy.fwdpy.Region" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">Region</code><a class="headerlink" href="#fwdpy.fwdpy.Region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Representation of a &#8220;region&#8221; in a simulation.</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -320,11 +321,11 @@ from the GNU Scientific Library (GSL).</p>
 <p class="last">w: the &#8220;weight&#8221; assigned to the region</p>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation.</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation.</p>
 <dl class="docutils">
 <dt>This class is extended by:</dt>
 <dd><ul class="first last simple">
-<li><a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a></li>
+<li><a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></li>
 </ul>
 </dd>
 </dl>
@@ -359,8 +360,8 @@ from the GNU Scientific Library (GSL).</p>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.Sregion">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">Sregion</tt><a class="headerlink" href="#fwdpy.fwdpy.Sregion" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">Sregion</code><a class="headerlink" href="#fwdpy.fwdpy.Sregion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></code></a></p>
 <p>Representation of a &#8220;region&#8221; in a simulation with a dominance term.</p>
 <p>This class is the base class for a general set of objects representing distributions of fitness effects.</p>
 <dl class="docutils">
@@ -373,16 +374,16 @@ from the GNU Scientific Library (GSL).</p>
 </ul>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation.</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This class cannot be used directly to parameterize a simulation.  Rather, you must used
 a derived type that specifies a distribution of fitness effects.  These types include:
-<a class="reference internal" href="#fwdpy.fwdpy.ConstantS" title="fwdpy.fwdpy.ConstantS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ConstantS</span></tt></a>,
-<a class="reference internal" href="#fwdpy.fwdpy.UniformS" title="fwdpy.fwdpy.UniformS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.UniformS</span></tt></a>,
-<a class="reference internal" href="#fwdpy.fwdpy.ExpS" title="fwdpy.fwdpy.ExpS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ExpS</span></tt></a>,
-<a class="reference internal" href="#fwdpy.fwdpy.GammaS" title="fwdpy.fwdpy.GammaS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GammaS</span></tt></a>, and 
-<a class="reference internal" href="#fwdpy.fwdpy.GaussianS" title="fwdpy.fwdpy.GaussianS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GaussianS</span></tt></a></p>
+<a class="reference internal" href="#fwdpy.fwdpy.ConstantS" title="fwdpy.fwdpy.ConstantS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ConstantS</span></code></a>,
+<a class="reference internal" href="#fwdpy.fwdpy.UniformS" title="fwdpy.fwdpy.UniformS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.UniformS</span></code></a>,
+<a class="reference internal" href="#fwdpy.fwdpy.ExpS" title="fwdpy.fwdpy.ExpS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ExpS</span></code></a>,
+<a class="reference internal" href="#fwdpy.fwdpy.GammaS" title="fwdpy.fwdpy.GammaS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GammaS</span></code></a>, and 
+<a class="reference internal" href="#fwdpy.fwdpy.GaussianS" title="fwdpy.fwdpy.GaussianS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GaussianS</span></code></a></p>
 </div>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -416,8 +417,8 @@ a derived type that specifies a distribution of fitness effects.  These types in
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.UniformS">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">UniformS</tt><a class="headerlink" href="#fwdpy.fwdpy.UniformS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">UniformS</code><a class="headerlink" href="#fwdpy.fwdpy.UniformS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></p>
 <p>Uniform distribution on selection coefficients</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
@@ -431,7 +432,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 </ul>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for how this class may be used to parameterize a simulation</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation</p>
 <p>Constructor</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -463,7 +464,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.copypop">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">copypop</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.copypop" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">copypop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.copypop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a population</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -471,7 +472,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; the population to copy.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></tt></a> of the same (derived) type as pop</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> of the same (derived) type as pop</td>
 </tr>
 </tbody>
 </table>
@@ -483,7 +484,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.copypops">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">copypops</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.copypops" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">copypops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.copypops" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a population</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -491,7 +492,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pops</strong> &#8211; the list of population to copy.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></tt></a> of the same (derived) type as pop</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a> of the same (derived) type as pop</td>
 </tr>
 </tbody>
 </table>
@@ -502,66 +503,40 @@ a derived type that specifies a distribution of fitness effects.  These types in
 </dd></dl>
 
 <dl class="function">
-<dt id="fwdpy.fwdpy.diploid_view">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">diploid_view</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.diploid_view" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get detailed information about a list of diploids.</p>
+<dt id="fwdpy.fwdpy.diploid_view_to_sample">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">diploid_view_to_sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.diploid_view_to_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a &#8220;view&#8221; of diploids into the data types returned from <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">poptype</span></tt></a></li>
-<li><strong>indlist</strong> &#8211; A list of <em>indexes</em> of individuals to sample. (Start counting from 0.)</li>
-<li><strong>removeFixed</strong> &#8211; If non-zero, fixations will be excluded.</li>
-<li><strong>deme</strong> &#8211; If pop is of type <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><tt class="xref py py-class docutils literal"><span class="pre">metapop</span></tt></a>, deme is the index of the sub-population from which to get the individuals</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>view</strong> &#8211; An object returned by <a class="reference internal" href="#fwdpy.fwdpy.view_diploids" title="fwdpy.fwdpy.view_diploids"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.view_diploids()</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A pandas.DataFrame containing information about each mutation for each individual in indlist.</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dict.  See Note</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">pandas.DataFrame</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">IndexError if any item in indlist is out of range, or if deme is out of range.</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This return value of this function does not allow the calculation of fixation times.
-In order to do that, a change must be made to fwdpp, which may or may not happen
-soon.</p>
-</div>
-<p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span> <span class="kn">as</span> <span class="nn">fp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c"># Evolve for 5N generations initially</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Take a &quot;view&quot; of the first 5 diploids:</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">view</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">diploid_view</span><span class="p">(</span><span class="n">pops</span><span class="p">[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
-</pre></div>
+<p class="last">The return value is a dict containing two lists of tuples (&#8216;neutral&#8217;, and &#8216;selected&#8217;)  These lists are the same format 
+as objects returned by <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></code></a>.  The dict also contains &#8216;neutral_info&#8217; and &#8216;selected_info&#8217;, which are
+pandas.DataFrame objects with the information about the mutations present in the other two lists.</p>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.evolve_pops_more_t">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">evolve_pops_more_t</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.evolve_pops_more_t" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_pops_more_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_pops_more_t" title="Permalink to this definition">¶</a></dt>
 <dd><p>Continue evolving a set of populations</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
-<li><strong>pops</strong> &#8211; A list of populations simulated using <a class="reference internal" href="#fwdpy.fwdpy.evolve_pops_t" title="fwdpy.fwdpy.evolve_pops_t"><tt class="xref py py-func docutils literal"><span class="pre">evolve_pops_t()</span></tt></a></li>
+<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
+<li><strong>pops</strong> &#8211; A list of populations simulated using <a class="reference internal" href="#fwdpy.fwdpy.evolve_pops_t" title="fwdpy.fwdpy.evolve_pops_t"><code class="xref py py-func docutils literal"><span class="pre">evolve_pops_t()</span></code></a></li>
 <li><strong>nlist</strong> &#8211; A list of population sizes over time.  This allows the simulation of arbitrary changes in N</li>
 <li><strong>theta</strong> &#8211; <span class="math">\(\theta = 4N_e\mu\)</span> is the scaled mutation rate to variants not affecting fitness (&#8220;neutral mutations&#8221;)</li>
 <li><strong>rho</strong> &#8211; <span class="math">\(\rho = 4N_er\)</span> is the scaled recombination rate</li>
@@ -574,14 +549,14 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.evolve_pops_t">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">evolve_pops_t</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.evolve_pops_t" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_pops_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_pops_t" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simulate populations under idealized Wright-Fisher model</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
+<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
 <li><strong>npops</strong> &#8211; The number of populations to simulate.  This is equal to the number of threads that will be used!</li>
 <li><strong>N</strong> &#8211; The diploid population size to simulate</li>
 <li><strong>nlist</strong> &#8211; A list of population sizes over time.  This allows the simulation of arbitrary changes in N</li>
@@ -602,14 +577,14 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.evolve_regions">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">evolve_regions</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evolve a region with variable mutation, fitness effects, and recombination rates.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
+<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
 <li><strong>npops</strong> &#8211; The number of populations to simulate.  This is equal to the number of threads that will be used!</li>
 <li><strong>N</strong> &#8211; The diploid population size to simulate</li>
 <li><strong>nlist</strong> &#8211; An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).</li>
@@ -649,7 +624,7 @@ soon.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#The simulation will be for 10*N generations,</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#so we replicate that value in the array</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#Simulate 1 deme under this model.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#The total neutral mutation rate is 1e-3,</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#which is also the recombination rate.</span>
@@ -661,15 +636,15 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.evolve_regions_more">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">evolve_regions_more</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_more" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions_more</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_more" title="Permalink to this definition">¶</a></dt>
 <dd><p>Continute to evolve a region with variable mutation, fitness effects, and recombination rates.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
-<li><strong>pops</strong> &#8211; A list of populations simulated by <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a></li>
+<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
+<li><strong>pops</strong> &#8211; A list of populations simulated by <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a></li>
 <li><strong>N</strong> &#8211; The diploid population size to simulate</li>
 <li><strong>nlist</strong> &#8211; An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).</li>
 <li><strong>mu_neutral</strong> &#8211; The mutation rate to variants not affecting fitness (&#8220;neutral&#8221; mutations).  The unit is per gamete, per generation.</li>
@@ -708,7 +683,7 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.evolve_regions_split">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">evolve_regions_split</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_split" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions_split</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_split" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take the output of a single-deme simulation, split into two demes, and evolve.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -728,7 +703,7 @@ soon.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c"># Evolve for 5N generations initially</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
@@ -738,14 +713,14 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.freqfilter">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">freqfilter</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.freqfilter" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">freqfilter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.freqfilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove low-frequency variants from a sample.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></li>
+<li><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></code></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></code></a></li>
 <li><strong>minfreq</strong> &#8211; Remove all sites with frequency &lt; minfreq</li>
 <li><strong>derived</strong> &#8211; if True, filter on derived allele frequency.  If False, filter on minor allele frequency.</li>
 </ul>
@@ -756,7 +731,7 @@ soon.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Do <strong>not</strong> use this function to calculate <span class="math">\(\pi\)</span> (a.k.a. <span class="math">\(\hat\theta_\pi\)</span>, a.k.a. &#8220;sum of site heterozygosity&#8221;).
-<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.  Please use <a class="reference internal" href="#fwdpy.libseq.libseq.summstats" title="fwdpy.libseq.libseq.summstats"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.libseq.libseq.summstats()</span></tt></a> instead.</p>
+<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.  Please use <code class="xref py py-func docutils literal"><span class="pre">fwdpy.libseq.libseq.summstats()</span></code> instead.</p>
 </div>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
@@ -770,15 +745,15 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.get_sample_details">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">get_sample_details</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.get_sample_details" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">get_sample_details</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.get_sample_details" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get additional details for population samples</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ms_samples</strong> &#8211; A list returned by <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">ms_sample()</span></tt></a></li>
-<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">poptype</span></tt></a></li>
+<li><strong>ms_samples</strong> &#8211; A list returned by <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><code class="xref py py-func docutils literal"><span class="pre">ms_sample()</span></code></a></li>
+<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">poptype</span></code></a></li>
 </ul>
 </td>
 </tr>
@@ -802,22 +777,25 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.get_samples">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">get_samples</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.get_samples" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">get_samples</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.get_samples" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take a sample from a set of simulated populations.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
-<li><strong>pop</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">poptype</span></tt></a></li>
+<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
+<li><strong>pop</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">poptype</span></code></a></li>
 <li><strong>nsam</strong> &#8211; The sample size to take.</li>
 <li><strong>removeFixed</strong> &#8211; if True, only polymorphic sites are retained</li>
-<li><strong>deme</strong> &#8211; Optional.  If &#8216;pop&#8217; is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><tt class="xref py py-class docutils literal"><span class="pre">metapop</span></tt></a>, deme is required and represents the sub-population to sample.</li>
+<li><strong>deme</strong> &#8211; Optional.  If &#8216;pop&#8217; is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">metapop</span></code></a>, deme is required and represents the sub-population to sample.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the &#8216;nsam&#8217; chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the &#8216;nsam&#8217; chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body"><p class="first last">IndexError if &#8216;deme&#8217; is out of range and pop is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -834,7 +812,7 @@ soon.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.getfreq">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">getfreq</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.getfreq" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">getfreq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.getfreq" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get mutation frequencies</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -851,8 +829,8 @@ soon.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Do <strong>not</strong> use this function to calculate <span class="math">\(\pi\)</span> (a.k.a. <span class="math">\(\hat\theta_\pi\)</span>, a.k.a. &#8220;sum of site heterozygosity&#8221;).
-<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.  Please use <a class="reference internal" href="#fwdpy.libseq.libseq.summstats" title="fwdpy.libseq.libseq.summstats"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.libseq.libseq.summstats()</span></tt></a> instead.
-In general, it will be more convenient to call <a class="reference internal" href="#fwdpy.fwdpy.getfreqs" title="fwdpy.fwdpy.getfreqs"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.getfreqs()</span></tt></a> on a list of tuples.</p>
+<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.  
+In general, it will be more convenient to call <a class="reference internal" href="#fwdpy.fwdpy.getfreqs" title="fwdpy.fwdpy.getfreqs"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.getfreqs()</span></code></a> on a list of tuples.</p>
 </div>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
@@ -869,14 +847,14 @@ In general, it will be more convenient to call <a class="reference internal" hre
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.getfreqs">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">getfreqs</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.getfreqs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convenience wrapper around <a class="reference internal" href="#fwdpy.fwdpy.getfreq" title="fwdpy.fwdpy.getfreq"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.getfreq()</span></tt></a></p>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">getfreqs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.getfreqs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience wrapper around <a class="reference internal" href="#fwdpy.fwdpy.getfreq" title="fwdpy.fwdpy.getfreq"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.getfreq()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></li>
+<li><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></code></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></code></a></li>
 <li><strong>derived</strong> &#8211; If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).</li>
 </ul>
 </td>
@@ -895,51 +873,29 @@ In general, it will be more convenient to call <a class="reference internal" hre
 </div>
 </dd></dl>
 
-<dl class="function">
-<dt id="fwdpy.fwdpy.getmuts">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">getmuts</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.getmuts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get summary of mutations in population</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></tt></a></li>
-<li><strong>all</strong> &#8211; if True, include all mutations.  Otherwise, only include non-neutral variants</li>
-<li><strong>fixations</strong> &#8211; if True, include fixations</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <dl class="class">
 <dt id="fwdpy.fwdpy.metapop">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">metapop</tt><a class="headerlink" href="#fwdpy.fwdpy.metapop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">metapop</code><a class="headerlink" href="#fwdpy.fwdpy.metapop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></p>
 <p>Object representing data structures for single-deme simulations.</p>
 <p>Users are not expected to construct these on their own.  Rather,
-they should be working with <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-class docutils literal"><span class="pre">mpopvec</span></tt></a>.  This type exists as
-the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-class docutils literal"><span class="pre">mpopvec</span></tt></a>.</p>
+they should be working with <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">mpopvec</span></code></a>.  This type exists as
+the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">mpopvec</span></code></a>.</p>
 <dl class="method">
 <dt id="fwdpy.fwdpy.metapop.gen">
-<tt class="descname">gen</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.metapop.gen" title="Permalink to this definition">¶</a></dt>
+<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.metapop.gen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the generation that the population is currently evolved to</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fwdpy.fwdpy.metapop.popsizes">
-<tt class="descname">popsizes</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.metapop.popsizes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">popsizes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.metapop.popsizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the size of the population</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fwdpy.fwdpy.metapop.sane">
-<tt class="descname">sane</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.metapop.sane" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.metapop.sane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes sure that the population is in a sane state.</p>
 <p>Internally, this checks that pop.N == pop.diploids.size(),
 which it should be if the C++ code behind this all is properly updating
@@ -950,18 +906,17 @@ the data structures!</p>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.mpopvec">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">mpopvec</tt><a class="headerlink" href="#fwdpy.fwdpy.mpopvec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">mpopvec</code><a class="headerlink" href="#fwdpy.fwdpy.mpopvec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></code></a></p>
 <p>Vector of metapopulation objects</p>
 <dl class="attribute">
 <dt id="fwdpy.fwdpy.mpopvec.next">
-<tt class="descname">next</tt><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.next" title="Permalink to this definition">¶</a></dt>
-<dd><p>x.next() -&gt; the next value, or raise StopIteration</p>
-</dd></dl>
+<code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.next" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="fwdpy.fwdpy.mpopvec.size">
-<tt class="descname">size</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.size" title="Permalink to this definition">¶</a></dt>
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns number of populations (size of underlying C++ vector)</p>
 </dd></dl>
 
@@ -969,15 +924,15 @@ the data structures!</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.ms_sample">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">ms_sample</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.ms_sample" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">ms_sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.ms_sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take a sample from a set of simulated populations.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><tt class="xref py py-class docutils literal"><span class="pre">GSLrng</span></tt></a></li>
-<li><strong>pops</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">poptype</span></tt></a></li>
+<li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
+<li><strong>pops</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">poptype</span></code></a></li>
 <li><strong>nsam</strong> &#8211; List of sample sizes (no. chromosomes) to sample.</li>
 <li><strong>removeFixed</strong> &#8211; if True, only polymorphic sites are retained</li>
 </ul>
@@ -997,13 +952,13 @@ the data structures!</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.nderived">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">nderived</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.nderived" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convenience wrapper around <a class="reference internal" href="#fwdpy.fwdpy.nderived" title="fwdpy.fwdpy.nderived"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.nderived()</span></tt></a></p>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">nderived</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.nderived" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience wrapper around <a class="reference internal" href="#fwdpy.fwdpy.nderived" title="fwdpy.fwdpy.nderived"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.nderived()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></code></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1021,7 +976,7 @@ the data structures!</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.nderived_site">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">nderived_site</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.nderived_site" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">nderived_site</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.nderived_site" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the number of derived mutations at a site.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1033,7 +988,7 @@ the data structures!</p>
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">In general, it will be more convenient to call <a class="reference internal" href="#fwdpy.fwdpy.nderived" title="fwdpy.fwdpy.nderived"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.nderived()</span></tt></a> on a list of tuples.</p>
+<p class="last">In general, it will be more convenient to call <a class="reference internal" href="#fwdpy.fwdpy.nderived" title="fwdpy.fwdpy.nderived"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.nderived()</span></code></a> on a list of tuples.</p>
 </div>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
@@ -1053,7 +1008,7 @@ the data structures!</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.pkg_dependencies">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">pkg_dependencies</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.pkg_dependencies" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">pkg_dependencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.pkg_dependencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return version numbers of dependencies.</p>
 <p>This function is very handy when reporting bugs!</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1068,7 +1023,7 @@ the data structures!</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.pkg_version">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">pkg_version</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.pkg_version" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">pkg_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.pkg_version" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return version numbers of this package</p>
 <p>This function is very handy when reporting bugs!</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1083,38 +1038,37 @@ the data structures!</p>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.popcont">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">popcont</tt><a class="headerlink" href="#fwdpy.fwdpy.popcont" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">popcont</code><a class="headerlink" href="#fwdpy.fwdpy.popcont" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Empty base class for containers of population objects.</p>
-<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></tt></a> and <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></tt></a></p>
+<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a> and <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.poptype">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">poptype</tt><a class="headerlink" href="#fwdpy.fwdpy.poptype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">poptype</code><a class="headerlink" href="#fwdpy.fwdpy.poptype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Empty base class for a population object.</p>
-<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></tt></a> and <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></tt></a></p>
+<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></code></a> and <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.popvec">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">popvec</tt><a class="headerlink" href="#fwdpy.fwdpy.popvec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">popvec</code><a class="headerlink" href="#fwdpy.fwdpy.popvec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></code></a></p>
 <p>Vector of single-deme objects</p>
 <p>Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
 have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the &#8220;usual&#8221;
 Python way.</p>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_pops_t" title="fwdpy.fwdpy.evolve_pops_t"><tt class="xref py py-func docutils literal"><span class="pre">evolve_pops_t()</span></tt></a> and <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></tt></a> for use cases.</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_pops_t" title="fwdpy.fwdpy.evolve_pops_t"><code class="xref py py-func docutils literal"><span class="pre">evolve_pops_t()</span></code></a> and <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for use cases.</p>
 <dl class="attribute">
 <dt id="fwdpy.fwdpy.popvec.next">
-<tt class="descname">next</tt><a class="headerlink" href="#fwdpy.fwdpy.popvec.next" title="Permalink to this definition">¶</a></dt>
-<dd><p>x.next() -&gt; the next value, or raise StopIteration</p>
-</dd></dl>
+<code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.popvec.next" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="fwdpy.fwdpy.popvec.size">
-<tt class="descname">size</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.popvec.size" title="Permalink to this definition">¶</a></dt>
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.popvec.size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns number of populations (size of underlying C++ vector)</p>
 </dd></dl>
 
@@ -1122,7 +1076,7 @@ Python way.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.readslim">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">readslim</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.readslim" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">readslim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.readslim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process a &#8220;SLiM&#8221; input file.</p>
 <p>This function parses the input files for Phillip Messer&#8217;s &#8220;SLiM&#8221; software (<a class="reference external" href="http://messerlab.org/software/">http://messerlab.org/software/</a>).</p>
 <p>Thus function only parses the following blocks in a file:
@@ -1141,8 +1095,8 @@ Python way.</p>
 </tr>
 </tbody>
 </table>
-<p>&#8216;nregions&#8217; A list of type <a class="reference internal" href="#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></tt></a>.  This list represents regions where neutral muations occur.</p>
-<p>&#8216;sregions&#8217; A list of types inheriting from <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a>.  This list represents regions where mutations affecting fitness occur.</p>
+<p>&#8216;nregions&#8217; A list of type <a class="reference internal" href="#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></code></a>.  This list represents regions where neutral muations occur.</p>
+<p>&#8216;sregions&#8217; A list of types inheriting from <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a>.  This list represents regions where mutations affecting fitness occur.</p>
 <p>&#8216;recregion&#8217; A list of type :class:&#8217;fwdpy.fwdpy.Region` representing recombination rate variation</p>
 <p>&#8216;mu_neutral&#8217; is the total mutation rate to neutral variants (per gamete, per generation).</p>
 <p>&#8216;mu_selected&#8217; is the total mutation rate to selected variants (per gamete, per generation).</p>
@@ -1159,27 +1113,27 @@ Python way.</p>
 
 <dl class="class">
 <dt id="fwdpy.fwdpy.singlepop">
-<em class="property">class </em><tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">singlepop</tt><a class="headerlink" href="#fwdpy.fwdpy.singlepop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">singlepop</code><a class="headerlink" href="#fwdpy.fwdpy.singlepop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></p>
 <p>Object representing data structures for single-deme simulations.</p>
 <p>Users are not expected to construct these on their own.  Rather,
-they should be working with <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">popvec</span></tt></a>.  This type exists as
-the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">popvec</span></tt></a>.</p>
+they should be working with <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">popvec</span></code></a>.  This type exists as
+the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">popvec</span></code></a>.</p>
 <dl class="method">
 <dt id="fwdpy.fwdpy.singlepop.gen">
-<tt class="descname">gen</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.singlepop.gen" title="Permalink to this definition">¶</a></dt>
+<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.singlepop.gen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the generation that the population is currently evolved to</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fwdpy.fwdpy.singlepop.popsize">
-<tt class="descname">popsize</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.singlepop.popsize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">popsize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.singlepop.popsize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the size of the population</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="fwdpy.fwdpy.singlepop.sane">
-<tt class="descname">sane</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.singlepop.sane" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.singlepop.sane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes sure that the population is in a sane state.</p>
 <p>Internally, this checks that pop.N == pop.diploids.size(),
 which it should be if the C++ code behind this all is properly updating
@@ -1190,14 +1144,14 @@ the data structures!</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpy.trajectories">
-<tt class="descclassname">fwdpy.fwdpy.</tt><tt class="descname">trajectories</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpy.trajectories" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.trajectories" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the frequency trajectories of (non-neutral) mutations.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></tt></a> simulated using <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></tt></a> and/or <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions_more" title="fwdpy.fwdpy.evolve_regions_more"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions_more()</span></tt></a></li>
+<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></code></a> simulated using <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></code></a> and/or <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions_more" title="fwdpy.fwdpy.evolve_regions_more"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions_more()</span></code></a></li>
 <li><strong>minsojounrn</strong> &#8211; Exclude all mutations that did not exist in the population for <span class="math">\(\geq\ \mathrm{minsojourn}\)</span> generations</li>
 <li><strong>minfreq</strong> &#8211; Exclude all mutations that did not read a minimum frequency of <span class="math">\(\geq\ \mathrm{minfreq}\)</span></li>
 </ul>
@@ -1220,151 +1174,160 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,</span><span class="n">track</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">trajectories</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 </pre></div>
 </div>
 </dd></dl>
 
-<span class="target" id="module-fwdpy.libseq.libseq"></span><dl class="function">
-<dt id="fwdpy.libseq.libseq.hapstats">
-<tt class="descclassname">fwdpy.libseq.libseq.</tt><tt class="descname">hapstats</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.libseq.libseq.hapstats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate haplotype-based statistics from a sample</p>
+<dl class="function">
+<dt id="fwdpy.fwdpy.view_diploids">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">view_diploids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.view_diploids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get detailed list of a set of diploids in the population</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></li>
-<li><strong>minfreq</strong> &#8211; exclude sites with minor allele frequency &lt; minfreq</li>
-<li><strong>binsize</strong> &#8211; The frequency window size for binning</li>
-<li><strong>gmap</strong> &#8211; A list of values containing the position of each variant in the data&#8217;s location on the genetic map.</li>
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></li>
+<li><strong>deme</strong> &#8211; if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if data are not sorted in increasing order according to position</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">a list of dictionaries.  See Note.</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.libseq</span> <span class="kn">as</span> <span class="nn">lseq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="n">lseq</span><span class="o">.</span><span class="n">hapstats</span><span class="p">(</span><span class="n">si</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.05</span><span class="p">)</span> <span class="k">for</span> <span class="n">si</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="fwdpy.libseq.libseq.summstats">
-<tt class="descclassname">fwdpy.libseq.libseq.</tt><tt class="descname">summstats</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.libseq.libseq.summstats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate common summary statistics from a sample</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; a sample from a population.  For example, the return value of <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.ms_sample()</span></tt></a> or <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></tt></a></td>
-</tr>
-</tbody>
-</table>
-<p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.libseq</span> <span class="kn">as</span> <span class="nn">lseq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pop</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_pops_t</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1000</span><span class="p">,[</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="mi">1000</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ms_sample</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="n">lseq</span><span class="o">.</span><span class="n">summstats</span><span class="p">(</span><span class="n">si</span><span class="p">)</span> <span class="k">for</span> <span class="n">si</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="fwdpy.libseq.libseq.windows">
-<tt class="descclassname">fwdpy.libseq.libseq.</tt><tt class="descname">windows</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.libseq.libseq.windows" title="Permalink to this definition">¶</a></dt>
-<dd><p>Split a sample up into &#8220;windows&#8221; based on physical distance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> &#8211; The return value of a function like <tt class="xref py py-func docutils literal"><span class="pre">get_samples()</span></tt>. A list of tuples with the variation data.</li>
-<li><strong>windowSize</strong> &#8211; The length of each window, in same units as your simulation&#8217;s regions.</li>
-<li><strong>stepSize</strong> &#8211; The step size between windows, in same units as your simulation&#8217;s regions.</li>
-<li><strong>startPos</strong> &#8211; The minimum position possible (see Example below)</li>
-<li><strong>endPos</strong> &#8211; The maximum position possible (see Example below)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of samples for each window.  Each element in the list is a list of tuples (the same type as the input data data).</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">A list</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if data are not sorted in increasing order according to position</p>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Empty elements in the return value represent windows with no variation.</p>
-</div>
-<p>Example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span> <span class="kn">as</span> <span class="nn">fp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.libseq</span> <span class="kn">as</span> <span class="nn">lseq</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c"># Evolve for 5N generations initially</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Get sample of size n = 10</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">10</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Split the neutral variants in the sample up into non-overlapping windows of size 0.1</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#The minimum position in all of nregions, sregions, and rregions is 0,</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#and so 0 must be passed as &#39;startPos&#39;.  Likewise, endPos must be 3.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#(If you were to input a value &lt; 0., you&#39;d get a bunch of empty windows in the return value.)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">windows</span> <span class="o">=</span> <span class="n">lseq</span><span class="o">.</span><span class="n">windows</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dips</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_diploids</span><span class="p">(</span><span class="n">i</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">201</span><span class="p">,</span><span class="mi">301</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>And now viewing from a metapop:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dips</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_diploids</span><span class="p">(</span><span class="n">i</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">201</span><span class="p">,</span><span class="mi">301</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.view_gametes">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">view_gametes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.view_gametes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get detailed list of all gametes in the population</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></li>
+<li><strong>deme</strong> &#8211; If p is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></a>, deme is the index of the deme to view</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">a list of dictionaries.  See note.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example for a single deme:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dips</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_gametes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Example for a metapopulation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gams</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_gametes</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.view_mutations">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">view_mutations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.view_mutations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get detailed list of all mutations in the population</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a list of dictionaries.  See Note.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">muts</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">muts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;type &#39;list&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">muts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&lt;type &#39;dict&#39;&gt;</span>
+</pre></div>
+</div>
+<p>Metapopulation example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">muts_deme_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">muts_deme_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <span class="target" id="module-fwdpy.internal.internal"></span><dl class="function">
 <dt id="fwdpy.internal.internal.process_regions">
-<tt class="descclassname">fwdpy.internal.internal.</tt><tt class="descname">process_regions</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.internal.internal.process_regions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Process a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></p>
+<code class="descclassname">fwdpy.internal.internal.</code><code class="descname">process_regions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.internal.internal.process_regions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process a list of objects of <code class="xref py py-class docutils literal"><span class="pre">Region</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>regions</strong> &#8211; a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>regions</strong> &#8211; a list of objects of <code class="xref py py-class docutils literal"><span class="pre">Region</span></code></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a pandas.DataFrame consisting of the beginning (&#8216;beg&#8217;), end (&#8216;end&#8217;) and weight (&#8216;weight&#8217;) for each elememt in l</td>
 </tr>
 </tbody>
 </table>
-<p>A user will generally not call this function.  Rather, it is used internally by things like <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></tt></a>.</p>
+<p>A user will generally not call this function.  Rather, it is used internally by things like <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="fwdpy.internal.internal.process_sregion_callbacks">
-<tt class="descclassname">fwdpy.internal.internal.</tt><tt class="descname">process_sregion_callbacks</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.internal.internal.process_sregion_callbacks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Process a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Sregion</span></tt></p>
+<code class="descclassname">fwdpy.internal.internal.</code><code class="descname">process_sregion_callbacks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.internal.internal.process_sregion_callbacks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process a list of objects of <code class="xref py py-class docutils literal"><span class="pre">Sregion</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>v</strong> &#8211; a <a class="reference internal" href="#fwdpy.internal.internal.shwrappervec" title="fwdpy.internal.internal.shwrappervec"><tt class="xref py py-class docutils literal"><span class="pre">shwrappervec</span></tt></a></li>
-<li><strong>sregions</strong> &#8211; a list of objects of <tt class="xref py py-class docutils literal"><span class="pre">Sregion</span></tt></li>
+<li><strong>v</strong> &#8211; a <a class="reference internal" href="#fwdpy.internal.internal.shwrappervec" title="fwdpy.internal.internal.shwrappervec"><code class="xref py py-class docutils literal"><span class="pre">shwrappervec</span></code></a></li>
+<li><strong>sregions</strong> &#8211; a list of objects of <code class="xref py py-class docutils literal"><span class="pre">Sregion</span></code></li>
 </ul>
 </td>
 </tr>
@@ -1373,13 +1336,13 @@ the data structures!</p>
 </tr>
 </tbody>
 </table>
-<p>A user will generally not call this function.  Rather, it is used internally by things like <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></tt></a>.</p>
+<p>A user will generally not call this function.  Rather, it is used internally by things like <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="fwdpy.internal.internal.shwrappervec">
-<em class="property">class </em><tt class="descclassname">fwdpy.internal.internal.</tt><tt class="descname">shwrappervec</tt><a class="headerlink" href="#fwdpy.internal.internal.shwrappervec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">fwdpy.internal.internal.</code><code class="descname">shwrappervec</code><a class="headerlink" href="#fwdpy.internal.internal.shwrappervec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Wrapper for a vector of callback objects from fwdpp&#8217;s extension library.</p>
 <p>Users will not interact with this type directly.  Rather, it is used
 by other module functions to process user inputs.</p>
@@ -1387,15 +1350,15 @@ by other module functions to process user inputs.</p>
 
 <span class="target" id="module-fwdpy.fwdpyio.fwdpyio"></span><dl class="function">
 <dt id="fwdpy.fwdpyio.fwdpyio.deserialize_metapops">
-<tt class="descclassname">fwdpy.fwdpyio.fwdpyio.</tt><tt class="descname">deserialize_metapops</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_metapops" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert binary representation of populations back to a <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></tt></a></p>
+<code class="descclassname">fwdpy.fwdpyio.fwdpyio.</code><code class="descname">deserialize_metapops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_metapops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert binary representation of populations back to a <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec()</span></tt></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1414,7 +1377,7 @@ by other module functions to process user inputs.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c"># Evolve for 5N generations initially</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
@@ -1430,15 +1393,15 @@ by other module functions to process user inputs.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpyio.fwdpyio.deserialize_singlepops">
-<tt class="descclassname">fwdpy.fwdpyio.fwdpyio.</tt><tt class="descname">deserialize_singlepops</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_singlepops" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert binary representation back to a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></tt></a></p>
+<code class="descclassname">fwdpy.fwdpyio.fwdpyio.</code><code class="descname">deserialize_singlepops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_singlepops" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert binary representation back to a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.popvec()</span></tt></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.popvec()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1455,7 +1418,7 @@ by other module functions to process user inputs.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="n">fpio</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
@@ -1467,13 +1430,13 @@ by other module functions to process user inputs.</p>
 
 <dl class="function">
 <dt id="fwdpy.fwdpyio.fwdpyio.serialize">
-<tt class="descclassname">fwdpy.fwdpyio.fwdpyio.</tt><tt class="descname">serialize</tt><big>(</big><big>)</big><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">fwdpy.fwdpyio.fwdpyio.</code><code class="descname">serialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a binary representation of an evolved population</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; A list of <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; A list of <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1486,7 +1449,7 @@ by other module functions to process user inputs.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="n">fpio</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 </pre></div>
@@ -1498,9 +1461,9 @@ by other module functions to process user inputs.</p>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
 </ul>
 </div>
 
@@ -1508,7 +1471,7 @@ by other module functions to process user inputs.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
@@ -1522,12 +1485,14 @@ by other module functions to process user inputs.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="README.html"
                         title="next chapter">fwdpy: forward simulation in Python using fwdpp</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -1544,7 +1509,7 @@ by other module functions to process user inputs.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -1556,12 +1521,12 @@ by other module functions to process user inputs.</p>
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              >next</a> |</li>
-        <li><a href="#">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

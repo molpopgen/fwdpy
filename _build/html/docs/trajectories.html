@@ -8,7 +8,7 @@
     
     <title>Tracking mutation frequencies &mdash; fwdpy 0.0.1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="fwdpy 0.0.1 documentation" href="../index.html" />
     <link rel="next" title="Copying populations in memory" href="copypops.html" />
     <link rel="prev" title="Example: Sliding windows" href="windows.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,14 +44,14 @@
         <li class="right" >
           <a href="windows.html" title="Example: Sliding windows"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="tracking-mutation-frequencies">
 <h1>Tracking mutation frequencies<a class="headerlink" href="#tracking-mutation-frequencies" title="Permalink to this headline">¶</a></h1>
@@ -68,7 +68,7 @@ import matplotlib.pyplot as plt
 </div>
 <div class="section" id="run-a-simulation">
 <h2>Run a simulation<a class="headerlink" href="#run-a-simulation" title="Permalink to this headline">¶</a></h2>
-<p>This is the same example that you see in <a class="reference internal" href="../index.html#fwdpy.fwdpy.trajectories" title="fwdpy.fwdpy.trajectories"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.trajectories()</span></tt></a>, except that I&#8217;ve changed the random number seed.</p>
+<p>This is the same example that you see in <a class="reference internal" href="../index.html#fwdpy.fwdpy.trajectories" title="fwdpy.fwdpy.trajectories"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.trajectories()</span></code></a>, except that I&#8217;ve changed the random number seed.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
 <span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
@@ -197,7 +197,7 @@ h5 file.</p>
 </pre></div>
 </div>
 <p>Why are the two objects not the same length?  We did the same thing, right, but in chunks the second time?  Well, not quite.</p>
-<p>Each time we call <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></tt></a> and/or <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions_more" title="fwdpy.fwdpy.evolve_regions_more"><tt class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions_more()</span></tt></a>, we are using the existing random number generator (RNG) to randomly seed RNGs for each thread.  Thus, the total number of calls to the global RNG (the variable called <em>rng2</em> in our code) differs from the number of calls to the <em>rng</em> variable above.</p>
+<p>Each time we call <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></code></a> and/or <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions_more" title="fwdpy.fwdpy.evolve_regions_more"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions_more()</span></code></a>, we are using the existing random number generator (RNG) to randomly seed RNGs for each thread.  Thus, the total number of calls to the global RNG (the variable called <em>rng2</em> in our code) differs from the number of calls to the <em>rng</em> variable above.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">mfreq2</span> <span class="o">=</span> <span class="n">traj2</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">&#39;pos&#39;</span><span class="p">,</span><span class="s">&#39;esize&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="c">#Print out info for all mutations that hit a frequency of 1 (e.g., fixed)</span>
 <span class="n">mfreq2</span><span class="p">[</span><span class="n">mfreq2</span><span class="p">[</span><span class="s">&#39;freq&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
@@ -223,7 +223,7 @@ same result because this method uses the RNG differently.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -245,12 +245,14 @@ same result because this method uses the RNG differently.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="copypops.html"
                         title="next chapter">Copying populations in memory</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/docs/trajectories.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/docs/trajectories.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -267,7 +269,7 @@ same result because this method uses the RNG differently.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -282,12 +284,12 @@ same result because this method uses the RNG differently.</p>
         <li class="right" >
           <a href="windows.html" title="Example: Sliding windows"
              >previous</a> |</li>
-        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

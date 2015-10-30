@@ -8,7 +8,7 @@
     
     <title>Example: Modeling regional variation in mutation and recombination &mdash; fwdpy 0.0.1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="fwdpy 0.0.1 documentation" href="../index.html" />
-    <link rel="next" title="Example: background selection" href="BGS.html" />
+    <link rel="next" title="Calculating summary statistics" href="summstats.html" />
     <link rel="prev" title="Example: modeling changes in population size" href="popsizes.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -39,19 +39,19 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="BGS.html" title="Example: background selection"
+          <a href="summstats.html" title="Calculating summary statistics"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="popsizes.html" title="Example: modeling changes in population size"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="example-modeling-regional-variation-in-mutation-and-recombination">
 <h1>Example: Modeling regional variation in mutation and recombination<a class="headerlink" href="#example-modeling-regional-variation-in-mutation-and-recombination" title="Permalink to this headline">¶</a></h1>
@@ -68,8 +68,8 @@
 <div class="section" id="mutation-rates-recombination-rates-and-a-weighting-system">
 <h3>Mutation rates, recombination rates, and a weighting system<a class="headerlink" href="#mutation-rates-recombination-rates-and-a-weighting-system" title="Permalink to this headline">¶</a></h3>
 <p>A simulation will typically have a mutation rate, <span class="math">\(\\mu\)</span>, which represents the mean of a Poisson number of mutations per gamete per generation), and a recombination rate, <span class="math">\(r\)</span>, which again is the mean of Poisson number of crossover events (per diploid, per generation).  These parameters are the _total_ rates across an entire simulated region.  Variation in these parameters along the region are affected by a set of positions coupled with &#8220;weights&#8221;, which the user specifies using S4 classes.</p>
-<p>The base class: <a class="reference internal" href="../index.html#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></tt></a></p>
-<p>A <a class="reference internal" href="../index.html#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></tt></a> is an Python class with the following members:</p>
+<p>The base class: <a class="reference internal" href="../index.html#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></code></a></p>
+<p>A <a class="reference internal" href="../index.html#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></code></a> is an Python class with the following members:</p>
 <ul class="simple">
 <li><span class="math">\(b\)</span>, which is the beginning/start of the region. The type is &#8220;float&#8221;.</li>
 <li><span class="math">\(e\)</span>, which is the end/stop of the region. The type is &#8220;float&#8221;.</li>
@@ -119,7 +119,7 @@ thus an equivalent specification would be this:</p>
 <h2>Specific examples<a class="headerlink" href="#specific-examples" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="mutations-not-affecting-fitness-neutral-mutations">
 <h3>Mutations not affecting fitness (&#8220;neutral&#8221; mutations)<a class="headerlink" href="#mutations-not-affecting-fitness-neutral-mutations" title="Permalink to this headline">¶</a></h3>
-<p>You specify regions where neutral mutations arise via the class <a class="reference internal" href="../index.html#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></tt></a>.  A region has a beginning, end, and a weight Thus, the following list would specify that 100% of neutral mutations occur on the continuous interval [0,1):</p>
+<p>You specify regions where neutral mutations arise via the class <a class="reference internal" href="../index.html#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></code></a>.  A region has a beginning, end, and a weight Thus, the following list would specify that 100% of neutral mutations occur on the continuous interval [0,1):</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">neutralRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
@@ -166,17 +166,17 @@ second line of each set.)</p>
 <li><span class="math">\(s\)</span>, the selection coefficient</li>
 <li><span class="math">\(h\)</span>, the effect of the mutation in a heterozygote (a.k.a. the &#8220;dominance&#8221; of the mutation).</li>
 </ul>
-<p>In a simulation, we may place a distribution on either <span class="math">\(s\)</span> itself or on the scaled selection parameter <span class="math">\(\alpha = 2Ns\)</span>.  These two methods are represented by the class <a class="reference internal" href="../index.html#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></tt></a>.  These classes contain/extend the <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt> class described above, and thus inherit their members.  <tt class="xref py py-class docutils literal"><span class="pre">Sregion</span></tt> adds <span class="math">\(h\)</span>, which is the dominance of a mutation, and then classes extending <tt class="xref py py-class docutils literal"><span class="pre">Sregion</span></tt> add details about the distribution of fitness effects.  These classes are:</p>
+<p>In a simulation, we may place a distribution on either <span class="math">\(s\)</span> itself or on the scaled selection parameter <span class="math">\(\alpha = 2Ns\)</span>.  These two methods are represented by the class <a class="reference internal" href="../index.html#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a>.  These classes contain/extend the <code class="xref py py-class docutils literal"><span class="pre">Region</span></code> class described above, and thus inherit their members.  <code class="xref py py-class docutils literal"><span class="pre">Sregion</span></code> adds <span class="math">\(h\)</span>, which is the dominance of a mutation, and then classes extending <code class="xref py py-class docutils literal"><span class="pre">Sregion</span></code> add details about the distribution of fitness effects.  These classes are:</p>
 <ul class="simple">
-<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.ConstantS" title="fwdpy.fwdpy.ConstantS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ConstantS</span></tt></a></li>
-<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.UniformS" title="fwdpy.fwdpy.UniformS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.UniformS</span></tt></a></li>
-<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.GammaS" title="fwdpy.fwdpy.GammaS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GammaS</span></tt></a></li>
-<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.GaussianS" title="fwdpy.fwdpy.GaussianS"><tt class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GaussianS</span></tt></a></li>
+<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.ConstantS" title="fwdpy.fwdpy.ConstantS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.ConstantS</span></code></a></li>
+<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.UniformS" title="fwdpy.fwdpy.UniformS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.UniformS</span></code></a></li>
+<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.GammaS" title="fwdpy.fwdpy.GammaS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GammaS</span></code></a></li>
+<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.GaussianS" title="fwdpy.fwdpy.GaussianS"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.GaussianS</span></code></a></li>
 </ul>
 </div>
 <div class="section" id="crossover-rate-variation">
 <h3>Crossover rate variation<a class="headerlink" href="#crossover-rate-variation" title="Permalink to this headline">¶</a></h3>
-<p>Just like neutral mutations, intervals with different crossover rates are specified by different <tt class="xref py py-class docutils literal"><span class="pre">Region</span></tt> objects.  Let&#8217;s set up the following concrete example:</p>
+<p>Just like neutral mutations, intervals with different crossover rates are specified by different <code class="xref py py-class docutils literal"><span class="pre">Region</span></code> objects.  Let&#8217;s set up the following concrete example:</p>
 <ul class="simple">
 <li>A region where crossovers occur between positions [0,1)</li>
 <li>Positions [0,0.45) and [0.55,1) have uniform recombintion rates</li>
@@ -280,7 +280,7 @@ second line of each set.)</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -307,14 +307,16 @@ second line of each set.)</p>
   <p class="topless"><a href="popsizes.html"
                         title="previous chapter">Example: modeling changes in population size</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="BGS.html"
-                        title="next chapter">Example: background selection</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/docs/regions.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <p class="topless"><a href="summstats.html"
+                        title="next chapter">Calculating summary statistics</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/docs/regions.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -331,7 +333,7 @@ second line of each set.)</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -341,17 +343,17 @@ second line of each set.)</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="BGS.html" title="Example: background selection"
+          <a href="summstats.html" title="Calculating summary statistics"
              >next</a> |</li>
         <li class="right" >
           <a href="popsizes.html" title="Example: modeling changes in population size"
              >previous</a> |</li>
-        <li><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>

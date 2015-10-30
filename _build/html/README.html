@@ -8,7 +8,7 @@
     
     <title>fwdpy: forward simulation in Python using fwdpp &mdash; fwdpy 0.0.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,13 +23,13 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="fwdpy 0.0.1 documentation" href="index.html" />
     <link rel="next" title="Modules in this package" href="docs/notes.html" />
     <link rel="prev" title="Welcome to fwdpy’s documentation!" href="index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,14 +44,14 @@
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="fwdpy-forward-simulation-in-python-using-fwdpp">
 <h1>fwdpy: forward simulation in Python using fwdpp<a class="headerlink" href="#fwdpy-forward-simulation-in-python-using-fwdpp" title="Permalink to this headline">¶</a></h1>
@@ -61,13 +61,12 @@
 <ol class="arabic simple">
 <li><a class="reference external" href="http://www.cython.org/">Cython</a>, which is a package allowing C++ and Python to work together</li>
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a>, which is a C++11 template library for implementing efficient population genetic simulations</li>
-<li><a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>, which is a C++11 library for various population-genetic calculations.</li>
 </ol>
 <p>Please note that this package is likely to be quite unstable/actively developed.</p>
 <p>The package is usable now (in fact, we are currently using it for research), but the API, etc., could change without warning.</p>
 <div class="section" id="citation">
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
-<p>See the project home page for details (<a class="reference external" href="http://molopgen.github.io/fwdpy">http://molopgen.github.io/fwdpy</a>).</p>
+<p>See the project home page for details (<a class="reference external" href="http://molpopgen.github.io/fwdpy">http://molpopgen.github.io/fwdpy</a>).</p>
 </div>
 <div class="section" id="features">
 <h2>Features:<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
@@ -150,10 +149,11 @@
 <ul class="simple">
 <li><a class="reference external" href="http://gnu.org/software/gsl">GSL</a></li>
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a></li>
-<li><a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a></li>
+<li><a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>  (Technically, libsequence is not needed for this package, but it is a dependency of fwdpp)</li>
 <li><a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a></li>
 </ul>
 <p>The configure script will enforce minimum version numbers of these dependencies, if necessary.</p>
+<p><strong>Note:</strong> fwdpy may require the &#8216;dev&#8217; branch of fwdpp and/or libsequence.  The configure script checks for <em>both</em> the correct dependency version number <em>and</em> specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  Additionally, I&#8217;m adding summary statistics to libsequence.  This situation will remain until fwdpy stabilizes.</p>
 <p>You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.</p>
 <p>OS X users are recommended to use <a class="reference external" href="http://brew.sh">brew</a> to install the various dependencies:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>brew install gsl
@@ -168,8 +168,8 @@
 </div>
 <div class="section" id="what-python-version">
 <h2>What Python version?<a class="headerlink" href="#what-python-version" title="Permalink to this headline">¶</a></h2>
-<p>I&#8217;m developing the package using Python 2.7.6 on an Ubuntu machine.  To the best of my knowledge, the code should be compatible with Python 3.4.0 as well.</p>
-<p>However, Cython generates unusual module names for the compiled code under Python 3.4.0, which breaks the package.  I&#8217;m looking into it, but Python 3 support may be held up for some time.</p>
+<p>I&#8217;m developing the package using Python 2.7.6 on an Ubuntu machine.</p>
+<p>Currently, the package is not 100% compatible with Python 3.  The goal is to make it work, though.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -190,15 +190,31 @@
 <span class="nv">$ </span>pip uninstall fwdpy
 </pre></div>
 </div>
+<p>To build the package in place and run the unit tets:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="c">#build package locally:</span>
+<span class="nv">$ </span>python setup.py build_ext -i
+<span class="nv">$ </span><span class="c">#run the unit tests:</span>
+<span class="nv">$ </span>python -m unittest discover unit_test
+</pre></div>
+</div>
 </div>
 <div class="section" id="note-for-developers">
 <h2>Note for developers<a class="headerlink" href="#note-for-developers" title="Permalink to this headline">¶</a></h2>
+<p>Cython is a static compiler.  Code written in Cython is compiled into C or, in the case of this package, C++.  Finally, the system&#8217;s C/C++ compiler is used to compile the final Python module.</p>
+<p>In order to modify the package, you will need Cython installed:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install Cython
+</pre></div>
+</div>
+<p>You need Cython &gt;= 0.22.2, so upgrade if you need to:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install --upgrade Cython
+</pre></div>
+</div>
 <p>If you wish to modify the package, then you will want setup.py to &#8220;re-Cythonize&#8221; when you make changes to the package source code.</p>
 <p>To do this, use the configure script as follows:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>./configure --enable-cython
 </pre></div>
 </div>
-<p>Now, Cython will be a compilation depdendency, meaning that any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the &#8220;CPython&#8221; part of the interface.</p>
+<p>Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the &#8220;CPython&#8221; part of the interface.</p>
 <div class="section" id="rough-guide-to-installation-on-uci-hpc">
 <h3>Rough guide to installation on UCI HPC<a class="headerlink" href="#rough-guide-to-installation-on-uci-hpc" title="Permalink to this headline">¶</a></h3>
 <p>Use the following module:</p>
@@ -246,7 +262,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -278,12 +294,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="docs/notes.html"
                         title="next chapter">Modules in this package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/README.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/README.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -300,7 +318,7 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -315,12 +333,12 @@
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              >previous</a> |</li>
-        <li><a href="index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>
