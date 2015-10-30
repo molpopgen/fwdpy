@@ -30,10 +30,6 @@ Functions and classes
    :members:
    :show-inheritance:
 
-.. automodule:: fwdpy.libseq.libseq
-   :members:
-   :show-inheritance:
-
 .. automodule:: fwdpy.internal.internal 
    :members:
    :show-inheritance:

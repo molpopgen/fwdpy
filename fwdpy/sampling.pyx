@@ -168,7 +168,7 @@ def getfreq(tuple site,bint derived = True):
     :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)
 
     .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\pi`, a.k.a. "sum of site heterozygosity").
-       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  
        In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.
        
     Example:
