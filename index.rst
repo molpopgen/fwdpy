@@ -16,6 +16,7 @@ Contents:
    docs/rusers
    docs/popsizes
    docs/regions
+   docs/summstats
    docs/BGS
    docs/windows
    docs/trajectories
@@ -26,10 +27,6 @@ Functions and classes
 ##########################################
 
 .. automodule:: fwdpy.fwdpy
-   :members:
-   :show-inheritance:
-
-.. automodule:: fwdpy.libseq.libseq
    :members:
    :show-inheritance:
 

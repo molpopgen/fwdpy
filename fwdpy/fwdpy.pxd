@@ -6,6 +6,7 @@ from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
+from fwdpy.gsl cimport gsl_rng
 
 ##Create hooks to C++ types
 
@@ -49,6 +50,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         int size()
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
+        gsl_rng * get()
 
 #Now, provied definitions for classes in classes.pyx
 cdef class poptype(object):
@@ -95,17 +97,24 @@ cdef class mpopvec(popcont):
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
+#Typedefs for convenience
+ctypedef cpplist[popgenmut].iterator mlist_t_itr
+ctypedef vector[mlist_t_itr] mut_container_t
+ctypedef cpplist[gamete_t].iterator glist_t_itr
+ctypedef vector[diploid_t].iterator dipvector_t_itr
 
-    
-##Now, wrap the functions
+##Define some low-level functions that may be useful for others
+cdef get_mutation( const cpplist[popgenmut].iterator & )
+cdef get_gamete( const cpplist[gamete_t].iterator & )
+cdef get_diploid( const vector[diploid_t].iterator & itr )
+
+##Now, wrap the functions.
+##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
+##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
 cdef extern from "neutral.hpp" namespace "fwdpy" nogil:
     void evolve_pop(GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops, const vector[unsigned] nlist, const double & theta, const double & rho)
 
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
-    vector[pair[double,string]] take_sample_from_pop(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
-    pair[vector[pair[double,string]],vector[pair[double,string]]] take_sample_from_pop_sep(GSLrng_t * rng,const singlepop_t * pop,const unsigned nsam, const int remove_fixed)
-    pair[vector[pair[double,string]],vector[pair[double,string]]] take_sample_from_metapop_sep(GSLrng_t * rng,const metapop_t * mpop,const unsigned & nsam, const int remove_fixed, const int deme)
-    pair[vector[pair[double,string]],vector[pair[double,string]]] sample_specific_diploids(const singlepop_t * pop, const vector[unsigned] & indlist, const int remove_fixed)
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
     

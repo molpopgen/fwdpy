@@ -12,10 +12,6 @@ Setting up the simulation
 
 .. code:: python
 
-    #The next two lines let plots show up
-    #in the notbook:
-    %matplotlib inline 
-    %pylab inline 
     #Use Pyhon 3's print a a function.
     #This future-proofs the code in the notebook
     from __future__ import print_function
@@ -27,18 +23,6 @@ Setting up the simulation
     import numpy as np
     import pandas
     import math
-
-
-.. parsed-literal::
-
-    Populating the interactive namespace from numpy and matplotlib
-
-
-.. code:: python
-
-    #We're going to do some plots at the end.
-    import matplotlib
-    import matplotlib.pyplot as plt
 
 Establishing 'regions' for mutation and recombination
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -169,22 +153,25 @@ Getting additional information about samples
 
 .. parsed-literal::
 
+        a  h      p     s
+    0  67  1  0.006 -0.05
+         a  h       p     s
+    0   19  1  0.0025 -0.05
+    1    6  1  0.0055 -0.05
+    2   17  1  0.0120 -0.05
+    3  149  1  0.0235 -0.05
+    4   36  1  0.0070 -0.05
+    5   24  1  0.0080 -0.05
         a  h       p     s
-    0  35  1  0.0075 -0.05
-    1   8  1  0.0040 -0.05
-    2  18  1  0.0030 -0.05
+    0   3  1  0.0030 -0.05
+    1   1  1  0.0005 -0.05
+    2  19  1  0.0060 -0.05
         a  h       p     s
-    0  19  1  0.0100 -0.05
-    1  13  1  0.0025 -0.05
-        a  h       p     s
-    0  10  1  0.0090 -0.05
-    1  29  1  0.0060 -0.05
-    2  15  1  0.0035 -0.05
-        a  h       p     s
-    0   1  1  0.0005 -0.05
-    1  20  1  0.0065 -0.05
-    2  33  1  0.0080 -0.05
-    3   1  1  0.0005 -0.05
+    0  24  1  0.0145 -0.05
+    1   5  1  0.0010 -0.05
+    2   2  1  0.0020 -0.05
+    3  10  1  0.0105 -0.05
+    4   6  1  0.0020 -0.05
 
 
 .. code:: python
@@ -199,10 +186,10 @@ Getting additional information about samples
 
 .. parsed-literal::
 
-    Number of sites in samples[0] = 3. Number of rows in DataFrame 0 = 3
-    Number of sites in samples[1] = 2. Number of rows in DataFrame 1 = 2
+    Number of sites in samples[0] = 1. Number of rows in DataFrame 0 = 1
+    Number of sites in samples[1] = 6. Number of rows in DataFrame 1 = 6
     Number of sites in samples[2] = 3. Number of rows in DataFrame 2 = 3
-    Number of sites in samples[3] = 4. Number of rows in DataFrame 3 = 4
+    Number of sites in samples[3] = 5. Number of rows in DataFrame 3 = 5
 
 
 .. code:: python
@@ -231,112 +218,93 @@ Getting additional information about samples
 .. parsed-literal::
 
     This is the merged table:
-        a  h       p     s       pos  count  id
-    0  35  1  0.0075 -0.05  1.191983      1   0
-    1   8  1  0.0040 -0.05  1.629000      1   0
-    2  18  1  0.0030 -0.05  1.721135      1   0
-    0  19  1  0.0100 -0.05  1.232333      1   1
-    1  13  1  0.0025 -0.05  1.710726      1   1
-    0  10  1  0.0090 -0.05 -0.743740      1   2
-    1  29  1  0.0060 -0.05 -0.513952      1   2
-    2  15  1  0.0035 -0.05 -0.283127      1   2
-    0   1  1  0.0005 -0.05 -0.734266      1   3
-    1  20  1  0.0065 -0.05 -0.004909      1   3
-    2  33  1  0.0080 -0.05  1.460910      1   3
-    3   1  1  0.0005 -0.05  1.698163      1   3
+         a  h       p     s       pos  count  id
+    0   67  1  0.0060 -0.05  1.877543      1   0
+    0   19  1  0.0025 -0.05 -0.928520      1   1
+    1    6  1  0.0055 -0.05 -0.861297      1   1
+    2   17  1  0.0120 -0.05 -0.843893      1   1
+    3  149  1  0.0235 -0.05 -0.472551      1   1
+    4   36  1  0.0070 -0.05 -0.426389      1   1
+    5   24  1  0.0080 -0.05  1.162503      1   1
+    0    3  1  0.0030 -0.05 -0.309919      1   2
+    1    1  1  0.0005 -0.05  1.534583      1   2
+    2   19  1  0.0060 -0.05  1.575055      1   2
+    0   24  1  0.0145 -0.05 -0.996158      1   3
+    1    5  1  0.0010 -0.05 -0.317365      1   3
+    2    2  1  0.0020 -0.05 -0.124097      1   3
+    3   10  1  0.0105 -0.05  1.342523      1   3
+    4    6  1  0.0020 -0.05  1.515371      1   3
 
 
 Summary statistics from samples
 -------------------------------
 
-The sub-module fwdpy.libseq (which we have imported as 'libseq') has a
-function, 'summstats', which calculates many commonly-used summaries of
-variation data.
+We will use the `pyseq <http://molpopgen.github.io/pyseq/>`__ package to
+calculate summary statistics. pyseq is a Python wrapper around
+`libsequence <http://molpopgen.github.io/libsequence/>`__.
 
 .. code:: python
 
-    ##This is an example of where you can do a lot in a 1-liner.
-    ##We use nested list comprehensions to:
-    ##  1. Get summary statistics for each element in samples.  We do neutral mutations (element 0)
-    ##     and selected mutations (element 1) separately.
-    ##  2. Turn each dict from libseq.summstats into a pandas.DataFrame
-    ##  3. Combine all those DataFrame objects into one large DataFrame
-    NeutralMutStats=pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value']) 
-                                   for i in [libseq.summstats(j[0]) for j in samples]])
-    SelectedMutStats=pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value'])
-                                   for i in [libseq.summstats(j[1]) for j in samples]])
-    print(NeutralMutStats)
-    print(SelectedMutStats)
+    import libsequence.polytable as polyt
+    import libsequence.summstats as sstats
+    
+    #Convert neutral mutations into libsequence "SimData" objects, 
+    #which are intended to handle binary (0/1) data like
+    #what comes out of these simulations
+    n = [polyt.simData(i[0]) for i in samples]
+    
+    #Create "factories" for calculating the summary stats
+    an = [sstats.polySIM(i) for i in n]
+    
+    ##Collect a bunch of summary stats into a pandas.DataFrame:
+    NeutralMutStats = pandas.DataFrame([ {'thetapi':i.thetapi(),'npoly':i.numpoly(),'thetaw':i.thetaw()} for i in an ])
+    
+    NeutralMutStats
 
 
-.. parsed-literal::
 
-              stat      value
-    0      thetapi  20.447368
-    1  dsingletons  14.000000
-    2            S  65.000000
-    3         tajd   0.471357
-    4   singletons  14.000000
-    5       thetah  11.447368
-    6       hprime   0.877725
-    7       thetaw  18.321525
-    0      thetapi  11.342105
-    1  dsingletons  13.000000
-    2            S  49.000000
-    3         tajd  -0.718929
-    4   singletons  13.000000
-    5       thetah  12.763158
-    6       hprime  -0.181022
-    7       thetaw  13.811611
-    0      thetapi  15.378947
-    1  dsingletons  14.000000
-    2            S  59.000000
-    3         tajd  -0.304694
-    4   singletons  14.000000
-    5       thetah  15.778947
-    6       hprime  -0.042769
-    7       thetaw  16.630307
-    0      thetapi  11.868421
-    1  dsingletons  15.000000
-    2            S  49.000000
-    3         tajd  -0.565706
-    4   singletons  15.000000
-    5       thetah   6.973684
-    6       hprime   0.623519
-    7       thetaw  13.811611
-              stat     value
-    0      thetapi  0.300000
-    1  dsingletons  3.000000
-    2            S  3.000000
-    3         tajd -1.723310
-    4   singletons  3.000000
-    5       thetah  0.015789
-    6       hprime  0.347472
-    7       thetaw  0.845609
-    0      thetapi  0.200000
-    1  dsingletons  2.000000
-    2            S  2.000000
-    3         tajd -1.512836
-    4   singletons  2.000000
-    5       thetah  0.010526
-    6       hprime  0.299199
-    7       thetaw  0.563739
-    0      thetapi  0.300000
-    1  dsingletons  3.000000
-    2            S  3.000000
-    3         tajd -1.723310
-    4   singletons  3.000000
-    5       thetah  0.015789
-    6       hprime  0.347472
-    7       thetaw  0.845609
-    0      thetapi  0.400000
-    1  dsingletons  4.000000
-    2            S  4.000000
-    3         tajd -1.867878
-    4   singletons  4.000000
-    5       thetah  0.021053
-    6       hprime  0.382404
-    7       thetaw  1.127478
+
+.. raw:: html
+
+    <div>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>npoly</th>
+          <th>thetapi</th>
+          <th>thetaw</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>62</td>
+          <td>18.405263</td>
+          <td>17.475916</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>47</td>
+          <td>12.763158</td>
+          <td>13.247872</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>74</td>
+          <td>19.310526</td>
+          <td>20.858351</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>65</td>
+          <td>13.205263</td>
+          <td>18.321525</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
 
 
 The average :math:`\pi` under the model
@@ -366,13 +334,9 @@ For our parameters, we have
     16.5313087525
 
 
-Now, let's get the average :math:`\pi` from 500 simulated replicates. We
-already have four replicates that we did above, so we'll run another 124
-sets of four populations.
+Now, let's get the average $\pi$ from 500 simulated replicates.  We already have four replicates that we did above, so we'll run another 124 sets of four populations.  
 
-We will use standard Python to grow "pn", which is our list of
-:math:`\pi` values calculated from neutral mutations from each
-replicate.
+We will use standard Python to grow our collection of summary statistics.
 
 .. code:: python
 
@@ -387,14 +351,15 @@ replicate.
                              nregions, 
                              sregions, 
                              recregions)
-        ##This is another heavy one-liner.
-        ##We're taking samples of n=20 from each pop,
-        ##Getting summstats for each neutral block from each sample,
-        ##Turning the dict into pandas DataFrame objects,
-        ##and returning a big DataFrame for all the data.
-        temp = pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value']) 
-                              for i in [libseq.summstats(j[0]) for j in [fp.get_samples(rng,k,20) for k in pops]]])
-        NeutralMutStats=pandas.concat([NeutralMutStats,temp])
+        samples = [fp.get_samples(rng,i,20) for i in pops]
+        simdatasNeut = [polyt.simData(i[0]) for i in samples]
+        polySIMn = [sstats.polySIM(i) for i in simdatasNeut]
+        ##Append stats into our growing DataFrame:
+        NeutralMutStats=pandas.concat([NeutralMutStats,
+                                       pandas.DataFrame([ {'thetapi':i.thetapi(),
+                                                           'npoly':i.numpoly(),
+                                                           'thetaw':i.thetaw()} for i in polySIMn ])])
+
 
 Getting the mean diversity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -409,64 +374,20 @@ package, which is a really excellent tool for this sort of thing.
 
 .. code:: python
 
-    NeutralMutStats.groupby(['stat']).mean()
+    #Get means for each column:
+    NeutralMutStats.mean(0)
 
 
 
 
-.. raw:: html
+.. parsed-literal::
 
-    <div>
-    <table border="1" class="dataframe">
-      <thead>
-        <tr style="text-align: right;">
-          <th></th>
-          <th>value</th>
-        </tr>
-        <tr>
-          <th>stat</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>S</th>
-          <td>58.878000</td>
-        </tr>
-        <tr>
-          <th>dsingletons</th>
-          <td>17.016000</td>
-        </tr>
-        <tr>
-          <th>hprime</th>
-          <td>0.025761</td>
-        </tr>
-        <tr>
-          <th>singletons</th>
-          <td>17.902000</td>
-        </tr>
-        <tr>
-          <th>tajd</th>
-          <td>-0.099714</td>
-        </tr>
-        <tr>
-          <th>thetah</th>
-          <td>16.366926</td>
-        </tr>
-        <tr>
-          <th>thetapi</th>
-          <td>16.358968</td>
-        </tr>
-        <tr>
-          <th>thetaw</th>
-          <td>16.595919</td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+    npoly      57.280000
+    thetapi    15.743958
+    thetaw     16.145491
+    dtype: float64
 
 
 
 The 'thetapi' record is our mean :math:`\pi` from all of the
 simulations, and it is quite close to the theoretical value.
-

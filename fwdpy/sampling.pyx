@@ -1,4 +1,5 @@
-from internal import diploid_view_singlepop as view_single,diploid_view_metapop as view_meta
+from cython.operator cimport dereference as deref
+from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
 import numpy as np
 import pandas as pd
 
@@ -6,15 +7,15 @@ import pandas as pd
 ##These fxns make calls to the C++ layer
 
 def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
-    return take_sample_from_pop(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+    return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
 
 def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
-    return take_sample_from_pop_sep(rng.thisptr,pop.pop.get(),nsam, int(removeFixed))
+    return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
 def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme):
     if deme >= len(pop):
         raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
-    return take_sample_from_metapop_sep(rng.thisptr,pop.mpop.get(),nsam, int(removeFixed), deme)
+    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
 
 cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     singlepop pop,
@@ -67,6 +68,8 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     
     :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.
 
+    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`
+
     Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.
 
     Example:
@@ -114,48 +117,6 @@ def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
         get_sh_metapop(ms_sample,pop,&s,&h,&p,&a)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
 
-def diploid_view( poptype pop, list indlist, bint removeFixed = False, deme = None ):
-    """
-    Get detailed information about a list of diploids.
-
-    :param pop: A :class:`poptype`
-    :param indlist: A list of *indexes* of individuals to sample. (Start counting from 0.)
-    :param removeFixed: If non-zero, fixations will be excluded.
-    :param deme: If pop is of type :class:`metapop`, deme is the index of the sub-population from which to get the individuals
-
-    :return: A pandas.DataFrame containing information about each mutation for each individual in indlist.
-
-    :rtype: pandas.DataFrame
-
-    :raises: IndexError if any item in indlist is out of range, or if deme is out of range.
-
-    .. note:: This return value of this function does not allow the calculation of fixation times.
-       In order to do that, a change must be made to fwdpp, which may or may not happen
-       soon.
-
-    Example:
-
-    >>> import fwdpy as fp
-    >>> import numpy as np
-    >>> rng = fp.GSLrng(100)
-    >>> nregions = [fp.Region(0,1,1),fp.Region(2,3,1)]
-    >>> sregions = [fp.ExpS(1,2,1,-0.1),fp.ExpS(1,2,0.01,0.001)]
-    >>> rregions = [fp.Region(0,3,1)]
-    >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> # Evolve for 5N generations initially
-    >>> popsizes=np.tile(popsizes,10000)
-    >>> pops = fp.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> #Take a "view" of the first 5 diploids:
-    >>> view = fp.diploid_view(pops[0],[0,1,2,3,4])
-    """
-    if isinstance(pop,singlepop):
-        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [view_single(pop,j,removeFixed) for j in indlist]] )
-    elif isinstance(pop,metapop):
-        if deme is None:
-            raise RuntimeError("deme may not be set to None when taking a view from a meta-population")
-        return pandas.concat( [pandas.DataFrame.from_dict(i) for i in [view_meta(pop,j,removeFixed,deme) for j in indlist]] )
-    else:
-        raise ValueError("diploid_view: type of pop is not supported")
 
 ###### Functions for manipulating samples.
 def nderived_site(tuple site):
@@ -180,7 +141,7 @@ def nderived_site(tuple site):
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
     """
-    return site[1].count('1')
+    return str(site[1]).count('1')
 
 def nderived( list sample ):
     """
@@ -207,7 +168,7 @@ def getfreq(tuple site,bint derived = True):
     :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)
 
     .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\pi`, a.k.a. "sum of site heterozygosity").
-       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  
        In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.
        
     Example:

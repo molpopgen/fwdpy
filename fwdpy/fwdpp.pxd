@@ -11,8 +11,12 @@ simplifying the API considerably over the "raw" fwdpp API.
 """
 
 from libcpp cimport bool
+from libcpp.utility cimport pair
+from libcpp.string cimport string
 from libcpp.vector cimport vector
 from libcpp.list cimport list as cpplist
+from fwdpy.gsl cimport gsl_rng
+
 
 ##We will expose some low-level types from fwdpp:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
@@ -33,6 +37,14 @@ cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
         vector[cpplist[popgenmut].iterator] mutations
         vector[cpplist[popgenmut].iterator] smutations
 
+cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
+    ctypedef vector[pair[double,string]] sample_t
+    ctypedef pair[sample_t,sample_t] sep_sample_t
+    sample_t sample[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
+    sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
+    sep_sample_t sample_separate[POPTYPE](const POPTYPE &,const vector[unsigned] & individuals, const bool removeFixed) except +
+    sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed) except+
+
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
     cdef cppclass shmodel:
@@ -49,25 +61,3 @@ cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
         gaussian(double)
     cdef cppclass gamma:
         gamma(double,double)
-
-cdef extern from "internal/callbacks.hpp" namespace "fwdpy::internal":
-    void make_gamma_s(shmodel *, double,double)
-    void make_constant_s(shmodel * s, const double scoeff);
-    void make_uniform_s(shmodel * s, const double lo, const double hi);
-    void make_exp_s(shmodel * s, const double mean);
-    void make_gaussian_s(shmodel * s, const double sd);
-    void make_constant_h(shmodel * s, const double h);
-
-cdef extern from "internal/internal.hpp" namespace "fwdpy::internal":
-    cdef cppclass region_manager:
-        region_manager()
-        vector[shmodel] callbacks
-        vector[double] nb
-        vector[double] ne
-        vector[double] nw
-        vector[double] sb
-        vector[double] se
-        vector[double] sw
-        vector[double] rb
-        vector[double] re
-        vector[double] rw

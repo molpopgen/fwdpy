@@ -9,7 +9,6 @@ This package is implemented in terms of:
 
 1. Cython_, which is a package allowing C++ and Python to work together
 2. fwdpp_, which is a C++11 template library for implementing efficient population genetic simulations
-3. libsequence_, which is a C++11 library for various population-genetic calculations.
 
 Please note that this package is likely to be quite unstable/actively developed.
 
@@ -18,7 +17,7 @@ The package is usable now (in fact, we are currently using it for research), but
 Citation
 ===========
 
-See the project home page for details (http://molopgen.github.io/fwdpy).
+See the project home page for details (http://molpopgen.github.io/fwdpy).
 
 Features:
 ===========
@@ -108,10 +107,12 @@ A lot of them:
 
 * GSL_
 * fwdpp_ 
-* libsequence_
+* libsequence_  (Technically, libsequence is not needed for this package, but it is a dependency of fwdpp)
 * tcmalloc_
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
+
+**Note:** fwdpy may require the 'dev' branch of fwdpp and/or libsequence.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  Additionally, I'm adding summary statistics to libsequence.  This situation will remain until fwdpy stabilizes.  
 
 You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.
 
@@ -132,9 +133,9 @@ The required Python package dependencies are in the requirements.txt file that c
 What Python version?
 ==================================
 
-I'm developing the package using Python 2.7.6 on an Ubuntu machine.  To the best of my knowledge, the code should be compatible with Python 3.4.0 as well.
+I'm developing the package using Python 2.7.6 on an Ubuntu machine.  
 
-However, Cython generates unusual module names for the compiled code under Python 3.4.0, which breaks the package.  I'm looking into it, but Python 3 support may be held up for some time.
+Currently, the package is not 100% compatible with Python 3.  The goal is to make it work, though.
 
 Installation
 ==============
@@ -163,8 +164,32 @@ To uninstall:
    $ #use 'sudo' here if it is installed system-wide...
    $ pip uninstall fwdpy
 
+To build the package in place and run the unit tets:
+
+.. code-block:: bash
+
+   $ #build package locally:
+   $ python setup.py build_ext -i
+   $ #run the unit tests:
+   $ python -m unittest discover unit_test
+
 Note for developers
 =================================
+
+Cython is a static compiler.  Code written in Cython is compiled into C or, in the case of this package, C++.  Finally, the system's C/C++ compiler is used to compile the final Python module.
+
+In order to modify the package, you will need Cython installed:
+
+.. code-block:: bash
+
+   $ pip install Cython
+
+You need Cython >= 0.22.2, so upgrade if you need to:
+
+.. code-block:: bash
+
+   $ pip install --upgrade Cython
+
 
 If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
 
@@ -174,7 +199,7 @@ To do this, use the configure script as follows:
 
    $ ./configure --enable-cython
 
-Now, Cython will be a compilation depdendency, meaning that any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the "CPython" part of the interface.
+Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the "CPython" part of the interface.
 
 
 Rough guide to installation on UCI HPC

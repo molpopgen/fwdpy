@@ -2,17 +2,18 @@
 Example: Sliding windows
 ========================
 
-This is an example of running a simulation and getting a set of sliding
-windows from the output
+There are two basic ways of getting sliding windows from simulated data:
+
+1. Manually
+2. Using `pyseq <https://github.com/molpopgen/pyseq>`__
+
+Both work, and both are pretty easy.
 
 .. code:: python
 
     #import our modules
     from __future__ import print_function
     import fwdpy as fp
-    import fwdpy.libseq as lseq
-    import pandas
-    import numpy as np
     import datetime
     import time
 
@@ -27,8 +28,8 @@ windows from the output
 
 .. parsed-literal::
 
-    This example was processed using  {'fwdpy': '0.0.1'} on 9 / 23 / 2015
-    The dependency versions are {'libsequence': '1.8.7', 'GSL': '1.16', 'fwdpp': '0.3.8'}
+    This example was processed using  {'fwdpy': '0.0.1'} on 10 / 30 / 2015
+    The dependency versions are {'libsequence': '1.8.7', 'GSL': '1.16', 'fwdpp': '0.4.0'}
 
 
 .. code:: python
@@ -53,68 +54,66 @@ windows from the output
 Calculating sliding windows
 ---------------------------
 
-.. code:: python
+We are going to want non-overlapping widwos of size 0.1.
 
-    #For each of the neutral mutations in each sample, we will split
-    #the samples up into non-overlapping windows of size 0.1
-    windows = [lseq.windows(i[0],0.1,0.1,0.,3) for i in samples]
+One thing to keep track of is the total size of our region, which is the
+half-open interval :math:`[0,3)`
 
-Summary stats from each window
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Manual method
+~~~~~~~~~~~~~
 
-.. code:: python
-
-    #For each window in each sample, get the basic summary statistics
-    stats = [[lseq.summstats(i) for i in j] for j in windows]
-
-Printing these outputs will be messy as the output is a bunch of dict
-objects. Let's merge all the output into a giant pandas.DataFrame for
-easier handling.
+Let's just do it using pure Python:
 
 .. code:: python
 
-    allstats=pandas.DataFrame()
-    starts = np.arange(0.,3.,0.1)
-    stops = starts + 0.1
-    
-    for i in range(len(stats)):
-        temp = pandas.DataFrame.from_dict(stats[i])
-        temp['replicate']=[i]*len(temp.index)
-        temp['starts']=starts
-        temp['stops']=stops
-        allstats=pandas.concat([allstats,temp])
-    
-    #Now, that's cleaner!
-    print (allstats.head())
-    print (allstats.tail())
+    for i in samples:
+        windows = []
+        start = 0
+        while start < 3:
+            ##We will only look at neutral mutations, which are element 0 of each sampl
+            window = [j[0] for j in i[0] if (j[0] >=start and j[0] < start+0.1)]
+            windows.append(window)
+            start += 0.1
+        ##We now have a full set of windows that we can do something with
+        print (len(windows))  ##There should be 30, and many will be empy
 
 
 .. parsed-literal::
 
-       S  dsingletons    hprime  singletons      tajd    thetah   thetapi  \
-    0  0            0       NaN           0       NaN  0.000000  0.000000   
-    1  0            0       NaN           0       NaN  0.000000  0.000000   
-    2  0            0       NaN           0       NaN  0.000000  0.000000   
-    3  1            0 -1.871112           0  0.722614  1.184211  0.394737   
-    4  0            0       NaN           0       NaN  0.000000  0.000000   
-    
-        thetaw  replicate  starts  stops  
-    0  0.00000          0     0.0    0.1  
-    1  0.00000          0     0.1    0.2  
-    2  0.00000          0     0.2    0.3  
-    3  0.28187          0     0.3    0.4  
-    4  0.00000          0     0.4    0.5  
-        S  dsingletons    hprime  singletons      tajd    thetah   thetapi  \
-    25  0            0       NaN           0       NaN  0.000000  0.000000   
-    26  2            1  0.498665           1  0.063253  0.263158  0.578947   
-    27  0            0       NaN           0       NaN  0.000000  0.000000   
-    28  1            0 -1.397097           0  1.025883  1.031579  0.442105   
-    29  1            1  0.224533           1 -1.164391  0.005263  0.100000   
-    
-          thetaw  replicate  starts  stops  
-    25  0.000000          3     2.5    2.6  
-    26  0.563739          3     2.6    2.7  
-    27  0.000000          3     2.7    2.8  
-    28  0.281870          3     2.8    2.9  
-    29  0.281870          3     2.9    3.0  
+    30
+    30
+    30
+    30
 
+
+Using `pyseq <https://github.com/molpopgen/pyseq>`__
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    from libsequence.windows import Windows
+    from libsequence.polytable import simData
+    for i in samples:
+        ##We need to convert our list of tuples
+        ##into types that pyseq/libsequence understand:
+        windows = Windows(simData(i[0]),0.1,0.1,0,3)
+        ##Now, you can analyze the windows, etc.
+        print(len(windows))
+
+
+.. parsed-literal::
+
+    30
+    30
+    30
+    30
+
+
+Well, the pyseq version is clearly more compact. Of course, you
+can/should abstract the pure Python version into a standalone function.
+
+Why would you ever use the manual version? It can save you memory. The
+pyseq version constructs an iterable list of windows, meaning that there
+is an object allocated for each window. For the manual version above, we
+grew a list of objects, but we could just have easily processed them and
+let them go out of scope.

@@ -1,1 +1,1 @@
-from internal import *
+from .internal import *
