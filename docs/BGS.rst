@@ -17,8 +17,6 @@ Setting up the simulation
     from __future__ import print_function
     #Import fwdpy.  Give it a shorter name
     import fwdpy as fp
-    #Import the module for summary statistics. Give it a shorter name
-    import fwdpy.libseq as libseq
     ##Other libs we need
     import numpy as np
     import pandas
