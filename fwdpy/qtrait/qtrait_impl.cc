@@ -23,7 +23,6 @@
 #include <gsl/gsl_statistics_double.h>
 
 using namespace std;
-using namespace Sequence;
 
 using poptype = fwdpy::singlepop_t;
 
