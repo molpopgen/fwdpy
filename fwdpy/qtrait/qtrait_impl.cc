@@ -70,7 +70,7 @@ namespace fwdpy
     //Get properties out from the population
     std::map<string,double> qtrait_pop_props( const fwdpy::singlepop_t * pop )
     {
-      std::vector<double> VG,VE,wbar,esize;
+      std::vector<double> VG,VE,wbar;
       
       //Get data from the diploids
       for( auto itr = pop->diploids.cbegin() ; itr != pop->diploids.cend() ; ++itr )
@@ -79,13 +79,7 @@ namespace fwdpy
 	  VE.push_back( itr->e );
 	  wbar.push_back( itr->w );
 	}
-      
-      //Get data from the mutations
-      for( auto itr = pop->mutations.cbegin() ; itr != pop->mutations.cend() ; ++itr )
-	{
-	  esize.push_back( itr->s );
-	}
-      
+
       //Find the "leading factor"
       double twoN = 2.*double(pop->diploids.size());
       auto itr = std::max_element(pop->mutations.cbegin(),pop->mutations.cend(),
@@ -95,7 +89,9 @@ namespace fwdpy
 				    return p1*(1.-p1)*std::pow(m1.s,2.) < p2*(1.-p2)*std::pow(m2.s,2.);
 				  });
       
-      double mvexpl = std::numeric_limits<double>::quiet_NaN(),leading_e=std::numeric_limits<double>::quiet_NaN(),leading_f=std::numeric_limits<double>::quiet_NaN();
+      double mvexpl = std::numeric_limits<double>::quiet_NaN(),
+	leading_e=std::numeric_limits<double>::quiet_NaN(),
+	leading_f=std::numeric_limits<double>::quiet_NaN();
       if(itr != pop->mutations.end())
 	{
 	  mvexpl = 2.*(double(itr->n)/twoN)*(1.-(double(itr->n)/twoN))*std::pow(itr->s,2.);
