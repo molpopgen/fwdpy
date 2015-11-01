@@ -23,7 +23,7 @@ try:
     version = str(out).rstrip()
     print ("fwdpp version",version," found.")
     if version <= '@MINFWDPP@':
-        raise RuntimeError("fwdpp >= ,'@MINFWDPP@' reqiured, but ",version, "found.")
+        raise RuntimeError("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
 except:
     print("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
