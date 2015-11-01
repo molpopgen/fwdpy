@@ -21,10 +21,21 @@ try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
     version = str(out).rstrip()
+    print ("fwdpp version",version," found.")
     if version <= '@MINFWDPP@':
         raise RuntimeError("fwdpp >= ,'@MINFWDPP@' reqiured, but ",version, "found.")
 except:
     print("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
+
+
+##GSL
+try:
+    proc = subprocess.Popen(['gsl-config','--version'],stdout=subprocess.PIPE)
+    (out,err) = proc.communicate()
+    version = str(out).rstrip()
+    print ("GSL version ",version," found.")
+except:
+    print("gsl-config not found.  Please install the GNU Scientific Library")
 
 ##These check dependencies:
 try:
