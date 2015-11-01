@@ -9,10 +9,22 @@
 # notice and this notice are preserved.  This file is offered as-is,
 # without any warranty.
 
-
+from __future__ import print_function
 from distutils.core import setup, Extension
 @CYTHONIMPORT@
-import platform, glob, sys
+import platform, glob, sys, subprocess
+
+##Check C/C++ dependencys
+
+##fwdpp
+try:
+    proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
+    (out,err) = proc.communicate()
+    version = str(out).rstrip()
+    if version <= '@MINFWDPP@':
+        raise RuntimeError("fwdpp >= ,'@MINFWDPP@' reqiured, but ",version, "found.")
+except:
+    print("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
 ##These check dependencies:
 try:

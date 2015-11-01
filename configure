@@ -639,6 +639,7 @@ CXX
 CYTHONIZE
 CYTHONIMPORT
 EXTENSION
+MINFWDPP
 pkgpyexecdir
 pyexecdir
 PYTHON_EXEC_PREFIX
@@ -3222,9 +3223,12 @@ ac_config_headers="$ac_config_headers config.h"
 
 MINFWDPPVERSION="0.4.0"
 FWDPPVERSION=`fwdppConfig --version`
+MINFWDPP=$MINFWDPPVERSION
+
 GSLVERSION=`gsl-config --version`
 
 if test "$FWDPPVERSION" \> $MINFWDPPVERSION
+
 then
 	echo "fwdpp version $FWDPPVERSION detected"
 else
