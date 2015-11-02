@@ -68,8 +68,6 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="c">#Import fwdpy.  Give it a shorter name</span>
 <span class="kn">import</span> <span class="nn">fwdpy</span> <span class="kn">as</span> <span class="nn">fp</span>
-<span class="c">#Import the module for summary statistics. Give it a shorter name</span>
-<span class="kn">import</span> <span class="nn">fwdpy.libseq</span> <span class="kn">as</span> <span class="nn">libseq</span>
 <span class="c">##Other libs we need</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span>
@@ -262,9 +260,9 @@ Number of sites in samples[3] = 5. Number of rows in DataFrame 3 = 5
 </div>
 <div class="section" id="summary-statistics-from-samples">
 <h2>Summary statistics from samples<a class="headerlink" href="#summary-statistics-from-samples" title="Permalink to this headline">¶</a></h2>
-<p>We will use the <a class="reference external" href="http://molpopgen.github.io/pyseq/">pyseq</a> package to
-calculate summary statistics. pyseq is a Python wrapper around
-<a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>.</p>
+<p>We will use the <a class="reference external" href="http://molpopgen.github.io/pylibseq/">pylibseq</a>
+package to calculate summary statistics. pylibseq is a Python wrapper
+around <a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">libsequence.polytable</span> <span class="kn">as</span> <span class="nn">polyt</span>
 <span class="kn">import</span> <span class="nn">libsequence.summstats</span> <span class="kn">as</span> <span class="nn">sstats</span>
 

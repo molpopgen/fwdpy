@@ -145,19 +145,16 @@
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <p>This section assumes that all packages are installed in fairly standard locations, such as /usr/local.  See the troubleshooting section for more complex setups.</p>
-<p>A lot of them:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://gnu.org/software/gsl">GSL</a></li>
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a></li>
-<li><a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>  (Technically, libsequence is not needed for this package, but it is a dependency of fwdpp)</li>
 <li><a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a></li>
 </ul>
 <p>The configure script will enforce minimum version numbers of these dependencies, if necessary.</p>
-<p><strong>Note:</strong> fwdpy may require the &#8216;dev&#8217; branch of fwdpp and/or libsequence.  The configure script checks for <em>both</em> the correct dependency version number <em>and</em> specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  Additionally, I&#8217;m adding summary statistics to libsequence.  This situation will remain until fwdpy stabilizes.</p>
+<p><strong>Note:</strong> fwdpy may require the &#8216;dev&#8217; branch of fwdpp.  The configure script checks for <em>both</em> the correct dependency version number <em>and</em> specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.</p>
 <p>You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.</p>
 <p>OS X users are recommended to use <a class="reference external" href="http://brew.sh">brew</a> to install the various dependencies:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>brew install gsl
-<span class="nv">$ </span>brew install libsequence
 <span class="nv">$ </span><span class="c">##Risky:</span>
 <span class="nv">$ </span>brew install fwdpp
 <span class="nv">$ </span>brew install google-perftools
@@ -240,7 +237,6 @@
 <p><strong>NOTE:</strong> I sometimes get requests for installation help from users who have installed every dependency in a separate folder in their $HOME.  In other words, they have some setup that looks like this:</p>
 <ul class="simple">
 <li>$HOME/software/boost</li>
-<li>$HOME/software/libsequence</li>
 <li>$HOME/software/gsl</li>
 <li>$HOME/software/fwdpp</li>
 </ul>

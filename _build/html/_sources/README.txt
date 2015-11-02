@@ -103,16 +103,13 @@ Dependencies
 
 This section assumes that all packages are installed in fairly standard locations, such as /usr/local.  See the troubleshooting section for more complex setups.
 
-A lot of them:
-
 * GSL_
 * fwdpp_ 
-* libsequence_  (Technically, libsequence is not needed for this package, but it is a dependency of fwdpp)
 * tcmalloc_
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
 
-**Note:** fwdpy may require the 'dev' branch of fwdpp and/or libsequence.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  Additionally, I'm adding summary statistics to libsequence.  This situation will remain until fwdpy stabilizes.  
+**Note:** fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.  
 
 You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.
 
@@ -121,7 +118,6 @@ OS X users are recommended to use brew_ to install the various dependencies:
 .. code-block:: bash
    
    $ brew install gsl
-   $ brew install libsequence
    $ ##Risky:
    $ brew install fwdpp
    $ brew install google-perftools
@@ -239,7 +235,6 @@ Your system's compiler has a default set of paths where it will look for header 
 
 
 * $HOME/software/boost
-* $HOME/software/libsequence
 * $HOME/software/gsl
 * $HOME/software/fwdpp
 
