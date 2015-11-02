@@ -415,7 +415,7 @@ if test "$FWDPPVERSION" \> $MINFWDPPVERSION
 then
 	echo "fwdpp version $FWDPPVERSION detected"
 else
-	AC_MSG_ERROR([fwdpp >= 0.4.1 required, please install from http://github.com/molpopgen/fwdpp])
+	AC_MSG_ERROR([fwdpp > $MINFWDPPVERSION required, please install from http://github.com/molpopgen/fwdpp])
 fi
 
 echo "GSL version $GSLVERSION detected"
