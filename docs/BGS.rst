@@ -237,9 +237,9 @@ Getting additional information about samples
 Summary statistics from samples
 -------------------------------
 
-We will use the `pyseq <http://molpopgen.github.io/pyseq/>`__ package to
-calculate summary statistics. pyseq is a Python wrapper around
-`libsequence <http://molpopgen.github.io/libsequence/>`__.
+We will use the `pylibseq <http://molpopgen.github.io/pylibseq/>`__
+package to calculate summary statistics. pylibseq is a Python wrapper
+around `libsequence <http://molpopgen.github.io/libsequence/>`__.
 
 .. code:: python
 
