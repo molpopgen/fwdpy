@@ -17,8 +17,6 @@ Setting up the simulation
     from __future__ import print_function
     #Import fwdpy.  Give it a shorter name
     import fwdpy as fp
-    #Import the module for summary statistics. Give it a shorter name
-    import fwdpy.libseq as libseq
     ##Other libs we need
     import numpy as np
     import pandas
@@ -239,9 +237,9 @@ Getting additional information about samples
 Summary statistics from samples
 -------------------------------
 
-We will use the `pyseq <http://molpopgen.github.io/pyseq/>`__ package to
-calculate summary statistics. pyseq is a Python wrapper around
-`libsequence <http://molpopgen.github.io/libsequence/>`__.
+We will use the `pylibseq <http://molpopgen.github.io/pylibseq/>`__
+package to calculate summary statistics. pylibseq is a Python wrapper
+around `libsequence <http://molpopgen.github.io/libsequence/>`__.
 
 .. code:: python
 

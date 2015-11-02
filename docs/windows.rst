@@ -5,7 +5,7 @@ Example: Sliding windows
 There are two basic ways of getting sliding windows from simulated data:
 
 1. Manually
-2. Using `pyseq <https://github.com/molpopgen/pyseq>`__
+2. Using `pylibseq <https://github.com/molpopgen/pylibseq>`__
 
 Both work, and both are pretty easy.
 
@@ -86,8 +86,8 @@ Let's just do it using pure Python:
     30
 
 
-Using `pyseq <https://github.com/molpopgen/pyseq>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using `pylibseq <https://github.com/molpopgen/pylibseq>`__
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -95,7 +95,7 @@ Using `pyseq <https://github.com/molpopgen/pyseq>`__
     from libsequence.polytable import simData
     for i in samples:
         ##We need to convert our list of tuples
-        ##into types that pyseq/libsequence understand:
+        ##into types that pylibseq/libsequence understand:
         windows = Windows(simData(i[0]),0.1,0.1,0,3)
         ##Now, you can analyze the windows, etc.
         print(len(windows))
@@ -109,11 +109,11 @@ Using `pyseq <https://github.com/molpopgen/pyseq>`__
     30
 
 
-Well, the pyseq version is clearly more compact. Of course, you
+Well, the pylibseq version is clearly more compact. Of course, you
 can/should abstract the pure Python version into a standalone function.
 
 Why would you ever use the manual version? It can save you memory. The
-pyseq version constructs an iterable list of windows, meaning that there
-is an object allocated for each window. For the manual version above, we
-grew a list of objects, but we could just have easily processed them and
-let them go out of scope.
+pylibseq version constructs an iterable list of windows, meaning that
+there is an object allocated for each window. For the manual version
+above, we grew a list of objects, but we could just have easily
+processed them and let them go out of scope.

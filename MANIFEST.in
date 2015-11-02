@@ -7,3 +7,4 @@ include config.h.in
 include Makefile.in
 include conf.py.in
 include aclocal.m4
+recursive-include check_deps *
