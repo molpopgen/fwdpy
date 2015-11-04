@@ -2,7 +2,9 @@
 from cython.view cimport array as cvarray
 from cpython cimport array
 import warnings
+cimport cython
 
+@cython.boundscheck(False)
 def evolve_regions(GSLrng rng,
                     int npops,
                     int N,
@@ -75,10 +77,12 @@ def evolve_regions(GSLrng rng,
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+    cdef unsigned listlen = len(nlist)
+    with nogil:
+        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
     return pops
-    
-                
+
+@cython.boundscheck(False)
 def evolve_regions_more(GSLrng rng,
                         popvec pops,
                         unsigned[:] nlist,
@@ -108,7 +112,7 @@ def evolve_regions_more(GSLrng rng,
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
     :raises: RuntimeError if parameters do not pass checks
-    
+
     Example:
 
     >>> # See docstring for fwdpy.evolve_regions for the gory details
@@ -136,8 +140,11 @@ def evolve_regions_more(GSLrng rng,
         f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+    cdef unsigned listlen = len(nlist)
+    with nogil:
+        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
 
+@cython.boundscheck(False)
 def evolve_regions_split(GSLrng rng,
                             popvec pops,
                             unsigned[:] nlist1,
@@ -154,7 +161,7 @@ def evolve_regions_split(GSLrng rng,
     Take the output of a single-deme simulation, split into two demes, and evolve.
 
     :raises: RuntimeError if parameters do not pass checks
-    
+
     Example:
 
     >>> #The first part is the same as the example for fwdpy.evolve_regions
@@ -184,7 +191,7 @@ def evolve_regions_split(GSLrng rng,
             fs[i]=0.0
     if len(nlist1) != len(nlist2):
         raise RuntimeError("len(nlist1) must equal len(nlist2)")
-    
+
     mpv = mpopvec(0,[0])
     for i in range(len(pops)):
         #Step 1: Make the ith single pop the first deme in each metapop
@@ -199,8 +206,11 @@ def evolve_regions_split(GSLrng rng,
         tt = metapop()
         tt.mpop = mpv.mpops[i]
         mpv.pympops.append(tt)
-        
+
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],len(nlist1),&nlist2[0],len(nlist2),mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
+    cdef unsigned listlen1 = len(nlist1)
+    cdef unsigned listlen2 = len(nlist2)
+    with nogil:
+        split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
     return mpv
