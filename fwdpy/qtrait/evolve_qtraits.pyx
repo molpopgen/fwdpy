@@ -1,7 +1,9 @@
 import warnings
 from cython.view cimport array as cvarray
 from cpython cimport array
+cimport cython
 
+@cython.boundscheck(False)
 def evolve_qtrait(GSLrng rng,
                     int npops,
                     int N,
@@ -53,8 +55,10 @@ def evolve_qtrait(GSLrng rng,
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
-                    rmgr.thisptr)
+    cdef unsigned listlen = len(nlist)
+    with nogil:
+        evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
+                         rmgr.thisptr)
     return pops
 
 def evolve_qtrait_more(GSLrng rng,

@@ -12,7 +12,7 @@ from fwdpy.internal.internal cimport shwrappervec
 import fwdpy.internal as internal
 import pandas
 
-cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait":
+cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
     void evolve_qtraits_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t] ] * pops,
         const unsigned * Nvector,
         const size_t Nvector_length,
