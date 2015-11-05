@@ -144,9 +144,9 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const size_t Nvector_A_len,
                 const unsigned * Nvector_B,
                 const size_t Nvector_B_len,
-                const double & neutral,
-                const double & selected,
-                const double & recrate,
+                const double neutral,
+                const double selected,
+                const double recrate,
                 const vector[double] & fs,
                 const region_manager * rm,
                 const char * fitness)
