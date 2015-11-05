@@ -4,38 +4,25 @@
 # # Example: background selection
 # 
 
-# # Setting up the simulation
+# ## Setting up the simulation
 # * Neutral mutations will occur on the interval $[0,1)$.
 # * Strongly-deleterious mutations will occur on the intervals $[-1,0)$ and $[1,2)$.
 # * Recombination will be uniform throughout the region.
 
-# In[1]:
+# In[20]:
 
-#The next two lines let plots show up
-#in the notbook:
-get_ipython().magic(u'matplotlib inline')
-get_ipython().magic(u'pylab inline')
 #Use Pyhon 3's print a a function.
 #This future-proofs the code in the notebook
 from __future__ import print_function
 #Import fwdpy.  Give it a shorter name
 import fwdpy as fp
-#Import the module for summary statistics. Give it a shorter name
-import fwdpy.libseq as libseq
 ##Other libs we need
 import numpy as np
 import pandas
 import math
 
 
-# In[2]:
-
-#We're going to do some plots at the end.
-import matplotlib
-import matplotlib.pyplot as plt
-
-
-# ## Establishing 'regions' for mutation and recombination
+# ### Establishing 'regions' for mutation and recombination
 # 
 
 # In[3]:
@@ -57,7 +44,7 @@ sregions = [fp.ConstantS(beg=-1,end=0,weight=1,s=-0.05,h=1),
 recregions = [fp.Region(beg=-1,end=2,weight=1)]
 
 
-# ## Population size and simulation length
+# ### Population size and simulation length
 
 # In[6]:
 
@@ -104,7 +91,7 @@ for i in range(len(pops)):
                 
 
 
-# # Taking samples from simulated populations
+# ## Taking samples from simulated populations
 
 # In[10]:
 
@@ -124,7 +111,7 @@ for i in samples:
 print(len(samples))
 
 
-# ## Getting additional information about samples
+# ### Getting additional information about samples
 
 # In[11]:
 
@@ -182,27 +169,30 @@ print("This is the merged table:")
 print(BigTable)
 
 
-# # Summary statistics from samples
+# ## Summary statistics from samples
 # 
-# The sub-module fwdpy.libseq (which we have imported as 'libseq') has a function, 'summstats', which calculates many commonly-used summaries of variation data.
+# We will use the [pylibseq](http://molpopgen.github.io/pylibseq/) package to calculate summary statistics.  pylibseq is a Python wrapper around [libsequence](http://molpopgen.github.io/libsequence/).
 
 # In[16]:
 
-##This is an example of where you can do a lot in a 1-liner.
-##We use nested list comprehensions to:
-##  1. Get summary statistics for each element in samples.  We do neutral mutations (element 0)
-##     and selected mutations (element 1) separately.
-##  2. Turn each dict from libseq.summstats into a pandas.DataFrame
-##  3. Combine all those DataFrame objects into one large DataFrame
-NeutralMutStats=pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value']) 
-                               for i in [libseq.summstats(j[0]) for j in samples]])
-SelectedMutStats=pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value'])
-                               for i in [libseq.summstats(j[1]) for j in samples]])
-print(NeutralMutStats)
-print(SelectedMutStats)
+import libsequence.polytable as polyt
+import libsequence.summstats as sstats
+
+#Convert neutral mutations into libsequence "SimData" objects, 
+#which are intended to handle binary (0/1) data like
+#what comes out of these simulations
+n = [polyt.simData(i[0]) for i in samples]
+
+#Create "factories" for calculating the summary stats
+an = [sstats.polySIM(i) for i in n]
+
+##Collect a bunch of summary stats into a pandas.DataFrame:
+NeutralMutStats = pandas.DataFrame([ {'thetapi':i.thetapi(),'npoly':i.numpoly(),'thetaw':i.thetaw()} for i in an ])
+
+NeutralMutStats
 
 
-# ## The average $\pi$ under the model
+# ### The average $\pi$ under the model
 # 
 # Under the BGS model, the expectation of $\pi$ is $E[\pi]=\pi_0e^{-\frac{U}{2sh+r}},$ $U$ is the mutation rate to strongly-deleterious variants, $\pi_0$ is the value expected in the absence of BGS (_i.e._ $\pi_0 = \theta = 4N_e\mu$), $s$ and $h$ are the selection and dominance coefficients, and $r$ is the recombination rate.
 # 
@@ -214,11 +204,9 @@ print(SelectedMutStats)
 
 print(20*math.exp(-0.02/(0.1+0.005)))
 
+Now, let's get the average $\pi$ from 500 simulated replicates.  We already have four replicates that we did above, so we'll run another 124 sets of four populations.  
 
-# Now, let's get the average $\pi$ from 500 simulated replicates.  We already have four replicates that we did above, so we'll run another 124 sets of four populations.  
-# 
-# We will use standard Python to grow "pn", which is our list of $\pi$ values calculated from neutral mutations from each replicate.
-
+We will use standard Python to grow our collection of summary statistics.
 # In[18]:
 
 for i in range(0,124,1):
@@ -232,29 +220,25 @@ for i in range(0,124,1):
                          nregions, 
                          sregions, 
                          recregions)
-    ##This is another heavy one-liner.
-    ##We're taking samples of n=20 from each pop,
-    ##Getting summstats for each neutral block from each sample,
-    ##Turning the dict into pandas DataFrame objects,
-    ##and returning a big DataFrame for all the data.
-    temp = pandas.concat([pandas.DataFrame(i.items(),columns=['stat','value']) 
-                          for i in [libseq.summstats(j[0]) for j in [fp.get_samples(rng,k,20) for k in pops]]])
-    NeutralMutStats=pandas.concat([NeutralMutStats,temp])
+    samples = [fp.get_samples(rng,i,20) for i in pops]
+    simdatasNeut = [polyt.simData(i[0]) for i in samples]
+    polySIMn = [sstats.polySIM(i) for i in simdatasNeut]
+    ##Append stats into our growing DataFrame:
+    NeutralMutStats=pandas.concat([NeutralMutStats,
+                                   pandas.DataFrame([ {'thetapi':i.thetapi(),
+                                                       'npoly':i.numpoly(),
+                                                       'thetaw':i.thetaw()} for i in polySIMn ])])
 
 
 # #### Getting the mean diversity
-# We've collected everything into a big pandas DataFrame.  We can easily get the mean using the builti-in groupby and mean functions.  
+# We've collected everything into a big pandas DataFrame.  We can easily get the mean using the built-in groupby and mean functions.  
 # 
 # For users happier in R, you could write this DataFrame to a text file and process it using R's [dplyr](http://cran.r-project.org/web/packages/dplyr/index.html) package, which is a really excellent tool for this sort of thing.
 
 # In[19]:
 
-NeutralMutStats.groupby(['stat']).mean()
+#Get means for each column:
+NeutralMutStats.mean(0)
 
 
 # The 'thetapi' record is our mean $\pi$ from all of the simulations, and it is quite close to the theoretical value. 
-
-# In[ ]:
-
-
-

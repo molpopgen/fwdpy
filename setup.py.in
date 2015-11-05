@@ -54,7 +54,7 @@ except ImportError:
 try:
     import numpy
 except ImportError:
-    sys.exit("import numpy failed.  Please install numpy")        
+    sys.exit("import numpy failed.  Please install numpy")
 
 if platform.system() == 'Linux' or platform.system() == 'Darwin':
     doc_dir = '@prefix@/share/doc/@PACKAGE_TARNAME@'
@@ -74,26 +74,28 @@ fwdpy is a C++11-based package for running forward simulations in Python
 
 EXTENSION="@EXTENSION@"
 
+GLOBAL_COMPILE_ARGS=['-std=c++11','-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
+
 extensions = [
     Extension("fwdpy.fwdpy",
         sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
         language="c++",                        # generate and compile C++ code
         include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
-        extra_compile_args=["-std=c++11"],  
+        extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=["-std=c++11"],
         libraries=["gsl","gslcblas","tcmalloc"]),
         Extension("fwdpy.internal.internal",
         sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
-        language="c++",                    
-        include_dirs=['.','include','..'], 
-        extra_compile_args=["-std=c++11"],  
+        language="c++",
+        include_dirs=['.','include','..'],
+        extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=["-std=c++11"],
         libraries=["gsl","gslcblas"]),
         Extension("fwdpy.fwdpyio.fwdpyio",
         sources=["fwdpy/fwdpyio/fwdpyio"+EXTENSION]+glob.glob("fwdpy/fwdpyio/*.cc"),
-        language="c++",                    
-        include_dirs=['.','include','..'], 
-        extra_compile_args=["-std=c++11"],  
+        language="c++",
+        include_dirs=['.','include','..'],
+        extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=["-std=c++11"],
         libraries=["tcmalloc"]),
         ]
