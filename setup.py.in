@@ -104,7 +104,7 @@ extensions.extend([
     sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
     language="c++",                        # generate and compile C++ code
     include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
-    extra_compile_args=["-std=c++11"],  
+    extra_compile_args=GLOBAL_COMPILE_ARGS,
     extra_link_args=["-std=c++11"],
     libraries=["gsl","gslcblas","tcmalloc"]),
     ])
