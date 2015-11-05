@@ -14,15 +14,30 @@ Contents:
    README
    docs/notes
    docs/rusers
+
+Fundamental concepts:
+##########################################
+
+.. toctree::
+   :maxdepth: 2
+
    docs/popsizes
    docs/regions
    docs/summstats
-   docs/BGS
-   docs/windows
-   docs/trajectories
-   docs/copypops
    docs/slim
-   
+
+Examples:
+##########################################
+
+.. toctree::
+   :maxdepth: 2
+
+   examples/BGS
+   examples/windows
+   examples/trajectories
+   examples/copypops
+
+
 Functions and classes
 ##########################################
 
@@ -30,7 +45,7 @@ Functions and classes
    :members:
    :show-inheritance:
 
-.. automodule:: fwdpy.internal.internal 
+.. automodule:: fwdpy.internal.internal
    :members:
    :show-inheritance:
 
