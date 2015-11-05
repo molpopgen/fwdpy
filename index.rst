@@ -25,7 +25,8 @@ Fundamental concepts
    docs/regions
    docs/summstats
    docs/slim
-
+   doc/threads
+   
 Examples
 ##########################################
 
