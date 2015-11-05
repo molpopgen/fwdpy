@@ -15,8 +15,16 @@ Contents:
    docs/notes
    docs/rusers
 
-Fundamental concepts
+Theoretical concepts 
 ##########################################
+
+.. toctree::
+   :maxdepth: 2
+
+   docs/background
+
+Important concepts for setting up simulations 
+####################################################################################
 
 .. toctree::
    :maxdepth: 2
