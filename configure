@@ -3221,7 +3221,7 @@ ac_config_files="$ac_config_files Makefile setup.py conf.py"
 ac_config_headers="$ac_config_headers config.h"
 
 
-MINFWDPPVERSION="0.4.0"
+MINFWDPPVERSION="0.4.1"
 FWDPPVERSION=`fwdppConfig --version`
 MINFWDPP=$MINFWDPPVERSION
 
@@ -3232,7 +3232,7 @@ if test "$FWDPPVERSION" \> $MINFWDPPVERSION
 then
 	echo "fwdpp version $FWDPPVERSION detected"
 else
-	as_fn_error $? "fwdpp >= 0.4.1 required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
+	as_fn_error $? "fwdpp > $MINFWDPPVERSION required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
 fi
 
 echo "GSL version $GSLVERSION detected"
