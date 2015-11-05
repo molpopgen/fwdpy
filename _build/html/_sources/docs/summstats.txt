@@ -1,4 +1,4 @@
-Calculating summary statistics
+Calculating summary statistics 
 ===========================
 
 Users will typically want to calculate summary statistics based on samples drawn from simulated populations.  There are three ways to accomplish that:

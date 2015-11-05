@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fitness models &mdash; fwdpy 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="fwdpy 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="Example: modeling changes in population size" href="popsizes.html" />
+    <link rel="prev" title="A note for R users" href="rusers.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="popsizes.html" title="Example: modeling changes in population size"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rusers.html" title="A note for R users"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fitness-models">
+<h1>Fitness models<a class="headerlink" href="#fitness-models" title="Permalink to this headline">¶</a></h1>
+<p>Unless otherwise specified, the fitness of a diploid will typically be calculated according to an &#8220;additive&#8221; model or a &#8220;multiplicative&#8221; model.  For a particular position with two segregating alleles, there are three possible genotypes, <em>AA</em>, <em>Aa</em>, and <em>aa</em>, which represent the non-mutant homozygote, the heterozygote, and the mutant homozygote respectively.  For &#8216;standard&#8217; models in population-genetics, a mutation typically has a &#8216;selection coefficient&#8217;, <em>s</em>, which you can think of as the amount by which a mutation changes the reproductive success of a genotype, and <em>h</em>, which is a modifier of the mutation&#8217;s effect on fitness in a heterozygote.</p>
+<p>The standard models of fitness in population genetics are either additive: <span class="math">\(w = 1 + \sum_i w_i\)</span>, where <span class="math">\(w_i\)</span> is 0, <span class="math">\(sh\)</span>, or <span class="math">\(2s\)</span> for genotypes <em>AA</em>, <em>Aa</em>, and <em>aa</em>, respectively, or multiplicative: <span class="math">\(w=\prod_i w_i\)</span>, , where <span class="math">\(w_i\)</span> is 1, <span class="math">\(1+sh\)</span>, or <span class="math">\(1+2s\)</span> for genotypes <em>AA</em>, <em>Aa</em>, and <em>aa</em>, respectively.  The former approximates the latter for small <span class="math">\(s\)</span>.</p>
+<p>For better or worse, these are the standard models of population genetics and the scalings of fitness in the above table are the same ones used to give classic results on fixation probabilities, times to fixation, etc.  For further information, please consult Crow and Kimura (1970).</p>
+</div>
+<div class="section" id="theoretical-details">
+<h1>Theoretical details<a class="headerlink" href="#theoretical-details" title="Permalink to this headline">¶</a></h1>
+<p>In the absence of natural selection, the distribution of levels of variation (number of mutations, frequencies, correlation amongst mutation frequencies, etc.) are governed by two parameters, <span class="math">\(\theta = 4N_e\mu\)</span> and <span class="math">\(\rho = 4N_er,\)</span> where :math`N_e` is the &#8220;coalescent effective size&#8221; of the population (Sjodin <em>et al.</em>, 2005), <span class="math">\(\mu\)</span> is the mutation rate (per gamete, per generation, to mutations that do not affect fitness and occur according to an the infinitely-many sites scheme of Kimura, 1969), and <span class="math">\(r\)</span> is the rate of crossing over in the region (per diploid, per generation).  I suggest that readers consult Wakeley, 2009, as a starting point for understanding what these parameters imply about expectations for samples, etc., under various models.</p>
+<p>In a forward simulation, you need to pick an <span class="math">\(N\)</span>, which is your diploid population size.  You also need to have some idea of how large a <span class="math">\(\theta\)</span> and <span class="math">\(\rho\)</span> to use.  This can be a complex issue (more on that below), but we&#8217;ll do some back-of-the-envelope stuff here.  The following table present the average number of differences per nucleotide (<span class="math">\(\theta_\pi\)</span> per site) between two individuals in the two most important species on the planet:</p>
+<ul class="simple">
+<li>Humans, where nucleotide diversity per site is <span class="math">\(\approx 10^{-3}\)</span></li>
+<li><em>Drosophila melanogaster</em> (from N. America), where diversity per site is <span class="math">\(\approx 10^{-2}\)</span></li>
+</ul>
+<p>Thus, if you choose an <span class="math">\(N\)</span> and a neutral mutation rate such that <span class="math">\(\theta = 10^3\)</span>, then that value correponds to approximately 1 megabase in &#8220;humans&#8221; and 100 kilobases in &#8220;flies&#8221;.</p>
+<div class="section" id="the-relationship-between-forward-time-and-backward-time-coalescent-simulations">
+<h2>The relationship between forward-time and backward-time (coalescent) simulations.<a class="headerlink" href="#the-relationship-between-forward-time-and-backward-time-coalescent-simulations" title="Permalink to this headline">¶</a></h2>
+<p>The reason why we go through all of the <span class="math">\(\theta\)</span> business above is because someone using this package may wish to compare to the results of coalescent simulations that run <em>backwards</em> in time.  In a forward simulation where <span class="math">\(N\)</span> changes over time, it is easiest to parameterize everything in terms of the <span class="math">\(\theta\)</span> and <span class="math">\(\rho\)</span> at the _beginning_ of the simulation.  However, a coalescent simulation like <a class="reference external" href="http://home.uchicago.edu/~rhudson1/source/mksamples.html">ms</a> treats treats <span class="math">\(\theta\)</span> as <span class="math">\(4N_{e,0}\mu\)</span>, where <span class="math">\(N_{e,0}\)</span> is  the coalscent size at time 0 in the past (which is also known as the present).  Thus, if you simulate a model with changing population sizes using this package and want to compare it to the output of something like <a class="reference external" href="http://home.uchicago.edu/~rhudson1/source/mksamples.html">ms</a>, then you should be prepared to do a little math to adjust <span class="math">\(\theta\)</span>, etc., so that the parameters are indeed comparable.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Crow, J. F., &amp; Kimura, M. (1970). An introduction to population genetics theory. An Introduction to Population Genetics Theory.</li>
+<li>Kimura, M. (1969). The number of heterozygous nucleotide sites maintained in a finite population due to steady flux of mutations. Genetics, 61(4), 893-903.</li>
+<li>Thornton, K. R. (2014). A C++ Template Library for Efficient Forward-Time Population Genetic Simulation of Large Populations. Genetics, 198, 157-166. <a class="reference external" href="http://doi.org/10.1534/genetics.114.165019">http://doi.org/10.1534/genetics.114.165019</a></li>
+<li>Sjödin, P., Kaj, I., Krone, S., Lascoux, M., &amp; Nordborg, M. (2005). On the Meaning and Existence of an Effective Population Size. Genetics, 169(2), 1061-1070. <a class="reference external" href="http://doi.org/10.1534/genetics.104.026799">http://doi.org/10.1534/genetics.104.026799</a></li>
+<li>Wakeley, J. (2009). Coalescent Theory. Roberts &amp; Company Publishers.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fitness models</a></li>
+<li><a class="reference internal" href="#theoretical-details">Theoretical details</a><ul>
+<li><a class="reference internal" href="#the-relationship-between-forward-time-and-backward-time-coalescent-simulations">The relationship between forward-time and backward-time (coalescent) simulations.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rusers.html"
+                        title="previous chapter">A note for R users</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="popsizes.html"
+                        title="next chapter">Example: modeling changes in population size</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/docs/background.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="popsizes.html" title="Example: modeling changes in population size"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rusers.html" title="A note for R users"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
