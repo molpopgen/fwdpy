@@ -24,9 +24,9 @@ namespace fwdpy
 			  const size_t Nvector_A_len,
 			  const unsigned * Nvector_B,
 			  const size_t Nvector_B_len,
-			  const double & neutral,
-			  const double & selected,
-			  const double & recrate,
+			  const double neutral,
+			  const double selected,
+			  const double recrate,
 			  const std::vector<double> & fs,
 			  const internal::region_manager * rm,
 			  const char * fitness);
