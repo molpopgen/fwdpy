@@ -25,7 +25,7 @@ Fundamental concepts
    docs/regions
    docs/summstats
    docs/slim
-   doc/threads
+   docs/threads
    
 Examples
 ##########################################
@@ -34,6 +34,7 @@ Examples
    :maxdepth: 2
 
    examples/BGS
+   examples/views
    examples/windows
    examples/trajectories
    examples/copypops
