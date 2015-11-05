@@ -8,4 +8,4 @@ In order to maximize performance, you want to use the "right" number of threads.
 * The population size(s) being simulated.
 * The number of cores on your machine.
 
-For example, our HPC system at UCI is mostly made up of 64-core AMD Opteron nodes.  If I simulate single demes of size :math:`N=10^3`, I can simulate 64 replicates at a time (using 64 cores), and use one hundred percent of a node.  However, changing to :math:`N=10^4` results in less efficient execution when using 64 cores, effectively slowing each replicate down by about 30 percent.  However, I can run two 32-core jobs on a node and get back to 100 percent CPU use.  I would suggest some experimentation to figure out what is most effective on your system.  Utilities like top and htop will be invaluable here.  
+If you have a 64-core machine, you may or may not see a 100% load on that machine with 64 cores.  On the UCI HPC system, we may see loads more like 95-97%.  If you want to squeeze out the remaining few percent, run 32 core jobs and merge the output.
