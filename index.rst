@@ -15,8 +15,16 @@ Contents:
    docs/notes
    docs/rusers
 
-Fundamental concepts
+Theoretical concepts 
 ##########################################
+
+.. toctree::
+   :maxdepth: 2
+
+   docs/background
+
+Important concepts for setting up simulations 
+####################################################################################
 
 .. toctree::
    :maxdepth: 2
@@ -25,7 +33,8 @@ Fundamental concepts
    docs/regions
    docs/summstats
    docs/slim
-
+   docs/threads
+   
 Examples
 ##########################################
 
@@ -33,6 +42,7 @@ Examples
    :maxdepth: 2
 
    examples/BGS
+   examples/views
    examples/windows
    examples/trajectories
    examples/copypops
