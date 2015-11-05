@@ -15,7 +15,7 @@ Contents:
    docs/notes
    docs/rusers
 
-Fundamental concepts:
+Fundamental concepts
 ##########################################
 
 .. toctree::
@@ -26,7 +26,7 @@ Fundamental concepts:
    docs/summstats
    docs/slim
 
-Examples:
+Examples
 ##########################################
 
 .. toctree::
