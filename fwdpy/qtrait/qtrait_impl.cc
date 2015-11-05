@@ -43,26 +43,32 @@ namespace fwdpy
 			   const int track,			   
 			   const fwdpy::internal::region_manager * rm)
     {
-      const KTfwd::extensions::discrete_mut_model m(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks);
-      auto recmap = KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw);
-      std::vector<GSLrng_t> rngs;
-      std::vector<qtrait_model_rules> rules;
-      for(unsigned i=0;i<pops->size();++i)
-	{
-	  //Give each thread a new RNG + seed
-	  rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())) );
-	  rules.emplace_back(qtrait_model_rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length)));
-	}
+      //const KTfwd::extensions::discrete_mut_model m(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks);
+      //auto recmap = KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw);
+      // std::vector<GSLrng_t> rngs;
+      // //std::vector<qtrait_model_rules> rules;
+      // for(unsigned i=0;i<pops->size();++i)
+      // 	{
+      // 	  //Give each thread a new RNG + seed
+      // 	  rngs.emplace_back(GSLrng_t(gsl_rng_get(rng->get())) );
+      // 	  //rules.emplace_back(qtrait_model_rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length)));
+      // 	}
       std::vector<std::thread> threads(pops->size());
       for(unsigned i=0;i<pops->size();++i)
 	{
 	  threads[i]=std::thread(fwdpy::qtrait::qtrait_sim_details_t<qtrait_model_rules>,
-				 rngs[i].get(),
+				 //rngs[i].get(),
+				 gsl_rng_get(rng->get()),
 				 pops->operator[](i).get(),
 				 Nvector,Nvector_length,
 				 mu_neutral,mu_selected,littler,f,sigmaE,optimum,track,
-				 std::cref(m),std::cref(recmap),
-				 std::ref(rules[i]));
+				 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+				 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
+				 //m,
+				 //recmap,
+				 std::move(qtrait_model_rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length))));
+				 //std::cref(m),std::cref(recmap),
+				 //std::ref(rules[i]));
 	}
       for(unsigned i=0;i<threads.size();++i) threads[i].join();
     }
