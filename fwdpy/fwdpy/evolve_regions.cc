@@ -1,4 +1,5 @@
 #include <thread>
+#include <future>
 #include <functional>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
@@ -94,6 +95,101 @@ namespace fwdpy {
       }
     for(unsigned i=0;i<threads.size();++i) threads[i].join();
   }
+
+  std::shared_ptr<fwdpy::singlepop_t> evolve_regions_details_async(unsigned long seed,
+								   const unsigned * Nvector,
+								   const size_t Nvector_len,
+								   const double neutral,
+								   const double selected,
+								   const double recrate,
+								   const double f,
+								   const int track,
+								   const char * fitness,
+								   KTfwd::extensions::discrete_mut_model && __m,
+								   KTfwd::extensions::discrete_rec_model && __recmap)
+  {    
+    const unsigned simlen = Nvector_len;
+    
+    const double mu_tot = neutral + selected;
+    gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
+    gsl_rng_set(rng,seed);
+    KTfwd::extensions::discrete_mut_model m(std::move(__m));
+    KTfwd::extensions::discrete_rec_model recmap(std::move(__recmap));
+    //Recombination policy: more complex than the standard case...
+    std::function<double(void)> recpos = std::bind(&KTfwd::extensions::discrete_rec_model::operator(),&recmap,rng);
+
+    //The fitness model
+    std::function<double(const fwdpy::singlepop_t::dipvector_t::iterator &)> dipfit = std::bind(KTfwd::multiplicative_diploid(),std::placeholders::_1,2.);
+    if( std::string(fitness) == "additive" )
+      {
+     	dipfit = std::bind(KTfwd::additive_diploid(),std::placeholders::_1,2.);
+      }
+    //This may not be the best thing, long-term, design-wise...
+    fwdpy::singlepop_t pop2(Nvector[0]);
+    for( unsigned g = 0 ; g < simlen ; ++g, ++pop2.generation )
+      {
+	const unsigned nextN = 	*(Nvector+g);
+	KTfwd::sample_diploid(rng,
+			      &pop2.gametes,  
+			      &pop2.diploids, 
+			      &pop2.mutations,
+			      pop2.N,
+			      nextN,
+			      mu_tot,
+			      std::bind(&KTfwd::extensions::discrete_mut_model::make_mut<decltype(pop2.mut_lookup)>,&m,rng,neutral,selected,pop2.generation,&pop2.mut_lookup),
+			      std::bind(KTfwd::genetics101(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,
+					std::ref(pop2.neutral),std::ref(pop2.selected),
+					&pop2.gametes,
+					recrate,
+					rng,
+					recpos),
+			      std::bind(KTfwd::insert_at_end<fwdpy::singlepop_t::mutation_t,fwdpy::singlepop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
+			      std::bind(KTfwd::insert_at_end<fwdpy::singlepop_t::gamete_t,fwdpy::singlepop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
+			      dipfit,
+			      std::bind(KTfwd::mutation_remover(),std::placeholders::_1,0,2*nextN),
+			      f);
+	if (track) pop2.updateTraj();
+	pop2.N=nextN;
+	KTfwd::remove_fixed_lost(&pop2.mutations,&pop2.fixations,&pop2.fixation_times,&pop2.mut_lookup,pop2.generation,2*nextN);
+	assert(KTfwd::check_sum(pop2.gametes,2*nextN));
+      }
+    //Update population's size variable to be the current pop size
+    pop2.N = pop2.diploids.size();
+    //cleanup
+    gsl_rng_free(rng);
+    //restore data
+    //std::shared_ptr<fwdpy::
+    return std::make_shared<fwdpy::singlepop_t>(std::move(pop2));
+  }
+  
+  std::vector<std::shared_ptr<singlepop_t> >  evolve_regions_async(const unsigned npops,
+								   GSLrng_t * rng, 
+								   const unsigned * Nvector,
+								   const size_t Nvector_len,
+								   const double mu_neutral,
+								   const double mu_selected,
+								   const double littler,
+								   const double f,
+								   const int track,
+								   const fwdpy::internal::region_manager * rm,
+								   const char * fitness)
+   {
+     std::vector<std::future<std::shared_ptr<singlepop_t> > > futures;
+     for(unsigned i=0;i<npops;++i)
+       {
+	 futures.emplace_back(std::async(std::launch::async,evolve_regions_details_async,
+					 gsl_rng_get(rng->get()),Nvector,Nvector_len,
+					 mu_neutral,mu_selected,littler,f,track,fitness,
+					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw))));
+       }
+     std::vector<std::shared_ptr<singlepop_t> > rv;
+     for_each(std::begin(futures),std::end(futures),[&rv](std::future<std::shared_ptr<singlepop_t> > & fut) {
+	 fut.wait();
+	 rv.emplace_back(std::move(fut.get()));
+       });
+     return rv;
+   }
 
   void split_and_evolve_details(metapop_t * mpop, 
 				unsigned long seed,

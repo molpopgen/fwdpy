@@ -151,5 +151,17 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const region_manager * rm,
                 const char * fitness)
 
+    vector[shared_ptr[singlepop_t]]  evolve_regions_async(const unsigned npops,
+							  GSLrng_t * rng, 
+							  const unsigned * Nvector,
+							  const size_t Nvector_len,
+							  const double mu_neutral,
+							  const double mu_selected,
+							  const double littler,
+							  const double f,
+							  const int track,
+							  const region_manager * rm,
+							  const char * fitness)
+
 cdef extern from "trajectories.hpp" namespace "fwdpy" nogil:
     map[string,vector[double] ] get_singlepop_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)

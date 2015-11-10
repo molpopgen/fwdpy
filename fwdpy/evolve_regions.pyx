@@ -5,6 +5,29 @@ import warnings
 cimport cython
 
 @cython.boundscheck(False)
+def test_evolve_regions_async(GSLrng rng,
+                              int npops,
+                              unsigned[:] nlist,
+                              double mu_neutral,
+                              double mu_selected,
+                              double recrate,
+                              list nregions,
+                              list sregions,
+                              list recregions,
+                              double f = 0,
+                              const bint track = False,
+                              const char * fitness = "multiplicative"):
+    cdef unsigned listlen = len(nlist)
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    cdef vector[shared_ptr[singlepop_t]] pops = evolve_regions_async(npops,
+                                                                     rng.thisptr,
+                                                                     &nlist[0],
+                                                                     listlen,
+                                                                     mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+                                                                     
+    
+@cython.boundscheck(False)
 def evolve_regions(GSLrng rng,
                     int npops,
                     int N,
@@ -214,3 +237,4 @@ def evolve_regions_split(GSLrng rng,
     with nogil:
         split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
     return mpv
+
