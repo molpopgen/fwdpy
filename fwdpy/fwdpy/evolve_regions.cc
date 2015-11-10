@@ -156,8 +156,6 @@ namespace fwdpy {
     pop2.N = pop2.diploids.size();
     //cleanup
     gsl_rng_free(rng);
-    //restore data
-    //std::shared_ptr<fwdpy::
     return std::make_shared<fwdpy::singlepop_t>(std::move(pop2));
   }
   
