@@ -11,7 +11,7 @@ namespace fwdpy {
 
   void evolve_regions_details( fwdpy::singlepop_t * pop,
 			       unsigned long seed,
-			       const unsigned * __Nvector,
+			       const unsigned * Nvector,
 			       const size_t Nvector_len,
 			       const double neutral,
 			       const double selected,
@@ -31,8 +31,6 @@ namespace fwdpy {
     KTfwd::extensions::discrete_rec_model recmap(std::move(__recmap));
     //Recombination policy: more complex than the standard case...
     std::function<double(void)> recpos = std::bind(&KTfwd::extensions::discrete_rec_model::operator(),&recmap,rng);
-    std::unique_ptr<unsigned> Nvector(new unsigned[Nvector_len]);
-    std::copy(__Nvector,__Nvector+Nvector_len,Nvector.get());
     //The fitness model
     std::function<double(const fwdpy::singlepop_t::dipvector_t::iterator &)> dipfit = std::bind(KTfwd::multiplicative_diploid(),std::placeholders::_1,2.);
     if( std::string(fitness) == "additive" )
@@ -42,7 +40,7 @@ namespace fwdpy {
     fwdpy::singlepop_t pop2(std::move(*pop));
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop2.generation )
       {
-	const unsigned nextN = 	*(Nvector.get()+g);
+	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::sample_diploid(rng,
 			      &pop2.gametes,  
 			      &pop2.diploids, 
