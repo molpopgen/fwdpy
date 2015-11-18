@@ -70,7 +70,7 @@ def view_mutations_singlepop(singlepop p):
     cdef mlist_t_itr end = p.pop.get().mutations.end()
     return sorted(view_mutations_details(beg,end),key = lambda x:x['pos'])
 
-def view_mutations_metapop(metapop p,deme):
+def view_mutations_metapop(metapop p,unsigned deme):
     if deme >= len(p.popsizes()):
         raise IndexError("view_mutations: deme index out of range")
     #get the gametes from this population
@@ -142,7 +142,7 @@ def view_gametes_singlepop( singlepop p ):
     cdef glist_t_itr end = p.pop.get().gametes.end()
     return sorted(view_gametes_details(beg,end),key=lambda x:x['n'],reverse=True)
 
-def view_gametes_metapop( metapop p, deme):
+def view_gametes_metapop( metapop p, unsigned deme ):
     if deme >= len(p.popsizes()):
         raise IndexError("view_gametes: deme index out of ramge")
     temp1 = view_diploids(p,list(range(p.mpop.get().diploids[deme].size())),deme)
