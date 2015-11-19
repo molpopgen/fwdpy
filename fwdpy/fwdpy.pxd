@@ -12,6 +12,7 @@ from fwdpy.gsl cimport gsl_rng
 
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
+    # "Standard" popgen types
     ctypedef gamete_base[popgenmut] gamete_t
     ctypedef cpplist[gamete_t] glist_t
     ctypedef cpplist[popgenmut] mlist_t
@@ -48,6 +49,17 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         vector[unsigned] fixation_times
         int sane()
         int size()
+
+    # Types based around KTfwd::generalmut_vec
+    ctypedef gamete_base[generalmut_vec] gamete_gm_vec_t
+    ctypedef cpplist[gamete_gm_vec_t] glist_gm_vec_t
+    ctypedef cpplist[generalmut_vec] mlist_gm_vec_t
+
+    cdef cppclass diploid_gm_vec_t:
+        cpplist[gamete_gm_vec_t].iterator first
+        cpplist[gamete_gm_vec_t].iterator second
+        double g,e,w
+    
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
         gsl_rng * get()

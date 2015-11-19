@@ -31,6 +31,12 @@ cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
         double s
         double h
 
+cdef extern from "fwdpp/sugar/generalmut.hpp" namespace "KTfwd" nogil:
+    cdef cppclass generalmut_vec(mutation_base):
+        vector[double] s
+        vector[double] h
+        unsigned g        
+
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
     cdef cppclass gamete_base[T]:
         unsigned n
