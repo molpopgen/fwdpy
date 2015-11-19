@@ -59,7 +59,22 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         cpplist[gamete_gm_vec_t].iterator first
         cpplist[gamete_gm_vec_t].iterator second
         double g,e,w
-    
+
+    ctypedef vector[diploid_gm_vec_t] dipvector_gm_vec_t
+
+    cdef cppclass singlepop_gm_vect:
+        singlepop_gm_vect(unsigned)
+        const unsigned N
+        const unsigned generation
+        mlist_gm_vec_t mutations
+        glist_gm_vec_t gametes
+        dipvector_gm_vec_t diploids
+        vector[generalmut_vec] fixations
+        vector[unsigned] fixation_times
+        unsigned gen()
+        unsigned popsize()
+        int sane()
+
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
         gsl_rng * get()
@@ -84,6 +99,12 @@ cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
     cpdef gen(self)
     cpdef popsizes(self)
+    cpdef sane(self)
+
+cdef class singlepop_gm_vec(poptype):
+    cdef shared_ptr[singlepop_gm_vec_t] pop
+    cpdef gen(self)
+    cpdef popsize(self)
     cpdef sane(self)
     
 cdef class popcont(object):
