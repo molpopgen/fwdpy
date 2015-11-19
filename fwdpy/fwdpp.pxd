@@ -32,10 +32,10 @@ cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
         double h
 
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
-    cdef cppclass gamete_base[popgenmut]:
+    cdef cppclass gamete_base[T]:
         unsigned n
-        vector[cpplist[popgenmut].iterator] mutations
-        vector[cpplist[popgenmut].iterator] smutations
+        vector[cpplist[T].iterator] mutations
+        vector[cpplist[T].iterator] smutations
 
 cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
     ctypedef vector[pair[double,string]] sample_t
