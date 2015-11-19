@@ -34,6 +34,16 @@ cdef class singlepop(poptype):
     cpdef clearTraj(self):
         return self.pop.get().clearTrajectories()
 
+cdef class singlepop_gm_vec(poptype):
+    def __del__(self):
+        self.pop.reset()
+    cpdef gen(self):
+        return self.pop.get().generation
+    cpdef popsize(self):
+        return self.pop.get().N
+    cpdef sane(self):
+        return self.pop.get().sane();
+
 cdef class popvec(popcont):
     """
     Vector of single-deme objects
@@ -80,6 +90,43 @@ cdef class popvec(popcont):
         """
         return self.pops.size()
 
+cdef class popvec_gmv(popcont):
+    def __cinit__(self,unsigned npops,unsigned N):
+        """
+        Constructor:
+
+        :param npops: The number of populations
+        :param N: Initial population number for each population
+        """
+        self.pypops=list()
+        for i in range(npops):
+            self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))
+            pi = singlepop_gm_vec()
+            pi.pop = self.pops[i]
+            self.pypops.append(pi)
+    def __iter__(self):
+        return iter(self.pypops)
+    def __next__(self):
+        return next(self.pypops)
+    def __getitem__(self, int i):
+        return self.pypops[i]
+    def __len__(self):
+        if self.pops.size() != len(self.pypops):
+            raise RuntimeError("fwdpy.popvec internal data structures out of sync")
+        return self.pops.size()
+    cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):
+        self.pops=newpops
+        self.pypops=list()
+        for i in range(self.pops.size()):
+            pi = singlepop_gm_vec();
+            pi.pop=self.pops[i]
+            self.pypops.append(pi)
+    cpdef size(self):
+        """
+        Returns number of populations (size of underlying C++ vector)
+        """
+        return self.pops.size()
+    
 cdef class metapop(poptype):
     """
     Object representing data structures for single-deme simulations.
