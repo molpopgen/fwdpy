@@ -158,6 +158,8 @@ namespace fwdpy {
     diploid_gm_vec_t(first_type g1, first_type g2) : first(g1),second(g2),g(0.),e(0.),w(0.) {}
   };
 
+  using dipvector_gm_vec_t = std::vector<diploid_gm_vec_t>;
+  
   struct singlepop_gm_vec_t :  public KTfwd::singlepop_serialized<KTfwd::generalmut_vec,
 								  KTfwd::mutation_writer,
 								  KTfwd::mutation_reader<KTfwd::generalmut_vec>,
