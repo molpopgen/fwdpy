@@ -63,7 +63,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
     ctypedef vector[diploid_gm_vec_t] dipvector_gm_vec_t
 
     cdef cppclass singlepop_gm_vec_t:
-        singlepop_gm_vect(unsigned)
+        singlepop_gm_vec_t(unsigned)
         const unsigned N
         const unsigned generation
         mlist_gm_vec_t mutations
@@ -120,6 +120,12 @@ cdef class popvec(popcont):
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
+
+cdef class popvec_gmv(popcont):
+    cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
+    cdef public object pypops
+    cpdef size(self)
+    cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
     
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
