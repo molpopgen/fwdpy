@@ -62,7 +62,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     ctypedef vector[diploid_gm_vec_t] dipvector_gm_vec_t
 
-    cdef cppclass singlepop_gm_vect:
+    cdef cppclass singlepop_gm_vec_t:
         singlepop_gm_vect(unsigned)
         const unsigned N
         const unsigned generation
