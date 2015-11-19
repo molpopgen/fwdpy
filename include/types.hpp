@@ -141,7 +141,55 @@ namespace fwdpy {
       return diploids.size();
     }
   };
-  
+
+  //Types based on KTfwd::generalmut_vec
+  using gamete_gm_vec_t = KTfwd::gamete_base<KTfwd::generalmut_vec>;
+  using glist_gm_vec_t = std::list<gamete_gm_vec_t>;
+  using mlist_gm_vec_t = std::list<KTfwd::generalmut_vec>;
+
+  struct diploid_gm_vec_t : public KTfwd::tags::custom_diploid_t
+  {
+    using first_type = glist_gm_vec_t::iterator;
+    using second_type = glist_gm_vec_t::iterator;
+    first_type first;
+    second_type second;
+    double g,e,w;
+    diploid_gm_vec_t() : first(first_type()),second(second_type()),g(0.),e(0.),w(0.) {}
+    diploid_gm_vec_t(first_type g1, first_type g2) : first(g1),second(g2),g(0.),e(0.),w(0.) {}
+  };
+
+  struct singlepop_gm_vec_t :  public KTfwd::singlepop_serialized<KTfwd::generalmut_vec,
+								  KTfwd::mutation_writer,
+								  KTfwd::mutation_reader<KTfwd::generalmut_vec>,
+								  diploid_gm_vec_t,
+								  diploid_writer,
+								  diploid_reader>
+  {
+    using base = KTfwd::singlepop_serialized<KTfwd::generalmut_vec,
+					     KTfwd::mutation_writer,
+					     KTfwd::mutation_reader<KTfwd::generalmut_vec>,
+					     diploid_gm_vec_t,
+					     diploid_writer,
+					     diploid_reader>;
+    //using trajtype = std::map< std::pair<unsigned,std::pair<double,double> >, std::vector<double> >;
+    unsigned generation;
+    //trajtype trajectories;
+    singlepop_gm_vec_t(const unsigned & N) : base(N),generation(0)
+    {
+    }
+    unsigned gen() const
+    {
+      return generation;
+    }
+    unsigned popsize() const
+    {
+      return N;
+    }
+    int sane() const
+    {
+      return int(N == diploids.size());
+    }
+  };
 }
 
 #endif
