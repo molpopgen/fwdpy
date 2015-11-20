@@ -43,19 +43,14 @@ def test_evolve_mpi(GSLrng rng,
                     const char * fitness = "multiplicative"):
     pops=popvec(npops,N)
     cdef unsigned listlen = len(nlist)
-    cdef GSLrng_t * RNG = rng.thisptr
     cdef int NP=npops
-    cdef Py_ssize_t i,j,k
+    cdef int j
     cdef unsigned popsize = N
     rmgr = region_manager_wrapper()
     print "srate = ",mu_selected
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    print "here"
-    #with nogil,parallel(num_threads=NP):
-    print pops.pops.size()
     for j in prange(NP,schedule='guided',nogil=True):
-            #evolve_regions_t(RNG,p[j],&nlist[0],listlen,
-            evolve_regions_t(RNG,pops.pops[j],&nlist[0],listlen,
+            evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
                              mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
     return pops
             
