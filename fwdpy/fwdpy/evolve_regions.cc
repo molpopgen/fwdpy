@@ -73,6 +73,23 @@ namespace fwdpy {
     *pop=std::move(pop2);
   }
 
+  void evolve_regions_t( GSLrng_t * rng, std::shared_ptr<singlepop_t> pop,
+			 const unsigned * Nvector,
+			 const size_t Nvector_len,
+			 const double mu_neutral,
+			 const double mu_selected,
+			 const double littler,
+			 const double f,
+			 const int track,
+			 const fwdpy::internal::region_manager * rm,
+			 const char * fitness)
+  {
+    evolve_regions_details(pop.get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
+			   mu_neutral,mu_selected,littler,f,track,fitness,
+			   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+			   std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)));
+  }
+      
   void evolve_regions_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			 const unsigned * Nvector,
 			 const size_t Nvector_len,

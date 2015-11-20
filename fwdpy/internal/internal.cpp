@@ -16,13 +16,15 @@
         ], 
         "extra_compile_args": [
             "-std=c++11", 
+            "-fopenmp", 
             "-fno-builtin-malloc", 
             "-fno-builtin-calloc", 
             "-fno-builtin-realloc", 
             "-fno-builtin-free"
         ], 
         "extra_link_args": [
-            "-std=c++11"
+            "-std=c++11", 
+            "-fopenmp"
         ], 
         "include_dirs": [
             ".", 

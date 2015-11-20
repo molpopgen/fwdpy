@@ -126,7 +126,7 @@ cdef class popvec_gmv(popcont):
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
-    
+
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
@@ -167,6 +167,17 @@ cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
 
 cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
     void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
+                           const unsigned * popsizes,
+                           const size_t popsizes_len,
+                           const double mu_neutral,
+                           const double mu_selected,
+                           const double littler,
+                           const double f,
+                           const int track,
+                           const region_manager * rm,
+                           const char * fitness)
+
+    void evolve_regions_t( GSLrng_t * rng, shared_ptr[singlepop_t] pops,
                            const unsigned * popsizes,
                            const size_t popsizes_len,
                            const double mu_neutral,
