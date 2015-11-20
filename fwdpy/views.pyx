@@ -158,7 +158,7 @@ def view_mutations( object p, deme = None ):
             raise RuntimeError("view_mutations: deme cannot be none for metapops")
         return view_mutations_metapop(p,deme)
     else:
-        raise RuntimeError("view_mutations: unsupported poptype")
+        raise RuntimeError("view_mutations: unsupported object type")
     
 def view_gametes_singlepop( singlepop p ):
     cdef glist_t_itr beg = p.pop.get().gametes.begin()
@@ -233,7 +233,7 @@ def view_gametes( object p ,deme = None):
             raise RuntimeError("view_gametes: deme cannot be None when p is a metapop")
         return view_gametes_metapop(p,deme)
     else:
-        raise RuntimeError("view_gametes: unsupported poptype")
+        raise RuntimeError("view_gametes: unsupported object type")
 
 def view_diploids_singlepop( singlepop p, list indlist ):
     for i in indlist:
@@ -301,7 +301,7 @@ def view_diploids( object p, list indlist, deme = None ):
     elif isinstance(p,popvec):
         return view_diploids_popvec(p,indlist)
     else:
-        raise RuntimeError("view_diploids: unsupported poptype")
+        raise RuntimeError("view_diploids: unsupported object type")
 
 cdef diploid_view_to_sample_init_containers( list mutations, map[double,string] * rmap, list info, const size_t ttl_nsam ):
     cdef map[double,string].iterator map_itr
