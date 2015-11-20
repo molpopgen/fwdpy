@@ -176,7 +176,7 @@ def view_gametes_popvec(popvec p):
         
 def view_gametes_metapop( metapop p, unsigned deme ):
     if deme >= len(p.popsizes()):
-        raise IndexError("view_gametes: deme index out of ramge")
+        raise IndexError("view_gametes: deme index out of range")
     temp1 = view_diploids(p,list(range(p.mpop.get().diploids[deme].size())),deme)
     #Get unique list of haplotypes
     unique_gams = []
