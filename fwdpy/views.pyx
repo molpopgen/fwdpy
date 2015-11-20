@@ -27,8 +27,6 @@ cdef popgen_mut_data get_mutation( const mlist_t_itr & itr) nogil:
 cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & itr ) nogil:
     cdef vector[mlist_t_itr].iterator beg = deref(itr).mutations.begin()
     cdef vector[mlist_t_itr].iterator end = deref(itr).mutations.end()
-    #neutral = []
-    #selected = []
     cdef gamete_data rv;
     while beg != end:
         rv.neutral.push_back(get_mutation(deref(beg)))
@@ -41,7 +39,6 @@ cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & itr ) nogil:
         inc(beg)
     rv.n=deref(itr).n
     return rv
-    #return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
 
 cdef diploid_data get_diploid( const dipvector_t_itr & itr ) nogil:
    cdef diploid_data rv
@@ -73,8 +70,6 @@ cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,
     cdef dipvector_t_itr itr = diploids.begin()
     cdef vector[diploid_data] rv
     for i in range(indlist.size()):
-        #if indlist[i] >= diploids.size():
-        #    raise IndexError("view_diploids: index out of range")
         rv.push_back(get_diploid(itr+indlist[i]))
     return rv
 
