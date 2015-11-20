@@ -1,6 +1,7 @@
 from cython.operator import dereference as deref,postincrement as inc
 from cython.parallel import parallel, prange
 import pandas as pd
+from libcpp.string cimport string as cppstring
 
 cdef extern from "<algorithm>" namespace "std":
     OUTPUT move[INPUT,OUTPUT](INPUT,INPUT,OUTPUT)
@@ -407,3 +408,100 @@ def diploid_view_to_sample(list view):
         selected_df = selected_df.set_index('index')
 
     return {'neutral':vneutral,'selected':vselected,'neutral_info':neutral_df,'selected_info':selected_df}
+
+cdef struct diploid_view_data:
+    vector[double] s,h
+    vector[unsigned] n,g,ind,chrom
+
+cdef void resize_dip_view_data( diploid_view_data & dv, unsigned nr ) nogil:
+    dv.s.resize(nr)
+    dv.h.resize(nr)
+    dv.n.resize(nr)
+    dv.g.resize(nr)
+    dv.ind.resize(nr)
+    dv.chrom.resize(nr)
+
+cdef unsigned fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,
+                                  vector[popgen_mut_data].iterator gend,
+                                  diploid_view_data & rv,
+                                  const unsigned ROW,
+                                  const unsigned IND,
+                                  const unsigned ch) nogil:
+   cdef unsigned R=ROW
+   while gbeg != gend:
+       rv.s[R] = deref(gbeg).s
+       rv.h[R] = deref(gbeg).h
+       rv.n[R] = deref(gbeg).n
+       rv.g[R] = deref(gbeg).g
+       rv.ind[R]=IND
+       rv.chrom[R]=ch
+       R+=1
+       inc(gbeg)
+   return R
+
+cdef diploid_view_data view_diploids_pd_details(vector[diploid_t] & diploids,
+                                                const vector[unsigned] & indlist,
+                                                bint selectedOnly) nogil:
+    cdef vector[diploid_data] v = view_diploids_details(diploids,indlist)
+    cdef vector[diploid_data].iterator beg,end
+    beg = v.begin()
+    end = v.end()
+    cdef unsigned nr = 0
+
+    #Determine length of vectors that we'll need
+    while beg != end:
+        dd = deref(beg)
+        if selectedOnly == False:
+            nr += deref(beg).chrom0.neutral.size()
+            nr += deref(beg).chrom1.neutral.size()
+        nr += deref(beg).chrom0.selected.size()
+        nr += deref(beg).chrom1.selected.size()
+        inc(beg)
+    #Construct and size return value
+    cdef diploid_view_data rv
+    resize_dip_view_data(rv,nr)
+
+    #Fill the return value
+    beg = v.begin()
+    end = v.end()
+    cdef:
+        unsigned ROW=0
+        unsigned IND=0
+    while beg != end:
+        if selectedOnly == False:
+            ROW=fill_dip_view_data(deref(beg).chrom0.neutral.begin(),deref(beg).chrom0.neutral.end(),rv,ROW,IND,0)
+            ROW=fill_dip_view_data(deref(beg).chrom1.neutral.begin(),deref(beg).chrom1.neutral.end(),rv,ROW,IND,1)
+        ROW=fill_dip_view_data(deref(beg).chrom0.selected.begin(),deref(beg).chrom0.selected.end(),rv,ROW,IND,0)
+        ROW=fill_dip_view_data(deref(beg).chrom1.selected.begin(),deref(beg).chrom1.selected.end(),rv,ROW,IND,1)
+        IND+=1
+        inc(beg)
+    
+    return rv
+
+def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):
+    cdef unsigned npops = p.pops.size()
+    cdef int i
+    cdef vector[diploid_view_data] rv
+    rv.resize(npops)
+    for i in prange(npops,schedule='guided',nogil=True):
+        rv[i]=view_diploids_pd_details(p.pops[i].get().diploids,indlist,selectedOnly)
+    return rv
+
+def view_diploids_pd_singlepop( singlepop p, vector[unsigned] & indlist, bint selectedOnly ):
+    return view_diploids_pd_details(p.pop.get().diploids,indlist,selectedOnly)
+
+def view_diploids_pd( object p, list indlist, bint selectedOnly = True ):
+    """
+    Get detailed list of a set of diploids in the population
+
+    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
+    :param deme: if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample
+    
+    :rtype: pandas.DataFrame or a list of such objects
+
+    .. note:: :class:`fwdpy.fwdpy.mpopvec` is not yet supported
+    """
+    if isinstance(p,popvec):
+        return [pd.DataFrame(i) for i in view_diploids_pd_popvec(p,indlist,selectedOnly)]
+    elif isinstance(p,singlepop):
+        return pd.DataFrame( view_diploids_pd_singlepop(p,indlist,selectedOnly) )
