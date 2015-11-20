@@ -143,9 +143,22 @@ ctypedef cpplist[gamete_t].iterator glist_t_itr
 ctypedef vector[diploid_t].iterator dipvector_t_itr
 
 ##Define some low-level functions that may be useful for others
-cdef get_mutation( const cpplist[popgenmut].iterator & )
-cdef get_gamete( const cpplist[gamete_t].iterator & )
-cdef get_diploid( const vector[diploid_t].iterator & itr )
+cdef struct popgen_mut_data:
+    double pos,s,h
+    unsigned n,g
+    bint neutral
+
+cdef struct gamete_data:
+    vector[popgen_mut_data] neutral,selected
+    unsigned n
+
+cdef struct diploid_data:
+    gamete_data chrom0,chrom1
+    double g,e,w
+    
+cdef popgen_mut_data get_mutation( const cpplist[popgenmut].iterator & ) nogil
+cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & ) nogil
+cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
 
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.

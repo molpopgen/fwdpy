@@ -12,62 +12,78 @@ cdef extern from "<iterator>" namespace "std":
         pass
     back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
 
-cdef get_mutation( const mlist_t_itr & itr):
-    return {'pos':deref(itr).pos,'n':deref(itr).n,'g':deref(itr).g,'s':deref(itr).s,'h':deref(itr).h,'neutral':deref(itr).neutral}
+    
+cdef popgen_mut_data get_mutation( const mlist_t_itr & itr) nogil:
+    cdef popgen_mut_data rv
+    rv.pos=deref(itr).pos
+    rv.n=deref(itr).n
+    rv.g=deref(itr).g
+    rv.s=deref(itr).s
+    rv.h=deref(itr).h
+    rv.neutral==deref(itr).neutral
+    return rv;
 
-cdef get_gamete( const cpplist[gamete_t].iterator & itr ):
+cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & itr ) nogil:
     cdef vector[mlist_t_itr].iterator beg = deref(itr).mutations.begin()
     cdef vector[mlist_t_itr].iterator end = deref(itr).mutations.end()
-    neutral = []
-    selected = []
-    
+    #neutral = []
+    #selected = []
+    cdef gamete_data rv;
     while beg != end:
-        neutral.append(get_mutation(deref(beg)))
+        rv.neutral.push_back(get_mutation(deref(beg)))
         inc(beg)
 
     beg = deref(itr).smutations.begin()
     end = deref(itr).smutations.end()
     while beg != end:
-        selected.append(get_mutation(deref(beg)))
+        rv.selected.push_back(get_mutation(deref(beg)))
         inc(beg)
-    return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
+    rv.n=deref(itr).n
+    return rv
+    #return {'n':deref(itr).n,'neutral':neutral,'selected':selected}
 
-cdef get_diploid( const dipvector_t_itr & itr ):
-    return {'g':deref(itr).g,
-            'e':deref(itr).e,
-            'w':deref(itr).w,
-            'chrom0':get_gamete(deref(itr).first),
-            'chrom1':get_gamete(deref(itr).second)}
+cdef diploid_data get_diploid( const dipvector_t_itr & itr ) nogil:
+   cdef diploid_data rv
+   rv.g=deref(itr).g
+   rv.e=deref(itr).e
+   rv.w=deref(itr).w
+   rv.chrom0=get_gamete(deref(itr).first)
+   rv.chrom1=get_gamete(deref(itr).second)
+   return rv
 
-cdef view_mutations_details(mlist_t_itr beg,mlist_t_itr end):
-    rv=[]
+cdef vector[popgen_mut_data] view_mutations_details(mlist_t_itr beg,mlist_t_itr end) nogil:
+    cdef vector[popgen_mut_data] rv
     while beg != end:
-        rv.append(get_mutation(beg))
+        rv.push_back(get_mutation(beg))
         inc(beg)
     return rv
 
-cdef view_gametes_details( cpplist[gamete_t].iterator beg,
-                           cpplist[gamete_t].iterator end ):
-    rv=[]
+cdef vector[gamete_data] view_gametes_details( cpplist[gamete_t].iterator beg,
+                           cpplist[gamete_t].iterator end ) nogil:
+    cdef vector[gamete_data] rv
     while beg != end:
-        rv.append(get_gamete(beg))
+        rv.push_back(get_gamete(beg))
         inc(beg)
     return rv
 
 ##This really should be const...
-cdef view_diploids_details( vector[diploid_t] & diploids,
-                            const vector[unsigned] indlist ):
+cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,
+                                                 const vector[unsigned] indlist ) nogil:
     cdef dipvector_t_itr itr = diploids.begin()
-    rv=[]
+    cdef vector[diploid_data] rv
     for i in range(indlist.size()):
-        if indlist[i] >= diploids.size():
-            raise IndexError("view_diploids: index out of range")
-        rv.append(get_diploid(itr+indlist[i]))
+        #if indlist[i] >= diploids.size():
+        #    raise IndexError("view_diploids: index out of range")
+        rv.push_back(get_diploid(itr+indlist[i]))
     return rv
 
 def view_mutations_singlepop(singlepop p):
     cdef mlist_t_itr beg = p.pop.get().mutations.begin()
     cdef mlist_t_itr end = p.pop.get().mutations.end()
+    cdef vector[popgen_mut_data] rv;
+    with nogil:
+        rv = view_mutations_details(beg,end)
+        
     return sorted(view_mutations_details(beg,end),key = lambda x:x['pos'])
 
 def view_mutations_metapop(metapop p,unsigned deme):
@@ -202,9 +218,17 @@ def view_gametes( poptype p ,deme = None):
         raise RuntimeError("view_gametes: unsupported poptype")
 
 def view_diploids_singlepop( singlepop p, list indlist ):
+    for i in indlist:
+        if i >= p.popsize():
+            raise IndexError("index greater than population size")
     return view_diploids_details(p.pop.get().diploids,indlist)
     
 def view_diploids_metapop( metapop p, list indlist, unsigned deme ):
+    psizes = p.popsizes()
+    for i in indlist:
+        for ps in psizes:
+            if i >= ps:
+                raise IndexError("index greater than deme size")
     if deme >= len(p.popsizes()):
         raise IndexError("view_diploids: deme index out of range")
     return view_diploids_details(p.mpop.get().diploids[deme],indlist)
