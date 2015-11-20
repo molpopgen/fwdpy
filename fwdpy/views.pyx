@@ -126,7 +126,7 @@ def view_mutations( object p, deme = None ):
     """
     Get detailed list of all mutations in the population
 
-    :param p: a :class:`fwdpy.fwdpy.poptype`
+    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
 
     :rtype: a list of dictionaries.  See Note.
 
@@ -215,7 +215,7 @@ def view_gametes( object p ,deme = None):
     """
     Get detailed list of all gametes in the population
 
-    :param p: a :class:`fwdpy.fwdpy.poptype`
+    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
     :param deme: If p is a :class:`fwdpy.fwdpy.metapop`, deme is the index of the deme to view
 
     :rtype: a list of dictionaries.  See note.
@@ -281,7 +281,7 @@ def view_diploids( object p, list indlist, deme = None ):
     """
     Get detailed list of a set of diploids in the population
 
-    :param p: a :class:`fwdpy.fwdpy.poptype`
+    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
     :param deme: if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample
     
     :rtype: a list of dictionaries.  See Note.
