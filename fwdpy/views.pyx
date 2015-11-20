@@ -79,7 +79,7 @@ def view_mutations_singlepop(singlepop p):
     cdef vector[popgen_mut_data] rv;
     with nogil:
         rv = view_mutations_details(beg,end)        
-    return sorted(view_mutations_details(beg,end),key = lambda x:x['pos'])
+    return view_mutations_details(beg,end)
 
 def view_mutations_popvec(popvec p):
     cdef mlist_t_itr beg,end
@@ -115,7 +115,7 @@ def view_mutations_metapop(metapop p,unsigned deme):
         rv.append(i)
         rv[dummy]['n'] = allmuts.count(i)
         dummy+=1
-    return sorted(rv, key = lambda x : x['pos'])
+    return rv
 
 def view_mutations( object p, deme = None ):
     """
@@ -163,26 +163,17 @@ def view_mutations( object p, deme = None ):
 def view_gametes_singlepop( singlepop p ):
     cdef glist_t_itr beg = p.pop.get().gametes.begin()
     cdef glist_t_itr end = p.pop.get().gametes.end()
-    return sorted(view_gametes_details(beg,end),key=lambda x:x['n'],reverse=True)
+    return view_gametes_details(beg,end)
 
 def view_gametes_popvec(popvec p):
     cdef glist_t_itr beg,end
     cdef glist_t_itr 
     cdef int npops = p.pops.size(),i
-    cdef vector[vector[gamete_data]] temp
-    temp.resize(npops)
+    cdef vector[vector[gamete_data]] rv
+    rv.resize(npops)
     for i in prange(npops,schedule='guided',nogil=True):
-        temp[i]=view_gametes_details(p.pops[i].get().gametes.begin(),p.pops[i].get().gametes.end())
-    rv=[]
-    for i in range(npops):
-        rv.append(temp[i])
-        rv[i]=sorted(rv[i],key=lambda x:x['n'],reverse=True)
-
-    return rv
+        rv[i]=view_gametes_details(p.pops[i].get().gametes.begin(),p.pops[i].get().gametes.end())
         
-    
-    
-
 def view_gametes_metapop( metapop p, unsigned deme ):
     if deme >= len(p.popsizes()):
         raise IndexError("view_gametes: deme index out of ramge")
@@ -204,7 +195,7 @@ def view_gametes_metapop( metapop p, unsigned deme ):
         temp1.append(i)
         temp1[dummy]['n'] = allgams.count(i)
         dummy+=1
-    return sorted(temp1,key=lambda x:x['n'],reverse=True)
+    return temp1
 
 def view_gametes( object p ,deme = None):
     """
