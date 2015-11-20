@@ -1,4 +1,5 @@
 from cython.operator import dereference as deref,postincrement as inc
+from cython.parallel import parallel, prange
 import pandas as pd
 
 cdef extern from "<algorithm>" namespace "std":
@@ -82,9 +83,18 @@ def view_mutations_singlepop(singlepop p):
     cdef mlist_t_itr end = p.pop.get().mutations.end()
     cdef vector[popgen_mut_data] rv;
     with nogil:
-        rv = view_mutations_details(beg,end)
-        
+        rv = view_mutations_details(beg,end)        
     return sorted(view_mutations_details(beg,end),key = lambda x:x['pos'])
+
+def view_mutations_popvec(popvec p):
+    cdef mlist_t_itr beg,end
+    cdef vector[vector[popgen_mut_data]] rv;
+    cdef int npops = p.pops.size(),i
+    rv.resize(npops)
+    for i in prange(npops,schedule='guided',nogil=True):
+        rv[i] = view_mutations_details(p.pops[i].get().mutations.begin(),p.pops[i].get().mutations.end())
+
+    return rv
 
 def view_mutations_metapop(metapop p,unsigned deme):
     if deme >= len(p.popsizes()):
@@ -112,7 +122,7 @@ def view_mutations_metapop(metapop p,unsigned deme):
         dummy+=1
     return sorted(rv, key = lambda x : x['pos'])
 
-def view_mutations( poptype p, deme = None ):
+def view_mutations( object p, deme = None ):
     """
     Get detailed list of all mutations in the population
 
@@ -146,6 +156,8 @@ def view_mutations( poptype p, deme = None ):
     """
     if isinstance(p,singlepop):
         return view_mutations_singlepop(p)
+    elif isinstance(p,popvec):
+        return view_mutations_popvec(p)
     elif isinstance(p,metapop):
         if deme is None:
             raise RuntimeError("view_mutations: deme cannot be none for metapops")
@@ -157,6 +169,24 @@ def view_gametes_singlepop( singlepop p ):
     cdef glist_t_itr beg = p.pop.get().gametes.begin()
     cdef glist_t_itr end = p.pop.get().gametes.end()
     return sorted(view_gametes_details(beg,end),key=lambda x:x['n'],reverse=True)
+
+def view_gametes_popvec(popvec p):
+    cdef glist_t_itr beg,end
+    cdef glist_t_itr 
+    cdef int npops = p.pops.size(),i
+    cdef vector[vector[gamete_data]] temp
+    temp.resize(npops)
+    for i in prange(npops,schedule='guided',nogil=True):
+        temp[i]=view_gametes_details(p.pops[i].get().gametes.begin(),p.pops[i].get().gametes.end())
+    rv=[]
+    for i in range(npops):
+        rv.append(temp[i])
+        rv[i]=sorted(rv[i],key=lambda x:x['n'],reverse=True)
+
+    return rv
+        
+    
+    
 
 def view_gametes_metapop( metapop p, unsigned deme ):
     if deme >= len(p.popsizes()):
@@ -181,7 +211,7 @@ def view_gametes_metapop( metapop p, unsigned deme ):
         dummy+=1
     return sorted(temp1,key=lambda x:x['n'],reverse=True)
 
-def view_gametes( poptype p ,deme = None):
+def view_gametes( object p ,deme = None):
     """
     Get detailed list of all gametes in the population
 
@@ -210,6 +240,8 @@ def view_gametes( poptype p ,deme = None):
     """
     if isinstance(p,singlepop):
         return view_gametes_singlepop(p)
+    elif isinstance(p,popvec):
+        return view_gametes_popvec(p)
     elif isinstance(p,metapop):
         if deme is None:
             raise RuntimeError("view_gametes: deme cannot be None when p is a metapop")
@@ -222,7 +254,19 @@ def view_diploids_singlepop( singlepop p, list indlist ):
         if i >= p.popsize():
             raise IndexError("index greater than population size")
     return view_diploids_details(p.pop.get().diploids,indlist)
-    
+
+def view_diploids_popvec( popvec p, list indlist ):
+    cdef int npops = len(p),i
+    cdef vector[vector[diploid_data]] rv
+    rv.resize(npops);
+    cdef vector[unsigned] il
+    for i in indlist:
+        il.push_back(i)
+    for i in prange(npops,schedule='guided',nogil=True):
+        rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
+
+    return rv
+        
 def view_diploids_metapop( metapop p, list indlist, unsigned deme ):
     psizes = p.popsizes()
     for i in indlist:
@@ -233,7 +277,7 @@ def view_diploids_metapop( metapop p, list indlist, unsigned deme ):
         raise IndexError("view_diploids: deme index out of range")
     return view_diploids_details(p.mpop.get().diploids[deme],indlist)
     
-def view_diploids( poptype p, list indlist, deme = None ):
+def view_diploids( object p, list indlist, deme = None ):
     """
     Get detailed list of a set of diploids in the population
 
@@ -268,6 +312,8 @@ def view_diploids( poptype p, list indlist, deme = None ):
         if deme is None:
             raise RuntimeError("view_diploids: deme index required for metapopulation")
         return view_diploids_metapop(p,indlist,deme)
+    elif isinstance(p,popvec):
+        return view_diploids_popvec(p,indlist)
     else:
         raise RuntimeError("view_diploids: unsupported poptype")
 
