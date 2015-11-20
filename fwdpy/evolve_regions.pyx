@@ -47,7 +47,6 @@ def test_evolve_mpi(GSLrng rng,
     cdef int j
     cdef unsigned popsize = N
     rmgr = region_manager_wrapper()
-    print "srate = ",mu_selected
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     for j in prange(NP,schedule='guided',nogil=True):
             evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
