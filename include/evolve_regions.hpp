@@ -18,6 +18,18 @@ namespace fwdpy
 			 const internal::region_manager * rm,
 			 const char * fitness);
 
+  void evolve_regions_t( GSLrng_t * rng, std::shared_ptr<singlepop_t> pop,
+			 const unsigned * Nvector,
+			 const size_t Nvector_length,
+			 const double mu_neutral,
+			 const double mu_selected,
+			 const double littler,
+			 const double f,
+			 const int track,
+			 const internal::region_manager * rm,
+			 const char * fitness);
+  
+
   std::vector<std::shared_ptr<singlepop_t> >  evolve_regions_async(const unsigned npops,
 								   GSLrng_t * rng, 
 								   const unsigned * Nvector,

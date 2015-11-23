@@ -16,13 +16,15 @@
         ], 
         "extra_compile_args": [
             "-std=c++11", 
+            "-fopenmp", 
             "-fno-builtin-malloc", 
             "-fno-builtin-calloc", 
             "-fno-builtin-realloc", 
             "-fno-builtin-free"
         ], 
         "extra_link_args": [
-            "-std=c++11"
+            "-std=c++11", 
+            "-fopenmp"
         ], 
         "include_dirs": [
             ".", 
@@ -540,6 +542,9 @@ struct __pyx_obj_5fwdpy_5fwdpy_mpopvec;
 struct __pyx_obj_5fwdpy_5fwdpy_GSLrng;
 struct __pyx_obj_5fwdpy_8internal_8internal_shwrappervec;
 struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper;
+struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data;
+struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
+struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
 
 /* "fwdpy/fwdpy.pxd":140
  * 
@@ -576,6 +581,50 @@ typedef std::list<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_glist_t_itr;
  * ##Define some low-level functions that may be useful for others
  */
 typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector_t_itr;
+
+/* "fwdpy/fwdpy.pxd":146
+ * 
+ * ##Define some low-level functions that may be useful for others
+ * cdef struct popgen_mut_data:             # <<<<<<<<<<<<<<
+ *     double pos,s,h
+ *     unsigned n,g
+ */
+struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data {
+  double pos;
+  double s;
+  double h;
+  unsigned int n;
+  unsigned int g;
+  int neutral;
+};
+
+/* "fwdpy/fwdpy.pxd":151
+ *     bint neutral
+ * 
+ * cdef struct gamete_data:             # <<<<<<<<<<<<<<
+ *     vector[popgen_mut_data] neutral,selected
+ *     unsigned n
+ */
+struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
+  std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  neutral;
+  std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  selected;
+  unsigned int n;
+};
+
+/* "fwdpy/fwdpy.pxd":155
+ *     unsigned n
+ * 
+ * cdef struct diploid_data:             # <<<<<<<<<<<<<<
+ *     gamete_data chrom0,chrom1
+ *     double g,e,w
+ */
+struct __pyx_t_5fwdpy_5fwdpy_diploid_data {
+  struct __pyx_t_5fwdpy_5fwdpy_gamete_data chrom0;
+  struct __pyx_t_5fwdpy_5fwdpy_gamete_data chrom1;
+  double g;
+  double e;
+  double w;
+};
 
 /* "fwdpy/fwdpy.pxd":83
  * 

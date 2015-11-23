@@ -126,7 +126,7 @@ cdef class popvec_gmv(popcont):
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
-    
+
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
@@ -143,9 +143,22 @@ ctypedef cpplist[gamete_t].iterator glist_t_itr
 ctypedef vector[diploid_t].iterator dipvector_t_itr
 
 ##Define some low-level functions that may be useful for others
-cdef get_mutation( const cpplist[popgenmut].iterator & )
-cdef get_gamete( const cpplist[gamete_t].iterator & )
-cdef get_diploid( const vector[diploid_t].iterator & itr )
+cdef struct popgen_mut_data:
+    double pos,s,h
+    unsigned n,g
+    bint neutral
+
+cdef struct gamete_data:
+    vector[popgen_mut_data] neutral,selected
+    unsigned n
+
+cdef struct diploid_data:
+    gamete_data chrom0,chrom1
+    double g,e,w
+    
+cdef popgen_mut_data get_mutation( const cpplist[popgenmut].iterator & ) nogil
+cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & ) nogil
+cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
 
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
@@ -167,6 +180,17 @@ cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
 
 cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
     void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
+                           const unsigned * popsizes,
+                           const size_t popsizes_len,
+                           const double mu_neutral,
+                           const double mu_selected,
+                           const double littler,
+                           const double f,
+                           const int track,
+                           const region_manager * rm,
+                           const char * fitness)
+
+    void evolve_regions_t( GSLrng_t * rng, shared_ptr[singlepop_t] pops,
                            const unsigned * popsizes,
                            const size_t popsizes_len,
                            const double mu_neutral,
