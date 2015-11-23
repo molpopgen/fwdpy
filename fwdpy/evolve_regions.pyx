@@ -1,7 +1,7 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 from cpython cimport array
-from cython.parallel import parallel, prange
+#from cython.parallel import parallel, prange
 import warnings
 cimport cython
 
@@ -27,31 +27,31 @@ def test_evolve_regions_async(GSLrng rng,
                                                                      listlen,
                                                                      mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
 
-@cython.boundscheck(False)                                               
-def test_evolve_mpi(GSLrng rng,
-                    int npops,
-                    int N,
-                    unsigned[:] nlist,
-                    double mu_neutral,
-                    double mu_selected,
-                    double recrate,
-                    list nregions,
-                    list sregions,
-                    list recregions,
-                    double f = 0,
-                    const bint track = False,
-                    const char * fitness = "multiplicative"):
-    pops=popvec(npops,N)
-    cdef unsigned listlen = len(nlist)
-    cdef int NP=npops
-    cdef int j
-    cdef unsigned popsize = N
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    for j in prange(NP,schedule='guided',nogil=True):
-            evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
-                             mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
-    return pops
+# @cython.boundscheck(False)                                               
+# def test_evolve_mpi(GSLrng rng,
+#                     int npops,
+#                     int N,
+#                     unsigned[:] nlist,
+#                     double mu_neutral,
+#                     double mu_selected,
+#                     double recrate,
+#                     list nregions,
+#                     list sregions,
+#                     list recregions,
+#                     double f = 0,
+#                     const bint track = False,
+#                     const char * fitness = "multiplicative"):
+#     pops=popvec(npops,N)
+#     cdef unsigned listlen = len(nlist)
+#     cdef int NP=npops
+#     cdef int j
+#     cdef unsigned popsize = N
+#     rmgr = region_manager_wrapper()
+#     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+#     for j in prange(NP,schedule='guided',nogil=True):
+#             evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
+#                              mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+#     return pops
             
 @cython.boundscheck(False)
 def evolve_regions(GSLrng rng,
