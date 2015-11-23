@@ -121,16 +121,17 @@ namespace fwdpy {
 								   const double f,
 								   const int track,
 								   const char * fitness,
-								   KTfwd::extensions::discrete_mut_model && __m,
-								   KTfwd::extensions::discrete_rec_model && __recmap)
+								   const fwdpy::internal::region_manager * rm)
+  //KTfwd::extensions::discrete_mut_model && __m,
+  //								   KTfwd::extensions::discrete_rec_model && __recmap)
   {    
     const unsigned simlen = Nvector_len;
     
     const double mu_tot = neutral + selected;
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
     gsl_rng_set(rng,seed);
-    KTfwd::extensions::discrete_mut_model m(std::move(__m));
-    KTfwd::extensions::discrete_rec_model recmap(std::move(__recmap));
+    KTfwd::extensions::discrete_mut_model m(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks);//std::move(__m));
+    KTfwd::extensions::discrete_rec_model recmap(rm->rb,rm->rw,rm->rw);//std::move(__recmap));
     //Recombination policy: more complex than the standard case...
     std::function<double(void)> recpos = std::bind(&KTfwd::extensions::discrete_rec_model::operator(),&recmap,rng);
 
@@ -193,15 +194,15 @@ namespace fwdpy {
        {
 	 futures.emplace_back(std::async(std::launch::async,evolve_regions_details_async,
 					 gsl_rng_get(rng->get()),Nvector,Nvector_len,
-					 mu_neutral,mu_selected,littler,f,track,fitness,
-					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
-					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw))));
+					 mu_neutral,mu_selected,littler,f,track,fitness,rm));
+	 //std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+	 //				 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw))));
        }
-     std::vector<std::shared_ptr<singlepop_t> > rv;
-     for_each(std::begin(futures),std::end(futures),[&rv](std::future<std::shared_ptr<singlepop_t> > & fut) {
-	 fut.wait();
-	 rv.emplace_back(std::move(fut.get()));
-       });
+      std::vector<std::shared_ptr<singlepop_t> > rv;
+      for_each(std::begin(futures),std::end(futures),[&rv](std::future<std::shared_ptr<singlepop_t> > & fut) {
+     // 	 //fut.wait();
+	  rv.emplace_back(std::move(fut.get()));
+        });
      return rv;
    }
 
