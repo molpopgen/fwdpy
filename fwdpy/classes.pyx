@@ -1,5 +1,5 @@
 ##Create the python classes
-
+from cython.operator import dereference as deref
 
 cdef class singlepop(poptype):
     """
@@ -85,6 +85,19 @@ cdef class popvec(popcont):
             pi = singlepop();
             pi.pop=self.pops[i]
             self.pypops.append(pi)
+    def __append_details__(self,popvec p):
+        for i in range(len(p)):
+            self.pops.push_back(p.pops[i])
+            self.pypops.append(p[i])        
+    cpdef append(self,popvec p):
+        """
+        Append 'p' into this object.
+
+        This is done via a serialized copy, meaning that 
+        this object and p will not share any pointers
+        """
+        self.__append_details__(copypops(p))
+             
     cpdef size(self):
         """
         Returns number of populations (size of underlying C++ vector)
@@ -198,14 +211,26 @@ cdef class mpopvec(popcont):
         Returns number of populations (size of underlying C++ vector)
         """
         return self.mpops.size()
-    cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):
+    cdef reset(self,const vector[shared_ptr[metapop_t]] & mpops):
         self.mpops = mpops
         self.pympops = []
         for i in range(self.mpops.size()):
             pi = metapop()
             pi.mpop = self.mpops[i]
             self.pympops.append(pi)
-    
+    def __append_details__(self,mpopvec p):
+        for i in range(len(p)):
+            self.mpops.push_back(p.mpops[i])
+            self.pympops.append(p[i])        
+    cpdef append(self,mpopvec p):
+        """
+        Append 'p' into this object.
+
+        This is done via a serialized copy, meaning that 
+        this object and p will not share any pointers
+        """
+        self.__append_details__(copypops(p))
+        
 cdef class GSLrng:
     """
     A wrapper around a random number generator (rng) 
