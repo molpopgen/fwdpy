@@ -103,9 +103,10 @@ Dependencies
 
 This section assumes that all packages are installed in fairly standard locations, such as /usr/local.  See the troubleshooting section for more complex setups.
 
+This package depends on:
+
 * GSL_
 * fwdpp_ 
-* tcmalloc_
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
 

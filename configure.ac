@@ -404,7 +404,7 @@ dnl stuff added by KRT
 
 AC_CONFIG_HEADERS([config.h])
 
-MINFWDPPVERSION="0.4.1"
+MINFWDPPVERSION="0.4.2"
 FWDPPVERSION=`fwdppConfig --version`
 AC_SUBST(MINFWDPP,$MINFWDPPVERSION)
 GSLVERSION=`gsl-config --version`
@@ -445,7 +445,7 @@ dnl check for C++ libraries that are required
 AC_LANG_SAVE
           AC_LANG_CPLUSPLUS
           AC_REQUIRE_CPP
-	  AC_CHECK_LIB([tcmalloc],[tc_cfree],,[AC_MSG_ERROR([tcmalloc not found])])
+#	  AC_CHECK_LIB([tcmalloc],[tc_cfree],,[AC_MSG_ERROR([tcmalloc not found])])
 	  AM_CONDITIONAL([BUNIT_TEST_LIB_PRESENT], test x$BUNITTESTLIB = x1)
 AC_LANG_RESTORE
 

@@ -1,9 +1,58 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 from cpython cimport array
+#from cython.parallel import parallel, prange
 import warnings
 cimport cython
 
+@cython.boundscheck(False)
+def test_evolve_regions_async(GSLrng rng,
+                              int npops,
+                              unsigned[:] nlist,
+                              double mu_neutral,
+                              double mu_selected,
+                              double recrate,
+                              list nregions,
+                              list sregions,
+                              list recregions,
+                              double f = 0,
+                              const bint track = False,
+                              const char * fitness = "multiplicative"):
+    cdef unsigned listlen = len(nlist)
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    cdef vector[shared_ptr[singlepop_t]] pops = evolve_regions_async(npops,
+                                                                     rng.thisptr,
+                                                                     &nlist[0],
+                                                                     listlen,
+                                                                     mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+
+# @cython.boundscheck(False)                                               
+# def test_evolve_mpi(GSLrng rng,
+#                     int npops,
+#                     int N,
+#                     unsigned[:] nlist,
+#                     double mu_neutral,
+#                     double mu_selected,
+#                     double recrate,
+#                     list nregions,
+#                     list sregions,
+#                     list recregions,
+#                     double f = 0,
+#                     const bint track = False,
+#                     const char * fitness = "multiplicative"):
+#     pops=popvec(npops,N)
+#     cdef unsigned listlen = len(nlist)
+#     cdef int NP=npops
+#     cdef int j
+#     cdef unsigned popsize = N
+#     rmgr = region_manager_wrapper()
+#     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+#     for j in prange(NP,schedule='guided',nogil=True):
+#             evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
+#                              mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+#     return pops
+            
 @cython.boundscheck(False)
 def evolve_regions(GSLrng rng,
                     int npops,
@@ -185,6 +234,7 @@ def evolve_regions_split(GSLrng rng,
         raise RuntimeError("mutation rate to selected variants must be >= 0.")
     if recrate < 0:
         raise RuntimeError("recombination rate must be >= 0.")
+    cdef unsigned i
     for i in range(fs.size()):
         if fs[i] < 0.:
             warnings.warn("f[i] < 0 will be treated as 0")
@@ -214,3 +264,4 @@ def evolve_regions_split(GSLrng rng,
     with nogil:
         split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
     return mpv
+

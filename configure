@@ -3221,7 +3221,7 @@ ac_config_files="$ac_config_files Makefile setup.py conf.py"
 ac_config_headers="$ac_config_headers config.h"
 
 
-MINFWDPPVERSION="0.4.1"
+MINFWDPPVERSION="0.4.2"
 FWDPPVERSION=`fwdppConfig --version`
 MINFWDPP=$MINFWDPPVERSION
 
@@ -4503,53 +4503,7 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-	  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for tc_cfree in -ltcmalloc" >&5
-$as_echo_n "checking for tc_cfree in -ltcmalloc... " >&6; }
-if ${ac_cv_lib_tcmalloc_tc_cfree+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-ltcmalloc  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char tc_cfree ();
-int
-main ()
-{
-return tc_cfree ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_tcmalloc_tc_cfree=yes
-else
-  ac_cv_lib_tcmalloc_tc_cfree=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_tcmalloc_tc_cfree" >&5
-$as_echo "$ac_cv_lib_tcmalloc_tc_cfree" >&6; }
-if test "x$ac_cv_lib_tcmalloc_tc_cfree" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBTCMALLOC 1
-_ACEOF
-
-  LIBS="-ltcmalloc $LIBS"
-
-else
-  as_fn_error $? "tcmalloc not found" "$LINENO" 5
-fi
-
+#	  AC_CHECK_LIB([tcmalloc],[tc_cfree],,[AC_MSG_ERROR([tcmalloc not found])])
 	   if test x$BUNITTESTLIB = x1; then
   BUNIT_TEST_LIB_PRESENT_TRUE=
   BUNIT_TEST_LIB_PRESENT_FALSE='#'
