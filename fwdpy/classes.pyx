@@ -90,6 +90,12 @@ cdef class popvec(popcont):
             self.pops.push_back(p.pops[i])
             self.pypops.append(p[i])        
     cpdef append(self,popvec p):
+        """
+        Append 'p' into this object.
+
+        This is done via a serialized copy, meaning that 
+        this object and p will not share any pointers
+        """
         self.__append_details__(copypops(p))
              
     cpdef size(self):
@@ -217,6 +223,12 @@ cdef class mpopvec(popcont):
             self.mpops.push_back(p.mpops[i])
             self.pympops.append(p[i])        
     cpdef append(self,mpopvec p):
+        """
+        Append 'p' into this object.
+
+        This is done via a serialized copy, meaning that 
+        this object and p will not share any pointers
+        """
         self.__append_details__(copypops(p))
         
 cdef class GSLrng:
