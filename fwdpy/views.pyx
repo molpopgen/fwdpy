@@ -94,7 +94,7 @@ def view_mutations_singlepop(singlepop p):
 def view_mutations_popvec(popvec p):
     cdef mlist_t_itr beg,end
     cdef vector[vector[popgen_mut_data]] rv;
-    cdef int npops = p.pops.size(),i
+    cdef unsigned npops = p.pops.size(),i
     rv.resize(npops)
     #for i in prange(npops,schedule='guided',nogil=True):
     for i in range(npops):
@@ -180,7 +180,7 @@ def view_gametes_singlepop( singlepop p ):
 def view_gametes_popvec(popvec p):
     cdef glist_t_itr beg,end
     cdef glist_t_itr 
-    cdef int npops = p.pops.size(),i
+    cdef unsigned npops = p.pops.size()
     cdef vector[vector[gamete_data]] rv
     rv.resize(npops)
     #for i in prange(npops,schedule='guided',nogil=True):
@@ -394,9 +394,11 @@ def diploid_view_to_sample(list view):
         neutral_info = diploid_view_to_sample_init_containers(dip['chrom1']['neutral'],&neutral,neutral_info,ttl_nsam)
         selected_info = diploid_view_to_sample_init_containers(dip['chrom0']['selected'],&selected,selected_info,ttl_nsam)
         selected_info = diploid_view_to_sample_init_containers(dip['chrom1']['selected'],&selected,selected_info,ttl_nsam)
-    if neutral.size() != len(neutral_info):
+    cdef unsigned size_ = len(neutral_info)
+    if neutral.size() != size_:
         raise RuntimeError("diploid_view: unequal container sizes for neutral mutations")
-    if selected.size() != len(selected_info):
+    size_ = len(selected_info)
+    if selected.size() != size_:
         raise RuntimeError("diploid_view: unequal container sizes for selected mutations")
     diploid_view_to_sample_fill_containers(view,&neutral,&selected)
 
@@ -492,7 +494,7 @@ cdef diploid_view_data view_diploids_pd_details(vector[diploid_t] & diploids,
 
 def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):
     cdef unsigned npops = p.pops.size()
-    cdef int i
+    cdef unsigned i
     cdef vector[diploid_view_data] rv
     rv.resize(npops)
     #for i in prange(npops,schedule='guided',nogil=True):

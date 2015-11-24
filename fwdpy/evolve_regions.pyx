@@ -234,6 +234,7 @@ def evolve_regions_split(GSLrng rng,
         raise RuntimeError("mutation rate to selected variants must be >= 0.")
     if recrate < 0:
         raise RuntimeError("recombination rate must be >= 0.")
+    cdef unsigned i
     for i in range(fs.size()):
         if fs[i] < 0.:
             warnings.warn("f[i] < 0 will be treated as 0")
