@@ -1219,7 +1219,7 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></li>
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></li>
 <li><strong>deme</strong> &#8211; if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample</li>
 </ul>
 </td>
@@ -1249,6 +1249,35 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dips</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_diploids</span><span class="p">(</span><span class="n">i</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">201</span><span class="p">,</span><span class="mi">301</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> currently not supported</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.view_diploids_pd">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">view_diploids_pd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.view_diploids_pd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get detailed list of a set of diploids in the population</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></li>
+<li><strong>deme</strong> &#8211; if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pandas.DataFrame or a list of such objects</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> is not yet supported</p>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -1260,7 +1289,7 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></li>
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></li>
 <li><strong>deme</strong> &#8211; If p is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></a>, deme is the index of the deme to view</li>
 </ul>
 </td>
@@ -1288,6 +1317,10 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">gams</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_gametes</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> currently not supported</p>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -1298,7 +1331,7 @@ the data structures!</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a list of dictionaries.  See Note.</td>
 </tr>
@@ -1326,6 +1359,10 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">muts_deme_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">muts_deme_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> currently not supported</p>
 </div>
 </dd></dl>
 
