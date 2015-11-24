@@ -662,7 +662,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
 struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
 struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data;
 
-/* "fwdpy/fwdpy.pxd":140
+/* "fwdpy/fwdpy.pxd":142
  * 
  * #Typedefs for convenience
  * ctypedef cpplist[popgenmut].iterator mlist_t_itr             # <<<<<<<<<<<<<<
@@ -671,7 +671,7 @@ struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data;
  */
 typedef std::list<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mlist_t_itr;
 
-/* "fwdpy/fwdpy.pxd":141
+/* "fwdpy/fwdpy.pxd":143
  * #Typedefs for convenience
  * ctypedef cpplist[popgenmut].iterator mlist_t_itr
  * ctypedef vector[mlist_t_itr] mut_container_t             # <<<<<<<<<<<<<<
@@ -680,7 +680,7 @@ typedef std::list<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mlist_t_itr
  */
 typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mlist_t_itr>  __pyx_t_5fwdpy_5fwdpy_mut_container_t;
 
-/* "fwdpy/fwdpy.pxd":142
+/* "fwdpy/fwdpy.pxd":144
  * ctypedef cpplist[popgenmut].iterator mlist_t_itr
  * ctypedef vector[mlist_t_itr] mut_container_t
  * ctypedef cpplist[gamete_t].iterator glist_t_itr             # <<<<<<<<<<<<<<
@@ -689,7 +689,7 @@ typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mlist_t_itr>  __pyx_t_5fwdpy_5fwdpy_mu
  */
 typedef std::list<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_glist_t_itr;
 
-/* "fwdpy/fwdpy.pxd":143
+/* "fwdpy/fwdpy.pxd":145
  * ctypedef vector[mlist_t_itr] mut_container_t
  * ctypedef cpplist[gamete_t].iterator glist_t_itr
  * ctypedef vector[diploid_t].iterator dipvector_t_itr             # <<<<<<<<<<<<<<
@@ -698,7 +698,7 @@ typedef std::list<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_glist_t_itr;
  */
 typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector_t_itr;
 
-/* "fwdpy/fwdpy.pxd":146
+/* "fwdpy/fwdpy.pxd":148
  * 
  * ##Define some low-level functions that may be useful for others
  * cdef struct popgen_mut_data:             # <<<<<<<<<<<<<<
@@ -714,7 +714,7 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data {
   int neutral;
 };
 
-/* "fwdpy/fwdpy.pxd":151
+/* "fwdpy/fwdpy.pxd":153
  *     bint neutral
  * 
  * cdef struct gamete_data:             # <<<<<<<<<<<<<<
@@ -727,7 +727,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
   unsigned int n;
 };
 
-/* "fwdpy/fwdpy.pxd":155
+/* "fwdpy/fwdpy.pxd":157
  *     unsigned n
  * 
  * cdef struct diploid_data:             # <<<<<<<<<<<<<<
@@ -892,8 +892,8 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":124
- *     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
+/* "fwdpy/fwdpy.pxd":125
+ *     cpdef append(self,popvec p)
  * 
  * cdef class popvec_gmv(popcont):             # <<<<<<<<<<<<<<
  *     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
@@ -907,7 +907,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv {
 };
 
 
-/* "fwdpy/fwdpy.pxd":130
+/* "fwdpy/fwdpy.pxd":131
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -922,8 +922,8 @@ struct __pyx_obj_5fwdpy_5fwdpy_mpopvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":136
- *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
+/* "fwdpy/fwdpy.pxd":138
+ *     cpdef append(self,mpopvec p)
  * 
  * cdef class GSLrng:             # <<<<<<<<<<<<<<
  *     cdef GSLrng_t * thisptr
@@ -1013,7 +1013,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 /* "fwdpy/classes.pyx":4
- * 
+ * from cython.operator import dereference as deref
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
  *     """
@@ -1029,7 +1029,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop;
 
 
-/* "fwdpy/classes.pyx":132
+/* "fwdpy/classes.pyx":139
  *         return self.pops.size()
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
@@ -1072,11 +1072,12 @@ static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec *__pyx_vtabptr_5fw
 struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec {
   PyObject *(*size)(struct __pyx_obj_5fwdpy_5fwdpy_popvec *, int __pyx_skip_dispatch);
   PyObject *(*reset)(struct __pyx_obj_5fwdpy_5fwdpy_popvec *, std::vector<std::shared_ptr<fwdpy::singlepop_t> >  const );
+  PyObject *(*append)(struct __pyx_obj_5fwdpy_5fwdpy_popvec *, struct __pyx_obj_5fwdpy_5fwdpy_popvec *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec *__pyx_vtabptr_5fwdpy_5fwdpy_popvec;
 
 
-/* "fwdpy/classes.pyx":94
+/* "fwdpy/classes.pyx":101
  *         return self.pops.size()
  * 
  * cdef class popvec_gmv(popcont):             # <<<<<<<<<<<<<<
@@ -1091,7 +1092,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv *__pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv;
 
 
-/* "fwdpy/classes.pyx":165
+/* "fwdpy/classes.pyx":172
  *         return self.mpop.get().sane()
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -1102,6 +1103,7 @@ static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv *__pyx_vtabptr_5fwdpy_5f
 struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec {
   PyObject *(*size)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, int __pyx_skip_dispatch);
   PyObject *(*reset)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, std::vector<std::shared_ptr<fwdpy::metapop_t> >  const &);
+  PyObject *(*append)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec *__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec;
 
@@ -1813,6 +1815,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_16singlepop_gm_vec_gen(struct __pyx_obj_5
 static PyObject *__pyx_f_5fwdpy_5fwdpy_16singlepop_gm_vec_popsize(struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_16singlepop_gm_vec_sane(struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, std::vector<std::shared_ptr<fwdpy::singlepop_t> >  const &__pyx_v_newpops); /* proto*/
+static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_append(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv *__pyx_v_self, std::vector<std::shared_ptr<fwdpy::singlepop_gm_vec_t> >  const &__pyx_v_newpops); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size(struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
@@ -1821,6 +1824,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(struct __pyx_obj_5fwdpy
 static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_sane(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_size(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_reset(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, std::vector<std::shared_ptr<fwdpy::metapop_t> >  const &__pyx_v_mpops); /* proto*/
+static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_append(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_p, int __pyx_skip_dispatch); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
 static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_dst, PyObject *__pyx_v_src); /* proto*/
@@ -2288,6 +2292,7 @@ static char __pyx_k_view_diploids[] = "view_diploids";
 static char __pyx_k_Gamma_DFE_mean[] = "Gamma DFE, mean = ";
 static char __pyx_k_Sregion___init[] = "Sregion.__init__";
 static char __pyx_k_UniformS___str[] = "UniformS.__str__";
+static char __pyx_k_append_details[] = "__append_details__";
 static char __pyx_k_evolve_regions[] = "evolve_regions";
 static char __pyx_k_fwdpy_readslim[] = "fwdpy.readslim: ";
 static char __pyx_k_multiplicative[] = "multiplicative";
@@ -2576,6 +2581,7 @@ static PyObject *__pyx_n_s_allmuts;
 static PyObject *__pyx_n_s_allocate_buffer;
 static PyObject *__pyx_n_s_ancestral;
 static PyObject *__pyx_n_s_append;
+static PyObject *__pyx_n_s_append_details;
 static PyObject *__pyx_n_s_b;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_beg;
@@ -2915,7 +2921,9 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_2__iter__(struct __pyx_obj_5fwdp
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_4__next__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_6__getitem__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, int __pyx_v_i); /* proto */
 static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_10size(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_10__append_details__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_12append(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_14size(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_6pypops___get__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self); /* proto */
 static int __pyx_pf_5fwdpy_5fwdpy_6popvec_6pypops_2__set__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_5fwdpy_5fwdpy_6popvec_6pypops_4__del__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self); /* proto */
@@ -2939,6 +2947,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_4__next__(struct __pyx_obj_5fwd
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_6__getitem__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, int __pyx_v_i); /* proto */
 static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_10size(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_12__append_details__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_p); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_14append(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_p); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_7pympops___get__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self); /* proto */
 static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec_7pympops_2__set__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec_7pympops_4__del__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self); /* proto */
@@ -4816,7 +4826,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
  *             pi = singlepop();
  *             pi.pop=self.pops[i]             # <<<<<<<<<<<<<<
  *             self.pypops.append(pi)
- *     cpdef size(self):
+ *     def __append_details__(self,popvec p):
  */
     __pyx_v_pi->pop = (__pyx_v_self->pops[__pyx_v_i]);
 
@@ -4824,8 +4834,8 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
  *             pi = singlepop();
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)             # <<<<<<<<<<<<<<
- *     cpdef size(self):
- *         """
+ *     def __append_details__(self,popvec p):
+ *         for i in range(len(p)):
  */
     __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pypops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
@@ -4855,12 +4865,314 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
 /* "fwdpy/classes.pyx":88
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)
+ *     def __append_details__(self,popvec p):             # <<<<<<<<<<<<<<
+ *         for i in range(len(p)):
+ *             self.pops.push_back(p.pops[i])
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_11__append_details__(PyObject *__pyx_v_self, PyObject *__pyx_v_p); /*proto*/
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_11__append_details__(PyObject *__pyx_v_self, PyObject *__pyx_v_p) {
+  CYTHON_UNUSED int __pyx_lineno = 0;
+  CYTHON_UNUSED const char *__pyx_filename = NULL;
+  CYTHON_UNUSED int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__append_details__ (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "p", 0))) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_6popvec_10__append_details__(((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_self), ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_p));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_10__append_details__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p) {
+  Py_ssize_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_4;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__append_details__", 0);
+
+  /* "fwdpy/classes.pyx":89
+ *             self.pypops.append(pi)
+ *     def __append_details__(self,popvec p):
+ *         for i in range(len(p)):             # <<<<<<<<<<<<<<
+ *             self.pops.push_back(p.pops[i])
+ *             self.pypops.append(p[i])
+ */
+  __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_p)); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
+    __pyx_v_i = __pyx_t_2;
+
+    /* "fwdpy/classes.pyx":90
+ *     def __append_details__(self,popvec p):
+ *         for i in range(len(p)):
+ *             self.pops.push_back(p.pops[i])             # <<<<<<<<<<<<<<
+ *             self.pypops.append(p[i])
+ *     cpdef append(self,popvec p):
+ */
+    try {
+      __pyx_v_self->pops.push_back((__pyx_v_p->pops[__pyx_v_i]));
+    } catch(...) {
+      __Pyx_CppExn2PyErr();
+      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+
+    /* "fwdpy/classes.pyx":91
+ *         for i in range(len(p)):
+ *             self.pops.push_back(p.pops[i])
+ *             self.pypops.append(p[i])             # <<<<<<<<<<<<<<
+ *     cpdef append(self,popvec p):
+ *         self.__append_details__(copypops(p))
+ */
+    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_p), __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pypops, __pyx_t_3); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+
+  /* "fwdpy/classes.pyx":88
+ *             pi.pop=self.pops[i]
+ *             self.pypops.append(pi)
+ *     def __append_details__(self,popvec p):             # <<<<<<<<<<<<<<
+ *         for i in range(len(p)):
+ *             self.pops.push_back(p.pops[i])
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("fwdpy.fwdpy.popvec.__append_details__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/classes.pyx":92
+ *             self.pops.push_back(p.pops[i])
+ *             self.pypops.append(p[i])
+ *     cpdef append(self,popvec p):             # <<<<<<<<<<<<<<
+ *         self.__append_details__(copypops(p))
+ * 
+ */
+
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_13append(PyObject *__pyx_v_self, PyObject *__pyx_v_p); /*proto*/
+static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_append(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("append", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_append); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_13append)) {
+      __Pyx_XDECREF(__pyx_r);
+      __Pyx_INCREF(__pyx_t_1);
+      __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+        }
+      }
+      if (!__pyx_t_4) {
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+      } else {
+        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
+        __Pyx_INCREF(((PyObject *)__pyx_v_p));
+        __Pyx_GIVEREF(((PyObject *)__pyx_v_p));
+        PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_p));
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      }
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_r = __pyx_t_2;
+      __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      goto __pyx_L0;
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+
+  /* "fwdpy/classes.pyx":93
+ *             self.pypops.append(p[i])
+ *     cpdef append(self,popvec p):
+ *         self.__append_details__(copypops(p))             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef size(self):
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_append_details); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_copypops); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+  } else {
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_INCREF(((PyObject *)__pyx_v_p));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_p));
+    PyTuple_SET_ITEM(__pyx_t_6, 0+1, ((PyObject *)__pyx_v_p));
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "fwdpy/classes.pyx":92
+ *             self.pops.push_back(p.pops[i])
+ *             self.pypops.append(p[i])
+ *     cpdef append(self,popvec p):             # <<<<<<<<<<<<<<
+ *         self.__append_details__(copypops(p))
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("fwdpy.fwdpy.popvec.append", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_13append(PyObject *__pyx_v_self, PyObject *__pyx_v_p); /*proto*/
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_13append(PyObject *__pyx_v_self, PyObject *__pyx_v_p) {
+  CYTHON_UNUSED int __pyx_lineno = 0;
+  CYTHON_UNUSED const char *__pyx_filename = NULL;
+  CYTHON_UNUSED int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("append (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "p", 0))) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_6popvec_12append(((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_self), ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_p));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_12append(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("append", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_6popvec_append(__pyx_v_self, __pyx_v_p, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("fwdpy.fwdpy.popvec.append", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/classes.pyx":95
+ *         self.__append_details__(copypops(p))
+ * 
  *     cpdef size(self):             # <<<<<<<<<<<<<<
  *         """
  *         Returns number of populations (size of underlying C++ vector)
  */
 
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_11size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_15size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self, int __pyx_skip_dispatch) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -4876,9 +5188,9 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwd
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_11size)) {
+    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_15size)) {
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_t_1);
       __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
@@ -4892,10 +5204,10 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwd
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4907,7 +5219,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwd
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "fwdpy/classes.pyx":92
+  /* "fwdpy/classes.pyx":99
  *         Returns number of populations (size of underlying C++ vector)
  *         """
  *         return self.pops.size()             # <<<<<<<<<<<<<<
@@ -4915,15 +5227,15 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwd
  * cdef class popvec_gmv(popcont):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->pops.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->pops.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":88
- *             pi.pop=self.pops[i]
- *             self.pypops.append(pi)
+  /* "fwdpy/classes.pyx":95
+ *         self.__append_details__(copypops(p))
+ * 
  *     cpdef size(self):             # <<<<<<<<<<<<<<
  *         """
  *         Returns number of populations (size of underlying C++ vector)
@@ -4944,20 +5256,20 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_size(struct __pyx_obj_5fwdpy_5fwd
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_11size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_6popvec_10size[] = "\n        Returns number of populations (size of underlying C++ vector)\n        ";
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_11size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_15size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5fwdpy_5fwdpy_6popvec_14size[] = "\n        Returns number of populations (size of underlying C++ vector)\n        ";
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_6popvec_15size(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("size (wrapper)", 0);
-  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_6popvec_10size(((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_6popvec_14size(((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_10size(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self) {
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_14size(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4966,7 +5278,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_10size(struct __pyx_obj_5fwdpy_5
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("size", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_6popvec_size(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_6popvec_size(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5078,7 +5390,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_6popvec_6pypops_4__del__(struct __pyx_obj_5fwd
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":95
+/* "fwdpy/classes.pyx":102
  * 
  * cdef class popvec_gmv(popcont):
  *     def __cinit__(self,unsigned npops,unsigned N):             # <<<<<<<<<<<<<<
@@ -5117,11 +5429,11 @@ static int __pyx_pw_5fwdpy_5fwdpy_10popvec_gmv_1__cinit__(PyObject *__pyx_v_self
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5129,12 +5441,12 @@ static int __pyx_pw_5fwdpy_5fwdpy_10popvec_gmv_1__cinit__(PyObject *__pyx_v_self
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_npops = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_npops == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_N = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_N == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_npops = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_npops == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_N = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_N == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.popvec_gmv.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5161,14 +5473,14 @@ static int __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv___cinit__(struct __pyx_obj_5fwdpy
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "fwdpy/classes.pyx":102
+  /* "fwdpy/classes.pyx":109
  *         :param N: Initial population number for each population
  *         """
  *         self.pypops=list()             # <<<<<<<<<<<<<<
  *         for i in range(npops):
  *             self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->pypops);
@@ -5176,7 +5488,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv___cinit__(struct __pyx_obj_5fwdpy
   __pyx_v_self->pypops = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "fwdpy/classes.pyx":103
+  /* "fwdpy/classes.pyx":110
  *         """
  *         self.pypops=list()
  *         for i in range(npops):             # <<<<<<<<<<<<<<
@@ -5187,7 +5499,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv___cinit__(struct __pyx_obj_5fwdpy
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "fwdpy/classes.pyx":104
+    /* "fwdpy/classes.pyx":111
  *         self.pypops=list()
  *         for i in range(npops):
  *             self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))             # <<<<<<<<<<<<<<
@@ -5198,22 +5510,22 @@ static int __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv___cinit__(struct __pyx_obj_5fwdpy
       __pyx_v_self->pops.push_back(std::shared_ptr<fwdpy::singlepop_gm_vec_t> (new fwdpy::singlepop_gm_vec_t(__pyx_v_N)));
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "fwdpy/classes.pyx":105
+    /* "fwdpy/classes.pyx":112
  *         for i in range(npops):
  *             self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))
  *             pi = singlepop_gm_vec()             # <<<<<<<<<<<<<<
  *             pi.pop = self.pops[i]
  *             self.pypops.append(pi)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_pi, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "fwdpy/classes.pyx":106
+    /* "fwdpy/classes.pyx":113
  *             self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))
  *             pi = singlepop_gm_vec()
  *             pi.pop = self.pops[i]             # <<<<<<<<<<<<<<
@@ -5222,17 +5534,17 @@ static int __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv___cinit__(struct __pyx_obj_5fwdpy
  */
     __pyx_v_pi->pop = (__pyx_v_self->pops[__pyx_v_i]);
 
-    /* "fwdpy/classes.pyx":107
+    /* "fwdpy/classes.pyx":114
  *             pi = singlepop_gm_vec()
  *             pi.pop = self.pops[i]
  *             self.pypops.append(pi)             # <<<<<<<<<<<<<<
  *     def __iter__(self):
  *         return iter(self.pypops)
  */
-    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pypops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pypops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "fwdpy/classes.pyx":95
+  /* "fwdpy/classes.pyx":102
  * 
  * cdef class popvec_gmv(popcont):
  *     def __cinit__(self,unsigned npops,unsigned N):             # <<<<<<<<<<<<<<
@@ -5253,7 +5565,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv___cinit__(struct __pyx_obj_5fwdpy
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":108
+/* "fwdpy/classes.pyx":115
  *             pi.pop = self.pops[i]
  *             self.pypops.append(pi)
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -5284,7 +5596,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_2__iter__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "fwdpy/classes.pyx":109
+  /* "fwdpy/classes.pyx":116
  *             self.pypops.append(pi)
  *     def __iter__(self):
  *         return iter(self.pypops)             # <<<<<<<<<<<<<<
@@ -5294,14 +5606,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_2__iter__(struct __pyx_obj_
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_v_self->pypops;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":108
+  /* "fwdpy/classes.pyx":115
  *             pi.pop = self.pops[i]
  *             self.pypops.append(pi)
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -5321,7 +5633,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_2__iter__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":110
+/* "fwdpy/classes.pyx":117
  *     def __iter__(self):
  *         return iter(self.pypops)
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -5352,7 +5664,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_4__next__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__next__", 0);
 
-  /* "fwdpy/classes.pyx":111
+  /* "fwdpy/classes.pyx":118
  *         return iter(self.pypops)
  *     def __next__(self):
  *         return next(self.pypops)             # <<<<<<<<<<<<<<
@@ -5362,14 +5674,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_4__next__(struct __pyx_obj_
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_v_self->pypops;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIter_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyIter_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":110
+  /* "fwdpy/classes.pyx":117
  *     def __iter__(self):
  *         return iter(self.pypops)
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -5389,7 +5701,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_4__next__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":112
+/* "fwdpy/classes.pyx":119
  *     def __next__(self):
  *         return next(self.pypops)
  *     def __getitem__(self, int i):             # <<<<<<<<<<<<<<
@@ -5408,7 +5720,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_10popvec_gmv_7__getitem__(PyObject *__py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__getitem__ (wrapper)", 0);
   assert(__pyx_arg_i); {
-    __pyx_v_i = __Pyx_PyInt_As_int(__pyx_arg_i); if (unlikely((__pyx_v_i == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_i = __Pyx_PyInt_As_int(__pyx_arg_i); if (unlikely((__pyx_v_i == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5432,7 +5744,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_6__getitem__(struct __pyx_o
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "fwdpy/classes.pyx":113
+  /* "fwdpy/classes.pyx":120
  *         return next(self.pypops)
  *     def __getitem__(self, int i):
  *         return self.pypops[i]             # <<<<<<<<<<<<<<
@@ -5440,13 +5752,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_6__getitem__(struct __pyx_o
  *         cdef unsigned size_ = len(self.pypops)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->pypops, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->pypops, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":112
+  /* "fwdpy/classes.pyx":119
  *     def __next__(self):
  *         return next(self.pypops)
  *     def __getitem__(self, int i):             # <<<<<<<<<<<<<<
@@ -5465,7 +5777,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_6__getitem__(struct __pyx_o
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":114
+/* "fwdpy/classes.pyx":121
  *     def __getitem__(self, int i):
  *         return self.pypops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -5498,7 +5810,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
 
-  /* "fwdpy/classes.pyx":115
+  /* "fwdpy/classes.pyx":122
  *         return self.pypops[i]
  *     def __len__(self):
  *         cdef unsigned size_ = len(self.pypops)             # <<<<<<<<<<<<<<
@@ -5507,11 +5819,11 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
  */
   __pyx_t_1 = __pyx_v_self->pypops;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_size_ = __pyx_t_2;
 
-  /* "fwdpy/classes.pyx":116
+  /* "fwdpy/classes.pyx":123
  *     def __len__(self):
  *         cdef unsigned size_ = len(self.pypops)
  *         if self.pops.size() != size_:             # <<<<<<<<<<<<<<
@@ -5521,20 +5833,20 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
   __pyx_t_3 = ((__pyx_v_self->pops.size() != __pyx_v_size_) != 0);
   if (__pyx_t_3) {
 
-    /* "fwdpy/classes.pyx":117
+    /* "fwdpy/classes.pyx":124
  *         cdef unsigned size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[1]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[1]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/classes.pyx":116
+    /* "fwdpy/classes.pyx":123
  *     def __len__(self):
  *         cdef unsigned size_ = len(self.pypops)
  *         if self.pops.size() != size_:             # <<<<<<<<<<<<<<
@@ -5543,7 +5855,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
  */
   }
 
-  /* "fwdpy/classes.pyx":118
+  /* "fwdpy/classes.pyx":125
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()             # <<<<<<<<<<<<<<
@@ -5553,7 +5865,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
   __pyx_r = __pyx_v_self->pops.size();
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":114
+  /* "fwdpy/classes.pyx":121
  *     def __getitem__(self, int i):
  *         return self.pypops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -5571,7 +5883,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":119
+/* "fwdpy/classes.pyx":126
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):             # <<<<<<<<<<<<<<
@@ -5593,7 +5905,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "fwdpy/classes.pyx":120
+  /* "fwdpy/classes.pyx":127
  *         return self.pops.size()
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):
  *         self.pops=newpops             # <<<<<<<<<<<<<<
@@ -5602,14 +5914,14 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
  */
   __pyx_v_self->pops = __pyx_v_newpops;
 
-  /* "fwdpy/classes.pyx":121
+  /* "fwdpy/classes.pyx":128
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):
  *         self.pops=newpops
  *         self.pypops=list()             # <<<<<<<<<<<<<<
  *         for i in range(self.pops.size()):
  *             pi = singlepop_gm_vec();
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->pypops);
@@ -5617,7 +5929,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
   __pyx_v_self->pypops = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "fwdpy/classes.pyx":122
+  /* "fwdpy/classes.pyx":129
  *         self.pops=newpops
  *         self.pypops=list()
  *         for i in range(self.pops.size()):             # <<<<<<<<<<<<<<
@@ -5628,19 +5940,19 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "fwdpy/classes.pyx":123
+    /* "fwdpy/classes.pyx":130
  *         self.pypops=list()
  *         for i in range(self.pops.size()):
  *             pi = singlepop_gm_vec();             # <<<<<<<<<<<<<<
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_pi, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "fwdpy/classes.pyx":124
+    /* "fwdpy/classes.pyx":131
  *         for i in range(self.pops.size()):
  *             pi = singlepop_gm_vec();
  *             pi.pop=self.pops[i]             # <<<<<<<<<<<<<<
@@ -5649,17 +5961,17 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
  */
     __pyx_v_pi->pop = (__pyx_v_self->pops[__pyx_v_i]);
 
-    /* "fwdpy/classes.pyx":125
+    /* "fwdpy/classes.pyx":132
  *             pi = singlepop_gm_vec();
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)             # <<<<<<<<<<<<<<
  *     cpdef size(self):
  *         """
  */
-    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pypops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pypops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "fwdpy/classes.pyx":119
+  /* "fwdpy/classes.pyx":126
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):             # <<<<<<<<<<<<<<
@@ -5681,7 +5993,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":126
+/* "fwdpy/classes.pyx":133
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)
  *     cpdef size(self):             # <<<<<<<<<<<<<<
@@ -5705,7 +6017,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size(struct __pyx_obj_5fwdpy
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_10popvec_gmv_11size)) {
       __Pyx_XDECREF(__pyx_r);
@@ -5721,10 +6033,10 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size(struct __pyx_obj_5fwdpy
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5736,7 +6048,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size(struct __pyx_obj_5fwdpy
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "fwdpy/classes.pyx":130
+  /* "fwdpy/classes.pyx":137
  *         Returns number of populations (size of underlying C++ vector)
  *         """
  *         return self.pops.size()             # <<<<<<<<<<<<<<
@@ -5744,13 +6056,13 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size(struct __pyx_obj_5fwdpy
  * cdef class metapop(poptype):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->pops.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->pops.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":126
+  /* "fwdpy/classes.pyx":133
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)
  *     cpdef size(self):             # <<<<<<<<<<<<<<
@@ -5795,7 +6107,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_10size(struct __pyx_obj_5fw
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("size", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5812,7 +6124,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_10size(struct __pyx_obj_5fw
   return __pyx_r;
 }
 
-/* "fwdpy/fwdpy.pxd":126
+/* "fwdpy/fwdpy.pxd":127
  * cdef class popvec_gmv(popcont):
  *     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
  *     cdef public object pypops             # <<<<<<<<<<<<<<
@@ -5907,7 +6219,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_6pypops_4__del__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":140
+/* "fwdpy/classes.pyx":147
  *     the output of iterating through a :class:`mpopvec`.
  *     """
  *     def __del__(self):             # <<<<<<<<<<<<<<
@@ -5933,7 +6245,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop___del__(struct __pyx_obj_5fwdpy
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__del__", 0);
 
-  /* "fwdpy/classes.pyx":141
+  /* "fwdpy/classes.pyx":148
  *     """
  *     def __del__(self):
  *        self.mpop.reset()             # <<<<<<<<<<<<<<
@@ -5942,7 +6254,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop___del__(struct __pyx_obj_5fwdpy
  */
   __pyx_v_self->mpop.reset();
 
-  /* "fwdpy/classes.pyx":140
+  /* "fwdpy/classes.pyx":147
  *     the output of iterating through a :class:`mpopvec`.
  *     """
  *     def __del__(self):             # <<<<<<<<<<<<<<
@@ -5957,7 +6269,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop___del__(struct __pyx_obj_5fwdpy
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":142
+/* "fwdpy/classes.pyx":149
  *     def __del__(self):
  *        self.mpop.reset()
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -5983,7 +6295,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7metapop_2__len__(struct __pyx_obj_5fwd
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__len__", 0);
 
-  /* "fwdpy/classes.pyx":143
+  /* "fwdpy/classes.pyx":150
  *        self.mpop.reset()
  *     def __len__(self):
  *         return self.mpop.get().size()             # <<<<<<<<<<<<<<
@@ -5993,7 +6305,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7metapop_2__len__(struct __pyx_obj_5fwd
   __pyx_r = __pyx_v_self->mpop.get()->size();
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":142
+  /* "fwdpy/classes.pyx":149
  *     def __del__(self):
  *        self.mpop.reset()
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -6007,7 +6319,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7metapop_2__len__(struct __pyx_obj_5fwd
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":144
+/* "fwdpy/classes.pyx":151
  *     def __len__(self):
  *         return self.mpop.get().size()
  *     cpdef gen(self):             # <<<<<<<<<<<<<<
@@ -6031,7 +6343,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_gen(struct __pyx_obj_5fwdpy_5fwd
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gen); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_gen); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7metapop_5gen)) {
       __Pyx_XDECREF(__pyx_r);
@@ -6047,10 +6359,10 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_gen(struct __pyx_obj_5fwdpy_5fwd
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6062,7 +6374,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_gen(struct __pyx_obj_5fwdpy_5fwd
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "fwdpy/classes.pyx":148
+  /* "fwdpy/classes.pyx":155
  *         Returns the generation that the population is currently evolved to
  *         """
  *         return self.mpop.get().generation             # <<<<<<<<<<<<<<
@@ -6070,13 +6382,13 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_gen(struct __pyx_obj_5fwdpy_5fwd
  *         """
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->mpop.get()->generation); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->mpop.get()->generation); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":144
+  /* "fwdpy/classes.pyx":151
  *     def __len__(self):
  *         return self.mpop.get().size()
  *     cpdef gen(self):             # <<<<<<<<<<<<<<
@@ -6121,7 +6433,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop_4gen(struct __pyx_obj_5fwdpy_5f
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("gen", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7metapop_gen(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7metapop_gen(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6138,7 +6450,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop_4gen(struct __pyx_obj_5fwdpy_5f
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":149
+/* "fwdpy/classes.pyx":156
  *         """
  *         return self.mpop.get().generation
  *     cpdef popsizes(self):             # <<<<<<<<<<<<<<
@@ -6162,7 +6474,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(struct __pyx_obj_5fwdpy
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_popsizes); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_popsizes); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7metapop_7popsizes)) {
       __Pyx_XDECREF(__pyx_r);
@@ -6178,10 +6490,10 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(struct __pyx_obj_5fwdpy
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6193,7 +6505,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(struct __pyx_obj_5fwdpy
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "fwdpy/classes.pyx":153
+  /* "fwdpy/classes.pyx":160
  *         Returns the size of the population
  *         """
  *         return self.mpop.get().Ns             # <<<<<<<<<<<<<<
@@ -6201,13 +6513,13 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(struct __pyx_obj_5fwdpy
  *         """
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_convert_vector_to_py_unsigned_int(__pyx_v_self->mpop.get()->Ns); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_convert_vector_to_py_unsigned_int(__pyx_v_self->mpop.get()->Ns); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":149
+  /* "fwdpy/classes.pyx":156
  *         """
  *         return self.mpop.get().generation
  *     cpdef popsizes(self):             # <<<<<<<<<<<<<<
@@ -6252,7 +6564,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop_6popsizes(struct __pyx_obj_5fwd
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("popsizes", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 149; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7metapop_popsizes(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6269,7 +6581,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop_6popsizes(struct __pyx_obj_5fwd
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":154
+/* "fwdpy/classes.pyx":161
  *         """
  *         return self.mpop.get().Ns
  *     cpdef sane(self):             # <<<<<<<<<<<<<<
@@ -6293,7 +6605,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_sane(struct __pyx_obj_5fwdpy_5fw
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_sane); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_sane); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7metapop_9sane)) {
       __Pyx_XDECREF(__pyx_r);
@@ -6309,10 +6621,10 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_sane(struct __pyx_obj_5fwdpy_5fw
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6324,7 +6636,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_sane(struct __pyx_obj_5fwdpy_5fw
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "fwdpy/classes.pyx":163
+  /* "fwdpy/classes.pyx":170
  * 
  *         """
  *         return self.mpop.get().sane()             # <<<<<<<<<<<<<<
@@ -6332,13 +6644,13 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7metapop_sane(struct __pyx_obj_5fwdpy_5fw
  * cdef class mpopvec(popcont):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->mpop.get()->sane()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->mpop.get()->sane()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":154
+  /* "fwdpy/classes.pyx":161
  *         """
  *         return self.mpop.get().Ns
  *     cpdef sane(self):             # <<<<<<<<<<<<<<
@@ -6383,7 +6695,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop_8sane(struct __pyx_obj_5fwdpy_5
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("sane", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7metapop_sane(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7metapop_sane(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 161; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6400,7 +6712,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7metapop_8sane(struct __pyx_obj_5fwdpy_5
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":169
+/* "fwdpy/classes.pyx":176
  *     Vector of metapopulation objects
  *     """
  *     def __cinit__(self,unsigned nmpops,list Ns):             # <<<<<<<<<<<<<<
@@ -6439,11 +6751,11 @@ static int __pyx_pw_5fwdpy_5fwdpy_7mpopvec_1__cinit__(PyObject *__pyx_v_self, Py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_Ns)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6451,18 +6763,18 @@ static int __pyx_pw_5fwdpy_5fwdpy_7mpopvec_1__cinit__(PyObject *__pyx_v_self, Py
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_nmpops = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_nmpops == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nmpops = __Pyx_PyInt_As_unsigned_int(values[0]); if (unlikely((__pyx_v_nmpops == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_Ns = ((PyObject*)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.mpopvec.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_Ns), (&PyList_Type), 1, "Ns", 1))) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_Ns), (&PyList_Type), 1, "Ns", 1))) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)__pyx_v_self), __pyx_v_nmpops, __pyx_v_Ns);
 
   /* function exit code */
@@ -6492,14 +6804,14 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "fwdpy/classes.pyx":176
+  /* "fwdpy/classes.pyx":183
  *         :param Ns: A list of population sizes.  The length of this list is the number of demes in each metapopulation
  *         """
  *         self.pympops=[]             # <<<<<<<<<<<<<<
  *         for i in range(len(Ns)):
  *             if Ns[i] < 0:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->pympops);
@@ -6507,7 +6819,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
   __pyx_v_self->pympops = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "fwdpy/classes.pyx":177
+  /* "fwdpy/classes.pyx":184
  *         """
  *         self.pympops=[]
  *         for i in range(len(Ns)):             # <<<<<<<<<<<<<<
@@ -6516,13 +6828,13 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
  */
   if (unlikely(__pyx_v_Ns == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    {__pyx_filename = __pyx_f[1]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[1]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_Ns); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 177; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_Ns); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "fwdpy/classes.pyx":178
+    /* "fwdpy/classes.pyx":185
  *         self.pympops=[]
  *         for i in range(len(Ns)):
  *             if Ns[i] < 0:             # <<<<<<<<<<<<<<
@@ -6531,30 +6843,30 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
  */
     if (unlikely(__pyx_v_Ns == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_Ns, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_Ns, __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 1, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 178; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "fwdpy/classes.pyx":179
+      /* "fwdpy/classes.pyx":186
  *         for i in range(len(Ns)):
  *             if Ns[i] < 0:
  *                 raise ValueError("mpopvec: deme size < 0 encountered")             # <<<<<<<<<<<<<<
  *         for i in range(nmpops):
  *             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
  */
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "fwdpy/classes.pyx":178
+      /* "fwdpy/classes.pyx":185
  *         self.pympops=[]
  *         for i in range(len(Ns)):
  *             if Ns[i] < 0:             # <<<<<<<<<<<<<<
@@ -6564,7 +6876,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
     }
   }
 
-  /* "fwdpy/classes.pyx":180
+  /* "fwdpy/classes.pyx":187
  *             if Ns[i] < 0:
  *                 raise ValueError("mpopvec: deme size < 0 encountered")
  *         for i in range(nmpops):             # <<<<<<<<<<<<<<
@@ -6575,34 +6887,34 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_6; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
-    /* "fwdpy/classes.pyx":181
+    /* "fwdpy/classes.pyx":188
  *                 raise ValueError("mpopvec: deme size < 0 encountered")
  *         for i in range(nmpops):
  *             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))             # <<<<<<<<<<<<<<
  *             pi = metapop()
  *             pi.mpop = self.mpops[i]
  */
-    __pyx_t_7 = __pyx_convert_vector_from_py_unsigned_int(__pyx_v_Ns); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = __pyx_convert_vector_from_py_unsigned_int(__pyx_v_Ns); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     try {
       __pyx_v_self->mpops.push_back(std::shared_ptr<fwdpy::metapop_t> (new fwdpy::metapop_t(__pyx_t_7)));
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "fwdpy/classes.pyx":182
+    /* "fwdpy/classes.pyx":189
  *         for i in range(nmpops):
  *             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
  *             pi = metapop()             # <<<<<<<<<<<<<<
  *             pi.mpop = self.mpops[i]
  *             self.pympops.append(pi)
  */
-    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_metapop), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_metapop), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_pi, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "fwdpy/classes.pyx":183
+    /* "fwdpy/classes.pyx":190
  *             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
  *             pi = metapop()
  *             pi.mpop = self.mpops[i]             # <<<<<<<<<<<<<<
@@ -6611,17 +6923,17 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
  */
     __pyx_v_pi->mpop = (__pyx_v_self->mpops[__pyx_v_i]);
 
-    /* "fwdpy/classes.pyx":184
+    /* "fwdpy/classes.pyx":191
  *             pi = metapop()
  *             pi.mpop = self.mpops[i]
  *             self.pympops.append(pi)             # <<<<<<<<<<<<<<
  *     def __iter__(self):
  *         return iter(self.pympops)
  */
-    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_v_self->pympops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_8 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_v_self->pympops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_8 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "fwdpy/classes.pyx":169
+  /* "fwdpy/classes.pyx":176
  *     Vector of metapopulation objects
  *     """
  *     def __cinit__(self,unsigned nmpops,list Ns):             # <<<<<<<<<<<<<<
@@ -6643,7 +6955,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec___cinit__(struct __pyx_obj_5fwdpy_5fw
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":185
+/* "fwdpy/classes.pyx":192
  *             pi.mpop = self.mpops[i]
  *             self.pympops.append(pi)
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -6674,7 +6986,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_2__iter__(struct __pyx_obj_5fwd
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "fwdpy/classes.pyx":186
+  /* "fwdpy/classes.pyx":193
  *             self.pympops.append(pi)
  *     def __iter__(self):
  *         return iter(self.pympops)             # <<<<<<<<<<<<<<
@@ -6684,14 +6996,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_2__iter__(struct __pyx_obj_5fwd
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_v_self->pympops;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 193; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":185
+  /* "fwdpy/classes.pyx":192
  *             pi.mpop = self.mpops[i]
  *             self.pympops.append(pi)
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -6711,7 +7023,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_2__iter__(struct __pyx_obj_5fwd
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":187
+/* "fwdpy/classes.pyx":194
  *     def __iter__(self):
  *         return iter(self.pympops)
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -6742,7 +7054,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_4__next__(struct __pyx_obj_5fwd
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__next__", 0);
 
-  /* "fwdpy/classes.pyx":188
+  /* "fwdpy/classes.pyx":195
  *         return iter(self.pympops)
  *     def __next__(self):
  *         return next(self.pympops)             # <<<<<<<<<<<<<<
@@ -6752,14 +7064,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_4__next__(struct __pyx_obj_5fwd
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_v_self->pympops;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIter_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyIter_Next(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":187
+  /* "fwdpy/classes.pyx":194
  *     def __iter__(self):
  *         return iter(self.pympops)
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -6779,7 +7091,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_4__next__(struct __pyx_obj_5fwd
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":189
+/* "fwdpy/classes.pyx":196
  *     def __next__(self):
  *         return next(self.pympops)
  *     def __getitem__(self, int i):             # <<<<<<<<<<<<<<
@@ -6798,7 +7110,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_7mpopvec_7__getitem__(PyObject *__pyx_v_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__getitem__ (wrapper)", 0);
   assert(__pyx_arg_i); {
-    __pyx_v_i = __Pyx_PyInt_As_int(__pyx_arg_i); if (unlikely((__pyx_v_i == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_i = __Pyx_PyInt_As_int(__pyx_arg_i); if (unlikely((__pyx_v_i == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -6822,7 +7134,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_6__getitem__(struct __pyx_obj_5
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "fwdpy/classes.pyx":190
+  /* "fwdpy/classes.pyx":197
  *         return next(self.pympops)
  *     def __getitem__(self, int i):
  *         return self.pympops[i]             # <<<<<<<<<<<<<<
@@ -6830,13 +7142,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_6__getitem__(struct __pyx_obj_5
  *         cdef unsigned size_ = len(self.pympops)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->pympops, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->pympops, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":189
+  /* "fwdpy/classes.pyx":196
  *     def __next__(self):
  *         return next(self.pympops)
  *     def __getitem__(self, int i):             # <<<<<<<<<<<<<<
@@ -6855,7 +7167,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_6__getitem__(struct __pyx_obj_5
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":191
+/* "fwdpy/classes.pyx":198
  *     def __getitem__(self, int i):
  *         return self.pympops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -6888,7 +7200,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__len__", 0);
 
-  /* "fwdpy/classes.pyx":192
+  /* "fwdpy/classes.pyx":199
  *         return self.pympops[i]
  *     def __len__(self):
  *         cdef unsigned size_ = len(self.pympops)             # <<<<<<<<<<<<<<
@@ -6897,11 +7209,11 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
  */
   __pyx_t_1 = __pyx_v_self->pympops;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 192; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_size_ = __pyx_t_2;
 
-  /* "fwdpy/classes.pyx":193
+  /* "fwdpy/classes.pyx":200
  *     def __len__(self):
  *         cdef unsigned size_ = len(self.pympops)
  *         if self.mpops.size() != size_:             # <<<<<<<<<<<<<<
@@ -6911,20 +7223,20 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
   __pyx_t_3 = ((__pyx_v_self->mpops.size() != __pyx_v_size_) != 0);
   if (__pyx_t_3) {
 
-    /* "fwdpy/classes.pyx":194
+    /* "fwdpy/classes.pyx":201
  *         cdef unsigned size_ = len(self.pympops)
  *         if self.mpops.size() != size_:
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.mpops.size()
  *     cpdef size(self):
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[1]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[1]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/classes.pyx":193
+    /* "fwdpy/classes.pyx":200
  *     def __len__(self):
  *         cdef unsigned size_ = len(self.pympops)
  *         if self.mpops.size() != size_:             # <<<<<<<<<<<<<<
@@ -6933,7 +7245,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
  */
   }
 
-  /* "fwdpy/classes.pyx":195
+  /* "fwdpy/classes.pyx":202
  *         if self.mpops.size() != size_:
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
  *         return self.mpops.size()             # <<<<<<<<<<<<<<
@@ -6943,7 +7255,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
   __pyx_r = __pyx_v_self->mpops.size();
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":191
+  /* "fwdpy/classes.pyx":198
  *     def __getitem__(self, int i):
  *         return self.pympops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -6961,7 +7273,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":196
+/* "fwdpy/classes.pyx":203
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
  *         return self.mpops.size()
  *     cpdef size(self):             # <<<<<<<<<<<<<<
@@ -6985,7 +7297,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_size(struct __pyx_obj_5fwdpy_5fw
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_size); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7mpopvec_11size)) {
       __Pyx_XDECREF(__pyx_r);
@@ -7001,10 +7313,10 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_size(struct __pyx_obj_5fwdpy_5fw
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7016,21 +7328,21 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_size(struct __pyx_obj_5fwdpy_5fw
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "fwdpy/classes.pyx":200
+  /* "fwdpy/classes.pyx":207
  *         Returns number of populations (size of underlying C++ vector)
  *         """
  *         return self.mpops.size()             # <<<<<<<<<<<<<<
- *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):
+ *     cdef reset(self,const vector[shared_ptr[metapop_t]] & mpops):
  *         self.mpops = mpops
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mpops.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->mpops.size()); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/classes.pyx":196
+  /* "fwdpy/classes.pyx":203
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
  *         return self.mpops.size()
  *     cpdef size(self):             # <<<<<<<<<<<<<<
@@ -7075,7 +7387,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_10size(struct __pyx_obj_5fwdpy_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("size", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7mpopvec_size(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 196; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7mpopvec_size(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7092,10 +7404,10 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_10size(struct __pyx_obj_5fwdpy_
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":201
+/* "fwdpy/classes.pyx":208
  *         """
  *         return self.mpops.size()
- *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):             # <<<<<<<<<<<<<<
+ *     cdef reset(self,const vector[shared_ptr[metapop_t]] & mpops):             # <<<<<<<<<<<<<<
  *         self.mpops = mpops
  *         self.pympops = []
  */
@@ -7114,23 +7426,23 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_reset(struct __pyx_obj_5fwdpy_5f
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "fwdpy/classes.pyx":202
+  /* "fwdpy/classes.pyx":209
  *         return self.mpops.size()
- *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):
+ *     cdef reset(self,const vector[shared_ptr[metapop_t]] & mpops):
  *         self.mpops = mpops             # <<<<<<<<<<<<<<
  *         self.pympops = []
  *         for i in range(self.mpops.size()):
  */
   __pyx_v_self->mpops = __pyx_v_mpops;
 
-  /* "fwdpy/classes.pyx":203
- *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):
+  /* "fwdpy/classes.pyx":210
+ *     cdef reset(self,const vector[shared_ptr[metapop_t]] & mpops):
  *         self.mpops = mpops
  *         self.pympops = []             # <<<<<<<<<<<<<<
  *         for i in range(self.mpops.size()):
  *             pi = metapop()
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 210; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->pympops);
@@ -7138,7 +7450,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_reset(struct __pyx_obj_5fwdpy_5f
   __pyx_v_self->pympops = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "fwdpy/classes.pyx":204
+  /* "fwdpy/classes.pyx":211
  *         self.mpops = mpops
  *         self.pympops = []
  *         for i in range(self.mpops.size()):             # <<<<<<<<<<<<<<
@@ -7149,41 +7461,41 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_reset(struct __pyx_obj_5fwdpy_5f
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "fwdpy/classes.pyx":205
+    /* "fwdpy/classes.pyx":212
  *         self.pympops = []
  *         for i in range(self.mpops.size()):
  *             pi = metapop()             # <<<<<<<<<<<<<<
  *             pi.mpop = self.mpops[i]
  *             self.pympops.append(pi)
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_metapop), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 205; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_metapop), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_pi, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "fwdpy/classes.pyx":206
+    /* "fwdpy/classes.pyx":213
  *         for i in range(self.mpops.size()):
  *             pi = metapop()
  *             pi.mpop = self.mpops[i]             # <<<<<<<<<<<<<<
  *             self.pympops.append(pi)
- * 
+ *     def __append_details__(self,mpopvec p):
  */
     __pyx_v_pi->mpop = (__pyx_v_self->mpops[__pyx_v_i]);
 
-    /* "fwdpy/classes.pyx":207
+    /* "fwdpy/classes.pyx":214
  *             pi = metapop()
  *             pi.mpop = self.mpops[i]
  *             self.pympops.append(pi)             # <<<<<<<<<<<<<<
- * 
- * cdef class GSLrng:
+ *     def __append_details__(self,mpopvec p):
+ *         for i in range(len(p)):
  */
-    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pympops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pympops, ((PyObject *)__pyx_v_pi)); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "fwdpy/classes.pyx":201
+  /* "fwdpy/classes.pyx":208
  *         """
  *         return self.mpops.size()
- *     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops):             # <<<<<<<<<<<<<<
+ *     cdef reset(self,const vector[shared_ptr[metapop_t]] & mpops):             # <<<<<<<<<<<<<<
  *         self.mpops = mpops
  *         self.pympops = []
  */
@@ -7202,7 +7514,309 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_reset(struct __pyx_obj_5fwdpy_5f
   return __pyx_r;
 }
 
-/* "fwdpy/fwdpy.pxd":132
+/* "fwdpy/classes.pyx":215
+ *             pi.mpop = self.mpops[i]
+ *             self.pympops.append(pi)
+ *     def __append_details__(self,mpopvec p):             # <<<<<<<<<<<<<<
+ *         for i in range(len(p)):
+ *             self.mpops.push_back(p.mpops[i])
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_7mpopvec_13__append_details__(PyObject *__pyx_v_self, PyObject *__pyx_v_p); /*proto*/
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_7mpopvec_13__append_details__(PyObject *__pyx_v_self, PyObject *__pyx_v_p) {
+  CYTHON_UNUSED int __pyx_lineno = 0;
+  CYTHON_UNUSED const char *__pyx_filename = NULL;
+  CYTHON_UNUSED int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__append_details__ (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "p", 0))) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_7mpopvec_12__append_details__(((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)__pyx_v_self), ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)__pyx_v_p));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_12__append_details__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_p) {
+  Py_ssize_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_4;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__append_details__", 0);
+
+  /* "fwdpy/classes.pyx":216
+ *             self.pympops.append(pi)
+ *     def __append_details__(self,mpopvec p):
+ *         for i in range(len(p)):             # <<<<<<<<<<<<<<
+ *             self.mpops.push_back(p.mpops[i])
+ *             self.pympops.append(p[i])
+ */
+  __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_p)); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
+    __pyx_v_i = __pyx_t_2;
+
+    /* "fwdpy/classes.pyx":217
+ *     def __append_details__(self,mpopvec p):
+ *         for i in range(len(p)):
+ *             self.mpops.push_back(p.mpops[i])             # <<<<<<<<<<<<<<
+ *             self.pympops.append(p[i])
+ *     cpdef append(self,mpopvec p):
+ */
+    try {
+      __pyx_v_self->mpops.push_back((__pyx_v_p->mpops[__pyx_v_i]));
+    } catch(...) {
+      __Pyx_CppExn2PyErr();
+      {__pyx_filename = __pyx_f[1]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+
+    /* "fwdpy/classes.pyx":218
+ *         for i in range(len(p)):
+ *             self.mpops.push_back(p.mpops[i])
+ *             self.pympops.append(p[i])             # <<<<<<<<<<<<<<
+ *     cpdef append(self,mpopvec p):
+ *         self.__append_details__(copypops(p))
+ */
+    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_p), __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = __Pyx_PyObject_Append(__pyx_v_self->pympops, __pyx_t_3); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+
+  /* "fwdpy/classes.pyx":215
+ *             pi.mpop = self.mpops[i]
+ *             self.pympops.append(pi)
+ *     def __append_details__(self,mpopvec p):             # <<<<<<<<<<<<<<
+ *         for i in range(len(p)):
+ *             self.mpops.push_back(p.mpops[i])
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("fwdpy.fwdpy.mpopvec.__append_details__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/classes.pyx":219
+ *             self.mpops.push_back(p.mpops[i])
+ *             self.pympops.append(p[i])
+ *     cpdef append(self,mpopvec p):             # <<<<<<<<<<<<<<
+ *         self.__append_details__(copypops(p))
+ * 
+ */
+
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_7mpopvec_15append(PyObject *__pyx_v_self, PyObject *__pyx_v_p); /*proto*/
+static PyObject *__pyx_f_5fwdpy_5fwdpy_7mpopvec_append(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_p, int __pyx_skip_dispatch) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("append", 0);
+  /* Check if called by wrapper */
+  if (unlikely(__pyx_skip_dispatch)) ;
+  /* Check if overridden in Python */
+  else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_append); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7mpopvec_15append)) {
+      __Pyx_XDECREF(__pyx_r);
+      __Pyx_INCREF(__pyx_t_1);
+      __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+        }
+      }
+      if (!__pyx_t_4) {
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+      } else {
+        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
+        __Pyx_INCREF(((PyObject *)__pyx_v_p));
+        __Pyx_GIVEREF(((PyObject *)__pyx_v_p));
+        PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_p));
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      }
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_r = __pyx_t_2;
+      __pyx_t_2 = 0;
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      goto __pyx_L0;
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  }
+
+  /* "fwdpy/classes.pyx":220
+ *             self.pympops.append(p[i])
+ *     cpdef append(self,mpopvec p):
+ *         self.__append_details__(copypops(p))             # <<<<<<<<<<<<<<
+ * 
+ * cdef class GSLrng:
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_append_details); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_copypops); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+  } else {
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_INCREF(((PyObject *)__pyx_v_p));
+    __Pyx_GIVEREF(((PyObject *)__pyx_v_p));
+    PyTuple_SET_ITEM(__pyx_t_6, 0+1, ((PyObject *)__pyx_v_p));
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "fwdpy/classes.pyx":219
+ *             self.mpops.push_back(p.mpops[i])
+ *             self.pympops.append(p[i])
+ *     cpdef append(self,mpopvec p):             # <<<<<<<<<<<<<<
+ *         self.__append_details__(copypops(p))
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("fwdpy.fwdpy.mpopvec.append", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_7mpopvec_15append(PyObject *__pyx_v_self, PyObject *__pyx_v_p); /*proto*/
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_7mpopvec_15append(PyObject *__pyx_v_self, PyObject *__pyx_v_p) {
+  CYTHON_UNUSED int __pyx_lineno = 0;
+  CYTHON_UNUSED const char *__pyx_filename = NULL;
+  CYTHON_UNUSED int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("append (wrapper)", 0);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "p", 0))) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_7mpopvec_14append(((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)__pyx_v_self), ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)__pyx_v_p));
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_14append(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_p) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("append", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_f_5fwdpy_5fwdpy_7mpopvec_append(__pyx_v_self, __pyx_v_p, 1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("fwdpy.fwdpy.mpopvec.append", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/fwdpy.pxd":133
  * cdef class mpopvec(popcont):
  *     cdef vector[shared_ptr[metapop_t]] mpops
  *     cdef public object pympops             # <<<<<<<<<<<<<<
@@ -7297,7 +7911,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_7mpopvec_7pympops_4__del__(struct __pyx_obj_5f
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":221
+/* "fwdpy/classes.pyx":234
  *     >>> rng = fwdpy.GSLrng(100)
  *     """
  *     def __cinit__(self, int seed):             # <<<<<<<<<<<<<<
@@ -7333,18 +7947,18 @@ static int __pyx_pw_5fwdpy_5fwdpy_6GSLrng_1__cinit__(PyObject *__pyx_v_self, PyO
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_seed = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_seed == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_seed = __Pyx_PyInt_As_int(values[0]); if (unlikely((__pyx_v_seed == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[1]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.GSLrng.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7362,7 +7976,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_6GSLrng___cinit__(struct __pyx_obj_5fwdpy_5fwd
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "fwdpy/classes.pyx":227
+  /* "fwdpy/classes.pyx":240
  *         :param seed: The seed for the RNG
  *         """
  *         self.thisptr = new GSLrng_t(seed)             # <<<<<<<<<<<<<<
@@ -7371,7 +7985,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_6GSLrng___cinit__(struct __pyx_obj_5fwdpy_5fwd
  */
   __pyx_v_self->thisptr = new fwdpy::GSLrng_t(__pyx_v_seed);
 
-  /* "fwdpy/classes.pyx":221
+  /* "fwdpy/classes.pyx":234
  *     >>> rng = fwdpy.GSLrng(100)
  *     """
  *     def __cinit__(self, int seed):             # <<<<<<<<<<<<<<
@@ -7385,7 +7999,7 @@ static int __pyx_pf_5fwdpy_5fwdpy_6GSLrng___cinit__(struct __pyx_obj_5fwdpy_5fwd
   return __pyx_r;
 }
 
-/* "fwdpy/classes.pyx":228
+/* "fwdpy/classes.pyx":241
  *         """
  *         self.thisptr = new GSLrng_t(seed)
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -7408,7 +8022,7 @@ static void __pyx_pf_5fwdpy_5fwdpy_6GSLrng_2__dealloc__(struct __pyx_obj_5fwdpy_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "fwdpy/classes.pyx":229
+  /* "fwdpy/classes.pyx":242
  *         self.thisptr = new GSLrng_t(seed)
  *     def __dealloc__(self):
  *         del self.thisptr             # <<<<<<<<<<<<<<
@@ -7417,7 +8031,7 @@ static void __pyx_pf_5fwdpy_5fwdpy_6GSLrng_2__dealloc__(struct __pyx_obj_5fwdpy_
  */
   delete __pyx_v_self->thisptr;
 
-  /* "fwdpy/classes.pyx":228
+  /* "fwdpy/classes.pyx":241
  *         """
  *         self.thisptr = new GSLrng_t(seed)
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -39294,7 +39908,9 @@ static int __pyx_setprop_5fwdpy_5fwdpy_6popvec_pypops(PyObject *o, PyObject *v, 
 
 static PyMethodDef __pyx_methods_5fwdpy_5fwdpy_popvec[] = {
   {"__next__", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_5__next__, METH_NOARGS|METH_COEXIST, 0},
-  {"size", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_11size, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_6popvec_10size},
+  {"__append_details__", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_11__append_details__, METH_O, 0},
+  {"append", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_13append, METH_O, 0},
+  {"size", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_6popvec_15size, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_6popvec_14size},
   {0, 0, 0, 0}
 };
 
@@ -39615,6 +40231,8 @@ static int __pyx_setprop_5fwdpy_5fwdpy_7mpopvec_pympops(PyObject *o, PyObject *v
 static PyMethodDef __pyx_methods_5fwdpy_5fwdpy_mpopvec[] = {
   {"__next__", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7mpopvec_5__next__, METH_NOARGS|METH_COEXIST, 0},
   {"size", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7mpopvec_11size, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_7mpopvec_10size},
+  {"__append_details__", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7mpopvec_13__append_details__, METH_O, 0},
+  {"append", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7mpopvec_15append, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -40572,6 +41190,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_ancestral, __pyx_k_ancestral, sizeof(__pyx_k_ancestral), 0, 0, 1, 1},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
+  {&__pyx_n_s_append_details, __pyx_k_append_details, sizeof(__pyx_k_append_details), 0, 0, 1, 1},
   {&__pyx_n_s_b, __pyx_k_b, sizeof(__pyx_k_b), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_beg, __pyx_k_beg, sizeof(__pyx_k_beg), 0, 0, 1, 1},
@@ -40903,7 +41522,7 @@ static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_IOError = __Pyx_GetBuiltinName(__pyx_n_s_IOError); if (!__pyx_builtin_IOError) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -40933,36 +41552,36 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "fwdpy/classes.pyx":117
+  /* "fwdpy/classes.pyx":124
  *         cdef unsigned size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_fwdpy_popvec_internal_data_struc); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_fwdpy_popvec_internal_data_struc); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "fwdpy/classes.pyx":179
+  /* "fwdpy/classes.pyx":186
  *         for i in range(len(Ns)):
  *             if Ns[i] < 0:
  *                 raise ValueError("mpopvec: deme size < 0 encountered")             # <<<<<<<<<<<<<<
  *         for i in range(nmpops):
  *             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_mpopvec_deme_size_0_encountered); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_mpopvec_deme_size_0_encountered); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "fwdpy/classes.pyx":194
+  /* "fwdpy/classes.pyx":201
  *         cdef unsigned size_ = len(self.pympops)
  *         if self.mpops.size() != size_:
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.mpops.size()
  *     cpdef size(self):
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_fwdpy_mpopvec_internal_data_stru); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_fwdpy_mpopvec_internal_data_stru); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -42584,10 +43203,10 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __pyx_vtable_5fwdpy_5fwdpy_metapop.popsizes = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_7metapop_popsizes;
   __pyx_vtable_5fwdpy_5fwdpy_metapop.sane = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_7metapop_sane;
   __pyx_type_5fwdpy_5fwdpy_metapop.tp_base = __pyx_ptype_5fwdpy_5fwdpy_poptype;
-  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_metapop) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_metapop) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5fwdpy_5fwdpy_metapop.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5fwdpy_5fwdpy_metapop.tp_dict, __pyx_vtabptr_5fwdpy_5fwdpy_metapop) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "metapop", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_metapop) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetVtable(__pyx_type_5fwdpy_5fwdpy_metapop.tp_dict, __pyx_vtabptr_5fwdpy_5fwdpy_metapop) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "metapop", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_metapop) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 139; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_5fwdpy_5fwdpy_metapop = &__pyx_type_5fwdpy_5fwdpy_metapop;
   __pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec = &__pyx_vtable_5fwdpy_5fwdpy_singlepop_gm_vec;
   __pyx_vtable_5fwdpy_5fwdpy_singlepop_gm_vec.gen = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_16singlepop_gm_vec_gen;
@@ -42606,6 +43225,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __pyx_vtabptr_5fwdpy_5fwdpy_popvec = &__pyx_vtable_5fwdpy_5fwdpy_popvec;
   __pyx_vtable_5fwdpy_5fwdpy_popvec.size = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_popvec *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_6popvec_size;
   __pyx_vtable_5fwdpy_5fwdpy_popvec.reset = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_popvec *, std::vector<std::shared_ptr<fwdpy::singlepop_t> >  const ))__pyx_f_5fwdpy_5fwdpy_6popvec_reset;
+  __pyx_vtable_5fwdpy_5fwdpy_popvec.append = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_popvec *, struct __pyx_obj_5fwdpy_5fwdpy_popvec *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_6popvec_append;
   __pyx_type_5fwdpy_5fwdpy_popvec.tp_base = __pyx_ptype_5fwdpy_5fwdpy_popcont;
   if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_popvec) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5fwdpy_5fwdpy_popvec.tp_print = 0;
@@ -42616,23 +43236,24 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __pyx_vtable_5fwdpy_5fwdpy_popvec_gmv.size = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_size;
   __pyx_vtable_5fwdpy_5fwdpy_popvec_gmv.reset = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv *, std::vector<std::shared_ptr<fwdpy::singlepop_gm_vec_t> >  const ))__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset;
   __pyx_type_5fwdpy_5fwdpy_popvec_gmv.tp_base = __pyx_ptype_5fwdpy_5fwdpy_popcont;
-  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_popvec_gmv) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_popvec_gmv) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5fwdpy_5fwdpy_popvec_gmv.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5fwdpy_5fwdpy_popvec_gmv.tp_dict, __pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "popvec_gmv", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_popvec_gmv) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetVtable(__pyx_type_5fwdpy_5fwdpy_popvec_gmv.tp_dict, __pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "popvec_gmv", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_popvec_gmv) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_5fwdpy_5fwdpy_popvec_gmv = &__pyx_type_5fwdpy_5fwdpy_popvec_gmv;
   __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec = &__pyx_vtable_5fwdpy_5fwdpy_mpopvec;
   __pyx_vtable_5fwdpy_5fwdpy_mpopvec.size = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_7mpopvec_size;
   __pyx_vtable_5fwdpy_5fwdpy_mpopvec.reset = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, std::vector<std::shared_ptr<fwdpy::metapop_t> >  const &))__pyx_f_5fwdpy_5fwdpy_7mpopvec_reset;
+  __pyx_vtable_5fwdpy_5fwdpy_mpopvec.append = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_7mpopvec_append;
   __pyx_type_5fwdpy_5fwdpy_mpopvec.tp_base = __pyx_ptype_5fwdpy_5fwdpy_popcont;
-  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_mpopvec) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_mpopvec) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5fwdpy_5fwdpy_mpopvec.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5fwdpy_5fwdpy_mpopvec.tp_dict, __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "mpopvec", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_mpopvec) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_SetVtable(__pyx_type_5fwdpy_5fwdpy_mpopvec.tp_dict, __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "mpopvec", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_mpopvec) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_5fwdpy_5fwdpy_mpopvec = &__pyx_type_5fwdpy_5fwdpy_mpopvec;
-  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_GSLrng) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_GSLrng) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_5fwdpy_5fwdpy_GSLrng.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "GSLrng", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_GSLrng) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "GSLrng", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_GSLrng) < 0) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 222; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_5fwdpy_5fwdpy_GSLrng = &__pyx_type_5fwdpy_5fwdpy_GSLrng;
   if (PyType_Ready(&__pyx_type___pyx_array) < 0) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type___pyx_array.tp_print = 0;
