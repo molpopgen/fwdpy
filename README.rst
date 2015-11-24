@@ -118,10 +118,16 @@ OS X users are recommended to use brew_ to install the various dependencies:
 
 .. code-block:: bash
    
+   $ brew install clang-omp
    $ brew install gsl
    $ ##Risky:
    $ brew install fwdpp
    $ brew install google-perftools
+
+**Important**: you need to install clang-omp on OS X!  This package
+uses openmp for parallelizing some tasks.  Sadly, OS X's compiler does
+not come with openmp support, and so you need a third-party compiler
+that does.
 
 For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
 
@@ -139,7 +145,14 @@ Installation
 
 First, install the dependencies (see above).
 
-To install system-wide
+**OS X users need to do the following first:**
+
+.. code-block:: bash
+		
+   $ export CC=clang-omp
+   $ export CXX=clang-omp++
+
+To install system-wide.
 
 .. code-block:: bash
 
