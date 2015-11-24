@@ -8,8 +8,8 @@ namespace fwdpy
   {
     void serialize_trajectories( const singlepop_t::trajtype & t, ostream & o )
     {
-      unsigned ntraj = t.size();
-      o.write( reinterpret_cast<char*>(&ntraj),sizeof(unsigned) );
+      size_t ntraj = t.size();
+      o.write( reinterpret_cast<char*>(&ntraj),sizeof(size_t) );
       for( auto i = t.cbegin(); i != t.cend() ; ++i )
 	{
 	  o.write( reinterpret_cast<const char *>(&(i->first.first)),(sizeof(unsigned)));
@@ -23,10 +23,10 @@ namespace fwdpy
 
     void deserialize_trajectories(istream & in, singlepop_t::trajtype * t )
     {
-      unsigned ntraj = t->size(),nfreqs;
+      size_t ntraj = t->size(),nfreqs;
       unsigned a;
       double rest[2];
-      in.read( reinterpret_cast<char*>(&ntraj),sizeof(unsigned) );
+      in.read( reinterpret_cast<char*>(&ntraj),sizeof(size_t) );
       for(unsigned i=0;i<ntraj;++i)
 	{
 	  in.read(reinterpret_cast<char*>(&a),sizeof(unsigned));

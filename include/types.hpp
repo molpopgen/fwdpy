@@ -66,7 +66,7 @@ namespace fwdpy {
     unsigned generation;
     trajtype trajectories;
     singlepop_t(const unsigned & N) : base(N),generation(0),
-				      trajectories(trajtype())
+					   trajectories(trajtype())
     {
     }
     unsigned gen() const
@@ -138,7 +138,7 @@ namespace fwdpy {
     }
     int size() const
     {
-      return diploids.size();
+      return int(diploids.size());
     }
   };
 

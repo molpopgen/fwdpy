@@ -22,7 +22,7 @@ namespace fwdpy {
 			       KTfwd::extensions::discrete_mut_model && __m,
 			       KTfwd::extensions::discrete_rec_model && __recmap)
   {    
-    const unsigned simlen = Nvector_len;
+    const size_t simlen = Nvector_len;
     
     const double mu_tot = neutral + selected;
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
@@ -38,7 +38,7 @@ namespace fwdpy {
      	dipfit = std::bind(KTfwd::additive_diploid(),std::placeholders::_1,2.);
       }
     fwdpy::singlepop_t pop2(std::move(*pop));
-    for( unsigned g = 0 ; g < simlen ; ++g, ++pop2.generation )
+    for( size_t g = 0 ; g < simlen ; ++g, ++pop2.generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::sample_diploid(rng,
@@ -66,7 +66,7 @@ namespace fwdpy {
 	assert(KTfwd::check_sum(pop2.gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size
-    pop2.N = pop2.diploids.size();
+    pop2.N = unsigned(pop2.diploids.size());
     //cleanup
     gsl_rng_free(rng);
     //restore data
@@ -125,7 +125,7 @@ namespace fwdpy {
   //KTfwd::extensions::discrete_mut_model && __m,
   //								   KTfwd::extensions::discrete_rec_model && __recmap)
   {    
-    const unsigned simlen = Nvector_len;
+    const size_t simlen = Nvector_len;
     
     const double mu_tot = neutral + selected;
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
@@ -143,7 +143,7 @@ namespace fwdpy {
       }
     //This may not be the best thing, long-term, design-wise...
     fwdpy::singlepop_t pop2(Nvector[0]);
-    for( unsigned g = 0 ; g < simlen ; ++g, ++pop2.generation )
+    for( size_t g = 0 ; g < simlen ; ++g, ++pop2.generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::sample_diploid(rng,
@@ -171,7 +171,7 @@ namespace fwdpy {
 	assert(KTfwd::check_sum(pop2.gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size
-    pop2.N = pop2.diploids.size();
+    pop2.N = unsigned(pop2.diploids.size());
     //cleanup
     gsl_rng_free(rng);
     return std::make_shared<fwdpy::singlepop_t>(std::move(pop2));
@@ -220,7 +220,7 @@ namespace fwdpy {
 				KTfwd::extensions::discrete_rec_model && __recmap,
 				const char * fitness)
   {  
-    const unsigned simlen = Nvector_A_len;
+    const size_t simlen = Nvector_A_len;
     const double mu_tot = neutral + selected;
 
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
@@ -244,7 +244,7 @@ namespace fwdpy {
 
     metapop_t mpop2(std::move(*mpop));
     //Finally, we can evolve this thing
-    for( unsigned g = 0 ; g < simlen ; ++g, ++mpop2.generation )
+    for( size_t g = 0 ; g < simlen ; ++g, ++mpop2.generation )
       {
 	std::vector<unsigned> Ns_next({unsigned(Nvector_A[g]),unsigned(Nvector_A[g])});
 	unsigned N = std::accumulate(Ns_next.begin(),Ns_next.end(),0u);

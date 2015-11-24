@@ -74,7 +74,8 @@ cdef class popvec(popcont):
     def __getitem__(self, int i):
         return self.pypops[i]
     def __len__(self):
-        if self.pops.size() != len(self.pypops):
+        cdef unsigned size_ = len(self.pypops)
+        if self.pops.size() != size_:
             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
@@ -111,7 +112,8 @@ cdef class popvec_gmv(popcont):
     def __getitem__(self, int i):
         return self.pypops[i]
     def __len__(self):
-        if self.pops.size() != len(self.pypops):
+        cdef unsigned size_ = len(self.pypops)
+        if self.pops.size() != size_:
             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] & newpops):
@@ -187,7 +189,8 @@ cdef class mpopvec(popcont):
     def __getitem__(self, int i):
         return self.pympops[i]
     def __len__(self):
-        if self.mpops.size() != len(self.pympops):
+        cdef unsigned size_ = len(self.pympops)
+        if self.mpops.size() != size_:
             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
         return self.mpops.size()
     cpdef size(self):
