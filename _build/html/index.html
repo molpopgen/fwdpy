@@ -938,6 +938,14 @@ the data structures!</p>
 <em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">mpopvec</code><a class="headerlink" href="#fwdpy.fwdpy.mpopvec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></code></a></p>
 <p>Vector of metapopulation objects</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.mpopvec.append">
+<code class="descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append &#8216;p&#8217; into this object.</p>
+<p>This is done via a serialized copy, meaning that 
+this object and p will not share any pointers</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="fwdpy.fwdpy.mpopvec.next">
 <code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.next" title="Permalink to this definition">¶</a></dt>
@@ -1090,6 +1098,14 @@ the data structures!</p>
 have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the &#8220;usual&#8221;
 Python way.</p>
 <p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_pops_t" title="fwdpy.fwdpy.evolve_pops_t"><code class="xref py py-func docutils literal"><span class="pre">evolve_pops_t()</span></code></a> and <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for use cases.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.popvec.append">
+<code class="descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.popvec.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append &#8216;p&#8217; into this object.</p>
+<p>This is done via a serialized copy, meaning that 
+this object and p will not share any pointers</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="fwdpy.fwdpy.popvec.next">
 <code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.popvec.next" title="Permalink to this definition">¶</a></dt>
