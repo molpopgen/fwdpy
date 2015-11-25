@@ -66,7 +66,7 @@ cdef vector[gamete_data] view_gametes_details( cpplist[gamete_t].iterator beg,
 
 ##This really should be const...
 cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,
-                                                 const vector[unsigned] indlist ) nogil:
+                                                 const vector[unsigned] & indlist ) nogil:
     cdef dipvector_t_itr itr = diploids.begin()
     cdef vector[diploid_data] rv
     for i in range(indlist.size()):
@@ -253,9 +253,9 @@ def view_diploids_popvec( popvec p, list indlist ):
     cdef vector[unsigned] il
     for i in indlist:
         il.push_back(i)
-        #for i in range(npops):
-        for i in prange(npops,schedule='guided',nogil=True):
-            rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
+    #for i in range(npops):
+    for i in prange(npops,schedule='guided',nogil=True):
+        rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
 
     return rv
         

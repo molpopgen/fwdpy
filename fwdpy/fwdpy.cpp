@@ -15,10 +15,12 @@
             "include/types.hpp"
         ], 
         "extra_compile_args": [
-            "-std=c++11"
+            "-std=c++11", 
+            "-fopenmp"
         ], 
         "extra_link_args": [
-            "-std=c++11"
+            "-std=c++11", 
+            "-fopenmp"
         ], 
         "include_dirs": [
             ".", 
@@ -1979,7 +1981,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(KTfwd::sample_t const &, st
 static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *); /*proto*/
 static std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  __pyx_f_5fwdpy_5fwdpy_view_mutations_details(__pyx_t_5fwdpy_5fwdpy_mlist_t_itr, __pyx_t_5fwdpy_5fwdpy_mlist_t_itr); /*proto*/
 static std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  __pyx_f_5fwdpy_5fwdpy_view_gametes_details(std::list<fwdpy::gamete_t> ::iterator, std::list<fwdpy::gamete_t> ::iterator); /*proto*/
-static std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_f_5fwdpy_5fwdpy_view_diploids_details(std::vector<fwdpy::diploid_t>  &, std::vector<unsigned int>  const ); /*proto*/
+static std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_f_5fwdpy_5fwdpy_view_diploids_details(std::vector<fwdpy::diploid_t>  &, std::vector<unsigned int>  const &); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_init_containers(PyObject *, std::map<double,std::string>  *, PyObject *, size_t const ); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers_details(PyObject *, std::map<double,std::string>  *, unsigned int const ); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers(PyObject *, std::map<double,std::string>  *, std::map<double,std::string>  *); /*proto*/
@@ -19252,11 +19254,11 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  __pyx_f_5fwdpy_5fw
  * 
  * ##This really should be const...
  * cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,             # <<<<<<<<<<<<<<
- *                                                  const vector[unsigned] indlist ) nogil:
+ *                                                  const vector[unsigned] & indlist ) nogil:
  *     cdef dipvector_t_itr itr = diploids.begin()
  */
 
-static std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_f_5fwdpy_5fwdpy_view_diploids_details(std::vector<fwdpy::diploid_t>  &__pyx_v_diploids, std::vector<unsigned int>  const __pyx_v_indlist) {
+static std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_f_5fwdpy_5fwdpy_view_diploids_details(std::vector<fwdpy::diploid_t>  &__pyx_v_diploids, std::vector<unsigned int>  const &__pyx_v_indlist) {
   __pyx_t_5fwdpy_5fwdpy_dipvector_t_itr __pyx_v_itr;
   std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_v_rv;
   size_t __pyx_v_i;
@@ -19269,7 +19271,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_f_5fwdpy_5f
 
   /* "fwdpy/views.pyx":70
  * cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,
- *                                                  const vector[unsigned] indlist ) nogil:
+ *                                                  const vector[unsigned] & indlist ) nogil:
  *     cdef dipvector_t_itr itr = diploids.begin()             # <<<<<<<<<<<<<<
  *     cdef vector[diploid_data] rv
  *     for i in range(indlist.size()):
@@ -19322,7 +19324,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_f_5fwdpy_5f
  * 
  * ##This really should be const...
  * cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,             # <<<<<<<<<<<<<<
- *                                                  const vector[unsigned] indlist ) nogil:
+ *                                                  const vector[unsigned] & indlist ) nogil:
  *     cdef dipvector_t_itr itr = diploids.begin()
  */
 
@@ -22155,7 +22157,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56view_diploids_popvec(CYTHON_UNUSED PyO
  *     cdef vector[unsigned] il
  *     for i in indlist:             # <<<<<<<<<<<<<<
  *         il.push_back(i)
- *         #for i in range(npops):
+ *     #for i in range(npops):
  */
   if (unlikely(__pyx_v_indlist == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
@@ -22178,8 +22180,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56view_diploids_popvec(CYTHON_UNUSED PyO
  *     cdef vector[unsigned] il
  *     for i in indlist:
  *         il.push_back(i)             # <<<<<<<<<<<<<<
- *         #for i in range(npops):
- *         for i in prange(npops,schedule='guided',nogil=True):
+ *     #for i in range(npops):
+ *     for i in prange(npops,schedule='guided',nogil=True):
  */
     try {
       __pyx_v_il.push_back(__pyx_v_i);
@@ -22188,93 +22190,93 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56view_diploids_popvec(CYTHON_UNUSED PyO
       {__pyx_filename = __pyx_f[3]; __pyx_lineno = 255; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
 
-    /* "fwdpy/views.pyx":257
- *         il.push_back(i)
- *         #for i in range(npops):
- *         for i in prange(npops,schedule='guided',nogil=True):             # <<<<<<<<<<<<<<
- *             rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
- * 
- */
-    {
-        #ifdef WITH_THREAD
-        PyThreadState *_save;
-        Py_UNBLOCK_THREADS
-        #endif
-        /*try:*/ {
-          __pyx_t_4 = __pyx_v_npops;
-          if (1 == 0) abort();
-          {
-              #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-                  #undef likely
-                  #undef unlikely
-                  #define likely(x)   (x)
-                  #define unlikely(x) (x)
-              #endif
-              __pyx_t_6 = (__pyx_t_4 - 0) / 1;
-              if (__pyx_t_6 > 0)
-              {
-                  #ifdef _OPENMP
-                  #pragma omp parallel
-                  #endif /* _OPENMP */
-                  {
-                      #ifdef _OPENMP
-                      #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) schedule(guided)
-                      #endif /* _OPENMP */
-                      for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_6; __pyx_t_5++){
-                          {
-                              __pyx_v_i = 0 + 1 * __pyx_t_5;
-
-                              /* "fwdpy/views.pyx":258
- *         #for i in range(npops):
- *         for i in prange(npops,schedule='guided',nogil=True):
- *             rv[i] = view_diploids_details(p.pops[i].get().diploids,il)             # <<<<<<<<<<<<<<
- * 
- *     return rv
- */
-                              (__pyx_v_rv[__pyx_v_i]) = __pyx_f_5fwdpy_5fwdpy_view_diploids_details((__pyx_v_p->pops[__pyx_v_i]).get()->diploids, __pyx_v_il);
-                          }
-                      }
-                  }
-              }
-          }
-          #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
-              #undef likely
-              #undef unlikely
-              #define likely(x)   __builtin_expect(!!(x), 1)
-              #define unlikely(x) __builtin_expect(!!(x), 0)
-          #endif
-        }
-
-        /* "fwdpy/views.pyx":257
- *         il.push_back(i)
- *         #for i in range(npops):
- *         for i in prange(npops,schedule='guided',nogil=True):             # <<<<<<<<<<<<<<
- *             rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
- * 
- */
-        /*finally:*/ {
-          /*normal exit:*/{
-            #ifdef WITH_THREAD
-            Py_BLOCK_THREADS
-            #endif
-            goto __pyx_L9;
-          }
-          __pyx_L9:;
-        }
-    }
-
     /* "fwdpy/views.pyx":254
  *     rv.resize(npops);
  *     cdef vector[unsigned] il
  *     for i in indlist:             # <<<<<<<<<<<<<<
  *         il.push_back(i)
- *         #for i in range(npops):
+ *     #for i in range(npops):
  */
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
+  /* "fwdpy/views.pyx":257
+ *         il.push_back(i)
+ *     #for i in range(npops):
+ *     for i in prange(npops,schedule='guided',nogil=True):             # <<<<<<<<<<<<<<
+ *         rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
+ * 
+ */
+  {
+      #ifdef WITH_THREAD
+      PyThreadState *_save;
+      Py_UNBLOCK_THREADS
+      #endif
+      /*try:*/ {
+        __pyx_t_4 = __pyx_v_npops;
+        if (1 == 0) abort();
+        {
+            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+                #undef likely
+                #undef unlikely
+                #define likely(x)   (x)
+                #define unlikely(x) (x)
+            #endif
+            __pyx_t_6 = (__pyx_t_4 - 0) / 1;
+            if (__pyx_t_6 > 0)
+            {
+                #ifdef _OPENMP
+                #pragma omp parallel
+                #endif /* _OPENMP */
+                {
+                    #ifdef _OPENMP
+                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) schedule(guided)
+                    #endif /* _OPENMP */
+                    for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_6; __pyx_t_5++){
+                        {
+                            __pyx_v_i = 0 + 1 * __pyx_t_5;
+
+                            /* "fwdpy/views.pyx":258
+ *     #for i in range(npops):
+ *     for i in prange(npops,schedule='guided',nogil=True):
+ *         rv[i] = view_diploids_details(p.pops[i].get().diploids,il)             # <<<<<<<<<<<<<<
+ * 
+ *     return rv
+ */
+                            (__pyx_v_rv[__pyx_v_i]) = __pyx_f_5fwdpy_5fwdpy_view_diploids_details((__pyx_v_p->pops[__pyx_v_i]).get()->diploids, __pyx_v_il);
+                        }
+                    }
+                }
+            }
+        }
+        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+            #undef likely
+            #undef unlikely
+            #define likely(x)   __builtin_expect(!!(x), 1)
+            #define unlikely(x) __builtin_expect(!!(x), 0)
+        #endif
+      }
+
+      /* "fwdpy/views.pyx":257
+ *         il.push_back(i)
+ *     #for i in range(npops):
+ *     for i in prange(npops,schedule='guided',nogil=True):             # <<<<<<<<<<<<<<
+ *         rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
+ * 
+ */
+      /*finally:*/ {
+        /*normal exit:*/{
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L7;
+        }
+        __pyx_L7:;
+      }
+  }
+
   /* "fwdpy/views.pyx":260
- *             rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
+ *         rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
  * 
  *     return rv             # <<<<<<<<<<<<<<
  * 
