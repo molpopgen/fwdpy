@@ -269,7 +269,7 @@ Doing so will allow $HOME/software/include, etc., to be populated as they were i
 Documentation
 ===================
 
-The manual_ is available online in html format at the project web page
+The manual_ is available online in html format at the project web page.
 
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp 
