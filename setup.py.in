@@ -74,7 +74,7 @@ fwdpy is a C++11-based package for running forward simulations in Python
 
 EXTENSION="@EXTENSION@"
 
-GLOBAL_COMPILE_ARGS=['-std=c++11']#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
+GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp']#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
 
 extensions = [
     Extension("fwdpy.fwdpy",
@@ -82,21 +82,21 @@ extensions = [
         language="c++",                        # generate and compile C++ code
         include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
         extra_compile_args=GLOBAL_COMPILE_ARGS,
-        extra_link_args=["-std=c++11"],
-        libraries=["gsl","gslcblas",]),
+        extra_link_args=["-std=c++11",'-fopenmp'],
+        libraries=["gsl","gslcblas"]),
         Extension("fwdpy.internal.internal",
         sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
         language="c++",
         include_dirs=['.','include','..'],
         extra_compile_args=GLOBAL_COMPILE_ARGS,
-        extra_link_args=["-std=c++11"],
+        extra_link_args=["-std=c++11",'-fopenmp'],
         libraries=["gsl","gslcblas"]),
         Extension("fwdpy.fwdpyio.fwdpyio",
         sources=["fwdpy/fwdpyio/fwdpyio"+EXTENSION]+glob.glob("fwdpy/fwdpyio/*.cc"),
         language="c++",
         include_dirs=['.','include','..'],
         extra_compile_args=GLOBAL_COMPILE_ARGS,
-        extra_link_args=["-std=c++11"],
+        extra_link_args=["-std=c++11",'-fopenmp'],
         libraries=[]),
         ]
 extensions.extend([

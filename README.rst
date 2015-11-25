@@ -114,14 +114,25 @@ The configure script will enforce minimum version numbers of these dependencies,
 
 You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.
 
+Notes for OS X users
+---------------------------------
+
+Apple is making life difficult for OS X users.  The release of El Capitan made installing third-party Unix tools into /usr/local more difficult.  A lot of the instructions below ask you to use brew_ to install depdendencies.  Please make sure that you have a working brew_ setup before trying any of the below.  If your setup is not working, please do research online about fixing it, which is beyond the scope of this document.
+
 OS X users are recommended to use brew_ to install the various dependencies:
 
 .. code-block:: bash
    
+   $ brew install clang-omp
    $ brew install gsl
    $ ##Risky:
    $ brew install fwdpp
    $ brew install google-perftools
+
+**Important**: you need to install clang-omp on OS X!  This package
+uses openmp for parallelizing some tasks.  Sadly, OS X's compiler does
+not come with openmp support, and so you need a third-party compiler
+that does.
 
 For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
 
@@ -139,7 +150,14 @@ Installation
 
 First, install the dependencies (see above).
 
-To install system-wide
+**OS X users need to do the following first:**
+
+.. code-block:: bash
+		
+   $ export CC=clang-omp
+   $ export CXX=clang-omp++
+
+To install system-wide.
 
 .. code-block:: bash
 
@@ -218,7 +236,7 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.3.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.4.3, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
@@ -240,7 +258,7 @@ Your system's compiler has a default set of paths where it will look for header 
 * $HOME/software/fwdpp
 
 
-If you insist on doing this, then you are on your own.  You have to manually pass in all of the -I and -L flags to all of these locations.   This setup is problematic because it violates the POSIX [ilesystem Hierarchy Standard (http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard), and you cannot reasonably expect things to "just work" any more.  It would be best to start over, and simply install all of the dependencies into the following prefix:
+If you insist on doing this, then you are on your own.  You have to manually pass in all of the -I and -L flags to all of these locations.   This setup is problematic because it violates the POSIX Filesystem Hierarchy Standard (http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard), and you cannot reasonably expect things to "just work" any more.  It would be best to start over, and simply install all of the dependencies into the following prefix:
 
 .. code-block:: bash
 
@@ -251,7 +269,7 @@ Doing so will allow $HOME/software/include, etc., to be populated as they were i
 Documentation
 ===================
 
-The manual_ is available online in html format at the project web page
+The manual_ is available online in html format at the project web page.
 
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp 

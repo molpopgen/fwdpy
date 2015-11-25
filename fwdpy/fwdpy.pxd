@@ -120,18 +120,20 @@ cdef class popvec(popcont):
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
-
+    cpdef append(self,popvec p)
+    
 cdef class popvec_gmv(popcont):
     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
-
+    
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
+    cpdef append(self,mpopvec p)
     
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
