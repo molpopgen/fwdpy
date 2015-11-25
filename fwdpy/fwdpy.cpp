@@ -1975,8 +1975,8 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_f_5fwdpy_5fwdpy_get_diplo
 static KTfwd::sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int, int); /*proto*/
 static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme_sep(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int, int); /*proto*/
 static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, int, int, int); /*proto*/
-static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(std::vector<std::pair<double,std::string> >  const &, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *); /*proto*/
-static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(std::vector<std::pair<double,std::string> >  const &, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *); /*proto*/
+static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(KTfwd::sample_t const &, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *); /*proto*/
+static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *); /*proto*/
 static std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  __pyx_f_5fwdpy_5fwdpy_view_mutations_details(__pyx_t_5fwdpy_5fwdpy_mlist_t_itr, __pyx_t_5fwdpy_5fwdpy_mlist_t_itr); /*proto*/
 static std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  __pyx_f_5fwdpy_5fwdpy_view_gametes_details(std::list<fwdpy::gamete_t> ::iterator, std::list<fwdpy::gamete_t> ::iterator); /*proto*/
 static std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_f_5fwdpy_5fwdpy_view_diploids_details(std::vector<fwdpy::diploid_t>  &, std::vector<unsigned int>  const ); /*proto*/
@@ -2959,7 +2959,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_evolve_pops_t(CYTHON_UNUSED PyObject *__
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_2evolve_pops_more_t(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, PyObject *__pyx_v_nlist, double __pyx_v_theta, double __pyx_v_rho); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ms_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_poptype *__pyx_v_pop, int __pyx_v_nsam, int __pyx_v_removeFixed); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_6get_samples(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_poptype *__pyx_v_pop, int __pyx_v_nsam, int __pyx_v_removeFixed, PyObject *__pyx_v_deme); /* proto */
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_8get_sample_details(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::pair<double,std::string> >  __pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_poptype *__pyx_v_pop); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_8get_sample_details(CYTHON_UNUSED PyObject *__pyx_self, KTfwd::sample_t __pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_poptype *__pyx_v_pop); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_10nderived_site(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_site); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_12nderived(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sample); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_14getfreq(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_site, int __pyx_v_derived); /* proto */
@@ -8479,7 +8479,7 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(struct __
  * cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
  *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)             # <<<<<<<<<<<<<<
  * 
- * cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
+ * cdef get_sh_single(const sample_t & ms_sample,
  */
   try {
     __pyx_t_1 = KTfwd::sample_separate<fwdpy::metapop_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->mpop.get()), __pyx_v_deme, __pyx_v_nsam, __pyx_v_removeFixed);
@@ -8514,12 +8514,12 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(struct __
 /* "fwdpy/sampling.pyx":18
  *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
  * 
- * cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,             # <<<<<<<<<<<<<<
+ * cdef get_sh_single(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
  *                     singlepop pop,
  *                     vector[double] * s,
  */
 
-static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(std::vector<std::pair<double,std::string> >  const &__pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, std::vector<double>  *__pyx_v_s, std::vector<double>  *__pyx_v_h, std::vector<double>  *__pyx_v_p, std::vector<double>  *__pyx_v_a) {
+static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(KTfwd::sample_t const &__pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, std::vector<double>  *__pyx_v_s, std::vector<double>  *__pyx_v_h, std::vector<double>  *__pyx_v_p, std::vector<double>  *__pyx_v_a) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_sh_single", 0);
@@ -8529,14 +8529,14 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(std::vector<std::pair<doubl
  *                     vector[double] * a):
  *     get_sh(ms_sample,pop.pop.get(),s,h,p,a)             # <<<<<<<<<<<<<<
  * 
- * cdef get_sh_metapop(const vector[pair[double,string] ] & ms_sample,
+ * cdef get_sh_metapop(const sample_t & ms_sample,
  */
   fwdpy::get_sh(__pyx_v_ms_sample, __pyx_v_pop->pop.get(), __pyx_v_s, __pyx_v_h, __pyx_v_p, __pyx_v_a);
 
   /* "fwdpy/sampling.pyx":18
  *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
  * 
- * cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,             # <<<<<<<<<<<<<<
+ * cdef get_sh_single(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
  *                     singlepop pop,
  *                     vector[double] * s,
  */
@@ -8551,12 +8551,12 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(std::vector<std::pair<doubl
 /* "fwdpy/sampling.pyx":26
  *     get_sh(ms_sample,pop.pop.get(),s,h,p,a)
  * 
- * cdef get_sh_metapop(const vector[pair[double,string] ] & ms_sample,             # <<<<<<<<<<<<<<
+ * cdef get_sh_metapop(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
  *                     metapop pop,
  *                     vector[double] * s,
  */
 
-static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(std::vector<std::pair<double,std::string> >  const &__pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_pop, std::vector<double>  *__pyx_v_s, std::vector<double>  *__pyx_v_h, std::vector<double>  *__pyx_v_p, std::vector<double>  *__pyx_v_a) {
+static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &__pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_pop, std::vector<double>  *__pyx_v_s, std::vector<double>  *__pyx_v_h, std::vector<double>  *__pyx_v_p, std::vector<double>  *__pyx_v_a) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_sh_metapop", 0);
@@ -8573,7 +8573,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(std::vector<std::pair<doub
   /* "fwdpy/sampling.pyx":26
  *     get_sh(ms_sample,pop.pop.get(),s,h,p,a)
  * 
- * cdef get_sh_metapop(const vector[pair[double,string] ] & ms_sample,             # <<<<<<<<<<<<<<
+ * cdef get_sh_metapop(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
  *                     metapop pop,
  *                     vector[double] * s,
  */
@@ -9074,7 +9074,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6get_samples(CYTHON_UNUSED PyObject *__p
  *     else:
  *         raise ValueError("ms_sample: unsupported type of popcontainer")             # <<<<<<<<<<<<<<
  * 
- * def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
+ * def get_sample_details( sample_t ms_sample, poptype pop ):
  */
   /*else*/ {
     __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9108,7 +9108,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6get_samples(CYTHON_UNUSED PyObject *__p
 /* "fwdpy/sampling.pyx":91
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
- * def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
+ * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
  *     """
  *     Get additional details for population samples
  */
@@ -9118,7 +9118,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_9get_sample_details(PyObject *__pyx_self
 static char __pyx_doc_5fwdpy_5fwdpy_8get_sample_details[] = "\n    Get additional details for population samples\n\n    :param ms_samples: A list returned by :func:`ms_sample`\n    :param pops: A :class:`poptype`\n\n    :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.\n\n    :rtype: pandas.DataFrame\n\n    Example:\n    \n    >>> import fwdpy\n    >>> rng = fwdpy.GSLrng(100)\n    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> details = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_9get_sample_details = {"get_sample_details", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_9get_sample_details, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_8get_sample_details};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_9get_sample_details(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  std::vector<std::pair<double,std::string> >  __pyx_v_ms_sample;
+  KTfwd::sample_t __pyx_v_ms_sample;
   struct __pyx_obj_5fwdpy_5fwdpy_poptype *__pyx_v_pop = 0;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -9181,7 +9181,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_9get_sample_details(PyObject *__pyx_self
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_8get_sample_details(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::pair<double,std::string> >  __pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_poptype *__pyx_v_pop) {
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_8get_sample_details(CYTHON_UNUSED PyObject *__pyx_self, KTfwd::sample_t __pyx_v_ms_sample, struct __pyx_obj_5fwdpy_5fwdpy_poptype *__pyx_v_pop) {
   std::vector<double>  __pyx_v_h;
   std::vector<double>  __pyx_v_s;
   std::vector<double>  __pyx_v_p;
@@ -9330,7 +9330,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8get_sample_details(CYTHON_UNUSED PyObje
   /* "fwdpy/sampling.pyx":91
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
- * def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
+ * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
  *     """
  *     Get additional details for population samples
  */
@@ -41873,7 +41873,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     else:
  *         raise ValueError("ms_sample: unsupported type of popcontainer")             # <<<<<<<<<<<<<<
  * 
- * def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
+ * def get_sample_details( sample_t ms_sample, poptype pop ):
  */
   __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_ms_sample_unsupported_type_of_po); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
@@ -42690,7 +42690,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "fwdpy/sampling.pyx":91
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
- * def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
+ * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
  *     """
  *     Get additional details for population samples
  */
@@ -43631,7 +43631,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   /* "fwdpy/sampling.pyx":91
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
- * def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
+ * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
  *     """
  *     Get additional details for population samples
  */
