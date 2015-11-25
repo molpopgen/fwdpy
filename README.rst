@@ -45,53 +45,15 @@ The following distributions of dominance are supported:
 
 * constant (*i.e.*, *h* takes on a fixed value)
 
-Example
+Examples
 =============
-Let's simulate the following model:
 
-* The population will consist of N=1000 diploids
-* The total mutation rate to variants not affecting fitness will be theta = 4Nu = 100 for the region.  Neutral mutations occur uniformly on the interval [0,1)
-* The recombination rate will be rho = 4Nr = 1000 for the region
-* The *total* mutation rate (per gamete, per generation) to mutations affecting fitness will be 0.01.
+Several examples exist in the form of output from "iPython"/Jupyter notebooks:
 
-Given that a mutation affecting fitness mutation arises:
-
-* There is a 99 percent chance that it is deleterious with sh = -0.1.  These mutations occur uniformly on the interval of [-1,0) or [1,2) with equal probability.
-* There is a 1 percent chance that it is beneficial with s=0.001 and h = 1, and occur uniformly along the interval [-1,2).
-
-This model of selected mutations is basically a standard model of background selection with a low rate of weakly-beneficial mutations thrown in.
-
-Recombination is uniform along the interval [-2,2)
-
-The demographic model is the bottleneck for European *Drosophila* inferred by Thornton, K., & Andolfatto, P. (2006). Approximate Bayesian inference reveals evidence for a recent, severe bottleneck in a Netherlands population of Drosophila melanogaster. Genetics, 172(3), 1607-1619. http://doi.org/10.1534/genetics.105.048223
-
-Let's set up the model and run it:
-
-.. code-block:: python
-
-    import fwdpy
-    import numpy as np
-    #Our "neutral" regions will be from positions [0,1) and [2,3).
-    #The regions will have equal weights, and thus will each get
-    #1/2 of newly-arising, neutral mutations
-    nregions = [fwdpy.Region(-1,0,1),fwdpy.Region(1,2,1)]
-    #Define the "selected region" parameters
-    sregions = [fwdpy.ConstantS(-1,0,1,0.99/2.0,-0.1,1),fwdpy.ConstantS(1,2,0.99/2.0,-0.1,1),fwdpy.ConstantS(-1,2,0.01,0.001,1)]
-    #Recombination will be uniform along the interval [-2,2).
-    rregions = [fwdpy.Region(-2,2,1)]
-    rng = fwdpy.GSLrng(100)
-    #popsizes are NumPy arrays of 32bit unsigned integers
-    #Initial pop size will be N = 1,000, and
-    #the type must be uint32 (32 bit unsigned integer)
-    popsizes = np.array([1000],dtype=np.uint32)
-    #The simulation will be for 10*N generations,
-    #so we replicate that value in the array
-    popsizes=np.tile(popsizes,10000)
-    #Simulate 1 deme under this model.
-    #The total neutral mutation rate is 1e-3,
-    #which is also the recombination rate.
-    #The total mutation rate to selected variants is 0.1*(the neutral mutation rate).
-    pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+* `Background selection`_
+* `Viewing simulated populations`_
+* `Sliding windows`_
+* `Tracking mutation frequencies`_
 
 Availability
 ===============
@@ -279,3 +241,7 @@ The manual_ is available online in html format at the project web page.
 .. _tcmalloc: https://code.google.com/p/gperftools/
 .. _brew: http://brew.sh
 .. _manual: http://molpopgen.github.io/fwdpy
+.. _Background selection: http://molpopgen.github.io/fwdpy/_build/html/examples/BGS.html
+.. _Viewing simulated populations: http://molpopgen.github.io/fwdpy/_build/html/examples/views.html
+.. _Sliding windows: http://molpopgen.github.io/fwdpy/_build/html/examples/windows.html
+.. _Tracking mutation frequencies: http://molpopgen.github.io/fwdpy/_build/html/examples/trajectories.html
