@@ -15,7 +15,7 @@ cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam,
 cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
 
-cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
+cdef get_sh_single(const sample_t & ms_sample,
                     singlepop pop,
                     vector[double] * s,
                     vector[double] * h,
@@ -23,7 +23,7 @@ cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     vector[double] * a):
     get_sh(ms_sample,pop.pop.get(),s,h,p,a)
 
-cdef get_sh_metapop(const vector[pair[double,string] ] & ms_sample,
+cdef get_sh_metapop(const sample_t & ms_sample,
                     metapop pop,
                     vector[double] * s,
                     vector[double] * h,
@@ -88,7 +88,7 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
+def get_sample_details( sample_t ms_sample, poptype pop ):
     """
     Get additional details for population samples
 
