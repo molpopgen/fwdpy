@@ -48,7 +48,7 @@ The following distributions of dominance are supported:
 Examples
 =============
 
-Several examples exist in the form of "iPython"/Jupyter notebooks:
+Several examples exist in the form of output from "iPython"/Jupyter notebooks:
 
 * `Background selection`_
 * `Viewing simulated populations`_
