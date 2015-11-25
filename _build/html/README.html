@@ -94,49 +94,15 @@
 <li>constant (<em>i.e.</em>, <em>h</em> takes on a fixed value)</li>
 </ul>
 </div>
-<div class="section" id="example">
-<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<p>Let&#8217;s simulate the following model:</p>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Several examples exist in the form of output from &#8220;iPython&#8221;/Jupyter notebooks:</p>
 <ul class="simple">
-<li>The population will consist of N=1000 diploids</li>
-<li>The total mutation rate to variants not affecting fitness will be theta = 4Nu = 100 for the region.  Neutral mutations occur uniformly on the interval [0,1)</li>
-<li>The recombination rate will be rho = 4Nr = 1000 for the region</li>
-<li>The <em>total</em> mutation rate (per gamete, per generation) to mutations affecting fitness will be 0.01.</li>
+<li><a class="reference external" href="http://molpopgen.github.io/fwdpy/_build/html/examples/BGS.html">Background selection</a></li>
+<li><a class="reference external" href="http://molpopgen.github.io/fwdpy/_build/html/examples/views.html">Viewing simulated populations</a></li>
+<li><a class="reference external" href="http://molpopgen.github.io/fwdpy/_build/html/examples/windows.html">Sliding windows</a></li>
+<li><a class="reference external" href="http://molpopgen.github.io/fwdpy/_build/html/examples/trajectories.html">Tracking mutation frequencies</a></li>
 </ul>
-<p>Given that a mutation affecting fitness mutation arises:</p>
-<ul class="simple">
-<li>There is a 99 percent chance that it is deleterious with sh = -0.1.  These mutations occur uniformly on the interval of [-1,0) or [1,2) with equal probability.</li>
-<li>There is a 1 percent chance that it is beneficial with s=0.001 and h = 1, and occur uniformly along the interval [-1,2).</li>
-</ul>
-<p>This model of selected mutations is basically a standard model of background selection with a low rate of weakly-beneficial mutations thrown in.</p>
-<p>Recombination is uniform along the interval [-2,2)</p>
-<p>The demographic model is the bottleneck for European <em>Drosophila</em> inferred by Thornton, K., &amp; Andolfatto, P. (2006). Approximate Bayesian inference reveals evidence for a recent, severe bottleneck in a Netherlands population of Drosophila melanogaster. Genetics, 172(3), 1607-1619. <a class="reference external" href="http://doi.org/10.1534/genetics.105.048223">http://doi.org/10.1534/genetics.105.048223</a></p>
-<p>Let&#8217;s set up the model and run it:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">fwdpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="c">#Our &quot;neutral&quot; regions will be from positions [0,1) and [2,3).</span>
-<span class="c">#The regions will have equal weights, and thus will each get</span>
-<span class="c">#1/2 of newly-arising, neutral mutations</span>
-<span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="c">#Define the &quot;selected region&quot; parameters</span>
-<span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.99</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.99</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="c">#Recombination will be uniform along the interval [-2,2).</span>
-<span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="c">#popsizes are NumPy arrays of 32bit unsigned integers</span>
-<span class="c">#Initial pop size will be N = 1,000, and</span>
-<span class="c">#the type must be uint32 (32 bit unsigned integer)</span>
-<span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="c">#The simulation will be for 10*N generations,</span>
-<span class="c">#so we replicate that value in the array</span>
-<span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">10000</span><span class="p">)</span>
-<span class="c">#Simulate 1 deme under this model.</span>
-<span class="c">#The total neutral mutation rate is 1e-3,</span>
-<span class="c">#which is also the recombination rate.</span>
-<span class="c">#The total mutation rate to selected variants is 0.1*(the neutral mutation rate).</span>
-<span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="availability">
 <h2>Availability<a class="headerlink" href="#availability" title="Permalink to this headline">¶</a></h2>
@@ -279,7 +245,7 @@ that does.</p>
 <li><a class="reference internal" href="#">fwdpy: forward simulation in Python using fwdpp</a><ul>
 <li><a class="reference internal" href="#citation">Citation</a></li>
 <li><a class="reference internal" href="#features">Features:</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
 <li><a class="reference internal" href="#availability">Availability</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a><ul>
 <li><a class="reference internal" href="#notes-for-os-x-users">Notes for OS X users</a></li>
