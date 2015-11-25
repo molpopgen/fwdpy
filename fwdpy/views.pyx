@@ -1,16 +1,6 @@
 from cython.operator import dereference as deref,postincrement as inc
-#from cython.parallel import parallel, prange
+from cython.parallel import parallel, prange
 import pandas as pd
-#from libcpp.string cimport string as cppstring
-
-# This file is ready for parallel execution
-# if/when it can easily be supported on OS X.
-# Currently, El Capitan has disabled -fopenmp
-# due to the lack of an openmp runtime library.
-# Distutils doesn't like to let users specify the
-# compiler, which further complicates issues,
-# making Homebrew's clang-omp 'brew hard/impossible
-# to use.
 
 cdef extern from "<algorithm>" namespace "std":
     OUTPUT move[INPUT,OUTPUT](INPUT,INPUT,OUTPUT)
@@ -96,8 +86,8 @@ def view_mutations_popvec(popvec p):
     cdef vector[vector[popgen_mut_data]] rv;
     cdef unsigned npops = p.pops.size(),i
     rv.resize(npops)
-    #for i in prange(npops,schedule='guided',nogil=True):
-    for i in range(npops):
+    #for i in range(npops):
+    for i in prange(npops,schedule='guided',nogil=True):
         rv[i] = view_mutations_details(p.pops[i].get().mutations.begin(),p.pops[i].get().mutations.end())
 
     return rv
@@ -178,13 +168,13 @@ def view_gametes_singlepop( singlepop p ):
     return view_gametes_details(beg,end)
 
 def view_gametes_popvec(popvec p):
-    cdef glist_t_itr beg,end
-    cdef glist_t_itr 
-    cdef unsigned npops = p.pops.size()
-    cdef vector[vector[gamete_data]] rv
+    cdef:
+        glist_t_itr beg,end
+        unsigned npops = p.pops.size(),i
+        vector[vector[gamete_data]] rv
     rv.resize(npops)
-    #for i in prange(npops,schedule='guided',nogil=True):
-    for i in range(npops):
+    #for i in range(npops):
+    for i in prange(npops,schedule='guided',nogil=True):
         rv[i]=view_gametes_details(p.pops[i].get().gametes.begin(),p.pops[i].get().gametes.end())
         
 def view_gametes_metapop( metapop p, unsigned deme ):
@@ -263,8 +253,8 @@ def view_diploids_popvec( popvec p, list indlist ):
     cdef vector[unsigned] il
     for i in indlist:
         il.push_back(i)
-        #for i in prange(npops,schedule='guided',nogil=True):
-        for i in range(npops):
+        #for i in range(npops):
+        for i in prange(npops,schedule='guided',nogil=True):
             rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
 
     return rv
@@ -497,8 +487,8 @@ def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selected
     cdef unsigned i
     cdef vector[diploid_view_data] rv
     rv.resize(npops)
-    #for i in prange(npops,schedule='guided',nogil=True):
-    for i in range(npops):
+    for i in prange(npops,schedule='guided',nogil=True):
+    #for i in range(npops):
         rv[i]=view_diploids_pd_details(p.pops[i].get().diploids,indlist,selectedOnly)
     return rv
 
