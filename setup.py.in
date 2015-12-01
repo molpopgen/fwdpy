@@ -76,6 +76,21 @@ EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp']#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
 
+LIBS=["gsl","gslcblas"]
+
+USETCMALLOC=False
+
+if str('@TCMALLOC@') == str('tcmalloc'):
+    USETCMALLOC=True
+    LIBS.append('@TCMALLOC@')
+
+if str('@TBBPRX@') == str('tbbmalloc_proxy'):
+    if USETCMALLOC == True:
+        raise RuntimeError("cannot use both tcmalloc and tbbmalloc_proxy")
+    LIBS.append('@TBBPRX@')
+
+print (LIBS)
+
 extensions = [
     Extension("fwdpy.fwdpy",
         sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
@@ -83,21 +98,21 @@ extensions = [
         include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=["-std=c++11",'-fopenmp'],
-        libraries=["gsl","gslcblas"]),
+        libraries=LIBS),
         Extension("fwdpy.internal.internal",
         sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
         language="c++",
         include_dirs=['.','include','..'],
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=["-std=c++11",'-fopenmp'],
-        libraries=["gsl","gslcblas"]),
+        libraries=LIBS),
         Extension("fwdpy.fwdpyio.fwdpyio",
         sources=["fwdpy/fwdpyio/fwdpyio"+EXTENSION]+glob.glob("fwdpy/fwdpyio/*.cc"),
         language="c++",
         include_dirs=['.','include','..'],
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=["-std=c++11",'-fopenmp'],
-        libraries=[]),
+        libraries=LIBS)
         ]
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
