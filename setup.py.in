@@ -106,6 +106,7 @@ extensions = [
         sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
         language="c++",                        # generate and compile C++ code
         include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
+es
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS),
@@ -130,8 +131,8 @@ extensions.extend([
     language="c++",                        # generate and compile C++ code
     include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
     extra_compile_args=GLOBAL_COMPILE_ARGS,
-    extra_link_args=["-std=c++11",'-fopenmp'],
-    libraries=["gsl","gslcblas"]),
+    extra_link_args=LINK_ARGS,
+    libraries=LIBS)
     ])
 
 setup(name='@PACKAGE_NAME@',
