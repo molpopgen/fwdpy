@@ -4,7 +4,7 @@ rng = fp.GSLrng(101)
 N=1000
 nlist=np.array([N]*10*N,dtype=np.uint32)
 p=fp.evolve_regions(rng,
-                    4,N,
+                    64,N,
                     nlist,
                     0.25,
                     0.0,
