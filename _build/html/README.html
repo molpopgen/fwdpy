@@ -111,7 +111,7 @@
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <p>This section assumes that all packages are installed in fairly standard locations, such as /usr/local.  See the troubleshooting section for more complex setups.</p>
-<p>This package depends on:</p>
+<p>This package <em>minimally</em> depends on:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://gnu.org/software/gsl">GSL</a></li>
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a></li>
@@ -119,6 +119,12 @@
 <p>The configure script will enforce minimum version numbers of these dependencies, if necessary.</p>
 <p><strong>Note:</strong> fwdpy may require the &#8216;dev&#8217; branch of fwdpp.  The configure script checks for <em>both</em> the correct dependency version number <em>and</em> specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.</p>
 <p>You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.</p>
+<p>In order to maximize simulation performance, one of the following additional libraries is recommended:</p>
+<ul class="simple">
+<li>Google&#8217;s <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a></li>
+<li>Intel&#8217;s <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a></li>
+</ul>
+<p>You may use one or the other of these libraries, but not both.  See the Performance subsection of the Installation section below for how to use these libraries.</p>
 <div class="section" id="notes-for-os-x-users">
 <h3>Notes for OS X users<a class="headerlink" href="#notes-for-os-x-users" title="Permalink to this headline">¶</a></h3>
 <p>Apple is making life difficult for OS X users.  The release of El Capitan made installing third-party Unix tools into /usr/local more difficult.  A lot of the instructions below ask you to use <a class="reference external" href="http://brew.sh">brew</a> to install depdendencies.  Please make sure that you have a working <a class="reference external" href="http://brew.sh">brew</a> setup before trying any of the below.  If your setup is not working, please do research online about fixing it, which is beyond the scope of this document.</p>
@@ -145,6 +151,7 @@ that does.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>This section describes &#8220;vanilla&#8221; installation using the minimal dependencies.</p>
 <p>First, install the dependencies (see above).</p>
 <p><strong>OS X users need to do the following first:</strong></p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">export </span><span class="nv">CC</span><span class="o">=</span>clang-omp
@@ -173,6 +180,70 @@ that does.</p>
 <span class="nv">$ </span><span class="c">#run the unit tests:</span>
 <span class="nv">$ </span>python -m unittest discover unit_test
 </pre></div>
+</div>
+<div class="section" id="performance">
+<h3>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h3>
+<p>This section is long, but very important!</p>
+<p>Forward-time simulations involve the constant allocation and de-allocation of small objects due to the repeated introduction, and subsequent rapid loss, of mutations during the course of <em>in-silico</em> evolution.   Thus, performance can be greatly affected by how memory is used.  This package has an additional complication that independent simulations can be run in different threads.  Such threading requires a memory allocator that scales well in a multi-threaded execution environment.</p>
+<p><strong>fwdpy</strong> can be compiled using any of the following memory allocation libraries:</p>
+<ul class="simple">
+<li>The built-in allocator.  This is the default, and the instructions above cover how to install this.</li>
+<li>Google&#8217;s <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a>, which is a &#8220;drop-in&#8221; replacement for the default allocator.  <strong>fwdpy</strong> may be linked to the libtcmalloc runtime library in order to improve performance.</li>
+<li>Intels&#8217; <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a>, which is a &#8220;drop-in&#8221; replacement for the default allocator. <strong>fwdpy</strong> may be linked to the libtbbmalloc_proxy runtime library in order to improve performance.</li>
+</ul>
+<p>Here is how dependency checking is treated:</p>
+<ul class="simple">
+<li>The configure script processes your arguments (see below), and checks if the desired &#8220;drop-in&#8221; library is available.</li>
+<li>If it is available, setup.py is written with the appropriate linking information</li>
+<li>If not, setup.py is written to use the built-in allocator</li>
+<li>When setup.py is run, it will attempt to compile and link tiny test programs.  If it cannot link to the desired drop-in library, the installation process will fail here, throwing a RuntimeError.</li>
+</ul>
+<p>Installing <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a>:</p>
+<p>On OS X:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>brew install gperftools
+</pre></div>
+</div>
+<p>On Ubuntu Linux:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo apt-get -f install google-perftools libgoogle-perftools-dev
+</pre></div>
+</div>
+<p>Installing <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a>:</p>
+<p>On OS X:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>brew install tbb
+</pre></div>
+</div>
+<p>On Ubuntu linux:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo apt-get -f install libtbb-dev
+</pre></div>
+</div>
+<p>Using <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>./configure --enable-tcmalloc<span class="o">=</span>yes
+<span class="nv">$ </span>python setup.py install
+</pre></div>
+</div>
+<p>Using <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a>:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>./configure --enable-tbbprx<span class="o">=</span>yes
+<span class="nv">$ </span>python setup.py install
+</pre></div>
+</div>
+<p>Should I use the default allocator?</p>
+<p>If you know that your simulations will fall into one or more of the following classes:</p>
+<ul class="simple">
+<li>Few in number</li>
+<li>Involving small population sizes, say <span class="math">\(N \approx 10^3\)</span></li>
+<li>Involving small genomic regions, say <span class="math">\(4N\mu \leq 250\)</span> and <span class="math">\(4Nr \leq 250\)</span>, where <span class="math">\(\mu\)</span> and <span class="math">\(r\)</span> are the mutation and recombination rates, respectively.</li>
+</ul>
+<p>Overall, <a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a>, the library that this package uses for simulation, is very fast, meaning that it is at least as fast as alternative tools.   The recommendations above are based on my observations that the drop-in allocator replacement libraries provide relatively small performance improvements for the above parameter ranges.</p>
+<p>However, the only real reason to use the default allocator is if you cannot install <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a> or <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a> on your system for some reason.</p>
+<p>Should I use <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a> or <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a>?</p>
+<p>Yes, you should.</p>
+<p>However, you should keep the following in mind:</p>
+<ul class="simple">
+<li>If you have to install from source, <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a> is easier to install than is <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a>.</li>
+<li>When using over 32 cores, <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a> suffers substantial performance loss (in my experience, on our cluster&#8217;s 64-core AMD systems).</li>
+</ul>
+<p>Which is faster: <a class="reference external" href="https://code.google.com/p/gperftools/">tcmalloc</a> or <a class="reference external" href="https://www.threadingbuildingblocks.org">tbb</a>?</p>
+<p><em>WIll return to this once testing is done on HPC</em></p>
 </div>
 </div>
 <div class="section" id="note-for-developers">
@@ -252,7 +323,10 @@ that does.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#what-python-version">What Python version?</a></li>
-<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#performance">Performance</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#note-for-developers">Note for developers</a><ul>
 <li><a class="reference internal" href="#rough-guide-to-installation-on-uci-hpc">Rough guide to installation on UCI HPC</a></li>
 <li><a class="reference internal" href="#troubleshooting-the-installation">Troubleshooting the installation</a><ul>

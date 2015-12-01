@@ -65,7 +65,7 @@ Dependencies
 
 This section assumes that all packages are installed in fairly standard locations, such as /usr/local.  See the troubleshooting section for more complex setups.
 
-This package depends on:
+This package *minimally* depends on:
 
 * GSL_
 * fwdpp_ 
@@ -75,6 +75,13 @@ The configure script will enforce minimum version numbers of these dependencies,
 **Note:** fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.  
 
 You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.
+
+In order to maximize simulation performance, one of the following additional libraries is recommended:
+
+* Google's tcmalloc_
+* Intel's tbb_
+
+You may use one or the other of these libraries, but not both.  See the Performance subsection of the Installation section below for how to use these libraries.
 
 Notes for OS X users
 ---------------------------------
@@ -109,6 +116,8 @@ Currently, the package is not 100% compatible with Python 3.  The goal is to mak
 
 Installation
 ==============
+
+This section describes "vanilla" installation using the minimal dependencies.
 
 First, install the dependencies (see above).
 
@@ -149,6 +158,93 @@ To build the package in place and run the unit tets:
    $ python setup.py build_ext -i
    $ #run the unit tests:
    $ python -m unittest discover unit_test
+
+Performance
+----------------------------
+
+This section is long, but very important!
+
+Forward-time simulations involve the constant allocation and de-allocation of small objects due to the repeated introduction, and subsequent rapid loss, of mutations during the course of *in-silico* evolution.   Thus, performance can be greatly affected by how memory is used.  This package has an additional complication that independent simulations can be run in different threads.  Such threading requires a memory allocator that scales well in a multi-threaded execution environment.
+
+**fwdpy** can be compiled using any of the following memory allocation libraries:
+
+* The built-in allocator.  This is the default, and the instructions above cover how to install this.
+* Google's tcmalloc_, which is a "drop-in" replacement for the default allocator.  **fwdpy** may be linked to the libtcmalloc runtime library in order to improve performance.
+* Intels' tbb_, which is a "drop-in" replacement for the default allocator. **fwdpy** may be linked to the libtbbmalloc_proxy runtime library in order to improve performance.
+
+Here is how dependency checking is treated:
+
+* The configure script processes your arguments (see below), and checks if the desired "drop-in" library is available.
+* If it is available, setup.py is written with the appropriate linking information
+* If not, setup.py is written to use the built-in allocator
+* When setup.py is run, it will attempt to compile and link tiny test programs.  If it cannot link to the desired drop-in library, the installation process will fail here, throwing a RuntimeError.
+
+Installing tcmalloc_:
+
+On OS X:
+
+.. code-block:: bash
+
+   $ brew install gperftools
+
+On Ubuntu Linux:
+
+.. code-block:: bash
+
+   $ sudo apt-get -f install google-perftools libgoogle-perftools-dev
+
+Installing tbb_:
+
+On OS X:
+
+.. code-block:: bash
+
+   $ brew install tbb
+
+On Ubuntu linux:
+
+.. code-block:: bash
+
+   $ sudo apt-get -f install libtbb-dev
+
+Using tcmalloc_:
+
+.. code-block:: bash
+
+    $ ./configure --enable-tcmalloc=yes
+    $ python setup.py install
+
+Using tbb_:
+
+.. code-block:: bash
+
+    $ ./configure --enable-tbbprx=yes
+    $ python setup.py install
+
+Should I use the default allocator?
+
+If you know that your simulations will fall into one or more of the following classes:
+
+* Few in number
+* Involving small population sizes, say :math:`N \approx 10^3`
+* Involving small genomic regions, say :math:`4N\mu \leq 250` and :math:`4Nr \leq 250`, where :math:`\mu` and :math:`r` are the mutation and recombination rates, respectively.
+
+Overall, fwdpp_, the library that this package uses for simulation, is very fast, meaning that it is at least as fast as alternative tools.   The recommendations above are based on my observations that the drop-in allocator replacement libraries provide relatively small performance improvements for the above parameter ranges.
+
+However, the only real reason to use the default allocator is if you cannot install tcmalloc_ or tbb_ on your system for some reason.
+
+Should I use tcmalloc_ or tbb_?
+
+Yes, you should.
+
+However, you should keep the following in mind:
+
+* If you have to install from source, tcmalloc_ is easier to install than is tbb_.
+* When using over 32 cores, tcmalloc_ suffers substantial performance loss (in my experience, on our cluster's 64-core AMD systems).
+
+Which is faster: tcmalloc_ or tbb_?
+
+*WIll return to this once testing is done on HPC*
 
 Note for developers
 =================================
@@ -239,6 +335,7 @@ The manual_ is available online in html format at the project web page.
 .. _Cython: http://www.cython.org/
 .. _GSL:  http://gnu.org/software/gsl
 .. _tcmalloc: https://code.google.com/p/gperftools/
+.. _tbb: https://www.threadingbuildingblocks.org
 .. _brew: http://brew.sh
 .. _manual: http://molpopgen.github.io/fwdpy
 .. _Background selection: http://molpopgen.github.io/fwdpy/_build/html/examples/BGS.html
