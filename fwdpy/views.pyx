@@ -66,7 +66,7 @@ cdef vector[gamete_data] view_gametes_details( cpplist[gamete_t].iterator beg,
 
 ##This really should be const...
 cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,
-                                                 const vector[unsigned] indlist ) nogil:
+                                                 const vector[unsigned] & indlist ) nogil:
     cdef dipvector_t_itr itr = diploids.begin()
     cdef vector[diploid_data] rv
     for i in range(indlist.size()):
@@ -84,10 +84,11 @@ def view_mutations_singlepop(singlepop p):
 def view_mutations_popvec(popvec p):
     cdef mlist_t_itr beg,end
     cdef vector[vector[popgen_mut_data]] rv;
-    cdef unsigned npops = p.pops.size(),i
+    cdef unsigned npops = p.pops.size()
+    cdef int i
     rv.resize(npops)
     #for i in range(npops):
-    for i in prange(npops,schedule='guided',nogil=True):
+    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i] = view_mutations_details(p.pops[i].get().mutations.begin(),p.pops[i].get().mutations.end())
 
     return rv
@@ -170,11 +171,12 @@ def view_gametes_singlepop( singlepop p ):
 def view_gametes_popvec(popvec p):
     cdef:
         glist_t_itr beg,end
-        unsigned npops = p.pops.size(),i
+        unsigned npops = p.pops.size()
+        int i
         vector[vector[gamete_data]] rv
     rv.resize(npops)
     #for i in range(npops):
-    for i in prange(npops,schedule='guided',nogil=True):
+    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i]=view_gametes_details(p.pops[i].get().gametes.begin(),p.pops[i].get().gametes.end())
         
 def view_gametes_metapop( metapop p, unsigned deme ):
@@ -253,9 +255,9 @@ def view_diploids_popvec( popvec p, list indlist ):
     cdef vector[unsigned] il
     for i in indlist:
         il.push_back(i)
-        #for i in range(npops):
-        for i in prange(npops,schedule='guided',nogil=True):
-            rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
+    #for i in range(npops):
+    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
+        rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
 
     return rv
         
@@ -484,11 +486,10 @@ cdef diploid_view_data view_diploids_pd_details(vector[diploid_t] & diploids,
 
 def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):
     cdef unsigned npops = p.pops.size()
-    cdef unsigned i
+    cdef int i
     cdef vector[diploid_view_data] rv
     rv.resize(npops)
-    for i in prange(npops,schedule='guided',nogil=True):
-    #for i in range(npops):
+    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i]=view_diploids_pd_details(p.pops[i].get().diploids,indlist,selectedOnly)
     return rv
 
