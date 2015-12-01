@@ -6,18 +6,16 @@ import pandas as pd
 ##Undocumented fxns are wrappers to enable run-time polymorphism within the Py environs.
 ##These fxns make calls to the C++ layer
 
-def ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
+cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
 
-def ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed):
+cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
-def ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme):
-    if deme >= len(pop):
-        raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
+cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
 
-cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
+cdef get_sh_single(const sample_t & ms_sample,
                     singlepop pop,
                     vector[double] * s,
                     vector[double] * h,
@@ -25,7 +23,7 @@ cdef get_sh_single(const vector[pair[double,string] ] & ms_sample,
                     vector[double] * a):
     get_sh(ms_sample,pop.pop.get(),s,h,p,a)
 
-cdef get_sh_metapop(const vector[pair[double,string] ] & ms_sample,
+cdef get_sh_metapop(const sample_t & ms_sample,
                     metapop pop,
                     vector[double] * s,
                     vector[double] * h,
@@ -84,11 +82,13 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     elif isinstance(pop,metapop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
+        if deme >= len(pop):
+            raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_sample_details( vector[pair[double,string]] ms_sample, poptype pop ):
+def get_sample_details( sample_t ms_sample, poptype pop ):
     """
     Get additional details for population samples
 

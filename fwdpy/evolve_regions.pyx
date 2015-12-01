@@ -48,9 +48,9 @@ def test_evolve_mpi(GSLrng rng,
     cdef unsigned popsize = N
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    for j in prange(NP,schedule='guided',nogil=True):
-            evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
-                             mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+    for j in prange(NP,schedule='static',nogil=True,chunksize=1):
+        evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
+                         mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
     return pops
             
 @cython.boundscheck(False)
