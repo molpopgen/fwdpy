@@ -27,16 +27,6 @@ try:
 except:
     print("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
-##Can we compile program based on dependencies?
-print("Attempting to compile and link a test program using fwdpy's dependencies")
-try:
-    proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
-    proc = subprocess.check_output(['make','-f','check_deps/Makefile'])
-    proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
-except subprocess.CalledProcessError as e:
-    print (e.returncode)
-print("done")
-
 ##GSL
 try:
     proc = subprocess.Popen(['gsl-config','--version'],stdout=subprocess.PIPE)
@@ -45,6 +35,16 @@ try:
     print ("GSL version ",version," found.")
 except:
     print("gsl-config not found.  Please install the GNU Scientific Library")
+
+##Can we compile program based on dependencies?
+print("Attempting to compile and link a test program using fwdpy's dependencies")
+try:
+    proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
+    proc = subprocess.check_output(['make','-f','check_deps/Makefile'])
+    proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
+except subprocess.CalledProcessError as e:
+    print (e.returncode)
+print("Success!")
 
 ##These check dependencies:
 try:
