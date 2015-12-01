@@ -89,8 +89,6 @@ if str('@TBBPRX@') == str('tbbmalloc_proxy'):
         raise RuntimeError("cannot use both tcmalloc and tbbmalloc_proxy")
     LIBS.append('@TBBPRX@')
 
-print (LIBS)
-
 extensions = [
     Extension("fwdpy.fwdpy",
         sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
