@@ -16,10 +16,12 @@
             "include/types.hpp"
         ], 
         "extra_compile_args": [
-            "-std=c++11"
+            "-std=c++11", 
+            "-fopenmp"
         ], 
         "extra_link_args": [
-            "-std=c++11"
+            "-std=c++11", 
+            "-fopenmp"
         ], 
         "include_dirs": [
             ".", 
@@ -27,6 +29,10 @@
             ".."
         ], 
         "language": "c++", 
+        "libraries": [
+            "gsl", 
+            "gslcblas"
+        ], 
         "sources": [
             "fwdpy/fwdpyio/serialize.cc"
         ]
@@ -606,7 +612,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
  * 
  * cdef struct diploid_data:             # <<<<<<<<<<<<<<
  *     gamete_data chrom0,chrom1
- *     double g,e,w
+ *     double g,e,w,sh0,sh1
  */
 struct __pyx_t_5fwdpy_5fwdpy_diploid_data {
   struct __pyx_t_5fwdpy_5fwdpy_gamete_data chrom0;
@@ -614,6 +620,10 @@ struct __pyx_t_5fwdpy_5fwdpy_diploid_data {
   double g;
   double e;
   double w;
+  double sh0;
+  double sh1;
+  int n0;
+  int n1;
 };
 
 /* "fwdpy/internal/internal.pxd":8

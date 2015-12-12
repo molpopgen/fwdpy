@@ -156,7 +156,8 @@ cdef struct gamete_data:
 
 cdef struct diploid_data:
     gamete_data chrom0,chrom1
-    double g,e,w
+    double g,e,w,sh0,sh1
+    int n0,n1
     
 cdef popgen_mut_data get_mutation( const cpplist[popgenmut].iterator & ) nogil
 cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & ) nogil

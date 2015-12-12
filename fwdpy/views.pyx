@@ -47,6 +47,16 @@ cdef diploid_data get_diploid( const dipvector_t_itr & itr ) nogil:
    rv.w=deref(itr).w
    rv.chrom0=get_gamete(deref(itr).first)
    rv.chrom1=get_gamete(deref(itr).second)
+   rv.n0 = rv.chrom0.selected.size()
+   rv.n1 = rv.chrom1.selected.size()
+   cdef unsigned i = 0
+   while i < rv.chrom0.selected.size():
+       rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)
+       i+=1
+   i=0
+   while i < rv.chrom1.selected.size():
+       rv.sh1+=(rv.chrom1.selected[i].s*rv.chrom1.selected[i].h)
+       i+=1
    return rv
 
 cdef vector[popgen_mut_data] view_mutations_details(mlist_t_itr beg,mlist_t_itr end) nogil:
