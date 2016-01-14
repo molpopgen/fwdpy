@@ -14,12 +14,11 @@ from fwdpy.gsl cimport gsl_rng
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
     ctypedef gamete_base[popgenmut] gamete_t
-    ctypedef cpplist[gamete_t] glist_t
-    ctypedef cpplist[popgenmut] mlist_t
+    ctypedef vector[gamete_t] gcont_t
+    ctypedef vector[popgenmut] mcont_t
 
     cdef cppclass diploid_t:
-        cpplist[gamete_t].iterator first
-        cpplist[gamete_t].iterator second
+        size_t first,second;
         double g,e,w
 
     ctypedef vector[diploid_t] dipvector_t
@@ -28,8 +27,9 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         singlepop_t(unsigned)
         const unsigned N
         const unsigned generation
-        mlist_t mutations
-        glist_t gametes
+        mcont_t mutations
+        vector[unsigned] mcounts
+        gcont_t gametes
         dipvector_t diploids
         vector[popgenmut] fixations
         vector[unsigned] fixation_times
@@ -42,8 +42,9 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         metapop_t(vector[unsigned])
         unsigned generation
         vector[unsigned] Ns
-        mlist_t mutations
-        glist_t gametes
+        mcont_t mutations
+        vector[unsigned] mcounts
+        gcont_t gametes
         vector[dipvector_t] diploids
         vector[popgenmut] fixations
         vector[unsigned] fixation_times
@@ -52,12 +53,11 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     # Types based around KTfwd::generalmut_vec
     ctypedef gamete_base[generalmut_vec] gamete_gm_vec_t
-    ctypedef cpplist[gamete_gm_vec_t] glist_gm_vec_t
-    ctypedef cpplist[generalmut_vec] mlist_gm_vec_t
+    ctypedef vector[gamete_gm_vec_t] glist_gm_vec_t
+    ctypedef vector[generalmut_vec] mlist_gm_vec_t
 
     cdef cppclass diploid_gm_vec_t:
-        cpplist[gamete_gm_vec_t].iterator first
-        cpplist[gamete_gm_vec_t].iterator second
+        size_t first,second;
         double g,e,w
 
     ctypedef vector[diploid_gm_vec_t] dipvector_gm_vec_t
@@ -67,6 +67,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         const unsigned N
         const unsigned generation
         mlist_gm_vec_t mutations
+        vector[unsigned] mcounts
         glist_gm_vec_t gametes
         dipvector_gm_vec_t diploids
         vector[generalmut_vec] fixations
@@ -139,10 +140,12 @@ cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
 #Typedefs for convenience
-ctypedef cpplist[popgenmut].iterator mlist_t_itr
-ctypedef vector[mlist_t_itr] mut_container_t
-ctypedef cpplist[gamete_t].iterator glist_t_itr
+ctypedef vector[popgenmut].iterator mcont_t_itr
+ctypedef vector[mcont_t_itr] mut_container_t
+ctypedef vector[gamete_t].iterator gcont_t_itr
 ctypedef vector[diploid_t].iterator dipvector_t_itr
+#vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
+ctypedef vector[unsigned] mcounts_cont_t
 
 ##Define some low-level functions that may be useful for others
 cdef struct popgen_mut_data:
@@ -159,9 +162,12 @@ cdef struct diploid_data:
     double g,e,w,sh0,sh1
     int n0,n1
     
-cdef popgen_mut_data get_mutation( const cpplist[popgenmut].iterator & ) nogil
-cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & ) nogil
-cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
+#cdef popgen_mut_data get_mutation( const vector[popgenmut].iterator & ) nogil
+#cdef gamete_data get_gamete( const vector[gamete_t].iterator & ) nogil
+#cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
+cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil
+cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
+cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
 
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
