@@ -266,13 +266,13 @@ You need Cython >= 0.22.2, so upgrade if you need to:
 
 If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
 
-To do this, use the configure script as follows:
+To do this, use the setup.py script as follows:
 
 .. code-block:: bash
 
-   $ ./configure --enable-cython
+   $ python setup.py build_ext -i --use-cython
 
-Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the "CPython" part of the interface.
+Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the core of the package.
 
 
 Rough guide to installation on UCI HPC
