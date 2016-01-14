@@ -20,30 +20,24 @@ namespace fwdpy {
       {
 	//Iterate the population through 1 generation
 	double wbar = sample_diploid(rng,
-				     &pop->gametes,  //non-const pointer to gametes
-				     &pop->diploids, //non-const pointer to diploids
-				     &pop->mutations, //non-const pointer to mutations
+				     pop->gametes,  //non-const pointer to gametes
+				     pop->diploids, //non-const pointer to diploids
+				     pop->mutations, //non-const pointer to mutations
+				     pop->mcounts,
 				     pop->N,     //current pop size
 				     nlist[generation], //next pop size,
 				     mu,    //mutation rate per gamete
-				     std::bind(infsites(),rng,&pop->mut_lookup,generation,
+				     std::bind(infsites(),std::placeholders::_1,std::placeholders::_2,
+					       rng,std::ref(pop->mut_lookup),generation,
 					       mu,0.,[&rng](){return gsl_rng_uniform(rng);},[](){return 0.;},[](){return 0.;}),
 				     //The recombination policy includes the uniform crossover rate
-				     std::bind(genetics101(),std::placeholders::_1,std::placeholders::_2,
-					       std::placeholders::_3,
-					       //Pass as reference
-					       std::ref(pop->neutral),std::ref(pop->selected),
-					       &pop->gametes,
-					       littler,
-					       rng,
-					       recmap),
-				     std::bind(insert_at_end<singlepop_t::mutation_t,singlepop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
-				     std::bind(insert_at_end<singlepop_t::gamete_t,singlepop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
-				     std::bind(multiplicative_diploid(),std::placeholders::_1,2.),
-				     std::bind(mutation_remover(),std::placeholders::_1,0,2*nlist[generation]));
+				     std::bind(KTfwd::poisson_xover(),rng,littler,0.,1.,
+					       std::placeholders::_1,std::placeholders::_2,std::placeholders::_3),
+				     std::bind(multiplicative_diploid(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,2.),
+				     pop->neutral,pop->selected);
 	//update pop size in data structure
 	pop->N = nlist[generation];
-	remove_fixed_lost(&pop->mutations,&pop->fixations,&pop->fixation_times,&pop->mut_lookup,generation,2*pop->N);
+	update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,generation,2*pop->N);
 	assert(check_sum(pop->gametes,2*pop->N));
       }
   }
@@ -72,14 +66,17 @@ namespace fwdpy {
 	//pick a random chrom (w/replacement...)
 	unsigned chrom = unsigned(gsl_ran_flat(rng->get(),0.,double(twoN)));
 	//get pointer to that chrom from the individual
-	auto gamete = (chrom%2==0.) ? pop->diploids[chrom/2].first : pop->diploids[chrom/2].second;
+	//auto gamete = (chrom%2==0.) ? pop->diploids[chrom/2].first : pop->diploids[chrom/2].second;
+	const auto & gamete = (chrom%2==0.) ? pop->gametes[pop->diploids[chrom/2].first] :
+	  pop->gametes[pop->diploids[chrom/2].second];
 	//In this example, there are only neutral mutations, so that's what we'll iterate over
-	for( auto m = gamete->mutations.begin() ; m != gamete->mutations.end() ; ++m )
+	//for( auto m = gamete->mutations.begin() ; m != gamete->mutations.end() ; ++m )
+	for(const auto & m : gamete.mutations )
 	  {
-	    auto pos_itr = mutfreqs.find( (*m)->pos );
+	    auto pos_itr = mutfreqs.find( pop->mutations[m].pos );
 	    if( pos_itr == mutfreqs.end() )
 	      {
-		mutfreqs.insert(std::make_pair((*m)->pos,1));
+		mutfreqs.insert(std::make_pair(pop->mutations[m].pos,1));
 	      }
 	    else
 	      {
