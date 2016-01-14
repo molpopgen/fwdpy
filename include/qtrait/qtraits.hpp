@@ -47,9 +47,9 @@ namespace fwdpy
     };
     
     std::map<double,ew_mut_details> ew2010_assign_effects(GSLrng_t * rng,
-							       const fwdpy::singlepop_t * pop,
-							       const double tau,
-							       const double sigma);
+							  const fwdpy::singlepop_t * pop,
+							  const double tau,
+							  const double sigma);
     std::vector<double> ew2010_traits_cpp(const fwdpy::singlepop_t * pop,
 					  const std::map<double,ew_mut_details> & effects);
   }
