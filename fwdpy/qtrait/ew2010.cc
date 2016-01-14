@@ -25,18 +25,22 @@ namespace fwdpy
     {
       const double fourN=4.*double(pop->diploids.size());
       map<double,ew_mut_details > rv;
-      for( auto itr = pop->mutations.cbegin() ; itr != pop->mutations.cend() ; ++itr )
+      //for( auto itr = pop->mutations.cbegin() ; itr != pop->mutations.cend() ; ++itr )
+      for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
 	{
-	  if(!itr->neutral)
+	  if(pop->mcounts[i])
 	    {
-	      if(rv.find(itr->pos) != rv.end())
+	      if(!pop->mutations[i].neutral)
 		{
-		  throw runtime_error("multiple mutations at same position");
+		  if(rv.find(pop->mutations[i].pos) != rv.end())
+		    {
+		      throw runtime_error("multiple mutations at same position");
+		    }
+		  double d = (gsl_rng_uniform(rng->get()) < 0.5) ? -1. : 1.;
+		  double power = pow(fourN*fabs(pop->mutations[i].s),tau);
+		  if (pop->mutations[i].s < 0.) power *= -1.;
+		  rv.insert(std::make_pair(pop->mutations[i].pos,ew_mut_details(pop->mutations[i].s,d*power*(1. + gsl_ran_gaussian_ziggurat(rng->get(),sigma)),2.*double(pop->mcounts[i])/fourN)));
 		}
-	      double d = (gsl_rng_uniform(rng->get()) < 0.5) ? -1. : 1.;
-	      double power = pow(fourN*fabs(itr->s),tau);
-	      if (itr->s < 0.) power *= -1.;
-	      rv.insert(std::make_pair(itr->pos,ew_mut_details(itr->s,d*power*(1. + gsl_ran_gaussian_ziggurat(rng->get(),sigma)),2.*double(itr->n)/fourN)));
 	    }
 	}
       return rv;
@@ -47,6 +51,30 @@ namespace fwdpy
 				     const map<double,ew_mut_details> & effects)
     {
       vector<double> rv;
+      for( const auto & dip : pop->diploids )
+	{
+	  double sum = 0;
+	  for( const auto & m : pop->gametes[dip.first].smutations )
+	    {
+	      auto effects_itr = effects.find( pop->mutations[m].pos );
+	      if(effects_itr == effects.end())
+		{
+		  throw runtime_error("diploid contains a mutation at an unknown position");
+		}
+	      sum += effects_itr->second.e;
+	    }
+	  for( const auto & m : pop->gametes[dip.second].smutations )
+	    {
+	      auto effects_itr = effects.find( pop->mutations[m].pos );
+	      if(effects_itr == effects.end())
+		{
+		  throw runtime_error("diploid contains a mutation at an unknown position");
+		}
+	      sum += effects_itr->second.e;
+	    }
+	}
+      return rv;
+      /*
       const auto sum_lambda = [&effects](const double & sum, const fwdpy::singlepop_t::gamete_t::mutation_list_type_iterator & mitr) {
 	auto effects_itr = effects.find(mitr->pos);
 	if(effects_itr == effects.end())
@@ -66,6 +94,7 @@ namespace fwdpy
 		 rv.push_back(traitvalue);
 	       });
       return rv;
+      */
     }
   }
 }

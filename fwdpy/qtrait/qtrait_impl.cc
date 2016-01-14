@@ -73,22 +73,40 @@ namespace fwdpy
 
       //Find the "leading factor"
       double twoN = 2.*double(pop->diploids.size());
-      auto itr = std::max_element(pop->mutations.cbegin(),pop->mutations.cend(),
-				  [&twoN]( const poptype::mutation_t & m1,
-					   const poptype::mutation_t & m2 ) {
-				    double p1 = double(m1.n)/twoN,p2=double(m2.n)/twoN;
-				    return p1*(1.-p1)*std::pow(m1.s,2.) < p2*(1.-p2)*std::pow(m2.s,2.);
-				  });
-      
-      double mvexpl = std::numeric_limits<double>::quiet_NaN(),
+      //std::size_t max_exp = std::numeric_limits<std::size_t>::max();
+      double mvexpl = 0.,
 	leading_e=std::numeric_limits<double>::quiet_NaN(),
-	leading_f=std::numeric_limits<double>::quiet_NaN();
-      if(itr != pop->mutations.end())
+	leading_f=std::numeric_limits<double>::quiet_NaN(); 
+      for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
 	{
-	  mvexpl = 2.*(double(itr->n)/twoN)*(1.-(double(itr->n)/twoN))*std::pow(itr->s,2.);
-	  leading_e = itr->s;
-	  leading_f = double(itr->n)/twoN;
+	  if(pop->mcounts[i])
+	    {
+	      auto n = pop->mcounts[i];
+	      double p1=double(n)/twoN;
+	      if (2.0*p1*(1.-p1)*std::pow(pop->mutations[i].s,2.) > mvexpl)
+		{
+		  mvexpl=2.0*p1*(1.-p1);
+		  leading_e = pop->mutations[i].s;
+		  leading_f = p1;
+		}
+	    }
 	}
+      // auto itr = std::max_element(pop->mutations.cbegin(),pop->mutations.cend(),
+      // 				  [&twoN]( const poptype::mutation_t & m1,
+      // 					   const poptype::mutation_t & m2 ) {
+      // 				    double p1 = double(m1.n)/twoN,p2=double(m2.n)/twoN;
+      // 				    return p1*(1.-p1)*std::pow(m1.s,2.) < p2*(1.-p2)*std::pow(m2.s,2.);
+      // 				  });
+      
+      // double mvexpl = std::numeric_limits<double>::quiet_NaN(),
+      // 	leading_e=std::numeric_limits<double>::quiet_NaN(),
+      // 	leading_f=std::numeric_limits<double>::quiet_NaN();
+      // if(itr != pop->mutations.end())
+      // 	{
+      // 	  mvexpl = 2.*(double(itr->n)/twoN)*(1.-(double(itr->n)/twoN))*std::pow(itr->s,2.);
+      // 	  leading_e = itr->s;
+      // 	  leading_f = double(itr->n)/twoN;
+      // 	}
       map<string,double> rv;
       rv["VG"] = gsl_stats_variance(&VG[0],1,VG.size());
       rv["VE"] = gsl_stats_variance(&VE[0],1,VE.size());

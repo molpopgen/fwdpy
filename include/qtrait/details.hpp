@@ -30,34 +30,34 @@ namespace qtrait {
     KTfwd::extensions::discrete_mut_model m(std::move(__m));
     KTfwd::extensions::discrete_rec_model recmap(std::move(__recmap));
     rules model_rules(std::move(__model_rules));
-    std::function<double(void)> recpos = std::bind(&KTfwd::extensions::discrete_rec_model::operator(),&recmap,rng);
-
     fwdpy::singlepop_t pop2(std::move(*pop));
+    const auto recpos = KTfwd::extensions::bind_drm(recmap,pop2.gametes,pop2.mutations,
+						    rng,recrate);
+
+    //We use an empty fitness fxn here b/c the rules policies keep track of it separately.
+    const auto ff = []( const fwdpy::singlepop_t::diploid_t &,
+			const fwdpy::singlepop_t::gcont_t &,
+			const fwdpy::singlepop_t::mcont_t ) noexcept { return 0.; };
+    
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::experimental::sample_diploid(rng,
-					    &pop2.gametes,  
-					    &pop2.diploids, 
-					    &pop2.mutations,
+					    pop2.gametes,  
+					    pop2.diploids, 
+					    pop2.mutations,
+					    pop2.mcounts,
 					    pop2.N,
 					    nextN,
 					    mu_tot,
-					    std::bind(&KTfwd::extensions::discrete_mut_model::make_mut<decltype(pop2.mut_lookup)>,&m,rng,neutral,selected,pop2.generation,&pop2.mut_lookup),
-					    std::bind(KTfwd::genetics101(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,
-						      std::ref(pop2.neutral),std::ref(pop2.selected),
-						      &pop2.gametes,
-						      recrate,
-						      rng,
-						      recpos),
-					    std::bind(KTfwd::insert_at_end<typename fwdpy::singlepop_t::mutation_t,typename fwdpy::singlepop_t::mlist_t>,std::placeholders::_1,std::placeholders::_2),
-					    std::bind(KTfwd::insert_at_end<typename fwdpy::singlepop_t::gamete_t,typename fwdpy::singlepop_t::glist_t>,std::placeholders::_1,std::placeholders::_2),
-					    //We use an empty fitness fxn here b/c the rules policies keep track of it separately.
-					    []( typename fwdpy::singlepop_t::dipvector_t::const_iterator & ) { return 0.; },
-					    KTfwd::remove_nothing(),
+					    KTfwd::extensions::bind_dmm(m,pop2.mutations,pop2.mut_lookup,rng,neutral,selected,pop2.generation),
+					    recpos,
+					    ff,
+					    pop2.neutral,pop2.selected,
 					    f,
-					    model_rules);
-	KTfwd::remove_lost(&pop2.mutations,&pop2.mut_lookup);
+					    model_rules,
+					    KTfwd::remove_nothing());
+	KTfwd::update_mutations(pop2.mutations,pop2.mut_lookup,pop2.mcounts,2*nextN);
 	//This being put here ignores any mutation existing for only 1 generation
 	if(track) pop2.updateTraj();
 	assert(KTfwd::check_sum(pop2.gametes,2*nextN));
