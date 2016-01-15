@@ -1,5 +1,7 @@
 #include <neutral.hpp>
+#include <reserve.hpp>
 #include <map>
+#include <cassert>
 #include <thread>
 using namespace std;
 using namespace KTfwd;
@@ -12,8 +14,10 @@ namespace fwdpy {
 			  const double & theta,
 			  const double & rho)
   {
+    auto x = std::max_element(nlist.begin(),nlist.end());
+    assert(x!=nlist.end());
     double mu = theta/(4.*double(pop->N)),littler=rho/(4.*double(pop->N));
-
+    reserve_space(pop->gametes,pop->mutations,*x,mu);
     std::function<double(void)> recmap = std::bind(gsl_rng_uniform,rng);
 
     for( unsigned generation = 0; generation < nlist.size() ; ++generation,++pop->generation )

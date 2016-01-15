@@ -4,6 +4,7 @@
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 #include <types.hpp>
+#include <reserve.hpp>
 #include <metapop.hpp>
 #include <evolve_regions.hpp>
 
@@ -23,7 +24,9 @@ namespace fwdpy {
 			       KTfwd::extensions::discrete_rec_model && __recmap)
   {
     const size_t simlen = Nvector_len;
-
+    auto x = std::max_element(Nvector,Nvector+Nvector_len);
+    assert(x!=Nvector+Nvector_len);
+    reserve_space(pop->gametes,pop->mutations,*x,neutral+selected);
     const double mu_tot = neutral + selected;
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
     gsl_rng_set(rng,seed);
@@ -139,11 +142,16 @@ namespace fwdpy {
     const size_t simlen = Nvector_len;
 
     const double mu_tot = neutral + selected;
+    auto x = std::max_element(Nvector,Nvector+Nvector_len);
+    assert(x!=Nvector+Nvector_len);
+
+
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
     gsl_rng_set(rng,seed);
     KTfwd::extensions::discrete_mut_model m(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks);
     KTfwd::extensions::discrete_rec_model recmap(rm->rb,rm->rw,rm->rw);
     fwdpy::singlepop_t pop(Nvector[0]);
+    reserve_space(pop.gametes,pop.mutations,*x,mu_tot);
     //Recombination policy: more complex than the standard case...
     const auto recpos = KTfwd::extensions::bind_drm(recmap,pop.gametes,pop.mutations,
 						    rng,recrate);
@@ -235,6 +243,13 @@ namespace fwdpy {
   {
     const size_t simlen = Nvector_A_len;
     const double mu_tot = neutral + selected;
+
+    auto x = std::max_element(Nvector_A,Nvector_A+Nvector_A_len);
+    assert(x!=Nvector+Nvector_len);
+    auto y = std::max_element(Nvector_B,Nvector_B+Nvector_B_len);
+    assert(y!=Nvector_B+Nvector_B_len);
+    //We reserve space for 2x b/c there are two demes
+    reserve_space(mpop->gametes,mpop->mutations,2*std::max(*x,*y),2.*mu_tot);
 
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
     gsl_rng_set(rng,seed);
