@@ -26,7 +26,7 @@ def pkg_dependencies():
     :returns: dict
     """
     cdef vector[string] deps = fwdpy_dependencies()
-    return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})
+    return ({'fwdpp':deps[0],'GSL':deps[1]})
 
 def pkg_version():
     """

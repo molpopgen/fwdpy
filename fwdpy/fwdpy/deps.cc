@@ -1,14 +1,11 @@
-#include <config.h>
 #include <deps.hpp>
-
+#include <iostream>
 using namespace std;
 
 namespace fwdpy {
   vector<string> fwdpy_dependencies()
   {
-    vector<string> rv;
-    rv.push_back(string(FWDPP_VERSION));
-    rv.push_back(string(GSL_VERSION));
+    vector<string> rv{string(FWDPP_VERSION),string(GSL_VERSION)};
     return rv;
   }
 

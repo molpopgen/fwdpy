@@ -117,7 +117,14 @@ The latest release of the package is available via PyPi_, and can be installed w
 
 .. code-block:: bash
 
-   $ pip install --upgrade pylibseq
+   $ pip install --upgrade fwdpy
+
+OS X users must first install clang-omp from brew_ and use the
+following command:
+
+.. code-block:: bash
+
+   $ CC=clang-omp CXX=clang-omp++ pip install fwdpy
 
 Installation from source
 ----------------------------------------
