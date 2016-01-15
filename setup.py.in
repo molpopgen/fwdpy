@@ -16,13 +16,15 @@ import platform, glob, sys, subprocess, os
 
 
 ##Check C/C++ dependencies
-
+FWDPP_V=""
+GSL_V=""
 ##fwdpp
 try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
     version = str(out).rstrip()
     print ("fwdpp version",version," found.")
+    FWDPP_V=version
     if version <= '@MINFWDPP@':
         sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
 except:
@@ -33,6 +35,7 @@ try:
     proc = subprocess.Popen(['gsl-config','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
     version = str(out).rstrip()
+    GSL_V=version
     print ("GSL version ",version," found.")
 except:
     sys.exit("gsl-config not found.  Please install the GNU Scientific Library")
@@ -107,7 +110,11 @@ fwdpy is a C++11-based package for running forward simulations in Python
 
 #EXTENSION="@EXTENSION@"
 
-GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp']#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
+GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
+                     str('-DFWDPP_VERSION=')+'"'+FWDPP_V+'"',
+                     str('-DGSL_VERSION=')+'"'+GSL_V+'"',
+                     str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"'
+]#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
 LINK_ARGS=["-std=c++11",'-fopenmp']
 
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'

@@ -16,7 +16,10 @@
         ], 
         "extra_compile_args": [
             "-std=c++11", 
-            "-fopenmp"
+            "-fopenmp", 
+            "-DFWDPP_VERSION=\"0.4.4\"", 
+            "-DGSL_VERSION=\"1.16\"", 
+            "-DPACKAGE_VERSION=\"0.0.1\""
         ], 
         "extra_link_args": [
             "-std=c++11", 
@@ -2288,7 +2291,6 @@ static char __pyx_k_ExpS___init[] = "ExpS.__init__";
 static char __pyx_k_MemoryError[] = "MemoryError";
 static char __pyx_k_fwdpy_fwdpy[] = "fwdpy.fwdpy";
 static char __pyx_k_get_samples[] = "get_samples";
-static char __pyx_k_libsequence[] = "libsequence";
 static char __pyx_k_mu_selected[] = "mu_selected";
 static char __pyx_k_pkg_version[] = "pkg_version";
 static char __pyx_k_removeFixed[] = "removeFixed";
@@ -2749,7 +2751,6 @@ static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
 static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_kp_s_len_nlist1_must_equal_len_nlist2;
-static PyObject *__pyx_n_s_libsequence;
 static PyObject *__pyx_n_s_lines;
 static PyObject *__pyx_n_s_listlen;
 static PyObject *__pyx_n_s_listlen1;
@@ -25948,7 +25949,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_dependencies(CYTHON_UNUSED PyObjec
  *     :returns: dict
  *     """
  *     cdef vector[string] deps = fwdpy_dependencies()             # <<<<<<<<<<<<<<
- *     return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})
+ *     return ({'fwdpp':deps[0],'GSL':deps[1]})
  * 
  */
   __pyx_v_deps = fwdpy::fwdpy_dependencies();
@@ -25956,7 +25957,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_dependencies(CYTHON_UNUSED PyObjec
   /* "fwdpy/fwdpy.pyx":29
  *     """
  *     cdef vector[string] deps = fwdpy_dependencies()
- *     return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})             # <<<<<<<<<<<<<<
+ *     return ({'fwdpp':deps[0],'GSL':deps[1]})             # <<<<<<<<<<<<<<
  * 
  * def pkg_version():
  */
@@ -25968,10 +25969,6 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_dependencies(CYTHON_UNUSED PyObjec
   if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_fwdpp, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string((__pyx_v_deps[1])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_libsequence, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string((__pyx_v_deps[2])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_GSL, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -26000,7 +25997,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_dependencies(CYTHON_UNUSED PyObjec
 }
 
 /* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})
+ *     return ({'fwdpp':deps[0],'GSL':deps[1]})
  * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
@@ -26058,7 +26055,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72pkg_version(CYTHON_UNUSED PyObject *__
   goto __pyx_L0;
 
   /* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})
+ *     return ({'fwdpp':deps[0],'GSL':deps[1]})
  * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
@@ -41742,7 +41739,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
   {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_kp_s_len_nlist1_must_equal_len_nlist2, __pyx_k_len_nlist1_must_equal_len_nlist2, sizeof(__pyx_k_len_nlist1_must_equal_len_nlist2), 0, 0, 1, 0},
-  {&__pyx_n_s_libsequence, __pyx_k_libsequence, sizeof(__pyx_k_libsequence), 0, 0, 1, 1},
   {&__pyx_n_s_lines, __pyx_k_lines, sizeof(__pyx_k_lines), 0, 0, 1, 1},
   {&__pyx_n_s_listlen, __pyx_k_listlen, sizeof(__pyx_k_listlen), 0, 0, 1, 1},
   {&__pyx_n_s_listlen1, __pyx_k_listlen1, sizeof(__pyx_k_listlen1), 0, 0, 1, 1},
@@ -43384,7 +43380,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__179 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__178, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_pkg_dependencies, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__179)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})
+ *     return ({'fwdpp':deps[0],'GSL':deps[1]})
  * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
@@ -44696,7 +44692,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'libsequence':deps[1],'GSL':deps[2]})
+ *     return ({'fwdpp':deps[0],'GSL':deps[1]})
  * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
