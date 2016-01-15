@@ -24,9 +24,9 @@ try:
     version = str(out).rstrip()
     print ("fwdpp version",version," found.")
     if version <= '@MINFWDPP@':
-        raise RuntimeError("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
+        sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
 except:
-    print("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
+    sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
 ##GSL
 try:
@@ -35,7 +35,7 @@ try:
     version = str(out).rstrip()
     print ("GSL version ",version," found.")
 except:
-    print("gsl-config not found.  Please install the GNU Scientific Library")
+    sys.exit("gsl-config not found.  Please install the GNU Scientific Library")
 
 #Are we gonna build using Cython or not?  Default is not to,
 #which allows us to ship this in a standard way.
@@ -64,7 +64,7 @@ if str('@TBBPRX@') == str('tbbmalloc_proxy'):
 if MEMLIBS is not None:
     for i in MEMLIBS:
         LIBS.append(i)
-    
+
 ##Can we compile program based on dependencies?
 print("Attempting to compile and link a test program using fwdpy's dependencies")
 try:
@@ -75,7 +75,7 @@ try:
     proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
 except subprocess.CalledProcessError as e:
     print (e.returncode)
-    raise RuntimeError("Could not compile and link test programs!")
+    sys.exit("Could not compile and link test programs!")
 
 print("Success!")
 
@@ -140,7 +140,7 @@ extensions = [
 if USE_CYTHON:
     from Cython.Build import cythonize
     extensions = cythonize(extensions)
-    
+
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
       author='Kevin R. Thornton',
