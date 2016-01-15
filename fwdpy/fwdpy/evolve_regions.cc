@@ -293,7 +293,6 @@ namespace fwdpy {
     gsl_rng_free(rng);
   }
 
-  //Wow, that's too many args
   void split_and_evolve_t(GSLrng_t * rng,
 			  std::vector<std::shared_ptr<metapop_t> > * mpops,
 			  const unsigned * Nvector_A,
