@@ -11,10 +11,11 @@
 
 from __future__ import print_function
 from distutils.core import setup, Extension
-@CYTHONIMPORT@
+#@CYTHONIMPORT@
 import platform, glob, sys, subprocess, os
 
-##Check C/C++ dependencys
+
+##Check C/C++ dependencies
 
 ##fwdpp
 try:
@@ -35,6 +36,14 @@ try:
     print ("GSL version ",version," found.")
 except:
     print("gsl-config not found.  Please install the GNU Scientific Library")
+
+#Are we gonna build using Cython or not?  Default is not to,
+#which allows us to ship this in a standard way.
+if '--use-cython' in sys.argv:
+    USE_CYTHON = True
+    sys.argv.remove('--use-cython')
+else:
+    USE_CYTHON = False
 
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
@@ -96,10 +105,12 @@ long_desc = \
 fwdpy is a C++11-based package for running forward simulations in Python
 """
 
-EXTENSION="@EXTENSION@"
+#EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp']#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
 LINK_ARGS=["-std=c++11",'-fopenmp']
+
+EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
 extensions = [
     Extension("fwdpy.fwdpy",
@@ -134,6 +145,11 @@ extensions.extend([
     libraries=LIBS)
     ])
 
+#If using Cython, edit extensions here:
+if USE_CYTHON:
+    from Cython.Build import cythonize
+    extensions = cythonize(extensions)
+    
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
       author='Kevin R. Thornton',
@@ -162,5 +178,5 @@ setup(name='@PACKAGE_NAME@',
                     'fwdpy.internal':['*.pxd'],
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
-      ext_modules=@CYTHONIZE@,
+      ext_modules=extensions,
      )
