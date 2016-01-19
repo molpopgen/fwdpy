@@ -30,8 +30,7 @@ namespace qtrait {
     KTfwd::extensions::discrete_mut_model m(std::move(__m));
     KTfwd::extensions::discrete_rec_model recmap(std::move(__recmap));
     rules model_rules(std::move(__model_rules));
-    fwdpy::singlepop_t pop2(std::move(*pop));
-    const auto recpos = KTfwd::extensions::bind_drm(recmap,pop2.gametes,pop2.mutations,
+    const auto recpos = KTfwd::extensions::bind_drm(recmap,pop->gametes,pop->mutations,
 						    rng,recrate);
 
     //We use an empty fitness fxn here b/c the rules policies keep track of it separately.
@@ -43,29 +42,28 @@ namespace qtrait {
       {
 	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::experimental::sample_diploid(rng,
-					    pop2.gametes,  
-					    pop2.diploids, 
-					    pop2.mutations,
-					    pop2.mcounts,
-					    pop2.N,
+					    pop->gametes,  
+					    pop->diploids, 
+					    pop->mutations,
+					    pop->mcounts,
+					    pop->N,
 					    nextN,
 					    mu_tot,
-					    KTfwd::extensions::bind_dmm(m,pop2.mutations,pop2.mut_lookup,rng,neutral,selected,pop2.generation),
+					    KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
 					    recpos,
 					    ff,
-					    pop2.neutral,pop2.selected,
+					    pop->neutral,pop->selected,
 					    f,
 					    model_rules,
 					    KTfwd::remove_nothing());
-	KTfwd::update_mutations(pop2.mutations,pop2.mut_lookup,pop2.mcounts,2*nextN);
+	KTfwd::update_mutations(pop->mutations,pop->mut_lookup,pop->mcounts,2*nextN);
 	//This being put here ignores any mutation existing for only 1 generation
-	if(track) pop2.updateTraj();
-	assert(KTfwd::check_sum(pop2.gametes,2*nextN));
+	if(track) pop->updateTraj();
+	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     gsl_rng_free(rng);
     //Update population's size variable to be the current pop size
-    pop2.N = pop2.diploids.size();
-    *pop = std::move(pop2);
+    pop->N = pop->diploids.size();
   }
 }
 } //namespace
