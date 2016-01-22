@@ -12,32 +12,39 @@ namespace fwdpy
       o.write( reinterpret_cast<char*>(&ntraj),sizeof(size_t) );
       for( auto i = t.cbegin(); i != t.cend() ; ++i )
 	{
-	  o.write( reinterpret_cast<const char *>(&(i->first.first)),(sizeof(unsigned)));
-	  o.write( reinterpret_cast<const char *>(&(i->first.second.first)),(sizeof(double)) );
-	  o.write( reinterpret_cast<const char *>(&(i->first.second.second)),(sizeof(double)) );
+	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::deme) >(i->first))),
+		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::deme) >(i->first))) );
+	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::origin) >(i->first))),
+		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::origin) >(i->first))) );
+	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::pos) >(i->first))),
+		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::pos) >(i->first))) );
+	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::esize) >(i->first))),
+		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::esize) >(i->first))) );
 	  ntraj = i->second.size();
 	  o.write( reinterpret_cast<char*>(&ntraj),sizeof(unsigned) );
-	  o.write( reinterpret_cast<const char *>(&(i->second[0])),ntraj*sizeof(double) );
+	  o.write( reinterpret_cast<const char *>(i->second.data()),ntraj*sizeof(double) );
 	}
     }
 
     void deserialize_trajectories(istream & in, singlepop_t::trajtype * t )
     {
-      size_t ntraj = t->size(),nfreqs;
-      unsigned a;
-      double rest[2];
-      in.read( reinterpret_cast<char*>(&ntraj),sizeof(size_t) );
-      for(unsigned i=0;i<ntraj;++i)
+      using qvec_t = singlepop_t::trajtype::value_type::second_type;
+      std::size_t ntraj,nfreqs;
+      in.read( reinterpret_cast<char*>(&ntraj),sizeof(decltype(ntraj)) );
+
+      unsigned d,o;
+      double q,s;
+      for( unsigned i=0;i<ntraj;++i )
 	{
-	  in.read(reinterpret_cast<char*>(&a),sizeof(unsigned));
-	  in.read(reinterpret_cast<char*>(&rest[0]),2*sizeof(double));
-	  in.read(reinterpret_cast<char*>(&nfreqs),sizeof(unsigned));
-	  vector<double> temp(nfreqs);
-	  if(nfreqs)
-	    {
-	      in.read(reinterpret_cast<char*>(&temp[0]),nfreqs*sizeof(double));
-	    }
-	  t->insert( std::make_pair( std::make_pair(a,std::make_pair(rest[0],rest[1])), std::move(temp) ) );
+	  in.read( reinterpret_cast<char*>(&d),sizeof(decltype(d)) );
+	  in.read( reinterpret_cast<char*>(&o),sizeof(decltype(o)) );
+	  in.read( reinterpret_cast<char*>(&q),sizeof(decltype(q)) );
+	  in.read( reinterpret_cast<char*>(&s),sizeof(decltype(s)) );
+	  auto key = std::make_tuple(d,o,q,s);
+	  in.read( reinterpret_cast<char*>(&nfreqs),sizeof(decltype(nfreqs)));
+	  qvec_t qvec(nfreqs);
+	  in.read( reinterpret_cast<char*>(qvec.data()),nfreqs*sizeof(qvec_t::value_type));
+	  t->emplace( std::move(key),std::move(qvec) );
 	}
     }
     

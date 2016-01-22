@@ -21,11 +21,11 @@ namespace fwdpy
 	if( itr->second.size() >= minsojourn && maxfreq >= minfreq )
 	  {
 	    vector<unsigned> times(itr->second.size());
-	    unsigned itime = itr->first.first;
+	    unsigned itime = std::get<static_cast<std::size_t>(traj_key_values::origin)>(itr->first);
 	    generate(times.begin(),times.end(),[&itime]{ return itime++; });
 	    generations.insert(generations.end(),times.begin(),times.end());
-	    fill_n(back_inserter(pos),itr->second.size(),itr->first.second.first);
-	    fill_n(back_inserter(s),itr->second.size(),itr->first.second.second);
+	    fill_n(back_inserter(pos),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::pos)>(itr->first));
+	    fill_n(back_inserter(s),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::esize)>(itr->first));
 	    copy(itr->second.begin(),itr->second.end(),back_inserter(freq));
 	  }
       }
