@@ -1,5 +1,5 @@
 #include <fwdpyio/serialize.hpp>
-
+#include <tuple_tricks.hpp>
 using namespace std;
 
 namespace fwdpy
@@ -12,14 +12,7 @@ namespace fwdpy
       o.write( reinterpret_cast<char*>(&ntraj),sizeof(size_t) );
       for( auto i = t.cbegin(); i != t.cend() ; ++i )
 	{
-	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::deme) >(i->first))),
-		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::deme) >(i->first))) );
-	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::origin) >(i->first))),
-		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::origin) >(i->first))) );
-	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::pos) >(i->first))),
-		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::pos) >(i->first))) );
-	  o.write( reinterpret_cast<const char*>(&(std::get<static_cast<std::size_t>(traj_key_values::esize) >(i->first))),
-		   sizeof(decltype(std::get<static_cast<std::size_t>(traj_key_values::esize) >(i->first))) );
+	  serialize_tuple_POD(o,i->first);
 	  ntraj = i->second.size();
 	  o.write( reinterpret_cast<char*>(&ntraj),sizeof(unsigned) );
 	  o.write( reinterpret_cast<const char *>(i->second.data()),ntraj*sizeof(double) );
@@ -29,18 +22,14 @@ namespace fwdpy
     void deserialize_trajectories(istream & in, singlepop_t::trajtype * t )
     {
       using qvec_t = singlepop_t::trajtype::value_type::second_type;
+      using tuple_t = std::remove_const<singlepop_t::trajtype::value_type::first_type>::type;
       std::size_t ntraj,nfreqs;
       in.read( reinterpret_cast<char*>(&ntraj),sizeof(decltype(ntraj)) );
 
-      unsigned d,o;
-      double q,s;
       for( unsigned i=0;i<ntraj;++i )
 	{
-	  in.read( reinterpret_cast<char*>(&d),sizeof(decltype(d)) );
-	  in.read( reinterpret_cast<char*>(&o),sizeof(decltype(o)) );
-	  in.read( reinterpret_cast<char*>(&q),sizeof(decltype(q)) );
-	  in.read( reinterpret_cast<char*>(&s),sizeof(decltype(s)) );
-	  auto key = std::make_tuple(d,o,q,s);
+	  tuple_t key;
+	  deserialize_tuple_POD(in,key);
 	  in.read( reinterpret_cast<char*>(&nfreqs),sizeof(decltype(nfreqs)));
 	  qvec_t qvec(nfreqs);
 	  in.read( reinterpret_cast<char*>(qvec.data()),nfreqs*sizeof(qvec_t::value_type));
