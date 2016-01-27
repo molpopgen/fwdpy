@@ -1,6 +1,8 @@
 #ifndef __FWDPY_TYPES__
 #define __FWDPY_TYPES__
 
+#include <map>
+#include <tuple>
 #include <memory>
 #include <vector>
 #include <fwdpp/tags/diploid_tags.hpp>
@@ -51,10 +53,18 @@ namespace fwdpy {
     }
   };
 
+  enum class traj_key_values : std::size_t
+  {
+    deme,origin,pos,esize
+  };
+
+  using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
+  using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
+  
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
   {
     using base = KTfwd::singlepop<KTfwd::popgenmut,diploid_t>;
-    using trajtype = std::map< std::pair<unsigned,std::pair<double,double> >, std::vector<double> >;
+    using trajtype = trajectories_t;
     unsigned generation;
     trajtype trajectories;
     singlepop_t(const unsigned & N) : base(N),generation(0),
@@ -84,7 +94,7 @@ namespace fwdpy {
 	      unsigned n = this->mcounts[i];
 	      if( !__m.neutral )
 		{
-		  auto __p = std::make_pair(__m.g,std::make_pair(__m.pos,__m.s));
+		  auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s);
 		  auto __itr = trajectories.find(__p);
 		  if(__itr == trajectories.end())
 		    {
@@ -93,7 +103,7 @@ namespace fwdpy {
 		  else
 		    {
 		      //Don't keep updating for fixed variants
-		      if( *(__itr->second.end()-1) < 1.) //2*diploids.size() )
+		      if( __itr->second.back() < 1.) //2*diploids.size() )
 			{
 			  __itr->second.push_back(double(n)/double(2*diploids.size()));
 			}
