@@ -77,7 +77,7 @@ namespace fwdpy {
 			      dipfit,
 			      pop->neutral,pop->selected,
 			      f);
-	if (track) pop->updateTraj();
+	if (track && pop->generation%track==0.) pop->updateTraj();
 	pop->N=nextN;
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
@@ -189,7 +189,7 @@ namespace fwdpy {
 			      pop.neutral,
 			      pop.selected,
 			      f);
-	if (track) pop.updateTraj();
+	if (track && pop.generation%track==0.) pop.updateTraj();
 	pop.N=nextN;
 	KTfwd::update_mutations(pop.mutations,pop.fixations,pop.fixation_times,pop.mut_lookup,pop.mcounts,pop.generation,2*nextN);
 	assert(KTfwd::check_sum(pop.gametes,2*nextN));
