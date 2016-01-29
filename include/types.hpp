@@ -74,7 +74,7 @@ namespace fwdpy {
 			      plf(std::vector<double>()),
 			      le(std::vector<double>()),
 			      max2pqee(std::vector<double>()),
-			      ebar(std::vector<double>())
+			      ebar(std::vector<double>()),
 			      wbar(std::vector<double>())
     {
     }
