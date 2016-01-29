@@ -215,7 +215,7 @@ namespace fwdpy {
       qstats.le.push_back(leading_e);
       qstats.max2pqee.push_back(leading_e);
       qstats.ebar.push_back(sum_e/double(nm));
-      qstats.wbar.push_back(wbar);
+      qstats.wbar.push_back(gsl_stats_mean(wbar.data(),1.wbar.size()));
     }
 
     void clearTrajectories()
