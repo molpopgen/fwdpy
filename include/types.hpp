@@ -134,7 +134,7 @@ namespace fwdpy {
     {
       return int(N == diploids.size());
     }
-    //defind in fwdpy/src/poptypes.cpp
+
     void updateTraj()
     {
       for(std::size_t i = 0 ; i < this->mcounts.size() ; ++i )
