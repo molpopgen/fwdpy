@@ -67,13 +67,15 @@ namespace fwdpy {
   */
   {
     std::vector<unsigned> g;
-    std::vector<double> vg,ve,plf,max2pqee,ebar;
+    std::vector<double> vg,ve,plf,le,max2pqee,ebar,wbar;
     qtrait_stats() noexcept : g(std::vector<unsigned>()),
 			      vg(std::vector<double>()),
 			      ve(std::vector<double>()),
 			      plf(std::vector<double>()),
+			      le(std::vector<double>()),
 			      max2pqee(std::vector<double>()),
 			      ebar(std::vector<double>())
+			      wbar(std::vector<double>())
     {
     }
 
@@ -86,8 +88,10 @@ namespace fwdpy {
       o.write(reinterpret_cast<const char*>(vg.data()),n*sizeof(double));
       o.write(reinterpret_cast<const char*>(ve.data()),n*sizeof(double));
       o.write(reinterpret_cast<const char*>(plf.data()),n*sizeof(double));
+      o.write(reinterpret_cast<const char*>(le.data()),n*sizeof(double));
       o.write(reinterpret_cast<const char*>(max2pqee.data()),n*sizeof(double));
       o.write(reinterpret_cast<const char*>(ebar.data()),n*sizeof(double));
+      o.write(reinterpret_cast<const char*>(wbar.data()),n*sizeof(double));
     }
 
     template<typename ibuffer_t>
@@ -99,14 +103,18 @@ namespace fwdpy {
       vg.resize(n);
       ve.resize(n);
       plf.resize(n);
+      le.resize(n);
       max2pqee.resize(n);
       ebar.resize(n);
+      wbar.resize(n);
       i.read(reinterpret_cast<char*>(g.data()),n*sizeof(unsigned));
       i.read(reinterpret_cast<char*>(vg.data()),n*sizeof(double));
       i.read(reinterpret_cast<char*>(ve.data()),n*sizeof(double));
       i.read(reinterpret_cast<char*>(plf.data()),n*sizeof(double));
+      i.read(reinterpret_cast<char*>(le.data()),n*sizeof(double));
       i.read(reinterpret_cast<char*>(max2pqee.data()),n*sizeof(double));
       i.read(reinterpret_cast<char*>(ebar.data()),n*sizeof(double));
+      i.read(reinterpret_cast<char*>(wbar.data()),n*sizeof(double));
     }
   };
 
@@ -204,6 +212,7 @@ namespace fwdpy {
       qstats.vg.push_back(gsl_stats_variance(VG.data(),1,VG.size()));
       qstats.ve.push_back(gsl_stats_variance(VE.data(),1,VE.size()));
       qstats.plf.push_back(leading_f);
+      qstats.plf.push_back(leading_e);
       qstats.max2pqee.push_back(leading_e);
       qstats.ebar.push_back(sum_e/double(nm));
     }
