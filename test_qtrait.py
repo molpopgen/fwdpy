@@ -23,7 +23,7 @@ for i in range(2):
                             [fp.Region(0,1,1)],
                             0.1,
                             0.,
-                            track=True)
+                            track=1,trackStats=2)
     #Evolve another 10N gens after shift optimum to 0.25
     qt.evolve_qtrait_more(rng,pops,
                             nlist[0:],
@@ -35,7 +35,9 @@ for i in range(2):
                             [fp.Region(0,1,1)],
                             0.1,
                             optimum=0.25,
-                            track=True)
+                            track=1,trackStats=2)
+    st=[qt.popstats(i) for i in pops]
+    print st[0]
     #Get the mutation frequency trajectories, etc.
     #for all mutations that ever happened
     #tri is a list of pandas.DataFrame
