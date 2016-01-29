@@ -41,6 +41,9 @@ namespace qtrait {
 
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
+	//This being put here ignores any mutation existing for only 1 generation
+	if(track&&pop->generation&&pop->generation%track==0.) pop->updateTraj();
+	if(trackStats&&pop->generation&&pop->generation%trackStats==0) pop->updateStats();
 	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::experimental::sample_diploid(rng,
 					    pop->gametes,
@@ -58,9 +61,6 @@ namespace qtrait {
 					    model_rules,
 					    KTfwd::remove_nothing());
 	KTfwd::update_mutations(pop->mutations,pop->mut_lookup,pop->mcounts,2*nextN);
-	//This being put here ignores any mutation existing for only 1 generation
-	if(track&&pop->generation%track==0.) pop->updateTraj();
-	if(trackStats&&pop->generation%trackStats==0) pop->updateStats();
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     gsl_rng_free(rng);
