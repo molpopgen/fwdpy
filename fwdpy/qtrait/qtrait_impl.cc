@@ -66,7 +66,7 @@ namespace fwdpy
 	  {"generation",std::vector<double>(pop->qstats.g.begin(),pop->qstats.g.end())},
 	    {"VG",pop->qstats.vg},
 	      {"VE",pop->qstats.ve},
-	      {"wbar",pop->qstats.w},
+	      {"wbar",pop->qstats.wbar},
 	    	{"leading_q",pop->qstats.plf},
 		  {"leading_e",pop->qstats.le},
 	    	  {"max_expl",pop->qstats.max2pqee},
