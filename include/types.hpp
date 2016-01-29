@@ -8,7 +8,7 @@
 #include <fwdpp/tags/diploid_tags.hpp>
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
-
+#include <gsl/gsl_statistics_double.h>
 namespace fwdpy {
   using GSLrng_t = KTfwd::GSLrng_t<KTfwd::GSL_RNG_MT19937>;
 
@@ -163,6 +163,51 @@ namespace fwdpy {
 	    }
       	}
     }
+
+    void updateStats()
+    {
+      std::vector<double> VG,VE,wbar;
+      VG.reserve(diploids.size());
+      VE.reserve(diploids.size());
+      wbar.reserve(diploids.size());
+
+      for(const auto & dip : diploids)
+	{
+	  VG.push_back(dip.g);
+	  VE.push_back(dip.e);
+	  wbar.push_back(dip.w);
+	}
+
+      double twoN=2.*double(diploids.size());
+      double mvexpl = 0.,
+        leading_e=std::numeric_limits<double>::quiet_NaN(),
+        leading_f=std::numeric_limits<double>::quiet_NaN();
+      double sum_e = 0.;
+      unsigned nm=0;
+      for(std::size_t i = 0 ; i < mcounts.size() ; ++i )
+        {
+          if(mcounts[i])
+            {
+              auto n = mcounts[i];
+              double p1=double(n)/twoN;
+              if (2.0*p1*(1.-p1)*std::pow(mutations[i].s,2.) > mvexpl)
+                {
+                  mvexpl=2.0*p1*(1.-p1);
+                  leading_e = mutations[i].s;
+                  leading_f = p1;
+                }
+	      sum_e += mutations[i].s;
+	      ++nm;
+            }
+        }
+      qstats.g.push_back(generation);
+      qstats.vg.push_back(gsl_stats_variance(VG.data(),1,VG.size()));
+      qstats.ve.push_back(gsl_stats_variance(VE.data(),1,VE.size()));
+      qstats.plf.push_back(leading_f);
+      qstats.max2pqee.push_back(leading_e);
+      qstats.ebar.push_back(sum_e/double(nm));
+    }
+
     void clearTrajectories()
     {
       trajectories.clear();
