@@ -17,7 +17,10 @@
         ], 
         "extra_compile_args": [
             "-std=c++11", 
-            "-fopenmp"
+            "-fopenmp", 
+            "-DFWDPP_VERSION=\"0.4.5\"", 
+            "-DGSL_VERSION=\"1.16\"", 
+            "-DPACKAGE_VERSION=\"0.0.2\""
         ], 
         "extra_link_args": [
             "-std=c++11", 
@@ -1831,7 +1834,7 @@ static CYTHON_INLINE PyObject *__pyx_convert_PyUnicode_string_to_py_std__in_stri
 static CYTHON_INLINE PyObject *__pyx_convert_PyStr_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyBytes_string_to_py_std__in_string(std::string const &); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_string(std::string const &); /*proto*/
-static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<std::string,double>  const &); /*proto*/
+static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(std::map<std::string,std::vector<double> >  const &); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_unsigned_int = { "unsigned int", NULL, sizeof(unsigned int), { 0 }, 0, IS_UNSIGNED(unsigned int) ? 'U' : 'I', IS_UNSIGNED(unsigned int), 0 };
 #define __Pyx_MODULE_NAME "fwdpy.qtrait.qtrait"
 int __pyx_module_is_main_fwdpy__qtrait__qtrait = 0;
@@ -1859,7 +1862,7 @@ static char __pyx_k_x[] = "x";
 static char __pyx_k_VS[] = "VS";
 static char __pyx_k_id[] = "id";
 static char __pyx_k_rv[] = "rv";
-static char __pyx_k__28[] = "*";
+static char __pyx_k__32[] = "*";
 static char __pyx_k_itr[] = "itr";
 static char __pyx_k_obj[] = "obj";
 static char __pyx_k_pop[] = "pop";
@@ -1924,6 +1927,7 @@ static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_mu_neutral[] = "mu_neutral";
 static char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static char __pyx_k_recregions[] = "recregions";
+static char __pyx_k_trackStats[] = "trackStats";
 static char __pyx_k_MemoryError[] = "MemoryError";
 static char __pyx_k_mu_selected[] = "mu_selected";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
@@ -1943,6 +1947,7 @@ static char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static char __pyx_k_fwdpy_qtrait_qtrait[] = "fwdpy.qtrait.qtrait";
 static char __pyx_k_make_region_manager[] = "make_region_manager";
 static char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
+static char __pyx_k_trackStats_must_be_0[] = "trackStats must be >= 0.";
 static char __pyx_k_contiguous_and_direct[] = "<contiguous and direct>";
 static char __pyx_k_MemoryView_of_r_object[] = "<MemoryView of %r object>";
 static char __pyx_k_MemoryView_of_r_at_0x_x[] = "<MemoryView of %r at 0x%x>";
@@ -1997,7 +2002,7 @@ static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_VS;
 static PyObject *__pyx_kp_s_VS_must_be_0;
 static PyObject *__pyx_n_s_ValueError;
-static PyObject *__pyx_n_s__28;
+static PyObject *__pyx_n_s__32;
 static PyObject *__pyx_n_s_allocate_buffer;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_c;
@@ -2090,6 +2095,8 @@ static PyObject *__pyx_kp_s_tau_cannot_be_0;
 static PyObject *__pyx_n_s_temp;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_track;
+static PyObject *__pyx_n_s_trackStats;
+static PyObject *__pyx_kp_s_trackStats_must_be_0;
 static PyObject *__pyx_n_s_tstruct;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
@@ -2098,8 +2105,8 @@ static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_warn;
 static PyObject *__pyx_n_s_warnings;
 static PyObject *__pyx_n_s_x;
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, double __pyx_v_f); /* proto */
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, double __pyx_v_f); /* proto */
+static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, int __pyx_v_trackStats, double __pyx_v_f); /* proto */
+static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, int __pyx_v_trackStats, double __pyx_v_f); /* proto */
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4ew2010_effects(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, double __pyx_v_tau, double __pyx_v_sigma); /* proto */
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_6ew2010_traits(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, PyObject *__pyx_v_effects); /* proto */
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_8popstats(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop); /* proto */
@@ -2153,9 +2160,9 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_slice__24;
-static PyObject *__pyx_slice__25;
-static PyObject *__pyx_slice__26;
+static PyObject *__pyx_slice__28;
+static PyObject *__pyx_slice__29;
+static PyObject *__pyx_slice__30;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
@@ -2170,34 +2177,38 @@ static PyObject *__pyx_tuple__20;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__22;
 static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__24;
+static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__27;
-static PyObject *__pyx_tuple__29;
 static PyObject *__pyx_tuple__31;
 static PyObject *__pyx_tuple__33;
 static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__37;
 static PyObject *__pyx_tuple__39;
-static PyObject *__pyx_tuple__40;
 static PyObject *__pyx_tuple__41;
-static PyObject *__pyx_tuple__42;
 static PyObject *__pyx_tuple__43;
-static PyObject *__pyx_codeobj__30;
-static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_tuple__44;
+static PyObject *__pyx_tuple__45;
+static PyObject *__pyx_tuple__46;
+static PyObject *__pyx_tuple__47;
 static PyObject *__pyx_codeobj__34;
 static PyObject *__pyx_codeobj__36;
 static PyObject *__pyx_codeobj__38;
+static PyObject *__pyx_codeobj__40;
+static PyObject *__pyx_codeobj__42;
 
 /* "fwdpy/qtrait/evolve_qtraits.pyx":7
  * 
  * @cython.boundscheck(False)
  * def evolve_qtrait(GSLrng rng,             # <<<<<<<<<<<<<<
- *                     int npops,
- *                     int N,
+ *                   int npops,
+ *                   int N,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_6qtrait_6qtrait_evolve_qtrait[] = "\n    Evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.\n\n    :param rng: a :class:`GSLrng`\n    :param npops: The number of populations to simulate.  This is equal to the number of threads that will be used!\n    :param N: The diploid population size to simulate\n    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).\n    :param mu_neutral: The mutation rate to variants not affecting fitness (\"neutral\" mutations).  The unit is per gamete, per generation.\n    :param mu_selected: The mutation rate to variants affecting fitness (\"selected\" mutations).  The unit is per gamete, per generation.\n    :param recrate: The recombination rate in the regions (per diploid, per generation)\n    :param nregions: A list specifying where neutral mutations occur\n    :param sregions: A list specifying where selected mutations occur\n    :param recregions: A list specifying how the genetic map varies along the region\n    :param sigmaE: The standard deviation in random variation to add to trait value\n    :param optimum: The optimum trait value.\n    :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!\n    :param f: The selfing probabilty\n\n    :raises: RuntimeError if parameters do not pass checks\n    ";
+static char __pyx_doc_5fwdpy_6qtrait_6qtrait_evolve_qtrait[] = "\n    Evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.\n\n    :param rng: a :class:`GSLrng`\n    :param npops: The number of populations to simulate.  This is equal to the number of threads that will be used!\n    :param N: The diploid population size to simulate\n    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).\n    :param mu_neutral: The mutation rate to variants not affecting fitness (\"neutral\" mutations).  The unit is per gamete, per generation.\n    :param mu_selected: The mutation rate to variants affecting fitness (\"selected\" mutations).  The unit is per gamete, per generation.\n    :param recrate: The recombination rate in the regions (per diploid, per generation)\n    :param nregions: A list specifying where neutral mutations occur\n    :param sregions: A list specifying where selected mutations occur\n    :param recregions: A list specifying how the genetic map varies along the region\n    :param sigmaE: The standard deviation in random variation to add to trait value\n    :param optimum: The optimum trait value.\n    :param VS: The total variance in selection intensity\n    :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.\n    :param trackStats: whether or not to trat VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.\n    :param f: The selfing probabilty\n\n    :raises: RuntimeError if parameters do not pass checks\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_6qtrait_6qtrait_1evolve_qtrait = {"evolve_qtrait", (PyCFunction)__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_6qtrait_6qtrait_evolve_qtrait};
 static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
@@ -2214,6 +2225,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
   double __pyx_v_VS;
   double __pyx_v_optimum;
   int __pyx_v_track;
+  int __pyx_v_trackStats;
   double __pyx_v_f;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -2222,12 +2234,13 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evolve_qtrait (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng,&__pyx_n_s_npops,&__pyx_n_s_N,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_recrate,&__pyx_n_s_nregions,&__pyx_n_s_sregions,&__pyx_n_s_recregions,&__pyx_n_s_sigmaE,&__pyx_n_s_VS,&__pyx_n_s_optimum,&__pyx_n_s_track,&__pyx_n_s_f,0};
-    PyObject* values[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng,&__pyx_n_s_npops,&__pyx_n_s_N,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_recrate,&__pyx_n_s_nregions,&__pyx_n_s_sregions,&__pyx_n_s_recregions,&__pyx_n_s_sigmaE,&__pyx_n_s_VS,&__pyx_n_s_optimum,&__pyx_n_s_track,&__pyx_n_s_trackStats,&__pyx_n_s_f,0};
+    PyObject* values[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 16: values[15] = PyTuple_GET_ITEM(__pyx_args, 15);
         case 15: values[14] = PyTuple_GET_ITEM(__pyx_args, 14);
         case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
         case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
@@ -2254,52 +2267,52 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_npops)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case 10:
         if (likely((values[10] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmaE)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, 10); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, 10); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case 11:
         if (kw_args > 0) {
@@ -2318,8 +2331,13 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
         }
         case 14:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_trackStats);
           if (value) { values[14] = value; kw_args--; }
+        }
+        case 15:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
+          if (value) { values[15] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
@@ -2327,6 +2345,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 16: values[15] = PyTuple_GET_ITEM(__pyx_args, 15);
         case 15: values[14] = PyTuple_GET_ITEM(__pyx_args, 14);
         case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
         case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
@@ -2368,27 +2387,24 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
       __pyx_v_optimum = ((double)0.);
     }
     if (values[13]) {
-      __pyx_v_track = __Pyx_PyObject_IsTrue(values[13]); if (unlikely((__pyx_v_track == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_track = __Pyx_PyInt_As_int(values[13]); if (unlikely((__pyx_v_track == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
-
-      /* "fwdpy/qtrait/evolve_qtraits.pyx":20
- *                     double VS=1,
- *                     double optimum = 0.,
- *                     bint track = False,             # <<<<<<<<<<<<<<
- *                     double f = 0.):
- *     """
- */
       __pyx_v_track = ((int)0);
     }
     if (values[14]) {
-      __pyx_v_f = __pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_trackStats = __Pyx_PyInt_As_int(values[14]); if (unlikely((__pyx_v_trackStats == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 21; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_trackStats = ((int)0);
+    }
+    if (values[15]) {
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[15]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_f = ((double)0.);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 15, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("evolve_qtrait", 0, 11, 16, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.qtrait.qtrait.evolve_qtrait", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2398,15 +2414,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nregions), (&PyList_Type), 1, "nregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sregions), (&PyList_Type), 1, "sregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recregions), (&PyList_Type), 1, "recregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(__pyx_self, __pyx_v_rng, __pyx_v_npops, __pyx_v_N, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_nregions, __pyx_v_sregions, __pyx_v_recregions, __pyx_v_sigmaE, __pyx_v_VS, __pyx_v_optimum, __pyx_v_track, __pyx_v_f);
-
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":7
- * 
- * @cython.boundscheck(False)
- * def evolve_qtrait(GSLrng rng,             # <<<<<<<<<<<<<<
- *                     int npops,
- *                     int N,
- */
+  __pyx_r = __pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(__pyx_self, __pyx_v_rng, __pyx_v_npops, __pyx_v_N, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_nregions, __pyx_v_sregions, __pyx_v_recregions, __pyx_v_sigmaE, __pyx_v_VS, __pyx_v_optimum, __pyx_v_track, __pyx_v_trackStats, __pyx_v_f);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2417,7 +2425,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_1evolve_qtrait(PyObject *__pyx_
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, double __pyx_v_f) {
+static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, int __pyx_v_trackStats, double __pyx_v_f) {
   struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops = NULL;
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
   unsigned int __pyx_v_listlen;
@@ -2435,7 +2443,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evolve_qtrait", 0);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":42
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":45
  *     :raises: RuntimeError if parameters do not pass checks
  *     """
  *     if mu_neutral < 0:             # <<<<<<<<<<<<<<
@@ -2445,20 +2453,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   __pyx_t_1 = ((__pyx_v_mu_neutral < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":43
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":46
  *     """
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":42
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":45
  *     :raises: RuntimeError if parameters do not pass checks
  *     """
  *     if mu_neutral < 0:             # <<<<<<<<<<<<<<
@@ -2467,7 +2475,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":44
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":47
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:             # <<<<<<<<<<<<<<
@@ -2477,20 +2485,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   __pyx_t_1 = ((__pyx_v_mu_selected < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":45
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":48
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":44
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":47
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:             # <<<<<<<<<<<<<<
@@ -2499,7 +2507,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":46
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":49
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:             # <<<<<<<<<<<<<<
@@ -2509,20 +2517,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   __pyx_t_1 = ((__pyx_v_recrate < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":47
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":50
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":46
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":49
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:             # <<<<<<<<<<<<<<
@@ -2531,7 +2539,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":48
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":51
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -2541,24 +2549,24 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   __pyx_t_1 = ((__pyx_v_f < 0.) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":49
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":52
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     if sigmaE < 0.:
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":50
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":53
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0             # <<<<<<<<<<<<<<
@@ -2567,7 +2575,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
  */
     __pyx_v_f = 0.0;
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":48
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":51
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -2576,7 +2584,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":51
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":54
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0
  *     if sigmaE < 0.:             # <<<<<<<<<<<<<<
@@ -2586,20 +2594,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   __pyx_t_1 = ((__pyx_v_sigmaE < 0.) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":52
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":55
  *         f=0
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")             # <<<<<<<<<<<<<<
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":51
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":54
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0
  *     if sigmaE < 0.:             # <<<<<<<<<<<<<<
@@ -2608,50 +2616,114 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":53
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":56
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("VS must be >= 0.")
- *     pops = popvec(npops,N)
+ *     if track < 0:
  */
   __pyx_t_1 = ((__pyx_v_VS < 0.) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":54
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":57
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")             # <<<<<<<<<<<<<<
- *     pops = popvec(npops,N)
- *     rmgr = region_manager_wrapper();
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":53
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":56
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("VS must be >= 0.")
- *     pops = popvec(npops,N)
+ *     if track < 0:
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":55
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":58
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ */
+  __pyx_t_1 = ((__pyx_v_track < 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":59
+ *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":58
+ *     if VS < 0.:
+ *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ */
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":60
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
+ * 
+ */
+  __pyx_t_1 = ((__pyx_v_trackStats < 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":61
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
+ * 
+ *     pops = popvec(npops,N)
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":60
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
+ * 
+ */
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":63
+ *         raise RuntimeError("trackStats must be >= 0.")
+ * 
  *     pops = popvec(npops,N)             # <<<<<<<<<<<<<<
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_npops); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_npops); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_N); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -2659,34 +2731,34 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_popvec), __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_popvec), __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":56
- *         raise RuntimeError("VS must be >= 0.")
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":64
+ * 
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper();             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_rmgr = ((struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":57
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":65
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -2701,7 +2773,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
       __pyx_t_5 = 1;
     }
   }
-  __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   if (__pyx_t_4) {
     __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -2718,31 +2790,31 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   __Pyx_INCREF(__pyx_v_recregions);
   __Pyx_GIVEREF(__pyx_v_recregions);
   PyTuple_SET_ITEM(__pyx_t_6, 3+__pyx_t_5, __pyx_v_recregions);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":58
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":66
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
  *         evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
  */
-  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyObject_Length(__pyx_t_3); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_listlen = __pyx_t_5;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":59
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":67
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
- *                          rmgr.thisptr)
+ *                          trackStats,
  */
   {
       #ifdef WITH_THREAD
@@ -2751,46 +2823,46 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
       #endif
       /*try:*/ {
 
-        /* "fwdpy/qtrait/evolve_qtraits.pyx":60
+        /* "fwdpy/qtrait/evolve_qtraits.pyx":68
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:
  *         evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,             # <<<<<<<<<<<<<<
+ *                          trackStats,
  *                          rmgr.thisptr)
- *     return pops
  */
         __pyx_t_7 = 0;
         if (__pyx_t_7 < 0) __pyx_t_7 += __pyx_v_nlist.shape[0];
 
-        /* "fwdpy/qtrait/evolve_qtraits.pyx":61
- *     with nogil:
+        /* "fwdpy/qtrait/evolve_qtraits.pyx":70
  *         evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
+ *                          trackStats,
  *                          rmgr.thisptr)             # <<<<<<<<<<<<<<
  *     return pops
  * 
  */
-        fwdpy::qtrait::evolve_qtraits_t(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_rmgr->thisptr);
+        fwdpy::qtrait::evolve_qtraits_t(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_trackStats, __pyx_v_rmgr->thisptr);
       }
 
-      /* "fwdpy/qtrait/evolve_qtraits.pyx":59
+      /* "fwdpy/qtrait/evolve_qtraits.pyx":67
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
- *                          rmgr.thisptr)
+ *                          trackStats,
  */
       /*finally:*/ {
         /*normal exit:*/{
           #ifdef WITH_THREAD
           Py_BLOCK_THREADS
           #endif
-          goto __pyx_L11;
+          goto __pyx_L13;
         }
-        __pyx_L11:;
+        __pyx_L13:;
       }
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":62
- *         evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":71
+ *                          trackStats,
  *                          rmgr.thisptr)
  *     return pops             # <<<<<<<<<<<<<<
  * 
@@ -2805,8 +2877,8 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
  * 
  * @cython.boundscheck(False)
  * def evolve_qtrait(GSLrng rng,             # <<<<<<<<<<<<<<
- *                     int npops,
- *                     int N,
+ *                   int npops,
+ *                   int N,
  */
 
   /* function exit code */
@@ -2826,7 +2898,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
   return __pyx_r;
 }
 
-/* "fwdpy/qtrait/evolve_qtraits.pyx":64
+/* "fwdpy/qtrait/evolve_qtraits.pyx":73
  *     return pops
  * 
  * def evolve_qtrait_more(GSLrng rng,             # <<<<<<<<<<<<<<
@@ -2836,7 +2908,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_evolve_qtrait(CYTHON_UNUSED PyO
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more[] = "\n    Continue to evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: A list of populations simulated by :func:`fwdpy.qtrait.qtrait.evolve_qtrait`\n    :param N: The diploid population size to simulate\n    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).\n    :param mu_neutral: The mutation rate to variants not affecting fitness (\"neutral\" mutations).  The unit is per gamete, per generation.\n    :param mu_selected: The mutation rate to variants affecting fitness (\"selected\" mutations).  The unit is per gamete, per generation.\n    :param recrate: The recombination rate in the regions (per diploid, per generation)\n    :param nregions: A list specifying where neutral mutations occur\n    :param sregions: A list specifying where selected mutations occur\n    :param recregions: A list specifying how the genetic map varies along the region\n    :param sigmaE: The standard deviation in random variation to add to trait value\n    :oaran VS: The variance in the Gaussian fitness function.  Under certaing strong assumtions, :math:`V(G) \007pprox 4\times\\mu\timesV(S)`, where :math:`\\mu` is mu_selected.\n    :param optimum: The optimum trait value.\n    :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!\n    :param f: The selfing probabilty\n\n    :raises: RuntimeError if parameters do not pass checks\n    ";
+static char __pyx_doc_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more[] = "\n    Continue to evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: A list of populations simulated by :func:`fwdpy.qtrait.qtrait.evolve_qtrait`\n    :param N: The diploid population size to simulate\n    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).\n    :param mu_neutral: The mutation rate to variants not affecting fitness (\"neutral\" mutations).  The unit is per gamete, per generation.\n    :param mu_selected: The mutation rate to variants affecting fitness (\"selected\" mutations).  The unit is per gamete, per generation.\n    :param recrate: The recombination rate in the regions (per diploid, per generation)\n    :param nregions: A list specifying where neutral mutations occur\n    :param sregions: A list specifying where selected mutations occur\n    :param recregions: A list specifying how the genetic map varies along the region\n    :param sigmaE: The standard deviation in random variation to add to trait value\n    :oaran VS: The variance in the Gaussian fitness function.  Under certaing strong assumtions, :math:`V(G) \007pprox 4\times\\mu\timesV(S)`, where :math:`\\mu` is mu_selected.\n    :param optimum: The optimum trait value.\n    :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.\n    :param trackStats: whether or not to trat VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.\n    :param f: The selfing probabilty\n\n    :raises: RuntimeError if parameters do not pass checks\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more = {"evolve_qtrait_more", (PyCFunction)__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more};
 static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
@@ -2852,6 +2924,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *_
   double __pyx_v_VS;
   double __pyx_v_optimum;
   int __pyx_v_track;
+  int __pyx_v_trackStats;
   double __pyx_v_f;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -2860,12 +2933,13 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evolve_qtrait_more (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng,&__pyx_n_s_pops,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_recrate,&__pyx_n_s_nregions,&__pyx_n_s_sregions,&__pyx_n_s_recregions,&__pyx_n_s_sigmaE,&__pyx_n_s_VS,&__pyx_n_s_optimum,&__pyx_n_s_track,&__pyx_n_s_f,0};
-    PyObject* values[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng,&__pyx_n_s_pops,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_recrate,&__pyx_n_s_nregions,&__pyx_n_s_sregions,&__pyx_n_s_recregions,&__pyx_n_s_sigmaE,&__pyx_n_s_VS,&__pyx_n_s_optimum,&__pyx_n_s_track,&__pyx_n_s_trackStats,&__pyx_n_s_f,0};
+    PyObject* values[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 15: values[14] = PyTuple_GET_ITEM(__pyx_args, 14);
         case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
         case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
         case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
@@ -2891,47 +2965,47 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pops)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmaE)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case 10:
         if (kw_args > 0) {
@@ -2950,15 +3024,21 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *_
         }
         case 13:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_trackStats);
           if (value) { values[13] = value; kw_args--; }
+        }
+        case 14:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
+          if (value) { values[14] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_qtrait_more") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_qtrait_more") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 15: values[14] = PyTuple_GET_ITEM(__pyx_args, 14);
         case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
         case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
         case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
@@ -2979,65 +3059,54 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *_
     }
     __pyx_v_rng = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
     __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)values[1]);
-    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[2]); if (unlikely(!__pyx_v_nlist.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_mu_neutral = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_mu_neutral == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_mu_selected = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_mu_selected == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_recrate = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_recrate == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[2]); if (unlikely(!__pyx_v_nlist.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_mu_neutral = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_mu_neutral == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_mu_selected = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_mu_selected == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_recrate = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_recrate == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_nregions = ((PyObject*)values[6]);
     __pyx_v_sregions = ((PyObject*)values[7]);
     __pyx_v_recregions = ((PyObject*)values[8]);
-    __pyx_v_sigmaE = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_sigmaE == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_sigmaE = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_sigmaE == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     if (values[10]) {
-      __pyx_v_VS = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_VS == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_VS = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_VS == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_VS = ((double)1.0);
     }
     if (values[11]) {
-      __pyx_v_optimum = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_optimum == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_optimum = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_optimum == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_optimum = ((double)0.);
     }
     if (values[12]) {
-      __pyx_v_track = __Pyx_PyObject_IsTrue(values[12]); if (unlikely((__pyx_v_track == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_track = __Pyx_PyInt_As_int(values[12]); if (unlikely((__pyx_v_track == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
-
-      /* "fwdpy/qtrait/evolve_qtraits.pyx":76
- *                     double VS = 1,
- *                     double optimum = 0.,
- *                     bint track = False,             # <<<<<<<<<<<<<<
- *                     double f = 0.):
- *     """
- */
       __pyx_v_track = ((int)0);
     }
     if (values[13]) {
-      __pyx_v_f = __pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_trackStats = __Pyx_PyInt_As_int(values[13]); if (unlikely((__pyx_v_trackStats == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_trackStats = ((int)0);
+    }
+    if (values[14]) {
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
       __pyx_v_f = ((double)0.);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 14, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("evolve_qtrait_more", 0, 10, 15, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.qtrait.qtrait.evolve_qtrait_more", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nregions), (&PyList_Type), 1, "nregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sregions), (&PyList_Type), 1, "sregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recregions), (&PyList_Type), 1, "recregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(__pyx_self, __pyx_v_rng, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_nregions, __pyx_v_sregions, __pyx_v_recregions, __pyx_v_sigmaE, __pyx_v_VS, __pyx_v_optimum, __pyx_v_track, __pyx_v_f);
-
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":64
- *     return pops
- * 
- * def evolve_qtrait_more(GSLrng rng,             # <<<<<<<<<<<<<<
- *                     popvec pops,
- *                     unsigned[:] nlist,
- */
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nregions), (&PyList_Type), 1, "nregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sregions), (&PyList_Type), 1, "sregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recregions), (&PyList_Type), 1, "recregions", 1))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(__pyx_self, __pyx_v_rng, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_nregions, __pyx_v_sregions, __pyx_v_recregions, __pyx_v_sigmaE, __pyx_v_VS, __pyx_v_optimum, __pyx_v_track, __pyx_v_trackStats, __pyx_v_f);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3048,7 +3117,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more(PyObject *_
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, double __pyx_v_f) {
+static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_VS, double __pyx_v_optimum, int __pyx_v_track, int __pyx_v_trackStats, double __pyx_v_f) {
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -3065,7 +3134,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("evolve_qtrait_more", 0);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":99
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":110
  *     :raises: RuntimeError if parameters do not pass checks
  *     """
  *     if mu_neutral < 0:             # <<<<<<<<<<<<<<
@@ -3075,20 +3144,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   __pyx_t_1 = ((__pyx_v_mu_neutral < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":100
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":111
  *     """
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":99
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":110
  *     :raises: RuntimeError if parameters do not pass checks
  *     """
  *     if mu_neutral < 0:             # <<<<<<<<<<<<<<
@@ -3097,7 +3166,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":101
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":112
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:             # <<<<<<<<<<<<<<
@@ -3107,20 +3176,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   __pyx_t_1 = ((__pyx_v_mu_selected < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":102
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":113
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":101
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":112
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:             # <<<<<<<<<<<<<<
@@ -3129,7 +3198,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":103
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":114
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:             # <<<<<<<<<<<<<<
@@ -3139,20 +3208,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   __pyx_t_1 = ((__pyx_v_recrate < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":104
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":115
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":103
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":114
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:             # <<<<<<<<<<<<<<
@@ -3161,7 +3230,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":105
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":116
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -3171,24 +3240,24 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   __pyx_t_1 = ((__pyx_v_f < 0.) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":106
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":117
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     if sigmaE < 0.:
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_warn); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":107
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":118
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0             # <<<<<<<<<<<<<<
@@ -3197,7 +3266,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
  */
     __pyx_v_f = 0.0;
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":105
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":116
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -3206,7 +3275,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":108
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":119
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0
  *     if sigmaE < 0.:             # <<<<<<<<<<<<<<
@@ -3216,20 +3285,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   __pyx_t_1 = ((__pyx_v_sigmaE < 0.) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":109
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":120
  *         f=0
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")             # <<<<<<<<<<<<<<
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":108
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":119
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0
  *     if sigmaE < 0.:             # <<<<<<<<<<<<<<
@@ -3238,60 +3307,124 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":110
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":121
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("VS must be >= 0.")
- *     rmgr = region_manager_wrapper();
+ *     if track < 0:
  */
   __pyx_t_1 = ((__pyx_v_VS < 0.) != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":111
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":122
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")             # <<<<<<<<<<<<<<
- *     rmgr = region_manager_wrapper();
- *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "fwdpy/qtrait/evolve_qtraits.pyx":110
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":121
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:
+ */
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":123
+ *     if VS < 0.:
+ *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ */
+  __pyx_t_1 = ((__pyx_v_track < 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":124
+ *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":123
+ *     if VS < 0.:
+ *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ */
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":125
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     rmgr = region_manager_wrapper();
+ */
+  __pyx_t_1 = ((__pyx_v_trackStats < 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":126
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
+ *     rmgr = region_manager_wrapper();
+ *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "fwdpy/qtrait/evolve_qtraits.pyx":125
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:             # <<<<<<<<<<<<<<
+ *         raise RuntimeError("trackStats must be >= 0.")
  *     rmgr = region_manager_wrapper();
  */
   }
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":112
- *     if VS < 0.:
- *         raise RuntimeError("VS must be >= 0.")
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":127
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
  *     rmgr = region_manager_wrapper();             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_rmgr = ((struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":113
- *         raise RuntimeError("VS must be >= 0.")
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":128
+ *         raise RuntimeError("trackStats must be >= 0.")
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
- *                      rmgr.thisptr)
+ *                      trackStats,
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -3306,7 +3439,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
       __pyx_t_5 = 1;
     }
   }
-  __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = PyTuple_New(4+__pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -3323,16 +3456,17 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   __Pyx_INCREF(__pyx_v_recregions);
   __Pyx_GIVEREF(__pyx_v_recregions);
   PyTuple_SET_ITEM(__pyx_t_6, 3+__pyx_t_5, __pyx_v_recregions);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":114
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":129
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,             # <<<<<<<<<<<<<<
+ *                      trackStats,
  *                      rmgr.thisptr)
  */
   __pyx_t_7 = 0;
@@ -3343,21 +3477,21 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait_more(CYTHON_UNUS
   } else if (unlikely(__pyx_t_7 >= __pyx_v_nlist.shape[0])) __pyx_t_8 = 0;
   if (unlikely(__pyx_t_8 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_8);
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":115
- *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":131
  *     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
+ *                      trackStats,
  *                      rmgr.thisptr)             # <<<<<<<<<<<<<<
  */
-  fwdpy::qtrait::evolve_qtraits_t(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_t_5, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_rmgr->thisptr);
+  fwdpy::qtrait::evolve_qtraits_t(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_t_5, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_trackStats, __pyx_v_rmgr->thisptr);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":64
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":73
  *     return pops
  * 
  * def evolve_qtrait_more(GSLrng rng,             # <<<<<<<<<<<<<<
@@ -3514,7 +3648,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4ew2010_effects(CYTHON_UNUSED P
  *     if sigma < 0.:
  *         raise RuntimeError("sigma cannot be < 0.")
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3546,7 +3680,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4ew2010_effects(CYTHON_UNUSED P
  *     cdef map[double,ew_mut_details] x = ew2010_assign_effects(rng.thisptr,pop.pop.get(),tau,sigma)
  *     cdef map[double,ew_mut_details].iterator itr = x.begin()
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4047,7 +4181,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_8popstats(CYTHON_UNUSED PyObjec
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __pyx_convert_map_to_py_std_3a__3a_string____double(fwdpy::qtrait::qtrait_pop_props(__pyx_v_pop->pop.get())); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(fwdpy::qtrait::qtrait_pop_props(__pyx_v_pop->pop.get())); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_items); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -4956,7 +5090,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4988,7 +5122,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if not isinstance(format, bytes):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5023,7 +5157,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  */
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_format, __pyx_n_s_encode); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_format, __pyx_t_5);
@@ -5099,7 +5233,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_Raise(__pyx_t_5, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5383,7 +5517,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -5624,7 +5758,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -8410,7 +8544,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 447; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 447; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -9240,7 +9374,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
  * 
  *             return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -9357,7 +9491,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 531; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__23, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 531; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__27, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 531; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -10697,9 +10831,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__24);
-            __Pyx_GIVEREF(__pyx_slice__24);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__24);
+            __Pyx_INCREF(__pyx_slice__28);
+            __Pyx_GIVEREF(__pyx_slice__28);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__28);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10732,7 +10866,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         else:
  */
       /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__25); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 643; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__29); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 643; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __pyx_L7:;
 
@@ -10877,9 +11011,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__26);
-        __Pyx_GIVEREF(__pyx_slice__26);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__26);
+        __Pyx_INCREF(__pyx_slice__30);
+        __Pyx_GIVEREF(__pyx_slice__30);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__30);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -11006,7 +11140,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -16600,16 +16734,16 @@ static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_st
 
 /* "map.to_py":227
  * 
- * @cname("__pyx_convert_map_to_py_std_3a__3a_string____double")
- * cdef object __pyx_convert_map_to_py_std_3a__3a_string____double(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
+ * cdef object __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
  *     o = {}
  *     cdef const map[X,Y].value_type *key_value
  */
 
-static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<std::string,double>  const &__pyx_v_s) {
+static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(std::map<std::string,std::vector<double> >  const &__pyx_v_s) {
   PyObject *__pyx_v_o = NULL;
-  std::map<std::string,double> ::value_type const *__pyx_v_key_value;
-  std::map<std::string,double> ::const_iterator __pyx_v_iter;
+  std::map<std::string,std::vector<double> > ::value_type const *__pyx_v_key_value;
+  std::map<std::string,std::vector<double> > ::const_iterator __pyx_v_iter;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -16618,11 +16752,11 @@ static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<st
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_map_to_py_std_3a__3a_string____double", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___", 0);
 
   /* "map.to_py":228
- * @cname("__pyx_convert_map_to_py_std_3a__3a_string____double")
- * cdef object __pyx_convert_map_to_py_std_3a__3a_string____double(const map[X,Y]& s):
+ * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
+ * cdef object __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(const map[X,Y]& s):
  *     o = {}             # <<<<<<<<<<<<<<
  *     cdef const map[X,Y].value_type *key_value
  *     cdef map[X,Y].const_iterator iter = s.begin()
@@ -16668,7 +16802,7 @@ static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<st
  *         cython.operator.preincrement(iter)
  *     return o
  */
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_key_value->second); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __pyx_convert_vector_to_py_double(__pyx_v_key_value->second); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_3 = __pyx_convert_PyObject_string_to_py_std__in_string(__pyx_v_key_value->first); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
@@ -16697,8 +16831,8 @@ static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<st
 
   /* "map.to_py":227
  * 
- * @cname("__pyx_convert_map_to_py_std_3a__3a_string____double")
- * cdef object __pyx_convert_map_to_py_std_3a__3a_string____double(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
+ * cdef object __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
  *     o = {}
  *     cdef const map[X,Y].value_type *key_value
  */
@@ -16707,7 +16841,7 @@ static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____double(std::map<st
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("map.to_py.__pyx_convert_map_to_py_std_3a__3a_string____double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("map.to_py.__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_o);
@@ -17421,7 +17555,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_VS, __pyx_k_VS, sizeof(__pyx_k_VS), 0, 0, 1, 1},
   {&__pyx_kp_s_VS_must_be_0, __pyx_k_VS_must_be_0, sizeof(__pyx_k_VS_must_be_0), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
-  {&__pyx_n_s__28, __pyx_k__28, sizeof(__pyx_k__28), 0, 0, 1, 1},
+  {&__pyx_n_s__32, __pyx_k__32, sizeof(__pyx_k__32), 0, 0, 1, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
@@ -17514,6 +17648,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_temp, __pyx_k_temp, sizeof(__pyx_k_temp), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_track, __pyx_k_track, sizeof(__pyx_k_track), 0, 0, 1, 1},
+  {&__pyx_n_s_trackStats, __pyx_k_trackStats, sizeof(__pyx_k_trackStats), 0, 0, 1, 1},
+  {&__pyx_kp_s_trackStats_must_be_0, __pyx_k_trackStats_must_be_0, sizeof(__pyx_k_trackStats_must_be_0), 0, 0, 1, 0},
   {&__pyx_n_s_tstruct, __pyx_k_tstruct, sizeof(__pyx_k_tstruct), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
@@ -17525,7 +17661,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) {__pyx_filename = __pyx_f[3]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -17543,137 +17679,181 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":43
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":46
  *     """
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_neutral_variant); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_neutral_variant); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":45
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":48
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_selected_varian); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_selected_varian); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":47
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":50
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_recombination_rate_must_be_0); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_recombination_rate_must_be_0); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":49
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":52
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     if sigmaE < 0.:
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":52
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":55
  *         f=0
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")             # <<<<<<<<<<<<<<
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_sigmaE_must_be_0); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_sigmaE_must_be_0); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":54
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":57
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")             # <<<<<<<<<<<<<<
- *     pops = popvec(npops,N)
- *     rmgr = region_manager_wrapper();
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_VS_must_be_0); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_VS_must_be_0); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":100
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":59
+ *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ */
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_trackStats_must_be_0); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":61
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
+ * 
+ *     pops = popvec(npops,N)
+ */
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_trackStats_must_be_0); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":111
  *     """
  *     if mu_neutral < 0:
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_neutral_variant); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_neutral_variant); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":102
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":113
  *         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
  *     if mu_selected < 0:
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")             # <<<<<<<<<<<<<<
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_selected_varian); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_mutation_rate_to_selected_varian); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":104
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":115
  *         raise RuntimeError("mutation rate to selected variants must be >= 0.")
  *     if recrate < 0:
  *         raise RuntimeError("recombination rate must be >= 0.")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_recombination_rate_must_be_0); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_recombination_rate_must_be_0); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":106
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":117
  *         raise RuntimeError("recombination rate must be >= 0.")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     if sigmaE < 0.:
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 117; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":109
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":120
  *         f=0
  *     if sigmaE < 0.:
  *         raise RuntimeError("sigmaE must be >= 0.")             # <<<<<<<<<<<<<<
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_sigmaE_must_be_0); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_sigmaE_must_be_0); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":111
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":122
  *         raise RuntimeError("sigmaE must be >= 0.")
  *     if VS < 0.:
  *         raise RuntimeError("VS must be >= 0.")             # <<<<<<<<<<<<<<
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ */
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_VS_must_be_0); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":124
+ *         raise RuntimeError("VS must be >= 0.")
+ *     if track < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")
+ */
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_trackStats_must_be_0); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":126
+ *         raise RuntimeError("trackStats must be >= 0.")
+ *     if trackStats < 0:
+ *         raise RuntimeError("trackStats must be >= 0.")             # <<<<<<<<<<<<<<
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_VS_must_be_0); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_trackStats_must_be_0); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "fwdpy/qtrait/ew2010.pyx":64
  *     """
@@ -17682,9 +17862,9 @@ static int __Pyx_InitCachedConstants(void) {
  *     if sigma < 0.:
  *         raise RuntimeError("sigma cannot be < 0.")
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_tau_cannot_be_0); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_tau_cannot_be_0); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "fwdpy/qtrait/ew2010.pyx":66
  *         raise RuntimeError("tau cannot be < 0.")
@@ -17693,9 +17873,9 @@ static int __Pyx_InitCachedConstants(void) {
  *     cdef map[double,ew_mut_details] x = ew2010_assign_effects(rng.thisptr,pop.pop.get(),tau,sigma)
  *     cdef map[double,ew_mut_details].iterator itr = x.begin()
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_sigma_cannot_be_0); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_sigma_cannot_be_0); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "View.MemoryView":129
  * 
@@ -17704,9 +17884,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* "View.MemoryView":132
  * 
@@ -17715,9 +17895,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(format, bytes):
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "View.MemoryView":135
  * 
@@ -17726,9 +17906,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         self._format = format  # keep a reference to the byte string
  *         self.format = self._format
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_s_ASCII); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_ASCII); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 135; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "View.MemoryView":144
  * 
@@ -17737,9 +17917,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__22)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "View.MemoryView":172
  *             self.data = <char *>malloc(self.len)
@@ -17748,9 +17928,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 172; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "View.MemoryView":188
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -17759,9 +17939,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__24)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "View.MemoryView":447
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -17770,9 +17950,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 447; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__25)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 447; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
   /* "View.MemoryView":523
  *             if self.view.strides == NULL:
@@ -17781,9 +17961,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__22)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__26)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 523; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
   /* "View.MemoryView":531
  *         def __get__(self):
@@ -17792,12 +17972,12 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__23 = PyTuple_New(1); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 531; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__23);
+  __pyx_tuple__27 = PyTuple_New(1); if (unlikely(!__pyx_tuple__27)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 531; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__23, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  PyTuple_SET_ITEM(__pyx_tuple__27, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__27);
 
   /* "View.MemoryView":640
  *         if item is Ellipsis:
@@ -17806,9 +17986,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 seen_ellipsis = True
  *             else:
  */
-  __pyx_slice__24 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__24)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_slice__24);
-  __Pyx_GIVEREF(__pyx_slice__24);
+  __pyx_slice__28 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__28)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 640; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_slice__28);
+  __Pyx_GIVEREF(__pyx_slice__28);
 
   /* "View.MemoryView":643
  *                 seen_ellipsis = True
@@ -17817,9 +17997,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             have_slices = True
  *         else:
  */
-  __pyx_slice__25 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__25)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 643; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_slice__25);
-  __Pyx_GIVEREF(__pyx_slice__25);
+  __pyx_slice__29 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__29)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 643; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_slice__29);
+  __Pyx_GIVEREF(__pyx_slice__29);
 
   /* "View.MemoryView":654
  *     nslices = ndim - len(result)
@@ -17828,9 +18008,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     return have_slices or nslices, tuple(result)
  */
-  __pyx_slice__26 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__26)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_slice__26);
-  __Pyx_GIVEREF(__pyx_slice__26);
+  __pyx_slice__30 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__30)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_slice__30);
+  __Pyx_GIVEREF(__pyx_slice__30);
 
   /* "View.MemoryView":661
  *     for suboffset in suboffsets[:ndim]:
@@ -17839,33 +18019,33 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__27)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__31)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":7
  * 
  * @cython.boundscheck(False)
  * def evolve_qtrait(GSLrng rng,             # <<<<<<<<<<<<<<
- *                     int npops,
- *                     int N,
+ *                   int npops,
+ *                   int N,
  */
-  __pyx_tuple__29 = PyTuple_Pack(18, __pyx_n_s_rng, __pyx_n_s_npops, __pyx_n_s_N, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sigmaE, __pyx_n_s_VS, __pyx_n_s_optimum, __pyx_n_s_track, __pyx_n_s_f, __pyx_n_s_pops, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__29)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__29);
-  __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(15, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtrait, 7, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__33 = PyTuple_Pack(19, __pyx_n_s_rng, __pyx_n_s_npops, __pyx_n_s_N, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sigmaE, __pyx_n_s_VS, __pyx_n_s_optimum, __pyx_n_s_track, __pyx_n_s_trackStats, __pyx_n_s_f, __pyx_n_s_pops, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__33)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(16, 0, 19, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtrait, 7, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":64
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":73
  *     return pops
  * 
  * def evolve_qtrait_more(GSLrng rng,             # <<<<<<<<<<<<<<
  *                     popvec pops,
  *                     unsigned[:] nlist,
  */
-  __pyx_tuple__31 = PyTuple_Pack(15, __pyx_n_s_rng, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sigmaE, __pyx_n_s_VS, __pyx_n_s_optimum, __pyx_n_s_track, __pyx_n_s_f, __pyx_n_s_rmgr); if (unlikely(!__pyx_tuple__31)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__31);
-  __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(14, 0, 15, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtrait_more, 64, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__35 = PyTuple_Pack(16, __pyx_n_s_rng, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sigmaE, __pyx_n_s_VS, __pyx_n_s_optimum, __pyx_n_s_track, __pyx_n_s_trackStats, __pyx_n_s_f, __pyx_n_s_rmgr); if (unlikely(!__pyx_tuple__35)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
+  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(15, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtrait_more, 73, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "fwdpy/qtrait/ew2010.pyx":57
  * #     return pops
@@ -17874,10 +18054,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """
  *     :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.qtrait.qtrait.evolve_qtrait` and/or :func:`fwdp.qtrait.qtrait.evolve_qtrait_more`
  */
-  __pyx_tuple__33 = PyTuple_Pack(8, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_tau, __pyx_n_s_sigma, __pyx_n_s_x, __pyx_n_s_itr, __pyx_n_s_rv, __pyx_n_s_temp); if (unlikely(!__pyx_tuple__33)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__33);
-  __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_2, __pyx_n_s_ew2010_effects, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__37 = PyTuple_Pack(8, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_tau, __pyx_n_s_sigma, __pyx_n_s_x, __pyx_n_s_itr, __pyx_n_s_rv, __pyx_n_s_temp); if (unlikely(!__pyx_tuple__37)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_2, __pyx_n_s_ew2010_effects, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "fwdpy/qtrait/ew2010.pyx":76
  *     return rv
@@ -17886,20 +18066,20 @@ static int __Pyx_InitCachedConstants(void) {
  *     """
  *     Implement model of Eyre-Walker 2010
  */
-  __pyx_tuple__35 = PyTuple_Pack(6, __pyx_n_s_pop, __pyx_n_s_effects, __pyx_n_s_temp, __pyx_n_s_tstruct, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__35)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__35);
-  __Pyx_GIVEREF(__pyx_tuple__35);
-  __pyx_codeobj__36 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__35, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_2, __pyx_n_s_ew2010_traits, 76, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__36)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__39 = PyTuple_Pack(6, __pyx_n_s_pop, __pyx_n_s_effects, __pyx_n_s_temp, __pyx_n_s_tstruct, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_2, __pyx_n_s_ew2010_traits, 76, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "fwdpy/qtrait/misc.pyx":1
  * def popstats( singlepop pop ):             # <<<<<<<<<<<<<<
  *     """
  *     Get statistics like VG, etc. from a population
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_pop); if (unlikely(!__pyx_tuple__37)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_3, __pyx_n_s_popstats, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_pop); if (unlikely(!__pyx_tuple__41)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__41);
+  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra_3, __pyx_n_s_popstats, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "View.MemoryView":278
  *         return self.name
@@ -17908,9 +18088,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__43)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__43);
+  __Pyx_GIVEREF(__pyx_tuple__43);
 
   /* "View.MemoryView":279
  * 
@@ -17919,9 +18099,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__40)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__44)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
 
   /* "View.MemoryView":280
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -17930,9 +18110,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__41)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__45)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__45);
+  __Pyx_GIVEREF(__pyx_tuple__45);
 
   /* "View.MemoryView":283
  * 
@@ -17941,9 +18121,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__42)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__42);
-  __Pyx_GIVEREF(__pyx_tuple__42);
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__46)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
 
   /* "View.MemoryView":284
  * 
@@ -17952,9 +18132,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__43)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__47)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__47);
+  __Pyx_GIVEREF(__pyx_tuple__47);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -18135,9 +18315,9 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s__28);
-  __Pyx_GIVEREF(__pyx_n_s__28);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__28);
+  __Pyx_INCREF(__pyx_n_s__32);
+  __Pyx_GIVEREF(__pyx_n_s__32);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__32);
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_fwdpy_internal, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18170,24 +18350,24 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * 
  * @cython.boundscheck(False)
  * def evolve_qtrait(GSLrng rng,             # <<<<<<<<<<<<<<
- *                     int npops,
- *                     int N,
+ *                   int npops,
+ *                   int N,
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_6qtrait_6qtrait_1evolve_qtrait, NULL, __pyx_n_s_fwdpy_qtrait_qtrait); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtrait, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 7; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/qtrait/evolve_qtraits.pyx":64
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":73
  *     return pops
  * 
  * def evolve_qtrait_more(GSLrng rng,             # <<<<<<<<<<<<<<
  *                     popvec pops,
  *                     unsigned[:] nlist,
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more, NULL, __pyx_n_s_fwdpy_qtrait_qtrait); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_6qtrait_6qtrait_3evolve_qtrait_more, NULL, __pyx_n_s_fwdpy_qtrait_qtrait); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtrait_more, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtrait_more, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/qtrait/ew2010.pyx":57
@@ -18254,7 +18434,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_2);
@@ -18268,7 +18448,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__44, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_2);
@@ -18282,7 +18462,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__41, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__45, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_2);
@@ -18296,7 +18476,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__42, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__46, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_2);
@@ -18310,7 +18490,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__43, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
@@ -18345,8 +18525,8 @@ PyMODINIT_FUNC PyInit_qtrait(void)
 
   /* "map.to_py":227
  * 
- * @cname("__pyx_convert_map_to_py_std_3a__3a_string____double")
- * cdef object __pyx_convert_map_to_py_std_3a__3a_string____double(const map[X,Y]& s):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
+ * cdef object __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(const map[X,Y]& s):             # <<<<<<<<<<<<<<
  *     o = {}
  *     cdef const map[X,Y].value_type *key_value
  */

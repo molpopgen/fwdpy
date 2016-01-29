@@ -24,9 +24,10 @@ namespace fwdpy
 			   const double optimum,
 			   const double VS,
 			   const int track,
+			   const int trackStats,
 			   const fwdpy::internal::region_manager * rm);
-    
-    std::map<std::string,double> qtrait_pop_props( const fwdpy::singlepop_t * pop );
+
+    std::map<std::string,std::vector<double>> qtrait_pop_props( const fwdpy::singlepop_t * pop );
 
     struct ew_mut_details
     {
@@ -45,7 +46,7 @@ namespace fwdpy
       ew_mut_details(ew_mut_details &&) = default;
       ew_mut_details & operator=(const ew_mut_details &)=default;
     };
-    
+
     std::map<double,ew_mut_details> ew2010_assign_effects(GSLrng_t * rng,
 							  const fwdpy::singlepop_t * pop,
 							  const double tau,

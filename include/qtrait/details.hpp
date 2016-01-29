@@ -17,10 +17,11 @@ namespace qtrait {
 			     const double f,
 			     const double sigmaE,
 			     const double optimum ,
-			     const bool track,  //do we want to track the trajectories of all mutations?
+			     const int track,  //do we want to track the trajectories of all mutations and how often?
+			     const int trackStats,  //do we want to track VG, etc., and how often?
 			     KTfwd::extensions::discrete_mut_model && __m,
 			     KTfwd::extensions::discrete_rec_model && __recmap,
-			     rules && __model_rules)   
+			     rules && __model_rules)
   {
     gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
     gsl_rng_set(rng,seed);
@@ -37,13 +38,13 @@ namespace qtrait {
     const auto ff = []( const fwdpy::singlepop_t::diploid_t &,
 			const fwdpy::singlepop_t::gcont_t &,
 			const fwdpy::singlepop_t::mcont_t ) noexcept { return 0.; };
-    
+
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
 	KTfwd::experimental::sample_diploid(rng,
-					    pop->gametes,  
-					    pop->diploids, 
+					    pop->gametes,
+					    pop->diploids,
 					    pop->mutations,
 					    pop->mcounts,
 					    pop->N,
@@ -58,7 +59,8 @@ namespace qtrait {
 					    KTfwd::remove_nothing());
 	KTfwd::update_mutations(pop->mutations,pop->mut_lookup,pop->mcounts,2*nextN);
 	//This being put here ignores any mutation existing for only 1 generation
-	if(track) pop->updateTraj();
+	if(track&&pop->generation%track==0.) pop->updateTraj();
+	if(trackStats&&pop->generation%trackStats==0) pop->updateStats();
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     gsl_rng_free(rng);

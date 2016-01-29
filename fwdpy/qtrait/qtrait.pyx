@@ -24,8 +24,9 @@ cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
         const double optimum,
         const double VS,
         const int track,
+        const int trackStats,
         const region_manager * rm)
-    map[string,double] qtrait_pop_props( const singlepop_t * pop );
+    map[string,vector[double]] qtrait_pop_props( const singlepop_t * pop );
     cdef struct ew_mut_details:
        double s
        double e
@@ -56,7 +57,7 @@ cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
 #         const vector[double] & rbeg,
 #         const vector[double] & rend,
 #         const vector[double] & rweight)
-    
+
 include "evolve_qtraits.pyx"
 include "ew2010.pyx"
 include "misc.pyx"
