@@ -1,4 +1,4 @@
-import fwdpy as fp 
+import fwdpy as fp
 import fwdpy.qtrait as qt
 import numpy as np
 import pandas
@@ -34,7 +34,7 @@ for i in range(2):
                             [fp.GaussianS(0,1,1,0.25)],
                             [fp.Region(0,1,1)],
                             0.1,
-                            0.25,
+                            optimum=0.25,
                             track=True)
     #Get the mutation frequency trajectories, etc.
     #for all mutations that ever happened
