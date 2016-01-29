@@ -60,15 +60,66 @@ namespace fwdpy {
 
   using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
-  
+
+  struct qtrait_stats
+  /* VG, VE, etc.
+     Typically not relevant to "pop-gen" types of simulations
+  */
+  {
+    std::vector<unsigned> g;
+    std::vector<double> vg,ve,plf,max2pqee,ebar;
+    qtrait_stats() noexcept : g(std::vector<unsigned>()),
+			      vg(std::vector<double>()),
+			      ve(std::vector<double>()),
+			      plf(std::vector<double>()),
+			      max2pqee(std::vector<double>()),
+			      ebar(std::vector<double>())
+    {
+    }
+
+    template<typename obuffer_t>
+    void serialize(obuffer_t & o) const
+    {
+      const std::size_t n = g.size();
+      o.write(reinterpret_cast<const char*>(&n),sizeof(decltype(n)));
+      o.write(reinterpret_cast<const char*>(g.data()),n*sizeof(unsigned));
+      o.write(reinterpret_cast<const char*>(vg.data()),n*sizeof(double));
+      o.write(reinterpret_cast<const char*>(ve.data()),n*sizeof(double));
+      o.write(reinterpret_cast<const char*>(plf.data()),n*sizeof(double));
+      o.write(reinterpret_cast<const char*>(max2pqee.data()),n*sizeof(double));
+      o.write(reinterpret_cast<const char*>(ebar.data()),n*sizeof(double));
+    }
+
+    template<typename ibuffer_t>
+    void deserialize(ibuffer_t & i)
+    {
+      std::size_t n;
+      i.read(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
+      g.resize(n);
+      vg.resize(n);
+      ve.resize(n);
+      plf.resize(n);
+      max2pqee.resize(n);
+      ebar.resize(n);
+      i.read(reinterpret_cast<char*>(g.data()),n*sizeof(unsigned));
+      i.read(reinterpret_cast<char*>(vg.data()),n*sizeof(double));
+      i.read(reinterpret_cast<char*>(ve.data()),n*sizeof(double));
+      i.read(reinterpret_cast<char*>(plf.data()),n*sizeof(double));
+      i.read(reinterpret_cast<char*>(max2pqee.data()),n*sizeof(double));
+      i.read(reinterpret_cast<char*>(ebar.data()),n*sizeof(double));
+    }
+  };
+
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
   {
     using base = KTfwd::singlepop<KTfwd::popgenmut,diploid_t>;
     using trajtype = trajectories_t;
     unsigned generation;
     trajtype trajectories;
+    qtrait_stats qstats;
     singlepop_t(const unsigned & N) : base(N),generation(0),
-				      trajectories(trajtype())
+				      trajectories(trajtype()),
+				      qstats(qtrait_stats())
     {
     }
     unsigned gen() const
