@@ -5,20 +5,21 @@ cimport cython
 
 @cython.boundscheck(False)
 def evolve_qtrait(GSLrng rng,
-                    int npops,
-                    int N,
-                    unsigned[:] nlist,
-                    double mu_neutral,
-                    double mu_selected,
-                    double recrate,
-                    list nregions,
-                    list sregions,
-                    list recregions,
-                    double sigmaE,
-                    double VS=1,
-                    double optimum = 0.,
-                    bint track = False,
-                    double f = 0.):
+                  int npops,
+                  int N,
+                  unsigned[:] nlist,
+                  double mu_neutral,
+                  double mu_selected,
+                  double recrate,
+                  list nregions,
+                  list sregions,
+                  list recregions,
+                  double sigmaE,
+                  double VS=1,
+                  double optimum = 0.,
+                  int track = 0,
+                  int trackStats = 0,
+                  double f = 0.):
     """
     Evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.
 
@@ -34,7 +35,9 @@ def evolve_qtrait(GSLrng rng,
     :param recregions: A list specifying how the genetic map varies along the region
     :param sigmaE: The standard deviation in random variation to add to trait value
     :param optimum: The optimum trait value.
-    :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!
+    :param VS: The total variance in selection intensity
+    :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
+    :param trackStats: whether or not to trat VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
     :param f: The selfing probabilty
 
     :raises: RuntimeError if parameters do not pass checks
@@ -52,6 +55,11 @@ def evolve_qtrait(GSLrng rng,
         raise RuntimeError("sigmaE must be >= 0.")
     if VS < 0.:
         raise RuntimeError("VS must be >= 0.")
+    if track < 0:
+        raise RuntimeError("trackStats must be >= 0.")
+    if trackStats < 0:
+        raise RuntimeError("trackStats must be >= 0.")
+
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
@@ -73,7 +81,8 @@ def evolve_qtrait_more(GSLrng rng,
                     double sigmaE,
                     double VS = 1,
                     double optimum = 0.,
-                    bint track = False,
+                    int track = 0,
+                    int trackStats = 0,
                     double f = 0.):
     """
     Continue to evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.
@@ -91,7 +100,8 @@ def evolve_qtrait_more(GSLrng rng,
     :param sigmaE: The standard deviation in random variation to add to trait value
     :oaran VS: The variance in the Gaussian fitness function.  Under certaing strong assumtions, :math:`V(G) \approx 4\times\mu\timesV(S)`, where :math:`\mu` is mu_selected.
     :param optimum: The optimum trait value.
-    :param track: whether or not to record the frequency trajectories of mutations.  True = simulations are much slower!
+    :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
+    :param trackStats: whether or not to trat VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
     :param f: The selfing probabilty
 
     :raises: RuntimeError if parameters do not pass checks
@@ -109,6 +119,10 @@ def evolve_qtrait_more(GSLrng rng,
         raise RuntimeError("sigmaE must be >= 0.")
     if VS < 0.:
         raise RuntimeError("VS must be >= 0.")
+    if track < 0:
+        raise RuntimeError("trackStats must be >= 0.")
+    if trackStats < 0:
+        raise RuntimeError("trackStats must be >= 0.")
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
