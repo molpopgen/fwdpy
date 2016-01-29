@@ -15,11 +15,11 @@ def evolve_qtrait(GSLrng rng,
                   list sregions,
                   list recregions,
                   double sigmaE,
-                  double VS=1,
                   double optimum = 0.,
                   int track = 0,
                   int trackStats = 0,
-                  double f = 0.):
+                  double f = 0.,
+                  double VS=1,):
     """
     Evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.
 
@@ -35,10 +35,10 @@ def evolve_qtrait(GSLrng rng,
     :param recregions: A list specifying how the genetic map varies along the region
     :param sigmaE: The standard deviation in random variation to add to trait value
     :param optimum: The optimum trait value.
-    :param VS: The total variance in selection intensity
     :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
-    :param trackStats: whether or not to trat VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
+    :param trackStats: whether or not to track VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
     :param f: The selfing probabilty
+    :param VS: The total variance in selection intensity
 
     :raises: RuntimeError if parameters do not pass checks
     """
@@ -80,11 +80,11 @@ def evolve_qtrait_more(GSLrng rng,
                     list sregions,
                     list recregions,
                     double sigmaE,
-                    double VS = 1,
                     double optimum = 0.,
                     int track = 0,
                     int trackStats = 0,
-                    double f = 0.):
+                    double f = 0.,
+                    double VS = 1,):
     """
     Continue to evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.
 
@@ -99,11 +99,11 @@ def evolve_qtrait_more(GSLrng rng,
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
     :param sigmaE: The standard deviation in random variation to add to trait value
-    :oaran VS: The variance in the Gaussian fitness function.  Under certaing strong assumtions, :math:`V(G) \approx 4\times\mu\timesV(S)`, where :math:`\mu` is mu_selected.
     :param optimum: The optimum trait value.
     :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
-    :param trackStats: whether or not to trat VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
+    :param trackStats: whether or not to track VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
     :param f: The selfing probabilty
+    :param VS: The variance in the Gaussian fitness function.  Under certaing strong assumtions, :math:`V(G) \approx 4\times\mu\timesV(S)`, where :math:`\mu` is mu_selected.
 
     :raises: RuntimeError if parameters do not pass checks
     """
@@ -126,6 +126,7 @@ def evolve_qtrait_more(GSLrng rng,
         raise RuntimeError("trackStats must be >= 0.")
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    print optimum," ",VS," ",track," ",trackStats
     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
                      trackStats,
                      rmgr.thisptr)

@@ -12,7 +12,7 @@ for i in range(2):
     print i
     #Evolve to equilibrium
     pops = qt.evolve_qtrait(rng,
-                            4,
+                            1,
                             1000,
                             nlist[0:],
                             0,
@@ -23,7 +23,7 @@ for i in range(2):
                             [fp.Region(0,1,1)],
                             0.1,
                             0.,
-                            track=1,trackStats=2)
+                            track=1,trackStats=10000)
     #Evolve another 10N gens after shift optimum to 0.25
     qt.evolve_qtrait_more(rng,pops,
                             nlist[0:],
