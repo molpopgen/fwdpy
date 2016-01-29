@@ -64,6 +64,7 @@ namespace fwdpy {
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
+	if (track && pop->generation &&pop->generation%track==0.) pop->updateTraj();
 	KTfwd::sample_diploid(rng,
 			      pop->gametes,
 			      pop->diploids,
@@ -77,7 +78,6 @@ namespace fwdpy {
 			      dipfit,
 			      pop->neutral,pop->selected,
 			      f);
-	if (track && pop->generation%track==0.) pop->updateTraj();
 	pop->N=nextN;
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
@@ -175,6 +175,7 @@ namespace fwdpy {
     for( size_t g = 0 ; g < simlen ; ++g, ++pop.generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
+	if (track && pop.generation &&pop.generation%track==0.) pop.updateTraj();
 	KTfwd::sample_diploid(rng,
 			      pop.gametes,
 			      pop.diploids,
@@ -189,7 +190,7 @@ namespace fwdpy {
 			      pop.neutral,
 			      pop.selected,
 			      f);
-	if (track && pop.generation%track==0.) pop.updateTraj();
+
 	pop.N=nextN;
 	KTfwd::update_mutations(pop.mutations,pop.fixations,pop.fixation_times,pop.mut_lookup,pop.mcounts,pop.generation,2*nextN);
 	assert(KTfwd::check_sum(pop.gametes,2*nextN));
