@@ -173,7 +173,7 @@ namespace fwdpy {
     }
 
     void updateStats()
-    {
+     {
       std::vector<double> VG,VE,wbar;
       VG.reserve(diploids.size());
       VE.reserve(diploids.size());
@@ -212,9 +212,10 @@ namespace fwdpy {
       qstats.vg.push_back(gsl_stats_variance(VG.data(),1,VG.size()));
       qstats.ve.push_back(gsl_stats_variance(VE.data(),1,VE.size()));
       qstats.plf.push_back(leading_f);
-      qstats.plf.push_back(leading_e);
+      qstats.le.push_back(leading_e);
       qstats.max2pqee.push_back(leading_e);
       qstats.ebar.push_back(sum_e/double(nm));
+      qstats.wbar.push_back(wbar);
     }
 
     void clearTrajectories()
