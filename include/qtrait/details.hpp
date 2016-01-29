@@ -41,7 +41,6 @@ namespace qtrait {
 
     for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
-	//This being put here ignores any mutation existing for only 1 generation
 	if(track&&pop->generation&&pop->generation%track==0.) pop->updateTraj();
 	if(trackStats&&pop->generation&&pop->generation%trackStats==0) pop->updateStats();
 	const unsigned nextN = 	*(Nvector+g);
