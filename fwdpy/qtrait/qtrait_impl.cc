@@ -63,13 +63,14 @@ namespace fwdpy
     std::map<string,std::vector<double>> qtrait_pop_props( const fwdpy::singlepop_t * pop )
     {
       map<string,std::vector<double> > rv {
-	  {"generation",std::vector<double>(pop->qstats.g.begin(),pop->qstats.g.end())}//,
-	    // {"VG",pop->qstats.vg},
-	    //   {"VE",pop->qstats.ve},
-	    //   //{"wbar",pop->qstats.w},
-	    // 	{"leading_q",pop->qstats.plf},
-	    // 	  {"max_expl",pop->qstats.max2pqee},
-	    // 	    {"ebar",pop->qstats.ebar}
+	  {"generation",std::vector<double>(pop->qstats.g.begin(),pop->qstats.g.end())},
+	    {"VG",pop->qstats.vg},
+	      {"VE",pop->qstats.ve},
+	      {"wbar",pop->qstats.w},
+	    	{"leading_q",pop->qstats.plf},
+		  {"leading_e",pop->qstats.le},
+	    	  {"max_expl",pop->qstats.max2pqee},
+	    	    {"ebar",pop->qstats.ebar}
       };
 
       return rv;
