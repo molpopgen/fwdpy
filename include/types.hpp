@@ -100,8 +100,6 @@ namespace fwdpy {
     }
   };
 
-  std::vector<qtrait_stats_cython> convert_qtrait_stats( const qtrait_stats_t & qts );
-
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
   {
     using base = KTfwd::singlepop<KTfwd::popgenmut,diploid_t>;
@@ -209,6 +207,8 @@ namespace fwdpy {
       trajectories.clear();
     }
   };
+
+  std::vector<qtrait_stats_cython> convert_qtrait_stats( const singlepop_t * pop );
 
   struct metapop_t : public KTfwd::metapop<KTfwd::popgenmut,diploid_t>
   {

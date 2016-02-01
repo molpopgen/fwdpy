@@ -2,10 +2,10 @@
 
 namespace fwdpy
 {
-  std::vector<qtrait_stats_cython> convert_qtrait_stats( const qtrait_stats_t & qts )
+  std::vector<qtrait_stats_cython> convert_qtrait_stats( const singlepop_t * pop )
   {
     std::vector<qtrait_stats_cython> rv;
-    for( const auto & i : qts )
+    for( const auto & i : pop->qstats )
       {
 	rv.emplace_back( "VG",i[std::size_t(qtrait_stat_names::VG)],i[std::size_t(qtrait_stat_names::GEN)] );
 	rv.emplace_back( "VE",i[std::size_t(qtrait_stat_names::VE)],i[std::size_t(qtrait_stat_names::GEN)] );
