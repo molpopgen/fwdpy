@@ -28,6 +28,24 @@ using poptype = fwdpy::singlepop_t;
 
 namespace fwdpy
 {
+  //Get properties out from the population
+  std::vector<fwdpy::qtrait_stats_cython> convert_qtrait_stats( const fwdpy::singlepop_t * pop )
+  {
+    using namespace fwdpy;
+    std::vector<qtrait_stats_cython> rv;
+    for( const auto & i : pop->qstats )
+      {
+	rv.emplace_back( "VG",i[std::size_t(qtrait_stat_names::VG)],i[std::size_t(qtrait_stat_names::GEN)] );
+	rv.emplace_back( "VE",i[std::size_t(qtrait_stat_names::VE)],i[std::size_t(qtrait_stat_names::GEN)] );
+	rv.emplace_back( "leading_q",i[std::size_t(qtrait_stat_names::PLF)],i[std::size_t(qtrait_stat_names::GEN)] );
+	rv.emplace_back( "leading_e",i[std::size_t(qtrait_stat_names::LE)],i[std::size_t(qtrait_stat_names::GEN)] );
+	rv.emplace_back( "max_expl",i[std::size_t(qtrait_stat_names::MAXEXP)],i[std::size_t(qtrait_stat_names::GEN)] );
+	rv.emplace_back( "ebar",i[std::size_t(qtrait_stat_names::EBAR)],i[std::size_t(qtrait_stat_names::GEN)] );
+	rv.emplace_back( "wbar",i[std::size_t(qtrait_stat_names::WBAR)],i[std::size_t(qtrait_stat_names::GEN)] );
+      }
+    return rv;
+  };
+
   namespace qtrait
   {
     void evolve_qtraits_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
@@ -57,78 +75,6 @@ namespace fwdpy
 				 std::move(qtrait_model_rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length))));
 	}
       for(unsigned i=0;i<threads.size();++i) threads[i].join();
-    }
-
-    //Get properties out from the population
-    std::map<string,std::vector<double>> qtrait_pop_props( const fwdpy::singlepop_t * pop )
-    {
-      map<string,std::vector<double> > rv {
-	  {"generation",std::vector<double>(pop->qstats.g.begin(),pop->qstats.g.end())},
-	    {"VG",pop->qstats.vg},
-	      {"VE",pop->qstats.ve},
-	      {"wbar",pop->qstats.wbar},
-	    	{"leading_q",pop->qstats.plf},
-		  {"leading_e",pop->qstats.le},
-	    	  {"max_expl",pop->qstats.max2pqee},
-	    	    {"ebar",pop->qstats.ebar}
-      };
-
-      return rv;
-      // std::vector<double> VG,VE,wbar;
-
-      // //Get data from the diploids
-      // for( auto itr = pop->diploids.cbegin() ; itr != pop->diploids.cend() ; ++itr )
-      // 	{
-      // 	  VG.push_back( itr->g );
-      // 	  VE.push_back( itr->e );
-      // 	  wbar.push_back( itr->w );
-      // 	}
-
-      // //Find the "leading factor"
-      // double twoN = 2.*double(pop->diploids.size());
-      // //std::size_t max_exp = std::numeric_limits<std::size_t>::max();
-      // double mvexpl = 0.,
-      // 	leading_e=std::numeric_limits<double>::quiet_NaN(),
-      // 	leading_f=std::numeric_limits<double>::quiet_NaN();
-      // for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
-      // 	{
-      // 	  if(pop->mcounts[i])
-      // 	    {
-      // 	      auto n = pop->mcounts[i];
-      // 	      double p1=double(n)/twoN;
-      // 	      if (2.0*p1*(1.-p1)*std::pow(pop->mutations[i].s,2.) > mvexpl)
-      // 		{
-      // 		  mvexpl=2.0*p1*(1.-p1);
-      // 		  leading_e = pop->mutations[i].s;
-      // 		  leading_f = p1;
-      // 		}
-      // 	    }
-      // 	}
-      // // auto itr = std::max_element(pop->mutations.cbegin(),pop->mutations.cend(),
-      // // 				  [&twoN]( const poptype::mutation_t & m1,
-      // // 					   const poptype::mutation_t & m2 ) {
-      // // 				    double p1 = double(m1.n)/twoN,p2=double(m2.n)/twoN;
-      // // 				    return p1*(1.-p1)*std::pow(m1.s,2.) < p2*(1.-p2)*std::pow(m2.s,2.);
-      // // 				  });
-
-      // // double mvexpl = std::numeric_limits<double>::quiet_NaN(),
-      // // 	leading_e=std::numeric_limits<double>::quiet_NaN(),
-      // // 	leading_f=std::numeric_limits<double>::quiet_NaN();
-      // // if(itr != pop->mutations.end())
-      // // 	{
-      // // 	  mvexpl = 2.*(double(itr->n)/twoN)*(1.-(double(itr->n)/twoN))*std::pow(itr->s,2.);
-      // // 	  leading_e = itr->s;
-      // // 	  leading_f = double(itr->n)/twoN;
-      // // 	}
-      // map<string,double> rv;
-      // rv["VG"] = gsl_stats_variance(&VG[0],1,VG.size());
-      // rv["VE"] = gsl_stats_variance(&VE[0],1,VE.size());
-      // rv["H2"] = rv["VG"]/(rv["VG"]+rv["VE"]);
-      // rv["wbar"] = gsl_stats_mean(&wbar[0],1,wbar.size());
-      // rv["max_expl"] = mvexpl;
-      // rv["leading_e"] = leading_e;
-      // rv["leading_q"] = leading_f;
-      //return rv;
     }
   } //ns qtrait
 } //ns fwdpy

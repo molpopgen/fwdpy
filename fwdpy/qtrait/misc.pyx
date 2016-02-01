@@ -2,9 +2,11 @@ def popstats( singlepop pop ):
     """
     Get statistics like VG, etc. from a population
 
-    :return: A pandas.DataFrame.
-
-    :rtype: pandas.DataFrame
+    :return: List of dict
     """
-    return pandas.DataFrame(qtrait_pop_props(pop.pop.get()).items(),columns=['stat','value'])
+    cdef vector[qtrait_stats_cython] temp=convert_qtrait_stats(pop.pop.get())
+    rv = []
+    for i in range(temp.size()):
+        rv.append({'stat':temp[i].stat,'value':temp[i].value,'generation':temp[i].generation});
+    return rv
 

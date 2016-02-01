@@ -7,10 +7,19 @@ from cython.operator cimport dereference as deref,preincrement as inc
 from libcpp.vector cimport vector
 from libcpp.map cimport map
 from libcpp.utility cimport pair
+from libcpp.string cimport string
 from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
 import fwdpy.internal as internal
 import pandas
+
+cdef extern from "types.hpp" namespace "fwdpy" nogil:
+    cdef struct qtrait_stats_cython:
+        string stat
+        double value
+        unsigned gen
+
+    vector[qtrait_stats_cython] convert_qtrait_stats( const singlepop_t * pop )
 
 cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
     void evolve_qtraits_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t] ] * pops,
@@ -26,7 +35,7 @@ cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
         const int track,
         const int trackStats,
         const region_manager * rm)
-    map[string,vector[double]] qtrait_pop_props( const singlepop_t * pop );
+
     cdef struct ew_mut_details:
        double s
        double e
@@ -34,29 +43,6 @@ cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
     map[double,ew_mut_details] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
     vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,ew_mut_details] & effects) except +
 
-# cdef extern from "ewvw.hpp" namespace "fwdpy::qtrait":
-#     void evolve_ewvw_t( GSLrng_t * rng,
-#         vector[shared_ptr[singlepop_t]] * pops,
-#         const unsigned * Nvector,
-#         const size_t Nvector_length,
-#         const double mu_neutral,
-#         const double mu_selected,
-#         const double littler,
-#         const double f,
-#         const double sigmaE,
-#         const double VS_total,
-#         const double optimum,
-#         const int track,
-#         const vector[double] & nbegs,
-#         const vector[double] & nends,
-#         const vector[double] & nweights,
-#         const vector[double] & sbegs,
-#         const vector[double] & sends,
-#         const vector[double] & sweights,
-#         const vector[shmodel] * callbacks,
-#         const vector[double] & rbeg,
-#         const vector[double] & rend,
-#         const vector[double] & rweight)
 
 include "evolve_qtraits.pyx"
 include "ew2010.pyx"
