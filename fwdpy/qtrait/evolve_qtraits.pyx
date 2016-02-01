@@ -126,7 +126,6 @@ def evolve_qtrait_more(GSLrng rng,
         raise RuntimeError("trackStats must be >= 0.")
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    print optimum," ",VS," ",track," ",trackStats
     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
                      trackStats,
                      rmgr.thisptr)
