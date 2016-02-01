@@ -23,6 +23,17 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     ctypedef vector[diploid_t] dipvector_t
 
+    #This exists as a way to
+    #get VG, etc., from simulations
+    #into something that Cython can
+    #auto-convert into a dict.
+    #The back-end details involve
+    #C++11 that Cython doesn't currently understand.
+    cdef struct qtrait_stats_cython:
+        string stat
+        double value
+        unsigned generation
+
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
         const unsigned N
@@ -95,7 +106,7 @@ cdef class singlepop(poptype):
     cpdef popsize(self)
     cpdef sane(self)
     cpdef clearTraj(self)
-    
+
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
     cpdef gen(self)
@@ -107,7 +118,7 @@ cdef class singlepop_gm_vec(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
-    
+
 cdef class popcont(object):
     """
     Empty base class for containers of population objects.
@@ -122,20 +133,20 @@ cdef class popvec(popcont):
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
     cpdef append(self,popvec p)
-    
+
 cdef class popvec_gmv(popcont):
     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
-    
+
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     cpdef append(self,mpopvec p)
-    
+
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
@@ -161,7 +172,7 @@ cdef struct diploid_data:
     gamete_data chrom0,chrom1
     double g,e,w,sh0,sh1
     int n0,n1
-    
+
 #cdef popgen_mut_data get_mutation( const vector[popgenmut].iterator & ) nogil
 #cdef gamete_data get_gamete( const vector[gamete_t].iterator & ) nogil
 #cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
@@ -178,7 +189,7 @@ cdef extern from "neutral.hpp" namespace "fwdpy" nogil:
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
-    
+
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_dependencies()
     vector[string] fwdpy_version()
@@ -224,7 +235,7 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const char * fitness)
 
     vector[shared_ptr[singlepop_t]]  evolve_regions_async(const unsigned npops,
-							  GSLrng_t * rng, 
+							  GSLrng_t * rng,
 							  const unsigned * Nvector,
 							  const size_t Nvector_len,
 							  const double mu_neutral,
