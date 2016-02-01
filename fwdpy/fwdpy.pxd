@@ -23,17 +23,6 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     ctypedef vector[diploid_t] dipvector_t
 
-    #This exists as a way to
-    #get VG, etc., from simulations
-    #into something that Cython can
-    #auto-convert into a dict.
-    #The back-end details involve
-    #C++11 that Cython doesn't currently understand.
-    cdef struct qtrait_stats_cython:
-        string stat
-        double value
-        unsigned generation
-
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
         const unsigned N
@@ -91,9 +80,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         GSLrng_t(unsigned)
         gsl_rng * get()
 
-    vector[qtrait_stats_cython] convert_qtrait_stats( const singlepop_t * pop )
-
-#Now, provied definitions for classes in classes.pyx
+#Now, provide definitions for classes in classes.pyx
 cdef class poptype(object):
     """
     Empty base class for a population object.
