@@ -91,6 +91,8 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         GSLrng_t(unsigned)
         gsl_rng * get()
 
+    vector[qtrait_stats_cython] convert_qtrait_stats( const singlepop_t * pop )
+
 #Now, provied definitions for classes in classes.pyx
 cdef class poptype(object):
     """
