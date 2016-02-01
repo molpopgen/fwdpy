@@ -5,6 +5,7 @@
 #include <tuple>
 #include <memory>
 #include <vector>
+#include <array>
 #include <fwdpp/tags/diploid_tags.hpp>
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
@@ -61,62 +62,45 @@ namespace fwdpy {
   using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
 
-  struct qtrait_stats
-  /* VG, VE, etc.
-     Typically not relevant to "pop-gen" types of simulations
-  */
+  enum class qtrait_stat_names : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR };
+
+  using qtrait_stats_t = std::vector<std::array<double,8>>;
+
+  template<typename ostream>
+  void serialize_qtrait_stats(ostream & o, const qtrait_stats_t & qts)
   {
-    std::vector<unsigned> g;
-    std::vector<double> vg,ve,plf,le,max2pqee,ebar,wbar;
-    qtrait_stats() noexcept : g(std::vector<unsigned>()),
-			      vg(std::vector<double>()),
-			      ve(std::vector<double>()),
-			      plf(std::vector<double>()),
-			      le(std::vector<double>()),
-			      max2pqee(std::vector<double>()),
-			      ebar(std::vector<double>()),
-			      wbar(std::vector<double>())
-    {
-    }
+    std::size_t n=qts.size();
+    o.write(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
+    for(const auto & e : qts)
+      {
+	o.write(reinterpret_cast<const char*>(e.data()),e.max_size()*sizeof(double));
+      }
+  }
 
-    template<typename obuffer_t>
-    void serialize(obuffer_t & o) const
-    {
-      const std::size_t n = g.size();
-      o.write(reinterpret_cast<const char*>(&n),sizeof(decltype(n)));
-      o.write(reinterpret_cast<const char*>(g.data()),n*sizeof(unsigned));
-      o.write(reinterpret_cast<const char*>(vg.data()),n*sizeof(double));
-      o.write(reinterpret_cast<const char*>(ve.data()),n*sizeof(double));
-      o.write(reinterpret_cast<const char*>(plf.data()),n*sizeof(double));
-      o.write(reinterpret_cast<const char*>(le.data()),n*sizeof(double));
-      o.write(reinterpret_cast<const char*>(max2pqee.data()),n*sizeof(double));
-      o.write(reinterpret_cast<const char*>(ebar.data()),n*sizeof(double));
-      o.write(reinterpret_cast<const char*>(wbar.data()),n*sizeof(double));
-    }
+  template<typename istream>
+  void deserialize_qtrait_stats(istream & i, qtrait_stats_t & qts)
+  {
+    std::size_t n;
+    i.read(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
+    qts.resize(n);
+    for(auto & e : qts)
+      {
+	i.read(reinterpret_cast<char*>(e.data()),e.max_size()*sizeof(double));
+      }
+  }
 
-    template<typename ibuffer_t>
-    void deserialize(ibuffer_t & i)
+  struct qtrait_stats_cython
+  {
+    std::string stat;
+    double value;
+    unsigned generation;
+    qtrait_stats_cython(std::string _stat,
+			double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
     {
-      std::size_t n;
-      i.read(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
-      g.resize(n);
-      vg.resize(n);
-      ve.resize(n);
-      plf.resize(n);
-      le.resize(n);
-      max2pqee.resize(n);
-      ebar.resize(n);
-      wbar.resize(n);
-      i.read(reinterpret_cast<char*>(g.data()),n*sizeof(unsigned));
-      i.read(reinterpret_cast<char*>(vg.data()),n*sizeof(double));
-      i.read(reinterpret_cast<char*>(ve.data()),n*sizeof(double));
-      i.read(reinterpret_cast<char*>(plf.data()),n*sizeof(double));
-      i.read(reinterpret_cast<char*>(le.data()),n*sizeof(double));
-      i.read(reinterpret_cast<char*>(max2pqee.data()),n*sizeof(double));
-      i.read(reinterpret_cast<char*>(ebar.data()),n*sizeof(double));
-      i.read(reinterpret_cast<char*>(wbar.data()),n*sizeof(double));
     }
   };
+
+  std::vector<qtrait_stats_cython> convert_qtrait_stats( const qtrait_stats_t & qts );
 
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
   {
@@ -124,12 +108,13 @@ namespace fwdpy {
     using trajtype = trajectories_t;
     unsigned generation;
     trajtype trajectories;
-    qtrait_stats qstats;
+    qtrait_stats_t qstats;
     singlepop_t(const unsigned & N) : base(N),generation(0),
 				      trajectories(trajtype()),
-				      qstats(qtrait_stats())
+				      qstats(qtrait_stats_t())
     {
     }
+
     unsigned gen() const
     {
       return generation;
@@ -208,14 +193,15 @@ namespace fwdpy {
 	      ++nm;
             }
         }
-      qstats.g.push_back(generation);
-      qstats.vg.push_back(gsl_stats_variance(VG.data(),1,VG.size()));
-      qstats.ve.push_back(gsl_stats_variance(VE.data(),1,VE.size()));
-      qstats.plf.push_back(leading_f);
-      qstats.le.push_back(leading_e);
-      qstats.max2pqee.push_back(leading_e);
-      qstats.ebar.push_back(sum_e/double(nm));
-      qstats.wbar.push_back(gsl_stats_mean(wbar.data(),1,wbar.size()));
+
+      qstats.emplace_back(qtrait_stats_t::value_type{{double(generation),
+	      gsl_stats_variance(VG.data(),1,VG.size()),
+	      gsl_stats_variance(VE.data(),1,VE.size()),
+	      leading_f,
+	      leading_e,
+	      mvexpl,
+	      sum_e/double(nm),
+	      gsl_stats_mean(wbar.data(),1,wbar.size())}});
     }
 
     void clearTrajectories()

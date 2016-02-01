@@ -42,7 +42,7 @@ namespace fwdpy
       KTfwd::serialize rv;
       rv.buffer.write(reinterpret_cast<const char *>(&(pop->generation)),sizeof(unsigned));
       serialize_trajectories(pop->trajectories,rv.buffer);
-      pop->qstats.serialize(rv.buffer);
+      serialize_qtrait_stats(rv.buffer,pop->qstats);
       rv(*pop,KTfwd::mutation_writer(),fwdpy::diploid_writer());
       return rv.buffer.str();
     }
@@ -58,7 +58,7 @@ namespace fwdpy
 	  singlepop_t pop(0);
 	  st.buffer.read(reinterpret_cast<char*>(&pop.generation),sizeof(unsigned));
 	  deserialize_trajectories(st.buffer,&pop.trajectories);
-	  pop.qstats.deserialize(st.buffer);
+	  deserialize_qtrait_stats(st.buffer,pop.qstats);
 	  KTfwd::deserialize d;
 	  d(pop,st,KTfwd::mutation_reader<KTfwd::popgenmut>(),fwdpy::diploid_reader());
 	  rv.emplace_back( shared_ptr<singlepop_t>(new singlepop_t(move(pop))) );
