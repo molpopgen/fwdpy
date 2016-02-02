@@ -190,7 +190,7 @@ namespace fwdpy {
       unsigned nm=0;
       for(std::size_t i = 0 ; i < mcounts.size() ; ++i )
         {
-          if(mcounts[i])
+          if(mcounts[i] && mcounts[i]<twoN)
             {
               auto n = mcounts[i];
               double p1=double(n)/twoN;
