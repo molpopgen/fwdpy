@@ -29,7 +29,7 @@ using poptype = fwdpy::singlepop_t;
 namespace fwdpy
 {
   //Get properties out from the population
-  std::vector<fwdpy::qtrait_stats_cython> convert_qtrait_stats( const fwdpy::singlepop_t * pop )
+  std::vector<qtrait_stats_cython> convert_qtrait_stats( const fwdpy::singlepop_t * pop )
   {
     using namespace fwdpy;
     std::vector<qtrait_stats_cython> rv;

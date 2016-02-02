@@ -4,9 +4,6 @@ def popstats( singlepop pop ):
 
     :return: List of dict
     """
-    cdef vector[qtrait_stats_cython] temp=convert_qtrait_stats(pop.pop.get())
-    rv = []
-    for i in range(temp.size()):
-        rv.append({'stat':temp[i].stat,'value':temp[i].value,'generation':temp[i].generation});
-    return rv
+    return convert_qtrait_stats(pop.pop.get())
+
 

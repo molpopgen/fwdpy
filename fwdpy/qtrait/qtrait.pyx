@@ -13,12 +13,13 @@ from fwdpy.internal.internal cimport shwrappervec
 import fwdpy.internal as internal
 import pandas
 
-cdef extern from "types.hpp" namespace "fwdpy" nogil:
+cdef extern from "types.hpp" nogil:
     cdef struct qtrait_stats_cython:
         string stat
         double value
-        unsigned gen
-
+        unsigned generation
+        
+cdef extern from "types.hpp" namespace "fwdpy" nogil:
     vector[qtrait_stats_cython] convert_qtrait_stats( const singlepop_t * pop )
 
 cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
