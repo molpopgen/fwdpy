@@ -10,6 +10,30 @@
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
 #include <gsl/gsl_statistics_double.h>
+
+/*
+  NAMESPACE POLLUTION!!!!!
+
+  Types defined here are in the global namespace.
+
+  This is bad, BUT, it allows for auto-conversion of 
+  struct to dict via Cython.  
+
+  Currently, Cython will fail to compile auto-conversion
+  code for structs declared inside a C++ namespace.
+*/
+
+  struct qtrait_stats_cython
+  {
+    std::string stat;
+    double value;
+    unsigned generation;
+    qtrait_stats_cython(std::string _stat,
+			double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
+    {
+    }
+  };
+
 namespace fwdpy {
   using GSLrng_t = KTfwd::GSLrng_t<KTfwd::GSL_RNG_MT19937>;
 
@@ -88,17 +112,6 @@ namespace fwdpy {
 	i.read(reinterpret_cast<char*>(e.data()),e.max_size()*sizeof(double));
       }
   }
-
-  struct qtrait_stats_cython
-  {
-    std::string stat;
-    double value;
-    unsigned generation;
-    qtrait_stats_cython(std::string _stat,
-			double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
-    {
-    }
-  };
 
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
   {
