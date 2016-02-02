@@ -27,8 +27,6 @@ namespace fwdpy
 			   const int trackStats,
 			   const fwdpy::internal::region_manager * rm);
 
-    //std::map<std::string,std::vector<double>> qtrait_pop_props( const fwdpy::singlepop_t * pop );
-
     struct ew_mut_details
     {
       double s,e,p;
