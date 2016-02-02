@@ -82,6 +82,7 @@ namespace fwdpy {
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
+    if (track && pop->generation &&pop->generation%track==0.) pop->updateTraj();
     //Update population's size variable to be the current pop size
     pop->N = unsigned(pop->diploids.size());
     //cleanup
@@ -171,7 +172,6 @@ namespace fwdpy {
 			   2.);
       }
     //This may not be the best thing, long-term, design-wise...
-
     for( size_t g = 0 ; g < simlen ; ++g, ++pop.generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
@@ -195,6 +195,7 @@ namespace fwdpy {
 	KTfwd::update_mutations(pop.mutations,pop.fixations,pop.fixation_times,pop.mut_lookup,pop.mcounts,pop.generation,2*nextN);
 	assert(KTfwd::check_sum(pop.gametes,2*nextN));
       }
+    if (track && pop.generation &&pop.generation%track==0.) pop.updateTraj();
     //Update population's size variable to be the current pop size
     pop.N = unsigned(pop.diploids.size());
     //cleanup
