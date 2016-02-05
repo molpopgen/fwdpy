@@ -16,8 +16,8 @@
 
   Types defined here are in the global namespace.
 
-  This is bad, BUT, it allows for auto-conversion of 
-  struct to dict via Cython.  
+  This is bad, BUT, it allows for auto-conversion of
+  struct to dict via Cython.
 
   Currently, Cython will fail to compile auto-conversion
   code for structs declared inside a C++ namespace.
@@ -190,15 +190,17 @@ namespace fwdpy {
       unsigned nm=0;
       for(std::size_t i = 0 ; i < mcounts.size() ; ++i )
         {
-          if(mcounts[i] && mcounts[i]<twoN)
+          if(mcounts[i] && mcounts[i]<twoN&&!mutations[i].neutral)
             {
               auto n = mcounts[i];
-              double p1=double(n)/twoN;
-              if (2.0*p1*(1.-p1)*std::pow(mutations[i].s,2.) > mvexpl)
+              double p=double(n)/twoN,q=1.-p;
+	      double s = mutations[i].s;
+	      double temp = 2.*p*q*std::pow(s,2.0);
+              if (temp > mvexpl)
                 {
-                  mvexpl=2.0*p1*(1.-p1);
-                  leading_e = mutations[i].s;
-                  leading_f = p1;
+                  mvexpl=temp;
+                  leading_e = s;
+                  leading_f = p;
                 }
 	      sum_e += mutations[i].s;
 	      ++nm;
