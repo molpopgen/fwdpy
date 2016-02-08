@@ -3222,7 +3222,7 @@ ac_config_files="$ac_config_files Makefile setup.py conf.py"
 ac_config_headers="$ac_config_headers config.h"
 
 
-MINFWDPPVERSION="0.4.3"
+MINFWDPPVERSION="0.4.4"
 FWDPPVERSION=`fwdppConfig --version`
 MINFWDPP=$MINFWDPPVERSION
 
