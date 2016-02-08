@@ -404,7 +404,7 @@ dnl stuff added by KRT
 
 AC_CONFIG_HEADERS([config.h])
 
-MINFWDPPVERSION="0.4.3"
+MINFWDPPVERSION="0.4.4"
 FWDPPVERSION=`fwdppConfig --version`
 AC_SUBST(MINFWDPP,$MINFWDPPVERSION)
 GSLVERSION=`gsl-config --version`
