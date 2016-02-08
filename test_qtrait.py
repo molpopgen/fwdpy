@@ -7,14 +7,15 @@ rng = fp.GSLrng(101)
 mu=0.000625
 r=0.5
 sigE=0.1
-hdf = pandas.HDFStore("foo2.h5",'w')
+hdf = pandas.HDFStore("qtrait_test_out.h5",'w',complevel=6,complib="zlib")
 hdf.open()
 k=0
-for i in range(100):
+#2,000 replicates in 4-thread chunks
+for i in range(500):
     nlist = np.array([1000]*9000,dtype=np.uint32)
     #Evolve to equilibrium
     pops = qt.evolve_qtrait(rng,
-                            1,
+                            4,
                             1000,
                             nlist[0:],
                             0,
