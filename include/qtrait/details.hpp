@@ -43,7 +43,7 @@ namespace fwdpy {
 	{
 	  if(track&&pop->generation&&pop->generation%track==0.) pop->updateTraj();
 	  if(trackStats&&pop->generation&&pop->generation%trackStats==0) pop->updateStats();
-	  const unsigned nextN = 	*(Nvector+g);
+	  const unsigned nextN = *(Nvector+g);
 	  KTfwd::experimental::sample_diploid(rng,
 					      pop->gametes,
 					      pop->diploids,
@@ -59,9 +59,10 @@ namespace fwdpy {
 					      f,
 					      model_rules,
 					      KTfwd::remove_nothing());
-	  KTfwd::update_mutations(pop->mutations,pop->mut_lookup,pop->mcounts,2*nextN);
+	  KTfwd::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	}
+
       //make sure we update in the last generation if needed
       if(track&&pop->generation&&pop->generation%track==0.) pop->updateTraj();
       if(trackStats&&pop->generation&&pop->generation%trackStats==0) pop->updateStats();
