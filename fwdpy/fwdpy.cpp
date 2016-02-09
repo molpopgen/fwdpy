@@ -17,7 +17,7 @@
         "extra_compile_args": [
             "-std=c++11", 
             "-fopenmp", 
-            "-DFWDPP_VERSION=\"0.4.5\"", 
+            "-DFWDPP_VERSION=\"0.4.6\"", 
             "-DGSL_VERSION=\"1.16\"", 
             "-DPACKAGE_VERSION=\"0.0.2\""
         ], 
@@ -2111,7 +2111,6 @@ static char __pyx_k_ps[] = "ps";
 static char __pyx_k_rv[] = "rv";
 static char __pyx_k_sd[] = "sd";
 static char __pyx_k_tt[] = "tt";
-static char __pyx_k_GSL[] = "GSL";
 static char __pyx_k__32[] = ", ";
 static char __pyx_k__47[] = "#";
 static char __pyx_k_beg[] = "beg";
@@ -2134,8 +2133,8 @@ static char __pyx_k_str[] = "__str__";
 static char __pyx_k_ExpS[] = "ExpS";
 static char __pyx_k_base[] = "base";
 static char __pyx_k_bstr[] = "bstr";
+static char __pyx_k_cite[] = "cite";
 static char __pyx_k_deme[] = "deme";
-static char __pyx_k_deps[] = "deps";
 static char __pyx_k_estr[] = "estr";
 static char __pyx_k_fpio[] = "fpio";
 static char __pyx_k_gams[] = "gams";
@@ -2176,7 +2175,6 @@ static char __pyx_k_dummy[] = "dummy";
 static char __pyx_k_end_2[] = ", end = ";
 static char __pyx_k_error[] = "error";
 static char __pyx_k_flags[] = "flags";
-static char __pyx_k_fwdpp[] = "fwdpp";
 static char __pyx_k_fwdpy[] = "fwdpy";
 static char __pyx_k_index[] = "index";
 static char __pyx_k_isinf[] = "isinf";
@@ -2332,7 +2330,6 @@ static char __pyx_k_Gaussian_DFE_s_d[] = "Gaussian DFE, s.d. = ";
 static char __pyx_k_Uniform_s_DFE_lo[] = "Uniform s DFE, lo = ";
 static char __pyx_k_getfreq_line_163[] = "getfreq (line 163)";
 static char __pyx_k_is_not_supported[] = " is not supported";
-static char __pyx_k_pkg_dependencies[] = "pkg_dependencies";
 static char __pyx_k_view_diploids_pd[] = "view_diploids_pd";
 static char __pyx_k_getfreqs_line_191[] = "getfreqs (line 191)";
 static char __pyx_k_ms_sample_line_34[] = "ms_sample (line 34)";
@@ -2536,7 +2533,6 @@ static PyObject *__pyx_kp_u_ExpS___init___line_276;
 static PyObject *__pyx_n_s_ExpS___str;
 static PyObject *__pyx_kp_s_Exponential_DFE_mean;
 static PyObject *__pyx_kp_s_Exponential_distribution_on_sel;
-static PyObject *__pyx_n_s_GSL;
 static PyObject *__pyx_n_s_GammaS;
 static PyObject *__pyx_n_s_GammaS___init;
 static PyObject *__pyx_kp_u_GammaS___init___line_135;
@@ -2614,6 +2610,7 @@ static PyObject *__pyx_n_u_c;
 static PyObject *__pyx_n_s_chrom;
 static PyObject *__pyx_n_s_chrom0;
 static PyObject *__pyx_n_s_chrom1;
+static PyObject *__pyx_n_s_cite;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_n_s_clearTraj;
 static PyObject *__pyx_n_s_close;
@@ -2626,7 +2623,6 @@ static PyObject *__pyx_n_s_count;
 static PyObject *__pyx_n_s_coupled;
 static PyObject *__pyx_n_s_deme;
 static PyObject *__pyx_kp_s_deme_may_not_be_set_to_None_when;
-static PyObject *__pyx_n_s_deps;
 static PyObject *__pyx_n_s_derived;
 static PyObject *__pyx_n_s_deserialize_metapops;
 static PyObject *__pyx_n_s_deserialize_singlepops;
@@ -2674,7 +2670,6 @@ static PyObject *__pyx_kp_u_freqfilter_line_209;
 static PyObject *__pyx_n_s_from_dict;
 static PyObject *__pyx_n_s_fs;
 static PyObject *__pyx_kp_s_fwdp_ExpS_mean_not_finite;
-static PyObject *__pyx_n_s_fwdpp;
 static PyObject *__pyx_n_s_fwdpy;
 static PyObject *__pyx_kp_s_fwdpy_ConstantS_s_not_a_number;
 static PyObject *__pyx_kp_s_fwdpy_ConstantS_s_not_finite;
@@ -2818,7 +2813,6 @@ static PyObject *__pyx_n_s_parse_slim_organization;
 static PyObject *__pyx_n_s_parse_slim_recrates;
 static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_pd;
-static PyObject *__pyx_n_s_pkg_dependencies;
 static PyObject *__pyx_n_s_pkg_version;
 static PyObject *__pyx_n_s_pop;
 static PyObject *__pyx_n_s_pops;
@@ -3025,8 +3019,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_62diploid_view_to_sample(CYTHON_UNUSED P
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_64view_diploids_pd_popvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p, std::vector<unsigned int>  __pyx_v_indlist, int __pyx_v_selectedOnly); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_66view_diploids_pd_singlepop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_p, std::vector<unsigned int>  __pyx_v_indlist, int __pyx_v_selectedOnly); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_68view_diploids_pd(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_p, PyObject *__pyx_v_indlist, int __pyx_v_selectedOnly); /* proto */
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_dependencies(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_72pkg_version(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_version(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_72cite(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_pf_7cpython_5array_5array___getbuffer__(arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info, CYTHON_UNUSED int __pyx_v_flags); /* proto */
 static void __pyx_pf_7cpython_5array_5array_2__releasebuffer__(CYTHON_UNUSED arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -3204,12 +3198,11 @@ static PyObject *__pyx_tuple__172;
 static PyObject *__pyx_tuple__174;
 static PyObject *__pyx_tuple__176;
 static PyObject *__pyx_tuple__178;
-static PyObject *__pyx_tuple__180;
+static PyObject *__pyx_tuple__181;
 static PyObject *__pyx_tuple__182;
 static PyObject *__pyx_tuple__183;
 static PyObject *__pyx_tuple__184;
 static PyObject *__pyx_tuple__185;
-static PyObject *__pyx_tuple__186;
 static PyObject *__pyx_codeobj__80;
 static PyObject *__pyx_codeobj__82;
 static PyObject *__pyx_codeobj__84;
@@ -3260,7 +3253,7 @@ static PyObject *__pyx_codeobj__173;
 static PyObject *__pyx_codeobj__175;
 static PyObject *__pyx_codeobj__177;
 static PyObject *__pyx_codeobj__179;
-static PyObject *__pyx_codeobj__181;
+static PyObject *__pyx_codeobj__180;
 
 /* "fwdpy/classes.pyx":12
  *     the output of iterating through a :class:`popvec`.
@@ -25850,112 +25843,27 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_68view_diploids_pd(CYTHON_UNUSED PyObjec
 /* "fwdpy/fwdpy.pyx":20
  * include "views.pyx"
  * 
- * def pkg_dependencies():             # <<<<<<<<<<<<<<
- *     """
- *     Return version numbers of dependencies.
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_71pkg_dependencies(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_70pkg_dependencies[] = "\n    Return version numbers of dependencies.\n\n    This function is very handy when reporting bugs!\n\n    :returns: dict\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_71pkg_dependencies = {"pkg_dependencies", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_71pkg_dependencies, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_70pkg_dependencies};
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_71pkg_dependencies(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("pkg_dependencies (wrapper)", 0);
-  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_70pkg_dependencies(__pyx_self);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_dependencies(CYTHON_UNUSED PyObject *__pyx_self) {
-  std::vector<std::string>  __pyx_v_deps;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("pkg_dependencies", 0);
-
-  /* "fwdpy/fwdpy.pyx":28
- *     :returns: dict
- *     """
- *     cdef vector[string] deps = fwdpy_dependencies()             # <<<<<<<<<<<<<<
- *     return ({'fwdpp':deps[0],'GSL':deps[1]})
- * 
- */
-  __pyx_v_deps = fwdpy::fwdpy_dependencies();
-
-  /* "fwdpy/fwdpy.pyx":29
- *     """
- *     cdef vector[string] deps = fwdpy_dependencies()
- *     return ({'fwdpp':deps[0],'GSL':deps[1]})             # <<<<<<<<<<<<<<
- * 
- * def pkg_version():
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string((__pyx_v_deps[0])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_fwdpp, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string((__pyx_v_deps[1])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_GSL, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "fwdpy/fwdpy.pyx":20
- * include "views.pyx"
- * 
- * def pkg_dependencies():             # <<<<<<<<<<<<<<
- *     """
- *     Return version numbers of dependencies.
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("fwdpy.fwdpy.pkg_dependencies", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'GSL':deps[1]})
- * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
  *     Return version numbers of this package
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_73pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_72pkg_version[] = "\n    Return version numbers of this package\n\n    This function is very handy when reporting bugs!\n\n    :returns: dict\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_73pkg_version = {"pkg_version", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_73pkg_version, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_72pkg_version};
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_73pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_71pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5fwdpy_5fwdpy_70pkg_version[] = "\n    Return version numbers of this package\n\n    This function is very handy when reporting bugs!\n\n    :returns: dict\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_71pkg_version = {"pkg_version", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_71pkg_version, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_70pkg_version};
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_71pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pkg_version (wrapper)", 0);
-  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_72pkg_version(__pyx_self);
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_70pkg_version(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_72pkg_version(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_70pkg_version(CYTHON_UNUSED PyObject *__pyx_self) {
   std::vector<std::string>  __pyx_v_v;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -25966,32 +25874,35 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72pkg_version(CYTHON_UNUSED PyObject *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("pkg_version", 0);
 
-  /* "fwdpy/fwdpy.pyx":39
+  /* "fwdpy/fwdpy.pyx":28
  *     :returns: dict
  *     """
  *     cdef vector[string] v = fwdpy_version()             # <<<<<<<<<<<<<<
  *     return ({'fwdpy':v[0]})
+ * 
  */
   __pyx_v_v = fwdpy::fwdpy_version();
 
-  /* "fwdpy/fwdpy.pyx":40
+  /* "fwdpy/fwdpy.pyx":29
  *     """
  *     cdef vector[string] v = fwdpy_version()
  *     return ({'fwdpy':v[0]})             # <<<<<<<<<<<<<<
+ * 
+ * def cite():
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string((__pyx_v_v[0])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __pyx_convert_PyBytes_string_to_py_std__in_string((__pyx_v_v[0])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_fwdpy, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_fwdpy, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'GSL':deps[1]})
+  /* "fwdpy/fwdpy.pyx":20
+ * include "views.pyx"
  * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
@@ -26005,6 +25916,56 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72pkg_version(CYTHON_UNUSED PyObject *__
   __Pyx_AddTraceback("fwdpy.fwdpy.pkg_version", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/fwdpy.pyx":31
+ *     return ({'fwdpy':v[0]})
+ * 
+ * def cite():             # <<<<<<<<<<<<<<
+ *     """
+ *     Returns how to cite this package
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_73cite(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5fwdpy_5fwdpy_72cite[] = "\n    Returns how to cite this package\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_73cite = {"cite", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_73cite, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_72cite};
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_73cite(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("cite (wrapper)", 0);
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_72cite(__pyx_self);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_72cite(CYTHON_UNUSED PyObject *__pyx_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("cite", 0);
+
+  /* "fwdpy/fwdpy.pyx":35
+ *     Returns how to cite this package
+ *     """
+ *     fwdpy_citation()             # <<<<<<<<<<<<<<
+ */
+  fwdpy::fwdpy_citation();
+
+  /* "fwdpy/fwdpy.pyx":31
+ *     return ({'fwdpy':v[0]})
+ * 
+ * def cite():             # <<<<<<<<<<<<<<
+ *     """
+ *     Returns how to cite this package
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -41460,7 +41421,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ExpS___str, __pyx_k_ExpS___str, sizeof(__pyx_k_ExpS___str), 0, 0, 1, 1},
   {&__pyx_kp_s_Exponential_DFE_mean, __pyx_k_Exponential_DFE_mean, sizeof(__pyx_k_Exponential_DFE_mean), 0, 0, 1, 0},
   {&__pyx_kp_s_Exponential_distribution_on_sel, __pyx_k_Exponential_distribution_on_sel, sizeof(__pyx_k_Exponential_distribution_on_sel), 0, 0, 1, 0},
-  {&__pyx_n_s_GSL, __pyx_k_GSL, sizeof(__pyx_k_GSL), 0, 0, 1, 1},
   {&__pyx_n_s_GammaS, __pyx_k_GammaS, sizeof(__pyx_k_GammaS), 0, 0, 1, 1},
   {&__pyx_n_s_GammaS___init, __pyx_k_GammaS___init, sizeof(__pyx_k_GammaS___init), 0, 0, 1, 1},
   {&__pyx_kp_u_GammaS___init___line_135, __pyx_k_GammaS___init___line_135, sizeof(__pyx_k_GammaS___init___line_135), 0, 1, 0, 0},
@@ -41538,6 +41498,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_chrom, __pyx_k_chrom, sizeof(__pyx_k_chrom), 0, 0, 1, 1},
   {&__pyx_n_s_chrom0, __pyx_k_chrom0, sizeof(__pyx_k_chrom0), 0, 0, 1, 1},
   {&__pyx_n_s_chrom1, __pyx_k_chrom1, sizeof(__pyx_k_chrom1), 0, 0, 1, 1},
+  {&__pyx_n_s_cite, __pyx_k_cite, sizeof(__pyx_k_cite), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_n_s_clearTraj, __pyx_k_clearTraj, sizeof(__pyx_k_clearTraj), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
@@ -41550,7 +41511,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_coupled, __pyx_k_coupled, sizeof(__pyx_k_coupled), 0, 0, 1, 1},
   {&__pyx_n_s_deme, __pyx_k_deme, sizeof(__pyx_k_deme), 0, 0, 1, 1},
   {&__pyx_kp_s_deme_may_not_be_set_to_None_when, __pyx_k_deme_may_not_be_set_to_None_when, sizeof(__pyx_k_deme_may_not_be_set_to_None_when), 0, 0, 1, 0},
-  {&__pyx_n_s_deps, __pyx_k_deps, sizeof(__pyx_k_deps), 0, 0, 1, 1},
   {&__pyx_n_s_derived, __pyx_k_derived, sizeof(__pyx_k_derived), 0, 0, 1, 1},
   {&__pyx_n_s_deserialize_metapops, __pyx_k_deserialize_metapops, sizeof(__pyx_k_deserialize_metapops), 0, 0, 1, 1},
   {&__pyx_n_s_deserialize_singlepops, __pyx_k_deserialize_singlepops, sizeof(__pyx_k_deserialize_singlepops), 0, 0, 1, 1},
@@ -41598,7 +41558,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_from_dict, __pyx_k_from_dict, sizeof(__pyx_k_from_dict), 0, 0, 1, 1},
   {&__pyx_n_s_fs, __pyx_k_fs, sizeof(__pyx_k_fs), 0, 0, 1, 1},
   {&__pyx_kp_s_fwdp_ExpS_mean_not_finite, __pyx_k_fwdp_ExpS_mean_not_finite, sizeof(__pyx_k_fwdp_ExpS_mean_not_finite), 0, 0, 1, 0},
-  {&__pyx_n_s_fwdpp, __pyx_k_fwdpp, sizeof(__pyx_k_fwdpp), 0, 0, 1, 1},
   {&__pyx_n_s_fwdpy, __pyx_k_fwdpy, sizeof(__pyx_k_fwdpy), 0, 0, 1, 1},
   {&__pyx_kp_s_fwdpy_ConstantS_s_not_a_number, __pyx_k_fwdpy_ConstantS_s_not_a_number, sizeof(__pyx_k_fwdpy_ConstantS_s_not_a_number), 0, 0, 1, 0},
   {&__pyx_kp_s_fwdpy_ConstantS_s_not_finite, __pyx_k_fwdpy_ConstantS_s_not_finite, sizeof(__pyx_k_fwdpy_ConstantS_s_not_finite), 0, 0, 1, 0},
@@ -41742,7 +41701,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_parse_slim_recrates, __pyx_k_parse_slim_recrates, sizeof(__pyx_k_parse_slim_recrates), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
   {&__pyx_n_s_pd, __pyx_k_pd, sizeof(__pyx_k_pd), 0, 0, 1, 1},
-  {&__pyx_n_s_pkg_dependencies, __pyx_k_pkg_dependencies, sizeof(__pyx_k_pkg_dependencies), 0, 0, 1, 1},
   {&__pyx_n_s_pkg_version, __pyx_k_pkg_version, sizeof(__pyx_k_pkg_version), 0, 0, 1, 1},
   {&__pyx_n_s_pop, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
   {&__pyx_n_s_pops, __pyx_k_pops, sizeof(__pyx_k_pops), 0, 0, 1, 1},
@@ -43306,26 +43264,23 @@ static int __Pyx_InitCachedConstants(void) {
   /* "fwdpy/fwdpy.pyx":20
  * include "views.pyx"
  * 
- * def pkg_dependencies():             # <<<<<<<<<<<<<<
- *     """
- *     Return version numbers of dependencies.
- */
-  __pyx_tuple__178 = PyTuple_Pack(1, __pyx_n_s_deps); if (unlikely(!__pyx_tuple__178)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__178);
-  __Pyx_GIVEREF(__pyx_tuple__178);
-  __pyx_codeobj__179 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__178, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_pkg_dependencies, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__179)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'GSL':deps[1]})
- * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
  *     Return version numbers of this package
  */
-  __pyx_tuple__180 = PyTuple_Pack(1, __pyx_n_s_v); if (unlikely(!__pyx_tuple__180)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__180);
-  __Pyx_GIVEREF(__pyx_tuple__180);
-  __pyx_codeobj__181 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__180, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_pkg_version, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__181)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__178 = PyTuple_Pack(1, __pyx_n_s_v); if (unlikely(!__pyx_tuple__178)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__178);
+  __Pyx_GIVEREF(__pyx_tuple__178);
+  __pyx_codeobj__179 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__178, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_pkg_version, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__179)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "fwdpy/fwdpy.pyx":31
+ *     return ({'fwdpy':v[0]})
+ * 
+ * def cite():             # <<<<<<<<<<<<<<
+ *     """
+ *     Returns how to cite this package
+ */
+  __pyx_codeobj__180 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_cite, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__180)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "View.MemoryView":278
  *         return self.name
@@ -43334,9 +43289,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__182 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__182)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__182);
-  __Pyx_GIVEREF(__pyx_tuple__182);
+  __pyx_tuple__181 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__181)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__181);
+  __Pyx_GIVEREF(__pyx_tuple__181);
 
   /* "View.MemoryView":279
  * 
@@ -43345,9 +43300,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__183 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__183)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__183);
-  __Pyx_GIVEREF(__pyx_tuple__183);
+  __pyx_tuple__182 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__182)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__182);
+  __Pyx_GIVEREF(__pyx_tuple__182);
 
   /* "View.MemoryView":280
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -43356,9 +43311,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__184 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__184)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__184);
-  __Pyx_GIVEREF(__pyx_tuple__184);
+  __pyx_tuple__183 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__183)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__183);
+  __Pyx_GIVEREF(__pyx_tuple__183);
 
   /* "View.MemoryView":283
  * 
@@ -43367,9 +43322,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__185 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__185)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__185);
-  __Pyx_GIVEREF(__pyx_tuple__185);
+  __pyx_tuple__184 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__184)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__184);
+  __Pyx_GIVEREF(__pyx_tuple__184);
 
   /* "View.MemoryView":284
  * 
@@ -43378,9 +43333,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__186 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__186)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__186);
-  __Pyx_GIVEREF(__pyx_tuple__186);
+  __pyx_tuple__185 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__185)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__185);
+  __Pyx_GIVEREF(__pyx_tuple__185);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -44618,25 +44573,25 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   /* "fwdpy/fwdpy.pyx":20
  * include "views.pyx"
  * 
- * def pkg_dependencies():             # <<<<<<<<<<<<<<
- *     """
- *     Return version numbers of dependencies.
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_71pkg_dependencies, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pkg_dependencies, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "fwdpy/fwdpy.pyx":31
- *     return ({'fwdpp':deps[0],'GSL':deps[1]})
- * 
  * def pkg_version():             # <<<<<<<<<<<<<<
  *     """
  *     Return version numbers of this package
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_73pkg_version, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_71pkg_version, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pkg_version, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pkg_version, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "fwdpy/fwdpy.pyx":31
+ *     return ({'fwdpy':v[0]})
+ * 
+ * def cite():             # <<<<<<<<<<<<<<
+ *     """
+ *     Returns how to cite this package
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_73cite, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cite, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/fwdpy.pyx":1
@@ -44692,7 +44647,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__182, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__181, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_1);
@@ -44706,7 +44661,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__183, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__182, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 279; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_1);
@@ -44720,7 +44675,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__184, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__183, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 280; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_1);
@@ -44734,7 +44689,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__185, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__184, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 283; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_1);
@@ -44748,7 +44703,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__186, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__185, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);
