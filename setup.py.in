@@ -11,30 +11,42 @@
 
 from __future__ import print_function
 from distutils.core import setup, Extension
-@CYTHONIMPORT@
+#@CYTHONIMPORT@
 import platform, glob, sys, subprocess, os
 
-##Check C/C++ dependencys
 
+##Check C/C++ dependencies
+FWDPP_V=""
+GSL_V=""
 ##fwdpp
 try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
     version = str(out).rstrip()
     print ("fwdpp version",version," found.")
+    FWDPP_V=version
     if version <= '@MINFWDPP@':
-        raise RuntimeError("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
+        sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
 except:
-    print("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
+    sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
 ##GSL
 try:
     proc = subprocess.Popen(['gsl-config','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
     version = str(out).rstrip()
+    GSL_V=version
     print ("GSL version ",version," found.")
 except:
-    print("gsl-config not found.  Please install the GNU Scientific Library")
+    sys.exit("gsl-config not found.  Please install the GNU Scientific Library")
+
+#Are we gonna build using Cython or not?  Default is not to,
+#which allows us to ship this in a standard way.
+if '--use-cython' in sys.argv:
+    USE_CYTHON = True
+    sys.argv.remove('--use-cython')
+else:
+    USE_CYTHON = False
 
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
@@ -55,7 +67,7 @@ if str('@TBBPRX@') == str('tbbmalloc_proxy'):
 if MEMLIBS is not None:
     for i in MEMLIBS:
         LIBS.append(i)
-    
+
 ##Can we compile program based on dependencies?
 print("Attempting to compile and link a test program using fwdpy's dependencies")
 try:
@@ -66,7 +78,7 @@ try:
     proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
 except subprocess.CalledProcessError as e:
     print (e.returncode)
-    raise RuntimeError("Could not compile and link test programs!")
+    sys.exit("Could not compile and link test programs!")
 
 print("Success!")
 
@@ -96,10 +108,14 @@ long_desc = \
 fwdpy is a C++11-based package for running forward simulations in Python
 """
 
-EXTENSION="@EXTENSION@"
+#EXTENSION="@EXTENSION@"
 
-GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp']#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
+GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
+                     str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"'
+]#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
 LINK_ARGS=["-std=c++11",'-fopenmp']
+
+EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
 extensions = [
     Extension("fwdpy.fwdpy",
@@ -124,6 +140,12 @@ extensions = [
         extra_link_args=LINK_ARGS,
         libraries=LIBS)
         ]
+
+#If using Cython, edit extensions here:
+if USE_CYTHON:
+    from Cython.Build import cythonize
+    extensions = cythonize(extensions)
+
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
       author='Kevin R. Thornton',
@@ -152,5 +174,5 @@ setup(name='@PACKAGE_NAME@',
                     'fwdpy.internal':['*.pxd'],
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
-      ext_modules=@CYTHONIZE@,
+      ext_modules=extensions,
      )

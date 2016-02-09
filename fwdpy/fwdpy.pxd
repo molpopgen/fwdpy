@@ -14,12 +14,11 @@ from fwdpy.gsl cimport gsl_rng
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
     ctypedef gamete_base[popgenmut] gamete_t
-    ctypedef cpplist[gamete_t] glist_t
-    ctypedef cpplist[popgenmut] mlist_t
+    ctypedef vector[gamete_t] gcont_t
+    ctypedef vector[popgenmut] mcont_t
 
     cdef cppclass diploid_t:
-        cpplist[gamete_t].iterator first
-        cpplist[gamete_t].iterator second
+        size_t first,second;
         double g,e,w
 
     ctypedef vector[diploid_t] dipvector_t
@@ -28,8 +27,9 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         singlepop_t(unsigned)
         const unsigned N
         const unsigned generation
-        mlist_t mutations
-        glist_t gametes
+        mcont_t mutations
+        vector[unsigned] mcounts
+        gcont_t gametes
         dipvector_t diploids
         vector[popgenmut] fixations
         vector[unsigned] fixation_times
@@ -42,8 +42,9 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         metapop_t(vector[unsigned])
         unsigned generation
         vector[unsigned] Ns
-        mlist_t mutations
-        glist_t gametes
+        mcont_t mutations
+        vector[unsigned] mcounts
+        gcont_t gametes
         vector[dipvector_t] diploids
         vector[popgenmut] fixations
         vector[unsigned] fixation_times
@@ -52,12 +53,11 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     # Types based around KTfwd::generalmut_vec
     ctypedef gamete_base[generalmut_vec] gamete_gm_vec_t
-    ctypedef cpplist[gamete_gm_vec_t] glist_gm_vec_t
-    ctypedef cpplist[generalmut_vec] mlist_gm_vec_t
+    ctypedef vector[gamete_gm_vec_t] glist_gm_vec_t
+    ctypedef vector[generalmut_vec] mlist_gm_vec_t
 
     cdef cppclass diploid_gm_vec_t:
-        cpplist[gamete_gm_vec_t].iterator first
-        cpplist[gamete_gm_vec_t].iterator second
+        size_t first,second;
         double g,e,w
 
     ctypedef vector[diploid_gm_vec_t] dipvector_gm_vec_t
@@ -67,6 +67,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         const unsigned N
         const unsigned generation
         mlist_gm_vec_t mutations
+        vector[unsigned] mcounts
         glist_gm_vec_t gametes
         dipvector_gm_vec_t diploids
         vector[generalmut_vec] fixations
@@ -79,7 +80,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         GSLrng_t(unsigned)
         gsl_rng * get()
 
-#Now, provied definitions for classes in classes.pyx
+#Now, provide definitions for classes in classes.pyx
 cdef class poptype(object):
     """
     Empty base class for a population object.
@@ -94,7 +95,7 @@ cdef class singlepop(poptype):
     cpdef popsize(self)
     cpdef sane(self)
     cpdef clearTraj(self)
-    
+
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
     cpdef gen(self)
@@ -106,7 +107,7 @@ cdef class singlepop_gm_vec(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
-    
+
 cdef class popcont(object):
     """
     Empty base class for containers of population objects.
@@ -121,28 +122,30 @@ cdef class popvec(popcont):
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
     cpdef append(self,popvec p)
-    
+
 cdef class popvec_gmv(popcont):
     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
-    
+
 cdef class mpopvec(popcont):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     cpdef append(self,mpopvec p)
-    
+
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
 #Typedefs for convenience
-ctypedef cpplist[popgenmut].iterator mlist_t_itr
-ctypedef vector[mlist_t_itr] mut_container_t
-ctypedef cpplist[gamete_t].iterator glist_t_itr
+ctypedef vector[popgenmut].iterator mcont_t_itr
+ctypedef vector[mcont_t_itr] mut_container_t
+ctypedef vector[gamete_t].iterator gcont_t_itr
 ctypedef vector[diploid_t].iterator dipvector_t_itr
+#vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
+ctypedef vector[unsigned] mcounts_cont_t
 
 ##Define some low-level functions that may be useful for others
 cdef struct popgen_mut_data:
@@ -156,11 +159,15 @@ cdef struct gamete_data:
 
 cdef struct diploid_data:
     gamete_data chrom0,chrom1
-    double g,e,w
-    
-cdef popgen_mut_data get_mutation( const cpplist[popgenmut].iterator & ) nogil
-cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & ) nogil
-cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
+    double g,e,w,sh0,sh1
+    int n0,n1
+
+#cdef popgen_mut_data get_mutation( const vector[popgenmut].iterator & ) nogil
+#cdef gamete_data get_gamete( const vector[gamete_t].iterator & ) nogil
+#cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
+cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil
+cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
+cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
 
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
@@ -171,11 +178,11 @@ cdef extern from "neutral.hpp" namespace "fwdpy" nogil:
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
-    
-cdef extern from "deps.hpp" namespace "fwdpy" nogil:
-    vector[string] fwdpy_dependencies()
-    vector[string] fwdpy_version()
 
+cdef extern from "deps.hpp" namespace "fwdpy" nogil:
+    vector[string] fwdpy_version()
+    void fwdpy_citation()
+    
 cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void re_init_mpop( metapop_t * mpop, const singlepop_t * pop)
     void copy_deme( metapop_t * mpop, const size_t i, const int update_counts)
@@ -217,7 +224,7 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const char * fitness)
 
     vector[shared_ptr[singlepop_t]]  evolve_regions_async(const unsigned npops,
-							  GSLrng_t * rng, 
+							  GSLrng_t * rng,
 							  const unsigned * Nvector,
 							  const size_t Nvector_len,
 							  const double mu_neutral,

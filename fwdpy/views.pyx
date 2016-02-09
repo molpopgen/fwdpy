@@ -14,82 +14,98 @@ cdef extern from "<iterator>" namespace "std":
     back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
 
     
-cdef popgen_mut_data get_mutation( const mlist_t_itr & itr) nogil:
+cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil:
     cdef popgen_mut_data rv
-    rv.pos=deref(itr).pos
-    rv.n=deref(itr).n
-    rv.g=deref(itr).g
-    rv.s=deref(itr).s
-    rv.h=deref(itr).h
-    rv.neutral==deref(itr).neutral
+    rv.pos=m.pos
+    rv.n=n
+    rv.g=m.g
+    rv.s=m.s
+    rv.h=m.h
+    rv.neutral==m.neutral
     return rv;
 
-cdef gamete_data get_gamete( const cpplist[gamete_t].iterator & itr ) nogil:
-    cdef vector[mlist_t_itr].iterator beg = deref(itr).mutations.begin()
-    cdef vector[mlist_t_itr].iterator end = deref(itr).mutations.end()
+cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
     cdef gamete_data rv;
-    while beg != end:
-        rv.neutral.push_back(get_mutation(deref(beg)))
-        inc(beg)
+    cdef size_t i=0,j=g.mutations.size()
+    while i<j:
+        rv.neutral.push_back(get_mutation(mutations[i],mcounts[i]))
+        i+=1
 
-    beg = deref(itr).smutations.begin()
-    end = deref(itr).smutations.end()
-    while beg != end:
-        rv.selected.push_back(get_mutation(deref(beg)))
-        inc(beg)
-    rv.n=deref(itr).n
+    i=0
+    j=g.smutations.size()
+    while i<j:
+        rv.selected.push_back(get_mutation(mutations[i],mcounts[i]))
+        i+=1
+    rv.n=g.n
     return rv
 
-cdef diploid_data get_diploid( const dipvector_t_itr & itr ) nogil:
+cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
    cdef diploid_data rv
-   rv.g=deref(itr).g
-   rv.e=deref(itr).e
-   rv.w=deref(itr).w
-   rv.chrom0=get_gamete(deref(itr).first)
-   rv.chrom1=get_gamete(deref(itr).second)
+   rv.g=dip.g
+   rv.e=dip.e
+   rv.w=dip.w
+   rv.chrom0=get_gamete(gametes[dip.first],mutations,mcounts)
+   rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)
+   rv.n0 = rv.chrom0.selected.size()
+   rv.n1 = rv.chrom1.selected.size()
+   cdef unsigned i = 0
+   while i < rv.chrom0.selected.size():
+       rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)
+       i+=1
+   i=0
+   while i < rv.chrom1.selected.size():
+       rv.sh1+=(rv.chrom1.selected[i].s*rv.chrom1.selected[i].h)
+       i+=1
    return rv
 
-cdef vector[popgen_mut_data] view_mutations_details(mlist_t_itr beg,mlist_t_itr end) nogil:
+cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
     cdef vector[popgen_mut_data] rv
-    while beg != end:
-        rv.push_back(get_mutation(beg))
-        inc(beg)
+    cdef size_t i=0,j=mutations.size();
+    while i!=j:
+        #skip extinct mutation
+        if mcounts[i]:
+            rv.push_back(get_mutation(mutations[i],mcounts[i]))
+        i+=1
     return rv
 
-cdef vector[gamete_data] view_gametes_details( cpplist[gamete_t].iterator beg,
-                           cpplist[gamete_t].iterator end ) nogil:
+cdef vector[gamete_data] view_gametes_details( const singlepop_t * pop ) nogil:
     cdef vector[gamete_data] rv
-    while beg != end:
-        rv.push_back(get_gamete(beg))
-        inc(beg)
+    cdef size_t i = 0, j = pop.gametes.size()
+    while i!=j:
+        #skip extinct gamets
+        if pop.gametes[i].n:
+            rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts));
+        i+=1
     return rv
 
 ##This really should be const...
-cdef vector[diploid_data] view_diploids_details( vector[diploid_t] & diploids,
+cdef vector[diploid_data] view_diploids_details( const dipvector_t & diploids,
+                                                 const gcont_t & gametes,
+                                                 const mcont_t & mutations,
+                                                 const mcounts_cont_t & mcounts,
                                                  const vector[unsigned] & indlist ) nogil:
-    cdef dipvector_t_itr itr = diploids.begin()
     cdef vector[diploid_data] rv
     for i in range(indlist.size()):
-        rv.push_back(get_diploid(itr+indlist[i]))
+        rv.push_back(get_diploid(diploids[indlist[i]],gametes,mutations,mcounts))
     return rv
 
 def view_mutations_singlepop(singlepop p):
-    cdef mlist_t_itr beg = p.pop.get().mutations.begin()
-    cdef mlist_t_itr end = p.pop.get().mutations.end()
+    cdef mcont_t_itr beg = p.pop.get().mutations.begin()
+    cdef mcont_t_itr end = p.pop.get().mutations.end()
     cdef vector[popgen_mut_data] rv;
     with nogil:
-        rv = view_mutations_details(beg,end)        
-    return view_mutations_details(beg,end)
+        rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
+    return rv
 
 def view_mutations_popvec(popvec p):
-    cdef mlist_t_itr beg,end
+    cdef mcont_t_itr beg,end
     cdef vector[vector[popgen_mut_data]] rv;
     cdef unsigned npops = p.pops.size()
     cdef int i
     rv.resize(npops)
     #for i in range(npops):
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i] = view_mutations_details(p.pops[i].get().mutations.begin(),p.pops[i].get().mutations.end())
+        rv[i] = view_mutations_details(p.pops[i].get().mutations,p.pops[i].get().mcounts)
 
     return rv
 
@@ -164,20 +180,20 @@ def view_mutations( object p, deme = None ):
         raise RuntimeError("view_mutations: unsupported object type")
     
 def view_gametes_singlepop( singlepop p ):
-    cdef glist_t_itr beg = p.pop.get().gametes.begin()
-    cdef glist_t_itr end = p.pop.get().gametes.end()
-    return view_gametes_details(beg,end)
+    #cdef gcont_t_itr beg = p.pop.get().gametes.begin()
+    #cdef gcont_t_itr end = p.pop.get().gametes.end()
+    return view_gametes_details(p.pop.get())
 
 def view_gametes_popvec(popvec p):
     cdef:
-        glist_t_itr beg,end
+        gcont_t_itr beg,end
         unsigned npops = p.pops.size()
         int i
         vector[vector[gamete_data]] rv
     rv.resize(npops)
     #for i in range(npops):
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i]=view_gametes_details(p.pops[i].get().gametes.begin(),p.pops[i].get().gametes.end())
+        rv[i]=view_gametes_details(p.pops[i].get())
         
 def view_gametes_metapop( metapop p, unsigned deme ):
     if deme >= len(p.popsizes()):
@@ -246,7 +262,7 @@ def view_diploids_singlepop( singlepop p, list indlist ):
     for i in indlist:
         if i >= p.popsize():
             raise IndexError("index greater than population size")
-    return view_diploids_details(p.pop.get().diploids,indlist)
+    return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
 
 def view_diploids_popvec( popvec p, list indlist ):
     cdef int npops = len(p),i
@@ -257,8 +273,10 @@ def view_diploids_popvec( popvec p, list indlist ):
         il.push_back(i)
     #for i in range(npops):
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i] = view_diploids_details(p.pops[i].get().diploids,il)
-
+        rv[i] = view_diploids_details(p.pops[i].get().diploids,
+                                      p.pops[i].get().gametes,
+                                      p.pops[i].get().mutations,
+                                      p.pops[i].get().mcounts,il)
     return rv
         
 def view_diploids_metapop( metapop p, list indlist, unsigned deme ):
@@ -269,7 +287,7 @@ def view_diploids_metapop( metapop p, list indlist, unsigned deme ):
                 raise IndexError("index greater than deme size")
     if deme >= len(p.popsizes()):
         raise IndexError("view_diploids: deme index out of range")
-    return view_diploids_details(p.mpop.get().diploids[deme],indlist)
+    return view_diploids_details(p.mpop.get().diploids[deme],p.mpop.get().gametes,p.mpop.get().mutations,p.mpop.get().mcounts,indlist)
     
 def view_diploids( object p, list indlist, deme = None ):
     """
@@ -445,10 +463,14 @@ cdef unsigned fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,
        inc(gbeg)
    return R
 
-cdef diploid_view_data view_diploids_pd_details(vector[diploid_t] & diploids,
+cdef diploid_view_data view_diploids_pd_details(const singlepop_t * pop,
                                                 const vector[unsigned] & indlist,
                                                 bint selectedOnly) nogil:
-    cdef vector[diploid_data] v = view_diploids_details(diploids,indlist)
+    cdef vector[diploid_data] v = view_diploids_details(pop.diploids,
+                                                        pop.gametes,
+                                                        pop.mutations,
+                                                        pop.mcounts,
+                                                        indlist)
     cdef vector[diploid_data].iterator beg,end
     beg = v.begin()
     end = v.end()
@@ -481,8 +503,6 @@ cdef diploid_view_data view_diploids_pd_details(vector[diploid_t] & diploids,
         ROW=fill_dip_view_data(deref(beg).chrom1.selected.begin(),deref(beg).chrom1.selected.end(),rv,ROW,IND,1)
         IND+=1
         inc(beg)
-    
-    return rv
 
 def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):
     cdef unsigned npops = p.pops.size()
@@ -490,11 +510,11 @@ def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selected
     cdef vector[diploid_view_data] rv
     rv.resize(npops)
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i]=view_diploids_pd_details(p.pops[i].get().diploids,indlist,selectedOnly)
+        rv[i]=view_diploids_pd_details(p.pops[i].get(),indlist,selectedOnly)
     return rv
 
 def view_diploids_pd_singlepop( singlepop p, vector[unsigned] & indlist, bint selectedOnly ):
-    return view_diploids_pd_details(p.pop.get().diploids,indlist,selectedOnly)
+    return view_diploids_pd_details(p.pop.get(),indlist,selectedOnly)
 
 def view_diploids_pd( object p, list indlist, bint selectedOnly = True ):
     """

@@ -1,5 +1,4 @@
 from libcpp.vector cimport vector
-from libcpp.list cimport list as cpplist 
 
 from fwdpy.fwdpp cimport *
 from fwdpy.fwdpy cimport singlepop_t,metapop_t

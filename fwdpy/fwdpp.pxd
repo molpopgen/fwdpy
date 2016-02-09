@@ -14,7 +14,6 @@ from libcpp cimport bool
 from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.vector cimport vector
-from libcpp.list cimport list as cpplist
 from fwdpy.gsl cimport gsl_rng
 
 
@@ -22,7 +21,6 @@ from fwdpy.gsl cimport gsl_rng
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
     cdef cppclass mutation_base:
         double pos
-        unsigned n
         bool neutral
 
 cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
@@ -40,8 +38,8 @@ cdef extern from "fwdpp/sugar/generalmut.hpp" namespace "KTfwd" nogil:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
     cdef cppclass gamete_base[T]:
         unsigned n
-        vector[cpplist[T].iterator] mutations
-        vector[cpplist[T].iterator] smutations
+        vector[size_t] mutations
+        vector[size_t] smutations
 
 cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
     ctypedef vector[pair[double,string]] sample_t

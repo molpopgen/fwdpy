@@ -18,9 +18,6 @@
 /* Define to 1 if you have the `gslcblas' library (-lgslcblas). */
 #undef HAVE_LIBGSLCBLAS
 
-/* Define to 1 if you have the `tcmalloc' library (-ltcmalloc). */
-#undef HAVE_LIBTCMALLOC
-
 /* Define to 1 if you have the `z' library (-lz). */
 #undef HAVE_LIBZ
 
