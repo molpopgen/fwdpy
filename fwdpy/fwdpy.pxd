@@ -180,9 +180,9 @@ cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
 
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
-    vector[string] fwdpy_dependencies()
     vector[string] fwdpy_version()
-
+    void fwdpy_citation()
+    
 cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void re_init_mpop( metapop_t * mpop, const singlepop_t * pop)
     void copy_deme( metapop_t * mpop, const size_t i, const int update_counts)

@@ -111,8 +111,6 @@ fwdpy is a C++11-based package for running forward simulations in Python
 #EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
-                     str('-DFWDPP_VERSION=')+'"'+FWDPP_V+'"',
-                     str('-DGSL_VERSION=')+'"'+GSL_V+'"',
                      str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"'
 ]#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
 LINK_ARGS=["-std=c++11",'-fopenmp']
