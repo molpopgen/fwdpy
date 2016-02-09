@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to fwdpy’s documentation! &mdash; fwdpy 0.0.1 documentation</title>
+    <title>Welcome to fwdpy’s documentation! &mdash; fwdpy 0.0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '0.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.1 documentation" href="#" />
+    <link rel="top" title="fwdpy 0.0.2 documentation" href="#" />
     <link rel="next" title="fwdpy: forward simulation in Python using fwdpp" href="README.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -57,6 +57,7 @@
 <li class="toctree-l1"><a class="reference internal" href="README.html">fwdpy: forward simulation in Python using fwdpp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="README.html#citation">Citation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#features">Features:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#google-group">Google Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#examples">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#availability">Availability</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#dependencies">Dependencies</a></li>
@@ -492,6 +493,12 @@ a derived type that specifies a distribution of fitness effects.  These types in
 </dd></dl>
 
 <dl class="function">
+<dt id="fwdpy.fwdpy.cite">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">cite</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.cite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns how to cite this package</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="fwdpy.fwdpy.copypop">
 <code class="descclassname">fwdpy.fwdpy.</code><code class="descname">copypop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.copypop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a population</p>
@@ -624,6 +631,7 @@ pandas.DataFrame objects with the information about the mutations present in the
 <li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
 <li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
 <li><strong>f</strong> &#8211; The selfing probabilty</li>
+<li><strong>track</strong> &#8211; Track mutation frequencies every x generations.  x=0 means do not track, x=1 means update every generation.</li>
 <li><strong>fitness</strong> &#8211; The fitness model.  Must be either &#8220;multiplicative&#8221; or &#8220;additive&#8221;.</li>
 </ul>
 </td>
@@ -682,6 +690,7 @@ pandas.DataFrame objects with the information about the mutations present in the
 <li><strong>nregions</strong> &#8211; A list specifying where neutral mutations occur</li>
 <li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
 <li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
+<li><strong>track</strong> &#8211; Track mutation frequencies every x generations.  x=0 means do not track, x=1 means update every generation.</li>
 <li><strong>f</strong> &#8211; The selfing probabilty</li>
 <li><strong>fitness</strong> &#8211; The fitness model.  Must be either &#8220;multiplicative&#8221; or &#8220;additive&#8221;.</li>
 </ul>
@@ -1041,21 +1050,6 @@ this object and p will not share any pointers</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">ndi</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">nderived_site</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="function">
-<dt id="fwdpy.fwdpy.pkg_dependencies">
-<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">pkg_dependencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.pkg_dependencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return version numbers of dependencies.</p>
-<p>This function is very handy when reporting bugs!</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="function">
@@ -1606,7 +1600,7 @@ by other module functions to process user inputs.</p>
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

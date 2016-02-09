@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>fwdpy: forward simulation in Python using fwdpp &mdash; fwdpy 0.0.1 documentation</title>
+    <title>fwdpy: forward simulation in Python using fwdpp &mdash; fwdpy 0.0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '0.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.1 documentation" href="index.html" />
+    <link rel="top" title="fwdpy 0.0.2 documentation" href="index.html" />
     <link rel="next" title="Modules in this package" href="docs/notes.html" />
     <link rel="prev" title="Welcome to fwdpy’s documentation!" href="index.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -93,6 +93,10 @@
 <ul class="simple">
 <li>constant (<em>i.e.</em>, <em>h</em> takes on a fixed value)</li>
 </ul>
+</div>
+<div class="section" id="google-group">
+<h2>Google Group<a class="headerlink" href="#google-group" title="Permalink to this headline">¶</a></h2>
+<p>For help with various issues, check out the <a class="reference external" href="https://groups.google.com/forum/#!forum/fwdpy-users">fwdpy Google Group</a></p>
 </div>
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
@@ -148,7 +152,12 @@ that does.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>The latest release of the package is available via <a class="reference external" href="https://pypi.python.org">PyPi</a>, and can be installed with your favorite Python package manager:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install --upgrade pylibseq
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install --upgrade fwdpy
+</pre></div>
+</div>
+<p>OS X users must first install clang-omp from <a class="reference external" href="http://brew.sh">brew</a> and use the
+following command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ CC</span><span class="o">=</span>clang-omp <span class="nv">CXX</span><span class="o">=</span>clang-omp++ pip install fwdpy
 </pre></div>
 </div>
 <div class="section" id="installation-from-source">
@@ -215,7 +224,7 @@ that does.</p>
 <h3>Troubleshooting the installation<a class="headerlink" href="#troubleshooting-the-installation" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="incorrect-fwdpp-version">
 <h4>Incorrect fwdpp version<a class="headerlink" href="#incorrect-fwdpp-version" title="Permalink to this headline">¶</a></h4>
-<p>This package is compatible with fwdpp &gt;= 0.4.3, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:</p>
+<p>This package is compatible with fwdpp &gt;= 0.4.5, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>which fwdppConfig
 </pre></div>
 </div>
@@ -255,6 +264,7 @@ that does.</p>
 <li><a class="reference internal" href="#">fwdpy: forward simulation in Python using fwdpp</a><ul>
 <li><a class="reference internal" href="#citation">Citation</a></li>
 <li><a class="reference internal" href="#features">Features:</a></li>
+<li><a class="reference internal" href="#google-group">Google Group</a></li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
 <li><a class="reference internal" href="#availability">Availability</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a><ul>
@@ -325,7 +335,7 @@ that does.</p>
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
