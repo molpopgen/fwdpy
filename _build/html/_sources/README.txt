@@ -68,18 +68,14 @@ This section assumes that all packages are installed in fairly standard location
 This package *minimally* depends on:
 
 * GSL_
-* fwdpp_ 
+* fwdpp_
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
 
-**Note:** fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.  
+**Note:** fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
 
-You also need a C++11-compliant compiler.  For OS X users, that means Yosemite + current Xcode installation.  For linux users, GCC 4.8 or newer should suffice.
-
-In order to maximize simulation performance, one of the following additional libraries is recommended:
-
-* Google's tcmalloc_
-* Intel's tbb_
+You also need a C++11-compliant compiler.  For linux users, GCC 4.8 or
+newer should suffice.  OS X users must use the clang-omp package from brew_.
 
 You may use one or the other of these libraries, but not both.  See the Performance subsection of the Installation section below for how to use these libraries.
 
@@ -91,7 +87,7 @@ Apple is making life difficult for OS X users.  The release of El Capitan made i
 OS X users are recommended to use brew_ to install the various dependencies:
 
 .. code-block:: bash
-   
+
    $ brew install clang-omp
    $ brew install gsl
    $ ##Risky:
@@ -110,12 +106,21 @@ The required Python package dependencies are in the requirements.txt file that c
 What Python version?
 ==================================
 
-I'm developing the package using Python 2.7.6 on an Ubuntu machine.  
+I'm developing the package using Python 2.7.6 on an Ubuntu machine.
 
 Currently, the package is not 100% compatible with Python 3.  The goal is to make it work, though.
 
 Installation
 ==============
+
+The latest release of the package is available via PyPi_, and can be installed with your favorite Python package manager:
+
+.. code-block:: bash
+
+   $ pip install --upgrade pylibseq
+
+Installation from source
+----------------------------------------
 
 This section describes "vanilla" installation using the minimal dependencies.
 
@@ -124,7 +129,7 @@ First, install the dependencies (see above).
 **OS X users need to do the following first:**
 
 .. code-block:: bash
-		
+
    $ export CC=clang-omp
    $ export CXX=clang-omp++
 
@@ -159,93 +164,6 @@ To build the package in place and run the unit tets:
    $ #run the unit tests:
    $ python -m unittest discover unit_test
 
-Performance
-----------------------------
-
-This section is long, but very important!
-
-Forward-time simulations involve the constant allocation and de-allocation of small objects due to the repeated introduction, and subsequent rapid loss, of mutations during the course of *in-silico* evolution.   Thus, performance can be greatly affected by how memory is used.  This package has an additional complication that independent simulations can be run in different threads.  Such threading requires a memory allocator that scales well in a multi-threaded execution environment.
-
-**fwdpy** can be compiled using any of the following memory allocation libraries:
-
-* The built-in allocator.  This is the default, and the instructions above cover how to install this.
-* Google's tcmalloc_, which is a "drop-in" replacement for the default allocator.  **fwdpy** may be linked to the libtcmalloc runtime library in order to improve performance.
-* Intels' tbb_, which is a "drop-in" replacement for the default allocator. **fwdpy** may be linked to the libtbbmalloc_proxy runtime library in order to improve performance.
-
-Here is how dependency checking is treated:
-
-* The configure script processes your arguments (see below), and checks if the desired "drop-in" library is available.
-* If it is available, setup.py is written with the appropriate linking information
-* If not, setup.py is written to use the built-in allocator
-* When setup.py is run, it will attempt to compile and link tiny test programs.  If it cannot link to the desired drop-in library, the installation process will fail here, throwing a RuntimeError.
-
-Installing tcmalloc_:
-
-On OS X:
-
-.. code-block:: bash
-
-   $ brew install gperftools
-
-On Ubuntu Linux:
-
-.. code-block:: bash
-
-   $ sudo apt-get -f install google-perftools libgoogle-perftools-dev
-
-Installing tbb_:
-
-On OS X:
-
-.. code-block:: bash
-
-   $ brew install tbb
-
-On Ubuntu linux:
-
-.. code-block:: bash
-
-   $ sudo apt-get -f install libtbb-dev
-
-Using tcmalloc_:
-
-.. code-block:: bash
-
-    $ ./configure --enable-tcmalloc=yes
-    $ python setup.py install
-
-Using tbb_:
-
-.. code-block:: bash
-
-    $ ./configure --enable-tbbprx=yes
-    $ python setup.py install
-
-Should I use the default allocator?
-
-If you know that your simulations will fall into one or more of the following classes:
-
-* Few in number
-* Involving small population sizes, say :math:`N \approx 10^3`
-* Involving small genomic regions, say :math:`4N\mu \leq 250` and :math:`4Nr \leq 250`, where :math:`\mu` and :math:`r` are the mutation and recombination rates, respectively.
-
-Overall, fwdpp_, the library that this package uses for simulation, is very fast, meaning that it is at least as fast as alternative tools.   The recommendations above are based on my observations that the drop-in allocator replacement libraries provide relatively small performance improvements for the above parameter ranges.
-
-However, the only real reason to use the default allocator is if you cannot install tcmalloc_ or tbb_ on your system for some reason.
-
-Should I use tcmalloc_ or tbb_?
-
-Yes, you should.
-
-However, you should keep the following in mind:
-
-* If you have to install from source, tcmalloc_ is easier to install than is tbb_.
-* When using over 32 cores, tcmalloc_ suffers substantial performance loss (in my experience, on our cluster's 64-core AMD systems).
-
-Which is faster: tcmalloc_ or tbb_?
-
-*WIll return to this once testing is done on HPC*
-
 Note for developers
 =================================
 
@@ -266,13 +184,13 @@ You need Cython >= 0.22.2, so upgrade if you need to:
 
 If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
 
-To do this, use the configure script as follows:
+To do this, use the setup.py script as follows:
 
 .. code-block:: bash
 
-   $ ./configure --enable-cython
+   $ python setup.py build_ext -i --use-cython
 
-Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the "CPython" part of the interface.
+Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the core of the package.
 
 
 Rough guide to installation on UCI HPC
@@ -330,7 +248,7 @@ Documentation
 The manual_ is available online in html format at the project web page.
 
 
-.. _fwdpp: http://molpopgen.github.io/fwdpp 
+.. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _libsequence: http://molpopgen.github.io/libsequence/
 .. _Cython: http://www.cython.org/
 .. _GSL:  http://gnu.org/software/gsl
@@ -342,3 +260,4 @@ The manual_ is available online in html format at the project web page.
 .. _Viewing simulated populations: http://molpopgen.github.io/fwdpy/_build/html/examples/views.html
 .. _Sliding windows: http://molpopgen.github.io/fwdpy/_build/html/examples/windows.html
 .. _Tracking mutation frequencies: http://molpopgen.github.io/fwdpy/_build/html/examples/trajectories.html
+.. _PyPi: https://pypi.python.org
