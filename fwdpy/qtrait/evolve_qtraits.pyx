@@ -124,8 +124,45 @@ def evolve_qtrait_more(GSLrng rng,
         raise RuntimeError("trackStats must be >= 0.")
     if trackStats < 0:
         raise RuntimeError("trackStats must be >= 0.")
-    rmgr = region_manager_wrapper();
+    rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
                      trackStats,
                      rmgr.thisptr)
+
+def evolve_qtrait_sample(GSLrng rng,
+                         popvec pops,
+                         unsigned[:] nlist,
+                         double mu_neutral,
+                         double mu_selected,
+                         double recrate,
+                         list nregions,
+                         list sregions,
+                         list recregions,
+                         double sigmaE,
+                         int trackSamples,
+                         unsigned nsam,
+                         double optimum = 0.,
+                         double f = 0.,
+                    double VS = 1,):
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
+    if sigmaE < 0.:
+        raise RuntimeError("sigmaE must be >= 0.")
+    if VS < 0.:
+        raise RuntimeError("VS must be >= 0.")
+    if trackSamples < 0:
+        raise RuntimeError("trackSamples must be >= 0.")
+    if nsam == 0:
+        raise RuntimeError("Sample size (nsam) must be > 0")
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    return evolve_qtraits_sample_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,
+                                   nsam,rmgr.thisptr)
