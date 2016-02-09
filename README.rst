@@ -261,11 +261,8 @@ The manual_ is available online in html format at the project web page.
 
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp
-.. _libsequence: http://molpopgen.github.io/libsequence/
 .. _Cython: http://www.cython.org/
 .. _GSL:  http://gnu.org/software/gsl
-.. _tcmalloc: https://code.google.com/p/gperftools/
-.. _tbb: https://www.threadingbuildingblocks.org
 .. _brew: http://brew.sh
 .. _manual: http://molpopgen.github.io/fwdpy
 .. _Background selection: http://molpopgen.github.io/fwdpy/_build/html/examples/BGS.html
