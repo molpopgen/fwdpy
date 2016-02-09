@@ -45,6 +45,11 @@ The following distributions of dominance are supported:
 
 * constant (*i.e.*, *h* takes on a fixed value)
 
+Google Group
+=================
+
+For help with various issues, check out the `fwdpy Google Group`_
+
 Examples
 =============
 
@@ -219,7 +224,7 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.4.3, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.4.5, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
@@ -256,11 +261,8 @@ The manual_ is available online in html format at the project web page.
 
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp
-.. _libsequence: http://molpopgen.github.io/libsequence/
 .. _Cython: http://www.cython.org/
 .. _GSL:  http://gnu.org/software/gsl
-.. _tcmalloc: https://code.google.com/p/gperftools/
-.. _tbb: https://www.threadingbuildingblocks.org
 .. _brew: http://brew.sh
 .. _manual: http://molpopgen.github.io/fwdpy
 .. _Background selection: http://molpopgen.github.io/fwdpy/_build/html/examples/BGS.html
@@ -268,3 +270,4 @@ The manual_ is available online in html format at the project web page.
 .. _Sliding windows: http://molpopgen.github.io/fwdpy/_build/html/examples/windows.html
 .. _Tracking mutation frequencies: http://molpopgen.github.io/fwdpy/_build/html/examples/trajectories.html
 .. _PyPi: https://pypi.python.org
+.. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
