@@ -10,6 +10,7 @@
             "include/internal/internal.hpp", 
             "include/metapop.hpp", 
             "include/neutral.hpp", 
+            "include/qtrait/details.hpp", 
             "include/qtrait/qtraits.hpp", 
             "include/sample.hpp", 
             "include/trajectories.hpp", 
@@ -18,8 +19,6 @@
         "extra_compile_args": [
             "-std=c++11", 
             "-fopenmp", 
-            "-DFWDPP_VERSION=\"0.4.5\"", 
-            "-DGSL_VERSION=\"1.16\"", 
             "-DPACKAGE_VERSION=\"0.0.2\""
         ], 
         "extra_link_args": [
@@ -314,6 +313,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
 #include "trajectories.hpp"
+#include "qtrait/details.hpp"
 #include "qtrait/qtraits.hpp"
 #include "stdio.h"
 #include "pythread.h"
@@ -18187,34 +18187,34 @@ PyMODINIT_FUNC PyInit_qtrait(void)
   if (__Pyx_patch_abc() < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
 
-  /* "fwdpy/qtrait/qtrait.pyx":13
- * from fwdpy.fwdpy cimport *
+  /* "fwdpy/qtrait/qtrait.pyx":14
  * from fwdpy.internal.internal cimport shwrappervec
+ * from fwdpy.fwdpp cimport sep_sample_t
  * import fwdpy.internal as internal             # <<<<<<<<<<<<<<
  * import pandas
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s__32);
   __Pyx_GIVEREF(__pyx_n_s__32);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__32);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_fwdpy_internal, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_fwdpy_internal, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_internal, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_internal, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/qtrait/qtrait.pyx":14
- * from fwdpy.internal.internal cimport shwrappervec
+  /* "fwdpy/qtrait/qtrait.pyx":15
+ * from fwdpy.fwdpp cimport sep_sample_t
  * import fwdpy.internal as internal
  * import pandas             # <<<<<<<<<<<<<<
  * 
  * cdef extern from "types.hpp" nogil:
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pandas, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pandas, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":1
