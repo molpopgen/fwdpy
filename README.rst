@@ -176,6 +176,31 @@ To build the package in place and run the unit tets:
    $ #run the unit tests:
    $ python -m unittest discover unit_test
 
+Dependencies in non-standard locations
+----------------------------------------------------------------------------------------
+
+The instructions above assume that dependencies (fwdpp_ and GSL_) are
+found in "standard" locations, which means in /usr/local on a typical
+system.
+
+Many users, especially those on clusters, may not have the privileges
+needed to install to the standard system locations.  Thus, it may be
+necessary to manually tell fwdpy where the dependencies are located.
+
+For example, let us assume that fwdpp_ and GSL_ are installed into
+your home folder. On *nix systems, $HOME is a variable representing
+the location of your home folder.  Thus, the header files for these
+libraries will be found in $HOME/include and any run-time libraries
+will be found in $HOME/lib.
+
+To tell pip where to find these dependencies, you need to manually set
+CPPFLAGS and LDFLAGS:
+
+.. code-block:: bash
+
+   $ CPPFLAGS="-I$HOME/include" LDFLAGS="-L$HOME/lib" pip install fwdpy
+
+
 Note for developers
 =================================
 
