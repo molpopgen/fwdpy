@@ -105,7 +105,6 @@ else:
 
 long_desc = \
 """
-fwdpy is a C++11-based package for running forward simulations in Python
 """
 
 #EXTENSION="@EXTENSION@"
