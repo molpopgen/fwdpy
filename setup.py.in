@@ -103,9 +103,7 @@ else:
     except:
         pass
 
-long_desc = \
-"""
-"""
+long_desc = open("README.rst").read()
 
 #EXTENSION="@EXTENSION@"
 
@@ -161,7 +159,7 @@ setup(name='@PACKAGE_NAME@',
       maintainer='Kevin R. Thornton',
       maintainer_email='krthornt@uci.edu',
       url='http://www.molpopgen.org',
-      description="forward simulation using python",
+      description="Forward-time population genetic simulation in Python"
       long_description=long_desc,
       download_url='http://github.com/molpopgen/fwdpy',
       classifiers=['Intended Audience :: Science/Research',
