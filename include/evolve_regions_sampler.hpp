@@ -31,7 +31,7 @@
   and I guess we'd have to supply those functions.
 
   The problem is one of space.  Doing frequency trajectories this way will be much more RAM-intensive
-  Than the current implementation.
+  Than the current implementation.  The "qtrait stats" is probably fine, with some overhead from strings.
 */
 template<typename sampler>
 inline auto
