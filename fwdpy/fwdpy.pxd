@@ -36,7 +36,6 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned gen()
         unsigned popsize()
         int sane()
-        void clearTrajectories()
 
     cdef cppclass metapop_t:
         metapop_t(vector[unsigned])
@@ -94,7 +93,6 @@ cdef class singlepop(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
-    cpdef clearTraj(self)
 
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
@@ -195,18 +193,6 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                            const double mu_selected,
                            const double littler,
                            const double f,
-                           const int track,
-                           const region_manager * rm,
-                           const char * fitness)
-
-    void evolve_regions_t( GSLrng_t * rng, shared_ptr[singlepop_t] pops,
-                           const unsigned * popsizes,
-                           const size_t popsizes_len,
-                           const double mu_neutral,
-                           const double mu_selected,
-                           const double littler,
-                           const double f,
-                           const int track,
                            const region_manager * rm,
                            const char * fitness)
 
@@ -222,18 +208,7 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const vector[double] & fs,
                 const region_manager * rm,
                 const char * fitness)
-
-    vector[shared_ptr[singlepop_t]]  evolve_regions_async(const unsigned npops,
-							  GSLrng_t * rng,
-							  const unsigned * Nvector,
-							  const size_t Nvector_len,
-							  const double mu_neutral,
-							  const double mu_selected,
-							  const double littler,
-							  const double f,
-							  const int track,
-							  const region_manager * rm,
-							  const char * fitness)
+    
 
 cdef extern from "evolve_regions_sampler.hpp" nogil:
     cdef struct detailed_deme_sample:

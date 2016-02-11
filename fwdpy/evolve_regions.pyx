@@ -17,7 +17,6 @@ def evolve_regions(GSLrng rng,
                     list sregions,
                     list recregions,
                     double f = 0,
-                    const int track = 0,
                     const char * fitness = "multiplicative"):
     """
     Evolve a region with variable mutation, fitness effects, and recombination rates.
@@ -33,7 +32,6 @@ def evolve_regions(GSLrng rng,
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
     :param f: The selfing probabilty
-    :param track: Track mutation frequencies every x generations.  x=0 means do not track, x=1 means update every generation.
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
     Example:
@@ -81,7 +79,7 @@ def evolve_regions(GSLrng rng,
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
     with nogil:
-        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
     return pops
 
 @cython.boundscheck(False)
@@ -95,7 +93,6 @@ def evolve_regions_more(GSLrng rng,
                         list sregions,
                         list recregions,
                         double f = 0,
-                        const int track = 0,
                         const char * fitness = "multiplicative"):
     """
     Continute to evolve a region with variable mutation, fitness effects, and recombination rates.
@@ -110,7 +107,6 @@ def evolve_regions_more(GSLrng rng,
     :param nregions: A list specifying where neutral mutations occur
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
-    :param track: Track mutation frequencies every x generations.  x=0 means do not track, x=1 means update every generation.
     :param f: The selfing probabilty
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
@@ -145,7 +141,7 @@ def evolve_regions_more(GSLrng rng,
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
     with nogil:
-        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
+        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
 
 @cython.boundscheck(False)
 def evolve_regions_sample(GSLrng rng,

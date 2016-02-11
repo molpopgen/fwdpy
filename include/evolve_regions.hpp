@@ -14,7 +14,6 @@ namespace fwdpy
 			 const double mu_selected,
 			 const double littler,
 			 const double f,
-			 const int track,
 			 const internal::region_manager * rm,
 			 const char * fitness);
 
@@ -30,17 +29,17 @@ namespace fwdpy
   // 			 const char * fitness);
   
 
-  std::vector<std::shared_ptr<singlepop_t> >  evolve_regions_async(const unsigned npops,
-								   GSLrng_t * rng, 
-								   const unsigned * Nvector,
-								   const size_t Nvector_len,
-								   const double mu_neutral,
-								   const double mu_selected,
-								   const double littler,
-								   const double f,
-								   const int track,
-								   const fwdpy::internal::region_manager * rm,
-								   const char * fitness);
+  // std::vector<std::shared_ptr<singlepop_t> >  evolve_regions_async(const unsigned npops,
+  // 								   GSLrng_t * rng, 
+  // 								   const unsigned * Nvector,
+  // 								   const size_t Nvector_len,
+  // 								   const double mu_neutral,
+  // 								   const double mu_selected,
+  // 								   const double littler,
+  // 								   const double f,
+  // 								   const int track,
+  // 								   const fwdpy::internal::region_manager * rm,
+  // 								   const char * fitness);
 
   void split_and_evolve_t(GSLrng_t * rng,
 			  std::vector<std::shared_ptr<metapop_t> > * mpops,

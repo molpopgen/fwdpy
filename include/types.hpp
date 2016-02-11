@@ -23,16 +23,16 @@
   code for structs declared inside a C++ namespace.
 */
 
-  struct qtrait_stats_cython
+struct qtrait_stats_cython
+{
+  std::string stat;
+  double value;
+  unsigned generation;
+  qtrait_stats_cython(std::string _stat,
+		      double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
   {
-    std::string stat;
-    double value;
-    unsigned generation;
-    qtrait_stats_cython(std::string _stat,
-			double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
-    {
-    }
-  };
+  }
+};
 
 namespace fwdpy {
   using GSLrng_t = KTfwd::GSLrng_t<KTfwd::GSL_RNG_MT19937>;
@@ -81,7 +81,7 @@ namespace fwdpy {
   enum class traj_key_values : std::size_t
   {
     deme,origin,pos,esize
-  };
+      };
 
   using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
@@ -90,39 +90,11 @@ namespace fwdpy {
 
   using qtrait_stats_t = std::vector<std::array<double,8>>;
 
-  template<typename ostream>
-  void serialize_qtrait_stats(ostream & o, const qtrait_stats_t & qts)
-  {
-    std::size_t n=qts.size();
-    o.write(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
-    for(const auto & e : qts)
-      {
-	o.write(reinterpret_cast<const char*>(e.data()),e.max_size()*sizeof(double));
-      }
-  }
-
-  template<typename istream>
-  void deserialize_qtrait_stats(istream & i, qtrait_stats_t & qts)
-  {
-    std::size_t n;
-    i.read(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
-    qts.resize(n);
-    for(auto & e : qts)
-      {
-	i.read(reinterpret_cast<char*>(e.data()),e.max_size()*sizeof(double));
-      }
-  }
-
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
   {
     using base = KTfwd::singlepop<KTfwd::popgenmut,diploid_t>;
-    using trajtype = trajectories_t;
     unsigned generation;
-    trajtype trajectories;
-    qtrait_stats_t qstats;
-    singlepop_t(const unsigned & N) : base(N),generation(0),
-				      trajectories(trajtype()),
-				      qstats(qtrait_stats_t())
+    singlepop_t(const unsigned & N) : base(N),generation(0)
     {
     }
 
@@ -137,89 +109,6 @@ namespace fwdpy {
     int sane() const
     {
       return int(N == diploids.size());
-    }
-
-    void updateTraj()
-    {
-      for(std::size_t i = 0 ; i < this->mcounts.size() ; ++i )
-      	{
-	  if(this->mcounts[i]) //if mutation is not extinct
-	    {
-	      const auto & __m = this->mutations[i];
-	      unsigned n = this->mcounts[i];
-	      if( !__m.neutral )
-		{
-		  auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s);
-		  auto __itr = trajectories.find(__p);
-		  if(__itr == trajectories.end())
-		    {
-		      trajectories[__p] = std::vector<double>(1,double(n)/double(2*diploids.size()));
-		    }
-		  else
-		    {
-		      //Don't keep updating for fixed variants
-		      if( __itr->second.back() < 1.) //2*diploids.size() )
-			{
-			  __itr->second.push_back(double(n)/double(2*diploids.size()));
-			}
-		    }
-		}
-	    }
-      	}
-    }
-
-    void updateStats()
-     {
-      std::vector<double> VG,VE,wbar;
-      VG.reserve(diploids.size());
-      VE.reserve(diploids.size());
-      wbar.reserve(diploids.size());
-
-      for(const auto & dip : diploids)
-	{
-	  VG.push_back(dip.g);
-	  VE.push_back(dip.e);
-	  wbar.push_back(dip.w);
-	}
-
-      double twoN=2.*double(diploids.size());
-      double mvexpl = 0.,
-        leading_e=std::numeric_limits<double>::quiet_NaN(),
-        leading_f=std::numeric_limits<double>::quiet_NaN();
-      double sum_e = 0.;
-      unsigned nm=0;
-      for(std::size_t i = 0 ; i < mcounts.size() ; ++i )
-        {
-          if(mcounts[i] && mcounts[i]<twoN&&!mutations[i].neutral)
-            {
-              auto n = mcounts[i];
-              double p=double(n)/twoN,q=1.-p;
-	      double s = mutations[i].s;
-	      double temp = 2.*p*q*std::pow(s,2.0);
-              if (temp > mvexpl)
-                {
-                  mvexpl=temp;
-                  leading_e = s;
-                  leading_f = p;
-                }
-	      sum_e += mutations[i].s;
-	      ++nm;
-            }
-        }
-
-      qstats.emplace_back(qtrait_stats_t::value_type{{double(generation),
-	      gsl_stats_variance(VG.data(),1,VG.size()),
-	      gsl_stats_variance(VE.data(),1,VE.size()),
-	      leading_f,
-	      leading_e,
-	      mvexpl,
-	      sum_e/double(nm),
-	      gsl_stats_mean(wbar.data(),1,wbar.size())}});
-    }
-
-    void clearTrajectories()
-    {
-      trajectories.clear();
     }
   };
 
@@ -275,9 +164,7 @@ namespace fwdpy {
   struct singlepop_gm_vec_t :  public KTfwd::singlepop<KTfwd::generalmut_vec,diploid_t>
   {
     using base = KTfwd::singlepop<KTfwd::generalmut_vec,diploid_t>;
-    //using trajtype = std::map< std::pair<unsigned,std::pair<double,double> >, std::vector<double> >;
     unsigned generation;
-    //trajtype trajectories;
     singlepop_gm_vec_t(const unsigned & N) : base(N),generation(0)
     {
     }
