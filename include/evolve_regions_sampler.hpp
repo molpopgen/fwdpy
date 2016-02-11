@@ -1,6 +1,7 @@
 #ifndef FWDPY_EVOLVE_REGIONS_SAMPLER_HPP
 #define FWDPY_EVOLVE_REGIONS_SAMPLER_HPP
 
+#include <future>
 #include <vector>
 #include <algorithm>
 #include <type_traits>
@@ -156,6 +157,39 @@ namespace fwdpy
     return s.final();
   }
 
+  template<typename sampler,class... Args>
+  inline std::vector<typename sampler::final_t>
+  evolve_regions_async_wrapper( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+				const unsigned * Nvector,
+				const size_t Nvector_len,
+				const double mu_neutral,
+				const double mu_selected,
+				const double littler,
+				const double f,
+				const int sample,
+				const internal::region_manager * rm,
+				const char * fitness,
+				Args&&... args)
+  {
+    using future_t = std::future<typename sampler::final_t>;
+    std::vector<future_t> futures;
+    for(std::size_t i=0;i<pops->size();++i)
+      {
+	futures.emplace_back( async(std::launch::async,
+				    evolve_regions_sampler_details<sampler,Args&&...>,
+				    pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
+				    mu_neutral,mu_selected,littler,f,fitness,sample,
+				    std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+				    std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
+				    std::forward<Args...>(args)...
+				    )
+			      );	
+      }
+    std::vector<typename sampler::final_t> rv(futures.size());
+    for(std::size_t i=0;i<futures.size();++i ) rv[i]=futures[i].get();
+    return rv;
+  }
+  
   //These are specific samplers
   
   class sample_n //take a sample of size n from a population
@@ -245,12 +279,6 @@ namespace fwdpy
 	    {"generation",std::move(generations)},
 	      {"esize",std::move(s)}
       };
-      // final_t rv;
-      // rv["pos"]=move(pos);
-      // rv["freq"]=move(freq);
-      // rv["generation"]=move(generations);
-      // rv["esize"]=move(s);
-      // return rv;
     }
     
     explicit get_selected_mut_data() : trajectories(trajectories_t())
