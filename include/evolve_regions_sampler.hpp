@@ -4,53 +4,166 @@
 #include <vector>
 #include <type_traits>
 #include <types.hpp>
+#include <reserve.hpp>
 #include <internal/internal.hpp>
+#include <fwdpp/diploid.hh>
+#include <fwdpp/extensions/regions.hpp>
+#include <fwdpp/sugar/sampling.hpp>
 
-/*
-  This is the generic function.
-
-  The type "sampler" must define an operator() taking a const singlepop_t * and a gsl_rng * as arguments.
-  
-  Other arguments may be bound by the caller, etc.
-
-  The object s will be applied every "interval" generations.
-
-  If result_t is the return type of s(const singlepop_t *, gsl_rng *), then the return type
-  of this function is vector<pair<unsigned,result_t> >, where the unsigned values refer
-  to the generation in which a specific result_t was obtained.
-
-  Design issues to work out:
-
-  1. The result_t is an object is considered below.  What happens when it is 
-  a vector of objects?
-
-  For example, a sample is a single object.  The selected mutation frequencies are a vector
-  of data on mutations.
-
-  Perhaps that is just ok? It isn't super-friendly, and would need conversion to pandas.DataFrame,
-  and I guess we'd have to supply those functions.
-
-  The problem is one of space.  Doing frequency trajectories this way will be much more RAM-intensive
-  Than the current implementation.  The "qtrait stats" is probably fine, with some overhead from strings.
-*/
-template<typename sampler>
-inline auto
-evolve_regions_sampler_async(GSLrng_t * rng,
-			     std::vector<std::shared_ptr<singlepop_t> > * pops,
-			     const unsigned * Nvector,
-			     const size_t Nvector_len,
-			     const double mu_neutral,
-			     const double mu_selected,
-			     const double littler,
-			     const double f,
-			     const fwdpy::internal::region_manager * rm,
-			     const char * fitness,
-			     const sampler & s,
-			     const int interval) -> std::vector< std::pair<unsigned,typename std::result_of<sampler(const singlepop_t *, gsl_rng *)>::type> >
+namespace fwdpy
 {
-  std::vector< std::pair<unsigned,typename std::result_of<sampler(const singlepop_t *, gsl_rng *)>::type> > rv;
+  /*
+    This is the generic function.
 
-  return rv;
-}
+    The type "sampler" must define an operator() taking a const singlepop_t * and a gsl_rng *, and unsigned as arguments.
 
+    The unsigned represents the generation, and the intent is that it is in the return value of sampler(...) somewhere.
+  
+    Other arguments may be bound by the caller, etc.
+
+    The object s will be applied every "interval" generations.
+
+    If result_t is the return type of s(const singlepop_t *, gsl_rng *), then the return type
+    of this function is vector<pair<unsigned,result_t> >, where the unsigned values refer
+    to the generation in which a specific result_t was obtained.
+
+    Design issues to work out:
+
+    1. The result_t is an object is considered below.  What happens when it is 
+    a vector of objects?
+
+    For example, a sample is a single object.  The selected mutation frequencies are a vector
+    of data on mutations.
+
+    Perhaps that is just ok? It isn't super-friendly, and would need conversion to pandas.DataFrame,
+    and I guess we'd have to supply those functions.
+
+    The problem is one of space.  Doing frequency trajectories this way will be much more RAM-intensive
+    Than the current implementation.  The "qtrait stats" is probably fine, with some overhead from strings.
+  */
+  template<typename sampler>
+  inline auto
+  evolve_regions_sampler_details(singlepop_t * pop,
+				 const unsigned long seed,
+				 const unsigned * Nvector,
+				 const size_t Nvector_len,
+				 const double neutral,
+				 const double selected,
+				 const double recrate,
+				 const double f,
+				 const char * fitness,
+				 const sampler & s,
+				 const int interval,
+				 KTfwd::extensions::discrete_mut_model && __m,
+				 KTfwd::extensions::discrete_rec_model && __recmap) -> std::vector< typename std::result_of<sampler(const singlepop_t *, gsl_rng *, const unsigned)>::type>
+  {
+    std::vector< typename std::result_of<sampler(const singlepop_t *, gsl_rng *, const unsigned)>::type> rv;
+
+    const size_t simlen = Nvector_len;
+    auto x = std::max_element(Nvector,Nvector+Nvector_len);
+    assert(x!=Nvector+Nvector_len);
+    reserve_space(pop->gametes,pop->mutations,*x,neutral+selected);
+    const double mu_tot = neutral + selected;
+    gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
+    gsl_rng_set(rng,seed);
+    KTfwd::extensions::discrete_mut_model m(std::move(__m));
+    KTfwd::extensions::discrete_rec_model recmap(std::move(__recmap));
+    //Recombination policy: more complex than the standard case...
+    const auto recpos = KTfwd::extensions::bind_drm(recmap,pop->gametes,pop->mutations,
+						    rng,recrate);
+
+    /*
+      The fitness model.
+
+      Normally, we'd declare dipfit as "auto", but that won't work here b/c there is the chance
+      that we have to re-assign it using an additive model based on input from calling environment.
+
+      The std::bind signature has a different type for the two models, and thus we must coerce it to
+      the proper function signature, which is a member typedef provided by the fwdpp sugar type
+      from which fwdpy::singlepop_t inherits
+    */
+    fwdpy::singlepop_t::fitness_t dipfit = std::bind(KTfwd::multiplicative_diploid(),
+						     std::placeholders::_1,
+						     std::placeholders::_2,
+						     std::placeholders::_3,
+						     2.);
+
+    if( std::string(fitness) == "additive" )
+      {
+	dipfit = std::bind(KTfwd::additive_diploid(),
+			   std::placeholders::_1,
+			   std::placeholders::_2,
+			   std::placeholders::_3,
+			   2.);
+      }
+
+    for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
+      {
+	const unsigned nextN = 	*(Nvector+g);
+	if (interval && pop->generation &&pop->generation%interval==0.)
+	  {
+	    rv.emplace_back(s(pop,rng,pop->generation));
+	  }
+	KTfwd::sample_diploid(rng,
+			      pop->gametes,
+			      pop->diploids,
+			      pop->mutations,
+			      pop->mcounts,
+			      pop->N,
+			      nextN,
+			      mu_tot,
+			      KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
+			      recpos,
+			      dipfit,
+			      pop->neutral,pop->selected,
+			      f);
+	pop->N=nextN;
+	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
+	assert(KTfwd::check_sum(pop->gametes,2*nextN));
+      }
+    if (interval && pop->generation &&pop->generation%interval==0.)
+      {
+	rv.emplace_back(s(pop,rng,pop->generation));
+      }
+    //Update population's size variable to be the current pop size
+    pop->N = unsigned(pop->diploids.size());
+    //cleanup
+    gsl_rng_free(rng);
+    //restore data
+    return rv;
+  }
+
+  //These are specific samplers
+  
+  struct sample_n //take a sample of size n from a population
+  {
+    using result_type = std::pair<unsigned,KTfwd::sep_sample_t>;
+    using bound_t = std::function<result_type(const singlepop_t * ,gsl_rng * r,const unsigned)>;
+    inline result_type operator()(const singlepop_t * pop,gsl_rng * r,
+				  const unsigned generation, const unsigned nsam) const
+    {
+      return std::make_pair(generation,KTfwd::sample_separate(r,*pop,nsam,true));
+    }
+    static inline bound_t make_bound_t(unsigned nsam) noexcept
+    {
+      return std::bind(sample_n(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,nsam);
+    }
+  };
+
+  //Prototypes for functions using samplers
+
+  std::vector<std::vector<std::pair<unsigned,KTfwd::sep_sample_t> >>
+  evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+			       const unsigned * Nvector,
+			       const size_t Nvector_length,
+			       const double mu_neutral,
+			       const double mu_selected,
+			       const double littler,
+			       const double f,
+			       const int sample,
+			       const unsigned nsam,
+			       const internal::region_manager * rm,
+			       const char * fitness);
+
+} //ns fwdpy
 #endif
