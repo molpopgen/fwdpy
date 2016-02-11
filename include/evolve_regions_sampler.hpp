@@ -12,27 +12,8 @@
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
 
-//Namespace pollution!!
-struct detailed_deme_sample
-{
-  KTfwd::sep_sample_t genotypes;
-  std::vector<std::pair<double,double> > sh;
-  template<typename T1,typename T2>
-  detailed_deme_sample(T1 && t1, T2 && t2) : genotypes(std::forward<T1>(t1)),
-					     sh(std::forward<T2>(t2))
-  {
-  }
-};
-
-struct selected_mut_data
-{
-  unsigned generation;
-  double pos,freq,esize;
-  explicit selected_mut_data(unsigned g,double p,double f,double e) :
-    generation(g),pos(p),freq(f),esize(e)
-  {
-  }
-};
+#include <sample_n.hpp>
+#include <get_selected_mut_data.hpp>
 
 namespace fwdpy
 {
@@ -190,103 +171,7 @@ namespace fwdpy
     return rv;
   }
   
-  //These are specific samplers
-  
-  class sample_n //take a sample of size n from a population
-  {
-  public:
-    using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
-    inline void operator()(const singlepop_t * pop,gsl_rng * r,
-			   const unsigned generation)
-    {
-      auto s = KTfwd::sample_separate(r,*pop,nsam,true);
-      std::vector< std::pair<double,double> > sh;
-      for( const auto & i : s.second )
-	{
-	  auto itr = std::find_if(pop->mutations.begin(),pop->mutations.end(),[&i](const singlepop_t::mutation_t & m) noexcept
-				  {
-				    return m.pos == i.first;
-				  });
-	  sh.emplace_back(itr->s,itr->h);
-	}
-      return rv.emplace_back(generation,detailed_deme_sample(std::move(s),std::move(sh)));
-    }
 
-    final_t final() const
-    {
-      return rv;
-    }
-    explicit sample_n(unsigned nsam_) : rv(final_t()),nsam(nsam_)
-    {
-    }
-  private:
-    final_t rv;
-    const unsigned nsam;
-  };
-
-  class get_selected_mut_data //record info on selected mutations in population, including fixations
-  {
-  public:
-    using final_t = std::map<std::string,std::vector<double> >;
-    inline void operator()(const singlepop_t * pop,gsl_rng * ,
-			   const unsigned generation)
-    {
-      for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
-      	{
-	  if(pop->mcounts[i]) //if mutation is not extinct
-	    {
-	      const auto & __m = pop->mutations[i];
-	      if( !__m.neutral )
-		{
-		  const auto freq = double(pop->mcounts[i])/double(2*pop->diploids.size());
-		  auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s);
-		  auto __itr = trajectories.find(__p);
-		  if(__itr == trajectories.end())
-		    {
-		      trajectories[__p] = std::vector<double>(1,freq);
-		    }
-		  else
-		    {
-		      //Don't keep updating for fixed variants
-		      if( __itr->second.back() < 1.)
-			{
-			  __itr->second.push_back(freq);
-			}
-		    }
-		}
-	    }
-      	}
-    }
-    
-    final_t final() const
-    {
-      std::vector<double> pos,freq,s;
-      std::vector<double> generations;
-      for( auto itr = this->trajectories.cbegin() ;
-	   itr != this->trajectories.cend() ; ++itr )
-	{
-	  std::vector<unsigned> times(itr->second.size());
-	  unsigned itime = std::get<static_cast<std::size_t>(traj_key_values::origin)>(itr->first);
-	  generate(times.begin(),times.end(),[&itime]{ return itime++; });
-	  generations.insert(generations.end(),times.begin(),times.end());
-	  fill_n(std::back_inserter(pos),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::pos)>(itr->first));
-	  fill_n(std::back_inserter(s),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::esize)>(itr->first));
-	  std::copy(itr->second.begin(),itr->second.end(),back_inserter(freq));
-	}
-      return final_t{
-	{"pos",std::move(pos)},
-	  {"freq",std::move(freq)},
-	    {"generation",std::move(generations)},
-	      {"esize",std::move(s)}
-      };
-    }
-    
-    explicit get_selected_mut_data() : trajectories(trajectories_t())
-    {
-    }
-  private:
-    trajectories_t trajectories;
-  };
   //Prototypes for functions using samplers
 
   std::vector<sample_n::final_t>
