@@ -10,6 +10,18 @@
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
 
+//Namespace pollution!!
+struct detailed_deme_sample
+{
+  KTfwd::sep_sample_t genotypes;
+  std::vector<std::pair<double,double> > sh;
+  template<typename T1,typename T2>
+  detailed_deme_sample(T1 && t1, T2 && t2) : genotypes(std::forward<T1>(t1)),
+					     sh(std::forward<T2>(t2))
+  {
+  }
+};
+
 namespace fwdpy
 {
   /*
@@ -137,12 +149,22 @@ namespace fwdpy
   
   struct sample_n //take a sample of size n from a population
   {
-    using result_type = std::pair<unsigned,KTfwd::sep_sample_t>;
+    using result_type = std::pair<unsigned,detailed_deme_sample>;
     using bound_t = std::function<result_type(const singlepop_t * ,gsl_rng * r,const unsigned)>;
     inline result_type operator()(const singlepop_t * pop,gsl_rng * r,
 				  const unsigned generation, const unsigned nsam) const
     {
-      return std::make_pair(generation,KTfwd::sample_separate(r,*pop,nsam,true));
+      auto s = KTfwd::sample_separate(r,*pop,nsam,true);
+      std::vector< std::pair<double,double> > sh;
+      for( const auto & i : s.second )
+	{
+	  auto itr = std::find_if(pop->mutations.begin(),pop->mutations.end(),[&i](const singlepop_t::mutation_t & m) noexcept
+				  {
+				    return m.pos == i.first;
+				  });
+	  sh.emplace_back(itr->s,itr->h);
+	}
+      return std::make_pair(generation,detailed_deme_sample(std::move(s),std::move(sh)));
     }
     static inline bound_t make_bound_t(unsigned nsam) noexcept
     {
@@ -152,7 +174,7 @@ namespace fwdpy
 
   //Prototypes for functions using samplers
 
-  std::vector<std::vector<std::pair<unsigned,KTfwd::sep_sample_t> >>
+  std::vector<std::vector<std::pair<unsigned,detailed_deme_sample> >>
   evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,

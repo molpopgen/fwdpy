@@ -6,7 +6,7 @@ using namespace std;
 
 namespace fwdpy
 {
-  std::vector< std::vector<std::pair<unsigned,KTfwd::sep_sample_t> > >
+  std::vector< std::vector<std::pair<unsigned,detailed_deme_sample> > >
   evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_len,
@@ -19,7 +19,7 @@ namespace fwdpy
 			       const internal::region_manager * rm,
 			       const char * fitness)
     {
-      using rv_t = std::vector<std::pair<unsigned,KTfwd::sep_sample_t> >;
+      using rv_t = std::vector<sample_n::result_type>;
       using future_t = std::future<rv_t>;
       vector<future_t> futures;
       auto sampler_t = sample_n::make_bound_t(nsam);

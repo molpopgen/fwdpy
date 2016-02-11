@@ -528,12 +528,12 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":238
- * 							  const char * fitness)
+/* "fwdpy/fwdpy.pxd":243
+ *         vector[pair[double,double]] sh
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
  * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
- *     vector[vector[pair[uint,sep_sample_t]]] evolve_regions_sample_async(GSLrng_t * rng,
+ *     vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng,
  */
 typedef unsigned int __pyx_t_5fwdpy_5fwdpy_uint;
 

@@ -641,12 +641,12 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":238
- * 							  const char * fitness)
+/* "fwdpy/fwdpy.pxd":243
+ *         vector[pair[double,double]] sh
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
  * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
- *     vector[vector[pair[uint,sep_sample_t]]] evolve_regions_sample_async(GSLrng_t * rng,
+ *     vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng,
  */
 typedef unsigned int __pyx_t_5fwdpy_5fwdpy_uint;
 
@@ -1788,6 +1788,7 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 static PyObject *__pyx_memview_get_unsigned_int(const char *itemp);
 static int __pyx_memview_set_unsigned_int(const char *itemp, PyObject *obj);
 
+static PyObject* __pyx_convert__to_py_detailed_deme_sample(struct detailed_deme_sample s);
 struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data;
 static PyObject* __pyx_convert__to_py___pyx_t_5fwdpy_5fwdpy_popgen_mut_data(struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data s);
 struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
@@ -2058,9 +2059,11 @@ static PyObject *__pyx_convert_pair_to_py_double____std_3a__3a_string(std::pair<
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(const std::vector<std::pair<double,std::string> >  &); /*proto*/
 static PyObject *__pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(std::pair<KTfwd::sample_t,KTfwd::sample_t>  const &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &); /*proto*/
-static PyObject *__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t(std::pair<unsigned int,KTfwd::sep_sample_t>  const &); /*proto*/
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___(const std::vector<std::pair<unsigned int,KTfwd::sep_sample_t> >  &); /*proto*/
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___(const std::vector<std::vector<std::pair<unsigned int,KTfwd::sep_sample_t> > >  &); /*proto*/
+static PyObject *__pyx_convert_pair_to_py_double____double(std::pair<double,double>  const &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(const std::vector<std::pair<double,double> >  &); /*proto*/
+static PyObject *__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample(std::pair<unsigned int,struct detailed_deme_sample>  const &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___(const std::vector<std::pair<unsigned int,struct detailed_deme_sample> >  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___(const std::vector<std::vector<std::pair<unsigned int,struct detailed_deme_sample> > >  &); /*proto*/
 static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(std::map<std::string,std::vector<double> >  const &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data(const std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data_3e___(const std::vector<std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> >  &); /*proto*/
@@ -2120,6 +2123,7 @@ static char __pyx_k_pd[] = "pd";
 static char __pyx_k_ps[] = "ps";
 static char __pyx_k_rv[] = "rv";
 static char __pyx_k_sd[] = "sd";
+static char __pyx_k_sh[] = "sh";
 static char __pyx_k_tt[] = "tt";
 static char __pyx_k__32[] = ", ";
 static char __pyx_k__47[] = "#";
@@ -2280,6 +2284,7 @@ static char __pyx_k_ancestral[] = "ancestral";
 static char __pyx_k_clearTraj[] = "clearTraj";
 static char __pyx_k_enumerate[] = "enumerate";
 static char __pyx_k_from_dict[] = "from_dict";
+static char __pyx_k_genotypes[] = "genotypes";
 static char __pyx_k_metaclass[] = "__metaclass__";
 static char __pyx_k_ms_sample[] = "ms_sample";
 static char __pyx_k_serialize[] = "serialize";
@@ -2713,6 +2718,7 @@ static PyObject *__pyx_n_s_fwdpyio;
 static PyObject *__pyx_n_s_g;
 static PyObject *__pyx_n_s_gams;
 static PyObject *__pyx_n_s_gen;
+static PyObject *__pyx_n_s_genotypes;
 static PyObject *__pyx_n_s_get_sample_details;
 static PyObject *__pyx_kp_u_get_sample_details_line_91;
 static PyObject *__pyx_n_s_get_samples;
@@ -2858,6 +2864,7 @@ static PyObject *__pyx_n_s_selected_info;
 static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_serialize;
 static PyObject *__pyx_n_s_set_index;
+static PyObject *__pyx_n_s_sh;
 static PyObject *__pyx_n_s_sh0;
 static PyObject *__pyx_n_s_sh1;
 static PyObject *__pyx_n_s_shape;
@@ -11641,7 +11648,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_sample(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_6 = 0;
   if (__pyx_t_6 < 0) __pyx_t_6 += __pyx_v_nlist.shape[0];
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___(fwdpy::evolve_regions_sample_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_6 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_nsam, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___(fwdpy::evolve_regions_sample_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_6 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_nsam, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -38786,13 +38793,13 @@ static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &_
 
 /* "pair.to_py":180
  * 
- * @cname("__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t")
- * cdef object __pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_pair_to_py_double____double")
+ * cdef object __pyx_convert_pair_to_py_double____double(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
  *     return X_to_py(p.first), Y_to_py(p.second)
  * 
  */
 
-static PyObject *__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t(std::pair<unsigned int,KTfwd::sep_sample_t>  const &__pyx_v_p) {
+static PyObject *__pyx_convert_pair_to_py_double____double(std::pair<double,double>  const &__pyx_v_p) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -38801,19 +38808,19 @@ static PyObject *__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sampl
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert_pair_to_py_double____double", 0);
 
   /* "pair.to_py":181
- * @cname("__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t")
- * cdef object __pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t(const pair[X,Y]& p):
+ * @cname("__pyx_convert_pair_to_py_double____double")
+ * cdef object __pyx_convert_pair_to_py_double____double(const pair[X,Y]& p):
  *     return X_to_py(p.first), Y_to_py(p.second)             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_p.first); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_p.first); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(__pyx_v_p.second); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_p.second); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
@@ -38829,8 +38836,8 @@ static PyObject *__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sampl
 
   /* "pair.to_py":180
  * 
- * @cname("__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t")
- * cdef object __pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_pair_to_py_double____double")
+ * cdef object __pyx_convert_pair_to_py_double____double(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
  *     return X_to_py(p.first), Y_to_py(p.second)
  * 
  */
@@ -38840,7 +38847,7 @@ static PyObject *__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sampl
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("pair.to_py.__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pair.to_py.__pyx_convert_pair_to_py_double____double", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -38850,13 +38857,13 @@ static PyObject *__pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sampl
 
 /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
 
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___(const std::vector<std::pair<unsigned int,KTfwd::sep_sample_t> >  &__pyx_v_v) {
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(const std::vector<std::pair<double,double> >  &__pyx_v_v) {
   size_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -38867,11 +38874,11 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_K
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___", 0);
 
   /* "vector.to_py":68
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___(vector[X]& v):
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(vector[X]& v):
  *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
  * 
  * 
@@ -38882,7 +38889,7 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_K
   __pyx_t_2 = __pyx_v_v.size();
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
-    __pyx_t_4 = __pyx_convert_pair_to_py_unsigned_int____KTfwd_3a__3a_sep_sample_t((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_convert_pair_to_py_double____double((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -38893,8 +38900,8 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_K
 
   /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
@@ -38903,7 +38910,7 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_K
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -38911,7 +38918,79 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_K
   return __pyx_r;
 }
 
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___(const std::vector<std::vector<std::pair<unsigned int,KTfwd::sep_sample_t> > >  &__pyx_v_v) {
+/* "pair.to_py":180
+ * 
+ * @cname("__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample")
+ * cdef object __pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
+ *     return X_to_py(p.first), Y_to_py(p.second)
+ * 
+ */
+
+static PyObject *__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample(std::pair<unsigned int,struct detailed_deme_sample>  const &__pyx_v_p) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample", 0);
+
+  /* "pair.to_py":181
+ * @cname("__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample")
+ * cdef object __pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample(const pair[X,Y]& p):
+ *     return X_to_py(p.first), Y_to_py(p.second)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_p.first); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_convert__to_py_detailed_deme_sample(__pyx_v_p.second); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
+  goto __pyx_L0;
+
+  /* "pair.to_py":180
+ * 
+ * @cname("__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample")
+ * cdef object __pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
+ *     return X_to_py(p.first), Y_to_py(p.second)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("pair.to_py.__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___(const std::vector<std::pair<unsigned int,struct detailed_deme_sample> >  &__pyx_v_v) {
   size_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -38922,11 +39001,11 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___", 0);
 
   /* "vector.to_py":68
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___(vector[X]& v):
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___(vector[X]& v):
  *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
  * 
  * 
@@ -38937,7 +39016,7 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair
   __pyx_t_2 = __pyx_v_v.size();
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
-    __pyx_t_4 = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e___((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -38948,8 +39027,8 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair
 
   /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
@@ -38958,7 +39037,62 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_KTfwd_3a__3a_sep_sample_t_3e____3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___(const std::vector<std::vector<std::pair<unsigned int,struct detailed_deme_sample> > >  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -41324,6 +41458,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_g, __pyx_k_g, sizeof(__pyx_k_g), 0, 0, 1, 1},
   {&__pyx_n_s_gams, __pyx_k_gams, sizeof(__pyx_k_gams), 0, 0, 1, 1},
   {&__pyx_n_s_gen, __pyx_k_gen, sizeof(__pyx_k_gen), 0, 0, 1, 1},
+  {&__pyx_n_s_genotypes, __pyx_k_genotypes, sizeof(__pyx_k_genotypes), 0, 0, 1, 1},
   {&__pyx_n_s_get_sample_details, __pyx_k_get_sample_details, sizeof(__pyx_k_get_sample_details), 0, 0, 1, 1},
   {&__pyx_kp_u_get_sample_details_line_91, __pyx_k_get_sample_details_line_91, sizeof(__pyx_k_get_sample_details_line_91), 0, 1, 0, 0},
   {&__pyx_n_s_get_samples, __pyx_k_get_samples, sizeof(__pyx_k_get_samples), 0, 0, 1, 1},
@@ -41469,6 +41604,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_serialize, __pyx_k_serialize, sizeof(__pyx_k_serialize), 0, 0, 1, 1},
   {&__pyx_n_s_set_index, __pyx_k_set_index, sizeof(__pyx_k_set_index), 0, 0, 1, 1},
+  {&__pyx_n_s_sh, __pyx_k_sh, sizeof(__pyx_k_sh), 0, 0, 1, 1},
   {&__pyx_n_s_sh0, __pyx_k_sh0, sizeof(__pyx_k_sh0), 0, 0, 1, 1},
   {&__pyx_n_s_sh1, __pyx_k_sh1, sizeof(__pyx_k_sh1), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
@@ -48336,7 +48472,23 @@ static int __pyx_memview_set_unsigned_int(const char *itemp, PyObject *obj) {
     return 1;
 }
 
-static PyObject* __pyx_convert__to_py___pyx_t_5fwdpy_5fwdpy_popgen_mut_data(struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data s) {
+static PyObject* __pyx_convert__to_py_detailed_deme_sample(struct detailed_deme_sample s) {
+                  PyObject* res;
+                  PyObject* member;
+                  res = PyDict_New(); if (res == NULL) return NULL;
+                  member = __pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(s.genotypes); if (member == NULL) goto bad;
+                  if (PyDict_SetItem(res, __pyx_n_s_genotypes, member) < 0) goto bad;
+                  Py_DECREF(member);
+                  member = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(s.sh); if (member == NULL) goto bad;
+                  if (PyDict_SetItem(res, __pyx_n_s_sh, member) < 0) goto bad;
+                  Py_DECREF(member);
+                  return res;
+                  bad:
+                  Py_XDECREF(member);
+                  Py_DECREF(res);
+                  return NULL;
+                }
+                static PyObject* __pyx_convert__to_py___pyx_t_5fwdpy_5fwdpy_popgen_mut_data(struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data s) {
                   PyObject* res;
                   PyObject* member;
                   res = PyDict_New(); if (res == NULL) return NULL;
