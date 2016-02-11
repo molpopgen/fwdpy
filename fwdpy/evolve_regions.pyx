@@ -34,6 +34,8 @@ def evolve_regions(GSLrng rng,
     :param f: The selfing probabilty
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
+    :raises: RuntimeError if parameters do not pass checks
+
     Example:
 
     >>> import fwdpy
@@ -157,6 +159,41 @@ def evolve_regions_sample(GSLrng rng,
                             unsigned nsam,
                             double f = 0,
                             const char * fitness = "multiplicative"):
+    """
+    Evolve a set of populations, taking a random sample of size "nsam" every "sample" generations.
+
+    :param rng: a :class:`GSLrng`
+    :param pops: A list of populations simulated by :func:`evolve_regions`
+    :param N: The diploid population size to simulate
+    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
+    :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
+    :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
+    :param recrate: The recombination rate in the regions (per diploid, per generation)
+    :param nregions: A list specifying where neutral mutations occur
+    :param sregions: A list specifying where selected mutations occur
+    :param recregions: A list specifying how the genetic map varies along the region
+    :param sample: How often to record data about non-neutral mutations
+    :param nsam: The sample size
+    :param f: The selfing probabilty
+    :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
+
+    :return: One list per population in "pops".  Each list contains a sample of genotypes + the generation from which it was taken.
+
+    :raises: RuntimeError if parameters do not pass checks
+    """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if sample <= 0:
+        raise RuntimeError("sample must be > 0")
+    if nsam == 0:
+        raise RuntimeError("nsam must be > 0")
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
@@ -175,6 +212,39 @@ def evolve_regions_track(GSLrng rng,
                             int sample,
                             double f = 0,
                             const char * fitness = "multiplicative"):
+    """
+    Evolve a set of populations, recording data on non-neutral every "sample" generations.  
+
+    :param rng: a :class:`GSLrng`
+    :param pops: A list of populations simulated by :func:`evolve_regions`
+    :param N: The diploid population size to simulate
+    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
+    :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
+    :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
+    :param recrate: The recombination rate in the regions (per diploid, per generation)
+    :param nregions: A list specifying where neutral mutations occur
+    :param sregions: A list specifying where selected mutations occur
+    :param recregions: A list specifying how the genetic map varies along the region
+    :param sample: How often to record data about non-neutral mutations
+    :param f: The selfing probabilty
+    :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
+
+    :return: One list per population in "pops".  Each list contains information on mutation frequency, effect size, etc., over time.
+
+    :raises: RuntimeError if parameters do not pass checks
+    """
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if sample <= 0:
+        raise RuntimeError("sample must be > 0")
+
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
