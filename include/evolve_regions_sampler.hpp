@@ -6,6 +6,19 @@
 #include <types.hpp>
 #include <internal/internal.hpp>
 
+/*
+  This is the generic function.
+
+  The type "sampler" must define an operator() taking a const singlepop_t * and a gsl_rng * as arguments.
+  
+  Other arguments may be bound by the caller, etc.
+
+  The object s will be applied every "interval" generations".
+
+  If result_t is the return type of s(const singlepop_t *, gsl_rng *), then the return type
+  of this function is vector<pair<unsigned,result_t> >, where the unsigned values refer
+  to the generation in which a specific result_t was obtained.
+*/
 template<typename sampler>
 inline auto
 evolve_regions_sampler_async(GSLrng_t * rng,
@@ -16,7 +29,6 @@ evolve_regions_sampler_async(GSLrng_t * rng,
 			     const double mu_selected,
 			     const double littler,
 			     const double f,
-			     const int track,
 			     const fwdpy::internal::region_manager * rm,
 			     const char * fitness,
 			     const sampler & s,
