@@ -95,7 +95,7 @@ def evolve_regions_more(GSLrng rng,
                         double f = 0,
                         const char * fitness = "multiplicative"):
     """
-    Continute to evolve a region with variable mutation, fitness effects, and recombination rates.
+    Continue to evolve a region with variable mutation, fitness effects, and recombination rates.
 
     :param rng: a :class:`GSLrng`
     :param pops: A list of populations simulated by :func:`evolve_regions`
