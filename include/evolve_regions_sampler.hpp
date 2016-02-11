@@ -13,11 +13,25 @@
   
   Other arguments may be bound by the caller, etc.
 
-  The object s will be applied every "interval" generations".
+  The object s will be applied every "interval" generations.
 
   If result_t is the return type of s(const singlepop_t *, gsl_rng *), then the return type
   of this function is vector<pair<unsigned,result_t> >, where the unsigned values refer
   to the generation in which a specific result_t was obtained.
+
+  Design issues to work out:
+
+  1. The result_t is an object is considered below.  What happens when it is 
+  a vector of objects?
+
+  For example, a sample is a single object.  The selected mutation frequencies are a vector
+  of data on mutations.
+
+  Perhaps that is just ok? It isn't super-friendly, and would need conversion to pandas.DataFrame,
+  and I guess we'd have to supply those functions.
+
+  The problem is one of space.  Doing frequency trajectories this way will be much more RAM-intensive
+  Than the current implementation.
 */
 template<typename sampler>
 inline auto
