@@ -528,8 +528,8 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":243
- *         vector[pair[double,double]] sh
+/* "fwdpy/fwdpy.pxd":249
+ *         double esize
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
  * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:

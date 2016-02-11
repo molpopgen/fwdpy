@@ -22,6 +22,16 @@ struct detailed_deme_sample
   }
 };
 
+struct selected_mut_data
+{
+  unsigned generation;
+  double pos,freq,esize;
+  explicit selected_mut_data(unsigned g,double p,double f,double e) :
+    generation(g),pos(p),freq(f),esize(e)
+  {
+  }
+};
+
 namespace fwdpy
 {
   /*
@@ -172,9 +182,33 @@ namespace fwdpy
     }
   };
 
+  struct get_selected_mut_data //record info on selected mutations in population, including fixations
+  {
+    using result_type = std::vector<selected_mut_data>;
+    using bound_t = std::function<result_type(const singlepop_t * ,gsl_rng * r,const unsigned)>;
+    static inline bound_t make_bound_t() noexcept
+    {
+      return std::bind(get_selected_mut_data(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+    }
+    inline result_type operator()(const singlepop_t * pop,gsl_rng * r,
+				  const unsigned generation) const
+    {
+      result_type rv;
+      double twoN=2.0*double(pop->diploids.size());
+      for(std::size_t i=0;i<pop->mcounts.size();++i)
+	{
+	  if(pop->mcounts[i])
+	    {
+	      rv.emplace_back(generation,pop->mutations[i].pos,
+			      double(pop->mcounts[i])/twoN,pop->mutations[i].s);
+	    }
+	}
+      return rv;
+    }
+  };
   //Prototypes for functions using samplers
 
-  std::vector<std::vector<std::pair<unsigned,detailed_deme_sample> >>
+  std::vector<std::vector<sample_n::result_type> >
   evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,
@@ -184,6 +218,19 @@ namespace fwdpy
 			       const double f,
 			       const int sample,
 			       const unsigned nsam,
+			       const internal::region_manager * rm,
+			       const char * fitness);
+
+  //This function will use moves to collapse the ugly return type to something nicer
+  std::vector<get_selected_mut_data::result_type>
+  evolve_regions_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+			       const unsigned * Nvector,
+			       const size_t Nvector_length,
+			       const double mu_neutral,
+			       const double mu_selected,
+			       const double littler,
+			       const double f,
+			       const int sample,
 			       const internal::region_manager * rm,
 			       const char * fitness);
 
