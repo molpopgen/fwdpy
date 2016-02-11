@@ -18,8 +18,6 @@
         "extra_compile_args": [
             "-std=c++11", 
             "-fopenmp", 
-            "-DFWDPP_VERSION=\"0.4.6\"", 
-            "-DGSL_VERSION=\"1.16\"", 
             "-DPACKAGE_VERSION=\"0.0.2\""
         ], 
         "extra_link_args": [
