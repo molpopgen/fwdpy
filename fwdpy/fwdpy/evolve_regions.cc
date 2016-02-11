@@ -90,23 +90,6 @@ namespace fwdpy {
     //restore data
   }
 
-  void evolve_regions_t( GSLrng_t * rng, std::shared_ptr<singlepop_t> pop,
-			 const unsigned * Nvector,
-			 const size_t Nvector_len,
-			 const double mu_neutral,
-			 const double mu_selected,
-			 const double littler,
-			 const double f,
-			 const int track,
-			 const fwdpy::internal::region_manager * rm,
-			 const char * fitness)
-  {
-    evolve_regions_details(pop.get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
-			   mu_neutral,mu_selected,littler,f,track,fitness,
-			   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
-			   std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)));
-  }
-
   void evolve_regions_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			 const unsigned * Nvector,
 			 const size_t Nvector_len,
@@ -127,106 +110,6 @@ namespace fwdpy {
 			       std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)));
       }
     for(unsigned i=0;i<threads.size();++i) threads[i].join();
-  }
-
-  std::shared_ptr<fwdpy::singlepop_t> evolve_regions_details_async(unsigned long seed,
-								   const unsigned * Nvector,
-								   const size_t Nvector_len,
-								   const double neutral,
-								   const double selected,
-								   const double recrate,
-								   const double f,
-								   const int track,
-								   const char * fitness,
-								   const fwdpy::internal::region_manager * rm)
-  {
-    const size_t simlen = Nvector_len;
-
-    const double mu_tot = neutral + selected;
-    auto x = std::max_element(Nvector,Nvector+Nvector_len);
-    assert(x!=Nvector+Nvector_len);
-
-
-    gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
-    gsl_rng_set(rng,seed);
-    KTfwd::extensions::discrete_mut_model m(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks);
-    KTfwd::extensions::discrete_rec_model recmap(rm->rb,rm->rw,rm->rw);
-    fwdpy::singlepop_t pop(Nvector[0]);
-    reserve_space(pop.gametes,pop.mutations,*x,mu_tot);
-    //Recombination policy: more complex than the standard case...
-    const auto recpos = KTfwd::extensions::bind_drm(recmap,pop.gametes,pop.mutations,
-						    rng,recrate);
-
-    //The fitness model
-    fwdpy::singlepop_t::fitness_t dipfit = std::bind(KTfwd::multiplicative_diploid(),
-						     std::placeholders::_1,
-						     std::placeholders::_2,
-						     std::placeholders::_3,
-						     2.);
-    if( std::string(fitness) == "additive" )
-      {
-     	dipfit = std::bind(KTfwd::additive_diploid(),
-			   std::placeholders::_1,
-			   std::placeholders::_2,
-			   std::placeholders::_3,
-			   2.);
-      }
-    //This may not be the best thing, long-term, design-wise...
-    for( size_t g = 0 ; g < simlen ; ++g, ++pop.generation )
-      {
-	const unsigned nextN = 	*(Nvector+g);
-	if (track && pop.generation &&pop.generation%track==0.) pop.updateTraj();
-	KTfwd::sample_diploid(rng,
-			      pop.gametes,
-			      pop.diploids,
-			      pop.mutations,
-			      pop.mcounts,
-			      pop.N,
-			      nextN,
-			      mu_tot,
-			      KTfwd::extensions::bind_dmm(m,pop.mutations,pop.mut_lookup,rng,neutral,selected,pop.generation),
-			      recpos,
-			      dipfit,
-			      pop.neutral,
-			      pop.selected,
-			      f);
-
-	pop.N=nextN;
-	KTfwd::update_mutations(pop.mutations,pop.fixations,pop.fixation_times,pop.mut_lookup,pop.mcounts,pop.generation,2*nextN);
-	assert(KTfwd::check_sum(pop.gametes,2*nextN));
-      }
-    if (track && pop.generation &&pop.generation%track==0.) pop.updateTraj();
-    //Update population's size variable to be the current pop size
-    pop.N = unsigned(pop.diploids.size());
-    //cleanup
-    gsl_rng_free(rng);
-    return std::make_shared<fwdpy::singlepop_t>(std::move(pop));
-  }
-
-  std::vector<std::shared_ptr<singlepop_t> >  evolve_regions_async(const unsigned npops,
-								   GSLrng_t * rng,
-								   const unsigned * Nvector,
-								   const size_t Nvector_len,
-								   const double mu_neutral,
-								   const double mu_selected,
-								   const double littler,
-								   const double f,
-								   const int track,
-								   const fwdpy::internal::region_manager * rm,
-								   const char * fitness)
-  {
-    std::vector<std::future<std::shared_ptr<singlepop_t> > > futures;
-    for(unsigned i=0;i<npops;++i)
-      {
-	futures.emplace_back(std::async(std::launch::async,evolve_regions_details_async,
-					gsl_rng_get(rng->get()),Nvector,Nvector_len,
-					mu_neutral,mu_selected,littler,f,track,fitness,rm));
-      }
-    std::vector<std::shared_ptr<singlepop_t> > rv;
-    for_each(std::begin(futures),std::end(futures),[&rv](std::future<std::shared_ptr<singlepop_t> > & fut) {
-	rv.emplace_back(std::move(fut.get()));
-      });
-    return rv;
   }
 
   void split_and_evolve_details(metapop_t * mpop,

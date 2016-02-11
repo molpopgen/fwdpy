@@ -6,54 +6,6 @@ import warnings
 cimport cython
 
 @cython.boundscheck(False)
-def test_evolve_regions_async(GSLrng rng,
-                              int npops,
-                              unsigned[:] nlist,
-                              double mu_neutral,
-                              double mu_selected,
-                              double recrate,
-                              list nregions,
-                              list sregions,
-                              list recregions,
-                              double f = 0,
-                              const int track = 0,
-                              const char * fitness = "multiplicative"):
-    cdef unsigned listlen = len(nlist)
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef vector[shared_ptr[singlepop_t]] pops = evolve_regions_async(npops,
-                                                                     rng.thisptr,
-                                                                     &nlist[0],
-                                                                     listlen,
-                                                                     mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
-
-@cython.boundscheck(False)
-def test_evolve_mpi(GSLrng rng,
-                    int npops,
-                    int N,
-                    unsigned[:] nlist,
-                    double mu_neutral,
-                    double mu_selected,
-                    double recrate,
-                    list nregions,
-                    list sregions,
-                    list recregions,
-                    double f = 0,
-                    const int track = 0,
-                    const char * fitness = "multiplicative"):
-    pops=popvec(npops,N)
-    cdef unsigned listlen = len(nlist)
-    cdef int NP=npops
-    cdef int j
-    cdef unsigned popsize = N
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    for j in prange(NP,schedule='static',nogil=True,chunksize=1):
-        evolve_regions_t(rng.thisptr,pops.pops[j],&nlist[0],listlen,
-                         mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
-    return pops
-
-@cython.boundscheck(False)
 def evolve_regions(GSLrng rng,
                     int npops,
                     int N,
