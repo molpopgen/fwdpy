@@ -5,34 +5,10 @@
 #include <tuple>
 #include <memory>
 #include <vector>
-#include <array>
 #include <fwdpp/tags/diploid_tags.hpp>
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
 #include <gsl/gsl_statistics_double.h>
-
-/*
-  NAMESPACE POLLUTION!!!!!
-
-  Types defined here are in the global namespace.
-
-  This is bad, BUT, it allows for auto-conversion of
-  struct to dict via Cython.
-
-  Currently, Cython will fail to compile auto-conversion
-  code for structs declared inside a C++ namespace.
-*/
-
-struct qtrait_stats_cython
-{
-  std::string stat;
-  double value;
-  unsigned generation;
-  qtrait_stats_cython(std::string _stat,
-		      double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
-  {
-  }
-};
 
 namespace fwdpy {
   using GSLrng_t = KTfwd::GSLrng_t<KTfwd::GSL_RNG_MT19937>;
@@ -86,10 +62,6 @@ namespace fwdpy {
   using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
 
-  enum class qtrait_stat_names : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR };
-
-  using qtrait_stats_t = std::vector<std::array<double,8>>;
-
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
   {
     using base = KTfwd::singlepop<KTfwd::popgenmut,diploid_t>;
@@ -111,6 +83,7 @@ namespace fwdpy {
       return int(N == diploids.size());
     }
   };
+
 
   struct metapop_t : public KTfwd::metapop<KTfwd::popgenmut,diploid_t>
   {

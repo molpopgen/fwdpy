@@ -210,16 +210,23 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const char * fitness)
     
 
-cdef extern from "evolve_regions_sampler.hpp" nogil:
+cdef extern from "sample_n.hpp" nogil:
     cdef struct detailed_deme_sample:
         sep_sample_t genotypes
         vector[pair[double,double]] sh
 
+cdef extern from "get_selected_mut_data.hpp" nogil:
     cdef struct selected_mut_data:
         unsigned generation
         double pos
         double freq
         double esize
+
+cdef extern from "pop_properties.hpp" nogil:
+    cdef struct qtraits_stats_cython:
+        string stat
+        double value
+        unsigned generation
         
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
