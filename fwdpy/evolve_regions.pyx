@@ -148,6 +148,25 @@ def evolve_regions_more(GSLrng rng,
         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,track,rmgr.thisptr,fitness)
 
 @cython.boundscheck(False)
+def evolve_regions_sample(GSLrng rng,
+                            popvec pops,
+                            unsigned[:] nlist,
+                            double mu_neutral,
+                            double mu_selected,
+                            double recrate,
+                            list nregions,
+                            list sregions,
+                            list recregions,
+                            int sample,
+                            unsigned nsam,
+                            double f = 0,
+                            const char * fitness = "multiplicative"):
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    cdef unsigned listlen = len(nlist)
+    return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
+    
+@cython.boundscheck(False)
 def evolve_regions_split(GSLrng rng,
                             popvec pops,
                             unsigned[:] nlist1,
