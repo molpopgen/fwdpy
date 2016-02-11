@@ -6,6 +6,7 @@
         "depends": [
             "include/deps.hpp", 
             "include/evolve_regions.hpp", 
+            "include/evolve_regions_sampler.hpp", 
             "include/internal/callbacks.hpp", 
             "include/internal/internal.hpp", 
             "include/metapop.hpp", 
@@ -313,6 +314,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "deps.hpp"
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
+#include "evolve_regions_sampler.hpp"
 #include "trajectories.hpp"
 #include "stdio.h"
 #include "pythread.h"
@@ -638,6 +640,15 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
             __pyx_sub_acquisition_count_locked(__pyx_get_slice_count_pointer(memview), memview->lock)
 #endif
 
+
+/* "fwdpy/fwdpy.pxd":238
+ * 							  const char * fitness)
+ * 
+ * ctypedef unsigned uint             # <<<<<<<<<<<<<<
+ * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+ *     vector[vector[pair[uint,sep_sample_t]]] evolve_regions_sample_async(GSLrng_t * rng,
+ */
+typedef unsigned int __pyx_t_5fwdpy_5fwdpy_uint;
 
 /*--- Type declarations ---*/
 #ifndef _ARRAYARRAY_H

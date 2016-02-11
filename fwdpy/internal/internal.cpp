@@ -6,6 +6,7 @@
         "depends": [
             "include/deps.hpp", 
             "include/evolve_regions.hpp", 
+            "include/evolve_regions_sampler.hpp", 
             "include/internal/callbacks.hpp", 
             "include/internal/internal.hpp", 
             "include/metapop.hpp", 
@@ -307,6 +308,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "deps.hpp"
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
+#include "evolve_regions_sampler.hpp"
 #include "trajectories.hpp"
 #include "internal/callbacks.hpp"
 #include "internal/internal.hpp"
@@ -525,6 +527,15 @@ static const char *__pyx_f[] = {
   "fwdpy/internal/internal.pxd",
   "fwdpy/fwdpy.pxd",
 };
+
+/* "fwdpy/fwdpy.pxd":238
+ * 							  const char * fitness)
+ * 
+ * ctypedef unsigned uint             # <<<<<<<<<<<<<<
+ * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+ *     vector[vector[pair[uint,sep_sample_t]]] evolve_regions_sample_async(GSLrng_t * rng,
+ */
+typedef unsigned int __pyx_t_5fwdpy_5fwdpy_uint;
 
 /*--- Type declarations ---*/
 struct __pyx_obj_5fwdpy_5fwdpy_poptype;
