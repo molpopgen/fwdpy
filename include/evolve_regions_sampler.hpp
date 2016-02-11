@@ -2,6 +2,7 @@
 #define FWDPY_EVOLVE_REGIONS_SAMPLER_HPP
 
 #include <vector>
+#include <algorithm>
 #include <type_traits>
 #include <types.hpp>
 #include <reserve.hpp>
@@ -63,8 +64,8 @@ namespace fwdpy
     The problem is one of space.  Doing frequency trajectories this way will be much more RAM-intensive
     Than the current implementation.  The "qtrait stats" is probably fine, with some overhead from strings.
   */
-  template<typename sampler>
-  inline auto
+  template<typename sampler,class... Args>
+  inline typename sampler::final_t
   evolve_regions_sampler_details(singlepop_t * pop,
 				 const unsigned long seed,
 				 const unsigned * Nvector,
@@ -74,13 +75,11 @@ namespace fwdpy
 				 const double recrate,
 				 const double f,
 				 const char * fitness,
-				 const sampler & s,
 				 const int interval,
 				 KTfwd::extensions::discrete_mut_model && __m,
-				 KTfwd::extensions::discrete_rec_model && __recmap) -> std::vector< typename std::result_of<sampler(const singlepop_t *, gsl_rng *, const unsigned)>::type>
+				 KTfwd::extensions::discrete_rec_model && __recmap,
+				 Args&&... args) 
   {
-    std::vector< typename std::result_of<sampler(const singlepop_t *, gsl_rng *, const unsigned)>::type> rv;
-
     const size_t simlen = Nvector_len;
     auto x = std::max_element(Nvector,Nvector+Nvector_len);
     assert(x!=Nvector+Nvector_len);
@@ -119,12 +118,15 @@ namespace fwdpy
 			   2.);
       }
 
+    //create the sampler
+    sampler s(std::forward<Args>(args)...);
+    
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
 	if (interval && pop->generation &&pop->generation%interval==0.)
 	  {
-	    rv.emplace_back(s(pop,rng,pop->generation));
+	    s(pop,rng,pop->generation);
 	  }
 	KTfwd::sample_diploid(rng,
 			      pop->gametes,
@@ -145,24 +147,23 @@ namespace fwdpy
       }
     if (interval && pop->generation &&pop->generation%interval==0.)
       {
-	rv.emplace_back(s(pop,rng,pop->generation));
+	s(pop,rng,pop->generation);
       }
     //Update population's size variable to be the current pop size
     pop->N = unsigned(pop->diploids.size());
     //cleanup
     gsl_rng_free(rng);
-    //restore data
-    return rv;
+    return s.final();
   }
 
   //These are specific samplers
   
-  struct sample_n //take a sample of size n from a population
+  class sample_n //take a sample of size n from a population
   {
-    using result_type = std::pair<unsigned,detailed_deme_sample>;
-    using bound_t = std::function<result_type(const singlepop_t * ,gsl_rng * r,const unsigned)>;
-    inline result_type operator()(const singlepop_t * pop,gsl_rng * r,
-				  const unsigned generation, const unsigned nsam) const
+  public:
+    using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
+    inline void operator()(const singlepop_t * pop,gsl_rng * r,
+			   const unsigned generation)
     {
       auto s = KTfwd::sample_separate(r,*pop,nsam,true);
       std::vector< std::pair<double,double> > sh;
@@ -174,41 +175,93 @@ namespace fwdpy
 				  });
 	  sh.emplace_back(itr->s,itr->h);
 	}
-      return std::make_pair(generation,detailed_deme_sample(std::move(s),std::move(sh)));
+      return rv.emplace_back(generation,detailed_deme_sample(std::move(s),std::move(sh)));
     }
-    static inline bound_t make_bound_t(unsigned nsam) noexcept
-    {
-      return std::bind(sample_n(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,nsam);
-    }
-  };
 
-  struct get_selected_mut_data //record info on selected mutations in population, including fixations
-  {
-    using result_type = std::vector<selected_mut_data>;
-    using bound_t = std::function<result_type(const singlepop_t * ,gsl_rng * r,const unsigned)>;
-    static inline bound_t make_bound_t() noexcept
+    final_t final() const
     {
-      return std::bind(get_selected_mut_data(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
-    }
-    inline result_type operator()(const singlepop_t * pop,gsl_rng * r,
-				  const unsigned generation) const
-    {
-      result_type rv;
-      double twoN=2.0*double(pop->diploids.size());
-      for(std::size_t i=0;i<pop->mcounts.size();++i)
-	{
-	  if(pop->mcounts[i])
-	    {
-	      rv.emplace_back(generation,pop->mutations[i].pos,
-			      double(pop->mcounts[i])/twoN,pop->mutations[i].s);
-	    }
-	}
       return rv;
     }
+    explicit sample_n(unsigned nsam_) : rv(final_t()),nsam(nsam_)
+    {
+    }
+  private:
+    final_t rv;
+    const unsigned nsam;
+  };
+
+  class get_selected_mut_data //record info on selected mutations in population, including fixations
+  {
+  public:
+    using final_t = std::map<std::string,std::vector<double> >;
+    inline void operator()(const singlepop_t * pop,gsl_rng * ,
+			   const unsigned generation)
+    {
+      for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
+      	{
+	  if(pop->mcounts[i]) //if mutation is not extinct
+	    {
+	      const auto & __m = pop->mutations[i];
+	      if( !__m.neutral )
+		{
+		  const auto freq = double(pop->mcounts[i])/double(2*pop->diploids.size());
+		  auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s);
+		  auto __itr = trajectories.find(__p);
+		  if(__itr == trajectories.end())
+		    {
+		      trajectories[__p] = std::vector<double>(1,freq);
+		    }
+		  else
+		    {
+		      //Don't keep updating for fixed variants
+		      if( __itr->second.back() < 1.)
+			{
+			  __itr->second.push_back(freq);
+			}
+		    }
+		}
+	    }
+      	}
+    }
+    
+    final_t final() const
+    {
+      std::vector<double> pos,freq,s;
+      std::vector<double> generations;
+      for( auto itr = this->trajectories.cbegin() ;
+	   itr != this->trajectories.cend() ; ++itr )
+	{
+	  std::vector<unsigned> times(itr->second.size());
+	  unsigned itime = std::get<static_cast<std::size_t>(traj_key_values::origin)>(itr->first);
+	  generate(times.begin(),times.end(),[&itime]{ return itime++; });
+	  generations.insert(generations.end(),times.begin(),times.end());
+	  fill_n(std::back_inserter(pos),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::pos)>(itr->first));
+	  fill_n(std::back_inserter(s),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::esize)>(itr->first));
+	  std::copy(itr->second.begin(),itr->second.end(),back_inserter(freq));
+	}
+      return final_t{
+	{"pos",std::move(pos)},
+	  {"freq",std::move(freq)},
+	    {"generation",std::move(generations)},
+	      {"esize",std::move(s)}
+      };
+      // final_t rv;
+      // rv["pos"]=move(pos);
+      // rv["freq"]=move(freq);
+      // rv["generation"]=move(generations);
+      // rv["esize"]=move(s);
+      // return rv;
+    }
+    
+    explicit get_selected_mut_data() : trajectories(trajectories_t())
+    {
+    }
+  private:
+    trajectories_t trajectories;
   };
   //Prototypes for functions using samplers
 
-  std::vector<std::vector<sample_n::result_type> >
+  std::vector<sample_n::final_t>
   evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,
@@ -222,17 +275,17 @@ namespace fwdpy
 			       const char * fitness);
 
   //This function will use moves to collapse the ugly return type to something nicer
-  std::vector<get_selected_mut_data::result_type>
+  std::vector<get_selected_mut_data::final_t>
   evolve_regions_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			       const unsigned * Nvector,
-			       const size_t Nvector_length,
-			       const double mu_neutral,
-			       const double mu_selected,
-			       const double littler,
-			       const double f,
-			       const int sample,
-			       const internal::region_manager * rm,
-			       const char * fitness);
+			      const unsigned * Nvector,
+			      const size_t Nvector_length,
+			      const double mu_neutral,
+			      const double mu_selected,
+			      const double littler,
+			      const double f,
+			      const int sample,
+			      const internal::region_manager * rm,
+			      const char * fitness);
 
 } //ns fwdpy
 #endif

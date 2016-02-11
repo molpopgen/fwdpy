@@ -261,17 +261,17 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                                                         const region_manager * rm,
                                                                         const char * fitness)
 
-    vector[vector[selected_mut_data]] evolve_regions_track_async(GSLrng_t * rng,
-                                                                vector[shared_ptr[singlepop_t]] * pops,
-                                                                        const unsigned * Nvector,
-                                                                        const size_t Nvector_len,
-                                                                        const double mu_neutral,
-                                                                        const double mu_selected,
-                                                                        const double littler,
-                                                                        const double f,
-                                                                        const int sample,
-                                                                        const region_manager * rm,
-                                                                        const char * fitness)
+    vector[map[string,vector[double]]] evolve_regions_track_async(GSLrng_t * rng,
+                                                                  vector[shared_ptr[singlepop_t]] * pops,
+                                                                  const unsigned * Nvector,
+                                                                  const size_t Nvector_len,
+                                                                  const double mu_neutral,
+                                                                  const double mu_selected,
+                                                                  const double littler,
+                                                                  const double f,
+                                                                  const int sample,
+                                                                  const region_manager * rm,
+                                                                  const char * fitness)
 
         
 

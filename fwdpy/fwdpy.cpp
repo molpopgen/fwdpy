@@ -1789,7 +1789,6 @@ static PyObject *__pyx_memview_get_unsigned_int(const char *itemp);
 static int __pyx_memview_set_unsigned_int(const char *itemp, PyObject *obj);
 
 static PyObject* __pyx_convert__to_py_detailed_deme_sample(struct detailed_deme_sample s);
-static PyObject* __pyx_convert__to_py_selected_mut_data(struct selected_mut_data s);
 struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data;
 static PyObject* __pyx_convert__to_py___pyx_t_5fwdpy_5fwdpy_popgen_mut_data(struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data s);
 struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
@@ -2065,9 +2064,8 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_
 static PyObject *__pyx_convert_pair_to_py_unsigned_int____struct__detailed_deme_sample(std::pair<unsigned int,struct detailed_deme_sample>  const &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e___(const std::vector<std::pair<unsigned int,struct detailed_deme_sample> >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__detailed_deme_sample_3e____3e___(const std::vector<std::vector<std::pair<unsigned int,struct detailed_deme_sample> > >  &); /*proto*/
-static PyObject *__pyx_convert_vector_to_py_struct__selected_mut_data(const std::vector<struct selected_mut_data>  &); /*proto*/
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___(const std::vector<std::vector<struct selected_mut_data> >  &); /*proto*/
 static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___(std::map<std::string,std::vector<double> >  const &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___(const std::vector<std::map<std::string,std::vector<double> > >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data(const std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data_3e___(const std::vector<std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_struct____pyx_t_5fwdpy_5fwdpy_gamete_data(const std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  &); /*proto*/
@@ -2154,7 +2152,6 @@ static char __pyx_k_cite[] = "cite";
 static char __pyx_k_deme[] = "deme";
 static char __pyx_k_estr[] = "estr";
 static char __pyx_k_fpio[] = "fpio";
-static char __pyx_k_freq[] = "freq";
 static char __pyx_k_gams[] = "gams";
 static char __pyx_k_hi_2[] = ", hi = ";
 static char __pyx_k_init[] = "__init__";
@@ -2192,7 +2189,6 @@ static char __pyx_k_dfreq[] = "dfreq";
 static char __pyx_k_dummy[] = "dummy";
 static char __pyx_k_end_2[] = ", end = ";
 static char __pyx_k_error[] = "error";
-static char __pyx_k_esize[] = "esize";
 static char __pyx_k_flags[] = "flags";
 static char __pyx_k_fwdpy[] = "fwdpy";
 static char __pyx_k_index[] = "index";
@@ -2299,7 +2295,6 @@ static char __pyx_k_ExpS___str[] = "ExpS.__str__";
 static char __pyx_k_IndexError[] = "IndexError";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_freqfilter[] = "freqfilter";
-static char __pyx_k_generation[] = "generation";
 static char __pyx_k_minsojourn[] = "minsojourn";
 static char __pyx_k_mu_neutral[] = "mu_neutral";
 static char __pyx_k_neutral_df[] = "neutral_df";
@@ -2665,7 +2660,6 @@ static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_kp_s_end_2;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
-static PyObject *__pyx_n_s_esize;
 static PyObject *__pyx_n_s_estr;
 static PyObject *__pyx_n_s_evolve_pops_more_t;
 static PyObject *__pyx_n_s_evolve_pops_t;
@@ -2688,7 +2682,6 @@ static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_fpio;
-static PyObject *__pyx_n_s_freq;
 static PyObject *__pyx_n_s_freqfilter;
 static PyObject *__pyx_kp_u_freqfilter_line_209;
 static PyObject *__pyx_n_s_from_dict;
@@ -2728,7 +2721,6 @@ static PyObject *__pyx_n_s_fwdpyio;
 static PyObject *__pyx_n_s_g;
 static PyObject *__pyx_n_s_gams;
 static PyObject *__pyx_n_s_gen;
-static PyObject *__pyx_n_s_generation;
 static PyObject *__pyx_n_s_genotypes;
 static PyObject *__pyx_n_s_get_sample_details;
 static PyObject *__pyx_kp_u_get_sample_details_line_91;
@@ -11969,7 +11961,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_track(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_6 = 0;
   if (__pyx_t_6 < 0) __pyx_t_6 += __pyx_v_nlist.shape[0];
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___(fwdpy::evolve_regions_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_6 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___(fwdpy::evolve_regions_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_6 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 185; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -39421,116 +39413,6 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair
   return __pyx_r;
 }
 
-static PyObject *__pyx_convert_vector_to_py_struct__selected_mut_data(const std::vector<struct selected_mut_data>  &__pyx_v_v) {
-  size_t __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  size_t __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_struct__selected_mut_data", 0);
-
-  /* "vector.to_py":68
- * @cname("__pyx_convert_vector_to_py_struct__selected_mut_data")
- * cdef object __pyx_convert_vector_to_py_struct__selected_mut_data(vector[X]& v):
- *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_v_v.size();
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
-    __pyx_t_4 = __pyx_convert__to_py_selected_mut_data((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  }
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "vector.to_py":67
- * 
- * @cname("__pyx_convert_vector_to_py_struct__selected_mut_data")
- * cdef object __pyx_convert_vector_to_py_struct__selected_mut_data(vector[X]& v):             # <<<<<<<<<<<<<<
- *     return [X_to_py(v[i]) for i in range(v.size())]
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_struct__selected_mut_data", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___(const std::vector<std::vector<struct selected_mut_data> >  &__pyx_v_v) {
-  size_t __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  size_t __pyx_t_2;
-  size_t __pyx_t_3;
-  PyObject *__pyx_t_4 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___", 0);
-
-  /* "vector.to_py":68
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___(vector[X]& v):
- *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_v_v.size();
-  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
-    __pyx_v_i = __pyx_t_3;
-    __pyx_t_4 = __pyx_convert_vector_to_py_struct__selected_mut_data((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  }
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "vector.to_py":67
- * 
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
- *     return [X_to_py(v[i]) for i in range(v.size())]
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__selected_mut_data_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
 /* "map.to_py":227
  * 
  * @cname("__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___")
@@ -39651,11 +39533,66 @@ static PyObject *__pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_
 
 /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data")
- * cdef object __pyx_convert_vector_to_py_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
+
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___(const std::vector<std::map<std::string,std::vector<double> > >  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert_map_to_py_std_3a__3a_string____std_3a__3a_vector_3c_double_3e___((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[11]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_map_3c_std_3a__3a_string_2c_std_3a__3a_vector_3c_double_3e____3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 
 static PyObject *__pyx_convert_vector_to_py_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data(const std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  &__pyx_v_v) {
   size_t __pyx_v_i;
@@ -41829,7 +41766,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_end_2, __pyx_k_end_2, sizeof(__pyx_k_end_2), 0, 0, 1, 0},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
-  {&__pyx_n_s_esize, __pyx_k_esize, sizeof(__pyx_k_esize), 0, 0, 1, 1},
   {&__pyx_n_s_estr, __pyx_k_estr, sizeof(__pyx_k_estr), 0, 0, 1, 1},
   {&__pyx_n_s_evolve_pops_more_t, __pyx_k_evolve_pops_more_t, sizeof(__pyx_k_evolve_pops_more_t), 0, 0, 1, 1},
   {&__pyx_n_s_evolve_pops_t, __pyx_k_evolve_pops_t, sizeof(__pyx_k_evolve_pops_t), 0, 0, 1, 1},
@@ -41852,7 +41788,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {&__pyx_n_s_fpio, __pyx_k_fpio, sizeof(__pyx_k_fpio), 0, 0, 1, 1},
-  {&__pyx_n_s_freq, __pyx_k_freq, sizeof(__pyx_k_freq), 0, 0, 1, 1},
   {&__pyx_n_s_freqfilter, __pyx_k_freqfilter, sizeof(__pyx_k_freqfilter), 0, 0, 1, 1},
   {&__pyx_kp_u_freqfilter_line_209, __pyx_k_freqfilter_line_209, sizeof(__pyx_k_freqfilter_line_209), 0, 1, 0, 0},
   {&__pyx_n_s_from_dict, __pyx_k_from_dict, sizeof(__pyx_k_from_dict), 0, 0, 1, 1},
@@ -41892,7 +41827,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_g, __pyx_k_g, sizeof(__pyx_k_g), 0, 0, 1, 1},
   {&__pyx_n_s_gams, __pyx_k_gams, sizeof(__pyx_k_gams), 0, 0, 1, 1},
   {&__pyx_n_s_gen, __pyx_k_gen, sizeof(__pyx_k_gen), 0, 0, 1, 1},
-  {&__pyx_n_s_generation, __pyx_k_generation, sizeof(__pyx_k_generation), 0, 0, 1, 1},
   {&__pyx_n_s_genotypes, __pyx_k_genotypes, sizeof(__pyx_k_genotypes), 0, 0, 1, 1},
   {&__pyx_n_s_get_sample_details, __pyx_k_get_sample_details, sizeof(__pyx_k_get_sample_details), 0, 0, 1, 1},
   {&__pyx_kp_u_get_sample_details_line_91, __pyx_k_get_sample_details_line_91, sizeof(__pyx_k_get_sample_details_line_91), 0, 1, 0, 0},
@@ -48940,28 +48874,6 @@ static PyObject* __pyx_convert__to_py_detailed_deme_sample(struct detailed_deme_
                   Py_DECREF(member);
                   member = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(s.sh); if (member == NULL) goto bad;
                   if (PyDict_SetItem(res, __pyx_n_s_sh, member) < 0) goto bad;
-                  Py_DECREF(member);
-                  return res;
-                  bad:
-                  Py_XDECREF(member);
-                  Py_DECREF(res);
-                  return NULL;
-                }
-                static PyObject* __pyx_convert__to_py_selected_mut_data(struct selected_mut_data s) {
-                  PyObject* res;
-                  PyObject* member;
-                  res = PyDict_New(); if (res == NULL) return NULL;
-                  member = __Pyx_PyInt_From_unsigned_int(s.generation); if (member == NULL) goto bad;
-                  if (PyDict_SetItem(res, __pyx_n_s_generation, member) < 0) goto bad;
-                  Py_DECREF(member);
-                  member = PyFloat_FromDouble(s.pos); if (member == NULL) goto bad;
-                  if (PyDict_SetItem(res, __pyx_n_s_pos, member) < 0) goto bad;
-                  Py_DECREF(member);
-                  member = PyFloat_FromDouble(s.freq); if (member == NULL) goto bad;
-                  if (PyDict_SetItem(res, __pyx_n_s_freq, member) < 0) goto bad;
-                  Py_DECREF(member);
-                  member = PyFloat_FromDouble(s.esize); if (member == NULL) goto bad;
-                  if (PyDict_SetItem(res, __pyx_n_s_esize, member) < 0) goto bad;
                   Py_DECREF(member);
                   return res;
                   bad:
