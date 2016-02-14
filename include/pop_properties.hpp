@@ -29,7 +29,7 @@ struct qtrait_stats_cython
 };
 
 namespace fwdpy {
-  using qtrait_stats_t = std::vector<std::array<double,8>>;
+  using qtrait_stats_t = std::vector<std::array<double,9>>;
 
   class pop_properties
   {
@@ -39,15 +39,17 @@ namespace fwdpy {
     inline void operator()(const singlepop_t * pop, gsl_rng *,
 			   const unsigned generation)
     {
-      std::vector<double> VG,VE,wbar;
+      std::vector<double> VG,VE,wbar,trait;
       VG.reserve(pop->diploids.size());
       VE.reserve(pop->diploids.size());
+      trait.reserve(pop->diploids.size());
       wbar.reserve(pop->diploids.size());
 
       for(const auto & dip : pop->diploids)
 	{
 	  VG.push_back(dip.g);
 	  VE.push_back(dip.e);
+	  trait.push_back(dip.g+dip.e);
 	  wbar.push_back(dip.w);
 	}
 
@@ -83,7 +85,8 @@ namespace fwdpy {
 	      leading_e,
 	      mvexpl,
 	      sum_e/double(nm),
-	      gsl_stats_mean(wbar.data(),1,wbar.size())}});
+	      gsl_stats_mean(wbar.data(),1,wbar.size()),
+	      gsl_stats_mean(trait.data(),1,trait.size())}});
     }
 
     final_t final() const
@@ -98,13 +101,14 @@ namespace fwdpy {
 	  rv.emplace_back( "max_expl", q[static_cast<size_t>(qtrait_stat_list::MAXEXP)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "ebar", q[static_cast<size_t>(qtrait_stat_list::EBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "wbar", q[static_cast<size_t>(qtrait_stat_list::WBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "tbar", q[static_cast<size_t>(qtrait_stat_list::TBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	}
       return rv;
     }
   
   private:
     qtrait_stats_t qstats;
-    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR };
+    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,TBAR };
   };
 }
 #endif
