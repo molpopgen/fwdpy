@@ -1,5 +1,5 @@
 #include <fwdpyio/serialize.hpp>
-#include <tuple_tricks.hpp>
+
 using namespace std;
 
 namespace fwdpy
