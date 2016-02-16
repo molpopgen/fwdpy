@@ -41,8 +41,7 @@ for i in range(NB):
                             selmutregions,
                             recregions,
                             sigE,
-                            0.,
-                            track=0,trackStats=0)
+                            0.)
     #Evolve another N gens after shift optimum to 0.5
     nlist = np.array([1000]*3000,dtype=np.uint32)
     samples = qt.evolve_qtrait_sample(rng,pops,
