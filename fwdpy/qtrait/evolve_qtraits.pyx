@@ -128,7 +128,7 @@ def evolve_qtrait_sample(GSLrng rng,
                          unsigned nsam,
                          double optimum = 0.,
                          double f = 0.,
-                    double VS = 1,):
+                         double VS = 1):
     if mu_neutral < 0:
         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
     if mu_selected < 0:
@@ -148,5 +148,5 @@ def evolve_qtrait_sample(GSLrng rng,
         raise RuntimeError("Sample size (nsam) must be > 0")
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    return evolve_qtraits_sample_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,
-                                   nsam,rmgr.thisptr)
+    return evolve_qtrait_sample_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,nsam,
+                                      rmgr.thisptr)
