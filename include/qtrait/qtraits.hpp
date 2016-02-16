@@ -24,8 +24,6 @@ namespace fwdpy
 			   const double sigmaE,
 			   const double optimum,
 			   const double VS,
-			   const int track,
-			   const int trackStats,
 			   const fwdpy::internal::region_manager * rm);
 
     std::vector<std::vector< std::pair<unsigned,qtrait_sample_info_t > > >

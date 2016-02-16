@@ -32,24 +32,6 @@ using poptype = fwdpy::singlepop_t;
 
 namespace fwdpy
 {
-  //Get properties out from the population
-  std::vector<qtrait_stats_cython> convert_qtrait_stats( const fwdpy::singlepop_t * pop )
-  {
-    using namespace fwdpy;
-    std::vector<qtrait_stats_cython> rv;
-    for( const auto & i : pop->qstats )
-      {
-	rv.emplace_back( "VG",i[std::size_t(qtrait_stat_names::VG)],i[std::size_t(qtrait_stat_names::GEN)] );
-	rv.emplace_back( "VE",i[std::size_t(qtrait_stat_names::VE)],i[std::size_t(qtrait_stat_names::GEN)] );
-	rv.emplace_back( "leading_q",i[std::size_t(qtrait_stat_names::PLF)],i[std::size_t(qtrait_stat_names::GEN)] );
-	rv.emplace_back( "leading_e",i[std::size_t(qtrait_stat_names::LE)],i[std::size_t(qtrait_stat_names::GEN)] );
-	rv.emplace_back( "max_expl",i[std::size_t(qtrait_stat_names::MAXEXP)],i[std::size_t(qtrait_stat_names::GEN)] );
-	rv.emplace_back( "ebar",i[std::size_t(qtrait_stat_names::EBAR)],i[std::size_t(qtrait_stat_names::GEN)] );
-	rv.emplace_back( "wbar",i[std::size_t(qtrait_stat_names::WBAR)],i[std::size_t(qtrait_stat_names::GEN)] );
-      }
-    return rv;
-  };
-
   namespace qtrait
   {
     void evolve_qtraits_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
@@ -62,8 +44,6 @@ namespace fwdpy
 			   const double sigmaE,
 			   const double optimum,
 			   const double VS,
-			   const int track,
-			   const int trackStats,
 			   const fwdpy::internal::region_manager * rm)
     {
       std::vector<std::thread> threads(pops->size());
@@ -73,7 +53,7 @@ namespace fwdpy
 				 gsl_rng_get(rng->get()),
 				 pops->operator[](i).get(),
 				 Nvector,Nvector_length,
-				 mu_neutral,mu_selected,littler,f,sigmaE,optimum,track,trackStats,
+				 mu_neutral,mu_selected,littler,f,sigmaE,optimum,
 				 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
 				 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
 				 std::move(qtrait_model_rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length))));

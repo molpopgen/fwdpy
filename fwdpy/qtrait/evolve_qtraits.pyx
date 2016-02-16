@@ -16,8 +16,6 @@ def evolve_qtrait(GSLrng rng,
                   list recregions,
                   double sigmaE,
                   double optimum = 0.,
-                  int track = 0,
-                  int trackStats = 0,
                   double f = 0.,
                   double VS=1,):
     """
@@ -35,8 +33,6 @@ def evolve_qtrait(GSLrng rng,
     :param recregions: A list specifying how the genetic map varies along the region
     :param sigmaE: The standard deviation in random variation to add to trait value
     :param optimum: The optimum trait value.
-    :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
-    :param trackStats: whether or not to track VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
     :param f: The selfing probabilty
     :param VS: The total variance in selection intensity
 
@@ -55,18 +51,13 @@ def evolve_qtrait(GSLrng rng,
         raise RuntimeError("sigmaE must be >= 0.")
     if VS < 0.:
         raise RuntimeError("VS must be >= 0.")
-    if track < 0:
-        raise RuntimeError("trackStats must be >= 0.")
-    if trackStats < 0:
-        raise RuntimeError("trackStats must be >= 0.")
 
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
     with nogil:
-        evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
-                         trackStats,
+        evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
                          rmgr.thisptr)
     return pops
 
@@ -81,8 +72,6 @@ def evolve_qtrait_more(GSLrng rng,
                     list recregions,
                     double sigmaE,
                     double optimum = 0.,
-                    int track = 0,
-                    int trackStats = 0,
                     double f = 0.,
                     double VS = 1,):
     """
@@ -120,14 +109,9 @@ def evolve_qtrait_more(GSLrng rng,
         raise RuntimeError("sigmaE must be >= 0.")
     if VS < 0.:
         raise RuntimeError("VS must be >= 0.")
-    if track < 0:
-        raise RuntimeError("trackStats must be >= 0.")
-    if trackStats < 0:
-        raise RuntimeError("trackStats must be >= 0.")
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
-                     trackStats,
+    evolve_qtraits_t(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
                      rmgr.thisptr)
 
 def evolve_qtrait_sample(GSLrng rng,

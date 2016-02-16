@@ -36,8 +36,6 @@ namespace fwdpy {
 			  const double f,
 			  const double sigmaE,
 			  const double optimum ,
-			  const int track,  //do we want to track the trajectories of all mutations and how often?
-			  const int trackStats,  //do we want to track VG, etc., and how often?
 			  KTfwd::extensions::discrete_mut_model && __m,
 			  KTfwd::extensions::discrete_rec_model && __recmap,
 			  rules && __model_rules)
@@ -60,8 +58,6 @@ namespace fwdpy {
 
       for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
 	{
-	  if(track&&pop->generation&&pop->generation%track==0.) pop->updateTraj();
-	  if(trackStats&&pop->generation&&pop->generation%trackStats==0) pop->updateStats();
 	  const unsigned nextN = *(Nvector+g);
 	  KTfwd::experimental::sample_diploid(rng,
 					      pop->gametes,
@@ -81,10 +77,6 @@ namespace fwdpy {
 	  KTfwd::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	}
-
-      //make sure we update in the last generation if needed
-      if(track&&pop->generation&&pop->generation%track==0.) pop->updateTraj();
-      if(trackStats&&pop->generation&&pop->generation%trackStats==0) pop->updateStats();
       gsl_rng_free(rng);
       //Update population's size variable to be the current pop size
       pop->N = pop->diploids.size();

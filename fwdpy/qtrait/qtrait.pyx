@@ -20,16 +20,10 @@ cdef extern from "types.hpp" nogil:
         double value
         unsigned generation
         
-cdef extern from "types.hpp" namespace "fwdpy" nogil:
-    vector[qtrait_stats_cython] convert_qtrait_stats( const singlepop_t * pop )
-
 cdef extern from "qtrait/details.hpp" nogil:
     cdef struct qtrait_sample_info_t:
         sep_sample_t genotypes
         vector[pair[double,double]] sh
-
-##Below, Cython will barf compiling the pair if we don't alias unsigned.
-ctypedef unsigned uint
 
 cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
     void evolve_qtraits_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t] ] * pops,
@@ -42,8 +36,6 @@ cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
         const double sigmaE,
         const double optimum,
         const double VS,
-        const int track,
-        const int trackStats,
         const region_manager * rm)
 
     vector[vector[pair[uint,qtrait_sample_info_t]]] evolve_qtraits_sample_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t] ] * pops,

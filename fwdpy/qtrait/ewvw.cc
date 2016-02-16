@@ -107,7 +107,6 @@ namespace fwdpy
 					      KTfwd::remove_nothing());
 	  KTfwd::update_mutations(pop->mutations,pop->mut_lookup,pop->mcounts,2*nextN);
 	  //This being put here ignores any mutation existing for only 1 generation
-	  if(track) pop->updateTraj();
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	}
       //Update population's size variable to be the current pop size
