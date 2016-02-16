@@ -223,7 +223,7 @@ cdef extern from "get_selected_mut_data.hpp" nogil:
         double esize
 
 cdef extern from "pop_properties.hpp" nogil:
-    cdef struct qtraits_stats_cython:
+    cdef struct qtrait_stats_cython:
         string stat
         double value
         unsigned generation
