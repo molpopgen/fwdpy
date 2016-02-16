@@ -37,6 +37,14 @@ namespace fwdpy
       {
       }
 
+      qtrait_model_rules(qtrait_model_rules &&) = default;
+      
+      qtrait_model_rules(const qtrait_model_rules & rhs) : wbar(rhs.wbar),sigE(rhs.sigE),optimum(rhs.optimum),
+							   VS(rhs.VS),fitnesses(rhs.fitnesses),
+							   lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(rhs.fitnesses.size(),&rhs.fitnesses[0])))
+      {
+
+      }
       template<typename T,
 	       typename gcont_t,
 	       typename mcont_t,
