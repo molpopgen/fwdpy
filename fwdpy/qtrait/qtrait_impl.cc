@@ -121,6 +121,27 @@ namespace fwdpy
 										     f,sigmaE,optimum,sample,rm,rules,
 										     std::forward<decltype(nsam)>(nsam));
     }
+
+    std::vector<pop_properties::final_t>
+    evolve_qtrait_popstats_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+				  const unsigned * Nvector,
+				  const size_t Nvector_length,
+				  const double mu_neutral,
+				  const double mu_selected,
+				  const double littler,
+				  const double f,
+				  const double sigmaE,
+				  const double optimum,
+				  const double VS,
+				  const int sample,
+				  const internal::region_manager * rm)
+    {
+      qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
+      return evolve_qtrait_async_wrapper<pop_properties,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
+									    mu_neutral,mu_selected,littler,
+									    f,sigmaE,optimum,sample,rm,rules);
+									
+    }
   } //ns qtrait
 } //ns fwdpy
 
