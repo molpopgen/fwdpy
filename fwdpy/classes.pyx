@@ -31,8 +31,6 @@ cdef class singlepop(poptype):
 
         """
         return self.pop.get().sane()
-    cpdef clearTraj(self):
-        return self.pop.get().clearTrajectories()
 
 cdef class singlepop_gm_vec(poptype):
     def __del__(self):

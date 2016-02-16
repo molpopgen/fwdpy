@@ -36,7 +36,6 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned gen()
         unsigned popsize()
         int sane()
-        void clearTrajectories()
 
     cdef cppclass metapop_t:
         metapop_t(vector[unsigned])
@@ -94,7 +93,6 @@ cdef class singlepop(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
-    cpdef clearTraj(self)
 
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
@@ -195,18 +193,6 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                            const double mu_selected,
                            const double littler,
                            const double f,
-                           const int track,
-                           const region_manager * rm,
-                           const char * fitness)
-
-    void evolve_regions_t( GSLrng_t * rng, shared_ptr[singlepop_t] pops,
-                           const unsigned * popsizes,
-                           const size_t popsizes_len,
-                           const double mu_neutral,
-                           const double mu_selected,
-                           const double littler,
-                           const double f,
-                           const int track,
                            const region_manager * rm,
                            const char * fitness)
 
@@ -222,18 +208,54 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const vector[double] & fs,
                 const region_manager * rm,
                 const char * fitness)
+    
 
-    vector[shared_ptr[singlepop_t]]  evolve_regions_async(const unsigned npops,
-							  GSLrng_t * rng,
-							  const unsigned * Nvector,
-							  const size_t Nvector_len,
-							  const double mu_neutral,
-							  const double mu_selected,
-							  const double littler,
-							  const double f,
-							  const int track,
-							  const region_manager * rm,
-							  const char * fitness)
+cdef extern from "sample_n.hpp" nogil:
+    cdef struct detailed_deme_sample:
+        sep_sample_t genotypes
+        vector[pair[double,double]] sh
+
+cdef extern from "get_selected_mut_data.hpp" nogil:
+    cdef struct selected_mut_data:
+        unsigned generation
+        double pos
+        double freq
+        double esize
+
+cdef extern from "pop_properties.hpp" nogil:
+    cdef struct qtraits_stats_cython:
+        string stat
+        double value
+        unsigned generation
+        
+ctypedef unsigned uint
+cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+    vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng,
+                                                                        vector[shared_ptr[singlepop_t]] * pops,
+                                                                        const unsigned * Nvector,
+                                                                        const size_t Nvector_len,
+                                                                        const double mu_neutral,
+                                                                        const double mu_selected,
+                                                                        const double littler,
+                                                                        const double f,
+                                                                        const int sample,
+                                                                        const unsigned nsam,
+                                                                        const region_manager * rm,
+                                                                        const char * fitness)
+
+    vector[map[string,vector[double]]] evolve_regions_track_async(GSLrng_t * rng,
+                                                                  vector[shared_ptr[singlepop_t]] * pops,
+                                                                  const unsigned * Nvector,
+                                                                  const size_t Nvector_len,
+                                                                  const double mu_neutral,
+                                                                  const double mu_selected,
+                                                                  const double littler,
+                                                                  const double f,
+                                                                  const int sample,
+                                                                  const region_manager * rm,
+                                                                  const char * fitness)
+
+        
 
 cdef extern from "trajectories.hpp" namespace "fwdpy" nogil:
     map[string,vector[double] ] get_singlepop_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
