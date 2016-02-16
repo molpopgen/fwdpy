@@ -255,7 +255,3 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                                                   const region_manager * rm,
                                                                   const char * fitness)
 
-        
-
-cdef extern from "trajectories.hpp" namespace "fwdpy" nogil:
-    map[string,vector[double] ] get_singlepop_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
