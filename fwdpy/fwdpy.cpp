@@ -18617,6 +18617,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
   struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_r;
   double __pyx_t_1;
   unsigned int __pyx_t_2;
+  bool __pyx_t_3;
 
   /* "fwdpy/views.pyx":19
  * cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil:
@@ -18652,7 +18653,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
  *     rv.g=m.g
  *     rv.s=m.s             # <<<<<<<<<<<<<<
  *     rv.h=m.h
- *     rv.neutral==m.neutral
+ *     rv.neutral=m.neutral
  */
   __pyx_t_1 = __pyx_v_m.s;
   __pyx_v_rv.s = __pyx_t_1;
@@ -18661,7 +18662,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
  *     rv.g=m.g
  *     rv.s=m.s
  *     rv.h=m.h             # <<<<<<<<<<<<<<
- *     rv.neutral==m.neutral
+ *     rv.neutral=m.neutral
  *     return rv;
  */
   __pyx_t_1 = __pyx_v_m.h;
@@ -18670,15 +18671,16 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
   /* "fwdpy/views.pyx":24
  *     rv.s=m.s
  *     rv.h=m.h
- *     rv.neutral==m.neutral             # <<<<<<<<<<<<<<
+ *     rv.neutral=m.neutral             # <<<<<<<<<<<<<<
  *     return rv;
  * 
  */
-  (__pyx_v_rv.neutral == __pyx_v_m.neutral);
+  __pyx_t_3 = __pyx_v_m.neutral;
+  __pyx_v_rv.neutral = __pyx_t_3;
 
   /* "fwdpy/views.pyx":25
  *     rv.h=m.h
- *     rv.neutral==m.neutral
+ *     rv.neutral=m.neutral
  *     return rv;             # <<<<<<<<<<<<<<
  * 
  * cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
