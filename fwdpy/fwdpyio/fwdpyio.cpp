@@ -16,7 +16,6 @@
             "include/pop_properties.hpp", 
             "include/sample.hpp", 
             "include/sample_n.hpp", 
-            "include/trajectories.hpp", 
             "include/types.hpp"
         ], 
         "extra_compile_args": [
@@ -318,7 +317,6 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "get_selected_mut_data.hpp"
 #include "pop_properties.hpp"
 #include "evolve_regions_sampler.hpp"
-#include "trajectories.hpp"
 #include "fwdpyio/serialize.hpp"
 #ifdef _OPENMP
 #include <omp.h>
