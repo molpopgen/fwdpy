@@ -17,7 +17,22 @@ The package is usable now (in fact, we are currently using it for research), but
 Citation
 ===========
 
-See the project home page for details (http://molpopgen.github.io/fwdpy).
+See the project home page for details
+(http://molpopgen.github.io/fwdpy).
+
+Changelog (rough)
+=====================
+
+0.0.3
+-----------------
+* Change from std::thread to std::async for concurrency.
+* The asynchronous futures allow for the same "evolve" function to be
+  used in different contexts.
+* The different contexts include calculating things from the
+  population every "k" generation or doing nothing.
+* These things are implemented as classes with call operators and a
+  minimal set of API requirements.
+* Fixed a bug in "mutation views"
 
 Features:
 ===========

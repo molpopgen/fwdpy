@@ -39,7 +39,7 @@ namespace fwdpy
 				  });
 	  sh.emplace_back(itr->s,itr->h);
 	}
-      return rv.emplace_back(generation,detailed_deme_sample(std::move(s),std::move(sh)));
+      rv.emplace_back(generation,detailed_deme_sample(std::move(s),std::move(sh)));
     }
 
     final_t final() const

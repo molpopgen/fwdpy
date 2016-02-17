@@ -7,16 +7,6 @@
 
 namespace fwdpy
 {
-  void evolve_regions_t( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			 const unsigned * Nvector,
-			 const size_t Nvector_length,
-			 const double mu_neutral,
-			 const double mu_selected,
-			 const double littler,
-			 const double f,
-			 const internal::region_manager * rm,
-			 const char * fitness);
-
   void split_and_evolve_t(GSLrng_t * rng,
 			  std::vector<std::shared_ptr<metapop_t> > * mpops,
 			  const unsigned * Nvector_A,

@@ -5,6 +5,21 @@ from cython.parallel import parallel, prange
 import warnings
 cimport cython
 
+def check_input_params(double mu_neutral, double mu_selected, double recrate,
+                       list nregions, list sregions, list recregions) :
+    if mu_neutral < 0:
+        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
+    if mu_selected < 0:
+        raise RuntimeError("mutation rate to selected variants must be >= 0.")
+    if recrate < 0:
+        raise RuntimeError("recombination rate must be >= 0.")
+    if mu_neutral > 0 and len(nregions)==0:
+        raise RuntimeError("Neutral regions must be defined when mutation rate > 0")
+    if mu_selected > 0 and len(sregions)==0:
+        raise RuntimeError("Selected regions must be defined when mutation rate > 0")
+    if recrate > 0 and len(recregions)==0:
+        raise RuntimeError("Recombination regions must be defined when recombination rate > 0")
+                       
 @cython.boundscheck(False)
 def evolve_regions(GSLrng rng,
                     int npops,
@@ -67,12 +82,7 @@ def evolve_regions(GSLrng rng,
     >>> #The total mutation rate to selected variants is 0.1*(the neutral mutation rate).
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
-    if mu_neutral < 0:
-        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
-    if mu_selected < 0:
-        raise RuntimeError("mutation rate to selected variants must be >= 0.")
-    if recrate < 0:
-        raise RuntimeError("recombination rate must be >= 0.")
+    check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
@@ -81,7 +91,7 @@ def evolve_regions(GSLrng rng,
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
     with nogil:
-        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+        evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
     return pops
 
 @cython.boundscheck(False)
@@ -130,12 +140,7 @@ def evolve_regions_more(GSLrng rng,
     >>> # Evolve for another 5N generations
     >>> fwdpy.evolve_regions_more(rng,pops,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
-    if mu_neutral < 0:
-        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
-    if mu_selected < 0:
-        raise RuntimeError("mutation rate to selected variants must be >= 0.")
-    if recrate < 0:
-        raise RuntimeError("recombination rate must be >= 0.")
+    check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
@@ -143,7 +148,7 @@ def evolve_regions_more(GSLrng rng,
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
     with nogil:
-        evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+        evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
 
 @cython.boundscheck(False)
 def evolve_regions_sample(GSLrng rng,
@@ -181,12 +186,7 @@ def evolve_regions_sample(GSLrng rng,
 
     :raises: RuntimeError if parameters do not pass checks
     """
-    if mu_neutral < 0:
-        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
-    if mu_selected < 0:
-        raise RuntimeError("mutation rate to selected variants must be >= 0.")
-    if recrate < 0:
-        raise RuntimeError("recombination rate must be >= 0.")
+    check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if sample <= 0:
         raise RuntimeError("sample must be > 0")
     if nsam == 0:
@@ -233,15 +233,9 @@ def evolve_regions_track(GSLrng rng,
 
     :raises: RuntimeError if parameters do not pass checks
     """
-    if mu_neutral < 0:
-        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
-    if mu_selected < 0:
-        raise RuntimeError("mutation rate to selected variants must be >= 0.")
-    if recrate < 0:
-        raise RuntimeError("recombination rate must be >= 0.")
+    check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if sample <= 0:
         raise RuntimeError("sample must be > 0")
-
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
@@ -285,12 +279,7 @@ def evolve_regions_split(GSLrng rng,
     >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0.,0.])
 
     """
-    if mu_neutral < 0:
-        raise RuntimeError("mutation rate to neutral variants must be >= 0.")
-    if mu_selected < 0:
-        raise RuntimeError("mutation rate to selected variants must be >= 0.")
-    if recrate < 0:
-        raise RuntimeError("recombination rate must be >= 0.")
+    check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     cdef unsigned i
     for i in range(fs.size()):
         if fs[i] < 0.:

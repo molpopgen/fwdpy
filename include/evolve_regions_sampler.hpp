@@ -106,10 +106,6 @@ namespace fwdpy
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
-	if (interval && pop->generation &&pop->generation%interval==0.)
-	  {
-	    s(pop,rng,pop->generation);
-	  }
 	KTfwd::sample_diploid(rng,
 			      pop->gametes,
 			      pop->diploids,
@@ -124,12 +120,12 @@ namespace fwdpy
 			      pop->neutral,pop->selected,
 			      f);
 	pop->N=nextN;
+	if (interval && pop->generation &&(pop->generation+1)%interval==0.)
+	  {
+	    s(pop,rng,pop->generation+1);
+	  }
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
-      }
-    if (interval && pop->generation &&pop->generation%interval==0.)
-      {
-	s(pop,rng,pop->generation);
       }
     //Update population's size variable to be the current pop size
     pop->N = unsigned(pop->diploids.size());
@@ -139,7 +135,9 @@ namespace fwdpy
   }
 
   template<typename sampler,class... Args>
-  inline std::vector<typename sampler::final_t>
+  inline
+  typename std::enable_if<!std::is_void<typename sampler::final_t>::value,
+			  std::vector<typename sampler::final_t> >::type
   evolve_regions_async_wrapper( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 				const unsigned * Nvector,
 				const size_t Nvector_len,
@@ -156,24 +154,66 @@ namespace fwdpy
     std::vector<future_t> futures;
     for(std::size_t i=0;i<pops->size();++i)
       {
-	futures.emplace_back( async(std::launch::async,
-				    evolve_regions_sampler_details<sampler,Args&&...>,
-				    pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
-				    mu_neutral,mu_selected,littler,f,fitness,sample,
-				    std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
-				    std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-				    std::forward<Args...>(args)...
-				    )
+	futures.emplace_back( std::async(std::launch::async,
+					 evolve_regions_sampler_details<sampler,Args&&...>,
+					 pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
+					 mu_neutral,mu_selected,littler,f,fitness,sample,
+					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
+					 std::forward<Args...>(args)...
+					 )
 			      );	
       }
     std::vector<typename sampler::final_t> rv(futures.size());
     for(std::size_t i=0;i<futures.size();++i ) rv[i]=futures[i].get();
     return rv;
   }
+
+  template<typename sampler,class... Args>
+  inline
+  typename std::enable_if<std::is_void<typename sampler::final_t>::value,
+			  void>::type
+  evolve_regions_async_wrapper( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+				const unsigned * Nvector,
+				const size_t Nvector_len,
+				const double mu_neutral,
+				const double mu_selected,
+				const double littler,
+				const double f,
+				const internal::region_manager * rm,
+				const char * fitness,
+				Args&&... args)
+  {
+    using future_t = std::future<typename sampler::final_t>;
+    std::vector<future_t> futures;
+    for(std::size_t i=0;i<pops->size();++i)
+      {
+	futures.emplace_back( std::async(std::launch::async,
+					 evolve_regions_sampler_details<sampler,Args&&...>,
+					 pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
+					 mu_neutral,mu_selected,littler,f,fitness,0,//0 will mean not to sample
+					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
+					 std::forward<Args...>(args)...
+					 )
+			      );	
+      }
+    for(std::size_t i=0;i<futures.size();++i) futures[i].get();
+  }
   
 
+  //Prototype for 'default' function that doesn't sample
+  void evolve_regions_no_sampling_async(GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+					const unsigned * Nvector,
+					const size_t Nvector_length,
+					const double mu_neutral,
+					const double mu_selected,
+					const double littler,
+					const double f,
+					const internal::region_manager * rm,
+					const char * fitness);
+  
   //Prototypes for functions using samplers
-
   std::vector<sample_n::final_t>
   evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,

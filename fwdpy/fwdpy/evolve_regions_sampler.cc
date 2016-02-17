@@ -2,11 +2,25 @@
 #include <iterator>
 #include <functional>
 #include <evolve_regions_sampler.hpp>
-
+#include <no_sampling.hpp>
 using namespace std;
 
 namespace fwdpy
 {
+  void evolve_regions_no_sampling_async(GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+					const unsigned * Nvector,
+					const size_t Nvector_length,
+					const double mu_neutral,
+					const double mu_selected,
+					const double littler,
+					const double f,
+					const internal::region_manager * rm,
+					const char * fitness)
+  {
+    evolve_regions_async_wrapper<no_sampling>(rng,pops,Nvector,Nvector_length,mu_neutral,mu_selected,littler,f,
+					      rm,fitness);
+  }
+  
   std::vector<sample_n::final_t>
   evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
