@@ -44,9 +44,10 @@ def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     
     Example:
     
-    >>> import fwdpy
+    >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> popsizes=array.array('I',[1000]*1000)
+    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     """
     if isinstance(pop,singlepop):
@@ -72,9 +73,10 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
 
     Example:
     
-    >>> import fwdpy
+    >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> popsizes=array.array('I',[1000]*1000)
+    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
     """
     if isinstance(pop,singlepop):
@@ -101,9 +103,10 @@ def get_sample_details( sample_t ms_sample, poptype pop ):
 
     Example:
     
-    >>> import fwdpy
+    >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> popsizes=array.array('I',[1000]*1000)
+    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> details = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]
     """
@@ -137,7 +140,8 @@ def nderived_site(tuple site):
     5
     >>> #Process simulation results:
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,1,1000,[1000]*1000,50,50)
+    >>> popsizes=array.array('I',[1000]*1000)
+    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
     """
@@ -151,10 +155,10 @@ def nderived( list sample ):
 
     Example:
 
-    >>> import fwdpy
-
+    >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> popsizes=array.array('I',[1000]*1000)
+    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> nd = [fwdpy.nderived(i) for i in s]
     """
@@ -197,10 +201,10 @@ def getfreqs(list sample,bint derived = True):
     
     Example:
 
-    >>> import fwdpy
-
+    >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> popsizes=array.array('I',[1000]*1000)
+    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> freqs = [fwdpy.getfreqs(i) for i in s]
     """
@@ -221,9 +225,10 @@ def freqfilter( list sample,
        
     Example:
     
-    >>> import fwdpy
+    >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
-    >>> pop = fwdpy.evolve_pops_t(rng,3,1000,[1000]*1000,50,50)
+    >>> popsizes=array.array('I',[1000]*1000)
+    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]
     """
