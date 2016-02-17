@@ -14,32 +14,32 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    void evolve_qtraits_t( GSLrng_t * rng, std::vector<std::shared_ptr<fwdpy::singlepop_t> > * pops,
-			   const unsigned * Nvector,
-			   const size_t Nvector_length,
-			   const double mu_neutral,
-			   const double mu_selected,
-			   const double littler,
-			   const double f,
-			   const double sigmaE,
-			   const double optimum,
-			   const double VS,
-			   const fwdpy::internal::region_manager * rm);
+    // void evolve_qtraits_t( GSLrng_t * rng, std::vector<std::shared_ptr<fwdpy::singlepop_t> > * pops,
+    // 			   const unsigned * Nvector,
+    // 			   const size_t Nvector_length,
+    // 			   const double mu_neutral,
+    // 			   const double mu_selected,
+    // 			   const double littler,
+    // 			   const double f,
+    // 			   const double sigmaE,
+    // 			   const double optimum,
+    // 			   const double VS,
+    // 			   const fwdpy::internal::region_manager * rm);
 
-    std::vector<std::vector< std::pair<unsigned,qtrait_sample_info_t > > >
-    evolve_qtraits_sample_t( GSLrng_t * rng, std::vector<std::shared_ptr<fwdpy::singlepop_t> > * pops,
-			     const unsigned * Nvector,
-			     const size_t Nvector_length,
-			     const double mu_neutral,
-			     const double mu_selected,
-			     const double littler,
-			     const double f,
-			     const double sigmaE,
-			     const double optimum,
-			     const double VS,
-			     const int trackSamples,
-			     const unsigned nsam,
-			     const fwdpy::internal::region_manager * rm);
+    // std::vector<std::vector< std::pair<unsigned,qtrait_sample_info_t > > >
+    // evolve_qtraits_sample_t( GSLrng_t * rng, std::vector<std::shared_ptr<fwdpy::singlepop_t> > * pops,
+    // 			     const unsigned * Nvector,
+    // 			     const size_t Nvector_length,
+    // 			     const double mu_neutral,
+    // 			     const double mu_selected,
+    // 			     const double littler,
+    // 			     const double f,
+    // 			     const double sigmaE,
+    // 			     const double optimum,
+    // 			     const double VS,
+    // 			     const int trackSamples,
+    // 			     const unsigned nsam,
+    // 			     const fwdpy::internal::region_manager * rm);
     
     struct ew_mut_details
     {
