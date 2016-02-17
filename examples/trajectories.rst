@@ -20,8 +20,6 @@ Tracking mutation frequencies
 Run a simulation
 ----------------
 
-This is the same example that you see in :func:`fwdpy.fwdpy.trajectories`, except that I've changed the random number seed.
-
 .. code:: python
 
     nregions = [fp.Region(0,1,1),fp.Region(2,3,1)]
@@ -30,8 +28,10 @@ This is the same example that you see in :func:`fwdpy.fwdpy.trajectories`, excep
     rng = fp.GSLrng(201)
     popsizes = np.array([1000],dtype=np.uint32)
     popsizes=np.tile(popsizes,10000)
-    pops = fp.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,track=True)
-    traj = [fp.trajectories(i) for i in pops]
+    #Initialize a vector with 1 population of size N = 1,000
+    pops=fp.popvec(1,1000)
+    #Record mutation frequencies every generation
+    traj = [pd.DataFrame(i) for i in fp.evolve_regions_track(rng,pops,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)]
 
 Group mutation trajectories by position and effect size
 -------------------------------------------------------
@@ -50,7 +50,7 @@ Max mutation frequencies
 
 .. raw:: html
 
-    <div style="max-height:1000px;max-width:1500px;overflow:auto;">
+    <div>
     <table border="1" class="dataframe">
       <thead>
         <tr style="text-align: right;">
@@ -64,14 +64,13 @@ Max mutation frequencies
       <tbody>
         <tr>
           <th>16467</th>
-          <td> 1.817526</td>
-          <td> 0.001171</td>
-          <td> 1</td>
-          <td> 4587</td>
+          <td>1.817526</td>
+          <td>0.001171</td>
+          <td>1</td>
+          <td>4587</td>
         </tr>
       </tbody>
     </table>
-    <p>1 rows × 4 columns</p>
     </div>
 
 
@@ -100,7 +99,7 @@ Frequency trajectory of fixations
 
 
 
-.. image:: trajectories_files/trajectories_11_0.png
+.. image:: trajectories_files/trajectories_10_0.png
 
 
 .. code:: python
@@ -117,12 +116,12 @@ Frequency trajectory of fixations
 
 .. parsed-literal::
 
-    <matplotlib.axes.AxesSubplot at 0x7fa486531ed0>
+    <matplotlib.axes._subplots.AxesSubplot at 0x7fc1c93b2050>
 
 
 
 
-.. image:: trajectories_files/trajectories_12_1.png
+.. image:: trajectories_files/trajectories_11_1.png
 
 
 Reducing the memory footprint
@@ -145,30 +144,23 @@ h5 file.
     ##Now, popsizes will be 10x smaller...
     popsizes=np.tile(popsizes,1000)
     #Evolve the first 'N' generations:
-    pops2 = fp.evolve_regions(rng2,1,1000,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,track=True)
-    #get the trajectories:
-    traj2 = [fp.trajectories(i) for i in pops2]
+    pops2 = fp.popvec(1,1000)
+    traj2 = [pd.DataFrame(i) for i in fp.evolve_regions_track(rng2,pops,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)]
     
     #open an hdf 5 file:
     hdf = pd.HDFStore("trajectories.h5",'w')
     hdf.open()
     #Write the first set of trajectories
     hdf.append('traj',traj2[0])
-    
-    #clear out trajectories in every population
-    for i in pops2:
-        i.clearTraj()
 
 .. code:: python
 
     #Evolve for another 9N generations
     #Update the h5 file after each chunk, and then clear out trajectories
     for i in range(9):
-        fp.evolve_regions_more(rng2,pops2,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,track=True)
-        traj2 = [fp.trajectories(i) for i in pops2]
+        traj2 = [pd.DataFrame(i) for i in fp.evolve_regions_track(rng2,pops2,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)]
         hdf.append('traj',traj2[0])
-        for j in pops2:
-            j.clearTraj()
+    
     ##Close the h5 file
     hdf.close()
 
@@ -205,16 +197,20 @@ Each time we call :func:`fwdpy.fwdpy.evolve_regions` and/or :func:`fwdpy.fwdpy.e
 
 .. raw:: html
 
-    <div style="max-height:1000px;max-width:1500px;overflow:auto;">
+    <div>
     <table border="1" class="dataframe">
-      <tbody>
-        <tr>
-          <td>Int64Index([], dtype='int64')</td>
-          <td>Empty DataFrame</td>
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>pos</th>
+          <th>esize</th>
+          <th>freq</th>
+          <th>generation</th>
         </tr>
+      </thead>
+      <tbody>
       </tbody>
     </table>
-    <p>0 rows × 4 columns</p>
     </div>
 
 
