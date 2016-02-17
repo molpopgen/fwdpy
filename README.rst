@@ -33,6 +33,7 @@ Changelog (rough)
 * These things are implemented as classes with call operators and a
   minimal set of API requirements.
 * Fixed a bug in "mutation views"
+* Better parameter checking for various "evolve" functions
 
 Features:
 ===========
