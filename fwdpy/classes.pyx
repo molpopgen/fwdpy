@@ -50,7 +50,7 @@ cdef class popvec(popcont):
     have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the "usual"
     Python way.
 
-    See :func:`evolve_pops_t` and :func:`evolve_regions` for use cases.
+    See :func:`evolve_regions` for use cases.
     """
     def __cinit__(self,unsigned npops,unsigned N):
         """

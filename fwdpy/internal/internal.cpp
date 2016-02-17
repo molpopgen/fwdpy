@@ -11,7 +11,6 @@
             "include/internal/callbacks.hpp", 
             "include/internal/internal.hpp", 
             "include/metapop.hpp", 
-            "include/neutral.hpp", 
             "include/pop_properties.hpp", 
             "include/sample.hpp", 
             "include/sample_n.hpp", 
@@ -305,7 +304,6 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include <memory>
 #include <map>
 #include "types.hpp"
-#include "neutral.hpp"
 #include "sample.hpp"
 #include "deps.hpp"
 #include "metapop.hpp"
@@ -532,7 +530,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":221
+/* "fwdpy/fwdpy.pxd":218
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
