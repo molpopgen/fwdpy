@@ -186,16 +186,6 @@ cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void copy_deme( metapop_t * mpop, const size_t i, const int update_counts)
 
 cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
-    void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
-                           const unsigned * popsizes,
-                           const size_t popsizes_len,
-                           const double mu_neutral,
-                           const double mu_selected,
-                           const double littler,
-                           const double f,
-                           const region_manager * rm,
-                           const char * fitness)
-
     void split_and_evolve_t(GSLrng_t * rng,
                 vector[shared_ptr[metapop_t]] * mpops,
                 const unsigned * Nvector_A,

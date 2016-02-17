@@ -643,12 +643,12 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":231
+/* "fwdpy/fwdpy.pxd":221
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
  * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
- *     vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng,
+ *     void evolve_regions_no_sampling_async(GSLrng_t * rng,
  */
 typedef unsigned int __pyx_t_5fwdpy_5fwdpy_uint;
 
@@ -10647,7 +10647,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions(CYTHON_UNUSED PyObject 
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  */
   __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
@@ -10659,7 +10659,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions(CYTHON_UNUSED PyObject 
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  *     return pops
  */
   {
@@ -10672,20 +10672,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions(CYTHON_UNUSED PyObject 
         /* "fwdpy/evolve_regions.pyx":84
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  *     return pops
  * 
  */
         __pyx_t_7 = 0;
         if (__pyx_t_7 < 0) __pyx_t_7 += __pyx_v_nlist.shape[0];
-        fwdpy::evolve_regions_t(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+        fwdpy::evolve_regions_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
       }
 
       /* "fwdpy/evolve_regions.pyx":83
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  *     return pops
  */
       /*finally:*/ {
@@ -10701,7 +10701,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions(CYTHON_UNUSED PyObject 
 
   /* "fwdpy/evolve_regions.pyx":85
  *     with nogil:
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  *     return pops             # <<<<<<<<<<<<<<
  * 
  * @cython.boundscheck(False)
@@ -11129,7 +11129,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_more(CYTHON_UNUSED PyOb
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  */
   __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -11141,7 +11141,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_more(CYTHON_UNUSED PyOb
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  * 
  */
   {
@@ -11154,20 +11154,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_more(CYTHON_UNUSED PyOb
         /* "fwdpy/evolve_regions.pyx":146
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  * 
  * @cython.boundscheck(False)
  */
         __pyx_t_7 = 0;
         if (__pyx_t_7 < 0) __pyx_t_7 += __pyx_v_nlist.shape[0];
-        fwdpy::evolve_regions_t(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+        fwdpy::evolve_regions_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_7 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
       }
 
       /* "fwdpy/evolve_regions.pyx":145
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef unsigned listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
- *         evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+ *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  * 
  */
       /*finally:*/ {

@@ -82,7 +82,6 @@ def evolve_regions(GSLrng rng,
     cdef unsigned listlen = len(nlist)
     with nogil:
         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
-        #evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
     return pops
 
 @cython.boundscheck(False)
@@ -145,7 +144,6 @@ def evolve_regions_more(GSLrng rng,
     cdef unsigned listlen = len(nlist)
     with nogil:
         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
-        #evolve_regions_t(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
 
 @cython.boundscheck(False)
 def evolve_regions_sample(GSLrng rng,
