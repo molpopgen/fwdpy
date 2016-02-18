@@ -137,6 +137,15 @@ extensions = [
         extra_link_args=LINK_ARGS,
         libraries=LIBS)
         ]
+extensions.extend([
+    Extension("fwdpy.qtrait.qtrait",
+    sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
+    language="c++",                        # generate and compile C++ code
+    include_dirs=['.','include','..'], # The -Ifwdpy is so that config.h can get included
+    extra_compile_args=GLOBAL_COMPILE_ARGS,
+    extra_link_args=LINK_ARGS,
+    libraries=LIBS)
+    ])
 
 #If using Cython, edit extensions here:
 if USE_CYTHON:
@@ -161,7 +170,7 @@ setup(name='@PACKAGE_NAME@',
       requires=['pandas','numpy'],
       provides=['fwdpy'],
       obsoletes=['none'],
-      packages=['fwdpy','fwdpy.internal','fwdpy.fwdpyio'],
+      packages=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.qtrait'],
       py_modules=[],
       scripts=[],
       data_files=[(doc_dir, ['COPYING', 'README.rst'])],
