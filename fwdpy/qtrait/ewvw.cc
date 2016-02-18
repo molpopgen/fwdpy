@@ -63,7 +63,7 @@ namespace fwdpy
     //   return KTfwd::popgenmut(pos,exp(log(temp)/tau),h,generation,1);
     // }
 
-    void ewvw_sim_details_t( gsl_rng * rng,
+    void ewvw_sim_details_t( const gsl_rng * rng,
 			     fwdpy::singlepop_t * pop,
 			     const unsigned * Nvector,
 			     const size_t Nvector_len,
