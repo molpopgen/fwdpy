@@ -11,7 +11,6 @@
             "include/internal/callbacks.hpp", 
             "include/internal/internal.hpp", 
             "include/metapop.hpp", 
-            "include/neutral.hpp", 
             "include/pop_properties.hpp", 
             "include/qtrait/evolve_qtrait_sampler.hpp", 
             "include/qtrait/qtraits.hpp", 
@@ -311,7 +310,6 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "internal/callbacks.hpp"
 #include "internal/internal.hpp"
 #include "types.hpp"
-#include "neutral.hpp"
 #include "sample.hpp"
 #include "deps.hpp"
 #include "metapop.hpp"
@@ -639,7 +637,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":221
+/* "fwdpy/fwdpy.pxd":218
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
