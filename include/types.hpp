@@ -54,10 +54,7 @@ namespace fwdpy {
     }
   };
 
-  enum class traj_key_values : std::size_t
-  {
-    deme,origin,pos,esize
-      };
+  enum class traj_key_values : std::size_t { deme,origin,pos,esize };
 
   using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
