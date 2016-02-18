@@ -11,8 +11,7 @@ namespace fwdpy
   void re_init_mpop( metapop_t * mpop, const singlepop_t * pop);
 
   void copy_deme( metapop_t * mpop,
-		  const size_t i,
-		  const int update_counts);
+		  const size_t i );
 }
 
 #endif

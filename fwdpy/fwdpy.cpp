@@ -12520,21 +12520,21 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
  *         mpv.mpops.push_back(shared_ptr[metapop_t](new metapop_t([0])))
  *         re_init_mpop(mpv.mpops[i].get(),pops.pops[0].get())             # <<<<<<<<<<<<<<
  *         #Step 2: copy the first deme into a second deme
- *         copy_deme(mpv.mpops[i].get(),0,0)
+ *         copy_deme(mpv.mpops[i].get(),0)
  */
     fwdpy::re_init_mpop((__pyx_v_mpv->mpops[__pyx_v_i]).get(), (__pyx_v_pops->pops[0]).get());
 
     /* "fwdpy/evolve_regions.pyx":297
  *         re_init_mpop(mpv.mpops[i].get(),pops.pops[0].get())
  *         #Step 2: copy the first deme into a second deme
- *         copy_deme(mpv.mpops[i].get(),0,0)             # <<<<<<<<<<<<<<
+ *         copy_deme(mpv.mpops[i].get(),0)             # <<<<<<<<<<<<<<
  *         #Step 2a: make sure all is cool under the hood.
  *         if not mpv.mpops[i].get().sane():
  */
-    fwdpy::copy_deme((__pyx_v_mpv->mpops[__pyx_v_i]).get(), 0, 0);
+    fwdpy::copy_deme((__pyx_v_mpv->mpops[__pyx_v_i]).get(), 0);
 
     /* "fwdpy/evolve_regions.pyx":299
- *         copy_deme(mpv.mpops[i].get(),0,0)
+ *         copy_deme(mpv.mpops[i].get(),0)
  *         #Step 2a: make sure all is cool under the hood.
  *         if not mpv.mpops[i].get().sane():             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.evolve_regions_split: metapopulation data structures out of sync")
@@ -12557,7 +12557,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
       {__pyx_filename = __pyx_f[5]; __pyx_lineno = 300; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
       /* "fwdpy/evolve_regions.pyx":299
- *         copy_deme(mpv.mpops[i].get(),0,0)
+ *         copy_deme(mpv.mpops[i].get(),0)
  *         #Step 2a: make sure all is cool under the hood.
  *         if not mpv.mpops[i].get().sane():             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.evolve_regions_split: metapopulation data structures out of sync")

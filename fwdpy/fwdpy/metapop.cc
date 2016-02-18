@@ -34,8 +34,7 @@ namespace fwdpy {
 
   //Make a copy of deme i
   void copy_deme( metapop_t * mpop,
-		  const size_t i,
-		  const int update_counts)
+		  const size_t i )
   {
     mpop->diploids.push_back(metapop_t::dipvector_t(mpop->diploids[i]));
     mpop->Ns.push_back(unsigned(mpop->diploids[i].size()));
