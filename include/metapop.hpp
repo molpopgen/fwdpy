@@ -6,7 +6,7 @@
 
 namespace fwdpy
 {
-  size_t migpop(const size_t & source_pop, gsl_rng * r, const double & mig_prob);
+  size_t migpop(const size_t & source_pop, const gsl_rng * r, const double & mig_prob);
 
   void re_init_mpop( metapop_t * mpop, const singlepop_t * pop);
 
