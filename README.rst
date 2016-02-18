@@ -245,6 +245,29 @@ To do this, use the setup.py script as follows:
 
 Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the core of the package.
 
+Compiling in an aggressive debug mode
+-----------------------------------------------
+
+To get rid of optimizations, and -DNDEBUG, you need to reset the OPT
+flag set by Python's distutils:
+
+.. code-block:: bash
+
+   $ OPT= python setup.py build_ext -i
+
+Doing this will mean that the fwdpp back-end will *not* be compiled
+with -DNDEBUG, which will enable aggressive run-time correctness
+testing.  By "aggressive", I mean that an error will trigger a failed
+assertion and the Python interpreter will be exited
+less-than-gracefully!  Only to this when testing.
+
+It is better to enable some optimizations, though, else things run too
+slowly:
+
+.. code-block:: bash
+
+   $ OPT=-O2 python setup.py build_ext -i
+   
 
 Rough guide to installation on UCI HPC
 -----------------------------------------

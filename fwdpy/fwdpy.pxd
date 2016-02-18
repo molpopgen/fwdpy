@@ -180,7 +180,7 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     
 cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void re_init_mpop( metapop_t * mpop, const singlepop_t * pop)
-    void copy_deme( metapop_t * mpop, const size_t i, const int update_counts)
+    void copy_deme( metapop_t * mpop, const size_t i )
 
 cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
     void split_and_evolve_t(GSLrng_t * rng,

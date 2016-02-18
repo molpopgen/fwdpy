@@ -20,7 +20,7 @@ namespace fwdpy
   public:
     using final_t = std::map<std::string,std::vector<double> >;
     inline void operator()(const singlepop_t * pop,gsl_rng * ,
-			   const unsigned generation)
+			   const unsigned)
     {
       for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
       	{

@@ -27,7 +27,7 @@ namespace fwdpy {
     const double mu_tot = neutral + selected;
 
     auto x = std::max_element(Nvector_A,Nvector_A+Nvector_A_len);
-    assert(x!=Nvector+Nvector_len);
+    assert(x!=Nvector_A+Nvector_A_len);
     auto y = std::max_element(Nvector_B,Nvector_B+Nvector_B_len);
     assert(y!=Nvector_B+Nvector_B_len);
     //We reserve space for 2x b/c there are two demes

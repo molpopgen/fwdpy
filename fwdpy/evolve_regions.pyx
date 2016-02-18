@@ -294,7 +294,7 @@ def evolve_regions_split(GSLrng rng,
         mpv.mpops.push_back(shared_ptr[metapop_t](new metapop_t([0])))
         re_init_mpop(mpv.mpops[i].get(),pops.pops[0].get())
         #Step 2: copy the first deme into a second deme
-        copy_deme(mpv.mpops[i].get(),0,0)
+        copy_deme(mpv.mpops[i].get(),0)
         #Step 2a: make sure all is cool under the hood.
         if not mpv.mpops[i].get().sane():
             raise RuntimeError("fwdpy.evolve_regions_split: metapopulation data structures out of sync")
