@@ -25,8 +25,8 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
-        const unsigned N
-        const unsigned generation
+        unsigned N
+        unsigned generation
         mcont_t mutations
         vector[unsigned] mcounts
         gcont_t gametes
