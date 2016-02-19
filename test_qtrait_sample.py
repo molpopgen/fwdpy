@@ -14,7 +14,8 @@ k=0
 #2,000 replicates in 4-thread chunks
 PIK="qtrait_pickle.dat"
 NB=500
-NPIK=4*NB
+NCORES=4
+NPIK=NCORES*NB
 f=gzip.open(PIK,"wb")
 mun=0.01
 littler=0.01
@@ -31,7 +32,7 @@ for i in range(NB):
     nlist = np.array([1000]*10000,dtype=np.uint32)
     #Evolve to equilibrium
     pops = qt.evolve_qtrait(rng,
-                            4,
+                            NCORES,
                             1000,
                             nlist[0:],
                             mun,
