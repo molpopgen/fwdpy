@@ -1,7 +1,7 @@
 import fwdpy as fp
 import fwdpy.qtrait as qt
 import numpy as np
-import pandas,pickle,gzip
+import pandas,cPickle as pickle,gzip
 
 rng = fp.GSLrng(101)
 
@@ -18,15 +18,18 @@ NCORES=4
 NPIK=NCORES*NB
 f=gzip.open(PIK,"wb")
 N=1000
-theta_n = 100
-rho_n = 100
+scaled_sigmaMU=250.0
+sigMU=scaled_sigmaMU/N
+theta_n = 100.0
+rho_n = 100.0
 mun=theta_n/(4*N)
 littler=rho_n/(4*N)
 rest=r-littler
 ratio=rest/r
-
+sample_interval=0.01 #In units of N generations
+print sigMU," ",mun," ",int(sample_interval*N)
 neutmutregions=[fp.Region(0,1,1)]
-selmutregions=[fp.GaussianS(-ratio,1+ratio,1,0.25)]
+selmutregions=[fp.GaussianS(-ratio,1+ratio,1,sigMU)]
 recregions= [fp.Region(-ratio,1+ratio,1)]
 
 pickle.dump(NPIK,f)
@@ -57,7 +60,7 @@ for i in range(NB):
                                       selmutregions,
                                       recregions,
                                       sigE,
-                                      trackSamples=10,nsam=20,
+                                      trackSamples=int(sample_interval*N),nsam=20,
                                       optimum=0.5)
     #with open(PIK,"ab") as f:
     for j in samples:
