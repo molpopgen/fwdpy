@@ -17,8 +17,11 @@ NB=500
 NCORES=4
 NPIK=NCORES*NB
 f=gzip.open(PIK,"wb")
-mun=0.01
-littler=0.01
+N=1000
+theta_n = 100
+rho_n = 100
+mun=theta_n/(4*N)
+littler=rho_n/(4*N)
 rest=r-littler
 ratio=rest/r
 
@@ -29,11 +32,11 @@ recregions= [fp.Region(-ratio,1+ratio,1)]
 pickle.dump(NPIK,f)
     
 for i in range(NB):
-    nlist = np.array([1000]*10000,dtype=np.uint32)
+    nlist = np.array([N]*(10*N),dtype=np.uint32)
     #Evolve to equilibrium
     pops = qt.evolve_qtrait(rng,
                             NCORES,
-                            1000,
+                            N,
                             nlist[0:],
                             mun,
                             mu,
@@ -43,8 +46,8 @@ for i in range(NB):
                             recregions,
                             sigE,
                             0.)
-    #Evolve another N gens after shift optimum to 0.5
-    nlist = np.array([1000]*3000,dtype=np.uint32)
+    #Evolve another 3*N gens after shift optimum to 0.5
+    nlist = np.array([N]*(3*N),dtype=np.uint32)
     samples = qt.evolve_qtrait_sample(rng,pops,
                                       nlist[0:],
                                       mun,
