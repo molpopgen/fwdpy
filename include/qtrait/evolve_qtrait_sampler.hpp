@@ -76,7 +76,7 @@ namespace fwdpy
 					      pop->neutral,pop->selected,
 					      f,
 					      rules,
-					      KTfwd::remove_nothing());
+					      std::bind(KTfwd::remove_neutral(),std::placeholders::_1));
 	  KTfwd::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	}
