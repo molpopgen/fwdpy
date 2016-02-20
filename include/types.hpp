@@ -89,6 +89,15 @@ namespace fwdpy {
     metapop_t( const std::vector<unsigned> &Ns ) : base(&Ns[0],Ns.size()), generation(0)
     {
     }
+
+    metapop_t( const std::initializer_list<unsigned> & Ns ) : base(Ns), generation(0)
+    {
+    }
+    
+    metapop_t(const singlepop_t & p) : base(p),generation(p.generation)
+    {
+    }
+    
     unsigned gen() const
     {
       return generation;
