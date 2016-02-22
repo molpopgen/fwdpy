@@ -34,6 +34,8 @@ cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
         double s
         double h
 
+#fwdpp's "syntactic sugar" layer makes it easier to develop simulations
+#by wrapping lower-level functions from main library
 cdef extern from "fwdpp/sugar/generalmut.hpp" namespace "KTfwd" nogil:
     cdef cppclass generalmut_vec(mutation_base):
         vector[double] s
