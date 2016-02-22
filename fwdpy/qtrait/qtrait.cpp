@@ -307,6 +307,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/sugar/generalmut.hpp"
 #include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"
+#include "fwdpp/internal/gsl_discrete.hpp"
 #include "internal/callbacks.hpp"
 #include "internal/internal.hpp"
 #include "types.hpp"
@@ -637,7 +638,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":222
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<

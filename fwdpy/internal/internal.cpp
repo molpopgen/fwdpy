@@ -302,6 +302,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"
 #include <memory>
+#include "fwdpp/internal/gsl_discrete.hpp"
 #include <map>
 #include "types.hpp"
 #include "sample.hpp"
@@ -530,7 +531,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":222
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<

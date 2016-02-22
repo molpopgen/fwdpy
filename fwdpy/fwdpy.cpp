@@ -305,6 +305,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/sugar/generalmut.hpp"
 #include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"
+#include "fwdpp/internal/gsl_discrete.hpp"
 #include "internal/callbacks.hpp"
 #include "internal/internal.hpp"
 #include "types.hpp"
@@ -639,7 +640,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":222
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -12531,7 +12532,12 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
  *         #Step 2a: make sure all is cool under the hood.
  *         if not mpv.mpops[i].get().sane():
  */
-    fwdpy::copy_deme((__pyx_v_mpv->mpops[__pyx_v_i]).get(), 0);
+    try {
+      fwdpy::copy_deme((__pyx_v_mpv->mpops[__pyx_v_i]).get(), 0);
+    } catch(...) {
+      __Pyx_CppExn2PyErr();
+      {__pyx_filename = __pyx_f[5]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
 
     /* "fwdpy/evolve_regions.pyx":299
  *         copy_deme(mpv.mpops[i].get(),0)
