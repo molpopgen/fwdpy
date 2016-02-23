@@ -304,6 +304,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "gsl/gsl_rng.h"
 #include "fwdpp/forward_types.hpp"
 #include "fwdpp/sugar/popgenmut.hpp"
+#include "fwdpp/debug.hpp"
 #include "fwdpp/sugar/generalmut.hpp"
 #include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"

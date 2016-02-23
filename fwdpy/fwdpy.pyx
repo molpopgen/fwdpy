@@ -14,6 +14,7 @@ include "regions.pyx"
 include "slim.pyx"
 include "copy.pyx"
 include "views.pyx"
+include "debug.pyx"
 
 def pkg_version():
     """
