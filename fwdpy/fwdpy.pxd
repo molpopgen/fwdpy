@@ -13,7 +13,7 @@ from fwdpy.gsl cimport gsl_rng
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
-    ctypedef gamete_base[popgenmut] gamete_t
+    ctypedef gamete_base[void] gamete_t
     ctypedef vector[gamete_t] gcont_t
     ctypedef vector[popgenmut] mcont_t
 
