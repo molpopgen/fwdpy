@@ -34,6 +34,14 @@ cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
         double s
         double h
 
+#fwdpp's debug functions
+cdef extern from "fwdpp/debug.hpp" namespace "KTfwd" nogil:
+    bool check_sum[GAMETE_CONTAINER](const GAMETE_CONTAINER gc, const unsigned twoN)
+    bool gamete_is_sorted_n[GAMETE,MUTATION_CONTAINER](const GAMETE & g, const MUTATION_CONTAINER & mc)
+    bool gamete_is_sorted_s[GAMETE,MUTATION_CONTAINER](const GAMETE & g, const MUTATION_CONTAINER & mc)
+    bool gamete_data_sane[GAMETE_CONTAINER,MUTATION_CONTAINER](const GAMETE_CONTAINER & gc, const MUTATION_CONTAINER & mc, const vector[unsigned] & mcounts)
+    bool popdata_sane[DIPLOID_CONTAINER,GAMETE_CONTAINER,MUTATION_CONTAINER](const DIPLOID_CONTAINER & dc, const GAMETE_CONTAINER & gc, const MUTATION_CONTAINER & mc, const vector[unsigned] & mcounts)
+
 #fwdpp's "syntactic sugar" layer makes it easier to develop simulations
 #by wrapping lower-level functions from main library
 cdef extern from "fwdpp/sugar/generalmut.hpp" namespace "KTfwd" nogil:
