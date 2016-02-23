@@ -27,8 +27,7 @@ def check_popdata(object p):
     
     :param p: A object of type :class:`fwdpy.fwdpy.poptype` or :class:`fwdpy.fwdpy.poptype`
 
-    :rtype: Dictionary with return values (True or False).  Any false values mean that the data
-    in p *do not* pass a critical sanity check, and an exception should probably be raised.
+    :rtype: Dictionary with return values (True or False). Any false values reflect a critical data inconsistency, and mean an exception should be raised.
     """
     if isinstance(p,popvec):
         return check_popdata_popvec(p)
