@@ -17,12 +17,13 @@ import pandas
 cdef extern from "qtrait/rules.hpp" namespace "fwdpy::qtrait" nogil:
     cdef cppclass qtrait_model_rules:
         qtrait_model_rules(const double & sigmaE, const double & optimum, const double & VS, const unsigned maxN)
-    
+
 cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:    
     cdef struct ew_mut_details:
-       double s
-       double e
-       double p
+        double s
+        double e
+        double p
+        
     map[double,ew_mut_details] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
     vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,ew_mut_details] & effects) except +
 
@@ -39,7 +40,7 @@ cdef extern from "qtrait/evolve_qtrait_sampler.hpp" namespace "fwdpy::qtrait" no
 				          const double optimum,
 				          const double VS,
 				          const region_manager * rm)
-    
+
     
     vector[vector[pair[uint,detailed_deme_sample]]] evolve_qtrait_sample_async( GSLrng_t * rng,
                                                                                 vector[shared_ptr[singlepop_t]] * pops,
@@ -70,6 +71,20 @@ cdef extern from "qtrait/evolve_qtrait_sampler.hpp" namespace "fwdpy::qtrait" no
 				                                      const int sample,
 				                                      const region_manager * rm)
 
+    vector[map[string,vector[double]]] evolve_qtrait_track_async( GSLrng_t * rng,
+                                                                  vector[shared_ptr[singlepop_t]] * pops,
+				                                  const unsigned * Nvector,
+				                                  const size_t Nvector_length,
+				                                  const double mu_neutral,
+				                                  const double mu_selected,
+				                                  const double littler,
+				                                  const double f,
+				                                  const double sigmaE,
+				                                  const double optimum,
+				                                  const double VS,
+				                                  const int track,
+				                                  const region_manager * rm)
+
     void evolve_gbr_no_sampling_async( GSLrng_t * rng,
                                        vector[shared_ptr[singlepop_t]] * pops,
 				       const unsigned * Nvector,
@@ -85,8 +100,8 @@ cdef extern from "qtrait/evolve_qtrait_sampler.hpp" namespace "fwdpy::qtrait" no
     
     
     vector[vector[pair[uint,detailed_deme_sample]]] evolve_gbr_sample_async( GSLrng_t * rng,
-                                                                            vector[shared_ptr[singlepop_t]] * pops,
-				                                            const unsigned * Nvector,
+                                                                             vector[shared_ptr[singlepop_t]] * pops,
+				                                             const unsigned * Nvector,
 				                                             const size_t Nvector_length,
 				                                             const double mu_neutral,
 				                                             const double mu_selected,
@@ -112,6 +127,21 @@ cdef extern from "qtrait/evolve_qtrait_sampler.hpp" namespace "fwdpy::qtrait" no
 				                                   const double VS,
 				                                   const int sample,
 				                                   const region_manager * rm)
+
+    vector[map[string,vector[double]]] evolve_gbr_track_async( GSLrng_t * rng,
+                                                               vector[shared_ptr[singlepop_t]] * pops,
+				                               const unsigned * Nvector,
+				                               const size_t Nvector_length,
+				                               const double mu_neutral,
+				                               const double mu_selected,
+				                               const double littler,
+				                               const double f,
+				                               const double sigmaE,
+				                               const double optimum,
+				                               const double VS,
+				                               const int track,
+				                               const region_manager * rm)
+    
 include "evolve_qtraits.pyx"
 include "ew2010.pyx"
 include "misc.pyx"

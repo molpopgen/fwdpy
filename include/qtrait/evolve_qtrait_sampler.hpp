@@ -195,9 +195,24 @@ namespace fwdpy
 				const unsigned nsam,
 				const internal::region_manager * rm);
 
-    //Track
+    //Track VG, etc.
     std::vector<pop_properties::final_t>
     evolve_qtrait_popstats_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+				  const unsigned * Nvector,
+				  const size_t Nvector_length,
+				  const double mu_neutral,
+				  const double mu_selected,
+				  const double littler,
+				  const double f,
+				  const double sigmaE,
+				  const double optimum,
+				  const double VS,
+				  const int sample,
+				  const internal::region_manager * rm);
+    
+    //track mutation frequencies
+    std::vector<get_selected_mut_data::final_t>
+    evolve_qtrait_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,
 			       const double mu_neutral,
@@ -207,7 +222,7 @@ namespace fwdpy
 			       const double sigmaE,
 			       const double optimum,
 			       const double VS,
-			       const int sample,
+			       const int track,
 			       const internal::region_manager * rm);
 
     void evolve_gbr_no_sampling_async( GSLrng_t * rng,
@@ -239,7 +254,7 @@ namespace fwdpy
 			     const unsigned nsam,
 			     const internal::region_manager * rm);
 
-    //Track
+    //Track VG, etc.
     std::vector<pop_properties::final_t>
     evolve_gbr_popstats_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
@@ -252,6 +267,21 @@ namespace fwdpy
 			       const double optimum,
 			       const double VS,
 			       const int sample,
+			       const internal::region_manager * rm);
+
+    //track mutation frequencies
+    std::vector<get_selected_mut_data::final_t>
+    evolve_gbr_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+			       const unsigned * Nvector,
+			       const size_t Nvector_length,
+			       const double mu_neutral,
+			       const double mu_selected,
+			       const double littler,
+			       const double f,
+			       const double sigmaE,
+			       const double optimum,
+			       const double VS,
+			       const int track,
 			       const internal::region_manager * rm);
   }
 }

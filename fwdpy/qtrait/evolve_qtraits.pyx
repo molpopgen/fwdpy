@@ -61,18 +61,18 @@ def evolve_qtrait(GSLrng rng,
 
 @cython.boundscheck(False)
 def evolve_qtrait_more(GSLrng rng,
-                    popvec pops,
-                    unsigned[:] nlist,
-                    double mu_neutral,
-                    double mu_selected,
-                    double recrate,
-                    list nregions,
-                    list sregions,
-                    list recregions,
-                    double sigmaE,
-                    double optimum = 0.,
-                    double f = 0.,
-                    double VS = 1,):
+                       popvec pops,
+                       unsigned[:] nlist,
+                       double mu_neutral,
+                       double mu_selected,
+                       double recrate,
+                       list nregions,
+                       list sregions,
+                       list recregions,
+                       double sigmaE,
+                       double optimum = 0.,
+                       double f = 0.,
+                       double VS = 1,):
     """
     Continue to evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.
 
@@ -98,8 +98,8 @@ def evolve_qtrait_more(GSLrng rng,
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+        rmgr = region_manager_wrapper()
+        internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef unsigned listlen = len(nlist)
     with nogil:
         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
@@ -160,7 +160,34 @@ def evolve_qtrait_popstats(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     return evolve_qtrait_popstats_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackStats,
-                                      rmgr.thisptr)
+                                        rmgr.thisptr)
+
+def evolve_qtrait_track(GSLrng rng,
+                        popvec pops,
+                        unsigned[:] nlist,
+                        double mu_neutral,
+                        double mu_selected,
+                        double recrate,
+                        list nregions,
+                        list sregions,
+                        list recregions,
+                        double sigmaE,
+                        int track,
+                        double optimum = 0.,
+                        double f = 0.,
+                        double VS = 1):
+    fwdpy.check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
+    check_input_params(sigmaE,VS)
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
+    if track < 0:
+        raise RuntimeError("trackSamples must be >= 0.")
+
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    return evolve_qtrait_track_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
+                                     rmgr.thisptr)
 
 #Below are functions related to the 'gene-based' recessive models of doi:10.1371/journal.pgen.1003258
 
@@ -178,19 +205,19 @@ def check_gbr_sdist(sregions):
         
 @cython.boundscheck(False)
 def evolve_gbr(GSLrng rng,
-                  int npops,
-                  int N,
-                  unsigned[:] nlist,
-                  double mu_neutral,
-                  double mu_selected,
-                  double recrate,
-                  list nregions,
-                  list sregions,
-                  list recregions,
-                  double sigmaE,
-                  double optimum = 0.,
-                  double f = 0.,
-                  double VS=1,):    
+               int npops,
+               int N,
+               unsigned[:] nlist,
+               double mu_neutral,
+               double mu_selected,
+               double recrate,
+               list nregions,
+               list sregions,
+               list recregions,
+               double sigmaE,
+               double optimum = 0.,
+               double f = 0.,
+               double VS=1,):    
     fwdpy.check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     check_gbr_sdist(sregions)
     check_input_params(sigmaE,VS)
@@ -204,7 +231,7 @@ def evolve_gbr(GSLrng rng,
     cdef unsigned listlen = len(nlist)
     with nogil:
         evolve_gbr_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
-                                        rmgr.thisptr)
+                                     rmgr.thisptr)
     return pops
 
 @cython.boundscheck(False)
@@ -241,19 +268,19 @@ def evolve_gbr_sample(GSLrng rng,
 
 @cython.boundscheck(False)
 def evolve_gbr_popstats(GSLrng rng,
-                           popvec pops,
-                           unsigned[:] nlist,
-                           double mu_neutral,
-                           double mu_selected,
-                           double recrate,
-                           list nregions,
-                           list sregions,
-                           list recregions,
-                           double sigmaE,
-                           int trackStats,
-                           double optimum = 0.,
-                           double f = 0.,
-                           double VS = 1):
+                        popvec pops,
+                        unsigned[:] nlist,
+                        double mu_neutral,
+                        double mu_selected,
+                        double recrate,
+                        list nregions,
+                        list sregions,
+                        list recregions,
+                        double sigmaE,
+                        int trackStats,
+                        double optimum = 0.,
+                        double f = 0.,
+                        double VS = 1):
     fwdpy.check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     check_gbr_sdist(sregions)
     check_input_params(sigmaE,VS)
@@ -266,4 +293,33 @@ def evolve_gbr_popstats(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     return evolve_gbr_popstats_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackStats,
-                                      rmgr.thisptr)
+                                     rmgr.thisptr)
+
+@cython.boundscheck(False)
+def evolve_gbr_track(GSLrng rng,
+                     popvec pops,
+                     unsigned[:] nlist,
+                     double mu_neutral,
+                     double mu_selected,
+                     double recrate,
+                     list nregions,
+                     list sregions,
+                     list recregions,
+                     double sigmaE,
+                     int track,
+                     double optimum = 0.,
+                     double f = 0.,
+                     double VS = 1):
+    fwdpy.check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
+    check_gbr_sdist(sregions)
+    check_input_params(sigmaE,VS)
+    if f < 0.:
+        warnings.warn("f < 0 will be treated as 0")
+        f=0
+    if track < 0:
+        raise RuntimeError("trackSamples must be >= 0.")
+
+    rmgr = region_manager_wrapper()
+    internal.make_region_manager(rmgr,nregions,sregions,recregions)
+    return evolve_gbr_track_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
+                                  rmgr.thisptr)
