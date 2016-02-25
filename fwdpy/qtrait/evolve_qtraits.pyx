@@ -88,8 +88,6 @@ def evolve_qtrait_more(GSLrng rng,
     :param recregions: A list specifying how the genetic map varies along the region
     :param sigmaE: The standard deviation in random variation to add to trait value
     :param optimum: The optimum trait value.
-    :param track: whether or not to record the frequency trajectories of mutations.  If value is x > 0, values are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
-    :param trackStats: whether or not to track VG, etc.  If value is x > 0, stats are recorded every x generations.  Values < 0 result in a RuntimeError being raised.
     :param f: The selfing probabilty
     :param VS: The variance in the Gaussian fitness function.  Under certaing strong assumtions, :math:`V(G) \approx 4\times\mu\timesV(S)`, where :math:`\mu` is mu_selected.
 
