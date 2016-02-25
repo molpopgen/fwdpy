@@ -531,3 +531,40 @@ def view_diploids_pd( object p, list indlist, bint selectedOnly = True ):
         return [pd.DataFrame(i) for i in view_diploids_pd_popvec(p,indlist,selectedOnly)]
     elif isinstance(p,singlepop):
         return pd.DataFrame( view_diploids_pd_singlepop(p,indlist,selectedOnly) )
+
+cdef diploid_traits_popvec(popvec p):
+    rv = []
+
+    for i in p:
+        temp=[]
+        for j in range(i.pop.get().diploids.size()):
+            temp.append( {'g':i.pop.get().diploids[j].g,
+                          'e':i.pop.get().diploids[j].e,
+                          'w':i.pop.get().diploids[j].w} );
+        rv.append(temp)
+    return rv
+
+cdef diploid_traits_mpopvec(mpopvec p,deme):
+    rv = []
+    
+    for i in p:
+        temp=[]
+        for j in range(i.pop.get().diploids[deme].size()):
+            temp.append( {'g':i.pop.get().diploids[deme][j].g,
+                          'e':i.pop.get().diploids[deme][j].e,
+                          'w':i.pop.get().diploids[deme][j].w} );
+        rv.append(temp)
+    return rv
+
+def diploid_traits( object p, deme = None ):
+    """
+    Return genetic value (g), environmental value (e), and fitness (w) for all diploids.
+
+    .. note:: "Standard population genetic" models do not update these values during simulation.
+    """
+    if isinstance(p,popvec):
+        return diploid_traits_popvec(p)
+    elif isinstance(p,mpopvec):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return diploid_traits_mpopvec(p,deme)
