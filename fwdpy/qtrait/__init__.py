@@ -1,1 +1,1 @@
-from qtrait import *
+from .qtrait import *
