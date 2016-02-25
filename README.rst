@@ -190,7 +190,7 @@ To build the package in place and run the unit tets:
    $ #build package locally:
    $ python setup.py build_ext -i
    $ #run the unit tests:
-   $ python -m unittest discover unit_test
+   $ python -m unittest discover fwdpy/tests
 
 Dependencies in non-standard locations
 ----------------------------------------------------------------------------------------
