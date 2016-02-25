@@ -532,29 +532,29 @@ def view_diploids_pd( object p, list indlist, bint selectedOnly = True ):
     elif isinstance(p,singlepop):
         return pd.DataFrame( view_diploids_pd_singlepop(p,indlist,selectedOnly) )
 
-cdef diploid_traits_popvec(popvec p):
-    rv = []
+cdef diploid_traits_singlepop(singlepop p):
+    rv=[]
+    for i in range(p.pop.get().diploids.size()):
+        rv.append( {'g':p.pop.get().diploids[i].g,
+                    'e':p.pop.get().diploids[i].e,
+                    'w':p.pop.get().diploids[i].w} )
+        
+    return rv;
 
-    for i in p:
-        temp=[]
-        for j in range(i.pop.get().diploids.size()):
-            temp.append( {'g':i.pop.get().diploids[j].g,
-                          'e':i.pop.get().diploids[j].e,
-                          'w':i.pop.get().diploids[j].w} );
-        rv.append(temp)
-    return rv
+cdef diploid_traits_popvec(popvec p):
+    return [diploid_traits_singlepop(i) for i in p]
+
+cdef diploid_traits_mpop(metapop m, deme):
+    if deme > m.mpop.get().diploids.size():
+        raise RuntimeError("deme value out of range")
+    rv=[]
+    for i in range(m.mpop.get().diploids[deme].size()):
+        rv.append( {'g':m.mpop.get().diploids[deme][i].g,
+                    'e':m.mpop.get().diploids[deme][i].e,
+                    'w':m.mpop.get().diploids[deme][i].w} )
 
 cdef diploid_traits_mpopvec(mpopvec p,deme):
-    rv = []
-    
-    for i in p:
-        temp=[]
-        for j in range(i.pop.get().diploids[deme].size()):
-            temp.append( {'g':i.pop.get().diploids[deme][j].g,
-                          'e':i.pop.get().diploids[deme][j].e,
-                          'w':i.pop.get().diploids[deme][j].w} );
-        rv.append(temp)
-    return rv
+    return [diploid_traits_mpop(i,deme) for i in p]
 
 def diploid_traits( object p, deme = None ):
     """
