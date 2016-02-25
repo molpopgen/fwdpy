@@ -69,7 +69,49 @@ cdef extern from "qtrait/evolve_qtrait_sampler.hpp" namespace "fwdpy::qtrait" no
 				                                      const double VS,
 				                                      const int sample,
 				                                      const region_manager * rm)
+
+    void evolve_gbr_no_sampling_async( GSLrng_t * rng,
+                                       vector[shared_ptr[singlepop_t]] * pops,
+				       const unsigned * Nvector,
+				       const size_t Nvector_length,
+				       const double mu_neutral,
+				       const double mu_selected,
+				       const double littler,
+				       const double f,
+				       const double sigmaE,
+				       const double optimum,
+				       const double VS,
+				       const region_manager * rm)
     
+    
+    vector[vector[pair[uint,detailed_deme_sample]]] evolve_gbr_sample_async( GSLrng_t * rng,
+                                                                            vector[shared_ptr[singlepop_t]] * pops,
+				                                            const unsigned * Nvector,
+				                                             const size_t Nvector_length,
+				                                             const double mu_neutral,
+				                                             const double mu_selected,
+				                                             const double littler,
+				                                             const double f,
+				                                             const double sigmaE,
+				                                             const double optimum,
+				                                             const double VS,
+				                                             const int sample,
+				                                             const unsigned nsam,
+				                                             const region_manager * rm)
+
+    vector[vector[qtrait_stats_cython]] evolve_gbr_popstats_async( GSLrng_t * rng,
+                                                                   vector[shared_ptr[singlepop_t]] * pops,
+				                                   const unsigned * Nvector,
+				                                   const size_t Nvector_length,
+				                                   const double mu_neutral,
+				                                   const double mu_selected,
+				                                   const double littler,
+				                                   const double f,
+				                                   const double sigmaE,
+				                                   const double optimum,
+				                                   const double VS,
+				                                   const int sample,
+				                                   const region_manager * rm)
 include "evolve_qtraits.pyx"
 include "ew2010.pyx"
 include "misc.pyx"

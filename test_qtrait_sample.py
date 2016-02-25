@@ -13,8 +13,8 @@ sigE=0.1
 k=0
 #2,000 replicates in 4-thread chunks
 PIK="qtrait_pickle.dat"
-NB=500
-NCORES=4
+NB=50
+NCORES=40
 NPIK=NCORES*NB
 f=gzip.open(PIK,"wb")
 N=1000
@@ -60,8 +60,8 @@ for i in range(NB):
                                       selmutregions,
                                       recregions,
                                       sigE,
-                                      trackSamples=int(sample_interval*N),nsam=20,
-                                      optimum=0.5)
+                                      trackSamples=int(sample_interval*N),nsam=50,
+                                      optimum=1.5)
     #with open(PIK,"ab") as f:
     for j in samples:
         pickle.dump(j,f)

@@ -198,17 +198,61 @@ namespace fwdpy
     //Track
     std::vector<pop_properties::final_t>
     evolve_qtrait_popstats_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-				  const unsigned * Nvector,
-				  const size_t Nvector_length,
-				  const double mu_neutral,
-				  const double mu_selected,
-				  const double littler,
-				  const double f,
-				  const double sigmaE,
-				  const double optimum,
-				  const double VS,
-				  const int sample,
-				  const internal::region_manager * rm);
+			       const unsigned * Nvector,
+			       const size_t Nvector_length,
+			       const double mu_neutral,
+			       const double mu_selected,
+			       const double littler,
+			       const double f,
+			       const double sigmaE,
+			       const double optimum,
+			       const double VS,
+			       const int sample,
+			       const internal::region_manager * rm);
+
+    void evolve_gbr_no_sampling_async( GSLrng_t * rng,
+				       std::vector<std::shared_ptr<singlepop_t> > * pops,
+				       const unsigned * Nvector,
+				       const size_t Nvector_length,
+				       const double mu_neutral,
+				       const double mu_selected,
+				       const double littler,
+				       const double f,
+				       const double sigmaE,
+				       const double optimum,
+				       const double VS,
+				       const internal::region_manager * rm);
+    
+    //Take samples over time
+    std::vector<sample_n::final_t>
+    evolve_gbr_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+			     const unsigned * Nvector,
+			     const size_t Nvector_length,
+			     const double mu_neutral,
+			     const double mu_selected,
+			     const double littler,
+			     const double f,
+			     const double sigmaE,
+			     const double optimum,
+			     const double VS,
+			     const int sample,
+			     const unsigned nsam,
+			     const internal::region_manager * rm);
+
+    //Track
+    std::vector<pop_properties::final_t>
+    evolve_gbr_popstats_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+			       const unsigned * Nvector,
+			       const size_t Nvector_length,
+			       const double mu_neutral,
+			       const double mu_selected,
+			       const double littler,
+			       const double f,
+			       const double sigmaE,
+			       const double optimum,
+			       const double VS,
+			       const int sample,
+			       const internal::region_manager * rm);
   }
 }
 
