@@ -2,11 +2,14 @@
 from cython.view cimport array as cvarray
 from cpython cimport array
 from cython.parallel import parallel, prange
-import warnings
+import warnings,math
 cimport cython
 
 def check_input_params(double mu_neutral, double mu_selected, double recrate,
                        list nregions, list sregions, list recregions) :
+    for i in [mu_neutral,mu_selected,recrate]:
+        if math.isnan(i) or math.isinf(i):
+            raise RuntimeError("non-finite value encountered for mutation and/or recombination rates")
     if mu_neutral < 0:
         raise RuntimeError("mutation rate to neutral variants must be >= 0.")
     if mu_selected < 0:
