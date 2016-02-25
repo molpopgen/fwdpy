@@ -575,4 +575,4 @@ def diploid_traits( object p, deme = None ):
             raise RuntimeError("deme cannot be None")
         return diploid_traits_mpopvec(p,deme)
     else:
-        raise RuntimeError("unsupported type")    
+        raise ValueError("unsupported type")    
