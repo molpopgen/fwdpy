@@ -63,6 +63,9 @@ Functions and classes
    :members:
    :show-inheritance:
 
+.. automodule:: fwdpy.qtrait.qtrait
+   :members:
+   :show-inheritance:
 
 
 
