@@ -562,9 +562,17 @@ def diploid_traits( object p, deme = None ):
 
     .. note:: "Standard population genetic" models do not update these values during simulation.
     """
+    if isinstance(p,singlepop):
+        return diploid_traits_singlepop(p)
+    elif isinstance(p,metapop):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return diploid_traits_mpop(p,deme)
     if isinstance(p,popvec):
         return diploid_traits_popvec(p)
     elif isinstance(p,mpopvec):
         if deme is None:
             raise RuntimeError("deme cannot be None")
         return diploid_traits_mpopvec(p,deme)
+    else:
+        raise RuntimeError("unsupported type")    
