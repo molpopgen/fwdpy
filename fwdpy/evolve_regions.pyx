@@ -1,7 +1,6 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 from cpython cimport array
-from cython.parallel import parallel, prange
 import warnings,math
 cimport cython
 
