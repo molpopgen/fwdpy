@@ -5,10 +5,10 @@
 
 struct selected_mut_data
 {
-  unsigned generation;
-  double pos,freq,esize;
-  explicit selected_mut_data(unsigned g,double p,double f,double e) :
-    generation(g),pos(p),freq(f),esize(e)
+  double pos,esize;
+  unsigned origin;
+  selected_mut_data(unsigned g,double p,double f,double e) :
+    origin(g),pos(p),esize(e)
   {
   }
 };

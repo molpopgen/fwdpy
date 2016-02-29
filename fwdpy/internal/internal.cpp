@@ -532,7 +532,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":222
+/* "fwdpy/fwdpy.pxd":221
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<

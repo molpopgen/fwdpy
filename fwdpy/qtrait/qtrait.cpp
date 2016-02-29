@@ -639,7 +639,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":222
+/* "fwdpy/fwdpy.pxd":221
  *         unsigned generation
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<

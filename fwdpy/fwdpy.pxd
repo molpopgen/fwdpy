@@ -210,7 +210,6 @@ cdef extern from "get_selected_mut_data.hpp" nogil:
     cdef struct selected_mut_data:
         unsigned generation
         double pos
-        double freq
         double esize
 
 cdef extern from "pop_properties.hpp" nogil:
