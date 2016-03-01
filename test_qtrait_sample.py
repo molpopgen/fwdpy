@@ -65,11 +65,17 @@ for i in range(NB):
                                       sigE,
                                       track=1,
                                       optimum=1.5)
-    for j in range(len(samples)):
-        df = pandas.concat([pandas.DataFrame(samples[j]),pandas.DataFrame(samples2[j])])
-        for name,group in df.groupby(['pos','esize']):
-            if group.freq.max() < 1:
-                if group.generation.max()-group.generation.min()>1:
-                    print REP," ",name[0]," ",name[1]," ",group.generation.min()," ",group.generation.max(),' ',group.freq.max(),' ',len(group.freq),' ',group.freq.iloc[-1]
-        REP+=1
+    samples = fp.merge_trajectories(samples,samples2)
+    ages = fp.allele_ages(samples)
+    for ai in ages:
+        d=pandas.DataFrame(ai)
+        print d[d['max_freq']==1]
+
+    # for j in range(len(samples)):
+    #     df = pandas.concat([pandas.DataFrame(samples[j]),pandas.DataFrame(samples2[j])])
+    #     for name,group in df.groupby(['pos','esize']):
+    #         if group.freq.max() < 1:
+    #             if group.generation.max()-group.generation.min()>1:
+    #                 print REP," ",name[0]," ",name[1]," ",group.generation.min()," ",group.generation.max(),' ',group.freq.max(),' ',len(group.freq),' ',group.freq.iloc[-1]
+    #     REP+=1
 #hdf.close()

@@ -4,6 +4,7 @@
 {
     "distutils": {
         "depends": [
+            "include/allele_ages.hpp", 
             "include/deps.hpp", 
             "include/evolve_regions.hpp", 
             "include/evolve_regions_sampler.hpp", 
@@ -316,6 +317,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "sample_n.hpp"
 #include "get_selected_mut_data.hpp"
 #include "pop_properties.hpp"
+#include "allele_ages.hpp"
 #include "evolve_regions_sampler.hpp"
 #include "fwdpyio/serialize.hpp"
 #ifdef _OPENMP
@@ -532,8 +534,8 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":221
- *         unsigned generation
+/* "fwdpy/fwdpy.pxd":235
+ *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
  * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:

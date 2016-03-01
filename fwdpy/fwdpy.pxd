@@ -208,16 +208,30 @@ cdef extern from "sample_n.hpp" nogil:
 
 cdef extern from "get_selected_mut_data.hpp" nogil:
     cdef struct selected_mut_data:
-        unsigned generation
         double pos
         double esize
+        unsigned origin
 
 cdef extern from "pop_properties.hpp" nogil:
     cdef struct qtrait_stats_cython:
         string stat
         double value
         unsigned generation
-        
+
+cdef extern from "allele_ages.hpp" nogil:
+    cdef struct allele_age_data_t:
+        double esize
+        double max_freq
+        unsigned origin
+        unsigned tlen
+
+cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
+    vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
+						   const double minfreq, const unsigned minsojourn ) except +
+    
+    vector[pair[selected_mut_data,vector[double]]] merge_trajectories_details( vector[pair[selected_mut_data,vector[double]]] traj1,
+                                                                               const vector[pair[selected_mut_data,vector[double]]] & traj2 )
+    
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
     void evolve_regions_no_sampling_async(GSLrng_t * rng,
@@ -244,15 +258,15 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                                                         const region_manager * rm,
                                                                         const char * fitness)
 
-    vector[map[string,vector[double]]] evolve_regions_track_async(GSLrng_t * rng,
-                                                                  vector[shared_ptr[singlepop_t]] * pops,
-                                                                  const unsigned * Nvector,
-                                                                  const size_t Nvector_len,
-                                                                  const double mu_neutral,
-                                                                  const double mu_selected,
-                                                                  const double littler,
-                                                                  const double f,
-                                                                  const int sample,
-                                                                  const region_manager * rm,
-                                                                  const char * fitness)
+    vector[vector[pair[selected_mut_data,vector[double]]]] evolve_regions_track_async(GSLrng_t * rng,
+                                                                                      vector[shared_ptr[singlepop_t]] * pops,
+                                                                                      const unsigned * Nvector,
+                                                                                      const size_t Nvector_len,
+                                                                                      const double mu_neutral,
+                                                                                      const double mu_selected,
+                                                                                      const double littler,
+                                                                                      const double f,
+                                                                                      const int sample,
+                                                                                      const region_manager * rm,
+                                                                                      const char * fitness)
 

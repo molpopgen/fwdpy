@@ -1,15 +1,27 @@
 #ifndef FWDPY_GET_SELECTED_MUT_DATA_HPP
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
 
+#include <limits>
 #include <types.hpp>
 
 struct selected_mut_data
 {
   double pos,esize;
   unsigned origin;
-  selected_mut_data(unsigned g,double p,double f,double e) :
-    origin(g),pos(p),esize(e)
+  selected_mut_data(unsigned g,double p,double e) :
+    pos(p),esize(e),origin(g)
   {
+  }
+  selected_mut_data() : pos(std::numeric_limits<double>::quiet_NaN()),
+			esize(std::numeric_limits<double>::quiet_NaN()),
+			origin(std::numeric_limits<unsigned>::max())
+  {
+  }
+  inline bool operator==(const selected_mut_data & rhs) const noexcept
+  {
+    return this->origin == rhs.origin &&
+      this->pos == rhs.pos &&
+      this->esize == rhs.esize;
   }
 };
 
@@ -18,7 +30,7 @@ namespace fwdpy
   class get_selected_mut_data //record info on selected mutations in population, including fixations
   {
   public:
-    using final_t = std::map<std::string,std::vector<double> >;
+    using final_t = std::vector< std::pair<selected_mut_data, std::vector<double> > >;
     inline void operator()(const singlepop_t * pop,gsl_rng * ,
 			   const unsigned)
     {
@@ -51,25 +63,15 @@ namespace fwdpy
     
     final_t final() const
     {
-      std::vector<double> pos,freq,s;
-      std::vector<double> generations;
-      for( auto itr = this->trajectories.cbegin() ;
-	   itr != this->trajectories.cend() ; ++itr )
+      final_t rv;
+      for( const auto & i : trajectories )
 	{
-	  std::vector<unsigned> times(itr->second.size());
-	  unsigned itime = std::get<static_cast<std::size_t>(traj_key_values::origin)>(itr->first);
-	  generate(times.begin(),times.end(),[&itime]{ return itime++; });
-	  generations.insert(generations.end(),times.begin(),times.end());
-	  fill_n(std::back_inserter(pos),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::pos)>(itr->first));
-	  fill_n(std::back_inserter(s),itr->second.size(),std::get<static_cast<std::size_t>(traj_key_values::esize)>(itr->first));
-	  std::copy(itr->second.begin(),itr->second.end(),back_inserter(freq));
+	  rv.emplace_back( std::make_pair( selected_mut_data(std::get<static_cast<std::size_t>(traj_key_values::origin)>(i.first),
+							     std::get<static_cast<std::size_t>(traj_key_values::pos)>(i.first),
+							     std::get<static_cast<std::size_t>(traj_key_values::esize)>(i.first)),
+					   i.second) );
 	}
-      return final_t{
-	{"pos",std::move(pos)},
-	  {"freq",std::move(freq)},
-	    {"generation",std::move(generations)},
-	      {"esize",std::move(s)}
-      };
+      return rv;
     }
     
     explicit get_selected_mut_data() : trajectories(trajectories_t())
