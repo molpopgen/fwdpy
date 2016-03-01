@@ -67,10 +67,16 @@ for i in range(NB):
                                       optimum=1.5)
     samples = fp.merge_trajectories(samples,samples2)
     ages = fp.allele_ages(samples)
+    F=[]  
     for ai in ages:
         d=pandas.DataFrame(ai)
-        print d[d['max_freq']==1]
-
+        d['replicate']=[REP]*len(d.index)
+        fixed = d[d['max_freq']==1]
+        print type(fixed)
+        F.append(fixed)
+        REP+=1
+    print pandas.concat(F)
+    quit()
     # for j in range(len(samples)):
     #     df = pandas.concat([pandas.DataFrame(samples[j]),pandas.DataFrame(samples2[j])])
     #     for name,group in df.groupby(['pos','esize']):

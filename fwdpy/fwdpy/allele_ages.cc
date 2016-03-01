@@ -23,7 +23,7 @@ namespace fwdpy
 	    auto mfi = max_element(t.second.begin(),t.second.end());
 	    if (*mfi >= minfreq) //it hit the right minimum frequency
 	      {
-		rv.emplace_back(t.first.esize,*mfi,t.first.origin,t.second.size());
+		rv.emplace_back(t.first.esize,*mfi,t.second.back(),t.first.origin,t.second.size());
 	      }
 	  }
       }

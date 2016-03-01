@@ -645,7 +645,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":235
+/* "fwdpy/fwdpy.pxd":236
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -2309,6 +2309,7 @@ static char __pyx_k_ancestral[] = "ancestral";
 static char __pyx_k_check_sum[] = "check_sum";
 static char __pyx_k_enumerate[] = "enumerate";
 static char __pyx_k_genotypes[] = "genotypes";
+static char __pyx_k_last_freq[] = "last_freq";
 static char __pyx_k_metaclass[] = "__metaclass__";
 static char __pyx_k_ms_sample[] = "ms_sample";
 static char __pyx_k_serialize[] = "serialize";
@@ -2819,6 +2820,7 @@ static PyObject *__pyx_n_s_isinf;
 static PyObject *__pyx_n_s_isnan;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
+static PyObject *__pyx_n_s_last_freq;
 static PyObject *__pyx_kp_s_len_nlist1_must_equal_len_nlist2;
 static PyObject *__pyx_n_s_lines;
 static PyObject *__pyx_n_s_listlen;
@@ -45219,6 +45221,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_isnan, __pyx_k_isnan, sizeof(__pyx_k_isnan), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
+  {&__pyx_n_s_last_freq, __pyx_k_last_freq, sizeof(__pyx_k_last_freq), 0, 0, 1, 1},
   {&__pyx_kp_s_len_nlist1_must_equal_len_nlist2, __pyx_k_len_nlist1_must_equal_len_nlist2, sizeof(__pyx_k_len_nlist1_must_equal_len_nlist2), 0, 0, 1, 0},
   {&__pyx_n_s_lines, __pyx_k_lines, sizeof(__pyx_k_lines), 0, 0, 1, 1},
   {&__pyx_n_s_listlen, __pyx_k_listlen, sizeof(__pyx_k_listlen), 0, 0, 1, 1},
@@ -52663,6 +52666,9 @@ static PyObject* __pyx_convert__to_py_detailed_deme_sample(struct detailed_deme_
                   Py_DECREF(member);
                   member = PyFloat_FromDouble(s.max_freq); if (member == NULL) goto bad;
                   if (PyDict_SetItem(res, __pyx_n_s_max_freq, member) < 0) goto bad;
+                  Py_DECREF(member);
+                  member = PyFloat_FromDouble(s.last_freq); if (member == NULL) goto bad;
+                  if (PyDict_SetItem(res, __pyx_n_s_last_freq, member) < 0) goto bad;
                   Py_DECREF(member);
                   member = __Pyx_PyInt_From_unsigned_int(s.origin); if (member == NULL) goto bad;
                   if (PyDict_SetItem(res, __pyx_n_s_origin, member) < 0) goto bad;

@@ -7,19 +7,22 @@
 //NAMESPACE POLLUTION
 struct allele_age_data_t
 {
-  double esize,max_freq;
+  double esize,max_freq,last_freq;
   unsigned origin,tlen;
   allele_age_data_t( double e,
 		     double mf,
+		     double lf,
 		     unsigned o,
 		     unsigned t ) : esize(e),
 				    max_freq(mf),
+				    last_freq(lf),
 				    origin(o),
 				    tlen(t)
   {
   }
   allele_age_data_t() : esize(std::numeric_limits<double>::quiet_NaN()),
 			max_freq(std::numeric_limits<double>::quiet_NaN()),
+			last_freq(std::numeric_limits<double>::quiet_NaN()),
 			origin(std::numeric_limits<unsigned>::max()),
 			tlen(std::numeric_limits<unsigned>::max())
   {

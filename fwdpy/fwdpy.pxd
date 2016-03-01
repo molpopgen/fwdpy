@@ -222,6 +222,7 @@ cdef extern from "allele_ages.hpp" nogil:
     cdef struct allele_age_data_t:
         double esize
         double max_freq
+        double last_freq
         unsigned origin
         unsigned tlen
 
