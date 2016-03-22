@@ -124,6 +124,12 @@ For brew users, you may or may not have luck with their version of fwdpp.  That 
 
 The required Python package dependencies are in the requirements.txt file that comes with the source.
 
+Anaconda (and OS X, again...)
+------------------------------------
+
+Users have run into issues getting fwdpy working with Anaconda-based Python installations.  In fact, I've been unable to get the package to compile on OS X using Anaconda.  I recommend that OS X users use Python3 installed bia Homebrew in lieu of Anaconda.
+
+
 What Python version?
 ==================================
 
