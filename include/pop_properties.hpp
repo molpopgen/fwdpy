@@ -29,7 +29,7 @@ struct qtrait_stats_cython
 };
 
 namespace fwdpy {
-  using qtrait_stats_t = std::vector<std::array<double,9>>;
+  using qtrait_stats_t = std::vector<std::array<double,10>>;
 
   class pop_properties
   {
@@ -78,15 +78,27 @@ namespace fwdpy {
             }
         }
 
+      //Eq'n 5 from Zhang et al (2004) Genetics 166: 597
+      auto VG_ = gsl_stats_variance(VG.data(),1,VG.size());
+      auto meanTrait = gsl_stats_mean(trait.data(),1,trait.size());
+      auto kurtosis_trait = gsl_stats_kurtosis(trait.data(),1,trait.size());
+      /*
+	Transform based on squared deviation from mean trait value.
+
+	Really, this should be the optimum, but the API isn't allowing that right now...
+      */
+      std::transform(trait.begin(),trait.end(),trait.begin(),[meanTrait](const double d){ return std::pow(d-meanTrait,2.0);});
+      double vst=(kurtosis_trait+3.0+2*std::pow(VG_,2.0))*2*gsl_stats_covariance(wbar.data(),1,trait.data(),1,wbar.size());
       qstats.emplace_back(qtrait_stats_t::value_type{{double(generation),
-	      gsl_stats_variance(VG.data(),1,VG.size()),
+	      VG_,
 	      gsl_stats_variance(VE.data(),1,VE.size()),
 	      leading_f,
 	      leading_e,
 	      mvexpl,
 	      sum_e/double(nm),
 	      gsl_stats_mean(wbar.data(),1,wbar.size()),
-	      gsl_stats_mean(trait.data(),1,trait.size())}});
+	      meanTrait,
+	      vst}});
     }
 
     final_t final() const
@@ -102,13 +114,14 @@ namespace fwdpy {
 	  rv.emplace_back( "ebar", q[static_cast<size_t>(qtrait_stat_list::EBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "wbar", q[static_cast<size_t>(qtrait_stat_list::WBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "tbar", q[static_cast<size_t>(qtrait_stat_list::TBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "Vst", q[static_cast<size_t>(qtrait_stat_list::VST)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	}
       return rv;
     }
   
   private:
     qtrait_stats_t qstats;
-    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,TBAR };
+    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,TBAR,VST };
   };
 }
 #endif
