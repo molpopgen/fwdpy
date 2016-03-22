@@ -10,6 +10,7 @@ Tracking mutation frequencies
     import pandas as pd
     import matplotlib
     import matplotlib.pyplot as plt
+    import copy
 
 
 .. parsed-literal::
@@ -31,7 +32,22 @@ Run a simulation
     #Initialize a vector with 1 population of size N = 1,000
     pops=fp.popvec(1,1000)
     #Record mutation frequencies every generation
-    traj = [pd.DataFrame(i) for i in fp.evolve_regions_track(rng,pops,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)]
+    rawTraj=fp.evolve_regions_track(rng,pops,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)
+
+.. code:: python
+
+    ##Convert the raw trajectort data into a nicer pd.DataFrame
+    LD=[]
+    for i in rawTraj[0]:
+        I=int(0)
+        for j in i[1]:
+            x=copy.deepcopy(i[0])
+            x['freq']=j
+            x['generation']=i[0]['origin']+I
+            I+=1
+            LD.append(x)
+                   
+    traj=pd.DataFrame(LD)
 
 Group mutation trajectories by position and effect size
 -------------------------------------------------------
@@ -41,7 +57,7 @@ Max mutation frequencies
 
 .. code:: python
 
-    mfreq = traj[0].groupby(['pos','esize']).max().reset_index()
+    mfreq = traj.groupby(['pos','esize']).max().reset_index()
     #Print out info for all mutations that hit a frequency of 1 (e.g., fixed)
     mfreq[mfreq['freq']==1]
 
@@ -50,7 +66,7 @@ Max mutation frequencies
 
 .. raw:: html
 
-    <div>
+    <div style="max-height:1000px;max-width:1500px;overflow:auto;">
     <table border="1" class="dataframe">
       <thead>
         <tr style="text-align: right;">
@@ -59,15 +75,17 @@ Max mutation frequencies
           <th>esize</th>
           <th>freq</th>
           <th>generation</th>
+          <th>origin</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th>16467</th>
-          <td>1.817526</td>
-          <td>0.001171</td>
-          <td>1</td>
-          <td>4587</td>
+          <td> 1.817526</td>
+          <td> 0.001171</td>
+          <td> 1</td>
+          <td> 4587</td>
+          <td> 1547</td>
         </tr>
       </tbody>
     </table>
@@ -93,13 +111,13 @@ Frequency trajectory of fixations
     ax = plt.subplot(111)
     plt.xlabel("Time (generations)")
     plt.ylabel("Mutation frequency")
-    ax.set_xlim(traj[0]['generation'].min(),traj[0]['generation'].max())
+    ax.set_xlim(traj['generation'].min(),traj['generation'].max())
     for i in mpos:
-        plt.plot(traj[0][traj[0]['pos']==i]['generation'],traj[0][traj[0]['pos']==i]['freq'])
+        plt.plot(traj[traj['pos']==i]['generation'],traj[traj['pos']==i]['freq'])
 
 
 
-.. image:: trajectories_files/trajectories_10_0.png
+.. image:: trajectories_files/trajectories_11_0.png
 
 
 .. code:: python
@@ -116,109 +134,10 @@ Frequency trajectory of fixations
 
 .. parsed-literal::
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7fc1c93b2050>
+    <matplotlib.axes._subplots.AxesSubplot at 0x7f3125f0ef50>
 
 
 
 
-.. image:: trajectories_files/trajectories_11_1.png
+.. image:: trajectories_files/trajectories_12_1.png
 
-
-Reducing the memory footprint
------------------------------
-
-In cases of long simulations and/or large mutation rates and/or large
-population sizes, it can take a lot of RAM to track mutation
-frequencies.
-
-However, you do not have to keep all frequencies in memory!
-
-Let's do something better, and store them every 1,000 generations to an
-h5 file.
-
-.. code:: python
-
-    #Let's redo the simulation above, but with different variables, etc.
-    rng2= fp.GSLrng(201)
-    popsizes = np.array([1000],dtype=np.uint32)
-    ##Now, popsizes will be 10x smaller...
-    popsizes=np.tile(popsizes,1000)
-    #Evolve the first 'N' generations:
-    pops2 = fp.popvec(1,1000)
-    traj2 = [pd.DataFrame(i) for i in fp.evolve_regions_track(rng2,pops,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)]
-    
-    #open an hdf 5 file:
-    hdf = pd.HDFStore("trajectories.h5",'w')
-    hdf.open()
-    #Write the first set of trajectories
-    hdf.append('traj',traj2[0])
-
-.. code:: python
-
-    #Evolve for another 9N generations
-    #Update the h5 file after each chunk, and then clear out trajectories
-    for i in range(9):
-        traj2 = [pd.DataFrame(i) for i in fp.evolve_regions_track(rng2,pops2,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)]
-        hdf.append('traj',traj2[0])
-    
-    ##Close the h5 file
-    hdf.close()
-
-.. code:: python
-
-    ##Get the data frame out
-    traj2 = pd.read_hdf('trajectories.h5','traj')
-
-.. code:: python
-
-    len(traj[0])==len(traj2)
-
-
-
-
-.. parsed-literal::
-
-    False
-
-
-
-Why are the two objects not the same length?  We did the same thing, right, but in chunks the second time?  Well, not quite.
-
-Each time we call :func:`fwdpy.fwdpy.evolve_regions` and/or :func:`fwdpy.fwdpy.evolve_regions_more`, we are using the existing random number generator (RNG) to randomly seed RNGs for each thread.  Thus, the total number of calls to the global RNG (the variable called *rng2* in our code) differs from the number of calls to the *rng* variable above.
-
-.. code:: python
-
-    mfreq2 = traj2.groupby(['pos','esize']).max().reset_index()
-    #Print out info for all mutations that hit a frequency of 1 (e.g., fixed)
-    mfreq2[mfreq2['freq']==1]
-
-
-
-
-.. raw:: html
-
-    <div>
-    <table border="1" class="dataframe">
-      <thead>
-        <tr style="text-align: right;">
-          <th></th>
-          <th>pos</th>
-          <th>esize</th>
-          <th>freq</th>
-          <th>generation</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-    </div>
-
-
-
-See, no fixations this time!
-
-Conclusion
-~~~~~~~~~~
-
-You can run the simulation in chunks to save RAM, but you won't get the
-same result because this method uses the RNG differently.
