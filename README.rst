@@ -154,26 +154,27 @@ This section describes "vanilla" installation using the minimal dependencies.
 
 First, install the dependencies (see above).
 
-**OS X users need to do the following first:**
+**Special instructions for OS X users**
+
+All compiler commands below must be prefixed with:
 
 .. code-block:: bash
 
-   $ export CC=clang-omp
-   $ export CXX=clang-omp++
+   $ CC=clang-omp CXX=clang-omp++
 
-To install system-wide.
+This is currently necessary on OS X in order to use a version of clang that supports OpenMP protocols.
+
+Generic instructions:
+
+To install system-wide:
 
 .. code-block:: bash
-
-   $ ./configure
    $ sudo python setup.py install
 
 To install for your user:
 
 .. code-block:: bash
 
-   $ ./configure --prefix=$HOME
-   $ #yes, the prefix is needed again here...
    $ python setup.py install --prefix=$HOME
 
 To uninstall:
