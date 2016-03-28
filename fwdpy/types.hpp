@@ -11,25 +11,49 @@
 #include <gsl/gsl_statistics_double.h>
 
 namespace fwdpy {
+
+  /*!
+    Random number generator.
+
+    This is a std::unique_ptr wrapper to a gsl_rng * initialized
+    as a Mersenne twister type (gsl_rng_mt19937).
+   */
   using GSLrng_t = KTfwd::GSLrng_t<KTfwd::GSL_RNG_MT19937>;
 
+  //! Typedef for mutation container
   using mcont_t = std::vector<KTfwd::popgenmut>;
+  //! Typedef for gamete type
   using gamete_t = KTfwd::gamete;
+  //! Typedef for gamete container
   using gcont_t = std::vector<gamete_t>;
 
+  /*!
+    Custom diploid type
+   */
   struct diploid_t : public KTfwd::tags::custom_diploid_t
   {
     using first_type = std::size_t;
     using second_type = std::size_t;
+    //! First gamete
     first_type first;
+    //! Second gametes
     second_type second;
-    double g,e,w;
+    //! Genetic component of trait value
+    double g;
+    //! Random component of trait value
+    double e;
+    //! Fitness
+    double w;
+    //! Constructor
     diploid_t() noexcept : first(first_type()),second(second_type()),g(0.),e(0.),w(0.) {}
+    //! Construct from two indexes to gametes
     diploid_t(first_type g1, first_type g2) noexcept : first(g1),second(g2),g(0.),e(0.),w(0.) {}
   };
 
+  //! Typedef for container of diploids
   using dipvector_t = std::vector<diploid_t>;
 
+  //! Allows serialization of diploids
   struct diploid_writer
   {
     using result_type = void;
@@ -42,6 +66,7 @@ namespace fwdpy {
     }
   };
 
+  //! Allows de-serialization of diploids
   struct diploid_reader
   {
     using result_type = void;
