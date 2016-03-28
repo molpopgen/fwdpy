@@ -95,7 +95,7 @@ namespace fwdpy
 									
     }
 
-    std::vector<get_selected_mut_data::final_t>
+    std::vector<selected_mut_tracker::final_t>
     evolve_qtrait_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,
@@ -110,7 +110,7 @@ namespace fwdpy
 			       const internal::region_manager * rm)
     {
       qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<get_selected_mut_data,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
+      return evolve_qtrait_async_wrapper<selected_mut_tracker,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
 										   mu_neutral,mu_selected,littler,
 										   f,sigmaE,optimum,track,rm,rules);
     }
@@ -176,7 +176,7 @@ namespace fwdpy
 									
     }
 
-    std::vector<get_selected_mut_data::final_t>
+    std::vector<selected_mut_tracker::final_t>
     evolve_gbr_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			    const unsigned * Nvector,
 			    const size_t Nvector_length,
@@ -191,7 +191,7 @@ namespace fwdpy
 			    const internal::region_manager * rm)
     {
       gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<get_selected_mut_data,gbr_model_rules>(rng,pops,Nvector,Nvector_length,
+      return evolve_qtrait_async_wrapper<selected_mut_tracker,gbr_model_rules>(rng,pops,Nvector,Nvector_length,
 										mu_neutral,mu_selected,littler,
 										f,sigmaE,optimum,track,rm,rules);
 									

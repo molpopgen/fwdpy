@@ -12,9 +12,9 @@
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
 
-#include <sample_n.hpp>
-#include <get_selected_mut_data.hpp>
-#include <pop_properties.hpp>
+#include <sampler_pop_properties.hpp>
+#include <sampler_sample_n.hpp>
+#include <sampler_selected_mut_tracker.hpp>
 
 namespace fwdpy
 {
@@ -212,7 +212,7 @@ namespace fwdpy
 				  const internal::region_manager * rm);
     
     //track mutation frequencies
-    std::vector<get_selected_mut_data::final_t>
+    std::vector<selected_mut_tracker::final_t>
     evolve_qtrait_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,
@@ -271,7 +271,7 @@ namespace fwdpy
 			       const internal::region_manager * rm);
 
     //track mutation frequencies
-    std::vector<get_selected_mut_data::final_t>
+    std::vector<selected_mut_tracker::final_t>
     evolve_gbr_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,

@@ -2,7 +2,7 @@
 #define FWDPY_ALLELE_AGES_HPP
 
 #include <limits>
-#include <get_selected_mut_data.hpp>
+#include <sampler_selected_mut_tracker.hpp>
 
 //NAMESPACE POLLUTION
 struct allele_age_data_t
@@ -31,7 +31,7 @@ struct allele_age_data_t
 
 namespace fwdpy
 {
-  std::vector< allele_age_data_t > allele_ages_details( const get_selected_mut_data::final_t & trajectories,
+  std::vector< allele_age_data_t > allele_ages_details( const selected_mut_tracker::final_t & trajectories,
 							const double minfreq, const unsigned minsojourn );
 
   /*
@@ -40,8 +40,8 @@ namespace fwdpy
     traj1 is a "source" that will "sink" into a copy via std::move, hence the
     expensive-looking prototype :)
   */
-  get_selected_mut_data::final_t merge_trajectories_details( get_selected_mut_data::final_t traj1,
-							     const get_selected_mut_data::final_t & traj2 );
+  selected_mut_tracker::final_t merge_trajectories_details( selected_mut_tracker::final_t traj1,
+							    const selected_mut_tracker::final_t & traj2 );
 }
 
 #endif

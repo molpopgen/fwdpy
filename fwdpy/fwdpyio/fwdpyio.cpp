@@ -9,13 +9,13 @@
             "include/evolve_regions.hpp", 
             "include/evolve_regions_sampler.hpp", 
             "include/fwdpyio_serialize.hpp", 
-            "include/get_selected_mut_data.hpp", 
             "include/internal_callbacks.hpp", 
             "include/internal_region_manager.hpp", 
             "include/metapop.hpp", 
-            "include/pop_properties.hpp", 
             "include/sample.hpp", 
-            "include/sample_n.hpp", 
+            "include/sampler_pop_properties.hpp", 
+            "include/sampler_sample_n.hpp", 
+            "include/sampler_selected_mut_tracker.hpp", 
             "include/types.hpp"
         ], 
         "extra_compile_args": [
@@ -314,9 +314,9 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "deps.hpp"
 #include "metapop.hpp"
 #include "evolve_regions.hpp"
-#include "sample_n.hpp"
-#include "get_selected_mut_data.hpp"
-#include "pop_properties.hpp"
+#include "sampler_sample_n.hpp"
+#include "sampler_selected_mut_tracker.hpp"
+#include "sampler_pop_properties.hpp"
 #include "allele_ages.hpp"
 #include "evolve_regions_sampler.hpp"
 #include "fwdpyio_serialize.hpp"

@@ -27,7 +27,7 @@ struct selected_mut_data
 
 namespace fwdpy
 {
-  class get_selected_mut_data //record info on selected mutations in population, including fixations
+  class selected_mut_tracker //record info on selected mutations in population, including fixations
   {
   public:
     using final_t = std::vector< std::pair<selected_mut_data, std::vector<double> > >;
@@ -74,7 +74,7 @@ namespace fwdpy
       return rv;
     }
     
-    explicit get_selected_mut_data() : trajectories(trajectories_t())
+    explicit selected_mut_tracker() : trajectories(trajectories_t())
     {
     }
   private:

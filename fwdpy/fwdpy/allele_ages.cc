@@ -5,7 +5,7 @@ using namespace std;
 
 namespace fwdpy
 {
-  vector< allele_age_data_t > allele_ages_details( const get_selected_mut_data::final_t & trajectories,
+  vector< allele_age_data_t > allele_ages_details( const selected_mut_tracker::final_t & trajectories,
 						   const double minfreq, const unsigned minsojourn )
   {
     if(minfreq<0.0) throw runtime_error("minfreq must be >= 0.0");
@@ -30,13 +30,13 @@ namespace fwdpy
     return rv;
   }
 
-  get_selected_mut_data::final_t merge_trajectories_details( get_selected_mut_data::final_t traj1,
-							     const get_selected_mut_data::final_t & traj2 )
+  selected_mut_tracker::final_t merge_trajectories_details( selected_mut_tracker::final_t traj1,
+							     const selected_mut_tracker::final_t & traj2 )
   {
     auto rv(move(traj1));
     for( const auto & t : traj2 )
       {
-	auto x = std::find_if(rv.begin(),rv.end(),[&t](const get_selected_mut_data::final_t::value_type & xi)
+	auto x = std::find_if(rv.begin(),rv.end(),[&t](const selected_mut_tracker::final_t::value_type & xi)
 			      {
 				return xi.first==t.first;
 			      });

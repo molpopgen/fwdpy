@@ -12,8 +12,9 @@
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
 
-#include <sample_n.hpp>
-#include <get_selected_mut_data.hpp>
+#include <sampler_pop_properties.hpp>
+#include <sampler_sample_n.hpp>
+#include <sampler_selected_mut_tracker.hpp>
 
 namespace fwdpy
 {
@@ -228,7 +229,7 @@ namespace fwdpy
 			       const char * fitness);
 
   //This function will use moves to collapse the ugly return type to something nicer
-  std::vector<get_selected_mut_data::final_t>
+  std::vector<selected_mut_tracker::final_t>
   evolve_regions_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			      const unsigned * Nvector,
 			      const size_t Nvector_length,

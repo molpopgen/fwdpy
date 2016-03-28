@@ -38,7 +38,7 @@ namespace fwdpy
 								 rm,fitness,std::forward<decltype(nsam)>(nsam));
   }
 
-  std::vector<get_selected_mut_data::final_t>
+  std::vector<selected_mut_tracker::final_t>
   evolve_regions_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 			      const unsigned * Nvector,
 			      const size_t Nvector_len,
@@ -50,7 +50,7 @@ namespace fwdpy
 			      const internal::region_manager * rm,
 			      const char * fitness)
   {
-    return evolve_regions_async_wrapper<get_selected_mut_data>(rng,pops,Nvector,Nvector_len,mu_neutral,mu_selected,littler,f,sample,
-							       rm,fitness);
+    return evolve_regions_async_wrapper<selected_mut_tracker>(rng,pops,Nvector,Nvector_len,mu_neutral,mu_selected,littler,f,sample,
+							      rm,fitness);
   }
 }
