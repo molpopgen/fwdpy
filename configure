@@ -3215,7 +3215,7 @@ pkgpyexecdir=\${pyexecdir}/$PACKAGE_NAME
 
 
 
-ac_config_files="$ac_config_files Makefile setup.py conf.py"
+ac_config_files="$ac_config_files Makefile setup.py conf.py fwdpy.doxygen"
 
 
 
@@ -5290,6 +5290,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "setup.py") CONFIG_FILES="$CONFIG_FILES setup.py" ;;
     "conf.py") CONFIG_FILES="$CONFIG_FILES conf.py" ;;
+    "fwdpy.doxygen") CONFIG_FILES="$CONFIG_FILES fwdpy.doxygen" ;;
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
