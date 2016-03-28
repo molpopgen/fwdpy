@@ -34,6 +34,7 @@ Changelog (rough)
   minimal set of API requirements.
 * Fixed a bug in "mutation views"
 * Better parameter checking for various "evolve" functions
+* Source code re-organized so that all header files are installed
 
 Features:
 ===========
@@ -330,6 +331,15 @@ Documentation
 
 The manual_ is available online in html format at the project web page.
 
+The API documentation may also be build using doxygen_:
+
+.. code-block:: bash
+
+   $ ./configure
+   $ doxygen fwdpy.doxygen
+
+Then, load html/index.html in your browser.
+
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _Cython: http://www.cython.org/
@@ -342,3 +352,4 @@ The manual_ is available online in html format at the project web page.
 .. _Tracking mutation frequencies: http://molpopgen.github.io/fwdpy/_build/html/examples/trajectories.html
 .. _PyPi: https://pypi.python.org
 .. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
+.. _doxygen: http:://doxygen.org
