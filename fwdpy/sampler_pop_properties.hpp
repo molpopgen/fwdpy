@@ -88,7 +88,7 @@ namespace fwdpy {
 	Really, this should be the optimum, but the API isn't allowing that right now...
       */
       std::transform(trait.begin(),trait.end(),trait.begin(),[meanTrait](const double d){ return std::pow(d-meanTrait,2.0);});
-      double vst=(kurtosis_trait+3.0+2*std::pow(VG_,2.0))*2*gsl_stats_covariance(wbar.data(),1,trait.data(),1,wbar.size());
+      double vst=(kurtosis_trait+3.0+2*std::pow(VG_,2.0))/(2.0*gsl_stats_covariance(wbar.data(),1,trait.data(),1,wbar.size()));
       qstats.emplace_back(qtrait_stats_t::value_type{{double(generation),
 	      VG_,
 	      gsl_stats_variance(VE.data(),1,VE.size()),
