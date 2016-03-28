@@ -296,7 +296,7 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.4.5, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.4.7, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
@@ -352,4 +352,4 @@ Then, load html/index.html in your browser.
 .. _Tracking mutation frequencies: http://molpopgen.github.io/fwdpy/_build/html/examples/trajectories.html
 .. _PyPi: https://pypi.python.org
 .. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
-.. _doxygen: http:://doxygen.org
+.. _doxygen: http://doxygen.org
