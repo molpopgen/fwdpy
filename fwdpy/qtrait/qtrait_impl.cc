@@ -23,7 +23,7 @@
 #include <fwdpy/qtrait_evolve_rules.hpp>
 #include <fwdpy/qtrait_details.hpp>
 #include <fwdpy/qtrait_evolve.hpp>
-#include <fwdpy/no_sampling.hpp>
+#include <fwdpy/sampler_no_sampling.hpp>
 #include <gsl/gsl_statistics_double.h>
 
 using namespace std;

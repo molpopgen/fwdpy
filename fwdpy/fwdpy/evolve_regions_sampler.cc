@@ -2,7 +2,7 @@
 #include <iterator>
 #include <functional>
 #include <fwdpy/evolve_regions_sampler.hpp>
-#include <fwdpy/no_sampling.hpp>
+#include <fwdpy/sampler_no_sampling.hpp>
 
 using namespace std;
 
