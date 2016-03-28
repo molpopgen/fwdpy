@@ -1,18 +1,20 @@
+import os.path
+import internal
 import fwdpy
 
 ## These functions are intentionally undocumented
-def get_next_block_starts(list lines, int start):
+def get_next_block_starts( lines, start):
     nbloc = [i for i,j in enumerate(lines[start+1:]) if j[0]=='#']
     end = len(lines)
     if len(nbloc):
         end=nbloc[0]
     return end
 
-def parse_slim_mutrate(list lines):
+def parse_slim_mutrate(lines):
     start = lines.index("#MUTATION RATE")
     return float(lines[start+1])
         
-def parse_slim_muttypes(list lines):
+def parse_slim_muttypes(lines):
     start = lines.index("#MUTATION TYPES")
     end = get_next_block_starts(lines,start)
 
@@ -38,7 +40,7 @@ def parse_slim_muttypes(list lines):
             mtypes[t[0]] = t[1:]
     return mtypes
 
-def parse_slim_elements(list lines):
+def parse_slim_elements(lines):
     start = lines.index("#GENOMIC ELEMENT TYPES")
     end = get_next_block_starts(lines,start)
     gtypes = {}
@@ -51,7 +53,7 @@ def parse_slim_elements(list lines):
 
     return gtypes
 
-def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrate):
+def parse_slim_organization(lines,mtypes, elements, mutrate):
     start = lines.index("#CHROMOSOME ORGANIZATION")
     end = get_next_block_starts(lines,start)
     #need to get sum of all weights per mutation type
@@ -92,7 +94,7 @@ def parse_slim_organization(list lines,dict mtypes, dict elements, double mutrat
                 raise RuntimeError("invalid DFE encountered")
     return {'nregions':nregions,'sregions':sregions,'mu_neutral':mun,'mu_selected':mus}
 
-def parse_slim_recrates(list lines):
+def parse_slim_recrates(lines):
     start = lines.index("#RECOMBINATION RATE")
     end = get_next_block_starts(lines,start)
     regions = []
@@ -109,3 +111,61 @@ def parse_slim_recrates(list lines):
         laststart=float(stop)
 
     return {'recrate':recrate,'recregions':regions}
+
+
+def readslim(filename):
+    """
+    Process a "SLiM" input file.
+
+    This function parses the input files for Phillip Messer's "SLiM" software (http://messerlab.org/software/).
+
+    Thus function only parses the following blocks in a file:
+    1. MUTATION RATE
+    2. MUTATION TYPES
+    3. RECOMBINATION RATE
+    4. GENOMIC ELEMENTS
+    5. CHROMOSOME ORGANIZATION
+
+    :param filename: An input file for the SLiM simulation software
+
+    :return: A dict containing the following data members:
+
+    'nregions' A list of type :class:`fwdpy.fwdpy.Region`.  This list represents regions where neutral muations occur.
+    
+    'sregions' A list of types inheriting from :class:`fwdpy.fwdpy.Sregion`.  This list represents regions where mutations affecting fitness occur.
+    
+    'recregion' A list of type :class:'fwdpy.fwdpy.Region` representing recombination rate variation
+    
+    'mu_neutral' is the total mutation rate to neutral variants (per gamete, per generation).
+    
+    'mu_selected' is the total mutation rate to selected variants (per gamete, per generation).
+    
+    'recrate' is the total recombination rate (per diploid, per generation).
+    
+    :rtype: A dictionary containing the parsing results.
+    """
+    if not os.path.isfile(filename):
+        raise IOError("fwdpy.readslim: "+filename+" does not appear to be a regular file")
+    f = open(filename,'r')
+    lines = f.read().splitlines()
+    ##Remove all leading and trailing whitespace, just in case the user added some in
+    lines = [i.strip() for i in lines]
+    f.close()
+    ##First character must be a hash
+    if not lines[0][0] == '#':
+        raise RuntimeError(filename+" does not appear to be a slim input file. The first line is "+lines[0])
+
+    mtypes = parse_slim_muttypes(lines)
+    recdata = parse_slim_recrates(lines)
+    gtypes = parse_slim_elements(lines)
+    mutrate = parse_slim_mutrate(lines)
+    org = parse_slim_organization(lines,mtypes,gtypes,mutrate)
+
+    return {'nregions':org['nregions'],
+            'sregions':org['sregions'],
+            'mu_neutral':org['mu_neutral'],
+            'mu_selected':org['mu_selected'],
+            'recregions':recdata['recregions'],
+            'recrate':recdata['recrate'],
+            }
+

@@ -3,6 +3,7 @@ from cython.view cimport array as cvarray
 from cpython cimport array
 import warnings,math
 cimport cython
+import internal
 
 def check_input_params(double mu_neutral, double mu_selected, double recrate,
                        list nregions, list sregions, list recregions) :
