@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/sugar/sampling.hpp>
-#include <types.hpp>
+#include <fwdpy/types.hpp>
 
 //Namespace pollution!!
 struct detailed_deme_sample

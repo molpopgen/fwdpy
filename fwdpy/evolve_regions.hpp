@@ -1,9 +1,9 @@
 #ifndef __FWDPY_EVOLVE_REGIONS_HPP__
 #define __FWDPY_EVOLVE_REGIONS_HPP__
 
-#include <types.hpp>
 #include <vector>
-#include <internal_region_manager.hpp>
+#include <fwdpy/types.hpp>
+#include <fwdpy/internal_region_manager.hpp>
 
 namespace fwdpy
 {

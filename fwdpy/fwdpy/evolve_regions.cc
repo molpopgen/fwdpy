@@ -3,10 +3,10 @@
 #include <functional>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
-#include <types.hpp>
-#include <reserve.hpp>
-#include <metapop.hpp>
-#include <evolve_regions.hpp>
+#include <fwdpy/types.hpp>
+#include <fwdpy/reserve.hpp>
+#include <fwdpy/metapop.hpp>
+#include <fwdpy/evolve_regions.hpp>
 
 namespace fwdpy {
   void split_and_evolve_details(metapop_t * mpop,

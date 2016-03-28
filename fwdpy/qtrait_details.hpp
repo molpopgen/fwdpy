@@ -1,9 +1,10 @@
 #ifndef __FWDPY_QTRAIT_DETAILS_HPP__
 #define __FWDPY_QTRAIT_DETAILS_HPP__
 
-#include "types.hpp"
+
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/extensions/regions.hpp>
+#include <fwdpy/types.hpp>
 
 //Namespace pollution due to Cython/struct/namespace bug:
 struct qtrait_sample_info_t

@@ -1,15 +1,17 @@
 #ifndef __FWDPY_QTRAITS_HPP__
 #define __FWDPY_QTRAITS_HPP__
 
-#include <types.hpp>
+
 #include <vector>
 #include <map>
 #include <utility>
 #include <string>
 #include <limits>
 #include <fwdpp/extensions/callbacks.hpp>
-#include <internal_region_manager.hpp>
-#include <qtrait_details.hpp>
+#include <fwdpy/types.hpp>
+#include <fwdpy/internal_region_manager.hpp>
+#include <fwdpy/qtrait_details.hpp>
+
 namespace fwdpy
 {
   namespace qtrait

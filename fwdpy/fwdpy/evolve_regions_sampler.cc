@@ -1,8 +1,9 @@
 #include <future>
 #include <iterator>
 #include <functional>
-#include <evolve_regions_sampler.hpp>
-#include <no_sampling.hpp>
+#include <fwdpy/evolve_regions_sampler.hpp>
+#include <fwdpy/no_sampling.hpp>
+
 using namespace std;
 
 namespace fwdpy

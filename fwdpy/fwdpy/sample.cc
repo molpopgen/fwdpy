@@ -1,8 +1,8 @@
-#include <sample.hpp>
-#include <fwdpp/diploid.hh>
 #include <algorithm>
 #include <stdexcept>
 #include <limits>
+#include <fwdpp/diploid.hh>
+#include <fwdpy/sample.hpp>
 
 namespace fwdpy {
   void get_sh_details( const std::vector<std::pair<double,std::string> > & sample,

@@ -1,4 +1,4 @@
-#include <fwdpyio_serialize.hpp>
+#include <fwdpy/fwdpyio_serialize.hpp>
 
 using namespace std;
 

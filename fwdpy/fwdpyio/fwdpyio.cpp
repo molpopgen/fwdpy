@@ -4,19 +4,19 @@
 {
     "distutils": {
         "depends": [
-            "include/allele_ages.hpp", 
-            "include/deps.hpp", 
-            "include/evolve_regions.hpp", 
-            "include/evolve_regions_sampler.hpp", 
-            "include/fwdpyio_serialize.hpp", 
-            "include/internal_callbacks.hpp", 
-            "include/internal_region_manager.hpp", 
-            "include/metapop.hpp", 
-            "include/sample.hpp", 
-            "include/sampler_pop_properties.hpp", 
-            "include/sampler_sample_n.hpp", 
-            "include/sampler_selected_mut_tracker.hpp", 
-            "include/types.hpp"
+            "fwdpy/allele_ages.hpp", 
+            "fwdpy/deps.hpp", 
+            "fwdpy/evolve_regions.hpp", 
+            "fwdpy/evolve_regions_sampler.hpp", 
+            "fwdpy/fwdpyio_serialize.hpp", 
+            "fwdpy/internal_callbacks.hpp", 
+            "fwdpy/internal_region_manager.hpp", 
+            "fwdpy/metapop.hpp", 
+            "fwdpy/sample.hpp", 
+            "fwdpy/sampler_pop_properties.hpp", 
+            "fwdpy/sampler_sample_n.hpp", 
+            "fwdpy/sampler_selected_mut_tracker.hpp", 
+            "fwdpy/types.hpp"
         ], 
         "extra_compile_args": [
             "-std=c++11", 
@@ -29,7 +29,6 @@
         ], 
         "include_dirs": [
             ".", 
-            "include", 
             ".."
         ], 
         "language": "c++", 
@@ -307,19 +306,19 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"
 #include "fwdpp/internal/gsl_discrete.hpp"
-#include "internal_callbacks.hpp"
-#include "internal_region_manager.hpp"
-#include "types.hpp"
-#include "sample.hpp"
-#include "deps.hpp"
-#include "metapop.hpp"
-#include "evolve_regions.hpp"
-#include "sampler_sample_n.hpp"
-#include "sampler_selected_mut_tracker.hpp"
-#include "sampler_pop_properties.hpp"
-#include "allele_ages.hpp"
-#include "evolve_regions_sampler.hpp"
-#include "fwdpyio_serialize.hpp"
+#include "fwdpy/internal_callbacks.hpp"
+#include "fwdpy/internal_region_manager.hpp"
+#include "fwdpy/types.hpp"
+#include "fwdpy/sample.hpp"
+#include "fwdpy/deps.hpp"
+#include "fwdpy/metapop.hpp"
+#include "fwdpy/evolve_regions.hpp"
+#include "fwdpy/sampler_sample_n.hpp"
+#include "fwdpy/sampler_selected_mut_tracker.hpp"
+#include "fwdpy/sampler_pop_properties.hpp"
+#include "fwdpy/allele_ages.hpp"
+#include "fwdpy/evolve_regions_sampler.hpp"
+#include "fwdpy/fwdpyio_serialize.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -538,7 +537,7 @@ static const char *__pyx_f[] = {
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
- * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+ * cdef extern from "fwdpy/evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
  *     void evolve_regions_no_sampling_async(GSLrng_t * rng,
  */
 typedef unsigned int __pyx_t_5fwdpy_5fwdpy_uint;

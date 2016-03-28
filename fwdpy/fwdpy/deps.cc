@@ -1,5 +1,6 @@
-#include <deps.hpp>
 #include <iostream>
+#include <fwdpy/deps.hpp>
+
 using namespace std;
 
 namespace fwdpy {

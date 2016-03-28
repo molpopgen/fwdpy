@@ -2,7 +2,7 @@
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
 
 #include <limits>
-#include <types.hpp>
+#include <fwdpy/types.hpp>
 
 struct selected_mut_data
 {

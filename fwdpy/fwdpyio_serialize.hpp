@@ -4,8 +4,8 @@
 #include <memory>
 #include <vector>
 #include <string>
-#include <types.hpp>
 #include <fwdpp/sugar/serialization.hpp>
+#include <fwdpy/types.hpp>
 
 namespace fwdpy
 {

@@ -4,7 +4,7 @@
 #include <vector>
 #include <array>
 #include <string>
-#include <types.hpp>
+#include <fwdpy/types.hpp>
 
 /*
   NAMESPACE POLLUTION!!!!!

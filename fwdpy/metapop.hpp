@@ -3,7 +3,7 @@
 
 #include <gsl/gsl_randist.h>
 #include <fwdpp/sugar/metapop.hpp>
-#include "types.hpp"
+#include <fwdpy/types.hpp>
 
 namespace fwdpy
 {

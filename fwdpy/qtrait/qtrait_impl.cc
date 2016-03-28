@@ -18,12 +18,12 @@
 #include <fwdpp/sugar/singlepop.hpp>
 #include <fwdpp/sugar/popgenmut.hpp>
 
-#include <types.hpp>
-#include <internal_region_manager.hpp>
-#include <qtrait_evolve_rules.hpp>
-#include <qtrait_details.hpp>
-#include <qtrait_evolve.hpp>
-#include <no_sampling.hpp>
+#include <fwdpy/types.hpp>
+#include <fwdpy/internal_region_manager.hpp>
+#include <fwdpy/qtrait_evolve_rules.hpp>
+#include <fwdpy/qtrait_details.hpp>
+#include <fwdpy/qtrait_evolve.hpp>
+#include <fwdpy/no_sampling.hpp>
 #include <gsl/gsl_statistics_double.h>
 
 using namespace std;

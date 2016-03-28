@@ -5,16 +5,16 @@
 #include <vector>
 #include <algorithm>
 #include <type_traits>
-#include <types.hpp>
-#include <reserve.hpp>
-#include <internal_region_manager.hpp>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
 
-#include <sampler_pop_properties.hpp>
-#include <sampler_sample_n.hpp>
-#include <sampler_selected_mut_tracker.hpp>
+#include <fwdpy/types.hpp>
+#include <fwdpy/reserve.hpp>
+#include <fwdpy/internal_region_manager.hpp>
+#include <fwdpy/sampler_pop_properties.hpp>
+#include <fwdpy/sampler_sample_n.hpp>
+#include <fwdpy/sampler_selected_mut_tracker.hpp>
 
 namespace fwdpy
 {

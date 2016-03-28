@@ -12,11 +12,11 @@ from fwdpy.fwdpp cimport sep_sample_t
 import fwdpy.internal as internal
 import pandas
 
-cdef extern from "qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
+cdef extern from "fwdpy/qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
     cdef cppclass qtrait_model_rules:
         qtrait_model_rules(const double & sigmaE, const double & optimum, const double & VS, const unsigned maxN)
 
-cdef extern from "qtrait_pleiotropic.hpp" namespace "fwdpy::qtrait" nogil:    
+cdef extern from "fwdpy/qtrait_pleiotropic.hpp" namespace "fwdpy::qtrait" nogil:    
     cdef struct ew_mut_details:
         double s
         double e
@@ -25,7 +25,7 @@ cdef extern from "qtrait_pleiotropic.hpp" namespace "fwdpy::qtrait" nogil:
     map[double,ew_mut_details] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
     vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,ew_mut_details] & effects) except +
 
-cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
+cdef extern from "fwdpy/qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
     void evolve_qtrait_no_sampling_async( GSLrng_t * rng,
                                           vector[shared_ptr[singlepop_t]] * pops,
 				          const unsigned * Nvector,
