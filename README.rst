@@ -313,7 +313,6 @@ Your system's compiler has a default set of paths where it will look for header 
 **NOTE:** I sometimes get requests for installation help from users who have installed every dependency in a separate folder in their $HOME.  In other words, they have some setup that looks like this:
 
 
-* $HOME/software/boost
 * $HOME/software/gsl
 * $HOME/software/fwdpp
 
