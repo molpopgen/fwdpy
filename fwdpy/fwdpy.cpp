@@ -2387,7 +2387,7 @@ static char __pyx_k_parse_slim_mutrate[] = "parse_slim_mutrate";
 static char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static char __pyx_k_deme_cannot_be_None[] = "deme cannot be None";
 static char __pyx_k_evolve_regions_more[] = "evolve_regions_more";
-static char __pyx_k_freqfilter_line_213[] = "freqfilter (line 213)";
+static char __pyx_k_freqfilter_line_216[] = "freqfilter (line 216)";
 static char __pyx_k_get_samples_line_58[] = "get_samples (line 58)";
 static char __pyx_k_make_region_manager[] = "make_region_manager";
 static char __pyx_k_parse_slim_elements[] = "parse_slim_elements";
@@ -2489,7 +2489,7 @@ static char __pyx_k_Get_detailed_list_of_all_gamete[] = "\n    Get detailed list
 static char __pyx_k_Get_detailed_list_of_all_mutati[] = "\n    Get detailed list of all mutations in the population\n\n    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`\n\n    :rtype: a list of dictionaries.  See Note.\n\n    Example:\n\n    >>> import fwdpy\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> muts = [fwdpy.view_mutations(i) for i in pops]\n    >>> type(muts[0])\n    <type 'list'>\n    >>> type(muts[0][0])\n    <type 'dict'>\n\n    Metapopulation example:\n\n    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)\n    >>> muts_deme_0 = [fwdpy.view_mutations(i,0) for i in mpops]\n    >>> muts_deme_1 = [fwdpy.view_mutations(i,1) for i in mpops]\n    \n    .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported\n    ";
 static char __pyx_k_Get_the_number_of_derived_mutat[] = "\n    Get the number of derived mutations at a site.\n\n    :param site: A tuple.  See example\n\n    .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.\n    \n    Example:\n\n    >>> import fwdpy\n    >>> #Create a site at position 0.1 with the\n    >>> #genotypes as the second element. 0/1 = ancestral/derived\n    >>> x = (0.1,'01100111')\n    >>> fwdpy.nderived_site(x)\n    5\n    >>> #Process simulation results:\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> for i in s[0]: ndi = fwdpy.nderived_site(i)\n    ";
 static char __pyx_k_Neutral_regions_must_be_defined[] = "Neutral regions must be defined when mutation rate > 0";
-static char __pyx_k_Remove_low_frequency_variants_f[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.\n       \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
+static char __pyx_k_Remove_low_frequency_variants_f[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n       \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
 static char __pyx_k_Representation_of_a_region_in_a[] = "\n    Representation of a \"region\" in a simulation.\n\n    Attributes:\n        b: the beginning of the region\n        \n        e: the end of the region\n        \n        w: the \"weight\" assigned to the region\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation.\n\n    This class is extended by:\n        * :class:`fwdpy.fwdpy.Sregion`\n    ";
 static char __pyx_k_Take_a_sample_from_a_set_of_sim[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: An object inheriting from :class:`poptype`\n    :param nsam: List of sample sizes (no. chromosomes) to sample.\n    :param removeFixed: if True, only polymorphic sites are retained\n\n    Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations\n    \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    ";
 static char __pyx_k_Take_the_output_of_a_single_dem[] = "\n    Take the output of a single-deme simulation, split into two demes, and evolve.\n\n    :raises: RuntimeError if parameters do not pass checks\n\n    Example:\n\n    >>> #The first part is the same as the example for fwdpy.evolve_regions\n    >>> import fwdpy\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> # Evolve for 5N generations initially\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> #Now, \"bud\" off a daughter population of same size, and evolve both for another 100 generations\n    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0.,0.])\n\n    ";
@@ -2553,7 +2553,7 @@ static char __pyx_k_Constructor_param_beg_the_begin_4[] = "\n        Constructor
 static char __pyx_k_Constructor_param_beg_the_begin_5[] = "\n        Constructor\n    \n        :param beg: the beginning of the region\n        :param end: the end of the region\n        :param weight: the weight to assign\n        :param lo: lower bound on s\n        :param hi: upper bound on s\n        :param h: the dominance\n        :param coupled: if True, the weight is converted to (end-beg)*weight\n\n        When coupled is True, the \"weight\" may be interpreted as a \"per base pair\"\n        (or per unit, generally speaking) term.\n\n        Example:\n\n        >>> #A simple case\n        >>> import fwdpy\n        >>> #s is uniform on [0,-1]\n        >>> constantS = fwdpy.UniformS(0,1,1,0,-1,0)\n        ";
 static char __pyx_k_Constructor_param_beg_the_begin_6[] = "\n        Constructor\n    \n        :param beg: the beginning of the region\n        :param end: the end of the region\n        :param weight: the weight to assign\n        :param mean: the mean selection coefficient\n        :param h: the dominance\n        :param coupled: if True, the weight is converted to (end-beg)*weight\n\n        When coupled is True, the \"weight\" may be interpreted as a \"per base pair\"\n        (or per unit, generally speaking) term.\n\n        Example:\n\n        >>> #A simple case\n        >>> import fwdpy\n        >>> #s is exp(-0.1) and recessive\n        >>> constantS = fwdpy.ExpS(0,1,1,0,-0.1,0)\n        ";
 static char __pyx_k_Constructor_param_beg_the_begin_7[] = "\n        Constructor\n    \n        :param beg: the beginning of the region\n        :param end: the end of the region\n        :param weight: the weight to assign\n        :param mean: the mean selection coefficient\n        :param h: the dominance\n        :param coupled: if True, the weight is converted to (end-beg)*weight\n\n        When coupled is True, the \"weight\" may be interpreted as a \"per base pair\"\n        (or per unit, generally speaking) term.\n\n        Example:\n\n        >>> #A simple case\n        >>> import fwdpy\n        >>> #s N(0,0.1) and co-dominant\n        >>> constantS = fwdpy.GaussianS(0,1,1,0,0.1,1)\n        ";
-static char __pyx_k_Convenience_wrapper_around_func_2[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n    \n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
+static char __pyx_k_Convenience_wrapper_around_func_2[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  \n    \n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
 static char __pyx_k_Representation_of_a_region_in_a_2[] = "\n    Representation of a \"region\" in a simulation with a dominance term.\n\n    This class is the base class for a general set of objects representing distributions of fitness effects.\n\n    Attributes:\n        * b: the beginning of the region\n        * e: the end of the region\n        * w: the \"weight\" assigned to the region\n        * h: the dominance term\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation.\n\n    .. note:: This class cannot be used directly to parameterize a simulation.  Rather, you must used\n       a derived type that specifies a distribution of fitness effects.  These types include:\n       :class:`fwdpy.fwdpy.ConstantS`,\n       :class:`fwdpy.fwdpy.UniformS`,\n       :class:`fwdpy.fwdpy.ExpS`,\n       :class:`fwdpy.fwdpy.GammaS`, and \n       :class:`fwdpy.fwdpy.GaussianS`\n    ";
 static char __pyx_k_Take_a_sample_from_a_set_of_sim_2[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pop: An object inheriting from :class:`poptype`\n    :param nsam: The sample size to take.\n    :param removeFixed: if True, only polymorphic sites are retained\n    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.\n    \n    :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.\n\n    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`\n\n    Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.\n\n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]\n    ";
 static char __pyx_k_No_value_specified_for_struct_at_2[] = "No value specified for struct attribute 'esize'";
@@ -2741,7 +2741,7 @@ static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_fpio;
 static PyObject *__pyx_n_s_freqfilter;
-static PyObject *__pyx_kp_u_freqfilter_line_213;
+static PyObject *__pyx_kp_u_freqfilter_line_216;
 static PyObject *__pyx_n_s_fs;
 static PyObject *__pyx_kp_s_fwdp_ExpS_mean_not_finite;
 static PyObject *__pyx_n_s_fwdpy;
@@ -9489,7 +9489,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_13getfreqs(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_12getfreqs[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n    \n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_12getfreqs[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  \n    \n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_13getfreqs = {"getfreqs", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_13getfreqs, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_12getfreqs};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_13getfreqs(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_sample = 0;
@@ -9579,7 +9579,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("getfreqs", 0);
 
-  /* "fwdpy/sampling.pyx":211
+  /* "fwdpy/sampling.pyx":214
  *     >>> freqs = [fwdpy.getfreqs(i) for i in s]
  *     """
  *     return [getfreq(i,derived) for i in sample]             # <<<<<<<<<<<<<<
@@ -9587,26 +9587,26 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
  * def freqfilter( list sample,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_sample == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_2 = __pyx_v_sample; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_getfreq); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_getfreq); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_derived); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_derived); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
@@ -9620,7 +9620,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_9);
     if (__pyx_t_7) {
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -9631,11 +9631,11 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -9669,7 +9669,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":213
+/* "fwdpy/sampling.pyx":216
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
@@ -9679,7 +9679,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_14freqfilter[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.\n       \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_14freqfilter[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n       \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_15freqfilter = {"freqfilter", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_15freqfilter, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_14freqfilter};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_sample = 0;
@@ -9712,7 +9712,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_minfreq)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, 1); {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, 1); {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (kw_args > 0) {
@@ -9721,7 +9721,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "freqfilter") < 0)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "freqfilter") < 0)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -9733,12 +9733,12 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
       }
     }
     __pyx_v_sample = ((PyObject*)values[0]);
-    __pyx_v_minfreq = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_minfreq == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_minfreq = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_minfreq == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     if (values[2]) {
-      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     } else {
 
-      /* "fwdpy/sampling.pyx":215
+      /* "fwdpy/sampling.pyx":218
  * def freqfilter( list sample,
  *                 float minfreq,
  *                 bint derived = True ):             # <<<<<<<<<<<<<<
@@ -9750,16 +9750,16 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.freqfilter", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_14freqfilter(__pyx_self, __pyx_v_sample, __pyx_v_minfreq, __pyx_v_derived);
 
-  /* "fwdpy/sampling.pyx":213
+  /* "fwdpy/sampling.pyx":216
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
@@ -9966,7 +9966,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
   __pyx_r = __pyx_v_rv;
   goto __pyx_L0;
 
-  /* "fwdpy/sampling.pyx":213
+  /* "fwdpy/sampling.pyx":216
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
@@ -45142,7 +45142,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {&__pyx_n_s_fpio, __pyx_k_fpio, sizeof(__pyx_k_fpio), 0, 0, 1, 1},
   {&__pyx_n_s_freqfilter, __pyx_k_freqfilter, sizeof(__pyx_k_freqfilter), 0, 0, 1, 1},
-  {&__pyx_kp_u_freqfilter_line_213, __pyx_k_freqfilter_line_213, sizeof(__pyx_k_freqfilter_line_213), 0, 1, 0, 0},
+  {&__pyx_kp_u_freqfilter_line_216, __pyx_k_freqfilter_line_216, sizeof(__pyx_k_freqfilter_line_216), 0, 1, 0, 0},
   {&__pyx_n_s_fs, __pyx_k_fs, sizeof(__pyx_k_fs), 0, 0, 1, 1},
   {&__pyx_kp_s_fwdp_ExpS_mean_not_finite, __pyx_k_fwdp_ExpS_mean_not_finite, sizeof(__pyx_k_fwdp_ExpS_mean_not_finite), 0, 0, 1, 0},
   {&__pyx_n_s_fwdpy, __pyx_k_fwdpy, sizeof(__pyx_k_fwdpy), 0, 0, 1, 1},
@@ -46488,17 +46488,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__103);
   __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_getfreqs, 195, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/sampling.pyx":213
+  /* "fwdpy/sampling.pyx":216
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
  *                 float minfreq,
  *                 bint derived = True ):
  */
-  __pyx_tuple__105 = PyTuple_Pack(5, __pyx_n_s_sample, __pyx_n_s_minfreq, __pyx_n_s_derived, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple__105)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__105 = PyTuple_Pack(5, __pyx_n_s_sample, __pyx_n_s_minfreq, __pyx_n_s_derived, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple__105)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__105);
   __Pyx_GIVEREF(__pyx_tuple__105);
-  __pyx_codeobj__106 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__105, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_freqfilter, 213, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__106)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__106 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__105, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_freqfilter, 216, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__106)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "fwdpy/evolve_regions.pyx":7
  * cimport cython
@@ -47499,16 +47499,16 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_getfreqs, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":213
+  /* "fwdpy/sampling.pyx":216
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
  *                 float minfreq,
  *                 bint derived = True ):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_15freqfilter, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_15freqfilter, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_freqfilter, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_freqfilter, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/evolve_regions.pyx":4
@@ -48488,7 +48488,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_nderived_line_150, __pyx_kp_u_Convenience_wrapper_around_func) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_getfreq_line_167, __pyx_kp_u_Get_mutation_frequencies_param) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_getfreqs_line_195, __pyx_kp_u_Convenience_wrapper_around_func_2) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_freqfilter_line_213, __pyx_kp_u_Remove_low_frequency_variants_f) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_freqfilter_line_216, __pyx_kp_u_Remove_low_frequency_variants_f) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_evolve_regions_line_26, __pyx_kp_u_Evolve_a_region_with_variable_m) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_evolve_regions_more_line_100, __pyx_kp_u_Continue_to_evolve_a_region_wit) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_evolve_regions_split_line_250, __pyx_kp_u_Take_the_output_of_a_single_dem) < 0) {__pyx_filename = __pyx_f[9]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}

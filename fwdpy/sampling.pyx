@@ -198,6 +198,9 @@ def getfreqs(list sample,bint derived = True):
 
     :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
     :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).
+
+    .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. "sum of site heterozygosity").
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  
     
     Example:
 
@@ -219,9 +222,6 @@ def freqfilter( list sample,
     :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
     :param minfreq: Remove all sites with frequency < minfreq
     :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.
-
-    .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. "sum of site heterozygosity").
-       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  Please use :func:`fwdpy.libseq.libseq.summstats` instead.
        
     Example:
     
