@@ -1,8 +1,6 @@
 # distutils: language = c++
 # distutils: sources = fwdpy/qtrait/qtrait_impl.cc fwdpy/qtrait/ew2010.cc
 
-#fwdpy/qtrait/ewvw.cc
-
 from cython.operator cimport dereference as deref,preincrement as inc
 from libcpp.vector cimport vector
 from libcpp.map cimport map
@@ -14,11 +12,11 @@ from fwdpy.fwdpp cimport sep_sample_t
 import fwdpy.internal as internal
 import pandas
 
-cdef extern from "qtrait/rules.hpp" namespace "fwdpy::qtrait" nogil:
+cdef extern from "qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
     cdef cppclass qtrait_model_rules:
         qtrait_model_rules(const double & sigmaE, const double & optimum, const double & VS, const unsigned maxN)
 
-cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:    
+cdef extern from "qtrait_pleiotropic.hpp" namespace "fwdpy::qtrait" nogil:    
     cdef struct ew_mut_details:
         double s
         double e
@@ -27,7 +25,7 @@ cdef extern from "qtrait/qtraits.hpp" namespace "fwdpy::qtrait" nogil:
     map[double,ew_mut_details] ew2010_assign_effects(GSLrng_t * rng, const singlepop_t * pop, const double tau, const double sigma) except +
     vector[double] ew2010_traits_cpp(const singlepop_t * pop, const map[double,ew_mut_details] & effects) except +
 
-cdef extern from "qtrait/evolve_qtrait_sampler.hpp" namespace "fwdpy::qtrait" nogil:
+cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
     void evolve_qtrait_no_sampling_async( GSLrng_t * rng,
                                           vector[shared_ptr[singlepop_t]] * pops,
 				          const unsigned * Nvector,

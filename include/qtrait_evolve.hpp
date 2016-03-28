@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <types.hpp>
 #include <reserve.hpp>
-#include <internal/internal.hpp>
+#include <internal_region_manager.hpp>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
@@ -76,7 +76,8 @@ namespace fwdpy
 					      pop->neutral,pop->selected,
 					      f,
 					      rules,
-					      std::bind(KTfwd::remove_neutral(),std::placeholders::_1));
+					      KTfwd::remove_neutral());
+
 	  KTfwd::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	}

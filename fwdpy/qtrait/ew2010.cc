@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <numeric>
 #include <types.hpp>
-#include <qtrait/qtraits.hpp>
+#include <qtrait_pleiotropic.hpp>
 
 using namespace std;
 

@@ -8,8 +8,8 @@
 #include <string>
 #include <limits>
 #include <fwdpp/extensions/callbacks.hpp>
-#include <internal/internal.hpp>
-#include <qtrait/details.hpp>
+#include <internal_region_manager.hpp>
+#include <qtrait_details.hpp>
 namespace fwdpy
 {
   namespace qtrait

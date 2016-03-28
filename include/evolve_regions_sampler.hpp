@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <types.hpp>
 #include <reserve.hpp>
-#include <internal/internal.hpp>
+#include <internal_region_manager.hpp>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>

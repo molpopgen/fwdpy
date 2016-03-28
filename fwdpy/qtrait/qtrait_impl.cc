@@ -19,10 +19,10 @@
 #include <fwdpp/sugar/popgenmut.hpp>
 
 #include <types.hpp>
-#include <internal/internal.hpp>
-#include <qtrait/rules.hpp>
-#include <qtrait/details.hpp>
-#include <qtrait/evolve_qtrait_sampler.hpp>
+#include <internal_region_manager.hpp>
+#include <qtrait_evolve_rules.hpp>
+#include <qtrait_details.hpp>
+#include <qtrait_evolve.hpp>
 #include <no_sampling.hpp>
 #include <gsl/gsl_statistics_double.h>
 
