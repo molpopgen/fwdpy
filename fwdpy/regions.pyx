@@ -295,7 +295,7 @@ class ExpS(Sregion):
         >>> constantS = fwdpy.ExpS(0,1,1,0,-0.1,0)
         """
         if math.isinf(mean):
-            raise ValueError("fwdp.ExpS: mean not finite")
+            raise ValueError("fwdpy.ExpS: mean not finite")
         if math.isnan(mean):
             raise ValueError("fwdpy.ExpS: mean not a number")
         self.mean=float(mean)
