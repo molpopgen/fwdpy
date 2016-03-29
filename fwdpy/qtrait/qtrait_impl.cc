@@ -89,10 +89,18 @@ namespace fwdpy
 				  const internal::region_manager * rm)
     {
       qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<pop_properties,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
-									    mu_neutral,mu_selected,littler,
-									    f,sigmaE,optimum,sample,rm,rules);
-									
+      return evolve_qtrait_async_wrapper<pop_properties,
+					 qtrait_model_rules,
+					 decltype(optimum)>(rng,pops,Nvector,Nvector_length,
+							    mu_neutral,mu_selected,littler,
+							    f,sigmaE,optimum,sample,rm,rules,
+							    /*
+							      Optimum gets passed again,
+							      as a constructor argument to the
+							      sampler's API.
+							    */
+							    std::forward<decltype(optimum)>(optimum));
+								
     }
 
     std::vector<selected_mut_tracker::final_t>
@@ -170,9 +178,12 @@ namespace fwdpy
 			       const internal::region_manager * rm)
     {
       gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<pop_properties,gbr_model_rules>(rng,pops,Nvector,Nvector_length,
-									 mu_neutral,mu_selected,littler,
-									 f,sigmaE,optimum,sample,rm,rules);
+      return evolve_qtrait_async_wrapper<pop_properties,
+					 gbr_model_rules,
+					 decltype(optimum)>(rng,pops,Nvector,Nvector_length,
+							    mu_neutral,mu_selected,littler,
+							    f,sigmaE,optimum,sample,rm,rules,
+							    std::forward<decltype(optimum)>(optimum));
 									
     }
 

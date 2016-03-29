@@ -101,7 +101,7 @@ namespace fwdpy {
 	For "trait", this should be the optimum, but the API isn't allowing that right now...
       */
       std::transform(VG.begin(),VG.end(),VG.begin(),[meanG](const double d){ return std::pow(d-meanG,2.0);});
-      std::transform(trait.begin(),trait.end(),trait.begin(),[meanTrait](const double d){ return std::pow(d-meanTrait,2.0);});
+      std::transform(trait.begin(),trait.end(),trait.begin(),[this](const double d){ return std::pow(d-this->optimum,2.0);});
       //This is the apparent strenght of selection on the trait,
       //which is a regression of fitness onto trait value.
       double vst = -gsl_stats_variance(VG.data(),1,VG.size())/(2.0*gsl_stats_covariance(wbar.data(),1,trait.data(),1,wbar.size()));
@@ -138,9 +138,13 @@ namespace fwdpy {
 	}
       return rv;
     }
-  
+
+    explicit pop_properties(double optimum_) : optimum(optimum_)
+    {
+    }
   private:
     qtrait_stats_t qstats;
+    double optimum;
     enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,TBAR,VST };
   };
 }
