@@ -1,10 +1,10 @@
 def check_popdata_singlepop(singlepop p):
-    cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))
+    cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
     return {'check_sum':csum,'popdata_sane':pds}
 
 def check_popdata_metapop(metapop p):
-    cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(p.mpop.get().diploids.size()))
+    cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
     lpds=[]
     cdef bint pds
     cdef size_t i = 0

@@ -7,7 +7,7 @@ def allele_ages( const vector[vector[pair[selected_mut_data,vector[double]]]] & 
     The return value is a list of dicts that include the generation when the mutation arose, its effect size, 
     maximum frequency, and the number of times a frequency was recorded for that mutation.
     """
-    cdef unsigned nt = trajectories.size()
+    cdef size_t nt = trajectories.size()
     cdef vector[vector[allele_age_data_t]] rv;
     rv.resize(nt)
     cdef int i
@@ -29,7 +29,7 @@ def merge_trajectories( const vector[vector[pair[selected_mut_data,vector[double
     if trajectories1.size() != trajectories2.size():
         raise RuntimeError("the two input lists must be the same length")
 
-    cdef unsigned nt = trajectories1.size()
+    cdef size_t nt = trajectories1.size()
     cdef vector[vector[pair[selected_mut_data,vector[double]]]] rv
     rv.resize(nt)
     cdef int i

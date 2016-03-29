@@ -55,10 +55,10 @@ namespace fwdpy
 	      const mcont_t & mutations,
 	      const ff & fitness_func ) const
       {
-	unsigned N_curr = diploids.size();
+	auto N_curr = diploids.size();
 	if(fitnesses.size() < N_curr) fitnesses.resize(N_curr);
 	wbar = 0.;
-	for( unsigned i = 0 ; i < N_curr ; ++i )
+	for( size_t i = 0 ; i < N_curr ; ++i )
 	  {
 	    gametes[diploids[i].first].n = gametes[diploids[i].second].n = 0;
 	    fitnesses[i] = diploids[i].w;
@@ -144,10 +144,10 @@ namespace fwdpy
 	      const mcont_t & mutations,
 	      const ff & fitness_func ) const
       {
-	unsigned N_curr = diploids.size();
+	auto N_curr = diploids.size();
 	if(fitnesses.size() < N_curr) fitnesses.resize(N_curr);
 	wbar = 0.;
-	for( unsigned i = 0 ; i < N_curr ; ++i )
+	for( size_t i = 0 ; i < N_curr ; ++i )
 	  {
 	    gametes[diploids[i].first].n = gametes[diploids[i].second].n = 0;
 	    fitnesses[i] = diploids[i].w;

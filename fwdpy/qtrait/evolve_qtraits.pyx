@@ -53,7 +53,7 @@ def evolve_qtrait(GSLrng rng,
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen = len(nlist)
+    cdef size_t listlen = len(nlist)
     with nogil:
         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
                                         rmgr.thisptr)
@@ -100,7 +100,7 @@ def evolve_qtrait_more(GSLrng rng,
         f=0
         rmgr = region_manager_wrapper()
         internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen = len(nlist)
+    cdef size_t listlen = len(nlist)
     with nogil:
         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
                                         rmgr.thisptr)
@@ -228,7 +228,7 @@ def evolve_gbr(GSLrng rng,
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper();
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen = len(nlist)
+    cdef size_t listlen = len(nlist)
     with nogil:
         evolve_gbr_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
                                      rmgr.thisptr)

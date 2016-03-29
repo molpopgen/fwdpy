@@ -92,7 +92,7 @@ def evolve_regions(GSLrng rng,
     pops = popvec(npops,N)
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen = len(nlist)
+    cdef size_t listlen = len(nlist)
     with nogil:
         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
     return pops
@@ -149,7 +149,7 @@ def evolve_regions_more(GSLrng rng,
         f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen = len(nlist)
+    cdef size_t listlen = len(nlist)
     with nogil:
         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
 
@@ -199,7 +199,7 @@ def evolve_regions_sample(GSLrng rng,
         f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen = len(nlist)
+    cdef size_t listlen = len(nlist)
     return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
 
 @cython.boundscheck(False)
@@ -244,7 +244,7 @@ def evolve_regions_track(GSLrng rng,
         f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen = len(nlist)
+    cdef size_t listlen = len(nlist)
     return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
     
 @cython.boundscheck(False)
@@ -283,7 +283,7 @@ def evolve_regions_split(GSLrng rng,
 
     """
     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
-    cdef unsigned i
+    cdef size_t i
     for i in range(fs.size()):
         if fs[i] < 0.:
             warnings.warn("f[i] < 0 will be treated as 0")
@@ -308,8 +308,8 @@ def evolve_regions_split(GSLrng rng,
 
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef unsigned listlen1 = len(nlist1)
-    cdef unsigned listlen2 = len(nlist2)
+    cdef size_t listlen1 = len(nlist1)
+    cdef size_t listlen2 = len(nlist2)
     with nogil:
         split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
     return mpv
