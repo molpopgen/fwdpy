@@ -50,8 +50,12 @@ Examples
 
 Functions and classes
 ##########################################
-
+      
 .. automodule:: fwdpy.fwdpy
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.slim
    :members:
    :show-inheritance:
 
