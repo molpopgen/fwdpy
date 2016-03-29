@@ -11,7 +11,7 @@ from fwdpy.gsl cimport gsl_rng
 ##Create hooks to C++ types
 
 #Wrap the classes:
-cdef extern from "fwdpy/types.hpp" namespace "fwdpy" nogil:
+cdef extern from "types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
     ctypedef gamete_base[void] gamete_t
     ctypedef vector[gamete_t] gcont_t
@@ -170,15 +170,15 @@ cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, c
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
-cdef extern from "fwdpy/sample.hpp" namespace "fwdpy" nogil:
+cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
 
-cdef extern from "fwdpy/deps.hpp" namespace "fwdpy" nogil:
+cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
     
-cdef extern from "fwdpy/metapop.hpp" namespace "fwdpy" nogil:
+cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void re_init_mpop( metapop_t * mpop, const singlepop_t * pop)
     void copy_deme( metapop_t * mpop, const size_t i ) except +
     void remove_deme( metapop_t * mpop, const size_t i ) except +
@@ -186,7 +186,7 @@ cdef extern from "fwdpy/metapop.hpp" namespace "fwdpy" nogil:
     void split_deme(const gsl_rng * r, metapop_t * mpop, const size_t i, const unsigned N_new, const bint replacement ) except +
     void admix_demes(const gsl_rng * r, metapop_t * mpop, const size_t i, const size_t j, const double prop_i, const bint replacement) except +
     
-cdef extern from "fwdpy/evolve_regions.hpp" namespace "fwdpy" nogil:
+cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
     void split_and_evolve_t(GSLrng_t * rng,
                 vector[shared_ptr[metapop_t]] * mpops,
                 const unsigned * Nvector_A,
@@ -201,24 +201,24 @@ cdef extern from "fwdpy/evolve_regions.hpp" namespace "fwdpy" nogil:
                 const char * fitness)
     
 
-cdef extern from "fwdpy/sampler_sample_n.hpp" nogil:
+cdef extern from "sampler_sample_n.hpp" nogil:
     cdef struct detailed_deme_sample:
         sep_sample_t genotypes
         vector[pair[double,double]] sh
 
-cdef extern from "fwdpy/sampler_selected_mut_tracker.hpp" nogil:
+cdef extern from "sampler_selected_mut_tracker.hpp" nogil:
     cdef struct selected_mut_data:
         double pos
         double esize
         unsigned origin
 
-cdef extern from "fwdpy/sampler_pop_properties.hpp" nogil:
+cdef extern from "sampler_pop_properties.hpp" nogil:
     cdef struct qtrait_stats_cython:
         string stat
         double value
         unsigned generation
 
-cdef extern from "fwdpy/allele_ages.hpp" nogil:
+cdef extern from "allele_ages.hpp" nogil:
     cdef struct allele_age_data_t:
         double esize
         double max_freq
@@ -226,7 +226,7 @@ cdef extern from "fwdpy/allele_ages.hpp" nogil:
         unsigned origin
         unsigned tlen
 
-cdef extern from "fwdpy/allele_ages.hpp" namespace "fwdpy" nogil:
+cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +
     
@@ -234,7 +234,7 @@ cdef extern from "fwdpy/allele_ages.hpp" namespace "fwdpy" nogil:
                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
     
 ctypedef unsigned uint
-cdef extern from "fwdpy/evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
     void evolve_regions_no_sampling_async(GSLrng_t * rng,
                                           vector[shared_ptr[singlepop_t]] * pops,
                                           const unsigned * Nvector,

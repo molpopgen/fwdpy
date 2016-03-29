@@ -2,7 +2,7 @@
 #define FWDPY_ALLELE_AGES_HPP
 
 #include <limits>
-#include <fwdpy/sampler_selected_mut_tracker.hpp>
+#include "sampler_selected_mut_tracker.hpp"
 
 //NAMESPACE POLLUTION
 struct allele_age_data_t

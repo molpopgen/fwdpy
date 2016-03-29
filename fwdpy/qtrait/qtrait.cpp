@@ -4,21 +4,21 @@
 {
     "distutils": {
         "depends": [
-            "fwdpy/allele_ages.hpp", 
-            "fwdpy/deps.hpp", 
-            "fwdpy/evolve_regions.hpp", 
-            "fwdpy/evolve_regions_sampler.hpp", 
-            "fwdpy/internal_callbacks.hpp", 
-            "fwdpy/internal_region_manager.hpp", 
-            "fwdpy/metapop.hpp", 
-            "fwdpy/qtrait_evolve.hpp", 
-            "fwdpy/qtrait_evolve_rules.hpp", 
-            "fwdpy/qtrait_pleiotropic.hpp", 
-            "fwdpy/sample.hpp", 
-            "fwdpy/sampler_pop_properties.hpp", 
-            "fwdpy/sampler_sample_n.hpp", 
-            "fwdpy/sampler_selected_mut_tracker.hpp", 
-            "fwdpy/types.hpp"
+            "include/allele_ages.hpp", 
+            "include/deps.hpp", 
+            "include/evolve_regions.hpp", 
+            "include/evolve_regions_sampler.hpp", 
+            "include/internal_callbacks.hpp", 
+            "include/internal_region_manager.hpp", 
+            "include/metapop.hpp", 
+            "include/qtrait_evolve.hpp", 
+            "include/qtrait_evolve_rules.hpp", 
+            "include/qtrait_pleiotropic.hpp", 
+            "include/sample.hpp", 
+            "include/sampler_pop_properties.hpp", 
+            "include/sampler_sample_n.hpp", 
+            "include/sampler_selected_mut_tracker.hpp", 
+            "include/types.hpp"
         ], 
         "extra_compile_args": [
             "-std=c++11", 
@@ -31,7 +31,8 @@
         ], 
         "include_dirs": [
             ".", 
-            ".."
+            "..", 
+            "include"
         ], 
         "language": "c++", 
         "libraries": [
@@ -309,21 +310,21 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/sugar/sampling.hpp"
 #include "fwdpp/extensions/callbacks.hpp"
 #include "fwdpp/internal/gsl_discrete.hpp"
-#include "fwdpy/internal_callbacks.hpp"
-#include "fwdpy/internal_region_manager.hpp"
-#include "fwdpy/types.hpp"
-#include "fwdpy/sample.hpp"
-#include "fwdpy/deps.hpp"
-#include "fwdpy/metapop.hpp"
-#include "fwdpy/evolve_regions.hpp"
-#include "fwdpy/sampler_sample_n.hpp"
-#include "fwdpy/sampler_selected_mut_tracker.hpp"
-#include "fwdpy/sampler_pop_properties.hpp"
-#include "fwdpy/allele_ages.hpp"
-#include "fwdpy/evolve_regions_sampler.hpp"
-#include "fwdpy/qtrait_evolve_rules.hpp"
-#include "fwdpy/qtrait_pleiotropic.hpp"
-#include "fwdpy/qtrait_evolve.hpp"
+#include "internal_callbacks.hpp"
+#include "internal_region_manager.hpp"
+#include "types.hpp"
+#include "sample.hpp"
+#include "deps.hpp"
+#include "metapop.hpp"
+#include "evolve_regions.hpp"
+#include "sampler_sample_n.hpp"
+#include "sampler_selected_mut_tracker.hpp"
+#include "sampler_pop_properties.hpp"
+#include "allele_ages.hpp"
+#include "evolve_regions_sampler.hpp"
+#include "qtrait_evolve_rules.hpp"
+#include "qtrait_pleiotropic.hpp"
+#include "qtrait_evolve.hpp"
 #include "stdio.h"
 #include "pythread.h"
 #include "stdlib.h"
@@ -644,7 +645,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
- * cdef extern from "fwdpy/evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+ * cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
  *     void evolve_regions_no_sampling_async(GSLrng_t * rng,
  */
 typedef unsigned int __pyx_t_5fwdpy_5fwdpy_uint;
@@ -23325,7 +23326,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
  * import fwdpy.internal as internal
  * import pandas             # <<<<<<<<<<<<<<
  * 
- * cdef extern from "fwdpy/qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
+ * cdef extern from "qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
  */
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);

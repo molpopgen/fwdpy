@@ -17,14 +17,15 @@
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/sugar/singlepop.hpp>
 #include <fwdpp/sugar/popgenmut.hpp>
-
-#include <fwdpy/types.hpp>
-#include <fwdpy/internal_region_manager.hpp>
-#include <fwdpy/qtrait_evolve_rules.hpp>
-#include <fwdpy/qtrait_details.hpp>
-#include <fwdpy/qtrait_evolve.hpp>
-#include <fwdpy/sampler_no_sampling.hpp>
 #include <gsl/gsl_statistics_double.h>
+
+#include "types.hpp"
+#include "internal_region_manager.hpp"
+#include "qtrait_evolve_rules.hpp"
+#include "qtrait_details.hpp"
+#include "qtrait_evolve.hpp"
+#include "sampler_no_sampling.hpp"
+
 
 using namespace std;
 

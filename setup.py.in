@@ -124,21 +124,21 @@ extensions = [
     Extension("fwdpy.fwdpy",
         sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
         language="c++",                        # generate and compile C++ code
-        include_dirs=['.','..'], 
+        include_dirs=['.','..','include'], 
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS),
         Extension("fwdpy.internal.internal",
         sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
         language="c++",
-        include_dirs=['.','..'],
+        include_dirs=['.','..','include'],
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS),
         Extension("fwdpy.fwdpyio.fwdpyio",
         sources=["fwdpy/fwdpyio/fwdpyio"+EXTENSION]+glob.glob("fwdpy/fwdpyio/*.cc"),
         language="c++",
-        include_dirs=['.','..'],
+        include_dirs=['.','..','include'],
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS)
@@ -150,7 +150,7 @@ if QTRAIT is True:
         Extension("fwdpy.qtrait.qtrait",
                   sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
                   language="c++",                        # generate and compile C++ code
-                  include_dirs=['.','..'], 
+                  include_dirs=['.','..','include'], 
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
                   extra_link_args=LINK_ARGS,
                   libraries=LIBS)
@@ -184,11 +184,11 @@ setup(name='@PACKAGE_NAME@',
       py_modules=[],
       scripts=[],
       data_files=[(doc_dir, ['COPYING', 'README.rst'])],
-      ##Note: when installing the git repo, headers will be put in /usr/local/include/pythonVERSION/fwdpy
+      ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
       headers=glob.glob("fwdpy/*.hpp"),
       package_data={'fwdpy':['*.pxd'],
                     'fwdpy.internal':['*.pxd'],
                     'fwdpy.fwdpyio':['*.pxd'],
-                    'fwdpy':['*.hpp']},
+                    'include':['*.hpp']},
       ext_modules=extensions,
      )

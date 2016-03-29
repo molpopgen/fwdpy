@@ -9,8 +9,8 @@
 #include <stdexcept>
 #include <algorithm>
 #include <numeric>
-#include <fwdpy/types.hpp>
-#include <fwdpy/qtrait_pleiotropic.hpp>
+#include "types.hpp"
+#include "qtrait_pleiotropic.hpp"
 
 using namespace std;
 

@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <limits>
 #include <fwdpp/diploid.hh>
-#include <fwdpy/sample.hpp>
+#include "sample.hpp"
 
 namespace fwdpy {
   void get_sh_details( const std::vector<std::pair<double,std::string> > & sample,

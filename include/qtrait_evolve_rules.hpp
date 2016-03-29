@@ -3,7 +3,7 @@
 
 #include <cmath>
 #include <fwdpp/diploid.hh>
-#include <fwdpy/types.hpp>
+#include "types.hpp"
 /*
   Custom "rules" policy for single-region House-of-Cards simulations.
 

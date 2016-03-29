@@ -4,7 +4,7 @@
 
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/extensions/regions.hpp>
-#include <fwdpy/types.hpp>
+#include "types.hpp"
 
 //Namespace pollution due to Cython/struct/namespace bug:
 struct qtrait_sample_info_t

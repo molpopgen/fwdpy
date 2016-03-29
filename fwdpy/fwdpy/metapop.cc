@@ -3,7 +3,7 @@
 #include <gsl/gsl_randist.h>
 #include <fwdpp/util.hpp>
 #include <fwdpp/sugar/demography.hpp>
-#include <fwdpy/types.hpp>
+#include "types.hpp"
 namespace fwdpy {
 
   size_t migpop(const size_t & source_pop, const gsl_rng * r, const double & mig_prob)

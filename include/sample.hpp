@@ -1,7 +1,7 @@
 #ifndef __FWDPY_SAMPLE_HPP__
 #define __FWDPY_SAMPLE_HPP__
 
-#include <fwdpy/types.hpp>
+#include "types.hpp"
 
 namespace fwdpy {
     void get_sh( const std::vector<std::pair<double,std::string> > & ms_sample,

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <stdexcept>
-#include <fwdpy/allele_ages.hpp>
+
+#include "allele_ages.hpp"
 using namespace std;
 
 namespace fwdpy

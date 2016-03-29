@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include <fwdpp/sugar/serialization.hpp>
-#include <fwdpy/types.hpp>
+#include "types.hpp"
 
 namespace fwdpy
 {

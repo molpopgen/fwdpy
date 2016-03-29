@@ -8,9 +8,9 @@
 #include <string>
 #include <limits>
 #include <fwdpp/extensions/callbacks.hpp>
-#include <fwdpy/types.hpp>
-#include <fwdpy/internal_region_manager.hpp>
-#include <fwdpy/qtrait_details.hpp>
+#include "types.hpp"
+#include "internal_region_manager.hpp"
+#include "qtrait_details.hpp"
 
 namespace fwdpy
 {
