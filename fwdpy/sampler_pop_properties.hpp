@@ -29,6 +29,11 @@ struct qtrait_stats_cython
 };
 
 namespace fwdpy {
+  /*!
+    We use a vector of std::array here for compactness and speed
+    We could use a std::map, or a vector of final_t (see below),
+    but that gets slow and RAM-intensive.
+  */
   using qtrait_stats_t = std::vector<std::array<double,10>>;
 
   class pop_properties
@@ -110,6 +115,10 @@ namespace fwdpy {
     }
 
     final_t final() const
+    /*!
+      The implementation details of this are messy,
+      and the enum is used to guard against indexing errors.
+    */
     {
       final_t rv;
       for( const auto & q : qstats)
