@@ -2409,10 +2409,10 @@ static char __pyx_k_getbuffer_obj_view_flags[] = "getbuffer(obj, view, flags)";
 static char __pyx_k_view_mutations_singlepop[] = "view_mutations_singlepop";
 static char __pyx_k_Dimension_d_is_not_direct[] = "Dimension %d is not direct";
 static char __pyx_k_Invalid_shape_in_axis_d_d[] = "Invalid shape in axis %d: %d.";
-static char __pyx_k_fwdp_ExpS_mean_not_finite[] = "fwdp.ExpS: mean not finite";
 static char __pyx_k_Index_out_of_bounds_axis_d[] = "Index out of bounds (axis %d)";
 static char __pyx_k_UniformS___init___line_227[] = "UniformS.__init__ (line 227)";
 static char __pyx_k_f_i_0_will_be_treated_as_0[] = "f[i] < 0 will be treated as 0";
+static char __pyx_k_fwdpy_ExpS_mean_not_finite[] = "fwdpy.ExpS: mean not finite";
 static char __pyx_k_fwdpy_Sregion_h_not_finite[] = "fwdpy.Sregion: h not finite";
 static char __pyx_k_get_sample_details_line_93[] = "get_sample_details (line 93)";
 static char __pyx_k_object_type_not_understood[] = "object type not understood";
@@ -2705,11 +2705,11 @@ static PyObject *__pyx_n_s_fpio;
 static PyObject *__pyx_n_s_freqfilter;
 static PyObject *__pyx_kp_u_freqfilter_line_216;
 static PyObject *__pyx_n_s_fs;
-static PyObject *__pyx_kp_s_fwdp_ExpS_mean_not_finite;
 static PyObject *__pyx_n_s_fwdpy;
 static PyObject *__pyx_kp_s_fwdpy_ConstantS_s_not_a_number;
 static PyObject *__pyx_kp_s_fwdpy_ConstantS_s_not_finite;
 static PyObject *__pyx_kp_s_fwdpy_ExpS_mean_not_a_number;
+static PyObject *__pyx_kp_s_fwdpy_ExpS_mean_not_finite;
 static PyObject *__pyx_kp_s_fwdpy_GammaS_mean_not_a_number;
 static PyObject *__pyx_kp_s_fwdpy_GammaS_mean_not_finite;
 static PyObject *__pyx_kp_s_fwdpy_GammaS_shape_not_a_number;
@@ -16483,7 +16483,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ExpS___init__(CYTHON_UNUSED PyObject *_
  *         >>> constantS = fwdpy.ExpS(0,1,1,0,-0.1,0)
  *         """
  *         if math.isinf(mean):             # <<<<<<<<<<<<<<
- *             raise ValueError("fwdp.ExpS: mean not finite")
+ *             raise ValueError("fwdpy.ExpS: mean not finite")
  *         if math.isnan(mean):
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_math); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 297; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -16526,7 +16526,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ExpS___init__(CYTHON_UNUSED PyObject *_
     /* "fwdpy/regions.pyx":298
  *         """
  *         if math.isinf(mean):
- *             raise ValueError("fwdp.ExpS: mean not finite")             # <<<<<<<<<<<<<<
+ *             raise ValueError("fwdpy.ExpS: mean not finite")             # <<<<<<<<<<<<<<
  *         if math.isnan(mean):
  *             raise ValueError("fwdpy.ExpS: mean not a number")
  */
@@ -16540,14 +16540,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ExpS___init__(CYTHON_UNUSED PyObject *_
  *         >>> constantS = fwdpy.ExpS(0,1,1,0,-0.1,0)
  *         """
  *         if math.isinf(mean):             # <<<<<<<<<<<<<<
- *             raise ValueError("fwdp.ExpS: mean not finite")
+ *             raise ValueError("fwdpy.ExpS: mean not finite")
  *         if math.isnan(mean):
  */
   }
 
   /* "fwdpy/regions.pyx":299
  *         if math.isinf(mean):
- *             raise ValueError("fwdp.ExpS: mean not finite")
+ *             raise ValueError("fwdpy.ExpS: mean not finite")
  *         if math.isnan(mean):             # <<<<<<<<<<<<<<
  *             raise ValueError("fwdpy.ExpS: mean not a number")
  *         self.mean=float(mean)
@@ -16590,7 +16590,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ExpS___init__(CYTHON_UNUSED PyObject *_
   if (__pyx_t_6) {
 
     /* "fwdpy/regions.pyx":300
- *             raise ValueError("fwdp.ExpS: mean not finite")
+ *             raise ValueError("fwdpy.ExpS: mean not finite")
  *         if math.isnan(mean):
  *             raise ValueError("fwdpy.ExpS: mean not a number")             # <<<<<<<<<<<<<<
  *         self.mean=float(mean)
@@ -16604,7 +16604,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4ExpS___init__(CYTHON_UNUSED PyObject *_
 
     /* "fwdpy/regions.pyx":299
  *         if math.isinf(mean):
- *             raise ValueError("fwdp.ExpS: mean not finite")
+ *             raise ValueError("fwdpy.ExpS: mean not finite")
  *         if math.isnan(mean):             # <<<<<<<<<<<<<<
  *             raise ValueError("fwdpy.ExpS: mean not a number")
  *         self.mean=float(mean)
@@ -44376,11 +44376,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_freqfilter, __pyx_k_freqfilter, sizeof(__pyx_k_freqfilter), 0, 0, 1, 1},
   {&__pyx_kp_u_freqfilter_line_216, __pyx_k_freqfilter_line_216, sizeof(__pyx_k_freqfilter_line_216), 0, 1, 0, 0},
   {&__pyx_n_s_fs, __pyx_k_fs, sizeof(__pyx_k_fs), 0, 0, 1, 1},
-  {&__pyx_kp_s_fwdp_ExpS_mean_not_finite, __pyx_k_fwdp_ExpS_mean_not_finite, sizeof(__pyx_k_fwdp_ExpS_mean_not_finite), 0, 0, 1, 0},
   {&__pyx_n_s_fwdpy, __pyx_k_fwdpy, sizeof(__pyx_k_fwdpy), 0, 0, 1, 1},
   {&__pyx_kp_s_fwdpy_ConstantS_s_not_a_number, __pyx_k_fwdpy_ConstantS_s_not_a_number, sizeof(__pyx_k_fwdpy_ConstantS_s_not_a_number), 0, 0, 1, 0},
   {&__pyx_kp_s_fwdpy_ConstantS_s_not_finite, __pyx_k_fwdpy_ConstantS_s_not_finite, sizeof(__pyx_k_fwdpy_ConstantS_s_not_finite), 0, 0, 1, 0},
   {&__pyx_kp_s_fwdpy_ExpS_mean_not_a_number, __pyx_k_fwdpy_ExpS_mean_not_a_number, sizeof(__pyx_k_fwdpy_ExpS_mean_not_a_number), 0, 0, 1, 0},
+  {&__pyx_kp_s_fwdpy_ExpS_mean_not_finite, __pyx_k_fwdpy_ExpS_mean_not_finite, sizeof(__pyx_k_fwdpy_ExpS_mean_not_finite), 0, 0, 1, 0},
   {&__pyx_kp_s_fwdpy_GammaS_mean_not_a_number, __pyx_k_fwdpy_GammaS_mean_not_a_number, sizeof(__pyx_k_fwdpy_GammaS_mean_not_a_number), 0, 0, 1, 0},
   {&__pyx_kp_s_fwdpy_GammaS_mean_not_finite, __pyx_k_fwdpy_GammaS_mean_not_finite, sizeof(__pyx_k_fwdpy_GammaS_mean_not_finite), 0, 0, 1, 0},
   {&__pyx_kp_s_fwdpy_GammaS_shape_not_a_number, __pyx_k_fwdpy_GammaS_shape_not_a_number, sizeof(__pyx_k_fwdpy_GammaS_shape_not_a_number), 0, 0, 1, 0},
@@ -45131,16 +45131,16 @@ static int __Pyx_InitCachedConstants(void) {
   /* "fwdpy/regions.pyx":298
  *         """
  *         if math.isinf(mean):
- *             raise ValueError("fwdp.ExpS: mean not finite")             # <<<<<<<<<<<<<<
+ *             raise ValueError("fwdpy.ExpS: mean not finite")             # <<<<<<<<<<<<<<
  *         if math.isnan(mean):
  *             raise ValueError("fwdpy.ExpS: mean not a number")
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_fwdp_ExpS_mean_not_finite); if (unlikely(!__pyx_tuple__46)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 298; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_kp_s_fwdpy_ExpS_mean_not_finite); if (unlikely(!__pyx_tuple__46)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 298; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
 
   /* "fwdpy/regions.pyx":300
- *             raise ValueError("fwdp.ExpS: mean not finite")
+ *             raise ValueError("fwdpy.ExpS: mean not finite")
  *         if math.isnan(mean):
  *             raise ValueError("fwdpy.ExpS: mean not a number")             # <<<<<<<<<<<<<<
  *         self.mean=float(mean)
