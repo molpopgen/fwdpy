@@ -425,9 +425,9 @@ AC_DEFINE_UNQUOTED([GSL_VERSION],["$GSLVERSION"],[The version of GSL used to com
 
 dnl AC_ARG_ENABLE([cython],AS_HELP_STRING([--enable-cython],[Use Cython for compilation]),[AC_SUBST(EXTENSION,".pyx") AC_SUBST(CYTHONIMPORT,"from Cython.Build import cythonize") AC_SUBST(CYTHONIZE,"cythonize(extensions,gdb_debug=False)")],[AC_SUBST(EXTENSION,".cpp") AC_SUBST(CYTHONIMPORT,"") AC_SUBST(CYTHONIZE,"extensions")])
 dnl do we want tcmalloc?
-AC_ARG_ENABLE([tcmalloc],AS_HELP_STRING([--enable-tcmalloc],[Enable linking to Google's tcmalloc library, if present.]))
+#AC_ARG_ENABLE([tcmalloc],AS_HELP_STRING([--enable-tcmalloc],[Enable linking to Google's tcmalloc library, if present.]))
 dnl Intel's TBB
-AC_ARG_ENABLE([tbbprx],AS_HELP_STRING([--enable-tbbprx],[Enable linking to Intels's tbb proxy library, if present.]))
+#AC_ARG_ENABLE([tbbprx],AS_HELP_STRING([--enable-tbbprx],[Enable linking to Intels's tbb proxy library, if present.]))
 
 AX_CXX_COMPILE_STDCXX_11([noext],[mandatory])
 AC_LANG(C++)
@@ -450,15 +450,15 @@ AC_LANG_SAVE
           AC_LANG_CPLUSPLUS
           AC_REQUIRE_CPP
 dnl check for tcmalloc if desired
-if test "x$enable_tcmalloc" = xyes
-then
-AC_CHECK_LIB([tcmalloc],[tc_cfree],[AC_SUBST(TCMALLOC,"tcmalloc")],[AC_SUBST(TCMALLOC,"None")])
-fi
+#if test "x$enable_tcmalloc" = xyes
+#then
+#AC_CHECK_LIB([tcmalloc],[tc_cfree],[AC_SUBST(TCMALLOC,"tcmalloc")],[AC_SUBST(TCMALLOC,"None")])
+#fi
 dnl Intel's tbb
-if test "x$enable_tbbprx" = xyes
-then
-AC_CHECK_LIB([tbbmalloc_proxy],[main],[AC_SUBST(TBBPRX,"tbbmalloc_proxy")],[AC_SUBST(TBBPRX,"None")])
-fi
+#if test "x$enable_tbbprx" = xyes
+#then
+#AC_CHECK_LIB([tbbmalloc_proxy],[main],[AC_SUBST(TBBPRX,"tbbmalloc_proxy")],[AC_SUBST(TBBPRX,"None")])
+#fi
 AC_LANG_RESTORE
 
 dnl Generate config.status

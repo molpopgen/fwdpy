@@ -56,30 +56,30 @@ else:
     
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
-MEMLIBS=None
+#MEMLIBS=None
 LIBS=["gsl","gslcblas"]
 
-USETCMALLOC=False
+#USETCMALLOC=False
 
-if str('@TCMALLOC@') == str('tcmalloc'):
-    USETCMALLOC=True
-    MEMLIBS=['@TCMALLOC@']
+#if str('@TCMALLOC@') == str('tcmalloc'):
+#    USETCMALLOC=True
+#    MEMLIBS=['@TCMALLOC@']
 
-if str('@TBBPRX@') == str('tbbmalloc_proxy'):
-    if USETCMALLOC == True:
-        raise RuntimeError("cannot use both tcmalloc and tbbmalloc_proxy")
-    MEMLIBS=['@TBBPRX@']
+#if str('@TBBPRX@') == str('tbbmalloc_proxy'):
+#    if USETCMALLOC == True:
+#        raise RuntimeError("cannot use both tcmalloc and tbbmalloc_proxy")
+#    MEMLIBS=['@TBBPRX@']
 
-if MEMLIBS is not None:
-    for i in MEMLIBS:
-        LIBS.append(i)
+#if MEMLIBS is not None:
+#    for i in MEMLIBS:
+#        LIBS.append(i)
 
 ##Can we compile program based on dependencies?
 print("Attempting to compile and link a test program using fwdpy's dependencies")
 try:
     proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
-    if MEMLIBS is not None:
-        os.environ['TESTMEMLIBS'] = '-l'+str(MEMLIBS[0])
+#    if MEMLIBS is not None:
+#        os.environ['TESTMEMLIBS'] = '-l'+str(MEMLIBS[0])
     proc = subprocess.check_output(['make','-f','check_deps/Makefile'])
     proc = subprocess.check_output(['make','-f','check_deps/Makefile','clean'])
 except subprocess.CalledProcessError as e:
