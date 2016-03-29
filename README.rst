@@ -176,6 +176,7 @@ Generic instructions:
 To install system-wide:
 
 .. code-block:: bash
+		
    $ sudo python setup.py install
 
 To install for your user:
@@ -212,7 +213,7 @@ needed to install to the standard system locations.  Thus, it may be
 necessary to manually tell fwdpy where the dependencies are located.
 
 For example, let us assume that fwdpp_ and GSL_ are installed into
-your home folder. On *nix systems, $HOME is a variable representing
+your home folder. On Unix-like systems, $HOME is a variable representing
 the location of your home folder.  Thus, the header files for these
 libraries will be found in $HOME/include and any run-time libraries
 will be found in $HOME/lib.
