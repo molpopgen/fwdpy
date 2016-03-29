@@ -2011,8 +2011,8 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_init_containers(Py
 static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers_details(PyObject *, std::map<double,std::string>  *, unsigned int const ); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers(PyObject *, std::map<double,std::string>  *, std::map<double,std::string>  *); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_copy_map(std::map<double,std::string>  &, std::vector<std::pair<double,std::string> >  &); /*proto*/
-static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &, unsigned int); /*proto*/
-static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator, std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator, struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &, unsigned int const , unsigned int const , unsigned int const ); /*proto*/
+static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &, size_t); /*proto*/
+static size_t __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator, std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator, struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &, size_t const , size_t const , size_t const ); /*proto*/
 static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view_diploids_pd_details(fwdpy::singlepop_t const *, std::vector<unsigned int>  const &, int); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_traits_singlepop(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_traits_popvec(struct __pyx_obj_5fwdpy_5fwdpy_popvec *); /*proto*/
@@ -4549,7 +4549,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_6__getitem__(struct __pyx_obj_5f
  *     def __getitem__(self, int i):
  *         return self.pypops[i]             # <<<<<<<<<<<<<<
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->pypops, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
@@ -4581,7 +4581,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_6__getitem__(struct __pyx_obj_5f
  *     def __getitem__(self, int i):
  *         return self.pypops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  */
 
@@ -4599,7 +4599,7 @@ static Py_ssize_t __pyx_pw_5fwdpy_5fwdpy_6popvec_9__len__(PyObject *__pyx_v_self
 }
 
 static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_self) {
-  unsigned int __pyx_v_size_;
+  size_t __pyx_v_size_;
   Py_ssize_t __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4613,7 +4613,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
   /* "fwdpy/classes.pyx":75
  *         return self.pypops[i]
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)             # <<<<<<<<<<<<<<
+ *         cdef size_t size_ = len(self.pypops)             # <<<<<<<<<<<<<<
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  */
@@ -4625,7 +4625,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
 
   /* "fwdpy/classes.pyx":76
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
@@ -4634,7 +4634,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
   if (__pyx_t_3) {
 
     /* "fwdpy/classes.pyx":77
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
@@ -4648,7 +4648,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
 
     /* "fwdpy/classes.pyx":76
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
@@ -4669,7 +4669,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_6popvec_8__len__(struct __pyx_obj_5fwdp
  *     def __getitem__(self, int i):
  *         return self.pypops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  */
 
@@ -5681,7 +5681,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_6__getitem__(struct __pyx_o
  *     def __getitem__(self, int i):
  *         return self.pypops[i]             # <<<<<<<<<<<<<<
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->pypops, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
@@ -5713,7 +5713,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_6__getitem__(struct __pyx_o
  *     def __getitem__(self, int i):
  *         return self.pypops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  */
 
@@ -5731,7 +5731,7 @@ static Py_ssize_t __pyx_pw_5fwdpy_5fwdpy_10popvec_gmv_9__len__(PyObject *__pyx_v
 }
 
 static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv *__pyx_v_self) {
-  unsigned int __pyx_v_size_;
+  size_t __pyx_v_size_;
   Py_ssize_t __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5745,7 +5745,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
   /* "fwdpy/classes.pyx":126
  *         return self.pypops[i]
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)             # <<<<<<<<<<<<<<
+ *         cdef size_t size_ = len(self.pypops)             # <<<<<<<<<<<<<<
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  */
@@ -5757,7 +5757,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
 
   /* "fwdpy/classes.pyx":127
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
@@ -5766,7 +5766,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
   if (__pyx_t_3) {
 
     /* "fwdpy/classes.pyx":128
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
@@ -5780,7 +5780,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
 
     /* "fwdpy/classes.pyx":127
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
  *         return self.pops.size()
@@ -5801,7 +5801,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_8__len__(struct __pyx_obj_
  *     def __getitem__(self, int i):
  *         return self.pypops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  */
 
@@ -7071,7 +7071,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_6__getitem__(struct __pyx_obj_5
  *     def __getitem__(self, int i):
  *         return self.pympops[i]             # <<<<<<<<<<<<<<
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pympops)
+ *         cdef size_t size_ = len(self.pympops)
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_self->pympops, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
@@ -7103,7 +7103,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_6__getitem__(struct __pyx_obj_5
  *     def __getitem__(self, int i):
  *         return self.pympops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
- *         cdef unsigned size_ = len(self.pympops)
+ *         cdef size_t size_ = len(self.pympops)
  *         if self.mpops.size() != size_:
  */
 
@@ -7121,7 +7121,7 @@ static Py_ssize_t __pyx_pw_5fwdpy_5fwdpy_7mpopvec_9__len__(PyObject *__pyx_v_sel
 }
 
 static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_self) {
-  unsigned int __pyx_v_size_;
+  size_t __pyx_v_size_;
   Py_ssize_t __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7135,7 +7135,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
   /* "fwdpy/classes.pyx":203
  *         return self.pympops[i]
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pympops)             # <<<<<<<<<<<<<<
+ *         cdef size_t size_ = len(self.pympops)             # <<<<<<<<<<<<<<
  *         if self.mpops.size() != size_:
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
  */
@@ -7147,7 +7147,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
 
   /* "fwdpy/classes.pyx":204
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pympops)
+ *         cdef size_t size_ = len(self.pympops)
  *         if self.mpops.size() != size_:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
  *         return self.mpops.size()
@@ -7156,7 +7156,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
   if (__pyx_t_3) {
 
     /* "fwdpy/classes.pyx":205
- *         cdef unsigned size_ = len(self.pympops)
+ *         cdef size_t size_ = len(self.pympops)
  *         if self.mpops.size() != size_:
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.mpops.size()
@@ -7170,7 +7170,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
 
     /* "fwdpy/classes.pyx":204
  *     def __len__(self):
- *         cdef unsigned size_ = len(self.pympops)
+ *         cdef size_t size_ = len(self.pympops)
  *         if self.mpops.size() != size_:             # <<<<<<<<<<<<<<
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
  *         return self.mpops.size()
@@ -7191,7 +7191,7 @@ static Py_ssize_t __pyx_pf_5fwdpy_5fwdpy_7mpopvec_8__len__(struct __pyx_obj_5fwd
  *     def __getitem__(self, int i):
  *         return self.pympops[i]
  *     def __len__(self):             # <<<<<<<<<<<<<<
- *         cdef unsigned size_ = len(self.pympops)
+ *         cdef size_t size_ = len(self.pympops)
  *         if self.mpops.size() != size_:
  */
 
@@ -10646,7 +10646,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_19evolve_regions(PyObject *__pyx_self, P
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_f, char const *__pyx_v_fitness) {
   struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops = NULL;
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen;
+  size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -10795,7 +10795,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  */
   __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -10806,7 +10806,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  */
   __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10852,7 +10852,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
   /* "fwdpy/evolve_regions.pyx":95
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  */
@@ -10864,7 +10864,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
 
   /* "fwdpy/evolve_regions.pyx":96
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  *     return pops
@@ -10877,7 +10877,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
       /*try:*/ {
 
         /* "fwdpy/evolve_regions.pyx":97
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  *     return pops
@@ -10890,7 +10890,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
 
       /* "fwdpy/evolve_regions.pyx":96
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  *     return pops
@@ -11119,7 +11119,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_21evolve_regions_more(PyObject *__pyx_se
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_f, char const *__pyx_v_fitness) {
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen;
+  size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -11243,7 +11243,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
  *         f=0
  *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  */
   __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -11254,7 +11254,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
  *         f=0
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -11300,7 +11300,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
   /* "fwdpy/evolve_regions.pyx":152
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  */
@@ -11312,7 +11312,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
 
   /* "fwdpy/evolve_regions.pyx":153
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  * 
@@ -11325,7 +11325,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
       /*try:*/ {
 
         /* "fwdpy/evolve_regions.pyx":154
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  * 
@@ -11338,7 +11338,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
 
       /* "fwdpy/evolve_regions.pyx":153
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
  * 
@@ -11574,7 +11574,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, int __pyx_v_sample, unsigned int __pyx_v_nsam, double __pyx_v_f, char const *__pyx_v_fitness) {
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen;
+  size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -11762,7 +11762,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
  *         f=0
  *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  */
   __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -11773,7 +11773,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
  *         f=0
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -11819,7 +11819,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   /* "fwdpy/evolve_regions.pyx":202
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
  * 
  */
@@ -11831,7 +11831,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
 
   /* "fwdpy/evolve_regions.pyx":203
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  * 
  * @cython.boundscheck(False)
@@ -12054,7 +12054,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_25evolve_regions_track(PyObject *__pyx_s
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, int __pyx_v_sample, double __pyx_v_f, char const *__pyx_v_fitness) {
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen;
+  size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12210,7 +12210,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
  *         f=0
  *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  */
   __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 245; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -12221,7 +12221,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
  *         f=0
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 246; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -12267,7 +12267,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   /* "fwdpy/evolve_regions.pyx":247
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
  * 
  */
@@ -12279,7 +12279,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
 
   /* "fwdpy/evolve_regions.pyx":248
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  * 
  * @cython.boundscheck(False)
@@ -12497,12 +12497,12 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_27evolve_regions_split(PyObject *__pyx_s
 }
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist1, __Pyx_memviewslice __pyx_v_nlist2, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, std::vector<double>  __pyx_v_fs, char const *__pyx_v_fitness) {
-  unsigned int __pyx_v_i;
+  size_t __pyx_v_i;
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpv = NULL;
   struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_tt = NULL;
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen1;
-  unsigned int __pyx_v_listlen2;
+  size_t __pyx_v_listlen1;
+  size_t __pyx_v_listlen2;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -12514,7 +12514,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
   Py_ssize_t __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
   size_t __pyx_t_9;
-  unsigned int __pyx_t_10;
+  size_t __pyx_t_10;
   int __pyx_t_11;
   Py_ssize_t __pyx_t_12;
   std::vector<unsigned int>  __pyx_t_13;
@@ -12530,7 +12530,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
  * 
  *     """
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned i
+ *     cdef size_t i
  *     for i in range(fs.size()):
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_check_input_params); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -12584,7 +12584,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
 
   /* "fwdpy/evolve_regions.pyx":287
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
- *     cdef unsigned i
+ *     cdef size_t i
  *     for i in range(fs.size()):             # <<<<<<<<<<<<<<
  *         if fs[i] < 0.:
  *             warnings.warn("f[i] < 0 will be treated as 0")
@@ -12594,7 +12594,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
     __pyx_v_i = __pyx_t_10;
 
     /* "fwdpy/evolve_regions.pyx":288
- *     cdef unsigned i
+ *     cdef size_t i
  *     for i in range(fs.size()):
  *         if fs[i] < 0.:             # <<<<<<<<<<<<<<
  *             warnings.warn("f[i] < 0 will be treated as 0")
@@ -12630,7 +12630,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
       (__pyx_v_fs[__pyx_v_i]) = 0.0;
 
       /* "fwdpy/evolve_regions.pyx":288
- *     cdef unsigned i
+ *     cdef size_t i
  *     for i in range(fs.size()):
  *         if fs[i] < 0.:             # <<<<<<<<<<<<<<
  *             warnings.warn("f[i] < 0 will be treated as 0")
@@ -12713,8 +12713,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
  *         mpv.mpops.push_back(shared_ptr[metapop_t](new metapop_t([0])))
  */
   __pyx_t_12 = PyObject_Length(((PyObject *)__pyx_v_pops)); if (unlikely(__pyx_t_12 == -1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 295; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_12; __pyx_t_10+=1) {
-    __pyx_v_i = __pyx_t_10;
+  for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_12; __pyx_t_9+=1) {
+    __pyx_v_i = __pyx_t_9;
 
     /* "fwdpy/evolve_regions.pyx":297
  *     for i in range(len(pops)):
@@ -12828,7 +12828,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
  * 
  *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen1 = len(nlist1)
+ *     cdef size_t listlen1 = len(nlist1)
  */
   __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -12839,8 +12839,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
  * 
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen1 = len(nlist1)
- *     cdef unsigned listlen2 = len(nlist2)
+ *     cdef size_t listlen1 = len(nlist1)
+ *     cdef size_t listlen2 = len(nlist2)
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 310; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -12885,8 +12885,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
   /* "fwdpy/evolve_regions.pyx":311
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen1 = len(nlist1)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen2 = len(nlist2)
+ *     cdef size_t listlen1 = len(nlist1)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen2 = len(nlist2)
  *     with nogil:
  */
   __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist1, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[4]; __pyx_lineno = 311; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -12897,8 +12897,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
 
   /* "fwdpy/evolve_regions.pyx":312
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen1 = len(nlist1)
- *     cdef unsigned listlen2 = len(nlist2)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen1 = len(nlist1)
+ *     cdef size_t listlen2 = len(nlist2)             # <<<<<<<<<<<<<<
  *     with nogil:
  *         split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
  */
@@ -12909,8 +12909,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
   __pyx_v_listlen2 = __pyx_t_12;
 
   /* "fwdpy/evolve_regions.pyx":313
- *     cdef unsigned listlen1 = len(nlist1)
- *     cdef unsigned listlen2 = len(nlist2)
+ *     cdef size_t listlen1 = len(nlist1)
+ *     cdef size_t listlen2 = len(nlist2)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
  *     return mpv
@@ -12923,7 +12923,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
       /*try:*/ {
 
         /* "fwdpy/evolve_regions.pyx":314
- *     cdef unsigned listlen2 = len(nlist2)
+ *     cdef size_t listlen2 = len(nlist2)
  *     with nogil:
  *         split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  *     return mpv
@@ -12937,8 +12937,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_26evolve_regions_split(CYTHON_UNUSED PyO
       }
 
       /* "fwdpy/evolve_regions.pyx":313
- *     cdef unsigned listlen1 = len(nlist1)
- *     cdef unsigned listlen2 = len(nlist2)
+ *     cdef size_t listlen1 = len(nlist1)
+ *     cdef size_t listlen2 = len(nlist2)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         split_and_evolve_t(rng.thisptr,&mpv.mpops,&nlist1[0],listlen1,&nlist2[0],listlen2,mu_neutral,mu_selected,recrate,fs,rmgr.thisptr,fitness)
  *     return mpv
@@ -18002,7 +18002,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
  * cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil:
  *     cdef popgen_mut_data rv
  *     rv.pos=m.pos             # <<<<<<<<<<<<<<
- *     rv.n=n
+ *     rv.n=<unsigned>n
  *     rv.g=m.g
  */
   __pyx_t_1 = __pyx_v_m.pos;
@@ -18011,15 +18011,15 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
   /* "fwdpy/views.pyx":20
  *     cdef popgen_mut_data rv
  *     rv.pos=m.pos
- *     rv.n=n             # <<<<<<<<<<<<<<
+ *     rv.n=<unsigned>n             # <<<<<<<<<<<<<<
  *     rv.g=m.g
  *     rv.s=m.s
  */
-  __pyx_v_rv.n = __pyx_v_n;
+  __pyx_v_rv.n = ((unsigned int)__pyx_v_n);
 
   /* "fwdpy/views.pyx":21
  *     rv.pos=m.pos
- *     rv.n=n
+ *     rv.n=<unsigned>n
  *     rv.g=m.g             # <<<<<<<<<<<<<<
  *     rv.s=m.s
  *     rv.h=m.h
@@ -18028,7 +18028,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
   __pyx_v_rv.g = __pyx_t_2;
 
   /* "fwdpy/views.pyx":22
- *     rv.n=n
+ *     rv.n=<unsigned>n
  *     rv.g=m.g
  *     rv.s=m.s             # <<<<<<<<<<<<<<
  *     rv.h=m.h
@@ -18254,7 +18254,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_gamete_data __pyx_f_5fwdpy_5fwdpy_get_gamete
 
 static struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_f_5fwdpy_5fwdpy_get_diploid(fwdpy::diploid_t const &__pyx_v_dip, fwdpy::gcont_t const &__pyx_v_gametes, fwdpy::mcont_t const &__pyx_v_mutations, __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t const &__pyx_v_mcounts) {
   struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_v_rv;
-  unsigned int __pyx_v_i;
+  size_t __pyx_v_i;
   struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_r;
   double __pyx_t_1;
   int __pyx_t_2;
@@ -18294,7 +18294,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_f_5fwdpy_5fwdpy_get_diplo
  *    rv.w=dip.w
  *    rv.chrom0=get_gamete(gametes[dip.first],mutations,mcounts)             # <<<<<<<<<<<<<<
  *    rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)
- *    rv.n0 = rv.chrom0.selected.size()
+ *    rv.n0 = <unsigned>rv.chrom0.selected.size()
  */
   __pyx_v_rv.chrom0 = __pyx_f_5fwdpy_5fwdpy_get_gamete((__pyx_v_gametes[__pyx_v_dip.first]), __pyx_v_mutations, __pyx_v_mcounts);
 
@@ -18302,41 +18302,41 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_f_5fwdpy_5fwdpy_get_diplo
  *    rv.w=dip.w
  *    rv.chrom0=get_gamete(gametes[dip.first],mutations,mcounts)
  *    rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)             # <<<<<<<<<<<<<<
- *    rv.n0 = rv.chrom0.selected.size()
- *    rv.n1 = rv.chrom1.selected.size()
+ *    rv.n0 = <unsigned>rv.chrom0.selected.size()
+ *    rv.n1 = <unsigned>rv.chrom1.selected.size()
  */
   __pyx_v_rv.chrom1 = __pyx_f_5fwdpy_5fwdpy_get_gamete((__pyx_v_gametes[__pyx_v_dip.second]), __pyx_v_mutations, __pyx_v_mcounts);
 
   /* "fwdpy/views.pyx":49
  *    rv.chrom0=get_gamete(gametes[dip.first],mutations,mcounts)
  *    rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)
- *    rv.n0 = rv.chrom0.selected.size()             # <<<<<<<<<<<<<<
- *    rv.n1 = rv.chrom1.selected.size()
- *    cdef unsigned i = 0
+ *    rv.n0 = <unsigned>rv.chrom0.selected.size()             # <<<<<<<<<<<<<<
+ *    rv.n1 = <unsigned>rv.chrom1.selected.size()
+ *    cdef size_t i = 0
  */
-  __pyx_v_rv.n0 = __pyx_v_rv.chrom0.selected.size();
+  __pyx_v_rv.n0 = ((unsigned int)__pyx_v_rv.chrom0.selected.size());
 
   /* "fwdpy/views.pyx":50
  *    rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)
- *    rv.n0 = rv.chrom0.selected.size()
- *    rv.n1 = rv.chrom1.selected.size()             # <<<<<<<<<<<<<<
- *    cdef unsigned i = 0
+ *    rv.n0 = <unsigned>rv.chrom0.selected.size()
+ *    rv.n1 = <unsigned>rv.chrom1.selected.size()             # <<<<<<<<<<<<<<
+ *    cdef size_t i = 0
  *    while i < rv.chrom0.selected.size():
  */
-  __pyx_v_rv.n1 = __pyx_v_rv.chrom1.selected.size();
+  __pyx_v_rv.n1 = ((unsigned int)__pyx_v_rv.chrom1.selected.size());
 
   /* "fwdpy/views.pyx":51
- *    rv.n0 = rv.chrom0.selected.size()
- *    rv.n1 = rv.chrom1.selected.size()
- *    cdef unsigned i = 0             # <<<<<<<<<<<<<<
+ *    rv.n0 = <unsigned>rv.chrom0.selected.size()
+ *    rv.n1 = <unsigned>rv.chrom1.selected.size()
+ *    cdef size_t i = 0             # <<<<<<<<<<<<<<
  *    while i < rv.chrom0.selected.size():
  *        rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)
  */
   __pyx_v_i = 0;
 
   /* "fwdpy/views.pyx":52
- *    rv.n1 = rv.chrom1.selected.size()
- *    cdef unsigned i = 0
+ *    rv.n1 = <unsigned>rv.chrom1.selected.size()
+ *    cdef size_t i = 0
  *    while i < rv.chrom0.selected.size():             # <<<<<<<<<<<<<<
  *        rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)
  *        i+=1
@@ -18346,7 +18346,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_f_5fwdpy_5fwdpy_get_diplo
     if (!__pyx_t_2) break;
 
     /* "fwdpy/views.pyx":53
- *    cdef unsigned i = 0
+ *    cdef size_t i = 0
  *    while i < rv.chrom0.selected.size():
  *        rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)             # <<<<<<<<<<<<<<
  *        i+=1
@@ -18894,13 +18894,13 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_35view_mutations_popvec(PyObject *__pyx_
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_34view_mutations_popvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p) {
   std::vector<std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> >  __pyx_v_rv;
-  unsigned int __pyx_v_npops;
+  size_t __pyx_v_npops;
   int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  unsigned int __pyx_t_1;
-  unsigned int __pyx_t_2;
-  unsigned int __pyx_t_3;
+  size_t __pyx_t_1;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
   int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   int __pyx_lineno = 0;
@@ -18911,14 +18911,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_34view_mutations_popvec(CYTHON_UNUSED Py
   /* "fwdpy/views.pyx":103
  *     cdef mcont_t_itr beg,end
  *     cdef vector[vector[popgen_mut_data]] rv;
- *     cdef unsigned npops = p.pops.size()             # <<<<<<<<<<<<<<
+ *     cdef size_t npops = p.pops.size()             # <<<<<<<<<<<<<<
  *     cdef int i
  *     rv.resize(npops)
  */
   __pyx_v_npops = __pyx_v_p->pops.size();
 
   /* "fwdpy/views.pyx":105
- *     cdef unsigned npops = p.pops.size()
+ *     cdef size_t npops = p.pops.size()
  *     cdef int i
  *     rv.resize(npops)             # <<<<<<<<<<<<<<
  *     #for i in range(npops):
@@ -20160,14 +20160,14 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_43view_gametes_popvec(PyObject *__pyx_se
 }
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_popvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p) {
-  unsigned int __pyx_v_npops;
+  size_t __pyx_v_npops;
   int __pyx_v_i;
   std::vector<std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data> >  __pyx_v_rv;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  unsigned int __pyx_t_1;
-  unsigned int __pyx_t_2;
-  unsigned int __pyx_t_3;
+  size_t __pyx_t_1;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
   int __pyx_t_4;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -20177,7 +20177,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_popvec(CYTHON_UNUSED PyOb
   /* "fwdpy/views.pyx":190
  *     cdef:
  *         gcont_t_itr beg,end
- *         unsigned npops = p.pops.size()             # <<<<<<<<<<<<<<
+ *         size_t npops = p.pops.size()             # <<<<<<<<<<<<<<
  *         int i
  *         vector[vector[gamete_data]] rv
  */
@@ -21414,7 +21414,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_48view_diploids_singlepop(CYTHON_UNUSED 
  *     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
  * 
  * def view_diploids_popvec( popvec p, list indlist ):             # <<<<<<<<<<<<<<
- *     cdef int npops = len(p),i
+ *     cdef size_t npops = len(p),i
  *     cdef vector[vector[diploid_data]] rv
  */
 
@@ -21487,8 +21487,8 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_51view_diploids_popvec(PyObject *__pyx_s
 }
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p, PyObject *__pyx_v_indlist) {
-  int __pyx_v_npops;
-  int __pyx_v_i;
+  size_t __pyx_v_npops;
+  size_t __pyx_v_i;
   std::vector<std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data> >  __pyx_v_rv;
   std::vector<unsigned int>  __pyx_v_il;
   PyObject *__pyx_r = NULL;
@@ -21496,9 +21496,9 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
   Py_ssize_t __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
-  int __pyx_t_5;
-  int __pyx_t_6;
+  size_t __pyx_t_4;
+  size_t __pyx_t_5;
+  size_t __pyx_t_6;
   int __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -21508,7 +21508,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
   /* "fwdpy/views.pyx":268
  * 
  * def view_diploids_popvec( popvec p, list indlist ):
- *     cdef int npops = len(p),i             # <<<<<<<<<<<<<<
+ *     cdef size_t npops = len(p),i             # <<<<<<<<<<<<<<
  *     cdef vector[vector[diploid_data]] rv
  *     rv.resize(npops);
  */
@@ -21516,7 +21516,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
   __pyx_v_npops = __pyx_t_1;
 
   /* "fwdpy/views.pyx":270
- *     cdef int npops = len(p),i
+ *     cdef size_t npops = len(p),i
  *     cdef vector[vector[diploid_data]] rv
  *     rv.resize(npops);             # <<<<<<<<<<<<<<
  *     cdef vector[unsigned] il
@@ -21533,7 +21533,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
  *     rv.resize(npops);
  *     cdef vector[unsigned] il
  *     for i in indlist:             # <<<<<<<<<<<<<<
- *         il.push_back(i)
+ *         il.push_back(<unsigned>(i))
  *     #for i in range(npops):
  */
   if (unlikely(__pyx_v_indlist == Py_None)) {
@@ -21549,19 +21549,19 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
     __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 272; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_i = __pyx_t_4;
 
     /* "fwdpy/views.pyx":273
  *     cdef vector[unsigned] il
  *     for i in indlist:
- *         il.push_back(i)             # <<<<<<<<<<<<<<
+ *         il.push_back(<unsigned>(i))             # <<<<<<<<<<<<<<
  *     #for i in range(npops):
  *     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
  */
     try {
-      __pyx_v_il.push_back(__pyx_v_i);
+      __pyx_v_il.push_back(((unsigned int)__pyx_v_i));
     } catch(...) {
       __Pyx_CppExn2PyErr();
       {__pyx_filename = __pyx_f[2]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -21571,14 +21571,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
  *     rv.resize(npops);
  *     cdef vector[unsigned] il
  *     for i in indlist:             # <<<<<<<<<<<<<<
- *         il.push_back(i)
+ *         il.push_back(<unsigned>(i))
  *     #for i in range(npops):
  */
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/views.pyx":275
- *         il.push_back(i)
+ *         il.push_back(<unsigned>(i))
  *     #for i in range(npops):
  *     for i in prange(npops,schedule='static',nogil=True,chunksize=1):             # <<<<<<<<<<<<<<
  *         rv[i] = view_diploids_details(p.pops[i].get().diploids,
@@ -21636,7 +21636,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
       }
 
       /* "fwdpy/views.pyx":275
- *         il.push_back(i)
+ *         il.push_back(<unsigned>(i))
  *     #for i in range(npops):
  *     for i in prange(npops,schedule='static',nogil=True,chunksize=1):             # <<<<<<<<<<<<<<
  *         rv[i] = view_diploids_details(p.pops[i].get().diploids,
@@ -21671,7 +21671,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_50view_diploids_popvec(CYTHON_UNUSED PyO
  *     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
  * 
  * def view_diploids_popvec( popvec p, list indlist ):             # <<<<<<<<<<<<<<
- *     cdef int npops = len(p),i
+ *     cdef size_t npops = len(p),i
  *     cdef vector[vector[diploid_data]] rv
  */
 
@@ -22858,7 +22858,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers(Py
  *         diploid_view_to_sample_fill_containers_details(dip['chrom0']['selected'],selected,2*I)
  *         diploid_view_to_sample_fill_containers_details(dip['chrom1']['selected'],selected,2*I+1)             # <<<<<<<<<<<<<<
  *         I+=1
- *     if I != len(view):
+ *     if <size_t>I != len(view):
  */
     __pyx_t_3 = PyObject_GetItem(__pyx_v_dip, __pyx_n_s_chrom1); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 363; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
     __Pyx_GOTREF(__pyx_t_3);
@@ -22875,7 +22875,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers(Py
  *         diploid_view_to_sample_fill_containers_details(dip['chrom0']['selected'],selected,2*I)
  *         diploid_view_to_sample_fill_containers_details(dip['chrom1']['selected'],selected,2*I+1)
  *         I+=1             # <<<<<<<<<<<<<<
- *     if I != len(view):
+ *     if <size_t>I != len(view):
  *         raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")
  */
     __pyx_v_I = (__pyx_v_I + 1);
@@ -22893,7 +22893,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers(Py
   /* "fwdpy/views.pyx":365
  *         diploid_view_to_sample_fill_containers_details(dip['chrom1']['selected'],selected,2*I+1)
  *         I+=1
- *     if I != len(view):             # <<<<<<<<<<<<<<
+ *     if <size_t>I != len(view):             # <<<<<<<<<<<<<<
  *         raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")
  * 
  */
@@ -22902,12 +22902,12 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers(Py
     {__pyx_filename = __pyx_f[2]; __pyx_lineno = 365; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_t_1 = PyList_GET_SIZE(__pyx_v_view); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 365; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_5 = ((__pyx_v_I != __pyx_t_1) != 0);
+  __pyx_t_5 = ((((size_t)__pyx_v_I) != __pyx_t_1) != 0);
   if (__pyx_t_5) {
 
     /* "fwdpy/views.pyx":366
  *         I+=1
- *     if I != len(view):
+ *     if <size_t>I != len(view):
  *         raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")             # <<<<<<<<<<<<<<
  * 
  * ctypedef vector[pair[double,string]].iterator vec_itr
@@ -22921,7 +22921,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_view_to_sample_fill_containers(Py
     /* "fwdpy/views.pyx":365
  *         diploid_view_to_sample_fill_containers_details(dip['chrom1']['selected'],selected,2*I+1)
  *         I+=1
- *     if I != len(view):             # <<<<<<<<<<<<<<
+ *     if <size_t>I != len(view):             # <<<<<<<<<<<<<<
  *         raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")
  * 
  */
@@ -23028,7 +23028,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
   CYTHON_UNUSED char __pyx_v_ancestral;
   CYTHON_UNUSED char __pyx_v_derived;
   PyObject *__pyx_v_dip = NULL;
-  unsigned int __pyx_v_size_;
+  size_t __pyx_v_size_;
   std::vector<std::pair<double,std::string> >  __pyx_v_vneutral;
   std::vector<std::pair<double,std::string> >  __pyx_v_vselected;
   PyObject *__pyx_v_neutral_df = NULL;
@@ -23209,7 +23209,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
  *         neutral_info = diploid_view_to_sample_init_containers(dip['chrom1']['neutral'],&neutral,neutral_info,ttl_nsam)
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom0']['selected'],&selected,selected_info,ttl_nsam)             # <<<<<<<<<<<<<<
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom1']['selected'],&selected,selected_info,ttl_nsam)
- *     cdef unsigned size_ = len(neutral_info)
+ *     cdef size_t size_ = len(neutral_info)
  */
     __pyx_t_4 = PyObject_GetItem(__pyx_v_dip, __pyx_n_s_chrom0); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 405; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
     __Pyx_GOTREF(__pyx_t_4);
@@ -23228,7 +23228,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
  *         neutral_info = diploid_view_to_sample_init_containers(dip['chrom1']['neutral'],&neutral,neutral_info,ttl_nsam)
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom0']['selected'],&selected,selected_info,ttl_nsam)
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom1']['selected'],&selected,selected_info,ttl_nsam)             # <<<<<<<<<<<<<<
- *     cdef unsigned size_ = len(neutral_info)
+ *     cdef size_t size_ = len(neutral_info)
  *     if neutral.size() != size_:
  */
     __pyx_t_4 = PyObject_GetItem(__pyx_v_dip, __pyx_n_s_chrom1); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 406; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
@@ -23257,7 +23257,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
   /* "fwdpy/views.pyx":407
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom0']['selected'],&selected,selected_info,ttl_nsam)
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom1']['selected'],&selected,selected_info,ttl_nsam)
- *     cdef unsigned size_ = len(neutral_info)             # <<<<<<<<<<<<<<
+ *     cdef size_t size_ = len(neutral_info)             # <<<<<<<<<<<<<<
  *     if neutral.size() != size_:
  *         raise RuntimeError("diploid_view: unequal container sizes for neutral mutations")
  */
@@ -23266,7 +23266,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
 
   /* "fwdpy/views.pyx":408
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom1']['selected'],&selected,selected_info,ttl_nsam)
- *     cdef unsigned size_ = len(neutral_info)
+ *     cdef size_t size_ = len(neutral_info)
  *     if neutral.size() != size_:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("diploid_view: unequal container sizes for neutral mutations")
  *     size_ = len(selected_info)
@@ -23275,7 +23275,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
   if (__pyx_t_2) {
 
     /* "fwdpy/views.pyx":409
- *     cdef unsigned size_ = len(neutral_info)
+ *     cdef size_t size_ = len(neutral_info)
  *     if neutral.size() != size_:
  *         raise RuntimeError("diploid_view: unequal container sizes for neutral mutations")             # <<<<<<<<<<<<<<
  *     size_ = len(selected_info)
@@ -23289,7 +23289,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
 
     /* "fwdpy/views.pyx":408
  *         selected_info = diploid_view_to_sample_init_containers(dip['chrom1']['selected'],&selected,selected_info,ttl_nsam)
- *     cdef unsigned size_ = len(neutral_info)
+ *     cdef size_t size_ = len(neutral_info)
  *     if neutral.size() != size_:             # <<<<<<<<<<<<<<
  *         raise RuntimeError("diploid_view: unequal container sizes for neutral mutations")
  *     size_ = len(selected_info)
@@ -23844,19 +23844,19 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_56diploid_view_to_sample(CYTHON_UNUSED P
 /* "fwdpy/views.pyx":440
  *     vector[unsigned] n,g,ind,chrom
  * 
- * cdef void resize_dip_view_data( diploid_view_data & dv, unsigned nr ) nogil:             # <<<<<<<<<<<<<<
+ * cdef void resize_dip_view_data( diploid_view_data & dv, size_t nr ) nogil:             # <<<<<<<<<<<<<<
  *     dv.s.resize(nr)
  *     dv.h.resize(nr)
  */
 
-static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &__pyx_v_dv, unsigned int __pyx_v_nr) {
+static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &__pyx_v_dv, size_t __pyx_v_nr) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
 
   /* "fwdpy/views.pyx":441
  * 
- * cdef void resize_dip_view_data( diploid_view_data & dv, unsigned nr ) nogil:
+ * cdef void resize_dip_view_data( diploid_view_data & dv, size_t nr ) nogil:
  *     dv.s.resize(nr)             # <<<<<<<<<<<<<<
  *     dv.h.resize(nr)
  *     dv.n.resize(nr)
@@ -23875,7 +23875,7 @@ static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fw
   }
 
   /* "fwdpy/views.pyx":442
- * cdef void resize_dip_view_data( diploid_view_data & dv, unsigned nr ) nogil:
+ * cdef void resize_dip_view_data( diploid_view_data & dv, size_t nr ) nogil:
  *     dv.s.resize(nr)
  *     dv.h.resize(nr)             # <<<<<<<<<<<<<<
  *     dv.n.resize(nr)
@@ -23959,7 +23959,7 @@ static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fw
  *     dv.ind.resize(nr)
  *     dv.chrom.resize(nr)             # <<<<<<<<<<<<<<
  * 
- * cdef unsigned fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,
+ * cdef size_t fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,
  */
   try {
     __pyx_v_dv.chrom.resize(__pyx_v_nr);
@@ -23977,7 +23977,7 @@ static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fw
   /* "fwdpy/views.pyx":440
  *     vector[unsigned] n,g,ind,chrom
  * 
- * cdef void resize_dip_view_data( diploid_view_data & dv, unsigned nr ) nogil:             # <<<<<<<<<<<<<<
+ * cdef void resize_dip_view_data( diploid_view_data & dv, size_t nr ) nogil:             # <<<<<<<<<<<<<<
  *     dv.s.resize(nr)
  *     dv.h.resize(nr)
  */
@@ -23992,30 +23992,30 @@ static void __pyx_f_5fwdpy_5fwdpy_resize_dip_view_data(struct __pyx_t_5fwdpy_5fw
 /* "fwdpy/views.pyx":448
  *     dv.chrom.resize(nr)
  * 
- * cdef unsigned fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,             # <<<<<<<<<<<<<<
+ * cdef size_t fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,             # <<<<<<<<<<<<<<
  *                                   vector[popgen_mut_data].iterator gend,
  *                                   diploid_view_data & rv,
  */
 
-static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator __pyx_v_gbeg, std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator __pyx_v_gend, struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &__pyx_v_rv, unsigned int const __pyx_v_ROW, unsigned int const __pyx_v_IND, unsigned int const __pyx_v_ch) {
-  unsigned int __pyx_v_R;
-  unsigned int __pyx_r;
+static size_t __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator __pyx_v_gbeg, std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> ::iterator __pyx_v_gend, struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data &__pyx_v_rv, size_t const __pyx_v_ROW, size_t const __pyx_v_IND, size_t const __pyx_v_ch) {
+  size_t __pyx_v_R;
+  size_t __pyx_r;
   int __pyx_t_1;
   double __pyx_t_2;
   unsigned int __pyx_t_3;
 
   /* "fwdpy/views.pyx":454
- *                                   const unsigned IND,
- *                                   const unsigned ch) nogil:
- *    cdef unsigned R=ROW             # <<<<<<<<<<<<<<
+ *                                   const size_t IND,
+ *                                   const size_t ch) nogil:
+ *    cdef size_t R=ROW             # <<<<<<<<<<<<<<
  *    while gbeg != gend:
  *        rv.s[R] = deref(gbeg).s
  */
   __pyx_v_R = __pyx_v_ROW;
 
   /* "fwdpy/views.pyx":455
- *                                   const unsigned ch) nogil:
- *    cdef unsigned R=ROW
+ *                                   const size_t ch) nogil:
+ *    cdef size_t R=ROW
  *    while gbeg != gend:             # <<<<<<<<<<<<<<
  *        rv.s[R] = deref(gbeg).s
  *        rv.h[R] = deref(gbeg).h
@@ -24025,7 +24025,7 @@ static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct 
     if (!__pyx_t_1) break;
 
     /* "fwdpy/views.pyx":456
- *    cdef unsigned R=ROW
+ *    cdef size_t R=ROW
  *    while gbeg != gend:
  *        rv.s[R] = deref(gbeg).s             # <<<<<<<<<<<<<<
  *        rv.h[R] = deref(gbeg).h
@@ -24049,7 +24049,7 @@ static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct 
  *        rv.h[R] = deref(gbeg).h
  *        rv.n[R] = deref(gbeg).n             # <<<<<<<<<<<<<<
  *        rv.g[R] = deref(gbeg).g
- *        rv.ind[R]=IND
+ *        rv.ind[R]=<unsigned>IND
  */
     __pyx_t_3 = (*__pyx_v_gbeg).n;
     (__pyx_v_rv.n[__pyx_v_R]) = __pyx_t_3;
@@ -24058,8 +24058,8 @@ static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct 
  *        rv.h[R] = deref(gbeg).h
  *        rv.n[R] = deref(gbeg).n
  *        rv.g[R] = deref(gbeg).g             # <<<<<<<<<<<<<<
- *        rv.ind[R]=IND
- *        rv.chrom[R]=ch
+ *        rv.ind[R]=<unsigned>IND
+ *        rv.chrom[R]=<unsigned>ch
  */
     __pyx_t_3 = (*__pyx_v_gbeg).g;
     (__pyx_v_rv.g[__pyx_v_R]) = __pyx_t_3;
@@ -24067,24 +24067,24 @@ static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct 
     /* "fwdpy/views.pyx":460
  *        rv.n[R] = deref(gbeg).n
  *        rv.g[R] = deref(gbeg).g
- *        rv.ind[R]=IND             # <<<<<<<<<<<<<<
- *        rv.chrom[R]=ch
+ *        rv.ind[R]=<unsigned>IND             # <<<<<<<<<<<<<<
+ *        rv.chrom[R]=<unsigned>ch
  *        R+=1
  */
-    (__pyx_v_rv.ind[__pyx_v_R]) = __pyx_v_IND;
+    (__pyx_v_rv.ind[__pyx_v_R]) = ((unsigned int)__pyx_v_IND);
 
     /* "fwdpy/views.pyx":461
  *        rv.g[R] = deref(gbeg).g
- *        rv.ind[R]=IND
- *        rv.chrom[R]=ch             # <<<<<<<<<<<<<<
+ *        rv.ind[R]=<unsigned>IND
+ *        rv.chrom[R]=<unsigned>ch             # <<<<<<<<<<<<<<
  *        R+=1
  *        inc(gbeg)
  */
-    (__pyx_v_rv.chrom[__pyx_v_R]) = __pyx_v_ch;
+    (__pyx_v_rv.chrom[__pyx_v_R]) = ((unsigned int)__pyx_v_ch);
 
     /* "fwdpy/views.pyx":462
- *        rv.ind[R]=IND
- *        rv.chrom[R]=ch
+ *        rv.ind[R]=<unsigned>IND
+ *        rv.chrom[R]=<unsigned>ch
  *        R+=1             # <<<<<<<<<<<<<<
  *        inc(gbeg)
  *    return R
@@ -24092,7 +24092,7 @@ static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct 
     __pyx_v_R = (__pyx_v_R + 1);
 
     /* "fwdpy/views.pyx":463
- *        rv.chrom[R]=ch
+ *        rv.chrom[R]=<unsigned>ch
  *        R+=1
  *        inc(gbeg)             # <<<<<<<<<<<<<<
  *    return R
@@ -24114,7 +24114,7 @@ static unsigned int __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data(std::vector<struct 
   /* "fwdpy/views.pyx":448
  *     dv.chrom.resize(nr)
  * 
- * cdef unsigned fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,             # <<<<<<<<<<<<<<
+ * cdef size_t fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,             # <<<<<<<<<<<<<<
  *                                   vector[popgen_mut_data].iterator gend,
  *                                   diploid_view_data & rv,
  */
@@ -24136,11 +24136,11 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
   std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data>  __pyx_v_v;
   std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data> ::iterator __pyx_v_beg;
   std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_data> ::iterator __pyx_v_end;
-  unsigned int __pyx_v_nr;
+  size_t __pyx_v_nr;
   CYTHON_UNUSED struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_v_dd;
   struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_v_rv;
-  unsigned int __pyx_v_ROW;
-  unsigned int __pyx_v_IND;
+  size_t __pyx_v_ROW;
+  size_t __pyx_v_IND;
   struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_r;
   int __pyx_t_1;
 
@@ -24158,7 +24158,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
  *     cdef vector[diploid_data].iterator beg,end
  *     beg = v.begin()             # <<<<<<<<<<<<<<
  *     end = v.end()
- *     cdef unsigned nr = 0
+ *     cdef size_t nr = 0
  */
   __pyx_v_beg = __pyx_v_v.begin();
 
@@ -24166,7 +24166,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
  *     cdef vector[diploid_data].iterator beg,end
  *     beg = v.begin()
  *     end = v.end()             # <<<<<<<<<<<<<<
- *     cdef unsigned nr = 0
+ *     cdef size_t nr = 0
  * 
  */
   __pyx_v_end = __pyx_v_v.end();
@@ -24174,7 +24174,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
   /* "fwdpy/views.pyx":477
  *     beg = v.begin()
  *     end = v.end()
- *     cdef unsigned nr = 0             # <<<<<<<<<<<<<<
+ *     cdef size_t nr = 0             # <<<<<<<<<<<<<<
  * 
  *     #Determine length of vectors that we'll need
  */
@@ -24288,31 +24288,31 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
  *     beg = v.begin()
  *     end = v.end()             # <<<<<<<<<<<<<<
  *     cdef:
- *         unsigned ROW=0
+ *         size_t ROW=0
  */
   __pyx_v_end = __pyx_v_v.end();
 
   /* "fwdpy/views.pyx":496
  *     end = v.end()
  *     cdef:
- *         unsigned ROW=0             # <<<<<<<<<<<<<<
- *         unsigned IND=0
+ *         size_t ROW=0             # <<<<<<<<<<<<<<
+ *         size_t IND=0
  *     while beg != end:
  */
   __pyx_v_ROW = 0;
 
   /* "fwdpy/views.pyx":497
  *     cdef:
- *         unsigned ROW=0
- *         unsigned IND=0             # <<<<<<<<<<<<<<
+ *         size_t ROW=0
+ *         size_t IND=0             # <<<<<<<<<<<<<<
  *     while beg != end:
  *         if selectedOnly == False:
  */
   __pyx_v_IND = 0;
 
   /* "fwdpy/views.pyx":498
- *         unsigned ROW=0
- *         unsigned IND=0
+ *         size_t ROW=0
+ *         size_t IND=0
  *     while beg != end:             # <<<<<<<<<<<<<<
  *         if selectedOnly == False:
  *             ROW=fill_dip_view_data(deref(beg).chrom0.neutral.begin(),deref(beg).chrom0.neutral.end(),rv,ROW,IND,0)
@@ -24322,7 +24322,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
     if (!__pyx_t_1) break;
 
     /* "fwdpy/views.pyx":499
- *         unsigned IND=0
+ *         size_t IND=0
  *     while beg != end:
  *         if selectedOnly == False:             # <<<<<<<<<<<<<<
  *             ROW=fill_dip_view_data(deref(beg).chrom0.neutral.begin(),deref(beg).chrom0.neutral.end(),rv,ROW,IND,0)
@@ -24350,7 +24350,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
       __pyx_v_ROW = __pyx_f_5fwdpy_5fwdpy_fill_dip_view_data((*__pyx_v_beg).chrom1.neutral.begin(), (*__pyx_v_beg).chrom1.neutral.end(), __pyx_v_rv, __pyx_v_ROW, __pyx_v_IND, 1);
 
       /* "fwdpy/views.pyx":499
- *         unsigned IND=0
+ *         size_t IND=0
  *     while beg != end:
  *         if selectedOnly == False:             # <<<<<<<<<<<<<<
  *             ROW=fill_dip_view_data(deref(beg).chrom0.neutral.begin(),deref(beg).chrom0.neutral.end(),rv,ROW,IND,0)
@@ -24411,7 +24411,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data __pyx_f_5fwdpy_5fwdpy_view
  *         inc(beg)
  * 
  * def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):             # <<<<<<<<<<<<<<
- *     cdef unsigned npops = p.pops.size()
+ *     cdef size_t npops = p.pops.size()
  *     cdef int i
  */
 
@@ -24492,14 +24492,14 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_59view_diploids_pd_popvec(PyObject *__py
 }
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_58view_diploids_pd_popvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_p, std::vector<unsigned int>  __pyx_v_indlist, int __pyx_v_selectedOnly) {
-  unsigned int __pyx_v_npops;
+  size_t __pyx_v_npops;
   int __pyx_v_i;
   std::vector<struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data>  __pyx_v_rv;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  unsigned int __pyx_t_1;
-  unsigned int __pyx_t_2;
-  unsigned int __pyx_t_3;
+  size_t __pyx_t_1;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
   int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
   int __pyx_lineno = 0;
@@ -24510,7 +24510,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_58view_diploids_pd_popvec(CYTHON_UNUSED 
   /* "fwdpy/views.pyx":508
  * 
  * def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):
- *     cdef unsigned npops = p.pops.size()             # <<<<<<<<<<<<<<
+ *     cdef size_t npops = p.pops.size()             # <<<<<<<<<<<<<<
  *     cdef int i
  *     cdef vector[diploid_view_data] rv
  */
@@ -24624,7 +24624,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_58view_diploids_pd_popvec(CYTHON_UNUSED 
  *         inc(beg)
  * 
  * def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):             # <<<<<<<<<<<<<<
- *     cdef unsigned npops = p.pops.size()
+ *     cdef size_t npops = p.pops.size()
  *     cdef int i
  */
 
@@ -25971,7 +25971,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_64diploid_traits(CYTHON_UNUSED PyObject 
 
 /* "fwdpy/debug.pyx":1
  * def check_popdata_singlepop(singlepop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
  *     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
  */
 
@@ -26011,15 +26011,15 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_66check_popdata_singlepop(CYTHON_UNUSED 
 
   /* "fwdpy/debug.pyx":2
  * def check_popdata_singlepop(singlepop p):
- *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))             # <<<<<<<<<<<<<<
+ *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))             # <<<<<<<<<<<<<<
  *     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
  *     return {'check_sum':csum,'popdata_sane':pds}
  */
-  __pyx_v_csum = KTfwd::check_sum<fwdpy::gcont_t>(__pyx_v_p->pop.get()->gametes, (2 * __pyx_v_p->pop.get()->diploids.size()));
+  __pyx_v_csum = KTfwd::check_sum<fwdpy::gcont_t>(__pyx_v_p->pop.get()->gametes, (2 * ((unsigned int)__pyx_v_p->pop.get()->diploids.size())));
 
   /* "fwdpy/debug.pyx":3
  * def check_popdata_singlepop(singlepop p):
- *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
  *     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)             # <<<<<<<<<<<<<<
  *     return {'check_sum':csum,'popdata_sane':pds}
  * 
@@ -26027,7 +26027,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_66check_popdata_singlepop(CYTHON_UNUSED 
   __pyx_v_pds = KTfwd::popdata_sane<fwdpy::dipvector_t,fwdpy::gcont_t,fwdpy::mcont_t>(__pyx_v_p->pop.get()->diploids, __pyx_v_p->pop.get()->gametes, __pyx_v_p->pop.get()->mutations, __pyx_v_p->pop.get()->mcounts);
 
   /* "fwdpy/debug.pyx":4
- *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
  *     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
  *     return {'check_sum':csum,'popdata_sane':pds}             # <<<<<<<<<<<<<<
  * 
@@ -26050,7 +26050,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_66check_popdata_singlepop(CYTHON_UNUSED 
 
   /* "fwdpy/debug.pyx":1
  * def check_popdata_singlepop(singlepop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
  *     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
  */
 
@@ -26070,7 +26070,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_66check_popdata_singlepop(CYTHON_UNUSED 
  *     return {'check_sum':csum,'popdata_sane':pds}
  * 
  * def check_popdata_metapop(metapop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(p.mpop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
  *     lpds=[]
  */
 
@@ -26116,15 +26116,15 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_68check_popdata_metapop(CYTHON_UNUSED Py
   /* "fwdpy/debug.pyx":7
  * 
  * def check_popdata_metapop(metapop p):
- *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(p.mpop.get().diploids.size()))             # <<<<<<<<<<<<<<
+ *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))             # <<<<<<<<<<<<<<
  *     lpds=[]
  *     cdef bint pds
  */
-  __pyx_v_csum = KTfwd::check_sum<fwdpy::gcont_t>(__pyx_v_p->mpop.get()->gametes, (2 * __pyx_v_p->mpop.get()->diploids.size()));
+  __pyx_v_csum = KTfwd::check_sum<fwdpy::gcont_t>(__pyx_v_p->mpop.get()->gametes, (2 * ((unsigned int)__pyx_v_p->mpop.get()->diploids.size())));
 
   /* "fwdpy/debug.pyx":8
  * def check_popdata_metapop(metapop p):
- *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(p.mpop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
  *     lpds=[]             # <<<<<<<<<<<<<<
  *     cdef bint pds
  *     cdef size_t i = 0
@@ -26217,7 +26217,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_68check_popdata_metapop(CYTHON_UNUSED Py
  *     return {'check_sum':csum,'popdata_sane':pds}
  * 
  * def check_popdata_metapop(metapop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(p.mpop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
  *     lpds=[]
  */
 
@@ -26936,14 +26936,14 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_77allele_ages(PyObject *__pyx_self, PyOb
 }
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_76allele_ages(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::vector<std::pair<struct selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories, double __pyx_v_minfreq, unsigned int __pyx_v_minsojourn) {
-  unsigned int __pyx_v_nt;
+  size_t __pyx_v_nt;
   std::vector<std::vector<struct allele_age_data_t> >  __pyx_v_rv;
   int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  unsigned int __pyx_t_1;
-  unsigned int __pyx_t_2;
-  unsigned int __pyx_t_3;
+  size_t __pyx_t_1;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
   int __pyx_t_4;
   std::vector<struct allele_age_data_t>  __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
@@ -26955,14 +26955,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_76allele_ages(CYTHON_UNUSED PyObject *__
   /* "fwdpy/ages.pyx":10
  *     maximum frequency, and the number of times a frequency was recorded for that mutation.
  *     """
- *     cdef unsigned nt = trajectories.size()             # <<<<<<<<<<<<<<
+ *     cdef size_t nt = trajectories.size()             # <<<<<<<<<<<<<<
  *     cdef vector[vector[allele_age_data_t]] rv;
  *     rv.resize(nt)
  */
   __pyx_v_nt = __pyx_v_trajectories.size();
 
   /* "fwdpy/ages.pyx":12
- *     cdef unsigned nt = trajectories.size()
+ *     cdef size_t nt = trajectories.size()
  *     cdef vector[vector[allele_age_data_t]] rv;
  *     rv.resize(nt)             # <<<<<<<<<<<<<<
  *     cdef int i
@@ -27261,16 +27261,16 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_79merge_trajectories(PyObject *__pyx_sel
 }
 
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_78merge_trajectories(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::vector<std::pair<struct selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories1, std::vector<std::vector<std::pair<struct selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories2) {
-  unsigned int __pyx_v_nt;
+  size_t __pyx_v_nt;
   std::vector<std::vector<std::pair<struct selected_mut_data,std::vector<double> > > >  __pyx_v_rv;
   int __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  unsigned int __pyx_t_3;
-  unsigned int __pyx_t_4;
-  unsigned int __pyx_t_5;
+  size_t __pyx_t_3;
+  size_t __pyx_t_4;
+  size_t __pyx_t_5;
   int __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -27292,7 +27292,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_78merge_trajectories(CYTHON_UNUSED PyObj
  *     if trajectories1.size() != trajectories2.size():
  *         raise RuntimeError("the two input lists must be the same length")             # <<<<<<<<<<<<<<
  * 
- *     cdef unsigned nt = trajectories1.size()
+ *     cdef size_t nt = trajectories1.size()
  */
     __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__73, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[7]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
@@ -27312,14 +27312,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_78merge_trajectories(CYTHON_UNUSED PyObj
   /* "fwdpy/ages.pyx":32
  *         raise RuntimeError("the two input lists must be the same length")
  * 
- *     cdef unsigned nt = trajectories1.size()             # <<<<<<<<<<<<<<
+ *     cdef size_t nt = trajectories1.size()             # <<<<<<<<<<<<<<
  *     cdef vector[vector[pair[selected_mut_data,vector[double]]]] rv
  *     rv.resize(nt)
  */
   __pyx_v_nt = __pyx_v_trajectories1.size();
 
   /* "fwdpy/ages.pyx":34
- *     cdef unsigned nt = trajectories1.size()
+ *     cdef size_t nt = trajectories1.size()
  *     cdef vector[vector[pair[selected_mut_data,vector[double]]]] rv
  *     rv.resize(nt)             # <<<<<<<<<<<<<<
  *     cdef int i
@@ -44645,7 +44645,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
   /* "fwdpy/classes.pyx":77
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
@@ -44656,7 +44656,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple_);
 
   /* "fwdpy/classes.pyx":128
- *         cdef unsigned size_ = len(self.pypops)
+ *         cdef size_t size_ = len(self.pypops)
  *         if self.pops.size() != size_:
  *             raise RuntimeError("fwdpy.popvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.pops.size()
@@ -44678,7 +44678,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__3);
 
   /* "fwdpy/classes.pyx":205
- *         cdef unsigned size_ = len(self.pympops)
+ *         cdef size_t size_ = len(self.pympops)
  *         if self.mpops.size() != size_:
  *             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")             # <<<<<<<<<<<<<<
  *         return self.mpops.size()
@@ -45317,7 +45317,7 @@ static int __Pyx_InitCachedConstants(void) {
 
   /* "fwdpy/views.pyx":366
  *         I+=1
- *     if I != len(view):
+ *     if <size_t>I != len(view):
  *         raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")             # <<<<<<<<<<<<<<
  * 
  * ctypedef vector[pair[double,string]].iterator vec_itr
@@ -45327,7 +45327,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__63);
 
   /* "fwdpy/views.pyx":409
- *     cdef unsigned size_ = len(neutral_info)
+ *     cdef size_t size_ = len(neutral_info)
  *     if neutral.size() != size_:
  *         raise RuntimeError("diploid_view: unequal container sizes for neutral mutations")             # <<<<<<<<<<<<<<
  *     size_ = len(selected_info)
@@ -45426,7 +45426,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     if trajectories1.size() != trajectories2.size():
  *         raise RuntimeError("the two input lists must be the same length")             # <<<<<<<<<<<<<<
  * 
- *     cdef unsigned nt = trajectories1.size()
+ *     cdef size_t nt = trajectories1.size()
  */
   __pyx_tuple__73 = PyTuple_Pack(1, __pyx_kp_s_the_two_input_lists_must_be_the); if (unlikely(!__pyx_tuple__73)) {__pyx_filename = __pyx_f[7]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__73);
@@ -46085,7 +46085,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
  * 
  * def view_diploids_popvec( popvec p, list indlist ):             # <<<<<<<<<<<<<<
- *     cdef int npops = len(p),i
+ *     cdef size_t npops = len(p),i
  *     cdef vector[vector[diploid_data]] rv
  */
   __pyx_tuple__169 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_npops, __pyx_n_s_i, __pyx_n_s_rv, __pyx_n_s_il); if (unlikely(!__pyx_tuple__169)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 267; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -46133,7 +46133,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         inc(beg)
  * 
  * def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):             # <<<<<<<<<<<<<<
- *     cdef unsigned npops = p.pops.size()
+ *     cdef size_t npops = p.pops.size()
  *     cdef int i
  */
   __pyx_tuple__177 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_selectedOnly, __pyx_n_s_npops, __pyx_n_s_i, __pyx_n_s_rv); if (unlikely(!__pyx_tuple__177)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 507; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -46179,7 +46179,7 @@ static int __Pyx_InitCachedConstants(void) {
 
   /* "fwdpy/debug.pyx":1
  * def check_popdata_singlepop(singlepop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
  *     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
  */
   __pyx_tuple__185 = PyTuple_Pack(3, __pyx_n_s_p, __pyx_n_s_csum, __pyx_n_s_pds); if (unlikely(!__pyx_tuple__185)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -46191,7 +46191,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     return {'check_sum':csum,'popdata_sane':pds}
  * 
  * def check_popdata_metapop(metapop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(p.mpop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
  *     lpds=[]
  */
   __pyx_tuple__187 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_csum, __pyx_n_s_lpds, __pyx_n_s_pds, __pyx_n_s_i, __pyx_n_s_ndemes); if (unlikely(!__pyx_tuple__187)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -47450,7 +47450,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  *     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
  * 
  * def view_diploids_popvec( popvec p, list indlist ):             # <<<<<<<<<<<<<<
- *     cdef int npops = len(p),i
+ *     cdef size_t npops = len(p),i
  *     cdef vector[vector[diploid_data]] rv
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_51view_diploids_popvec, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 267; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -47498,7 +47498,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  *         inc(beg)
  * 
  * def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):             # <<<<<<<<<<<<<<
- *     cdef unsigned npops = p.pops.size()
+ *     cdef size_t npops = p.pops.size()
  *     cdef int i
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_59view_diploids_pd_popvec, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 507; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -47544,7 +47544,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
 
   /* "fwdpy/debug.pyx":1
  * def check_popdata_singlepop(singlepop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(p.pop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
  *     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_67check_popdata_singlepop, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -47556,7 +47556,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  *     return {'check_sum':csum,'popdata_sane':pds}
  * 
  * def check_popdata_metapop(metapop p):             # <<<<<<<<<<<<<<
- *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(p.mpop.get().diploids.size()))
+ *     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
  *     lpds=[]
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_69check_popdata_metapop, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}

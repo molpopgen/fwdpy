@@ -2669,7 +2669,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_3evolve_qtrait(PyObject *__pyx_
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_optimum, double __pyx_v_f, double __pyx_v_VS) {
   struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops = NULL;
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen;
+  size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2863,7 +2863,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper();             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  */
   __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
@@ -2874,7 +2874,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -2920,7 +2920,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
   /* "fwdpy/qtrait/evolve_qtraits.pyx":56
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  */
@@ -2932,7 +2932,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":57
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  *                                         rmgr.thisptr)
@@ -2945,7 +2945,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
       /*try:*/ {
 
         /* "fwdpy/qtrait/evolve_qtraits.pyx":58
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,             # <<<<<<<<<<<<<<
  *                                         rmgr.thisptr)
@@ -2966,7 +2966,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
 
       /* "fwdpy/qtrait/evolve_qtraits.pyx":57
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  *                                         rmgr.thisptr)
@@ -3217,7 +3217,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_5evolve_qtrait_more(PyObject *_
 
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_optimum, double __pyx_v_f, double __pyx_v_VS) {
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen;
+  size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -3377,7 +3377,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
  *         f=0
  *         rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *         internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  */
     __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
@@ -3388,7 +3388,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
  *         f=0
  *         rmgr = region_manager_wrapper()
  *         internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  */
     __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -3443,7 +3443,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
   /* "fwdpy/qtrait/evolve_qtraits.pyx":103
  *         rmgr = region_manager_wrapper()
  *         internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  */
@@ -3455,7 +3455,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":104
  *         internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  *                                         rmgr.thisptr)
@@ -3468,7 +3468,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
       /*try:*/ {
 
         /* "fwdpy/qtrait/evolve_qtraits.pyx":105
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,             # <<<<<<<<<<<<<<
  *                                         rmgr.thisptr)
@@ -3487,7 +3487,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
         if (unlikely(!__pyx_v_rmgr)) { __Pyx_RaiseUnboundLocalError("rmgr"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L5_error;} }
 
         /* "fwdpy/qtrait/evolve_qtraits.pyx":105
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,             # <<<<<<<<<<<<<<
  *                                         rmgr.thisptr)
@@ -3498,7 +3498,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
 
       /* "fwdpy/qtrait/evolve_qtraits.pyx":104
  *         internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_qtrait_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  *                                         rmgr.thisptr)
@@ -5708,7 +5708,7 @@ static PyObject *__pyx_pw_5fwdpy_6qtrait_6qtrait_15evolve_gbr(PyObject *__pyx_se
 static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_sigmaE, double __pyx_v_optimum, double __pyx_v_f, double __pyx_v_VS) {
   struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops = NULL;
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
-  unsigned int __pyx_v_listlen;
+  size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5938,7 +5938,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper();             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  */
   __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 229; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
@@ -5949,7 +5949,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
  *     pops = popvec(npops,N)
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  */
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -5995,7 +5995,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
   /* "fwdpy/qtrait/evolve_qtraits.pyx":231
  *     rmgr = region_manager_wrapper();
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
  *         evolve_gbr_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  */
@@ -6007,7 +6007,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":232
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_gbr_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  *                                      rmgr.thisptr)
@@ -6020,7 +6020,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
       /*try:*/ {
 
         /* "fwdpy/qtrait/evolve_qtraits.pyx":233
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:
  *         evolve_gbr_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,             # <<<<<<<<<<<<<<
  *                                      rmgr.thisptr)
@@ -6041,7 +6041,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
 
       /* "fwdpy/qtrait/evolve_qtraits.pyx":232
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
- *     cdef unsigned listlen = len(nlist)
+ *     cdef size_t listlen = len(nlist)
  *     with nogil:             # <<<<<<<<<<<<<<
  *         evolve_gbr_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,
  *                                      rmgr.thisptr)
