@@ -115,7 +115,7 @@ long_desc = open("README.rst").read()
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
                      str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"'
-]#,'-fno-builtin-malloc','-fno-builtin-calloc','-fno-builtin-realloc','-fno-builtin-free']
+]
 LINK_ARGS=["-std=c++11",'-fopenmp']
 
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
