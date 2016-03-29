@@ -78,17 +78,25 @@ namespace fwdpy {
             }
         }
 
-      //Eq'n 5 from Zhang et al (2004) Genetics 166: 597
+      //Calcate V(G) here b/c we're going to mess
+      //around with this container below when
+      //calculating V_{s,t}
       auto VG_ = gsl_stats_variance(VG.data(),1,VG.size());
-      auto meanTrait = gsl_stats_mean(trait.data(),1,trait.size());
-      auto kurtosis_trait = gsl_stats_kurtosis(trait.data(),1,trait.size());
-      /*
-	Transform based on squared deviation from mean trait value.
 
-	Really, this should be the optimum, but the API isn't allowing that right now...
+      //Eq'n 5 from Zhang et al (2004) Genetics 166: 597,
+      //but we calculate V_{G2} "manually"
+      auto meanTrait = gsl_stats_mean(trait.data(),1,trait.size());
+      auto meanG = gsl_stats_mean(VG.data(),1,VG.size());
+      /*
+	Transform arrays so that they represent squared deviations from mean.
+
+	For "trait", this should be the optimum, but the API isn't allowing that right now...
       */
+      std::transform(VG.begin(),VG.end(),VG.begin(),[meanG](const double d){ return std::pow(d-meanG,2.0);});
       std::transform(trait.begin(),trait.end(),trait.begin(),[meanTrait](const double d){ return std::pow(d-meanTrait,2.0);});
-      double vst=(kurtosis_trait+3.0+2*std::pow(VG_,2.0))/(2.0*gsl_stats_covariance(wbar.data(),1,trait.data(),1,wbar.size()));
+      //This is the apparent strenght of selection on the trait,
+      //which is a regression of fitness onto trait value.
+      double vst = -gsl_stats_variance(VG.data(),1,VG.size())/(2.0*gsl_stats_covariance(wbar.data(),1,trait.data(),1,wbar.size()));
       qstats.emplace_back(qtrait_stats_t::value_type{{double(generation),
 	      VG_,
 	      gsl_stats_variance(VE.data(),1,VE.size()),
