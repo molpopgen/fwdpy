@@ -37,6 +37,9 @@ namespace fwdpy {
   using qtrait_stats_t = std::vector<std::array<double,10>>;
 
   class pop_properties
+  /*!
+    Record "quantitative genetics" kinda stuff.
+   */
   {
   public:
     using final_t = std::vector<qtrait_stats_cython>;
