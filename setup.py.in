@@ -124,7 +124,7 @@ extensions = [
     Extension("fwdpy.fwdpy",
         sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
         language="c++",                        # generate and compile C++ code
-        include_dirs=['.','..'], # The -Ifwdpy is so that config.h can get included
+        include_dirs=['.','..'], 
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS),
@@ -150,7 +150,7 @@ if QTRAIT is True:
         Extension("fwdpy.qtrait.qtrait",
                   sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
                   language="c++",                        # generate and compile C++ code
-                  include_dirs=['.','..'], # The -Ifwdpy is so that config.h can get included
+                  include_dirs=['.','..'], 
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
                   extra_link_args=LINK_ARGS,
                   libraries=LIBS)
