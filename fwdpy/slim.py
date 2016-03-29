@@ -143,6 +143,8 @@ def readslim(filename):
     'recrate' is the total recombination rate (per diploid, per generation).
     
     :rtype: A dictionary containing the parsing results.
+
+    .. note:: This function is automatically imported into fwdpy.
     """
     if not os.path.isfile(filename):
         raise IOError("fwdpy.readslim: "+filename+" does not appear to be a regular file")
