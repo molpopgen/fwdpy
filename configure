@@ -623,8 +623,6 @@ ac_includes_default="\
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-TBBPRX
-TCMALLOC
 EGREP
 GREP
 CXXCPP
@@ -693,8 +691,6 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 with_virtualenv
-enable_tcmalloc
-enable_tbbprx
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1313,15 +1309,6 @@ if test -n "$ac_init_help"; then
      short | recursive ) echo "Configuration of fwdpy 0.0.3:";;
    esac
   cat <<\_ACEOF
-
-Optional Features:
-  --disable-option-checking  ignore unrecognized --enable/--with options
-  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
-  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-tcmalloc       Enable linking to Google's tcmalloc library, if
-                          present.
-  --enable-tbbprx         Enable linking to Intels's tbb proxy library, if
-                          present.
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -3249,16 +3236,8 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-# Check whether --enable-tcmalloc was given.
-if test "${enable_tcmalloc+set}" = set; then :
-  enableval=$enable_tcmalloc;
-fi
-
-# Check whether --enable-tbbprx was given.
-if test "${enable_tbbprx+set}" = set; then :
-  enableval=$enable_tbbprx;
-fi
-
+#AC_ARG_ENABLE([tcmalloc],AS_HELP_STRING([--enable-tcmalloc],[Enable linking to Google's tcmalloc library, if present.]))
+#AC_ARG_ENABLE([tbbprx],AS_HELP_STRING([--enable-tbbprx],[Enable linking to Intels's tbb proxy library, if present.]))
 
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -4501,94 +4480,14 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-if test "x$enable_tcmalloc" = xyes
-then
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for tc_cfree in -ltcmalloc" >&5
-$as_echo_n "checking for tc_cfree in -ltcmalloc... " >&6; }
-if ${ac_cv_lib_tcmalloc_tc_cfree+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-ltcmalloc  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char tc_cfree ();
-int
-main ()
-{
-return tc_cfree ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_tcmalloc_tc_cfree=yes
-else
-  ac_cv_lib_tcmalloc_tc_cfree=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_tcmalloc_tc_cfree" >&5
-$as_echo "$ac_cv_lib_tcmalloc_tc_cfree" >&6; }
-if test "x$ac_cv_lib_tcmalloc_tc_cfree" = xyes; then :
-  TCMALLOC="tcmalloc"
-
-else
-  TCMALLOC="None"
-
-fi
-
-fi
-if test "x$enable_tbbprx" = xyes
-then
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -ltbbmalloc_proxy" >&5
-$as_echo_n "checking for main in -ltbbmalloc_proxy... " >&6; }
-if ${ac_cv_lib_tbbmalloc_proxy_main+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-ltbbmalloc_proxy  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-
-int
-main ()
-{
-return main ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_cxx_try_link "$LINENO"; then :
-  ac_cv_lib_tbbmalloc_proxy_main=yes
-else
-  ac_cv_lib_tbbmalloc_proxy_main=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_tbbmalloc_proxy_main" >&5
-$as_echo "$ac_cv_lib_tbbmalloc_proxy_main" >&6; }
-if test "x$ac_cv_lib_tbbmalloc_proxy_main" = xyes; then :
-  TBBPRX="tbbmalloc_proxy"
-
-else
-  TBBPRX="None"
-
-fi
-
-fi
+#if test "x$enable_tcmalloc" = xyes
+#then
+#AC_CHECK_LIB([tcmalloc],[tc_cfree],[AC_SUBST(TCMALLOC,"tcmalloc")],[AC_SUBST(TCMALLOC,"None")])
+#fi
+#if test "x$enable_tbbprx" = xyes
+#then
+#AC_CHECK_LIB([tbbmalloc_proxy],[main],[AC_SUBST(TBBPRX,"tbbmalloc_proxy")],[AC_SUBST(TBBPRX,"None")])
+#fi
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
