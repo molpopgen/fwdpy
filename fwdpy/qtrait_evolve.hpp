@@ -40,7 +40,7 @@ namespace fwdpy
     {
       gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
       gsl_rng_set(rng,seed);
-      const unsigned simlen = Nvector_len;
+      const unsigned simlen = unsigned(Nvector_len);
       const double mu_tot = neutral + selected;
 
       KTfwd::extensions::discrete_mut_model m(std::move(__m));
@@ -87,7 +87,7 @@ namespace fwdpy
 	}
       gsl_rng_free(rng);
       //Update population's size variable to be the current pop size
-      pop->N = pop->diploids.size();
+      pop->N = KTfwd::uint_t(pop->diploids.size());
       return s.final();
     }
     

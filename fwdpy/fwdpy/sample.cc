@@ -8,7 +8,7 @@ namespace fwdpy {
   void get_sh_details( const std::vector<std::pair<double,std::string> > & sample,
 		       const singlepop_t::mcont_t & mutations,
 		       const singlepop_t::mcount_t & mcounts,
-		       const unsigned & twoN, const unsigned & gen,
+		       const size_t & twoN, const unsigned & gen,
 		       std::vector<double> * s,
 		       std::vector<double> * h,
 		       std::vector<double> * p,
