@@ -34,7 +34,15 @@ Important concepts for setting up simulations
    docs/summstats
    docs/slim
    docs/threads
+
+Notes for people wanting to work with the code
+####################################################################################
+
+.. toctree::
+   :maxdepth: 2
+	      
    docs/code
+   docs/extending
    
 Examples
 ##########################################
