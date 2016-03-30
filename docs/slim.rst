@@ -63,5 +63,5 @@ Limitations
 * Gene conversion is not currently supported
      
 .. _SLiM: http://messerlab.org/software/
-.. _fwdpp: http://github.com/molopgen/fwdpp
+.. _fwdpp: http://github.com/molpopgen/fwdpp
 .. _ms: http://home.uchicago.edu/~rhudson1
