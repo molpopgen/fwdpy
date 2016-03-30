@@ -51,15 +51,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         int size()
 
     # Types based around KTfwd::generalmut_vec
-    ctypedef gamete_base[generalmut_vec] gamete_gm_vec_t
-    ctypedef vector[gamete_gm_vec_t] glist_gm_vec_t
     ctypedef vector[generalmut_vec] mlist_gm_vec_t
-
-    cdef cppclass diploid_gm_vec_t:
-        size_t first,second;
-        double g,e,w
-
-    ctypedef vector[diploid_gm_vec_t] dipvector_gm_vec_t
 
     cdef cppclass singlepop_gm_vec_t:
         singlepop_gm_vec_t(unsigned)
@@ -67,8 +59,8 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         const unsigned generation
         mlist_gm_vec_t mutations
         vector[unsigned] mcounts
-        glist_gm_vec_t gametes
-        dipvector_gm_vec_t diploids
+        gcont_t gametes
+        vector[diploid_t] diploids
         vector[generalmut_vec] fixations
         vector[unsigned] fixation_times
         unsigned gen()
