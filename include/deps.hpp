@@ -1,3 +1,8 @@
+/*!
+  \file deps.hpp
+  \brief Declare functions to return version numbers and citation info for Python package.
+*/
+
 #include <vector>
 #include <string>
 

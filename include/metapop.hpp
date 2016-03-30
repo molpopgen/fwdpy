@@ -1,3 +1,9 @@
+/*!
+  \file metapop.hpp
+
+  \brief Operations on metapopulations.  Wrappers around fwdpp's demographic functions.
+*/
+
 #ifndef __FWDPY_METAPOP_HPP__
 #define __FWDPY_METAPOP_HPP__
 

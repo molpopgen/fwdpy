@@ -27,6 +27,24 @@ struct selected_mut_data
 
 namespace fwdpy
 {
+  //! Used internally to convert C++11 types to something Cython will understand
+  enum class traj_key_values : std::size_t { deme,origin,pos,esize };
+
+  /*!
+    \brief Unique key for a mutation.  Used when tracking mutation frequencies.
+
+    Values are: deme, generation of mutation origin, position, effect size.
+
+    \note Used in fwdpy::selected_mut_tracker
+  */
+  using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
+  /*!
+    \brief Internal representation of mutation frequencies during a simulation
+
+    \note Used in fwdpy::selected_mut_tracker
+  */
+  using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
+  
   class selected_mut_tracker //record info on selected mutations in population, including fixations
   {
   public:
