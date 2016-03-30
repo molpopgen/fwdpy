@@ -1,5 +1,4 @@
 import os.path
-import internal
 import fwdpy
 
 ## These functions are intentionally undocumented
