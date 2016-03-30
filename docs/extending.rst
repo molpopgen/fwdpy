@@ -61,6 +61,22 @@ That path refers to where the *module itself* is installed.  The ROOT is /usr/lo
 		
    $ find /usr/local -name "*.hpp" | grep fwdpy
 
+API Documentation
+---------------------------------------------------------------------
+
+Cython's .pxd files have no analog to Python's dosctrings.  However, those pxd files do tell you the name of the header where each C++ declaration can be found.  Those headers are (starting to be) documented into a reference manual using doxygen_.  Currently, this is a work in progress.
+
+To build the API documentation:
+
+.. code-block:: bash
+
+   $ ./configure
+   $ doxygen fwdpy.doxygen
+
+Then, point your browser to html/index.html.
+
+.. _doxygen: http://doxygen.org
+
    
 
 
