@@ -34,6 +34,7 @@ Important concepts for setting up simulations
    docs/summstats
    docs/slim
    docs/threads
+   docs/code
    
 Examples
 ##########################################
