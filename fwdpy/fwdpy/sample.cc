@@ -24,15 +24,6 @@ namespace fwdpy {
 	p->push_back(double(mcounts[std::distance(mutations.begin(),mutations.end())])/double(twoN));
 	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
       }
-    // std::for_each(sample.begin(),sample.end(),[&mutations,&s,&h,&p,&a,&twoN,&gen](const std::pair<double,std::string> & __pair) {
-    // 	auto mitr = std::find_if(mutations.begin(),mutations.end(),[&__pair]( const singlepop_t::mutation_t & m ) {
-    // 	    return __pair.first==m.pos;
-    // 	  });
-    // 	s->push_back(mitr->s);
-    // 	h->push_back(mitr->h);
-    // 	p->push_back(double(mitr->n)/double(twoN));
-    // 	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
-    //   });
   }
   
   void get_sh( const std::vector<std::pair<double,std::string> > & samples,
