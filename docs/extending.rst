@@ -27,7 +27,7 @@ For example, when I use python3 to install the package on my OS X machine using 
    $ #We must use an OMP-enabled clang on OS X:
    $ CC=clang-omp CXX=clang-omp++ python3 setup.py install
 
-I see this amonst the output:
+I see this in the output:
 
 .. code-block:: bash
 		
