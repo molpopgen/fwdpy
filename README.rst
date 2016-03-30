@@ -48,7 +48,7 @@ So far, there is support for:
 * Selfing
 * The ability to vary model parameters over time (recombination rates, genetic maps, selfing, selection, etc.)
 * Sampling populations at various time points
-* Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11's threading mechanism.  This is a "sneaky" end-run around Pythons' Global Interpreter Lock, or GIL.
+* Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11's threading mechanism.  This is a "sneaky" end-run around Python's Global Interpreter Lock, or GIL.
 
 The following distributions of selection coefficients are supported:
 
