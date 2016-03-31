@@ -23,6 +23,10 @@ struct detailed_deme_sample
 namespace fwdpy
 {
   class sample_n //take a sample of size n from a population
+  /*
+    \brief A "sampler" that takes a sample of n gametes from a population
+    \ingroup samplers
+   */
   {
   public:
     using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;

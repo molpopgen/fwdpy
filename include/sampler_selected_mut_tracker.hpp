@@ -45,7 +45,11 @@ namespace fwdpy
   */
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
   
-  class selected_mut_tracker //record info on selected mutations in population, including fixations
+  class selected_mut_tracker
+  /*!
+    \brief A "sampler" for recording frequency trajectories of selected mutations.
+    \ingroup samplers
+  */
   {
   public:
     using final_t = std::vector< std::pair<selected_mut_data, std::vector<double> > >;

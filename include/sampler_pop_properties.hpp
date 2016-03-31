@@ -38,7 +38,8 @@ namespace fwdpy {
 
   class pop_properties
   /*!
-    Record "quantitative genetics" kinda stuff.
+    \brief A "sampler" that records "quantitative genetics" kinda stuff.
+    \ingroup samplers
    */
   {
   public:
