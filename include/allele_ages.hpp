@@ -6,6 +6,13 @@
 
 //NAMESPACE POLLUTION
 struct allele_age_data_t
+/*!
+  \brief Structure representing allele ages.
+
+  Intended use is conversion to Python dictionary.
+
+  Returned to Python via Cython making a call to fwdpy::allele_ages_details
+*/
 {
   double esize,max_freq,last_freq;
   unsigned origin,tlen;
@@ -31,13 +38,20 @@ struct allele_age_data_t
 
 namespace fwdpy
 {
+
+  /*!
+    \brief Take an object of type fwdpy::selected_mut_tracker and return allele age data.
+
+    The parameters exclude mutations whose max frequency are < minfreq or whose sojourn time
+    in simulation is < minsojourn.
+  */
   std::vector< allele_age_data_t > allele_ages_details( const selected_mut_tracker::final_t & trajectories,
 							const double minfreq, const unsigned minsojourn );
 
   /*
-    merge traj1 and traj2.
+    \brief Merge containers of mutation trajectories.
 
-    traj1 is a "source" that will "sink" into a copy via std::move, hence the
+    \note traj1 is a "source" that will "sink" into a copy via std::move, hence the
     expensive-looking prototype :)
   */
   selected_mut_tracker::final_t merge_trajectories_details( selected_mut_tracker::final_t traj1,
