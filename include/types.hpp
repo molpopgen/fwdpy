@@ -1,3 +1,9 @@
+/*! 
+  \file types.hpp
+
+  \brief Wrappers around fwdpp types for the fwdpy Python package.
+*/
+
 #ifndef __FWDPY_TYPES__
 #define __FWDPY_TYPES__
 
@@ -5,55 +11,55 @@
 #include <tuple>
 #include <memory>
 #include <vector>
-#include <array>
 #include <fwdpp/tags/diploid_tags.hpp>
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
 #include <gsl/gsl_statistics_double.h>
 
-/*
-  NAMESPACE POLLUTION!!!!!
-
-  Types defined here are in the global namespace.
-
-  This is bad, BUT, it allows for auto-conversion of
-  struct to dict via Cython.
-
-  Currently, Cython will fail to compile auto-conversion
-  code for structs declared inside a C++ namespace.
-*/
-
-  struct qtrait_stats_cython
-  {
-    std::string stat;
-    double value;
-    unsigned generation;
-    qtrait_stats_cython(std::string _stat,
-			double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
-    {
-    }
-  };
-
 namespace fwdpy {
+
+  /*!
+    Random number generator.
+
+    This is a std::unique_ptr wrapper to a gsl_rng * initialized
+    as a Mersenne twister type (gsl_rng_mt19937).
+  */
   using GSLrng_t = KTfwd::GSLrng_t<KTfwd::GSL_RNG_MT19937>;
 
+  //! Typedef for mutation container
   using mcont_t = std::vector<KTfwd::popgenmut>;
+  //! Typedef for gamete type
   using gamete_t = KTfwd::gamete;
+  //! Typedef for gamete container
   using gcont_t = std::vector<gamete_t>;
 
   struct diploid_t : public KTfwd::tags::custom_diploid_t
+  /*!
+    \brief Custom diploid type.
+  */
   {
     using first_type = std::size_t;
     using second_type = std::size_t;
+    //! First gamete.  A gamete is vector<size_t> where the elements are indexes to a population's gamete container
     first_type first;
+    //! Second gamete. A gamete is vector<size_t> where the elements are indexes to a population's gamete container
     second_type second;
-    double g,e,w;
+    //! Genetic component of trait value.  This is not necessarily written to by a simulation.
+    double g;
+    //! Random component of trait value.  This is not necessarily written to by a simulation.
+    double e;
+    //! Fitness.  This is not necessarily written to by a simulation.
+    double w;
+    //! Constructor
     diploid_t() noexcept : first(first_type()),second(second_type()),g(0.),e(0.),w(0.) {}
+    //! Construct from two indexes to gametes
     diploid_t(first_type g1, first_type g2) noexcept : first(g1),second(g2),g(0.),e(0.),w(0.) {}
   };
 
+  //! Typedef for container of diploids
   using dipvector_t = std::vector<diploid_t>;
 
+  //! Allows serialization of diploids.
   struct diploid_writer
   {
     using result_type = void;
@@ -66,6 +72,7 @@ namespace fwdpy {
     }
   };
 
+  //! Allows de-serialization of diploids.
   struct diploid_reader
   {
     using result_type = void;
@@ -78,169 +85,145 @@ namespace fwdpy {
     }
   };
 
-  enum class traj_key_values : std::size_t
-  {
-    deme,origin,pos,esize
-  };
-
-  using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
-  using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
-
-  enum class qtrait_stat_names : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR };
-
-  using qtrait_stats_t = std::vector<std::array<double,8>>;
-
-  template<typename ostream>
-  void serialize_qtrait_stats(ostream & o, const qtrait_stats_t & qts)
-  {
-    std::size_t n=qts.size();
-    o.write(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
-    for(const auto & e : qts)
-      {
-	o.write(reinterpret_cast<const char*>(e.data()),e.max_size()*sizeof(double));
-      }
-  }
-
-  template<typename istream>
-  void deserialize_qtrait_stats(istream & i, qtrait_stats_t & qts)
-  {
-    std::size_t n;
-    i.read(reinterpret_cast<char*>(&n),sizeof(decltype(n)));
-    qts.resize(n);
-    for(auto & e : qts)
-      {
-	i.read(reinterpret_cast<char*>(e.data()),e.max_size()*sizeof(double));
-      }
-  }
-
   struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
+  /*!
+    \brief Single-deme object where mutations have single effect size and dominance.
+
+    This is the C++ representation of a single-deme simulation where a KTfwd::popgenmut
+    is the mutation type, and a custom diploid (fwdpy::diploid_t) is the diploid type.
+
+    This type inherits from fwdpp's type KTfwd::singlepop, and the main documentation
+    is found in the fwdpp reference manual. 
+
+    Here is a brief overview of the most important members of the base class.
+
+    The format is name: type, comment
+
+    mutations: vector<popgenmut>, contains a mix of extinct, segregating, and possibly fixed variants, depending on the simulation type.
+    mcounts: vector<unsigned>, is the same length as mutations, and records the count (frequency, as an integer) of each mutation.
+    gametes: vector<gamete>, contains a mix of extinct and extant gametes
+    diploids: vector<diploid>
+    fixations: vector<popgenmut>, is filled by simulations that "prine" fixations when they occur
+    fixation_times: vector<unsigned>, is filled by simulations that "prine" fixations when they occur
+
+    \note Internally, fwdppy uses extinct elements in containers for "object recycling."
+
+    Further:
+
+    1. For each diploid, first and second are indexes into gametes
+    2. Within each gamete, mutations and smutations contain indexes to "neutral" and "selected" mutations, resepectively, in mutations
+  */
   {
+    //! Typedef for base type
     using base = KTfwd::singlepop<KTfwd::popgenmut,diploid_t>;
-    using trajtype = trajectories_t;
+    //! The current generation.  Start counting from zero
     unsigned generation;
-    trajtype trajectories;
-    qtrait_stats_t qstats;
-    singlepop_t(const unsigned & N) : base(N),generation(0),
-				      trajectories(trajtype()),
-				      qstats(qtrait_stats_t())
+    //! Constructor takes number of diploids as argument
+    singlepop_t(const unsigned & N) : base(N),generation(0)
     {
     }
 
     unsigned gen() const
+    /*!
+      \return current generation.
+
+      This is mostly useful on the Cython side
+    */
     {
       return generation;
     }
     unsigned popsize() const
+    /*!
+      \return current population size.
+
+      This is mostly useful on the Cython side
+    */
     {
       return N;
     }
     int sane() const
+    /*!
+      \return int(N == diploids.size())
+
+      Useful on Cython side to check that N is 
+      getting updated during simulations...
+    */
     {
       return int(N == diploids.size());
     }
-
-    void updateTraj()
-    {
-      for(std::size_t i = 0 ; i < this->mcounts.size() ; ++i )
-      	{
-	  if(this->mcounts[i]) //if mutation is not extinct
-	    {
-	      const auto & __m = this->mutations[i];
-	      unsigned n = this->mcounts[i];
-	      if( !__m.neutral )
-		{
-		  auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s);
-		  auto __itr = trajectories.find(__p);
-		  if(__itr == trajectories.end())
-		    {
-		      trajectories[__p] = std::vector<double>(1,double(n)/double(2*diploids.size()));
-		    }
-		  else
-		    {
-		      //Don't keep updating for fixed variants
-		      if( __itr->second.back() < 1.) //2*diploids.size() )
-			{
-			  __itr->second.push_back(double(n)/double(2*diploids.size()));
-			}
-		    }
-		}
-	    }
-      	}
-    }
-
-    void updateStats()
-     {
-      std::vector<double> VG,VE,wbar;
-      VG.reserve(diploids.size());
-      VE.reserve(diploids.size());
-      wbar.reserve(diploids.size());
-
-      for(const auto & dip : diploids)
-	{
-	  VG.push_back(dip.g);
-	  VE.push_back(dip.e);
-	  wbar.push_back(dip.w);
-	}
-
-      double twoN=2.*double(diploids.size());
-      double mvexpl = 0.,
-        leading_e=std::numeric_limits<double>::quiet_NaN(),
-        leading_f=std::numeric_limits<double>::quiet_NaN();
-      double sum_e = 0.;
-      unsigned nm=0;
-      for(std::size_t i = 0 ; i < mcounts.size() ; ++i )
-        {
-          if(mcounts[i] && mcounts[i]<twoN&&!mutations[i].neutral)
-            {
-              auto n = mcounts[i];
-              double p=double(n)/twoN,q=1.-p;
-	      double s = mutations[i].s;
-	      double temp = 2.*p*q*std::pow(s,2.0);
-              if (temp > mvexpl)
-                {
-                  mvexpl=temp;
-                  leading_e = s;
-                  leading_f = p;
-                }
-	      sum_e += mutations[i].s;
-	      ++nm;
-            }
-        }
-
-      qstats.emplace_back(qtrait_stats_t::value_type{{double(generation),
-	      gsl_stats_variance(VG.data(),1,VG.size()),
-	      gsl_stats_variance(VE.data(),1,VE.size()),
-	      leading_f,
-	      leading_e,
-	      mvexpl,
-	      sum_e/double(nm),
-	      gsl_stats_mean(wbar.data(),1,wbar.size())}});
-    }
-
-    void clearTrajectories()
-    {
-      trajectories.clear();
-    }
   };
 
-  std::vector<qtrait_stats_cython> convert_qtrait_stats( const singlepop_t * pop );
 
   struct metapop_t : public KTfwd::metapop<KTfwd::popgenmut,diploid_t>
+  /*!
+    \brief Multi-deme object where mutations have single effect size and dominance.
+
+    This is the C++ representation of a single-deme simulation where a KTfwd::popgenmut
+    is the mutation type, and a custom diploid (fwdpy::diploid_t) is the diploid type.
+
+    This type inherits from fwdpp's type KTfwd::singlepop, and the main documentation
+    is found in the fwdpp reference manual. 
+
+    Here is a brief overview of the most important members of the base class.
+
+    The format is name: type, comment
+
+    mutations: vector<popgenmut>, contains a mix of extinct, segregating, and possibly fixed variants, depending on the simulation type.
+    mcounts: vector<unsigned>, is the same length as mutations, and records the count (frequency, as an integer) of each mutation.
+    gametes: vector<gamete>, contains a mix of extinct and extant gametes
+    diploids: vector<vector<diploid>>, each vector is a deme
+    fixations: vector<popgenmut>, is filled by simulations that "prine" fixations when they occur
+    fixation_times: vector<unsigned>, is filled by simulations that "prine" fixations when they occur
+
+    \note Internally, fwdppy uses extinct elements in containers for "object recycling."
+
+    Further:
+
+    1. For each diploid, first and second are indexes into gametes
+    2. Within each gamete, mutations and smutations contain indexes to "neutral" and "selected" mutations, resepectively, in mutations
+  */
   {
+    //! Typedef for base type
     using base = KTfwd::metapop<KTfwd::popgenmut,diploid_t>;
+    //! Current generation.  Start counting from 0
     unsigned generation;
+    //! Constructor takes list of deme sizes are aregument
     metapop_t( const std::vector<unsigned> &Ns ) : base(&Ns[0],Ns.size()), generation(0)
     {
     }
+
+    //! Constructor takes list of deme sizes are aregument
+    metapop_t( const std::initializer_list<unsigned> & Ns ) : base(Ns), generation(0)
+    {
+    }
+
+    //! Construct from a fwdpy::singlepop_t
+    metapop_t(const singlepop_t & p) : base(p),generation(p.generation)
+    {
+    }
+    
     unsigned gen() const
+    /*!
+      \return current generation.
+      
+      This is mostly useful on the Cython side
+    */
     {
       return generation;
     }
     std::vector<unsigned> popsizes() const
+    /*!
+      \return list of current deme sizese
+      
+      This is mostly useful on the Cython side
+    */
     {
       return Ns;
     }
     int sane() const
+    /*!
+      \return true of demes[i].size() == Ns[i] for all i. Returns false otherwise.
+    */
     {
       for(unsigned i=0;i<diploids.size();++i)
 	{
@@ -249,35 +232,28 @@ namespace fwdpy {
       return 1;
     }
     int size() const
+    /*!
+      \return Number of demes
+    */
     {
       return int(diploids.size());
     }
   };
 
-  //Types based on KTfwd::generalmut_vec
-  using gamete_gm_vec_t = KTfwd::gamete;
-  using glist_gm_vec_t = std::vector<gamete_gm_vec_t>;
-  using mlist_gm_vec_t = std::vector<KTfwd::generalmut_vec>;
+  //Types based on KTfwd::generalmut_vec  //! Typedef for gamete type
 
-  struct diploid_gm_vec_t : public KTfwd::tags::custom_diploid_t
-  {
-    using first_type = std::size_t;
-    using second_type = std::size_t;
-    first_type first;
-    second_type second;
-    double g,e,w;
-    diploid_gm_vec_t() : first(first_type()),second(second_type()),g(0.),e(0.),w(0.) {}
-    diploid_gm_vec_t(first_type g1, first_type g2) : first(g1),second(g2),g(0.),e(0.),w(0.) {}
-  };
-
-  using dipvector_gm_vec_t = std::vector<diploid_gm_vec_t>;
+  //! Typedef for gamete container
+  using gcont_gm_vec_t = std::vector<gamete_t>;
 
   struct singlepop_gm_vec_t :  public KTfwd::singlepop<KTfwd::generalmut_vec,diploid_t>
+  /*!
+    \brief Single-deme object where mutations contain vector<double> for internal data.
+    
+    See fwdpy::singlepop_t documentation for details, which are the same as for this type.
+  */ 
   {
     using base = KTfwd::singlepop<KTfwd::generalmut_vec,diploid_t>;
-    //using trajtype = std::map< std::pair<unsigned,std::pair<double,double> >, std::vector<double> >;
     unsigned generation;
-    //trajtype trajectories;
     singlepop_gm_vec_t(const unsigned & N) : base(N),generation(0)
     {
     }

@@ -1,3 +1,7 @@
+/*!
+  \file reserve.hpp
+  \brief Reserve memory for mutations and gametes in a population object
+*/
 #ifndef FWDPY_RESERVE_HPP
 #define FWDPY_RESERVE_HPP
 
@@ -24,7 +28,8 @@ namespace fwdpy
       }
     double theta = 4.*double(N)*ttl_mutrate;
     //Expected number of variants in a W-F population
-    //under "standard" modeling assumptions
+    //under "standard" modeling assumptions.
+    //The expression for ES is from Watterson 1975.
     double ES = std::log(2*N)*theta + (2./3.)*theta;
     if( mutations.capacity() < std::size_t(ES) )
       {

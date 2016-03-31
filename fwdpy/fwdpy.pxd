@@ -13,7 +13,7 @@ from fwdpy.gsl cimport gsl_rng
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
-    ctypedef gamete_base[popgenmut] gamete_t
+    ctypedef gamete_base[void] gamete_t
     ctypedef vector[gamete_t] gcont_t
     ctypedef vector[popgenmut] mcont_t
 
@@ -25,8 +25,8 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     cdef cppclass singlepop_t:
         singlepop_t(unsigned)
-        const unsigned N
-        const unsigned generation
+        unsigned N
+        unsigned generation
         mcont_t mutations
         vector[unsigned] mcounts
         gcont_t gametes
@@ -36,7 +36,6 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned gen()
         unsigned popsize()
         int sane()
-        void clearTrajectories()
 
     cdef cppclass metapop_t:
         metapop_t(vector[unsigned])
@@ -52,15 +51,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         int size()
 
     # Types based around KTfwd::generalmut_vec
-    ctypedef gamete_base[generalmut_vec] gamete_gm_vec_t
-    ctypedef vector[gamete_gm_vec_t] glist_gm_vec_t
     ctypedef vector[generalmut_vec] mlist_gm_vec_t
-
-    cdef cppclass diploid_gm_vec_t:
-        size_t first,second;
-        double g,e,w
-
-    ctypedef vector[diploid_gm_vec_t] dipvector_gm_vec_t
 
     cdef cppclass singlepop_gm_vec_t:
         singlepop_gm_vec_t(unsigned)
@@ -68,8 +59,8 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         const unsigned generation
         mlist_gm_vec_t mutations
         vector[unsigned] mcounts
-        glist_gm_vec_t gametes
-        dipvector_gm_vec_t diploids
+        gcont_t gametes
+        vector[diploid_t] diploids
         vector[generalmut_vec] fixations
         vector[unsigned] fixation_times
         unsigned gen()
@@ -94,7 +85,6 @@ cdef class singlepop(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
-    cpdef clearTraj(self)
 
 cdef class metapop(poptype):
     cdef shared_ptr[metapop_t] mpop
@@ -172,9 +162,6 @@ cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, c
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
-cdef extern from "neutral.hpp" namespace "fwdpy" nogil:
-    void evolve_pop(GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops, const vector[unsigned] nlist, const double & theta, const double & rho)
-
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
@@ -185,31 +172,13 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     
 cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void re_init_mpop( metapop_t * mpop, const singlepop_t * pop)
-    void copy_deme( metapop_t * mpop, const size_t i, const int update_counts)
-
+    void copy_deme( metapop_t * mpop, const size_t i ) except +
+    void remove_deme( metapop_t * mpop, const size_t i ) except +
+    void merge_demes(metapop_t  * mpop, const size_t i, const size_t j) except +
+    void split_deme(const gsl_rng * r, metapop_t * mpop, const size_t i, const unsigned N_new, const bint replacement ) except +
+    void admix_demes(const gsl_rng * r, metapop_t * mpop, const size_t i, const size_t j, const double prop_i, const bint replacement) except +
+    
 cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
-    void evolve_regions_t( GSLrng_t * rng, vector[shared_ptr[singlepop_t]] * pops,
-                           const unsigned * popsizes,
-                           const size_t popsizes_len,
-                           const double mu_neutral,
-                           const double mu_selected,
-                           const double littler,
-                           const double f,
-                           const int track,
-                           const region_manager * rm,
-                           const char * fitness)
-
-    void evolve_regions_t( GSLrng_t * rng, shared_ptr[singlepop_t] pops,
-                           const unsigned * popsizes,
-                           const size_t popsizes_len,
-                           const double mu_neutral,
-                           const double mu_selected,
-                           const double littler,
-                           const double f,
-                           const int track,
-                           const region_manager * rm,
-                           const char * fitness)
-
     void split_and_evolve_t(GSLrng_t * rng,
                 vector[shared_ptr[metapop_t]] * mpops,
                 const unsigned * Nvector_A,
@@ -222,18 +191,75 @@ cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
                 const vector[double] & fs,
                 const region_manager * rm,
                 const char * fitness)
+    
 
-    vector[shared_ptr[singlepop_t]]  evolve_regions_async(const unsigned npops,
-							  GSLrng_t * rng,
-							  const unsigned * Nvector,
-							  const size_t Nvector_len,
-							  const double mu_neutral,
-							  const double mu_selected,
-							  const double littler,
-							  const double f,
-							  const int track,
-							  const region_manager * rm,
-							  const char * fitness)
+cdef extern from "sampler_sample_n.hpp" nogil:
+    cdef struct detailed_deme_sample:
+        sep_sample_t genotypes
+        vector[pair[double,double]] sh
 
-cdef extern from "trajectories.hpp" namespace "fwdpy" nogil:
-    map[string,vector[double] ] get_singlepop_traj(const singlepop_t *pop,const unsigned minsojourn,const double minfreq)
+cdef extern from "sampler_selected_mut_tracker.hpp" nogil:
+    cdef struct selected_mut_data:
+        double pos
+        double esize
+        unsigned origin
+
+cdef extern from "sampler_pop_properties.hpp" nogil:
+    cdef struct qtrait_stats_cython:
+        string stat
+        double value
+        unsigned generation
+
+cdef extern from "allele_ages.hpp" nogil:
+    cdef struct allele_age_data_t:
+        double esize
+        double max_freq
+        double last_freq
+        unsigned origin
+        unsigned tlen
+
+cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
+    vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
+						   const double minfreq, const unsigned minsojourn ) except +
+    
+    vector[pair[selected_mut_data,vector[double]]] merge_trajectories_details( vector[pair[selected_mut_data,vector[double]]] traj1,
+                                                                               const vector[pair[selected_mut_data,vector[double]]] & traj2 )
+    
+ctypedef unsigned uint
+cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+    void evolve_regions_no_sampling_async(GSLrng_t * rng,
+                                          vector[shared_ptr[singlepop_t]] * pops,
+                                          const unsigned * Nvector,
+                                          const size_t Nvector_len,
+                                          const double mu_neutral,
+                                          const double mu_selected,
+                                          const double littler,
+                                          const double f,
+                                          const region_manager * rm,
+                                          const char * fitness)
+
+    vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng,
+                                                                        vector[shared_ptr[singlepop_t]] * pops,
+                                                                        const unsigned * Nvector,
+                                                                        const size_t Nvector_len,
+                                                                        const double mu_neutral,
+                                                                        const double mu_selected,
+                                                                        const double littler,
+                                                                        const double f,
+                                                                        const int sample,
+                                                                        const unsigned nsam,
+                                                                        const region_manager * rm,
+                                                                        const char * fitness)
+
+    vector[vector[pair[selected_mut_data,vector[double]]]] evolve_regions_track_async(GSLrng_t * rng,
+                                                                                      vector[shared_ptr[singlepop_t]] * pops,
+                                                                                      const unsigned * Nvector,
+                                                                                      const size_t Nvector_len,
+                                                                                      const double mu_neutral,
+                                                                                      const double mu_selected,
+                                                                                      const double littler,
+                                                                                      const double f,
+                                                                                      const int sample,
+                                                                                      const region_manager * rm,
+                                                                                      const char * fitness)
+

@@ -31,8 +31,6 @@ cdef class singlepop(poptype):
 
         """
         return self.pop.get().sane()
-    cpdef clearTraj(self):
-        return self.pop.get().clearTrajectories()
 
 cdef class singlepop_gm_vec(poptype):
     def __del__(self):
@@ -52,7 +50,7 @@ cdef class popvec(popcont):
     have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the "usual"
     Python way.
 
-    See :func:`evolve_pops_t` and :func:`evolve_regions` for use cases.
+    See :func:`evolve_regions` for use cases.
     """
     def __cinit__(self,unsigned npops,unsigned N):
         """
@@ -74,7 +72,7 @@ cdef class popvec(popcont):
     def __getitem__(self, int i):
         return self.pypops[i]
     def __len__(self):
-        cdef unsigned size_ = len(self.pypops)
+        cdef size_t size_ = len(self.pypops)
         if self.pops.size() != size_:
             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
@@ -125,7 +123,7 @@ cdef class popvec_gmv(popcont):
     def __getitem__(self, int i):
         return self.pypops[i]
     def __len__(self):
-        cdef unsigned size_ = len(self.pypops)
+        cdef size_t size_ = len(self.pypops)
         if self.pops.size() != size_:
             raise RuntimeError("fwdpy.popvec internal data structures out of sync")
         return self.pops.size()
@@ -202,7 +200,7 @@ cdef class mpopvec(popcont):
     def __getitem__(self, int i):
         return self.pympops[i]
     def __len__(self):
-        cdef unsigned size_ = len(self.pympops)
+        cdef size_t size_ = len(self.pympops)
         if self.mpops.size() != size_:
             raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
         return self.mpops.size()

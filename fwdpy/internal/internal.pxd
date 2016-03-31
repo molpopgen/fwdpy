@@ -17,7 +17,7 @@ cdef class shwrappervec:
 cdef class region_manager_wrapper:
     cdef region_manager * thisptr
 
-cdef extern from "internal/callbacks.hpp" namespace "fwdpy::internal":
+cdef extern from "internal_callbacks.hpp" namespace "fwdpy::internal":
     void make_gamma_s(shmodel *, double,double)
     void make_constant_s(shmodel * s, const double scoeff);
     void make_uniform_s(shmodel * s, const double lo, const double hi);
@@ -25,7 +25,7 @@ cdef extern from "internal/callbacks.hpp" namespace "fwdpy::internal":
     void make_gaussian_s(shmodel * s, const double sd);
     void make_constant_h(shmodel * s, const double h);
 
-cdef extern from "internal/internal.hpp" namespace "fwdpy::internal":
+cdef extern from "internal_region_manager.hpp" namespace "fwdpy::internal":
     cdef cppclass region_manager:
         region_manager()
         vector[shmodel] callbacks
