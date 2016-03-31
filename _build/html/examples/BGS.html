@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Example: background selection &mdash; fwdpy 0.0.2 documentation</title>
+    <title>Example: background selection &mdash; fwdpy 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.2 documentation" href="../index.html" />
+    <link rel="top" title="fwdpy 0.0.3 documentation" href="../index.html" />
     <link rel="next" title="Example of taking ‘views’ from simulated populations" href="views.html" />
-    <link rel="prev" title="How many threads to use?" href="../docs/threads.html" /> 
+    <link rel="prev" title="Extending fwdpy" href="../docs/extending.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,9 +42,9 @@
           <a href="views.html" title="Example of taking ‘views’ from simulated populations"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../docs/threads.html" title="How many threads to use?"
+          <a href="../docs/extending.html" title="Extending fwdpy"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -63,36 +63,36 @@
 <span class="math">\([-1,0)\)</span> and <span class="math">\([1,2)\)</span>.</li>
 <li>Recombination will be uniform throughout the region.</li>
 </ul>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Use Pyhon 3&#39;s print a a function.</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Use Pyhon 3&#39;s print a a function.</span>
 <span class="c">#This future-proofs the code in the notebook</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
 <span class="c">#Import fwdpy.  Give it a shorter name</span>
-<span class="kn">import</span> <span class="nn">fwdpy</span> <span class="kn">as</span> <span class="nn">fp</span>
+<span class="kn">import</span> <span class="nn">fwdpy</span> <span class="k">as</span> <span class="nn">fp</span>
 <span class="c">##Other libs we need</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">math</span>
 </pre></div>
 </div>
 <div class="section" id="establishing-regions-for-mutation-and-recombination">
 <h3>Establishing &#8216;regions&#8217; for mutation and recombination<a class="headerlink" href="#establishing-regions-for-mutation-and-recombination" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># Where neutral mutations occur:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c"># Where neutral mutations occur:</span>
 <span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># Where selected mutations occur:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c"># Where selected mutations occur:</span>
 <span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="n">beg</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
             <span class="n">fp</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># Recombination:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c"># Recombination:</span>
 <span class="n">recregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="population-size-and-simulation-length">
 <h3>Population size and simulation length<a class="headerlink" href="#population-size-and-simulation-length" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Population size</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Population size</span>
 <span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
 <span class="c">#We&#39;ll evolve for 10N generations.</span>
 <span class="c">#nlist is a list of population sizes over time.</span>
@@ -104,11 +104,11 @@
 <span class="n">nlist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Initalize a random number generator with seed value of 101</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Initalize a random number generator with seed value of 101</span>
 <span class="n">rng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Simulate 4 replicate populations.  This uses C++11 threads behind the scenes:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Simulate 4 replicate populations.  This uses C++11 threads behind the scenes:</span>
 <span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span>       <span class="c">#The random number generator</span>
                          <span class="mi">4</span><span class="p">,</span>         <span class="c">#The number of pops to simulate = number of threads to use.</span>
                          <span class="n">N</span><span class="p">,</span>         <span class="c">#Initial population size for each of the 4 demes</span>
@@ -121,25 +121,25 @@
                          <span class="n">recregions</span><span class="p">)</span><span class="c">#Defined above</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Now, pops is a Python list with len(pops) = 4</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Now, pops is a Python list with len(pops) = 4</span>
 <span class="c">#Each element&#39;s type is fwdpy.singlepop</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pops</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pops</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pops</span><span class="p">)):</span>
-    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pops</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pops</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>4
-&lt;type &#39;fwdpy.fwdpy.singlepop&#39;&gt;
-&lt;type &#39;fwdpy.fwdpy.singlepop&#39;&gt;
-&lt;type &#39;fwdpy.fwdpy.singlepop&#39;&gt;
-&lt;type &#39;fwdpy.fwdpy.singlepop&#39;&gt;
+<div class="highlight-default"><div class="highlight"><pre><span class="mi">4</span>
+<span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;fwdpy.fwdpy.singlepop&#39;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;fwdpy.fwdpy.singlepop&#39;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;fwdpy.fwdpy.singlepop&#39;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;fwdpy.fwdpy.singlepop&#39;</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="taking-samples-from-simulated-populations">
 <h2>Taking samples from simulated populations<a class="headerlink" href="#taking-samples-from-simulated-populations" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Use a list comprehension to get a random sample of size</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Use a list comprehension to get a random sample of size</span>
 <span class="c">#n = 20 from each replicate</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 
@@ -150,21 +150,21 @@
 <span class="c">#We will manipulate/analyze these genotypes, etc.,</span>
 <span class="c">#in a later example</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
-    <span class="k">print</span> <span class="p">(</span><span class="s">&quot;A sample from a population is a &quot;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s">&quot;A sample from a population is a &quot;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
-<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>A sample from a population is a  &lt;type &#39;tuple&#39;&gt;
-A sample from a population is a  &lt;type &#39;tuple&#39;&gt;
-A sample from a population is a  &lt;type &#39;tuple&#39;&gt;
-A sample from a population is a  &lt;type &#39;tuple&#39;&gt;
-4
+<div class="highlight-default"><div class="highlight"><pre><span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<span class="mi">4</span>
 </pre></div>
 </div>
 <div class="section" id="getting-additional-information-about-samples">
 <h3>Getting additional information about samples<a class="headerlink" href="#getting-additional-information-about-samples" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Again, use list comprehension to get the &#39;details&#39; of each sample</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Again, use list comprehension to get the &#39;details&#39; of each sample</span>
 <span class="c">#Given that each object in samples is a tuple, and that the second</span>
 <span class="c">#item in each tuple represents selected mutations, i[1] in the line</span>
 <span class="c">#below means that we are getting the mutation information only for</span>
@@ -172,52 +172,52 @@ A sample from a population is a  &lt;type &#39;tuple&#39;&gt;
 <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_sample_details</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="n">pops</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#details is now a list of pandas DataFrame objects</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#details is now a list of pandas DataFrame objects</span>
 <span class="c">#Each DataFrame has the following columns:</span>
 <span class="c">#  a: mutation age (in generations)</span>
 <span class="c">#  h: dominance of the mutation</span>
 <span class="c">#  p: frequency of the mutation in the population</span>
 <span class="c">#  s: selection coefficient of the mutation</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">details</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>    a  h      p     s
-0  67  1  0.006 -0.05
-     a  h       p     s
-0   19  1  0.0025 -0.05
-1    6  1  0.0055 -0.05
-2   17  1  0.0120 -0.05
-3  149  1  0.0235 -0.05
-4   36  1  0.0070 -0.05
-5   24  1  0.0080 -0.05
-    a  h       p     s
-0   3  1  0.0030 -0.05
-1   1  1  0.0005 -0.05
-2  19  1  0.0060 -0.05
-    a  h       p     s
-0  24  1  0.0145 -0.05
-1   5  1  0.0010 -0.05
-2   2  1  0.0020 -0.05
-3  10  1  0.0105 -0.05
-4   6  1  0.0020 -0.05
+<div class="highlight-default"><div class="highlight"><pre>    <span class="n">a</span>  <span class="n">h</span>      <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>  <span class="mi">67</span>  <span class="mi">1</span>  <span class="mf">0.006</span> <span class="o">-</span><span class="mf">0.05</span>
+     <span class="n">a</span>  <span class="n">h</span>       <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>   <span class="mi">19</span>  <span class="mi">1</span>  <span class="mf">0.0025</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">1</span>    <span class="mi">6</span>  <span class="mi">1</span>  <span class="mf">0.0055</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">2</span>   <span class="mi">17</span>  <span class="mi">1</span>  <span class="mf">0.0120</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">3</span>  <span class="mi">149</span>  <span class="mi">1</span>  <span class="mf">0.0235</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">4</span>   <span class="mi">36</span>  <span class="mi">1</span>  <span class="mf">0.0070</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">5</span>   <span class="mi">24</span>  <span class="mi">1</span>  <span class="mf">0.0080</span> <span class="o">-</span><span class="mf">0.05</span>
+    <span class="n">a</span>  <span class="n">h</span>       <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>   <span class="mi">3</span>  <span class="mi">1</span>  <span class="mf">0.0030</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">1</span>   <span class="mi">1</span>  <span class="mi">1</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">2</span>  <span class="mi">19</span>  <span class="mi">1</span>  <span class="mf">0.0060</span> <span class="o">-</span><span class="mf">0.05</span>
+    <span class="n">a</span>  <span class="n">h</span>       <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>  <span class="mi">24</span>  <span class="mi">1</span>  <span class="mf">0.0145</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">1</span>   <span class="mi">5</span>  <span class="mi">1</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">2</span>   <span class="mi">2</span>  <span class="mi">1</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">3</span>  <span class="mi">10</span>  <span class="mi">1</span>  <span class="mf">0.0105</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">4</span>   <span class="mi">6</span>  <span class="mi">1</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre>#The order of the rows in each DataFrame is the
-#same as the order as the objects in &#39;samples&#39;:
-for i in range(len(samples)):
-    print(&quot;Number of sites in samples[&quot;,i,&quot;] = &quot;,
-          len(samples[i][1]),&quot;. Number of rows in DataFrame &quot;,i,
-          &quot; = &quot;,len(details[i].index),sep=&quot;&quot;)
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#The order of the rows in each DataFrame is the</span>
+<span class="c">#same as the order as the objects in &#39;samples&#39;:</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s">&quot;Number of sites in samples[&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s">&quot;] = &quot;</span><span class="p">,</span>
+          <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span><span class="s">&quot;. Number of rows in DataFrame &quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span>
+          <span class="s">&quot; = &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">),</span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Number of sites in samples[0] = 1. Number of rows in DataFrame 0 = 1
-Number of sites in samples[1] = 6. Number of rows in DataFrame 1 = 6
-Number of sites in samples[2] = 3. Number of rows in DataFrame 2 = 3
-Number of sites in samples[3] = 5. Number of rows in DataFrame 3 = 5
+<div class="highlight-default"><div class="highlight"><pre><span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">0</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">6.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">3</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Pandas DataFrames are cool.</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Pandas DataFrames are cool.</span>
 <span class="c">#Let&#39;s add a column to each DataFrame</span>
 <span class="c">#specifying the mutation position,</span>
 <span class="c">#count of derived state,</span>
@@ -230,30 +230,30 @@ Number of sites in samples[3] = 5. Number of rows in DataFrame 3 = 5
     <span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>                    <span class="c">#Replicate id</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">##Merge into 1 big DataFrame:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">##Merge into 1 big DataFrame:</span>
 <span class="n">BigTable</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">details</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;This is the merged table:&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">BigTable</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">&quot;This is the merged table:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">BigTable</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>This is the merged table:
-     a  h       p     s       pos  count  id
-0   67  1  0.0060 -0.05  1.877543      1   0
-0   19  1  0.0025 -0.05 -0.928520      1   1
-1    6  1  0.0055 -0.05 -0.861297      1   1
-2   17  1  0.0120 -0.05 -0.843893      1   1
-3  149  1  0.0235 -0.05 -0.472551      1   1
-4   36  1  0.0070 -0.05 -0.426389      1   1
-5   24  1  0.0080 -0.05  1.162503      1   1
-0    3  1  0.0030 -0.05 -0.309919      1   2
-1    1  1  0.0005 -0.05  1.534583      1   2
-2   19  1  0.0060 -0.05  1.575055      1   2
-0   24  1  0.0145 -0.05 -0.996158      1   3
-1    5  1  0.0010 -0.05 -0.317365      1   3
-2    2  1  0.0020 -0.05 -0.124097      1   3
-3   10  1  0.0105 -0.05  1.342523      1   3
-4    6  1  0.0020 -0.05  1.515371      1   3
+<div class="highlight-default"><div class="highlight"><pre><span class="n">This</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">merged</span> <span class="n">table</span><span class="p">:</span>
+     <span class="n">a</span>  <span class="n">h</span>       <span class="n">p</span>     <span class="n">s</span>       <span class="n">pos</span>  <span class="n">count</span>  <span class="nb">id</span>
+<span class="mi">0</span>   <span class="mi">67</span>  <span class="mi">1</span>  <span class="mf">0.0060</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.877543</span>      <span class="mi">1</span>   <span class="mi">0</span>
+<span class="mi">0</span>   <span class="mi">19</span>  <span class="mi">1</span>  <span class="mf">0.0025</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.928520</span>      <span class="mi">1</span>   <span class="mi">1</span>
+<span class="mi">1</span>    <span class="mi">6</span>  <span class="mi">1</span>  <span class="mf">0.0055</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.861297</span>      <span class="mi">1</span>   <span class="mi">1</span>
+<span class="mi">2</span>   <span class="mi">17</span>  <span class="mi">1</span>  <span class="mf">0.0120</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.843893</span>      <span class="mi">1</span>   <span class="mi">1</span>
+<span class="mi">3</span>  <span class="mi">149</span>  <span class="mi">1</span>  <span class="mf">0.0235</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.472551</span>      <span class="mi">1</span>   <span class="mi">1</span>
+<span class="mi">4</span>   <span class="mi">36</span>  <span class="mi">1</span>  <span class="mf">0.0070</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.426389</span>      <span class="mi">1</span>   <span class="mi">1</span>
+<span class="mi">5</span>   <span class="mi">24</span>  <span class="mi">1</span>  <span class="mf">0.0080</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.162503</span>      <span class="mi">1</span>   <span class="mi">1</span>
+<span class="mi">0</span>    <span class="mi">3</span>  <span class="mi">1</span>  <span class="mf">0.0030</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.309919</span>      <span class="mi">1</span>   <span class="mi">2</span>
+<span class="mi">1</span>    <span class="mi">1</span>  <span class="mi">1</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.534583</span>      <span class="mi">1</span>   <span class="mi">2</span>
+<span class="mi">2</span>   <span class="mi">19</span>  <span class="mi">1</span>  <span class="mf">0.0060</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.575055</span>      <span class="mi">1</span>   <span class="mi">2</span>
+<span class="mi">0</span>   <span class="mi">24</span>  <span class="mi">1</span>  <span class="mf">0.0145</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.996158</span>      <span class="mi">1</span>   <span class="mi">3</span>
+<span class="mi">1</span>    <span class="mi">5</span>  <span class="mi">1</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.317365</span>      <span class="mi">1</span>   <span class="mi">3</span>
+<span class="mi">2</span>    <span class="mi">2</span>  <span class="mi">1</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.124097</span>      <span class="mi">1</span>   <span class="mi">3</span>
+<span class="mi">3</span>   <span class="mi">10</span>  <span class="mi">1</span>  <span class="mf">0.0105</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.342523</span>      <span class="mi">1</span>   <span class="mi">3</span>
+<span class="mi">4</span>    <span class="mi">6</span>  <span class="mi">1</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.515371</span>      <span class="mi">1</span>   <span class="mi">3</span>
 </pre></div>
 </div>
 </div>
@@ -263,8 +263,8 @@ Number of sites in samples[3] = 5. Number of rows in DataFrame 3 = 5
 <p>We will use the <a class="reference external" href="http://molpopgen.github.io/pylibseq/">pylibseq</a>
 package to calculate summary statistics. pylibseq is a Python wrapper
 around <a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">libsequence.polytable</span> <span class="kn">as</span> <span class="nn">polyt</span>
-<span class="kn">import</span> <span class="nn">libsequence.summstats</span> <span class="kn">as</span> <span class="nn">sstats</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">libsequence.polytable</span> <span class="k">as</span> <span class="nn">polyt</span>
+<span class="kn">import</span> <span class="nn">libsequence.summstats</span> <span class="k">as</span> <span class="nn">sstats</span>
 
 <span class="c">#Convert neutral mutations into libsequence &quot;SimData&quot; objects,</span>
 <span class="c">#which are intended to handle binary (0/1) data like</span>
@@ -330,15 +330,15 @@ the per gamete rate. (See Hudson and Kaplan (1995) PMC1206891 for
 details).</p>
 <p>For our parameters, we have
 <span class="math">\(E[\pi] = 20e^{-\frac{0.02}{0.1+0.005}},\)</span> which equals:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="o">/</span><span class="p">(</span><span class="mf">0.1</span><span class="o">+</span><span class="mf">0.005</span><span class="p">)))</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="o">/</span><span class="p">(</span><span class="mf">0.1</span><span class="o">+</span><span class="mf">0.005</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="mf">16.5313087525</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="mf">16.5313087525</span>
 </pre></div>
 </div>
 <p>Now, let&#8217;s get the average $pi$ from 500 simulated replicates.  We already have four replicates that we did above, so we&#8217;ll run another 124 sets of four populations.</p>
 <p>We will use standard Python to grow our collection of summary statistics.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">124</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">124</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span>
                          <span class="mi">4</span><span class="p">,</span>
                          <span class="n">N</span><span class="p">,</span>
@@ -367,14 +367,14 @@ get the mean using the built-in groupby and mean functions.</p>
 and process it using R&#8217;s
 <a class="reference external" href="http://cran.r-project.org/web/packages/dplyr/index.html">dplyr</a>
 package, which is a really excellent tool for this sort of thing.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Get means for each column:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Get means for each column:</span>
 <span class="n">NeutralMutStats</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>npoly      57.280000
-thetapi    15.743958
-thetaw     16.145491
-dtype: float64
+<div class="highlight-default"><div class="highlight"><pre><span class="n">npoly</span>      <span class="mf">57.280000</span>
+<span class="n">thetapi</span>    <span class="mf">15.743958</span>
+<span class="n">thetaw</span>     <span class="mf">16.145491</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
 </pre></div>
 </div>
 <p>The &#8216;thetapi&#8217; record is our mean <span class="math">\(\pi\)</span> from all of the
@@ -414,8 +414,8 @@ simulations, and it is quite close to the theoretical value.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../docs/threads.html"
-                        title="previous chapter">How many threads to use?</a></p>
+  <p class="topless"><a href="../docs/extending.html"
+                        title="previous chapter">Extending <em>fwdpy</em></a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="views.html"
                         title="next chapter">Example of taking &#8216;views&#8217; from simulated populations</a></p>
@@ -434,9 +434,6 @@ simulations, and it is quite close to the theoretical value.</p>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -456,14 +453,14 @@ simulations, and it is quite close to the theoretical value.</p>
           <a href="views.html" title="Example of taking ‘views’ from simulated populations"
              >next</a> |</li>
         <li class="right" >
-          <a href="../docs/threads.html" title="How many threads to use?"
+          <a href="../docs/extending.html" title="Extending fwdpy"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
     </div>
   </body>
 </html>

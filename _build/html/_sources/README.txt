@@ -17,7 +17,24 @@ The package is usable now (in fact, we are currently using it for research), but
 Citation
 ===========
 
-See the project home page for details (http://molpopgen.github.io/fwdpy).
+See the project home page for details
+(http://molpopgen.github.io/fwdpy).
+
+Changelog (rough)
+=====================
+
+0.0.3
+-----------------
+* Change from std::thread to std::async for concurrency.
+* The asynchronous futures allow for the same "evolve" function to be
+  used in different contexts.
+* The different contexts include calculating things from the
+  population every "k" generation or doing nothing.
+* These things are implemented as classes with call operators and a
+  minimal set of API requirements.
+* Fixed a bug in "mutation views"
+* Better parameter checking for various "evolve" functions
+* Source code re-organized so that all header files are installed
 
 Features:
 ===========
@@ -31,7 +48,7 @@ So far, there is support for:
 * Selfing
 * The ability to vary model parameters over time (recombination rates, genetic maps, selfing, selection, etc.)
 * Sampling populations at various time points
-* Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11's threading mechanism.  This is a "sneaky" end-run around Pythons' Global Interpreter Lock, or GIL.
+* Parallel executiom of simulations.  Multiple replicates may be run simultaenously via C++11's threading mechanism.  This is a "sneaky" end-run around Python's Global Interpreter Lock, or GIL.
 
 The following distributions of selection coefficients are supported:
 
@@ -108,6 +125,12 @@ For brew users, you may or may not have luck with their version of fwdpp.  That 
 
 The required Python package dependencies are in the requirements.txt file that comes with the source.
 
+Anaconda (and OS X, again...)
+------------------------------------
+
+Users have run into issues getting fwdpy working with Anaconda-based Python installations.  In fact, I've been unable to get the package to compile on OS X using Anaconda.  I recommend that OS X users use Python3 installed bia Homebrew in lieu of Anaconda.
+
+
 What Python version?
 ==================================
 
@@ -138,26 +161,28 @@ This section describes "vanilla" installation using the minimal dependencies.
 
 First, install the dependencies (see above).
 
-**OS X users need to do the following first:**
+**Special instructions for OS X users**
+
+All compiler commands below must be prefixed with:
 
 .. code-block:: bash
 
-   $ export CC=clang-omp
-   $ export CXX=clang-omp++
+   $ CC=clang-omp CXX=clang-omp++
 
-To install system-wide.
+This is currently necessary on OS X in order to use a version of clang that supports OpenMP protocols.
+
+Generic instructions:
+
+To install system-wide:
 
 .. code-block:: bash
-
-   $ ./configure
+		
    $ sudo python setup.py install
 
 To install for your user:
 
 .. code-block:: bash
 
-   $ ./configure --prefix=$HOME
-   $ #yes, the prefix is needed again here...
    $ python setup.py install --prefix=$HOME
 
 To uninstall:
@@ -174,7 +199,32 @@ To build the package in place and run the unit tets:
    $ #build package locally:
    $ python setup.py build_ext -i
    $ #run the unit tests:
-   $ python -m unittest discover unit_test
+   $ python -m unittest discover fwdpy/tests
+
+Dependencies in non-standard locations
+----------------------------------------------------------------------------------------
+
+The instructions above assume that dependencies (fwdpp_ and GSL_) are
+found in "standard" locations, which means in /usr/local on a typical
+system.
+
+Many users, especially those on clusters, may not have the privileges
+needed to install to the standard system locations.  Thus, it may be
+necessary to manually tell fwdpy where the dependencies are located.
+
+For example, let us assume that fwdpp_ and GSL_ are installed into
+your home folder. On Unix-like systems, $HOME is a variable representing
+the location of your home folder.  Thus, the header files for these
+libraries will be found in $HOME/include and any run-time libraries
+will be found in $HOME/lib.
+
+To tell pip where to find these dependencies, you need to manually set
+CPPFLAGS and LDFLAGS:
+
+.. code-block:: bash
+
+   $ CPPFLAGS="-I$HOME/include" LDFLAGS="-L$HOME/lib" pip install fwdpy
+
 
 Note for developers
 =================================
@@ -204,6 +254,29 @@ To do this, use the setup.py script as follows:
 
 Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the core of the package.
 
+Compiling in an aggressive debug mode
+-----------------------------------------------
+
+To get rid of optimizations, and -DNDEBUG, you need to reset the OPT
+flag set by Python's distutils:
+
+.. code-block:: bash
+
+   $ OPT= python setup.py build_ext -i
+
+Doing this will mean that the fwdpp back-end will *not* be compiled
+with -DNDEBUG, which will enable aggressive run-time correctness
+testing.  By "aggressive", I mean that an error will trigger a failed
+assertion and the Python interpreter will be exited
+less-than-gracefully!  Only to this when testing.
+
+It is better to enable some optimizations, though, else things run too
+slowly:
+
+.. code-block:: bash
+
+   $ OPT=-O2 python setup.py build_ext -i
+   
 
 Rough guide to installation on UCI HPC
 -----------------------------------------
@@ -224,7 +297,7 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.4.5, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.4.7, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
@@ -241,7 +314,6 @@ Your system's compiler has a default set of paths where it will look for header 
 **NOTE:** I sometimes get requests for installation help from users who have installed every dependency in a separate folder in their $HOME.  In other words, they have some setup that looks like this:
 
 
-* $HOME/software/boost
 * $HOME/software/gsl
 * $HOME/software/fwdpp
 
@@ -259,6 +331,15 @@ Documentation
 
 The manual_ is available online in html format at the project web page.
 
+The API documentation may also be build using doxygen_:
+
+.. code-block:: bash
+
+   $ ./configure
+   $ doxygen fwdpy.doxygen
+
+Then, load html/index.html in your browser.
+
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _Cython: http://www.cython.org/
@@ -271,3 +352,4 @@ The manual_ is available online in html format at the project web page.
 .. _Tracking mutation frequencies: http://molpopgen.github.io/fwdpy/_build/html/examples/trajectories.html
 .. _PyPi: https://pypi.python.org
 .. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
+.. _doxygen: http://doxygen.org

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>A note for R users &mdash; fwdpy 0.0.3 documentation</title>
+    <title>Source code organization &mdash; fwdpy 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="fwdpy 0.0.3 documentation" href="../index.html" />
-    <link rel="next" title="Fitness models" href="background.html" />
-    <link rel="prev" title="Modules in this package" href="notes.html" /> 
+    <link rel="next" title="Extending fwdpy" href="extending.html" />
+    <link rel="prev" title="How many threads to use?" href="threads.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -39,10 +39,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="background.html" title="Fitness models"
+          <a href="extending.html" title="Extending fwdpy"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="notes.html" title="Modules in this package"
+          <a href="threads.html" title="How many threads to use?"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
       </ul>
@@ -53,23 +53,28 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="a-note-for-r-users">
-<h1>A note for R users<a class="headerlink" href="#a-note-for-r-users" title="Permalink to this headline">¶</a></h1>
-<p>Many users may prefer to do downstram analysis, plotting, etc., using R.  The basic data object in R is a &#8220;data.table&#8221;.  Python&#8217;s <a class="reference external" href="http://pandas.pydata.org/">Pandas</a> library provides pandas.DataFrame, which is an analagous data structure.</p>
-<p>These pandas DataFrame objects may be written to a text file as follow:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#Assume x is a pandas.DataFrame.</span>
-<span class="c">#The index=False means to not print row names,</span>
-<span class="c">#which you typically don&#39;t want in a file that</span>
-<span class="c">#will be process in R</span>
-<span class="n">x</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">&quot;file.txt&quot;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Then, in R:</p>
-<div class="highlight-r"><div class="highlight"><pre><span class="c1">#You can now dplyr and ggplot2 this thing:</span>
-x<span class="o">=</span>read.table<span class="p">(</span><span class="s">&quot;file.txt&quot;</span><span class="p">,</span>header<span class="o">=</span><span class="bp">T</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>R users should read the tutorials at the <a class="reference external" href="http://pandas.pydata.org/">Pandas</a> site for how to manipulate DataFrame objects.</p>
+  <div class="section" id="source-code-organization">
+<h1>Source code organization<a class="headerlink" href="#source-code-organization" title="Permalink to this headline">¶</a></h1>
+<p><em>fwdpy</em> is a complex package made up of source files in several different languages/grammars.</p>
+<p>The point of this section is to give some guidance to anyone who wants to modify the source.</p>
+<p>The source code sits in two different directory:</p>
+<ol class="arabic simple">
+<li>fwdpy: this is where definitions are.  Files in this directory are from a mix of sources.</li>
+<li>include: this is where any C++ headers containing type declarations are.</li>
+</ol>
+<p>Below, all file types are fair game for modification unless otherwise noted.</p>
+<p>In the fwdpy directory, you will find the following types of files:</p>
+<ol class="arabic simple">
+<li>.pyx/.pxd are Cython files.</li>
+<li>.py files are Python files written by the developers</li>
+<li>.cc files are C++ written by the developers</li>
+<li>.cpp files are C++ files written by the Cython compiler.  <strong>DO NOT MODIFY THESE</strong>.  These files are affected by the contents of the .pyx/.pxd files</li>
+</ol>
+<p>In the include directory, you fill find the following types of files:</p>
+<ol class="arabic simple">
+<li>.hpp are C++ headers written by the developers.</li>
+</ol>
+<p>When reading the C++ source files (.cc/.hpp), headers that are part of this package are included using double quotes, meaning that you will find the file in the include directory of the source repo.</p>
 </div>
 
 
@@ -79,15 +84,15 @@ x<span class="o">=</span>read.table<span class="p">(</span><span class="s">&quot
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="notes.html"
-                        title="previous chapter">Modules in this package</a></p>
+  <p class="topless"><a href="threads.html"
+                        title="previous chapter">How many threads to use?</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="background.html"
-                        title="next chapter">Fitness models</a></p>
+  <p class="topless"><a href="extending.html"
+                        title="next chapter">Extending <em>fwdpy</em></a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/docs/rusers.txt"
+      <li><a href="../_sources/docs/code.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -115,10 +120,10 @@ x<span class="o">=</span>read.table<span class="p">(</span><span class="s">&quot
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="background.html" title="Fitness models"
+          <a href="extending.html" title="Extending fwdpy"
              >next</a> |</li>
         <li class="right" >
-          <a href="notes.html" title="Modules in this package"
+          <a href="threads.html" title="How many threads to use?"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
       </ul>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Example: Modeling regional variation in mutation and recombination &mdash; fwdpy 0.0.2 documentation</title>
+    <title>Example: Modeling regional variation in mutation and recombination &mdash; fwdpy 0.0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.2',
+        VERSION:     '0.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.2 documentation" href="../index.html" />
+    <link rel="top" title="fwdpy 0.0.3 documentation" href="../index.html" />
     <link rel="next" title="Calculating summary statistics" href="summstats.html" />
     <link rel="prev" title="Example: modeling changes in population size" href="popsizes.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="popsizes.html" title="Example: modeling changes in population size"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -89,26 +89,26 @@
 <li>start= <span class="math">\(2 \times 10^5\)</span>,stop= <span class="math">\(3 \times 10^5\)</span>, <span class="math">\(r_{bp}=10^{-7}\)</span></li>
 </ol>
 <p>This model boils down to the relative number of crossing overs per region occuring in the ratio <span class="math">\(0 : 10^{-8} : 10^{-7}\)</span>.  This is easily represented using fwdpy&#8217;s classes:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">fwdpy</span>
-<span class="n">recRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">1e5</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mf">1e5</span><span class="p">,</span><span class="mf">2e5</span><span class="p">,</span><span class="mf">1e-8</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mf">2e5</span><span class="p">,</span><span class="mf">3e5</span><span class="p">,</span><span class="mf">1e-7</span><span class="p">)]</span>
+<span class="n">recRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="n">e5</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="n">e5</span><span class="p">,</span><span class="mi">2</span><span class="n">e5</span><span class="p">,</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">8</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="n">e5</span><span class="p">,</span><span class="mi">3</span><span class="n">e5</span><span class="p">,</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">7</span><span class="p">)]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">recRegions</span><span class="p">:</span>
-    <span class="k">print</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">beg</span> <span class="o">=</span> <span class="mf">1.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">100000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.000000000</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">beg</span> <span class="o">=</span> <span class="mf">1.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">100000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.000000000</span>
 <span class="n">beg</span> <span class="o">=</span> <span class="mf">100000.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">200000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.001000000</span>
 <span class="n">beg</span> <span class="o">=</span> <span class="mf">200000.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">300000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.010000000</span>
 </pre></div>
 </div>
 <p>For this hypothetical example, the region lengths are all identical, and
 thus an equivalent specification would be this:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">recRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">1e5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">False</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mf">1e5</span><span class="p">,</span><span class="mf">2e5</span><span class="p">,</span><span class="mf">1e-8</span><span class="p">,</span><span class="bp">False</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mf">2e5</span><span class="p">,</span><span class="mf">3e5</span><span class="p">,</span><span class="mf">1e-7</span><span class="p">,</span><span class="bp">False</span><span class="p">)]</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="n">recRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="n">e5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="k">False</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">1</span><span class="n">e5</span><span class="p">,</span><span class="mi">2</span><span class="n">e5</span><span class="p">,</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="k">False</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="n">e5</span><span class="p">,</span><span class="mi">3</span><span class="n">e5</span><span class="p">,</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="k">False</span><span class="p">)]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">recRegions</span><span class="p">:</span>
-    <span class="k">print</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">beg</span> <span class="o">=</span> <span class="mf">1.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">100000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.000000000</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">beg</span> <span class="o">=</span> <span class="mf">1.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">100000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.000000000</span>
 <span class="n">beg</span> <span class="o">=</span> <span class="mf">100000.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">200000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.000000010</span>
 <span class="n">beg</span> <span class="o">=</span> <span class="mf">200000.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">300000.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.000000100</span>
 </pre></div>
@@ -120,40 +120,40 @@ thus an equivalent specification would be this:</p>
 <div class="section" id="mutations-not-affecting-fitness-neutral-mutations">
 <h3>Mutations not affecting fitness (&#8220;neutral&#8221; mutations)<a class="headerlink" href="#mutations-not-affecting-fitness-neutral-mutations" title="Permalink to this headline">¶</a></h3>
 <p>You specify regions where neutral mutations arise via the class <a class="reference internal" href="../index.html#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></code></a>.  A region has a beginning, end, and a weight Thus, the following list would specify that 100% of neutral mutations occur on the continuous interval [0,1):</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">neutralRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="n">neutralRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
 <p>The beginning and end positions can be whatever you like:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#With a weight of 1, we&#39;re just rescaling the position here.</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#With a weight of 1, we&#39;re just rescaling the position here.</span>
 <span class="n">neutralRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
 <p>To specify variation in the netural mutation process along a sequence,
 combine multiple regions in your list:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#If coupled=False for the second region, the effect would be that region2&#39;s mutation rate per base pair is 10x less than region 1!!</span>
-<span class="n">neutralRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">coupled</span><span class="o">=</span><span class="bp">True</span><span class="p">)]</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#If coupled=False for the second region, the effect would be that region2&#39;s mutation rate per base pair is 10x less than region 1!!</span>
+<span class="n">neutralRegions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">coupled</span><span class="o">=</span><span class="k">True</span><span class="p">)]</span>
 </pre></div>
 </div>
 <p>Internally, the total &#8220;mutational weight&#8221; of the first region will be a
 function of its length, which is 1(1-0)=1. The second region&#8217;s total
 weight will be 1*(12-2)=10, and it will have 10xas many new mutations
 arising as the first region.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Let&#39;s see what happens if we set coupled=False:</span>
-<span class="n">neutralRegions2</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">coupled</span><span class="o">=</span><span class="bp">False</span><span class="p">)]</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;The set with coupled=True:&quot;</span><span class="p">)</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Let&#39;s see what happens if we set coupled=False:</span>
+<span class="n">neutralRegions2</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">coupled</span><span class="o">=</span><span class="k">False</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">&quot;The set with coupled=True:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">neutralRegions</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;The set with coupled=False:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s">&quot;The set with coupled=False:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">neutralRegions2</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>The set with coupled=True:
-beg = 0.000000000, end = 1.000000000, weight = 1.000000000
-beg = 2.000000000, end = 12.000000000, weight = 10.000000000
-The set with coupled=False:
-beg = 0.000000000, end = 1.000000000, weight = 1.000000000
-beg = 2.000000000, end = 12.000000000, weight = 1.000000000
+<div class="highlight-default"><div class="highlight"><pre><span class="n">The</span> <span class="nb">set</span> <span class="k">with</span> <span class="n">coupled</span><span class="o">=</span><span class="k">True</span><span class="p">:</span>
+<span class="n">beg</span> <span class="o">=</span> <span class="mf">0.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">1.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">1.000000000</span>
+<span class="n">beg</span> <span class="o">=</span> <span class="mf">2.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">12.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">10.000000000</span>
+<span class="n">The</span> <span class="nb">set</span> <span class="k">with</span> <span class="n">coupled</span><span class="o">=</span><span class="k">False</span><span class="p">:</span>
+<span class="n">beg</span> <span class="o">=</span> <span class="mf">0.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">1.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">1.000000000</span>
+<span class="n">beg</span> <span class="o">=</span> <span class="mf">2.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">12.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">1.000000000</span>
 </pre></div>
 </div>
 <p>See the difference in the above? (Look at the &#8220;weight&#8221; term in the
@@ -183,13 +183,13 @@ second line of each set.)</p>
 <li>Positions [0.45,0.55) are a recombination hotspot with 100x the background intensity (per &#8220;base pair&#8221;).</li>
 </ul>
 <p>The above model can be represented as:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#recrate[2] is the hotspot:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#recrate[2] is the hotspot:</span>
 <span class="n">recrates</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.45</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mf">0.45</span><span class="p">,</span><span class="mf">0.55</span><span class="p">,</span><span class="mf">100.</span><span class="p">)]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">recrates</span><span class="p">:</span>
-    <span class="k">print</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">beg</span> <span class="o">=</span> <span class="mf">0.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">0.449999988</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.449999988</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="n">beg</span> <span class="o">=</span> <span class="mf">0.000000000</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">0.449999988</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.449999988</span>
 <span class="n">beg</span> <span class="o">=</span> <span class="mf">0.550000012</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">1.000000000</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.449999988</span>
 <span class="n">beg</span> <span class="o">=</span> <span class="mf">0.449999988</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="mf">0.550000012</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="mf">10.000002384</span>
 </pre></div>
@@ -210,8 +210,8 @@ second line of each set.)</p>
 <p>The &#8216;weights&#8217; that you assign are <em>relative</em> and need not sum to 1.  Each weight must be <span class="math">\(\geq 0\)</span>, though.</p>
 <div class="section" id="example">
 <h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">fwdpy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">fwdpy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 <span class="c">##Some basic parameters</span>
 <span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
@@ -242,7 +242,7 @@ second line of each set.)</p>
 <li>The total number of mutations occurring in Exon 2 is 2x the number occuring in Exon 1.</li>
 <li>Within an exon, 3/4 of all new mutations are deleterious.</li>
 </ul>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c">#Let&#39;s convert from tuples to pandas DataFrames.</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Let&#39;s convert from tuples to pandas DataFrames.</span>
 <span class="c">#Ideally, one would further split each tuple element into a list,</span>
 <span class="c">#but this example let&#39;s us get the point...</span>
 <span class="kn">import</span> <span class="nn">pandas</span>
@@ -250,26 +250,26 @@ second line of each set.)</p>
 <span class="n">selectedMuts</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">popSample</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;pos&#39;</span><span class="p">,</span><span class="s">&#39;genotypes&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">neutralMuts</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="n">neutralMuts</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>        pos                                          genotypes
-0  0.006588  0000000000000000000000001000010000000000000000...
-1  0.012971  1000000000010101000001000010101000000000000010...
-2  0.014566  0110000010000010000010010000000111001000010000...
-3  0.014729  0000000000000000000000000000000000000000100000...
-4  0.020637  0000010000000000000000000000000000000000000000...
+<div class="highlight-default"><div class="highlight"><pre>        <span class="n">pos</span>                                          <span class="n">genotypes</span>
+<span class="mi">0</span>  <span class="mf">0.006588</span>  <span class="mf">0000000000000000000000001000010000000000000000.</span><span class="o">..</span>
+<span class="mi">1</span>  <span class="mf">0.012971</span>  <span class="mf">1000000000010101000001000010101000000000000010.</span><span class="o">..</span>
+<span class="mi">2</span>  <span class="mf">0.014566</span>  <span class="mf">0110000010000010000010010000000111001000010000.</span><span class="o">..</span>
+<span class="mi">3</span>  <span class="mf">0.014729</span>  <span class="mf">0000000000000000000000000000000000000000100000.</span><span class="o">..</span>
+<span class="mi">4</span>  <span class="mf">0.020637</span>  <span class="mf">0000010000000000000000000000000000000000000000.</span><span class="o">..</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">selectedMuts</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="n">selectedMuts</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>        pos                                          genotypes
-0  1.016680  0101110011001110000011010011011001010000011100...
-1  1.192438  1010001100110001111100101100100110101111100011...
-2  1.197182  0101110011001110000011010011011001010000011100...
-3  1.365021  0101110011001110000011010011011001010000011100...
-4  1.402332  1010001100110001111100101100100110101111100011...
+<div class="highlight-default"><div class="highlight"><pre>        <span class="n">pos</span>                                          <span class="n">genotypes</span>
+<span class="mi">0</span>  <span class="mf">1.016680</span>  <span class="mf">0101110011001110000011010011011001010000011100.</span><span class="o">..</span>
+<span class="mi">1</span>  <span class="mf">1.192438</span>  <span class="mf">1010001100110001111100101100100110101111100011.</span><span class="o">..</span>
+<span class="mi">2</span>  <span class="mf">1.197182</span>  <span class="mf">0101110011001110000011010011011001010000011100.</span><span class="o">..</span>
+<span class="mi">3</span>  <span class="mf">1.365021</span>  <span class="mf">0101110011001110000011010011011001010000011100.</span><span class="o">..</span>
+<span class="mi">4</span>  <span class="mf">1.402332</span>  <span class="mf">1010001100110001111100101100100110101111100011.</span><span class="o">..</span>
 </pre></div>
 </div>
 </div>
@@ -324,9 +324,6 @@ second line of each set.)</p>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -348,12 +345,12 @@ second line of each set.)</p>
         <li class="right" >
           <a href="popsizes.html" title="Example: modeling changes in population size"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
     </div>
   </body>
 </html>

@@ -34,6 +34,15 @@ Important concepts for setting up simulations
    docs/summstats
    docs/slim
    docs/threads
+
+Notes for people wanting to work with the code
+####################################################################################
+
+.. toctree::
+   :maxdepth: 2
+	      
+   docs/code
+   docs/extending
    
 Examples
 ##########################################
@@ -50,8 +59,12 @@ Examples
 
 Functions and classes
 ##########################################
-
+      
 .. automodule:: fwdpy.fwdpy
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.slim
    :members:
    :show-inheritance:
 
@@ -63,6 +76,9 @@ Functions and classes
    :members:
    :show-inheritance:
 
+.. automodule:: fwdpy.qtrait.qtrait
+   :members:
+   :show-inheritance:
 
 
 
