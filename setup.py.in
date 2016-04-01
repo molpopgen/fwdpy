@@ -118,6 +118,13 @@ GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
 ]
 LINK_ARGS=["-std=c++11",'-fopenmp']
 
+#Cython generates .cpp files from the .pyx files
+#In general, we wisht to complies the .cpp files
+#that are already here.  But, if we are modifying
+#the package, we need to re-generate them, and thus
+#re-process the .pyx files.
+#This variable handes that choice, based on
+#use of --use-cython or not (see above).
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
 extensions = [
