@@ -9,6 +9,7 @@ This package is implemented in terms of:
 
 1. Cython_, which is a package allowing C++ and Python to work together
 2. fwdpp_, which is a C++11 template library for implementing efficient population genetic simulations
+3. gsl_, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.
 
 Please note that this package is likely to be quite unstable/actively developed.
 
