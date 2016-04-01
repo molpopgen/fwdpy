@@ -20,7 +20,7 @@
         "extra_compile_args": [
             "-std=c++11", 
             "-fopenmp", 
-            "-DPACKAGE_VERSION=\"0.0.3\""
+            "-DPACKAGE_VERSION=\"0.0.4\""
         ], 
         "extra_link_args": [
             "-std=c++11", 
@@ -32,10 +32,6 @@
             "include"
         ], 
         "language": "c++", 
-        "libraries": [
-            "gsl", 
-            "gslcblas"
-        ], 
         "sources": [
             "fwdpy/fwdpyio/serialize.cc"
         ]
@@ -1104,19 +1100,15 @@ static char __pyx_k_serialize_line_11[] = "serialize (line 11)";
 static char __pyx_k_deserialize_metapops[] = "deserialize_metapops";
 static char __pyx_k_fwdpy_fwdpyio_fwdpyio[] = "fwdpy.fwdpyio.fwdpyio";
 static char __pyx_k_deserialize_singlepops[] = "deserialize_singlepops";
-static char __pyx_k_deserialize_metapops_line_70[] = "deserialize_metapops (line 70)";
 static char __pyx_k_Return_a_binary_representation[] = "\n    Return a binary representation of an evolved population\n\n    :param pop: A list of :class:`fwdpy.fwdpy.poptype`\n    \n    Example:\n\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    ";
 static char __pyx_k_deserialize_singlepops_line_38[] = "deserialize_singlepops (line 38)";
 static char __pyx_k_Convert_binary_representation_b[] = "\n    Convert binary representation back to a :class:`fwdpy.fwdpy.popvec`\n\n    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`\n\n    :returns: :func:`fwdpy.fwdpy.popvec`\n\n    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.\n        \n    Example:\n    \n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    >>> len(strings)\n    4\n    >>> pops2 = fpio.deserialize_singlepops(strings)\n    ";
-static char __pyx_k_Convert_binary_representation_o[] = "\n    Convert binary representation of populations back to a :class:`fwdpy.fwdpy.mpopvec`\n\n    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`\n\n    :returns: :func:`fwdpy.fwdpy.mpopvec`\n\n    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.\n\n    Example:\n\n    >>> #The first part is the same as the example for :func:`fwdpy.fwdpy.evolve_regions_split`\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> # Evolve for 5N generations initially\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> #Now, \"bud\" off a daughter population of same size, and evolve both for another 100 generations\n    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0.,0.])\n    >>> #Serialize\n    >>> bstrings = [fpio.serialize(i) for i in mpops]\n    >>> len(bstrings)\n    4\n    >>> #Deserialize\n    >>> mpops2 = fpio.deserialize_metapops(bstrings)\n    ";
 static char __pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp[] = "/home/kevin/src/fwdpy/fwdpy/fwdpyio/fwdpyio.pyx";
 static char __pyx_k_fwdpyio_serialize_unsupported_po[] = "fwdpyio.serialize: unsupported poptype ";
 static PyObject *__pyx_kp_u_Convert_binary_representation_b;
-static PyObject *__pyx_kp_u_Convert_binary_representation_o;
 static PyObject *__pyx_kp_u_Return_a_binary_representation;
 static PyObject *__pyx_n_s_RuntimeError;
 static PyObject *__pyx_n_s_deserialize_metapops;
-static PyObject *__pyx_kp_u_deserialize_metapops_line_70;
 static PyObject *__pyx_n_s_deserialize_singlepops;
 static PyObject *__pyx_kp_u_deserialize_singlepops_line_38;
 static PyObject *__pyx_n_s_fwdpy_fwdpyio_fwdpyio;
@@ -1632,7 +1624,7 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_6deserialize_singlepops(CYTHO
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_9deserialize_metapops(PyObject *__pyx_self, PyObject *__pyx_v_strings); /*proto*/
-static char __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_8deserialize_metapops[] = "\n    Convert binary representation of populations back to a :class:`fwdpy.fwdpy.mpopvec`\n\n    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`\n\n    :returns: :func:`fwdpy.fwdpy.mpopvec`\n\n    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.\n\n    Example:\n\n    >>> #The first part is the same as the example for :func:`fwdpy.fwdpy.evolve_regions_split`\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> # Evolve for 5N generations initially\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> #Now, \"bud\" off a daughter population of same size, and evolve both for another 100 generations\n    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0.,0.])\n    >>> #Serialize\n    >>> bstrings = [fpio.serialize(i) for i in mpops]\n    >>> len(bstrings)\n    4\n    >>> #Deserialize\n    >>> mpops2 = fpio.deserialize_metapops(bstrings)\n    ";
+static char __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_8deserialize_metapops[] = "\n    Convert binary representation of populations back to a :class:`fwdpy.fwdpy.mpopvec`\n\n    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`\n\n    :returns: :func:`fwdpy.fwdpy.mpopvec`\n\n    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.\n\n    Example:\n\n    TODO\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_7fwdpyio_7fwdpyio_9deserialize_metapops = {"deserialize_metapops", (PyCFunction)__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_9deserialize_metapops, METH_O, __pyx_doc_5fwdpy_7fwdpyio_7fwdpyio_8deserialize_metapops};
 static PyObject *__pyx_pw_5fwdpy_7fwdpyio_7fwdpyio_9deserialize_metapops(PyObject *__pyx_self, PyObject *__pyx_v_strings) {
   CYTHON_UNUSED int __pyx_lineno = 0;
@@ -1666,29 +1658,29 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_8deserialize_metapops(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("deserialize_metapops", 0);
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":103
- *     >>> mpops2 = fpio.deserialize_metapops(bstrings)
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":84
+ *     TODO
  *     """
  *     cdef vector[shared_ptr[metapop_t]] temp = deserialize_metapop(strings)             # <<<<<<<<<<<<<<
  *     mpops = mpopvec(0,[0]*1)
  *     mpops.reset(temp)
  */
-  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_strings); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __pyx_convert_vector_from_py_std_3a__3a_string(__pyx_v_strings); if (unlikely(PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_temp = fwdpy::serialize::deserialize_metapop(__pyx_t_1);
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":104
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":85
  *     """
  *     cdef vector[shared_ptr[metapop_t]] temp = deserialize_metapop(strings)
  *     mpops = mpopvec(0,[0]*1)             # <<<<<<<<<<<<<<
  *     mpops.reset(temp)
  *     return mpops
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_int_0);
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_int_0);
   __Pyx_GIVEREF(__pyx_int_0);
@@ -1696,23 +1688,23 @@ static PyObject *__pyx_pf_5fwdpy_7fwdpyio_7fwdpyio_8deserialize_metapops(CYTHON_
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_mpopvec), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_mpopvec), __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_mpops = ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":105
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":86
  *     cdef vector[shared_ptr[metapop_t]] temp = deserialize_metapop(strings)
  *     mpops = mpopvec(0,[0]*1)
  *     mpops.reset(temp)             # <<<<<<<<<<<<<<
  *     return mpops
  */
-  __pyx_t_2 = ((struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec *)__pyx_v_mpops->__pyx_vtab)->reset(__pyx_v_mpops, __pyx_v_temp); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = ((struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec *)__pyx_v_mpops->__pyx_vtab)->reset(__pyx_v_mpops, __pyx_v_temp); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/fwdpyio/fwdpyio.pyx":106
+  /* "fwdpy/fwdpyio/fwdpyio.pyx":87
  *     mpops = mpopvec(0,[0]*1)
  *     mpops.reset(temp)
  *     return mpops             # <<<<<<<<<<<<<<
@@ -2192,11 +2184,9 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_Convert_binary_representation_b, __pyx_k_Convert_binary_representation_b, sizeof(__pyx_k_Convert_binary_representation_b), 0, 1, 0, 0},
-  {&__pyx_kp_u_Convert_binary_representation_o, __pyx_k_Convert_binary_representation_o, sizeof(__pyx_k_Convert_binary_representation_o), 0, 1, 0, 0},
   {&__pyx_kp_u_Return_a_binary_representation, __pyx_k_Return_a_binary_representation, sizeof(__pyx_k_Return_a_binary_representation), 0, 1, 0, 0},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
   {&__pyx_n_s_deserialize_metapops, __pyx_k_deserialize_metapops, sizeof(__pyx_k_deserialize_metapops), 0, 0, 1, 1},
-  {&__pyx_kp_u_deserialize_metapops_line_70, __pyx_k_deserialize_metapops_line_70, sizeof(__pyx_k_deserialize_metapops_line_70), 0, 1, 0, 0},
   {&__pyx_n_s_deserialize_singlepops, __pyx_k_deserialize_singlepops, sizeof(__pyx_k_deserialize_singlepops), 0, 0, 1, 1},
   {&__pyx_kp_u_deserialize_singlepops_line_38, __pyx_k_deserialize_singlepops_line_38, sizeof(__pyx_k_deserialize_singlepops_line_38), 0, 1, 0, 0},
   {&__pyx_n_s_fwdpy_fwdpyio_fwdpyio, __pyx_k_fwdpy_fwdpyio_fwdpyio, sizeof(__pyx_k_fwdpy_fwdpyio_fwdpyio), 0, 0, 1, 1},
@@ -2493,7 +2483,6 @@ PyMODINIT_FUNC PyInit_fwdpyio(void)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_serialize_line_11, __pyx_kp_u_Return_a_binary_representation) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_deserialize_singlepops_line_38, __pyx_kp_u_Convert_binary_representation_b) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_deserialize_metapops_line_70, __pyx_kp_u_Convert_binary_representation_o) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 

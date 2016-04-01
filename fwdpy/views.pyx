@@ -160,12 +160,6 @@ def view_mutations( object p, deme = None ):
     >>> type(muts[0][0])
     <type 'dict'>
 
-    Metapopulation example:
-
-    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
-    >>> muts_deme_0 = [fwdpy.view_mutations(i,0) for i in mpops]
-    >>> muts_deme_1 = [fwdpy.view_mutations(i,1) for i in mpops]
-    
     .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
     """
     if isinstance(p,singlepop):
@@ -240,11 +234,6 @@ def view_gametes( object p ,deme = None):
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_gametes(i) for i in pops]
 
-    Example for a metapopulation:
-
-    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
-    >>> gams = [fwdpy.view_gametes(i,0) for i in mpops]
-
     .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
     """
     if isinstance(p,singlepop):
@@ -310,13 +299,6 @@ def view_diploids( object p, list indlist, deme = None ):
     >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
-
-    And now viewing from a metapop:
-    
-    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> #Now, "bud" off a daughter population of same size, and evolve both for another 100 generations
-    >>> mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:100],popsizes[0:100],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
-    >>> dips = [fwdpy.view_diploids(i,[0,101,201,301],0) for i in mpops]
 
     .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
     """
