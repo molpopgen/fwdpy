@@ -6,7 +6,6 @@
         "depends": [
             "include/allele_ages.hpp", 
             "include/deps.hpp", 
-            "include/evolve_regions.hpp", 
             "include/evolve_regions_sampler.hpp", 
             "include/internal_callbacks.hpp", 
             "include/internal_region_manager.hpp", 
@@ -310,7 +309,6 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "sample.hpp"
 #include "deps.hpp"
 #include "metapop.hpp"
-#include "evolve_regions.hpp"
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
 #include "sampler_pop_properties.hpp"
@@ -533,7 +531,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":228
+/* "fwdpy/fwdpy.pxd":213
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<

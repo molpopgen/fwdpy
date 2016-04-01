@@ -177,21 +177,6 @@ cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void merge_demes(metapop_t  * mpop, const size_t i, const size_t j) except +
     void split_deme(const gsl_rng * r, metapop_t * mpop, const size_t i, const unsigned N_new, const bint replacement ) except +
     void admix_demes(const gsl_rng * r, metapop_t * mpop, const size_t i, const size_t j, const double prop_i, const bint replacement) except +
-    
-cdef extern from "evolve_regions.hpp" namespace "fwdpy" nogil:
-    void split_and_evolve_t(GSLrng_t * rng,
-                vector[shared_ptr[metapop_t]] * mpops,
-                const unsigned * Nvector_A,
-                const size_t Nvector_A_len,
-                const unsigned * Nvector_B,
-                const size_t Nvector_B_len,
-                const double neutral,
-                const double selected,
-                const double recrate,
-                const vector[double] & fs,
-                const region_manager * rm,
-                const char * fitness)
-    
 
 cdef extern from "sampler_sample_n.hpp" nogil:
     cdef struct detailed_deme_sample:
