@@ -197,12 +197,14 @@ cdef class metapop(poptype):
 
         """
         return self.mpop.get().sane()
-    
+    cpdef from_singlepop(self,singlepop p):
+         self.mpop.reset(new metapop_t(deref(p.pop.get())))
+         
 cdef class mpopvec(popcont):
     """
     Vector of metapopulation objects
     """
-    def __cinit__(self,unsigned nmpops,list Ns):
+    def __cinit__(self,unsigned nmpops,vector[unsigned] Ns):
         """
         Constructor:
 
