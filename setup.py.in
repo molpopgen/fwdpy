@@ -149,11 +149,18 @@ extensions = [
               include_dirs=GLOBAL_INCLUDES,
               extra_compile_args=GLOBAL_COMPILE_ARGS,
               extra_link_args=LINK_ARGS,
-              libraries=[])
+              libraries=[]),
+    Extension("fwdpy.demography",
+              sources=["fwdpy/demography"+EXTENSION],
+              language="c++",
+              include_dirs=GLOBAL_INCLUDES,
+              extra_compile_args=GLOBAL_COMPILE_ARGS,
+              extra_link_args=LINK_ARGS,
+              libraries=LIBS),
 ]
 
 ##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fdwpy.demography']
 
 if QTRAIT is True:
     extensions.extend([
