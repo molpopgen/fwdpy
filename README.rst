@@ -114,7 +114,6 @@ OS X users are recommended to use brew_ to install the various dependencies:
    $ brew install gsl
    $ ##Risky:
    $ brew install fwdpp
-   $ brew install google-perftools
 
 **Important**: you need to install clang-omp on OS X!  This package
 uses openmp for parallelizing some tasks.  Sadly, OS X's compiler does
