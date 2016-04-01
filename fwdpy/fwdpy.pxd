@@ -39,6 +39,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     cdef cppclass metapop_t:
         metapop_t(vector[unsigned])
+        metapop_t(const singlepop_t &)
         unsigned generation
         vector[unsigned] Ns
         mcont_t mutations
@@ -91,7 +92,8 @@ cdef class metapop(poptype):
     cpdef gen(self)
     cpdef popsizes(self)
     cpdef sane(self)
-
+    cpdef from_singlepop(self,singlepop p)
+    
 cdef class singlepop_gm_vec(poptype):
     cdef shared_ptr[singlepop_gm_vec_t] pop
     cpdef gen(self)
