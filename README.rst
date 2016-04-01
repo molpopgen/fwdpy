@@ -120,7 +120,7 @@ uses openmp for parallelizing some tasks.  Sadly, OS X's compiler does
 not come with openmp support, and so you need a third-party compiler
 that does.
 
-For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
+For brew users, you may or may not have luck with their version of fwdpp_.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
 
 The required Python package dependencies are in the requirements.txt file that comes with the source.
 
