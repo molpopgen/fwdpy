@@ -1,4 +1,3 @@
-from fwdpp cimport *
 from fwdpy cimport singlepop,metapop,popvec,mpopvec
 
 def make_mpopvec(popvec pops):
