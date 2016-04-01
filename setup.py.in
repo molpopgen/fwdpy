@@ -117,6 +117,7 @@ GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
                      str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"'
 ]
 LINK_ARGS=["-std=c++11",'-fopenmp']
+GLOBAL_INCLUDES=['.','..','include']
 
 #Cython generates .cpp files from the .pyx files
 #In general, we wisht to complies the .cpp files
@@ -131,21 +132,21 @@ extensions = [
     Extension("fwdpy.fwdpy",
         sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
         language="c++",                        # generate and compile C++ code
-        include_dirs=['.','..','include'], 
+        include_dirs=GLOBAL_INCLUDES, 
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS),
         Extension("fwdpy.internal.internal",
         sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
         language="c++",
-        include_dirs=['.','..','include'],
+        include_dirs=GLOBAL_INCLUDES,
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS),
         Extension("fwdpy.fwdpyio.fwdpyio",
         sources=["fwdpy/fwdpyio/fwdpyio"+EXTENSION]+glob.glob("fwdpy/fwdpyio/*.cc"),
         language="c++",
-        include_dirs=['.','..','include'],
+        include_dirs=GLOBAL_INCLUDES,
         extra_compile_args=GLOBAL_COMPILE_ARGS,
         extra_link_args=LINK_ARGS,
         libraries=LIBS)
@@ -157,7 +158,7 @@ if QTRAIT is True:
         Extension("fwdpy.qtrait.qtrait",
                   sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
                   language="c++",                        # generate and compile C++ code
-                  include_dirs=['.','..','include'], 
+                  include_dirs=GLOBAL_INCLUDES, 
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
                   extra_link_args=LINK_ARGS,
                   libraries=LIBS)
