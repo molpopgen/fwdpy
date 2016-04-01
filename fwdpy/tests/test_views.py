@@ -13,7 +13,7 @@ popsizes=np.tile(popsizes,NGENS)
 pops = fwdpy.evolve_regions(rng,1,N,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
 
 #The sum of the gamete counts must be 2*(deme size):
-mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:],popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
+#mpops = fwdpy.evolve_regions_split(rng,pops,popsizes[0:],popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions,[0]*2)
 
 class test_singlepop_views(unittest.TestCase):
     def testNumGametes(self):
@@ -31,33 +31,33 @@ class test_singlepop_views(unittest.TestCase):
         with self.assertRaises(IndexError):
             fwdpy.view_diploids(pops[0],[pops[0].popsize()])
         
-class test_metapop_views(unittest.TestCase):
-    def testNumGametes(self):
-        gams = fwdpy.view_gametes(mpops[0],0) 
-        nmeta=0
-        for i in gams: nmeta += i['n']
-        self.assertEqual(nmeta,2000)
-    def testDemeException1(self):
-        with self.assertRaises(IndexError):
-            [fwdpy.view_gametes(i,2) for i in mpops]
-    def testDemeException2(self):
-        with self.assertRaises(IndexError):
-            [fwdpy.view_mutations(i,2) for i in mpops]
-    def testDemeException3(self):
-        with self.assertRaises(IndexError):
-            [fwdpy.view_diploids(i,[0,1,2],2) for i in mpops]
-    def testIndException1(self):
-        with self.assertRaises(IndexError):
-            [fwdpy.view_diploids(i,[0,1,2,N],1) for i in mpops]
-    def testNone1(self):
-        with self.assertRaises(RuntimeError):
-            [fwdpy.view_diploids(i,[0,1,2]) for i in mpops]
-    def testNone2(self):
-        with self.assertRaises(RuntimeError):
-            [fwdpy.view_gametes(i) for i in mpops]
-    def testNone3(self):
-        with self.assertRaises(RuntimeError):
-            [fwdpy.view_mutations(i) for i in mpops]
+#class test_metapop_views(unittest.TestCase):
+#    def testNumGametes(self):
+#        gams = fwdpy.view_gametes(mpops[0],0) 
+#        nmeta=0
+#        for i in gams: nmeta += i['n']
+#        self.assertEqual(nmeta,2000)
+#    def testDemeException1(self):
+#        with self.assertRaises(IndexError):
+#            [fwdpy.view_gametes(i,2) for i in mpops]
+#    def testDemeException2(self):
+#        with self.assertRaises(IndexError):
+#            [fwdpy.view_mutations(i,2) for i in mpops]
+#    def testDemeException3(self):
+#        with self.assertRaises(IndexError):
+#            [fwdpy.view_diploids(i,[0,1,2],2) for i in mpops]
+#    def testIndException1(self):
+#        with self.assertRaises(IndexError):
+#            [fwdpy.view_diploids(i,[0,1,2,N],1) for i in mpops]
+#    def testNone1(self):
+#        with self.assertRaises(RuntimeError):
+#            [fwdpy.view_diploids(i,[0,1,2]) for i in mpops]
+#    def testNone2(self):
+#        with self.assertRaises(RuntimeError):
+#            [fwdpy.view_gametes(i) for i in mpops]
+#    def testNone3(self):
+#        with self.assertRaises(RuntimeError):
+#            [fwdpy.view_mutations(i) for i in mpops]
             
 if __name__ == '__main__':
     unittest.main()
