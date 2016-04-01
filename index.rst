@@ -64,6 +64,10 @@ Functions and classes
    :members:
    :show-inheritance:
 
+.. automodule:: fwdpy.demography
+   :members:
+   :show-inheritance:
+
 .. automodule:: fwdpy.slim
    :members:
    :show-inheritance:
