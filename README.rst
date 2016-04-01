@@ -133,9 +133,7 @@ Users have run into issues getting fwdpy working with Anaconda-based Python inst
 What Python version?
 ==================================
 
-I'm developing the package using Python 2.7.6 on an Ubuntu machine.
-
-Currently, the package is not 100% compatible with Python 3.  The goal is to make it work, though.
+I'm developing the package using Python 2.7.6 on an Ubuntu machine.  However, I do occasionally run the tests using Python 3, and all appears to work!  Reports of problems using python3 are appreciated!
 
 Installation
 ==============
