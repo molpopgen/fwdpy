@@ -1,4 +1,5 @@
 #include "metapop.hpp"
+#include <exception>
 #include <fwdpp/sugar/demography.hpp>
 namespace fwdpy
 {
@@ -12,17 +13,21 @@ namespace fwdpy
 
   void copy_deme( metapop_t * mpop, const std::size_t i )
   {
-    KTfwd::copy_pop(*mpop,i);
+    auto rv = KTfwd::copy_pop(*mpop,i);
+    if(rv==-1) throw std::out_of_range("deme index out of range");
   }
   
   void remove_deme( metapop_t * mpop, const std::size_t i )
   {
-    KTfwd::remove_pop(*mpop,i);
+    auto rv = KTfwd::remove_pop(*mpop,i);
+    if(rv==-1) throw std::out_of_range("deme index out of range");
   }
   
   void merge_demes(metapop_t  * mpop, const std::size_t i, const std::size_t j)
   {
-    KTfwd::merge_pops(*mpop,i,j);
+    auto rv = KTfwd::merge_pops(*mpop,i,j);
+    if(rv==-1) throw std::out_of_range("deme index out of range");
+    if(rv==1) throw std::runtime_error("cannot merge population into itself");
   }
   
   void split_deme(const gsl_rng * r, metapop_t * mpop, const std::size_t i, const unsigned N_new, const bool replacement )
