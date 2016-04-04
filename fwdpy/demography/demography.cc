@@ -32,11 +32,22 @@ namespace fwdpy
   
   void split_deme(const gsl_rng * r, metapop_t * mpop, const std::size_t i, const unsigned N_new, const bool replacement )
   {
-    KTfwd::split_pop(r,*mpop,i,N_new,replacement);
+    auto rv = KTfwd::split_pop(r,*mpop,i,N_new,replacement);
+    if(rv==-1) throw std::out_of_range("deme index out of range");
+    if(rv==1) throw std::runtime_error("N_new larger than parental deme size");
   }
   
   void admix_demes(const gsl_rng * r, metapop_t * mpop, const std::size_t i, const std::size_t j, const double prop_i, const bool replacement)
   {
-    KTfwd::admix_pops(r,*mpop,i,j,prop_i,replacement);
+    auto rv = KTfwd::admix_pops(r,*mpop,i,j,prop_i,replacement);
+    if(rv==-1) throw std::out_of_range("deme index out of range");
+    if(rv==1) throw std::runtime_error("invalid admixture proportion");
+  }
+
+  void swap_demes(metapop_t * mpop, const std::size_t i, const size_t j)
+  {
+    auto rv = KTfwd::swap_pops(*mpop,i,j);
+    if(rv==-1) throw std::out_of_range("deme index out of range");
+    //We "silently" ignore return values of 1
   }
 }

@@ -27,6 +27,7 @@ namespace fwdpy
   void merge_demes(metapop_t  * mpop, const std::size_t i, const std::size_t j);
   void split_deme(const gsl_rng * r, metapop_t * mpop, const std::size_t i, const unsigned N_new, const bool replacement );
   void admix_demes(const gsl_rng * r, metapop_t * mpop, const std::size_t i, const std::size_t j, const double prop_i, const bool replacement);
+  void swap_demes(metapop_t * mpop, const std::size_t i, const size_t j);
 }
 
 #endif
