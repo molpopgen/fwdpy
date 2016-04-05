@@ -4,29 +4,30 @@
 #include <limits>
 #include "types.hpp"
 
-struct selected_mut_data
-{
-  double pos,esize;
-  unsigned origin;
-  selected_mut_data(unsigned g,double p,double e) :
-    pos(p),esize(e),origin(g)
-  {
-  }
-  selected_mut_data() : pos(std::numeric_limits<double>::quiet_NaN()),
-			esize(std::numeric_limits<double>::quiet_NaN()),
-			origin(std::numeric_limits<unsigned>::max())
-  {
-  }
-  inline bool operator==(const selected_mut_data & rhs) const noexcept
-  {
-    return this->origin == rhs.origin &&
-      this->pos == rhs.pos &&
-      this->esize == rhs.esize;
-  }
-};
-
 namespace fwdpy
 {
+  struct selected_mut_data
+  {
+    double pos,esize;
+    unsigned origin;
+    selected_mut_data(unsigned g,double p,double e) :
+      pos(p),esize(e),origin(g)
+    {
+    }
+    selected_mut_data() : pos(std::numeric_limits<double>::quiet_NaN()),
+			  esize(std::numeric_limits<double>::quiet_NaN()),
+			  origin(std::numeric_limits<unsigned>::max())
+    {
+    }
+    inline bool operator==(const selected_mut_data & rhs) const noexcept
+    {
+      return this->origin == rhs.origin &&
+	this->pos == rhs.pos &&
+	this->esize == rhs.esize;
+    }
+  };
+
+  
   //! Used internally to convert C++11 types to something Cython will understand
   enum class traj_key_values : std::size_t { deme,origin,pos,esize };
 

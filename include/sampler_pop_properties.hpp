@@ -6,29 +6,19 @@
 #include <string>
 #include "types.hpp"
 
-/*
-  NAMESPACE POLLUTION!!!!!
-
-  Types defined here are in the global namespace.
-
-  This is bad, BUT, it allows for auto-conversion of
-  struct to dict via Cython.
-
-  Currently, Cython will fail to compile auto-conversion
-  code for structs declared inside a C++ namespace.
-*/
-struct qtrait_stats_cython
-{
-  std::string stat;
-  double value;
-  unsigned generation;
-  qtrait_stats_cython(std::string _stat,
-		      double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
-  {
-  }
-};
-
 namespace fwdpy {
+
+  struct qtrait_stats_cython
+  {
+    std::string stat;
+    double value;
+    unsigned generation;
+    qtrait_stats_cython(std::string _stat,
+			double _v, unsigned _g) : stat(std::move(_stat)),value(_v),generation(_g)
+    {
+    }
+  };
+
   /*!
     We use a vector of std::array here for compactness and speed
     We could use a std::map, or a vector of final_t (see below),
@@ -40,7 +30,7 @@ namespace fwdpy {
   /*!
     \brief A "sampler" that records "quantitative genetics" kinda stuff.
     \ingroup samplers
-   */
+  */
   {
   public:
     using final_t = std::vector<qtrait_stats_cython>;

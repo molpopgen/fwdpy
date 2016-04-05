@@ -8,25 +8,25 @@
 #include <fwdpp/sugar/sampling.hpp>
 #include "types.hpp"
 
-//Namespace pollution!!
-struct detailed_deme_sample
-{
-  KTfwd::sep_sample_t genotypes;
-  std::vector<std::pair<double,double> > sh;
-  template<typename T1,typename T2>
-  detailed_deme_sample(T1 && t1, T2 && t2) : genotypes(std::forward<T1>(t1)),
-					     sh(std::forward<T2>(t2))
-  {
-  }
-};
-
 namespace fwdpy
 {
+  struct detailed_deme_sample
+  {
+    KTfwd::sep_sample_t genotypes;
+    std::vector<std::pair<double,double> > sh;
+    template<typename T1,typename T2>
+    detailed_deme_sample(T1 && t1, T2 && t2) : genotypes(std::forward<T1>(t1)),
+					       sh(std::forward<T2>(t2))
+    {
+    }
+  };
+
+
   class sample_n //take a sample of size n from a population
   /*
     \brief A "sampler" that takes a sample of n gametes from a population
     \ingroup samplers
-   */
+  */
   {
   public:
     using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;

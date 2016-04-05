@@ -3,41 +3,38 @@
 
 #include <limits>
 #include "sampler_selected_mut_tracker.hpp"
-
-//NAMESPACE POLLUTION
-struct allele_age_data_t
-/*!
-  \brief Structure representing allele ages.
-
-  Intended use is conversion to Python dictionary.
-
-  Returned to Python via Cython making a call to fwdpy::allele_ages_details
-*/
-{
-  double esize,max_freq,last_freq;
-  unsigned origin,tlen;
-  allele_age_data_t( double e,
-		     double mf,
-		     double lf,
-		     unsigned o,
-		     unsigned t ) : esize(e),
-				    max_freq(mf),
-				    last_freq(lf),
-				    origin(o),
-				    tlen(t)
-  {
-  }
-  allele_age_data_t() : esize(std::numeric_limits<double>::quiet_NaN()),
-			max_freq(std::numeric_limits<double>::quiet_NaN()),
-			last_freq(std::numeric_limits<double>::quiet_NaN()),
-			origin(std::numeric_limits<unsigned>::max()),
-			tlen(std::numeric_limits<unsigned>::max())
-  {
-  }
-};
-
 namespace fwdpy
 {
+  struct allele_age_data_t
+  /*!
+    \brief Structure representing allele ages.
+
+    Intended use is conversion to Python dictionary.
+
+    Returned to Python via Cython making a call to fwdpy::allele_ages_details
+  */
+  {
+    double esize,max_freq,last_freq;
+    unsigned origin,tlen;
+    allele_age_data_t( double e,
+		       double mf,
+		       double lf,
+		       unsigned o,
+		       unsigned t ) : esize(e),
+				      max_freq(mf),
+				      last_freq(lf),
+				      origin(o),
+				      tlen(t)
+    {
+    }
+    allele_age_data_t() : esize(std::numeric_limits<double>::quiet_NaN()),
+			  max_freq(std::numeric_limits<double>::quiet_NaN()),
+			  last_freq(std::numeric_limits<double>::quiet_NaN()),
+			  origin(std::numeric_limits<unsigned>::max()),
+			  tlen(std::numeric_limits<unsigned>::max())
+    {
+    }
+  };
 
   /*!
     \brief Take an object of type fwdpy::selected_mut_tracker and return allele age data.
