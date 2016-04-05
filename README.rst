@@ -168,6 +168,8 @@ You may also use pip to install from GitHub:
 
 The above command installs the latest version of the 'master' branch.  Users wanting latest and buggiest may find this useful.  OS X users should follow the instructions for using clang-omp shown above.
 
+Do this at your own risk. While the version number of the master branch may be the same as the version on PyPi_, there may be bugs, API changes, etc.
+
 Installation from source
 ----------------------------------------
 
