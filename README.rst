@@ -239,6 +239,22 @@ CPPFLAGS and LDFLAGS:
 
    $ CPPFLAGS="-I$HOME/include" LDFLAGS="-L$HOME/lib" pip install fwdpy
 
+Testing
+======================================
+
+Testing occurs via docstring tests and unit tests.  Here is how to test using both methods:
+
+.. code-block:: bash
+
+   $ #build the package
+   $ python setup.py build_ext -i
+   $ #build the manual--requires Sphinx
+   $ make -f Makefile.sphinx html
+   $ #run the tests
+   $ make -f Makefile.sphinx doctest
+   $ #run the unit tests
+   # python -m unittest discover fwdpy/tests
+   
 
 Note for developers
 =================================
