@@ -78,7 +78,6 @@ cdef vector[gamete_data] view_gametes_details( const singlepop_t * pop ) nogil:
         i+=1
     return rv
 
-##This really should be const...
 cdef vector[diploid_data] view_diploids_details( const dipvector_t & diploids,
                                                  const gcont_t & gametes,
                                                  const mcont_t & mutations,
