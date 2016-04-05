@@ -240,7 +240,7 @@ In order to modify the package, you will need Cython installed:
 
    $ pip install Cython
 
-You need Cython >= 0.22.2, so upgrade if you need to:
+You need Cython >= 0.24.0, so upgrade if you need to:
 
 .. code-block:: bash
 
