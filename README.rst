@@ -157,10 +157,19 @@ following command:
 
    $ CC=clang-omp CXX=clang-omp++ pip install fwdpy
 
-Installation from source
+Installation from GitHub
 ----------------------------------------
 
-This section describes "vanilla" installation using the minimal dependencies.
+You may also use pip to install from GitHub:
+
+.. code-block:: bash
+
+   $ pip install git+git://github.com/molpopgen/fwdpy
+
+The above command installs the latest version of the 'master' branch.  Users wanting latest and buggiest may find this useful.  OS X users should follow the instructions for using clang-omp shown above.
+
+Installation from source
+----------------------------------------
 
 First, install the dependencies (see above).
 
