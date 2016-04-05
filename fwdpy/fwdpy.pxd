@@ -172,24 +172,24 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
 
-cdef extern from "sampler_sample_n.hpp" nogil:
+cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef struct detailed_deme_sample:
         sep_sample_t genotypes
         vector[pair[double,double]] sh
 
-cdef extern from "sampler_selected_mut_tracker.hpp" nogil:
+cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef struct selected_mut_data:
         double pos
         double esize
         unsigned origin
 
-cdef extern from "sampler_pop_properties.hpp" nogil:
+cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
     cdef struct qtrait_stats_cython:
         string stat
         double value
         unsigned generation
 
-cdef extern from "allele_ages.hpp" nogil:
+cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     cdef struct allele_age_data_t:
         double esize
         double max_freq
