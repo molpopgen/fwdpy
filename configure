@@ -3209,7 +3209,7 @@ ac_config_files="$ac_config_files Makefile setup.py conf.py fwdpy.doxygen"
 ac_config_headers="$ac_config_headers config.h"
 
 
-MINFWDPPVERSION="0.4.6"
+MINFWDPPVERSION="0.4.7"
 FWDPPVERSION=`fwdppConfig --version`
 MINFWDPP=$MINFWDPPVERSION
 
