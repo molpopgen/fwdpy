@@ -343,7 +343,7 @@ Doing so will allow $HOME/software/include, etc., to be populated as they were i
 Documentation
 ===================
 
-The manual_ is available online in html format at the project web page.
+The manual_ is available online in html format at the project web page.  The manual always corresponds to the version of *fwdpy* found on PyPi_.
 
 The API documentation may also be build using doxygen_:
 
