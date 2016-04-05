@@ -30,6 +30,7 @@ Important concepts for setting up simulations
    :maxdepth: 2
 
    docs/popsizes
+   docs/demography
    docs/regions
    docs/summstats
    docs/slim
