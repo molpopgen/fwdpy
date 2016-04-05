@@ -37,9 +37,9 @@ namespace fwdpy
     if(rv==1) throw std::runtime_error("N_new larger than parental deme size");
   }
   
-  void admix_demes(const gsl_rng * r, metapop_t * mpop, const std::size_t i, const std::size_t j, const double prop_i, const bool replacement)
+  void admix_demes(const gsl_rng * r, metapop_t * mpop, const std::size_t i, const std::size_t j, const double prop_i, const unsigned N_new, const bool replacement)
   {
-    auto rv = KTfwd::admix_pops(r,*mpop,i,j,prop_i,replacement);
+    auto rv = KTfwd::admix_pops(r,*mpop,i,j,prop_i,N_new,replacement);
     if(rv==-1) throw std::out_of_range("deme index out of range");
     if(rv==1) throw std::runtime_error("invalid admixture proportion");
   }
