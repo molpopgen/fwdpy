@@ -1142,7 +1142,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_copy_pop_details(struct __pyx_obj_5
 static PyObject *__pyx_f_5fwdpy_10demography_remove_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t); /*proto*/
 static PyObject *__pyx_f_5fwdpy_10demography_merge_pops_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t); /*proto*/
 static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, unsigned int, int); /*proto*/
-static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t, double, int); /*proto*/
+static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t, double, unsigned int, int); /*proto*/
 static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t); /*proto*/
 #define __Pyx_MODULE_NAME "fwdpy.demography"
 int __pyx_module_is_main_fwdpy__demography = 0;
@@ -1174,15 +1174,35 @@ static char __pyx_k_replacement[] = "replacement";
 static char __pyx_k_make_mpopvec[] = "make_mpopvec";
 static char __pyx_k_from_singlepop[] = "from_singlepop";
 static char __pyx_k_admix_proportion[] = "admix_proportion";
+static char __pyx_k_copy_pop_line_41[] = "copy_pop (line 41)";
 static char __pyx_k_fwdpy_demography[] = "fwdpy.demography";
+static char __pyx_k_merge_pops_line_69[] = "merge_pops (line 69)";
+static char __pyx_k_remove_pop_line_99[] = "remove_pop (line 99)";
+static char __pyx_k_swap_pops_line_191[] = "swap_pops (line 191)";
+static char __pyx_k_admix_pops_line_162[] = "admix_pops (line 162)";
+static char __pyx_k_split_pops_line_126[] = "split_pops (line 126)";
 static char __pyx_k_make_mpopvec_line_25[] = "make_mpopvec (line 25)";
+static char __pyx_k_Swap_demes_param_mpops_A_class[] = "\n    Swap demes.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops).`\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_i or deme_j is out of range\n\n    ..note:: This function simply swaps the diploids in two demes, and is probably only useful if you\n    want the deme order to be a certain way after performing other demographic operations.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of different size\n    >>> m = fp.mpopvec(64,[1000,500])\n    >>> m[0].popsizes()\n    [1000, 500]\n    >>> demog.swap_pops(m,0,1)\n    >>> m[0].popsizes()\n    [500, 1000]\n    ";
+static char __pyx_k_Admix_two_demes_param_rng_A_cla[] = "\n    Admix two demes\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme1: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme2: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param admix_proportion: The probability that an individual in the admixed deme comes from deme1.\n    :param N_new: population size of admixed population\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    ..note:: The new deme is added to the end of the metapopulation.\n\n    Example:\n    \n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000])\n    >>> #Create new admixed deme with N=500, 25% individuals from deme 0:\n    >>> rng=fp.GSLrng(100)\n    >>> demog.admix_pops(rng,m,0,1,0.25,500)\n    >>> m[0].popsizes()\n    [1000, 1000, 500]\n    ";
 static char __pyx_k_Initialize_class_fwdpy_fwdpy_mp[] = "\n    Initialize :class:`fwdpy.fwdpy.mpopvec` from :class:`fwdpy.fwdpy.popvec`\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> s=fp.popvec(40,100)\n    >>> m=demog.make_mpopvec(s)\n    ";
+static char __pyx_k_Make_an_exact_copy_of_an_existi[] = "\n    Make an exact copy of an existing deme.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> len(m)\n    64\n    >>> m[0].popsizes()\n    [1000]\n    >>> demog.copy_pop(m,0)\n    >>> m[0].popsizes()\n    [1000, 1000]\n    ";
+static char __pyx_k_Merge_population_max_deme_i_dem[] = "\n    Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> m[0].popsizes()\n    [1000, 1000, 1000]\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.merge_pops(m,0,1)\n    >>> m[0].popsizes()\n    [3000]\n    ";
+static char __pyx_k_Remove_a_deme_from_a_metapopula[] = "\n    Remove a deme from a metapopulation.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.remove_pop(m,0)\n    >>> m[0].popsizes()\n    [2000]\n    ";
+static char __pyx_k_Split_an_existing_deme_into_two[] = "\n    Split an existing deme into two.\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param N_new: The size of the new deme.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if N_new is larger than parental deme size.\n\n    ..note:: The parental population's size is reduced by a value of N_new.  If splitting **without** replacement,\n    then the daughter deme is generated from a list of unique diploids who are remvoed from the parental deme.  **With**\n    replacement, both demes are populated by random samples from the parental deme.  The new deme is added to the end of \n    the metapopulation.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> m[0].popsizes()\n    [1000]\n    >>> #Split pops into sizes 250 and 750:\n    >>> rng = fp.GSLrng(100)\n    >>> demog.split_pops(rng,m,0,750)\n    >>> m[0].popsizes()\n    [250, 750]\n    ";
 static char __pyx_k_home_kevin_src_fwdpy_fwdpy_demo[] = "/home/kevin/src/fwdpy/fwdpy/demography.pyx";
+static PyObject *__pyx_kp_u_Admix_two_demes_param_rng_A_cla;
 static PyObject *__pyx_kp_u_Initialize_class_fwdpy_fwdpy_mp;
+static PyObject *__pyx_kp_u_Make_an_exact_copy_of_an_existi;
+static PyObject *__pyx_kp_u_Merge_population_max_deme_i_dem;
 static PyObject *__pyx_n_s_N_new;
+static PyObject *__pyx_kp_u_Remove_a_deme_from_a_metapopula;
+static PyObject *__pyx_kp_u_Split_an_existing_deme_into_two;
+static PyObject *__pyx_kp_u_Swap_demes_param_mpops_A_class;
 static PyObject *__pyx_n_s_admix_pops;
+static PyObject *__pyx_kp_u_admix_pops_line_162;
 static PyObject *__pyx_n_s_admix_proportion;
 static PyObject *__pyx_n_s_copy_pop;
+static PyObject *__pyx_kp_u_copy_pop_line_41;
 static PyObject *__pyx_n_s_deme1;
 static PyObject *__pyx_n_s_deme2;
 static PyObject *__pyx_n_s_deme_i;
@@ -1196,23 +1216,27 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_make_mpopvec;
 static PyObject *__pyx_kp_u_make_mpopvec_line_25;
 static PyObject *__pyx_n_s_merge_pops;
+static PyObject *__pyx_kp_u_merge_pops_line_69;
 static PyObject *__pyx_n_s_mpops;
 static PyObject *__pyx_n_s_pops;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_remove_pop;
+static PyObject *__pyx_kp_u_remove_pop_line_99;
 static PyObject *__pyx_n_s_replacement;
 static PyObject *__pyx_n_s_rng;
 static PyObject *__pyx_n_s_rv;
 static PyObject *__pyx_n_s_split_pops;
+static PyObject *__pyx_kp_u_split_pops_line_126;
 static PyObject *__pyx_n_s_swap_pops;
+static PyObject *__pyx_kp_u_swap_pops_line_191;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops); /* proto */
 static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index); /* proto */
 static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j); /* proto */
 static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index); /* proto */
 static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index, unsigned int __pyx_v_N_new, int __pyx_v_replacement); /* proto */
-static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, int __pyx_v_replacement); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, unsigned int __pyx_v_N_new, int __pyx_v_replacement); /* proto */
 static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_tuple_;
@@ -1401,7 +1425,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj
  * cdef split_deme_details(GSLrng r,metapop mpop,size_t i, unsigned N_new, bint replacement):
  *     split_deme(r.thisptr.get(),mpop.mpop.get(),i,N_new,replacement)             # <<<<<<<<<<<<<<
  * 
- * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,bint replacement):
+ * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):
  */
   try {
     fwdpy::split_deme(__pyx_v_r->thisptr->get(), __pyx_v_mpop->mpop.get(), __pyx_v_i, __pyx_v_N_new, __pyx_v_replacement);
@@ -1433,12 +1457,12 @@ static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj
 /* "fwdpy/demography.pyx":17
  *     split_deme(r.thisptr.get(),mpop.mpop.get(),i,N_new,replacement)
  * 
- * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,bint replacement):             # <<<<<<<<<<<<<<
- *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,replacement)
+ * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
+ *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
  * 
  */
 
-static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_r, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j, double __pyx_v_p, int __pyx_v_replacement) {
+static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_r, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j, double __pyx_v_p, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
@@ -1448,13 +1472,13 @@ static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_ob
 
   /* "fwdpy/demography.pyx":18
  * 
- * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,bint replacement):
- *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,replacement)             # <<<<<<<<<<<<<<
+ * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):
+ *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)             # <<<<<<<<<<<<<<
  * 
  * cdef swap_demes_details(metapop mpop, size_t i, size_t j):
  */
   try {
-    fwdpy::admix_demes(__pyx_v_r->thisptr->get(), __pyx_v_mpop->mpop.get(), __pyx_v_i, __pyx_v_j, __pyx_v_p, __pyx_v_replacement);
+    fwdpy::admix_demes(__pyx_v_r->thisptr->get(), __pyx_v_mpop->mpop.get(), __pyx_v_i, __pyx_v_j, __pyx_v_p, __pyx_v_N_new, __pyx_v_replacement);
   } catch(...) {
     __Pyx_CppExn2PyErr();
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1463,8 +1487,8 @@ static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_ob
   /* "fwdpy/demography.pyx":17
  *     split_deme(r.thisptr.get(),mpop.mpop.get(),i,N_new,replacement)
  * 
- * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,bint replacement):             # <<<<<<<<<<<<<<
- *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,replacement)
+ * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
+ *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
  * 
  */
 
@@ -1481,7 +1505,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_ob
 }
 
 /* "fwdpy/demography.pyx":20
- *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,replacement)
+ *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
  * 
  * cdef swap_demes_details(metapop mpop, size_t i, size_t j):             # <<<<<<<<<<<<<<
  *     swap_demes(mpop.mpop.get(),i,j)
@@ -1503,7 +1527,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj
   fwdpy::swap_demes(__pyx_v_mpop->mpop.get(), __pyx_v_i, __pyx_v_j);
 
   /* "fwdpy/demography.pyx":20
- *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,replacement)
+ *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
  * 
  * cdef swap_demes_details(metapop mpop, size_t i, size_t j):             # <<<<<<<<<<<<<<
  *     swap_demes(mpop.mpop.get(),i,j)
@@ -1694,7 +1718,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_10demography_3copy_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_2copy_pop[] = "\n    Make an exact copy of an existing deme.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n    ";
+static char __pyx_doc_5fwdpy_10demography_2copy_pop[] = "\n    Make an exact copy of an existing deme.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> len(m)\n    64\n    >>> m[0].popsizes()\n    [1000]\n    >>> demog.copy_pop(m,0)\n    >>> m[0].popsizes()\n    [1000, 1000]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_10demography_3copy_pop = {"copy_pop", (PyCFunction)__pyx_pw_5fwdpy_10demography_3copy_pop, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_2copy_pop};
 static PyObject *__pyx_pw_5fwdpy_10demography_3copy_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
@@ -1773,8 +1797,8 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("copy_pop", 0);
 
-  /* "fwdpy/demography.pyx":52
- *     :raise: IndexError if deme_index out of range
+  /* "fwdpy/demography.pyx":66
+ *     [1000, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         copy_pop_details(i,deme_index)
@@ -1784,26 +1808,26 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
     __pyx_t_1 = ((PyObject *)__pyx_v_mpops); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -1813,7 +1837,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -1822,20 +1846,20 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":53
+    /* "fwdpy/demography.pyx":67
  *     """
  *     for i in mpops:
  *         copy_pop_details(i,deme_index)             # <<<<<<<<<<<<<<
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):
  */
-    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_copy_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_copy_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":52
- *     :raise: IndexError if deme_index out of range
+    /* "fwdpy/demography.pyx":66
+ *     [1000, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         copy_pop_details(i,deme_index)
@@ -1867,7 +1891,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":55
+/* "fwdpy/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -1877,7 +1901,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_4merge_pops[] = "\n    Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j\n    ";
+static char __pyx_doc_5fwdpy_10demography_4merge_pops[] = "\n    Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> m[0].popsizes()\n    [1000, 1000, 1000]\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.merge_pops(m,0,1)\n    >>> m[0].popsizes()\n    [3000]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_10demography_5merge_pops = {"merge_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_5merge_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_4merge_pops};
 static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
@@ -1910,16 +1934,16 @@ static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme_i)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("merge_pops", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("merge_pops", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme_j)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("merge_pops", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("merge_pops", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "merge_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "merge_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -1929,18 +1953,18 @@ static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, 
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_mpops = ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)values[0]);
-    __pyx_v_deme_i = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_deme_i == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_deme_j = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme_j == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme_i = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_deme_i == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme_j = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme_j == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("merge_pops", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("merge_pops", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.demography.merge_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_10demography_4merge_pops(__pyx_self, __pyx_v_mpops, __pyx_v_deme_i, __pyx_v_deme_j);
 
   /* function exit code */
@@ -1965,8 +1989,8 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("merge_pops", 0);
 
-  /* "fwdpy/demography.pyx":67
- *     :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j
+  /* "fwdpy/demography.pyx":96
+ *     [3000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         merge_pops_details(i,deme_i,deme_j)
@@ -1976,26 +2000,26 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
     __pyx_t_1 = ((PyObject *)__pyx_v_mpops); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -2005,7 +2029,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -2014,20 +2038,20 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":68
+    /* "fwdpy/demography.pyx":97
  *     """
  *     for i in mpops:
  *         merge_pops_details(i,deme_i,deme_j)             # <<<<<<<<<<<<<<
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):
  */
-    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_merge_pops_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_merge_pops_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":67
- *     :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j
+    /* "fwdpy/demography.pyx":96
+ *     [3000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         merge_pops_details(i,deme_i,deme_j)
@@ -2036,7 +2060,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":55
+  /* "fwdpy/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -2059,7 +2083,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":70
+/* "fwdpy/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -2069,7 +2093,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_6remove_pop[] = "\n    Remove a deme from a metapopulation.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n    ";
+static char __pyx_doc_5fwdpy_10demography_6remove_pop[] = "\n    Remove a deme from a metapopulation.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.remove_pop(m,0)\n    >>> m[0].popsizes()\n    [2000]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_10demography_7remove_pop = {"remove_pop", (PyCFunction)__pyx_pw_5fwdpy_10demography_7remove_pop, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_6remove_pop};
 static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
@@ -2100,11 +2124,11 @@ static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("remove_pop", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("remove_pop", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "remove_pop") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "remove_pop") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2113,17 +2137,17 @@ static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, 
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_mpops = ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)values[0]);
-    __pyx_v_deme_index = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_deme_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme_index = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_deme_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("remove_pop", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("remove_pop", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.demography.remove_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_10demography_6remove_pop(__pyx_self, __pyx_v_mpops, __pyx_v_deme_index);
 
   /* function exit code */
@@ -2148,8 +2172,8 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("remove_pop", 0);
 
-  /* "fwdpy/demography.pyx":81
- *     :raise: IndexError if deme_index out of range
+  /* "fwdpy/demography.pyx":123
+ *     [2000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         remove_pop_details(i,deme_index)
@@ -2159,26 +2183,26 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
     __pyx_t_1 = ((PyObject *)__pyx_v_mpops); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -2188,7 +2212,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 123; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -2197,20 +2221,20 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":82
+    /* "fwdpy/demography.pyx":124
  *     """
  *     for i in mpops:
  *         remove_pop_details(i,deme_index)             # <<<<<<<<<<<<<<
  * 
- * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement):
+ * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):
  */
-    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_remove_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_remove_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":81
- *     :raise: IndexError if deme_index out of range
+    /* "fwdpy/demography.pyx":123
+ *     [2000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         remove_pop_details(i,deme_index)
@@ -2219,7 +2243,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":70
+  /* "fwdpy/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -2242,17 +2266,17 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":84
+/* "fwdpy/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
- * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
+ * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Split an existing deme into two.
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_10demography_9split_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_8split_pops[] = "\n    Split an existing deme into two.\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param N_new: The size of the new deme.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if N_new is larger than parental deme size.\n\n    ..note:: The parental population's size is reduced by a value of N_new.  If splitting **without** replacement,\n    then the daughter deme is generated from a list of unique diploids who are remvoed from the parental deme.  **With**\n    replacement, both demes are populated by random samples from the parental deme.  The new deme is added to the end of \n    the metapopulation.\n    ";
+static char __pyx_doc_5fwdpy_10demography_8split_pops[] = "\n    Split an existing deme into two.\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param N_new: The size of the new deme.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if N_new is larger than parental deme size.\n\n    ..note:: The parental population's size is reduced by a value of N_new.  If splitting **without** replacement,\n    then the daughter deme is generated from a list of unique diploids who are remvoed from the parental deme.  **With**\n    replacement, both demes are populated by random samples from the parental deme.  The new deme is added to the end of \n    the metapopulation.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> m[0].popsizes()\n    [1000]\n    >>> #Split pops into sizes 250 and 750:\n    >>> rng = fp.GSLrng(100)\n    >>> demog.split_pops(rng,m,0,750)\n    >>> m[0].popsizes()\n    [250, 750]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_10demography_9split_pops = {"split_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_9split_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_8split_pops};
 static PyObject *__pyx_pw_5fwdpy_10demography_9split_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
@@ -2289,52 +2313,58 @@ static PyObject *__pyx_pw_5fwdpy_10demography_9split_pops(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mpops)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("split_pops", 1, 5, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("split_pops", 0, 4, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("split_pops", 1, 5, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("split_pops", 0, 4, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_N_new)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("split_pops", 1, 5, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("split_pops", 0, 4, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
-        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_replacement)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("split_pops", 1, 5, 5, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_replacement);
+          if (value) { values[4] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "split_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "split_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
     __pyx_v_rng = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
     __pyx_v_mpops = ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)values[1]);
-    __pyx_v_deme_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_N_new = __Pyx_PyInt_As_unsigned_int(values[3]); if (unlikely((__pyx_v_N_new == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_replacement = __Pyx_PyObject_IsTrue(values[4]); if (unlikely((__pyx_v_replacement == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme_index = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme_index == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_N_new = __Pyx_PyInt_As_unsigned_int(values[3]); if (unlikely((__pyx_v_N_new == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    if (values[4]) {
+      __pyx_v_replacement = __Pyx_PyObject_IsTrue(values[4]); if (unlikely((__pyx_v_replacement == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_replacement = ((int)0);
+    }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("split_pops", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("split_pops", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.demography.split_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_10demography_8split_pops(__pyx_self, __pyx_v_rng, __pyx_v_mpops, __pyx_v_deme_index, __pyx_v_N_new, __pyx_v_replacement);
 
   /* function exit code */
@@ -2359,8 +2389,8 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("split_pops", 0);
 
-  /* "fwdpy/demography.pyx":103
- *     the metapopulation.
+  /* "fwdpy/demography.pyx":159
+ *     [250, 750]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
@@ -2370,26 +2400,26 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
     __pyx_t_1 = ((PyObject *)__pyx_v_mpops); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -2399,7 +2429,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -2408,20 +2438,20 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":104
+    /* "fwdpy/demography.pyx":160
  *     """
  *     for i in mpops:
  *         split_deme_details(rng,i,deme_index,N_new,replacement)             # <<<<<<<<<<<<<<
  * 
- * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,bint replacement):
+ * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):
  */
-    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_split_deme_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index, __pyx_v_N_new, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_split_deme_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index, __pyx_v_N_new, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":103
- *     the metapopulation.
+    /* "fwdpy/demography.pyx":159
+ *     [250, 750]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
@@ -2430,10 +2460,10 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":84
+  /* "fwdpy/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
- * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
+ * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Split an existing deme into two.
  */
@@ -2453,17 +2483,17 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":106
+/* "fwdpy/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
- * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,bint replacement):             # <<<<<<<<<<<<<<
+ * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Admix two demes
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_10admix_pops[] = "\n    Admix two demes\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme1: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme2: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param admix_proportion: The probability that an individual in the admixed deme comes from deme1.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    ..note:: The new deme is added to the end of the metapopulation.\n    ";
+static char __pyx_doc_5fwdpy_10demography_10admix_pops[] = "\n    Admix two demes\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme1: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme2: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param admix_proportion: The probability that an individual in the admixed deme comes from deme1.\n    :param N_new: population size of admixed population\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    ..note:: The new deme is added to the end of the metapopulation.\n\n    Example:\n    \n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000])\n    >>> #Create new admixed deme with N=500, 25% individuals from deme 0:\n    >>> rng=fp.GSLrng(100)\n    >>> demog.admix_pops(rng,m,0,1,0.25,500)\n    >>> m[0].popsizes()\n    [1000, 1000, 500]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_10demography_11admix_pops = {"admix_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_11admix_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10admix_pops};
 static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
@@ -2471,6 +2501,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self,
   size_t __pyx_v_deme1;
   size_t __pyx_v_deme2;
   double __pyx_v_admix_proportion;
+  unsigned int __pyx_v_N_new;
   int __pyx_v_replacement;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
@@ -2479,12 +2510,13 @@ static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self,
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("admix_pops (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng,&__pyx_n_s_mpops,&__pyx_n_s_deme1,&__pyx_n_s_deme2,&__pyx_n_s_admix_proportion,&__pyx_n_s_replacement,0};
-    PyObject* values[6] = {0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng,&__pyx_n_s_mpops,&__pyx_n_s_deme1,&__pyx_n_s_deme2,&__pyx_n_s_admix_proportion,&__pyx_n_s_N_new,&__pyx_n_s_replacement,0};
+    PyObject* values[7] = {0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
         case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
         case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
@@ -2502,60 +2534,73 @@ static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self,
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mpops)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("admix_pops", 1, 6, 6, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("admix_pops", 0, 6, 7, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("admix_pops", 1, 6, 6, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("admix_pops", 0, 6, 7, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("admix_pops", 1, 6, 6, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("admix_pops", 0, 6, 7, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_admix_proportion)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("admix_pops", 1, 6, 6, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("admix_pops", 0, 6, 7, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
-        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_replacement)) != 0)) kw_args--;
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_N_new)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("admix_pops", 1, 6, 6, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("admix_pops", 0, 6, 7, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  6:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_replacement);
+          if (value) { values[6] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "admix_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "admix_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
-      goto __pyx_L5_argtuple_error;
     } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
-      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
-      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
     }
     __pyx_v_rng = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
     __pyx_v_mpops = ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)values[1]);
-    __pyx_v_deme1 = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme1 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_deme2 = __Pyx_PyInt_As_size_t(values[3]); if (unlikely((__pyx_v_deme2 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_admix_proportion = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_admix_proportion == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_replacement = __Pyx_PyObject_IsTrue(values[5]); if (unlikely((__pyx_v_replacement == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme1 = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme1 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme2 = __Pyx_PyInt_As_size_t(values[3]); if (unlikely((__pyx_v_deme2 == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_admix_proportion = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_admix_proportion == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_N_new = __Pyx_PyInt_As_unsigned_int(values[5]); if (unlikely((__pyx_v_N_new == (unsigned int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    if (values[6]) {
+      __pyx_v_replacement = __Pyx_PyObject_IsTrue(values[6]); if (unlikely((__pyx_v_replacement == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_replacement = ((int)0);
+    }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("admix_pops", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("admix_pops", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.demography.admix_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_pf_5fwdpy_10demography_10admix_pops(__pyx_self, __pyx_v_rng, __pyx_v_mpops, __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_replacement);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10admix_pops(__pyx_self, __pyx_v_rng, __pyx_v_mpops, __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_N_new, __pyx_v_replacement);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2566,7 +2611,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self,
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, int __pyx_v_replacement) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2579,37 +2624,37 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("admix_pops", 0);
 
-  /* "fwdpy/demography.pyx":119
- *     ..note:: The new deme is added to the end of the metapopulation.
+  /* "fwdpy/demography.pyx":188
+ *     [1000, 1000, 500]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
- *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,replacement)
+ *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  */
   if (likely(PyList_CheckExact(((PyObject *)__pyx_v_mpops))) || PyTuple_CheckExact(((PyObject *)__pyx_v_mpops))) {
     __pyx_t_1 = ((PyObject *)__pyx_v_mpops); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -2619,7 +2664,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -2628,32 +2673,32 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":120
+    /* "fwdpy/demography.pyx":189
  *     """
  *     for i in mpops:
- *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,replacement)             # <<<<<<<<<<<<<<
+ *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)             # <<<<<<<<<<<<<<
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):
  */
-    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_admix_demes_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 120; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_admix_demes_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_N_new, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":119
- *     ..note:: The new deme is added to the end of the metapopulation.
+    /* "fwdpy/demography.pyx":188
+ *     [1000, 1000, 500]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
- *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,replacement)
+ *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":106
+  /* "fwdpy/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
- * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,bint replacement):             # <<<<<<<<<<<<<<
+ * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Admix two demes
  */
@@ -2673,8 +2718,8 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":122
- *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,replacement)
+/* "fwdpy/demography.pyx":191
+ *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
@@ -2683,7 +2728,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_12swap_pops[] = "\n    Swap demes.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops).`\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_i or deme_j is out of range\n\n    ..note:: This function simply swaps the diploids in two demes, and is probably only useful if you\n    want the deme order to be a certain way after performing other demographic operations.\n    ";
+static char __pyx_doc_5fwdpy_10demography_12swap_pops[] = "\n    Swap demes.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops).`\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_i or deme_j is out of range\n\n    ..note:: This function simply swaps the diploids in two demes, and is probably only useful if you\n    want the deme order to be a certain way after performing other demographic operations.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of different size\n    >>> m = fp.mpopvec(64,[1000,500])\n    >>> m[0].popsizes()\n    [1000, 500]\n    >>> demog.swap_pops(m,0,1)\n    >>> m[0].popsizes()\n    [500, 1000]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_10demography_13swap_pops = {"swap_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_13swap_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_12swap_pops};
 static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
@@ -2716,16 +2761,16 @@ static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, 
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme_i)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("swap_pops", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("swap_pops", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_deme_j)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("swap_pops", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("swap_pops", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "swap_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "swap_pops") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -2735,18 +2780,18 @@ static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, 
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_mpops = ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)values[0]);
-    __pyx_v_deme_i = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_deme_i == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_deme_j = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme_j == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme_i = __Pyx_PyInt_As_size_t(values[1]); if (unlikely((__pyx_v_deme_i == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_deme_j = __Pyx_PyInt_As_size_t(values[2]); if (unlikely((__pyx_v_deme_j == (size_t)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("swap_pops", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("swap_pops", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.demography.swap_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_5fwdpy_10demography_12swap_pops(__pyx_self, __pyx_v_mpops, __pyx_v_deme_i, __pyx_v_deme_j);
 
   /* function exit code */
@@ -2771,8 +2816,8 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("swap_pops", 0);
 
-  /* "fwdpy/demography.pyx":137
- *     want the deme order to be a certain way after performing other demographic operations.
+  /* "fwdpy/demography.pyx":218
+ *     [500, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         swap_demes_details(i,deme_i,deme_j)
@@ -2781,26 +2826,26 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
     __pyx_t_1 = ((PyObject *)__pyx_v_mpops); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_mpops)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -2810,7 +2855,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -2819,18 +2864,18 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":138
+    /* "fwdpy/demography.pyx":219
  *     """
  *     for i in mpops:
  *         swap_demes_details(i,deme_i,deme_j)             # <<<<<<<<<<<<<<
  */
-    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_swap_demes_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 138; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_swap_demes_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":137
- *     want the deme order to be a certain way after performing other demographic operations.
+    /* "fwdpy/demography.pyx":218
+ *     [500, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
  *         swap_demes_details(i,deme_i,deme_j)
@@ -2838,8 +2883,8 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":122
- *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,replacement)
+  /* "fwdpy/demography.pyx":191
+ *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
@@ -2884,11 +2929,19 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_u_Admix_two_demes_param_rng_A_cla, __pyx_k_Admix_two_demes_param_rng_A_cla, sizeof(__pyx_k_Admix_two_demes_param_rng_A_cla), 0, 1, 0, 0},
   {&__pyx_kp_u_Initialize_class_fwdpy_fwdpy_mp, __pyx_k_Initialize_class_fwdpy_fwdpy_mp, sizeof(__pyx_k_Initialize_class_fwdpy_fwdpy_mp), 0, 1, 0, 0},
+  {&__pyx_kp_u_Make_an_exact_copy_of_an_existi, __pyx_k_Make_an_exact_copy_of_an_existi, sizeof(__pyx_k_Make_an_exact_copy_of_an_existi), 0, 1, 0, 0},
+  {&__pyx_kp_u_Merge_population_max_deme_i_dem, __pyx_k_Merge_population_max_deme_i_dem, sizeof(__pyx_k_Merge_population_max_deme_i_dem), 0, 1, 0, 0},
   {&__pyx_n_s_N_new, __pyx_k_N_new, sizeof(__pyx_k_N_new), 0, 0, 1, 1},
+  {&__pyx_kp_u_Remove_a_deme_from_a_metapopula, __pyx_k_Remove_a_deme_from_a_metapopula, sizeof(__pyx_k_Remove_a_deme_from_a_metapopula), 0, 1, 0, 0},
+  {&__pyx_kp_u_Split_an_existing_deme_into_two, __pyx_k_Split_an_existing_deme_into_two, sizeof(__pyx_k_Split_an_existing_deme_into_two), 0, 1, 0, 0},
+  {&__pyx_kp_u_Swap_demes_param_mpops_A_class, __pyx_k_Swap_demes_param_mpops_A_class, sizeof(__pyx_k_Swap_demes_param_mpops_A_class), 0, 1, 0, 0},
   {&__pyx_n_s_admix_pops, __pyx_k_admix_pops, sizeof(__pyx_k_admix_pops), 0, 0, 1, 1},
+  {&__pyx_kp_u_admix_pops_line_162, __pyx_k_admix_pops_line_162, sizeof(__pyx_k_admix_pops_line_162), 0, 1, 0, 0},
   {&__pyx_n_s_admix_proportion, __pyx_k_admix_proportion, sizeof(__pyx_k_admix_proportion), 0, 0, 1, 1},
   {&__pyx_n_s_copy_pop, __pyx_k_copy_pop, sizeof(__pyx_k_copy_pop), 0, 0, 1, 1},
+  {&__pyx_kp_u_copy_pop_line_41, __pyx_k_copy_pop_line_41, sizeof(__pyx_k_copy_pop_line_41), 0, 1, 0, 0},
   {&__pyx_n_s_deme1, __pyx_k_deme1, sizeof(__pyx_k_deme1), 0, 0, 1, 1},
   {&__pyx_n_s_deme2, __pyx_k_deme2, sizeof(__pyx_k_deme2), 0, 0, 1, 1},
   {&__pyx_n_s_deme_i, __pyx_k_deme_i, sizeof(__pyx_k_deme_i), 0, 0, 1, 1},
@@ -2902,16 +2955,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_make_mpopvec, __pyx_k_make_mpopvec, sizeof(__pyx_k_make_mpopvec), 0, 0, 1, 1},
   {&__pyx_kp_u_make_mpopvec_line_25, __pyx_k_make_mpopvec_line_25, sizeof(__pyx_k_make_mpopvec_line_25), 0, 1, 0, 0},
   {&__pyx_n_s_merge_pops, __pyx_k_merge_pops, sizeof(__pyx_k_merge_pops), 0, 0, 1, 1},
+  {&__pyx_kp_u_merge_pops_line_69, __pyx_k_merge_pops_line_69, sizeof(__pyx_k_merge_pops_line_69), 0, 1, 0, 0},
   {&__pyx_n_s_mpops, __pyx_k_mpops, sizeof(__pyx_k_mpops), 0, 0, 1, 1},
   {&__pyx_n_s_pops, __pyx_k_pops, sizeof(__pyx_k_pops), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_remove_pop, __pyx_k_remove_pop, sizeof(__pyx_k_remove_pop), 0, 0, 1, 1},
+  {&__pyx_kp_u_remove_pop_line_99, __pyx_k_remove_pop_line_99, sizeof(__pyx_k_remove_pop_line_99), 0, 1, 0, 0},
   {&__pyx_n_s_replacement, __pyx_k_replacement, sizeof(__pyx_k_replacement), 0, 0, 1, 1},
   {&__pyx_n_s_rng, __pyx_k_rng, sizeof(__pyx_k_rng), 0, 0, 1, 1},
   {&__pyx_n_s_rv, __pyx_k_rv, sizeof(__pyx_k_rv), 0, 0, 1, 1},
   {&__pyx_n_s_split_pops, __pyx_k_split_pops, sizeof(__pyx_k_split_pops), 0, 0, 1, 1},
+  {&__pyx_kp_u_split_pops_line_126, __pyx_k_split_pops_line_126, sizeof(__pyx_k_split_pops_line_126), 0, 1, 0, 0},
   {&__pyx_n_s_swap_pops, __pyx_k_swap_pops, sizeof(__pyx_k_swap_pops), 0, 0, 1, 1},
+  {&__pyx_kp_u_swap_pops_line_191, __pyx_k_swap_pops_line_191, sizeof(__pyx_k_swap_pops_line_191), 0, 1, 0, 0},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
@@ -2950,65 +3007,65 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__3);
   __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_copy_pop, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/demography.pyx":55
+  /* "fwdpy/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
  *     Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).
  */
-  __pyx_tuple__5 = PyTuple_Pack(4, __pyx_n_s_mpops, __pyx_n_s_deme_i, __pyx_n_s_deme_j, __pyx_n_s_i); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__5 = PyTuple_Pack(4, __pyx_n_s_mpops, __pyx_n_s_deme_i, __pyx_n_s_deme_j, __pyx_n_s_i); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_merge_pops, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_merge_pops, 69, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/demography.pyx":70
+  /* "fwdpy/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """
  *     Remove a deme from a metapopulation.
  */
-  __pyx_tuple__7 = PyTuple_Pack(3, __pyx_n_s_mpops, __pyx_n_s_deme_index, __pyx_n_s_i); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__7 = PyTuple_Pack(3, __pyx_n_s_mpops, __pyx_n_s_deme_index, __pyx_n_s_i); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_remove_pop, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_remove_pop, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/demography.pyx":84
+  /* "fwdpy/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
- * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
+ * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Split an existing deme into two.
  */
-  __pyx_tuple__9 = PyTuple_Pack(6, __pyx_n_s_rng, __pyx_n_s_mpops, __pyx_n_s_deme_index, __pyx_n_s_N_new, __pyx_n_s_replacement, __pyx_n_s_i); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__9 = PyTuple_Pack(6, __pyx_n_s_rng, __pyx_n_s_mpops, __pyx_n_s_deme_index, __pyx_n_s_N_new, __pyx_n_s_replacement, __pyx_n_s_i); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_split_pops, 84, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_split_pops, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/demography.pyx":106
+  /* "fwdpy/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
- * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,bint replacement):             # <<<<<<<<<<<<<<
+ * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Admix two demes
  */
-  __pyx_tuple__11 = PyTuple_Pack(7, __pyx_n_s_rng, __pyx_n_s_mpops, __pyx_n_s_deme1, __pyx_n_s_deme2, __pyx_n_s_admix_proportion, __pyx_n_s_replacement, __pyx_n_s_i); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__11 = PyTuple_Pack(8, __pyx_n_s_rng, __pyx_n_s_mpops, __pyx_n_s_deme1, __pyx_n_s_deme2, __pyx_n_s_admix_proportion, __pyx_n_s_N_new, __pyx_n_s_replacement, __pyx_n_s_i); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(6, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_admix_pops, 106, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(7, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_admix_pops, 162, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "fwdpy/demography.pyx":122
- *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,replacement)
+  /* "fwdpy/demography.pyx":191
+ *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
  *     Swap demes.
  */
-  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_mpops, __pyx_n_s_deme_i, __pyx_n_s_deme_j, __pyx_n_s_i); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_mpops, __pyx_n_s_deme_i, __pyx_n_s_deme_j, __pyx_n_s_i); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_swap_pops, 122, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_swap_pops, 191, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3159,64 +3216,64 @@ PyMODINIT_FUNC PyInit_demography(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_copy_pop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 41; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":55
+  /* "fwdpy/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
  *     Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_5merge_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_5merge_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_merge_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_merge_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":70
+  /* "fwdpy/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """
  *     Remove a deme from a metapopulation.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_7remove_pop, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_7remove_pop, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_remove_pop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_remove_pop, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":84
+  /* "fwdpy/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
- * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
+ * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Split an existing deme into two.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_9split_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_9split_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_split_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_split_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":106
+  /* "fwdpy/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
- * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,bint replacement):             # <<<<<<<<<<<<<<
+ * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Admix two demes
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_11admix_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_11admix_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_admix_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_admix_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":122
- *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,replacement)
+  /* "fwdpy/demography.pyx":191
+ *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
  *     Swap demes.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_13swap_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_13swap_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_swap_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 122; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_swap_pops, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/demography.pyx":1
@@ -3227,6 +3284,12 @@ PyMODINIT_FUNC PyInit_demography(void)
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_make_mpopvec_line_25, __pyx_kp_u_Initialize_class_fwdpy_fwdpy_mp) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_copy_pop_line_41, __pyx_kp_u_Make_an_exact_copy_of_an_existi) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_merge_pops_line_69, __pyx_kp_u_Merge_population_max_deme_i_dem) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_remove_pop_line_99, __pyx_kp_u_Remove_a_deme_from_a_metapopula) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_split_pops_line_126, __pyx_kp_u_Split_an_existing_deme_into_two) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_admix_pops_line_162, __pyx_kp_u_Admix_two_demes_param_rng_A_cla) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_swap_pops_line_191, __pyx_kp_u_Swap_demes_param_mpops_A_class) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
