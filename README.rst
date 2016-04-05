@@ -327,7 +327,7 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.4.7, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.4.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
