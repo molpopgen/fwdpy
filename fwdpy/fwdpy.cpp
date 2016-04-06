@@ -25821,7 +25821,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_70view_fixations_mpopvec(CYTHON_UNUSED P
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_73view_fixations(PyObject *__pyx_self, PyObject *__pyx_v_p); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_72view_fixations[] = "\n    Return information on fixed variants\n\n    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`\n\n    :return: A list of tuples. The first element is fixation time, and the second is a \n    dict containing data about the mutation.\n\n    .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types\n    of fixations, depending on the type of simulation you are running.\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_72view_fixations[] = "\n    Return information on fixed variants\n\n    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`\n\n    :return: A list of tuples. The first element is fixation time, and the second is a dict containing data about the mutation.\n\n    .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types of fixations, depending on the type of simulation you are running.\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_73view_fixations = {"view_fixations", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_73view_fixations, METH_O, __pyx_doc_5fwdpy_5fwdpy_72view_fixations};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_73view_fixations(PyObject *__pyx_self, PyObject *__pyx_v_p) {
   PyObject *__pyx_r = 0;
@@ -25845,8 +25845,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("view_fixations", 0);
 
-  /* "fwdpy/view_fixations.pyx":59
- *     of fixations, depending on the type of simulation you are running.
+  /* "fwdpy/view_fixations.pyx":57
+ *     .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types of fixations, depending on the type of simulation you are running.
  *     """
  *     if isinstance(p,singlepop):             # <<<<<<<<<<<<<<
  *         return view_fixations_singlepop(p)
@@ -25856,7 +25856,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "fwdpy/view_fixations.pyx":60
+    /* "fwdpy/view_fixations.pyx":58
  *     """
  *     if isinstance(p,singlepop):
  *         return view_fixations_singlepop(p)             # <<<<<<<<<<<<<<
@@ -25864,7 +25864,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  *         return view_fixations_popvec(p)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_singlepop); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 60, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_singlepop); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 58, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -25877,16 +25877,16 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 60, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 58, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
     } else {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 60, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 58, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_INCREF(__pyx_v_p);
       __Pyx_GIVEREF(__pyx_v_p);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_p);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 60, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 58, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -25895,8 +25895,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/view_fixations.pyx":59
- *     of fixations, depending on the type of simulation you are running.
+    /* "fwdpy/view_fixations.pyx":57
+ *     .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types of fixations, depending on the type of simulation you are running.
  *     """
  *     if isinstance(p,singlepop):             # <<<<<<<<<<<<<<
  *         return view_fixations_singlepop(p)
@@ -25904,7 +25904,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  */
   }
 
-  /* "fwdpy/view_fixations.pyx":61
+  /* "fwdpy/view_fixations.pyx":59
  *     if isinstance(p,singlepop):
  *         return view_fixations_singlepop(p)
  *     elif isinstance(p,popvec):             # <<<<<<<<<<<<<<
@@ -25915,7 +25915,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/view_fixations.pyx":62
+    /* "fwdpy/view_fixations.pyx":60
  *         return view_fixations_singlepop(p)
  *     elif isinstance(p,popvec):
  *         return view_fixations_popvec(p)             # <<<<<<<<<<<<<<
@@ -25923,7 +25923,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  *         return view_fixations_metapop(p)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_popvec); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 62, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_popvec); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -25936,16 +25936,16 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 62, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
     } else {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 62, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_INCREF(__pyx_v_p);
       __Pyx_GIVEREF(__pyx_v_p);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_p);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 62, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 60, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -25954,7 +25954,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/view_fixations.pyx":61
+    /* "fwdpy/view_fixations.pyx":59
  *     if isinstance(p,singlepop):
  *         return view_fixations_singlepop(p)
  *     elif isinstance(p,popvec):             # <<<<<<<<<<<<<<
@@ -25963,7 +25963,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  */
   }
 
-  /* "fwdpy/view_fixations.pyx":63
+  /* "fwdpy/view_fixations.pyx":61
  *     elif isinstance(p,popvec):
  *         return view_fixations_popvec(p)
  *     elif isinstance(p,metapop):             # <<<<<<<<<<<<<<
@@ -25974,7 +25974,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "fwdpy/view_fixations.pyx":64
+    /* "fwdpy/view_fixations.pyx":62
  *         return view_fixations_popvec(p)
  *     elif isinstance(p,metapop):
  *         return view_fixations_metapop(p)             # <<<<<<<<<<<<<<
@@ -25982,7 +25982,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  *         return view_fixations_mpopvec(p)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_metapop); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 64, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_metapop); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -25995,16 +25995,16 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
       }
     }
     if (!__pyx_t_5) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 64, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 62, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
     } else {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 64, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(3, 62, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
       __Pyx_INCREF(__pyx_v_p);
       __Pyx_GIVEREF(__pyx_v_p);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_p);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 64, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 62, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -26013,7 +26013,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/view_fixations.pyx":63
+    /* "fwdpy/view_fixations.pyx":61
  *     elif isinstance(p,popvec):
  *         return view_fixations_popvec(p)
  *     elif isinstance(p,metapop):             # <<<<<<<<<<<<<<
@@ -26022,7 +26022,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  */
   }
 
-  /* "fwdpy/view_fixations.pyx":65
+  /* "fwdpy/view_fixations.pyx":63
  *     elif isinstance(p,metapop):
  *         return view_fixations_metapop(p)
  *     elif isinstance(p,mpopvec):             # <<<<<<<<<<<<<<
@@ -26033,7 +26033,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/view_fixations.pyx":66
+    /* "fwdpy/view_fixations.pyx":64
  *         return view_fixations_metapop(p)
  *     elif isinstance(p,mpopvec):
  *         return view_fixations_mpopvec(p)             # <<<<<<<<<<<<<<
@@ -26041,7 +26041,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  *         raise ValueError("unsupported type")
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_mpopvec); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 66, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_view_fixations_mpopvec); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -26054,16 +26054,16 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 66, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_p); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 64, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
     } else {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 66, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(3, 64, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_INCREF(__pyx_v_p);
       __Pyx_GIVEREF(__pyx_v_p);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_p);
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 66, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 64, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
@@ -26072,7 +26072,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/view_fixations.pyx":65
+    /* "fwdpy/view_fixations.pyx":63
  *     elif isinstance(p,metapop):
  *         return view_fixations_metapop(p)
  *     elif isinstance(p,mpopvec):             # <<<<<<<<<<<<<<
@@ -26081,17 +26081,17 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_72view_fixations(CYTHON_UNUSED PyObject 
  */
   }
 
-  /* "fwdpy/view_fixations.pyx":68
+  /* "fwdpy/view_fixations.pyx":66
  *         return view_fixations_mpopvec(p)
  *     else:
  *         raise ValueError("unsupported type")             # <<<<<<<<<<<<<<
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__69, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 68, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__69, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(3, 68, __pyx_L1_error)
+    __PYX_ERR(3, 66, __pyx_L1_error)
   }
 
   /* "fwdpy/view_fixations.pyx":47
@@ -45604,12 +45604,12 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__68);
   __Pyx_GIVEREF(__pyx_tuple__68);
 
-  /* "fwdpy/view_fixations.pyx":68
+  /* "fwdpy/view_fixations.pyx":66
  *         return view_fixations_mpopvec(p)
  *     else:
  *         raise ValueError("unsupported type")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_kp_s_unsupported_type); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(3, 68, __pyx_L1_error)
+  __pyx_tuple__69 = PyTuple_Pack(1, __pyx_kp_s_unsupported_type); if (unlikely(!__pyx_tuple__69)) __PYX_ERR(3, 66, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__69);
   __Pyx_GIVEREF(__pyx_tuple__69);
 

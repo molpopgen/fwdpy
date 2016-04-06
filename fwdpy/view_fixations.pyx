@@ -50,11 +50,9 @@ def view_fixations(object p):
 
     :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
 
-    :return: A list of tuples. The first element is fixation time, and the second is a 
-    dict containing data about the mutation.
+    :return: A list of tuples. The first element is fixation time, and the second is a dict containing data about the mutation.
 
-    .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types
-    of fixations, depending on the type of simulation you are running.
+    .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types of fixations, depending on the type of simulation you are running.
     """
     if isinstance(p,singlepop):
         return view_fixations_singlepop(p)
