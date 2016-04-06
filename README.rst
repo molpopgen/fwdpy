@@ -28,7 +28,8 @@ Changelog (rough)
 ----------------
 * Update to Cython_ 0.24.0
 * Add fwdpy.demography module
-
+* Added views of fixed mutations
+  
 0.0.3
 -----------------
 * Change from std::thread to std::async for concurrency.
