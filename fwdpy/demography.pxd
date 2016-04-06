@@ -8,4 +8,4 @@ cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void merge_demes(metapop_t  * mpop, const size_t i, const size_t j) except +
     void split_deme(const gsl_rng * r, metapop_t * mpop, const size_t i, const unsigned N_new, const bint replacement ) except +
     void admix_demes(const gsl_rng * r, metapop_t * mpop, const size_t i, const size_t j, const double prop_i,const unsigned N_new, const bint replacement) except +
-    void swap_demes(metapop_t * mpop, const size_t i, const size_t j)
+    void swap_demes(metapop_t * mpop, const size_t i, const size_t j) except +
