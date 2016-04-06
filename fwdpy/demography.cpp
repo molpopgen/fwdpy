@@ -1567,7 +1567,12 @@ static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj
  * 
  * ##def function are callable from Python:
  */
-  fwdpy::swap_demes(__pyx_v_mpop->mpop.get(), __pyx_v_i, __pyx_v_j);
+  try {
+    fwdpy::swap_demes(__pyx_v_mpop->mpop.get(), __pyx_v_i, __pyx_v_j);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 21, __pyx_L1_error)
+  }
 
   /* "fwdpy/demography.pyx":20
  *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
@@ -1579,6 +1584,11 @@ static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj
 
   /* function exit code */
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("fwdpy.demography.swap_demes_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
