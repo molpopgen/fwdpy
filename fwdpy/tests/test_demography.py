@@ -21,22 +21,17 @@ class test_make_mpopvec(unittest.TestCase):
 
 class test_exceptions(unittest.TestCase):
     """
-    fwdpy.demography relies on fwdpp's to return values
+    fwdpy.demography relies on fwdpp's return values
     for throwing exceptions.  See fwdpy/demograpy/demography.cc
     for details
     """
     def testCopyOutOfRange(self):
-        s = fp.popvec(64,100)
-        m = demog.make_mpopvec(s)
+        m = fp.mpopvec(64,[100])
         ##There is only 1 deme, so index of 1 is out of range
         with self.assertRaises(IndexError):
             demog.copy_pop(m,1)
-        with self.assertRaises(IndexError):
-            #This is also raise, as it'll get coverted to max(unsigned)-1:
-            demog.copy_pop(m,-1)
     def testMergeOutOfRange(self):
-        s = fp.popvec(64,100)
-        m = demog.make_mpopvec(s)
+        m = fp.mpopvec(64,[100])
         #Make identical copy of
         #first deme in each pop
         demog.copy_pop(m,0)
@@ -45,16 +40,37 @@ class test_exceptions(unittest.TestCase):
             #but second index
             #out of range:
             demog.merge_pops(m,0,2)
+    def testMergeDemeOntoItself(self):
+        m=fp.mpopvec(64,[100,100])
         with self.assertRaises(RuntimeError):
             ##Cannot merge deme into itself:
             demog.merge_pops(m,1,1)
     def testRemoveOutOfRange(self):
-        s = fp.popvec(64,100)
-        m = demog.make_mpopvec(s)
-        #copy a deme
-        demog.copy_pop(m,0)
-        #remove the new deme
+        m = fp.mpopvec(64,[100,100])
+        #remove the second deme
         demog.remove_pop(m,1)
         #try again = exception
         with self.assertRaises(IndexError):
             demog.remove_pop(m,1)
+    def testSwapOutOfRange(self):
+        m = fp.mpopvec(64,[100,100])
+        with self.assertRaises(IndexError):
+            demog.swap_pops(m,0,2)
+    def testSplitOutOfRange(self):
+        m = fp.mpopvec(64,[100])
+        rng=fp.GSLrng(101)
+        with self.assertRaises(IndexError):
+            demog.split_pops(rng,m,2,50)
+    def testAdmixOutOfRange(self):
+        m = fp.mpopvec(64,[100,100])
+        rng=fp.GSLrng(101)
+        with self.assertRaises(IndexError):
+            demog.admix_pops(rng,m,0,2,0.1,100)
+    def testAdmixInvalidProportion(self):
+        """
+        Test requirement that admix prop is 0 <= p <= 1
+        """
+        m = fp.mpopvec(64,[100,100])
+        rng=fp.GSLrng(101)
+        with self.assertRaises(RuntimeError):
+            demog.admix_pops(rng,m,0,1,-0.1,100)
