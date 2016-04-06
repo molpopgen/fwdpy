@@ -37,7 +37,7 @@ def view_fixations_mpopvec(mpopvec p):
     cdef size_t npops=p.mpops.size()
     cdef int i
     ##HACK ALERT
-    cdef vector[unsigned] Ns;
+    cdef vector[unsigned] Ns
     for i in range(npops):
         Ns.push_back(sum(p.mpops[i].get().Ns))
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):

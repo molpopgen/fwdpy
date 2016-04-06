@@ -51,7 +51,7 @@ def evolve_qtrait(GSLrng rng,
         f=0
 
     pops = popvec(npops,N)
-    rmgr = region_manager_wrapper();
+    rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
     with nogil:
@@ -226,7 +226,7 @@ def evolve_gbr(GSLrng rng,
         f=0
 
     pops = popvec(npops,N)
-    rmgr = region_manager_wrapper();
+    rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
     with nogil:

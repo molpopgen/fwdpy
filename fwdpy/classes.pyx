@@ -65,7 +65,7 @@ cdef class singlepop_gm_vec(poptype):
         the data structures!
 
         """
-        return self.pop.get().sane();
+        return self.pop.get().sane()
 
 cdef class popvec(popcont):
     """
@@ -105,7 +105,7 @@ cdef class popvec(popcont):
         self.pops=newpops
         self.pypops=list()
         for i in range(self.pops.size()):
-            pi = singlepop();
+            pi = singlepop()
             pi.pop=self.pops[i]
             self.pypops.append(pi)
     def __append_details__(self,popvec p):
@@ -156,7 +156,7 @@ cdef class popvec_gmv(popcont):
         self.pops=newpops
         self.pypops=list()
         for i in range(self.pops.size()):
-            pi = singlepop_gm_vec();
+            pi = singlepop_gm_vec()
             pi.pop=self.pops[i]
             self.pypops.append(pi)
     cpdef size(self):

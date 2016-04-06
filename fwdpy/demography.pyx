@@ -36,7 +36,7 @@ def make_mpopvec(popvec pops):
     rv=mpopvec(len(pops),[0])
     for i in range(len(pops)):
         rv[i].from_singlepop(pops[i])
-    return rv;
+    return rv
     
 def copy_pop(mpopvec mpops, size_t deme_index):
     """

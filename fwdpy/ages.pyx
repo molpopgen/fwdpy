@@ -8,7 +8,7 @@ def allele_ages( const vector[vector[pair[selected_mut_data,vector[double]]]] & 
     maximum frequency, and the number of times a frequency was recorded for that mutation.
     """
     cdef size_t nt = trajectories.size()
-    cdef vector[vector[allele_age_data_t]] rv;
+    cdef vector[vector[allele_age_data_t]] rv
     rv.resize(nt)
     cdef int i
     for i in prange(nt,schedule='static',nogil=True,chunksize=1):

@@ -22,10 +22,10 @@ cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil:
     rv.s=m.s
     rv.h=m.h
     rv.neutral=m.neutral
-    return rv;
+    return rv
 
 cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
-    cdef gamete_data rv;
+    cdef gamete_data rv
     cdef size_t i=0,j=g.mutations.size()
     while i<j:
         rv.neutral.push_back(get_mutation(mutations[i],mcounts[i]))
@@ -60,7 +60,7 @@ cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, c
 
 cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
     cdef vector[popgen_mut_data] rv
-    cdef size_t i=0,j=mutations.size();
+    cdef size_t i=0,j=mutations.size()
     while i!=j:
         #skip extinct mutation
         if mcounts[i]:
@@ -74,7 +74,7 @@ cdef vector[gamete_data] view_gametes_details( const singlepop_t * pop ) nogil:
     while i!=j:
         #skip extinct gamets
         if pop.gametes[i].n:
-            rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts));
+            rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))
         i+=1
     return rv
 
@@ -91,14 +91,14 @@ cdef vector[diploid_data] view_diploids_details( const dipvector_t & diploids,
 def view_mutations_singlepop(singlepop p):
     cdef mcont_t_itr beg = p.pop.get().mutations.begin()
     cdef mcont_t_itr end = p.pop.get().mutations.end()
-    cdef vector[popgen_mut_data] rv;
+    cdef vector[popgen_mut_data] rv
     with nogil:
         rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
     return rv
 
 def view_mutations_popvec(popvec p):
     cdef mcont_t_itr beg,end
-    cdef vector[vector[popgen_mut_data]] rv;
+    cdef vector[vector[popgen_mut_data]] rv
     cdef size_t npops = p.pops.size()
     cdef int i
     rv.resize(npops)
@@ -255,7 +255,7 @@ def view_diploids_singlepop( singlepop p, list indlist ):
 def view_diploids_popvec( popvec p, list indlist ):
     cdef size_t npops = len(p),i
     cdef vector[vector[diploid_data]] rv
-    rv.resize(npops);
+    rv.resize(npops)
     cdef vector[unsigned] il
     for i in indlist:
         il.push_back(<unsigned>(i))
@@ -520,7 +520,7 @@ cdef diploid_traits_singlepop(singlepop p):
                     'e':p.pop.get().diploids[i].e,
                     'w':p.pop.get().diploids[i].w} )
         
-    return rv;
+    return rv
 
 cdef diploid_traits_popvec(popvec p):
     return [diploid_traits_singlepop(i) for i in p]
