@@ -13,6 +13,7 @@ include "evolve_regions.pyx"
 include "regions.pyx"
 include "copy.pyx"
 include "views.pyx"
+include "view_fixations.pyx"
 include "debug.pyx"
 include "ages.pyx"
 
