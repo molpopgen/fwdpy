@@ -70,7 +70,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
 
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
-        gsl_rng * get()
+        const gsl_rng * get()
 
 #Now, provide definitions for classes in classes.pyx
 cdef class poptype(object):

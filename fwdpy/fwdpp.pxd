@@ -53,10 +53,10 @@ cdef extern from "fwdpp/sugar/generalmut.hpp" namespace "KTfwd" nogil:
 cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
     ctypedef vector[pair[double,string]] sample_t
     ctypedef pair[sample_t,sample_t] sep_sample_t
-    sample_t sample[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
-    sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
+    sample_t sample[POPTYPE](const gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
+    sep_sample_t sample_separate[POPTYPE](const gsl_rng *,const POPTYPE &,const unsigned nsam , const bool removeFixed)
     sep_sample_t sample_separate[POPTYPE](const POPTYPE &,const vector[unsigned] & individuals, const bool removeFixed) except +
-    sep_sample_t sample_separate[POPTYPE](gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed) except+
+    sep_sample_t sample_separate[POPTYPE](const gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed) except+
 
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
