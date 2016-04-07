@@ -21,7 +21,7 @@ namespace fwdpy {
 	  });
 	s->push_back(mitr->s);
 	h->push_back(mitr->h);
-	p->push_back(double(mcounts[std::distance(mitr,mutations.end())])/double(twoN));
+	p->push_back(double(mcounts[std::distance(mutations.begin(),mitr)])/double(twoN));
 	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
       }
   }
