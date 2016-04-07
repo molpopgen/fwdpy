@@ -46,10 +46,13 @@ class test_sample_details(unittest.TestCase):
                 mm=[X for X in mviews[i] if X['pos'] == samples[i][1][j][0]]
                 ##Make sure each position is uniuqe
                 self.assertEqual(len(mm),1)
-                ##Make sure that the position is equal to what we expect
                 for mmi in mm:
+                    ##Make sure that the position is equal to what we expect
                     self.assertEqual(mmi['pos'],samples[i][1][j][0])
-
+                    ##Make sure selection coefficient matches up
+                    self.assertEqual(mmi['s'],details[i].s[j])
+                    EP=mmi['n']/float(2000) #"expected" frequency
+                    self.assertEqual(EP,details[i].p[j])
             
 if __name__ == '__main__':
     unittest.main()
