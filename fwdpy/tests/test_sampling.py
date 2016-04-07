@@ -6,7 +6,12 @@ import pandas as pd
 
 class test_sample_details(unittest.TestCase):
     def test_CompareUsingView(self):
-
+        """
+        Evolve some population, take samples,
+        get details of those samples, make sure
+        those details match up what 'views' think should
+        be in the population.
+        """
         nregions = [fp.Region(beg=0,end=1,weight=1)]
 
         sregions = [fp.ConstantS(beg=-1,end=0,weight=1,s=-0.05,h=1),
