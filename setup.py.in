@@ -160,7 +160,7 @@ extensions = [
 ]
 
 ##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fdwpy.demography']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
 if QTRAIT is True:
     extensions.extend([
