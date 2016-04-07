@@ -1670,7 +1670,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
  *     rv=mpopvec(len(pops),[0])
  *     for i in range(len(pops)):             # <<<<<<<<<<<<<<
  *         rv[i].from_singlepop(pops[i])
- *     return rv;
+ *     return rv
  */
   __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_pops)); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(0, 37, __pyx_L1_error)
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_1; __pyx_t_5+=1) {
@@ -1680,7 +1680,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
  *     rv=mpopvec(len(pops),[0])
  *     for i in range(len(pops)):
  *         rv[i].from_singlepop(pops[i])             # <<<<<<<<<<<<<<
- *     return rv;
+ *     return rv
  * 
  */
     __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_rv), __pyx_v_i, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L1_error)
@@ -1722,7 +1722,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
   /* "fwdpy/demography.pyx":39
  *     for i in range(len(pops)):
  *         rv[i].from_singlepop(pops[i])
- *     return rv;             # <<<<<<<<<<<<<<
+ *     return rv             # <<<<<<<<<<<<<<
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):
  */
@@ -1756,7 +1756,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
 }
 
 /* "fwdpy/demography.pyx":41
- *     return rv;
+ *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """
@@ -1910,7 +1910,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/demography.pyx":41
- *     return rv;
+ *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """
@@ -3007,7 +3007,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_make_mpopvec, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 25, __pyx_L1_error)
 
   /* "fwdpy/demography.pyx":41
- *     return rv;
+ *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """
@@ -3214,7 +3214,7 @@ PyMODINIT_FUNC PyInit_demography(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/demography.pyx":41
- *     return rv;
+ *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """

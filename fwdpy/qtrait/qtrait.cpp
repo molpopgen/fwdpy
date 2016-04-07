@@ -2979,7 +2979,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
  *         f=0
  * 
  *     pops = popvec(npops,N)             # <<<<<<<<<<<<<<
- *     rmgr = region_manager_wrapper();
+ *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  */
   __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_npops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
@@ -3003,7 +3003,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
   /* "fwdpy/qtrait/evolve_qtraits.pyx":54
  * 
  *     pops = popvec(npops,N)
- *     rmgr = region_manager_wrapper();             # <<<<<<<<<<<<<<
+ *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)
  */
@@ -3014,7 +3014,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":55
  *     pops = popvec(npops,N)
- *     rmgr = region_manager_wrapper();
+ *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     cdef size_t listlen = len(nlist)
  *     with nogil:
@@ -3060,7 +3060,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":56
- *     rmgr = region_manager_wrapper();
+ *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:
@@ -6021,7 +6021,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
  *         f=0
  * 
  *     pops = popvec(npops,N)             # <<<<<<<<<<<<<<
- *     rmgr = region_manager_wrapper();
+ *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  */
   __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_npops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
@@ -6045,7 +6045,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
   /* "fwdpy/qtrait/evolve_qtraits.pyx":229
  * 
  *     pops = popvec(npops,N)
- *     rmgr = region_manager_wrapper();             # <<<<<<<<<<<<<<
+ *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)
  */
@@ -6056,7 +6056,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":230
  *     pops = popvec(npops,N)
- *     rmgr = region_manager_wrapper();
+ *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     cdef size_t listlen = len(nlist)
  *     with nogil:
@@ -6102,7 +6102,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":231
- *     rmgr = region_manager_wrapper();
+ *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     with nogil:

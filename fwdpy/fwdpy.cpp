@@ -1136,7 +1136,7 @@ static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec *__pyx_vtabptr_5fw
 
 
 /* "fwdpy/classes.pyx":70
- *         return self.pop.get().sane();
+ *         return self.pop.get().sane()
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
  *     """
@@ -4259,7 +4259,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_16singlepop_gm_vec_sane(struct __pyx_obj_
   /* "fwdpy/classes.pyx":68
  * 
  *         """
- *         return self.pop.get().sane();             # <<<<<<<<<<<<<<
+ *         return self.pop.get().sane()             # <<<<<<<<<<<<<<
  * 
  * cdef class popvec(popcont):
  */
@@ -4834,7 +4834,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
  *         self.pops=newpops
  *         self.pypops=list()             # <<<<<<<<<<<<<<
  *         for i in range(self.pops.size()):
- *             pi = singlepop();
+ *             pi = singlepop()
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4848,7 +4848,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
  *         self.pops=newpops
  *         self.pypops=list()
  *         for i in range(self.pops.size()):             # <<<<<<<<<<<<<<
- *             pi = singlepop();
+ *             pi = singlepop()
  *             pi.pop=self.pops[i]
  */
   __pyx_t_2 = __pyx_v_self->pops.size();
@@ -4858,7 +4858,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
     /* "fwdpy/classes.pyx":108
  *         self.pypops=list()
  *         for i in range(self.pops.size()):
- *             pi = singlepop();             # <<<<<<<<<<<<<<
+ *             pi = singlepop()             # <<<<<<<<<<<<<<
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)
  */
@@ -4869,7 +4869,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
 
     /* "fwdpy/classes.pyx":109
  *         for i in range(self.pops.size()):
- *             pi = singlepop();
+ *             pi = singlepop()
  *             pi.pop=self.pops[i]             # <<<<<<<<<<<<<<
  *             self.pypops.append(pi)
  *     def __append_details__(self,popvec p):
@@ -4877,7 +4877,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_6popvec_reset(struct __pyx_obj_5fwdpy_5fw
     __pyx_v_pi->pop = (__pyx_v_self->pops[__pyx_v_i]);
 
     /* "fwdpy/classes.pyx":110
- *             pi = singlepop();
+ *             pi = singlepop()
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)             # <<<<<<<<<<<<<<
  *     def __append_details__(self,popvec p):
@@ -5921,7 +5921,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
  *         self.pops=newpops
  *         self.pypops=list()             # <<<<<<<<<<<<<<
  *         for i in range(self.pops.size()):
- *             pi = singlepop_gm_vec();
+ *             pi = singlepop_gm_vec()
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -5935,7 +5935,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
  *         self.pops=newpops
  *         self.pypops=list()
  *         for i in range(self.pops.size()):             # <<<<<<<<<<<<<<
- *             pi = singlepop_gm_vec();
+ *             pi = singlepop_gm_vec()
  *             pi.pop=self.pops[i]
  */
   __pyx_t_2 = __pyx_v_self->pops.size();
@@ -5945,7 +5945,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
     /* "fwdpy/classes.pyx":159
  *         self.pypops=list()
  *         for i in range(self.pops.size()):
- *             pi = singlepop_gm_vec();             # <<<<<<<<<<<<<<
+ *             pi = singlepop_gm_vec()             # <<<<<<<<<<<<<<
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)
  */
@@ -5956,7 +5956,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
 
     /* "fwdpy/classes.pyx":160
  *         for i in range(self.pops.size()):
- *             pi = singlepop_gm_vec();
+ *             pi = singlepop_gm_vec()
  *             pi.pop=self.pops[i]             # <<<<<<<<<<<<<<
  *             self.pypops.append(pi)
  *     cpdef size(self):
@@ -5964,7 +5964,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_10popvec_gmv_reset(struct __pyx_obj_5fwdp
     __pyx_v_pi->pop = (__pyx_v_self->pops[__pyx_v_i]);
 
     /* "fwdpy/classes.pyx":161
- *             pi = singlepop_gm_vec();
+ *             pi = singlepop_gm_vec()
  *             pi.pop=self.pops[i]
  *             self.pypops.append(pi)             # <<<<<<<<<<<<<<
  *     cpdef size(self):
@@ -17317,7 +17317,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
  *     rv.s=m.s
  *     rv.h=m.h             # <<<<<<<<<<<<<<
  *     rv.neutral=m.neutral
- *     return rv;
+ *     return rv
  */
   __pyx_t_1 = __pyx_v_m.h;
   __pyx_v_rv.h = __pyx_t_1;
@@ -17326,7 +17326,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
  *     rv.s=m.s
  *     rv.h=m.h
  *     rv.neutral=m.neutral             # <<<<<<<<<<<<<<
- *     return rv;
+ *     return rv
  * 
  */
   __pyx_t_3 = __pyx_v_m.neutral;
@@ -17335,7 +17335,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
   /* "fwdpy/views.pyx":25
  *     rv.h=m.h
  *     rv.neutral=m.neutral
- *     return rv;             # <<<<<<<<<<<<<<
+ *     return rv             # <<<<<<<<<<<<<<
  * 
  * cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
  */
@@ -17356,10 +17356,10 @@ static struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data __pyx_f_5fwdpy_5fwdpy_get_mu
 }
 
 /* "fwdpy/views.pyx":27
- *     return rv;
+ *     return rv
  * 
  * cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:             # <<<<<<<<<<<<<<
- *     cdef gamete_data rv;
+ *     cdef gamete_data rv
  *     cdef size_t i=0,j=g.mutations.size()
  */
 
@@ -17373,7 +17373,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_gamete_data __pyx_f_5fwdpy_5fwdpy_get_gamete
 
   /* "fwdpy/views.pyx":29
  * cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
- *     cdef gamete_data rv;
+ *     cdef gamete_data rv
  *     cdef size_t i=0,j=g.mutations.size()             # <<<<<<<<<<<<<<
  *     while i<j:
  *         rv.neutral.push_back(get_mutation(mutations[i],mcounts[i]))
@@ -17382,7 +17382,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_gamete_data __pyx_f_5fwdpy_5fwdpy_get_gamete
   __pyx_v_j = __pyx_v_g.mutations.size();
 
   /* "fwdpy/views.pyx":30
- *     cdef gamete_data rv;
+ *     cdef gamete_data rv
  *     cdef size_t i=0,j=g.mutations.size()
  *     while i<j:             # <<<<<<<<<<<<<<
  *         rv.neutral.push_back(get_mutation(mutations[i],mcounts[i]))
@@ -17502,10 +17502,10 @@ static struct __pyx_t_5fwdpy_5fwdpy_gamete_data __pyx_f_5fwdpy_5fwdpy_get_gamete
   goto __pyx_L0;
 
   /* "fwdpy/views.pyx":27
- *     return rv;
+ *     return rv
  * 
  * cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:             # <<<<<<<<<<<<<<
- *     cdef gamete_data rv;
+ *     cdef gamete_data rv
  *     cdef size_t i=0,j=g.mutations.size()
  */
 
@@ -17703,7 +17703,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_f_5fwdpy_5fwdpy_get_diplo
  * 
  * cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:             # <<<<<<<<<<<<<<
  *     cdef vector[popgen_mut_data] rv
- *     cdef size_t i=0,j=mutations.size();
+ *     cdef size_t i=0,j=mutations.size()
  */
 
 static std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  __pyx_f_5fwdpy_5fwdpy_view_mutations_details(fwdpy::mcont_t const &__pyx_v_mutations, __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t const &__pyx_v_mcounts) {
@@ -17716,7 +17716,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  __pyx_f_5fwdpy
   /* "fwdpy/views.pyx":63
  * cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
  *     cdef vector[popgen_mut_data] rv
- *     cdef size_t i=0,j=mutations.size();             # <<<<<<<<<<<<<<
+ *     cdef size_t i=0,j=mutations.size()             # <<<<<<<<<<<<<<
  *     while i!=j:
  *         #skip extinct mutation
  */
@@ -17725,7 +17725,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  __pyx_f_5fwdpy
 
   /* "fwdpy/views.pyx":64
  *     cdef vector[popgen_mut_data] rv
- *     cdef size_t i=0,j=mutations.size();
+ *     cdef size_t i=0,j=mutations.size()
  *     while i!=j:             # <<<<<<<<<<<<<<
  *         #skip extinct mutation
  *         if mcounts[i]:
@@ -17798,7 +17798,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  __pyx_f_5fwdpy
  * 
  * cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:             # <<<<<<<<<<<<<<
  *     cdef vector[popgen_mut_data] rv
- *     cdef size_t i=0,j=mutations.size();
+ *     cdef size_t i=0,j=mutations.size()
  */
 
   /* function exit code */
@@ -17848,7 +17848,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  __pyx_f_5fwdpy_5fw
  *     while i!=j:
  *         #skip extinct gamets
  *         if pop.gametes[i].n:             # <<<<<<<<<<<<<<
- *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts));
+ *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))
  *         i+=1
  */
     __pyx_t_1 = ((__pyx_v_pop->gametes[__pyx_v_i]).n != 0);
@@ -17857,7 +17857,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  __pyx_f_5fwdpy_5fw
       /* "fwdpy/views.pyx":77
  *         #skip extinct gamets
  *         if pop.gametes[i].n:
- *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts));             # <<<<<<<<<<<<<<
+ *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))             # <<<<<<<<<<<<<<
  *         i+=1
  *     return rv
  */
@@ -17878,14 +17878,14 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  __pyx_f_5fwdpy_5fw
  *     while i!=j:
  *         #skip extinct gamets
  *         if pop.gametes[i].n:             # <<<<<<<<<<<<<<
- *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts));
+ *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))
  *         i+=1
  */
     }
 
     /* "fwdpy/views.pyx":78
  *         if pop.gametes[i].n:
- *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts));
+ *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))
  *         i+=1             # <<<<<<<<<<<<<<
  *     return rv
  * 
@@ -17894,7 +17894,7 @@ static std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  __pyx_f_5fwdpy_5fw
   }
 
   /* "fwdpy/views.pyx":79
- *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts));
+ *             rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))
  *         i+=1
  *     return rv             # <<<<<<<<<<<<<<
  * 
@@ -18031,7 +18031,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_30view_mutations_singlepop(CYTHON_UNUSED
  * def view_mutations_singlepop(singlepop p):
  *     cdef mcont_t_itr beg = p.pop.get().mutations.begin()             # <<<<<<<<<<<<<<
  *     cdef mcont_t_itr end = p.pop.get().mutations.end()
- *     cdef vector[popgen_mut_data] rv;
+ *     cdef vector[popgen_mut_data] rv
  */
   __pyx_v_beg = __pyx_v_p->pop.get()->mutations.begin();
 
@@ -18039,14 +18039,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_30view_mutations_singlepop(CYTHON_UNUSED
  * def view_mutations_singlepop(singlepop p):
  *     cdef mcont_t_itr beg = p.pop.get().mutations.begin()
  *     cdef mcont_t_itr end = p.pop.get().mutations.end()             # <<<<<<<<<<<<<<
- *     cdef vector[popgen_mut_data] rv;
+ *     cdef vector[popgen_mut_data] rv
  *     with nogil:
  */
   __pyx_v_end = __pyx_v_p->pop.get()->mutations.end();
 
   /* "fwdpy/views.pyx":95
  *     cdef mcont_t_itr end = p.pop.get().mutations.end()
- *     cdef vector[popgen_mut_data] rv;
+ *     cdef vector[popgen_mut_data] rv
  *     with nogil:             # <<<<<<<<<<<<<<
  *         rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
  *     return rv
@@ -18059,7 +18059,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_30view_mutations_singlepop(CYTHON_UNUSED
       /*try:*/ {
 
         /* "fwdpy/views.pyx":96
- *     cdef vector[popgen_mut_data] rv;
+ *     cdef vector[popgen_mut_data] rv
  *     with nogil:
  *         rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)             # <<<<<<<<<<<<<<
  *     return rv
@@ -18070,7 +18070,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_30view_mutations_singlepop(CYTHON_UNUSED
 
       /* "fwdpy/views.pyx":95
  *     cdef mcont_t_itr end = p.pop.get().mutations.end()
- *     cdef vector[popgen_mut_data] rv;
+ *     cdef vector[popgen_mut_data] rv
  *     with nogil:             # <<<<<<<<<<<<<<
  *         rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
  *     return rv
@@ -18124,7 +18124,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_30view_mutations_singlepop(CYTHON_UNUSED
  * 
  * def view_mutations_popvec(popvec p):             # <<<<<<<<<<<<<<
  *     cdef mcont_t_itr beg,end
- *     cdef vector[vector[popgen_mut_data]] rv;
+ *     cdef vector[vector[popgen_mut_data]] rv
  */
 
 /* Python wrapper */
@@ -18161,7 +18161,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_32view_mutations_popvec(CYTHON_UNUSED Py
 
   /* "fwdpy/views.pyx":102
  *     cdef mcont_t_itr beg,end
- *     cdef vector[vector[popgen_mut_data]] rv;
+ *     cdef vector[vector[popgen_mut_data]] rv
  *     cdef size_t npops = p.pops.size()             # <<<<<<<<<<<<<<
  *     cdef int i
  *     rv.resize(npops)
@@ -18277,7 +18277,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_32view_mutations_popvec(CYTHON_UNUSED Py
  * 
  * def view_mutations_popvec(popvec p):             # <<<<<<<<<<<<<<
  *     cdef mcont_t_itr beg,end
- *     cdef vector[vector[popgen_mut_data]] rv;
+ *     cdef vector[vector[popgen_mut_data]] rv
  */
 
   /* function exit code */
@@ -20713,7 +20713,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_48view_diploids_popvec(CYTHON_UNUSED PyO
  * def view_diploids_popvec( popvec p, list indlist ):
  *     cdef size_t npops = len(p),i             # <<<<<<<<<<<<<<
  *     cdef vector[vector[diploid_data]] rv
- *     rv.resize(npops);
+ *     rv.resize(npops)
  */
   __pyx_t_1 = PyObject_Length(((PyObject *)__pyx_v_p)); if (unlikely(__pyx_t_1 == -1)) __PYX_ERR(2, 256, __pyx_L1_error)
   __pyx_v_npops = __pyx_t_1;
@@ -20721,7 +20721,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_48view_diploids_popvec(CYTHON_UNUSED PyO
   /* "fwdpy/views.pyx":258
  *     cdef size_t npops = len(p),i
  *     cdef vector[vector[diploid_data]] rv
- *     rv.resize(npops);             # <<<<<<<<<<<<<<
+ *     rv.resize(npops)             # <<<<<<<<<<<<<<
  *     cdef vector[unsigned] il
  *     for i in indlist:
  */
@@ -20733,7 +20733,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_48view_diploids_popvec(CYTHON_UNUSED PyO
   }
 
   /* "fwdpy/views.pyx":260
- *     rv.resize(npops);
+ *     rv.resize(npops)
  *     cdef vector[unsigned] il
  *     for i in indlist:             # <<<<<<<<<<<<<<
  *         il.push_back(<unsigned>(i))
@@ -20771,7 +20771,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_48view_diploids_popvec(CYTHON_UNUSED PyO
     }
 
     /* "fwdpy/views.pyx":260
- *     rv.resize(npops);
+ *     rv.resize(npops)
  *     cdef vector[unsigned] il
  *     for i in indlist:             # <<<<<<<<<<<<<<
  *         il.push_back(<unsigned>(i))
@@ -24374,7 +24374,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_traits_singlepop(struct __pyx_obj
  *                     'e':p.pop.get().diploids[i].e,
  *                     'w':p.pop.get().diploids[i].w} )             # <<<<<<<<<<<<<<
  * 
- *     return rv;
+ *     return rv
  */
     __pyx_t_4 = PyFloat_FromDouble((__pyx_v_p->pop.get()->diploids[__pyx_v_i]).w); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 521, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
@@ -24395,7 +24395,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_traits_singlepop(struct __pyx_obj
   /* "fwdpy/views.pyx":523
  *                     'w':p.pop.get().diploids[i].w} )
  * 
- *     return rv;             # <<<<<<<<<<<<<<
+ *     return rv             # <<<<<<<<<<<<<<
  * 
  * cdef diploid_traits_popvec(popvec p):
  */
@@ -24426,7 +24426,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_traits_singlepop(struct __pyx_obj
 }
 
 /* "fwdpy/views.pyx":525
- *     return rv;
+ *     return rv
  * 
  * cdef diploid_traits_popvec(popvec p):             # <<<<<<<<<<<<<<
  *     return [diploid_traits_singlepop(i) for i in p]
@@ -24507,7 +24507,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_diploid_traits_popvec(struct __pyx_obj_5f
   goto __pyx_L0;
 
   /* "fwdpy/views.pyx":525
- *     return rv;
+ *     return rv
  * 
  * cdef diploid_traits_popvec(popvec p):             # <<<<<<<<<<<<<<
  *     return [diploid_traits_singlepop(i) for i in p]
@@ -25665,7 +25665,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_70view_fixations_mpopvec(CYTHON_UNUSED P
 
   /* "fwdpy/view_fixations.pyx":41
  *     ##HACK ALERT
- *     cdef vector[unsigned] Ns;
+ *     cdef vector[unsigned] Ns
  *     for i in range(npops):             # <<<<<<<<<<<<<<
  *         Ns.push_back(sum(p.mpops[i].get().Ns))
  *     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
@@ -25675,7 +25675,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_70view_fixations_mpopvec(CYTHON_UNUSED P
     __pyx_v_i = __pyx_t_2;
 
     /* "fwdpy/view_fixations.pyx":42
- *     cdef vector[unsigned] Ns;
+ *     cdef vector[unsigned] Ns
  *     for i in range(npops):
  *         Ns.push_back(sum(p.mpops[i].get().Ns))             # <<<<<<<<<<<<<<
  *     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
@@ -27070,14 +27070,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_84allele_ages(CYTHON_UNUSED PyObject *__
  *     maximum frequency, and the number of times a frequency was recorded for that mutation.
  *     """
  *     cdef size_t nt = trajectories.size()             # <<<<<<<<<<<<<<
- *     cdef vector[vector[allele_age_data_t]] rv;
+ *     cdef vector[vector[allele_age_data_t]] rv
  *     rv.resize(nt)
  */
   __pyx_v_nt = __pyx_v_trajectories.size();
 
   /* "fwdpy/ages.pyx":12
  *     cdef size_t nt = trajectories.size()
- *     cdef vector[vector[allele_age_data_t]] rv;
+ *     cdef vector[vector[allele_age_data_t]] rv
  *     rv.resize(nt)             # <<<<<<<<<<<<<<
  *     cdef int i
  *     for i in prange(nt,schedule='static',nogil=True,chunksize=1):
@@ -46179,7 +46179,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * def view_mutations_popvec(popvec p):             # <<<<<<<<<<<<<<
  *     cdef mcont_t_itr beg,end
- *     cdef vector[vector[popgen_mut_data]] rv;
+ *     cdef vector[vector[popgen_mut_data]] rv
  */
   __pyx_tuple__149 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_rv, __pyx_n_s_npops, __pyx_n_s_i); if (unlikely(!__pyx_tuple__149)) __PYX_ERR(2, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__149);
@@ -47595,7 +47595,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * 
  * def view_mutations_popvec(popvec p):             # <<<<<<<<<<<<<<
  *     cdef mcont_t_itr beg,end
- *     cdef vector[vector[popgen_mut_data]] rv;
+ *     cdef vector[vector[popgen_mut_data]] rv
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_33view_mutations_popvec, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
