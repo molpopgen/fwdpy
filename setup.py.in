@@ -22,7 +22,7 @@ GSL_V=""
 try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
-    version = str(out).rstrip()
+    version = out.decode('utf-8').rstrip()
     print ("fwdpp version",version," found.")
     FWDPP_V=version
     if version <= '@MINFWDPP@':
@@ -34,7 +34,7 @@ except:
 try:
     proc = subprocess.Popen(['gsl-config','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
-    version = str(out).rstrip()
+    version = out.decode('utf-8').rstrip()
     GSL_V=version
     print ("GSL version ",version," found.")
 except:
