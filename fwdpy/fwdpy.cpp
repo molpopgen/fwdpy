@@ -2695,7 +2695,7 @@ static const char __pyx_k_No_value_specified_for_struct_at_3[] = "No value speci
 static const char __pyx_k_diploid_view_to_sample_fill_cont_2[] = "diploid_view_to_sample_fill_containers_details: offset out of range";
 static const char __pyx_k_diploid_view_to_sample_fill_cont_3[] = "diploid_view_to_sample_fill_containers: indexing incorrect";
 static const char __pyx_k_diploid_view_unequal_container_s_2[] = "diploid_view: unequal container sizes for selected mutations";
-static PyObject *__pyx_kp_s_1;
+static PyObject *__pyx_kp_b_1;
 static PyObject *__pyx_kp_s_9f;
 static PyObject *__pyx_n_s_ASCII;
 static PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
@@ -9077,7 +9077,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6nderived_site(CYTHON_UNUSED PyObject *_
   /* "fwdpy/sampling.pyx":148
  *     >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
  *     """
- *     return str(site[1]).count('1')             # <<<<<<<<<<<<<<
+ *     return str(site[1]).count(b'1')             # <<<<<<<<<<<<<<
  * 
  * def nderived( list sample ):
  */
@@ -9127,7 +9127,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6nderived_site(CYTHON_UNUSED PyObject *_
 }
 
 /* "fwdpy/sampling.pyx":150
- *     return str(site[1]).count('1')
+ *     return str(site[1]).count(b'1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
  *     """
@@ -9228,7 +9228,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8nderived(CYTHON_UNUSED PyObject *__pyx_
   goto __pyx_L0;
 
   /* "fwdpy/sampling.pyx":150
- *     return str(site[1]).count('1')
+ *     return str(site[1]).count(b'1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
  *     """
@@ -44429,7 +44429,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 0, 1, 0},
+  {&__pyx_kp_b_1, __pyx_k_1, sizeof(__pyx_k_1), 0, 0, 0, 0},
   {&__pyx_kp_s_9f, __pyx_k_9f, sizeof(__pyx_k_9f), 0, 0, 1, 0},
   {&__pyx_n_s_ASCII, __pyx_k_ASCII, sizeof(__pyx_k_ASCII), 0, 0, 1, 1},
   {&__pyx_kp_s_Buffer_view_does_not_expose_stri, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
@@ -44949,11 +44949,11 @@ static int __Pyx_InitCachedConstants(void) {
   /* "fwdpy/sampling.pyx":148
  *     >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
  *     """
- *     return str(site[1]).count('1')             # <<<<<<<<<<<<<<
+ *     return str(site[1]).count(b'1')             # <<<<<<<<<<<<<<
  * 
  * def nderived( list sample ):
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_1); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(4, 148, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_b_1); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(4, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -45861,7 +45861,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__95 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__94, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_nderived_site, 125, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__95)) __PYX_ERR(4, 125, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":150
- *     return str(site[1]).count('1')
+ *     return str(site[1]).count(b'1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
  *     """
@@ -46911,7 +46911,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/sampling.pyx":150
- *     return str(site[1]).count('1')
+ *     return str(site[1]).count(b'1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
  *     """

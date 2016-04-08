@@ -145,7 +145,7 @@ def nderived_site(tuple site):
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
     """
-    return str(site[1]).count('1')
+    return str(site[1]).count(b'1')
 
 def nderived( list sample ):
     """
