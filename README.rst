@@ -29,6 +29,8 @@ Changelog (rough)
 * Update to Cython_ 0.24.0
 * Add fwdpy.demography module
 * Added views of fixed mutations
+* Better Python3 compatibility
+* More unit tests of sampling and "views"
   
 0.0.3
 -----------------
