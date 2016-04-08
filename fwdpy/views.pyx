@@ -196,12 +196,12 @@ def view_gametes_metapop( metapop p, unsigned deme ):
     unique_gams = []
     allgams = []
     for i in temp1:
-        if unique_gams.count(i['chrom0'])==0:
-            unique_gams.append(i['chrom0'])
-        if unique_gams.count(i['chrom1'])==0:
-            unique_gams.append(i['chrom1'])
-        allgams.append(i['chrom0'])
-        allgams.append(i['chrom1'])
+        if unique_gams.count(i[b'chrom0'])==0:
+            unique_gams.append(i[b'chrom0'])
+        if unique_gams.count(i[b'chrom1'])==0:
+            unique_gams.append(i[b'chrom1'])
+        allgams.append(i[b'chrom0'])
+        allgams.append(i[b'chrom1'])
     #clear temp1 and fill it with unique gametes + their counts in this deme
     temp1=[]
     dummy=0

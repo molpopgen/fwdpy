@@ -2811,7 +2811,9 @@ static PyObject *__pyx_n_s_check_popdata_popvec;
 static PyObject *__pyx_n_s_check_popdata_singlepop;
 static PyObject *__pyx_n_s_check_sum;
 static PyObject *__pyx_n_s_chrom;
+static PyObject *__pyx_n_b_chrom0;
 static PyObject *__pyx_n_s_chrom0;
+static PyObject *__pyx_n_b_chrom1;
 static PyObject *__pyx_n_s_chrom1;
 static PyObject *__pyx_n_s_cite;
 static PyObject *__pyx_n_s_class;
@@ -19722,7 +19724,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_metapop(CYTHON_UNUSED PyO
  *     unique_gams = []
  *     allgams = []             # <<<<<<<<<<<<<<
  *     for i in temp1:
- *         if unique_gams.count(i['chrom0'])==0:
+ *         if unique_gams.count(i[b'chrom0'])==0:
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -19733,8 +19735,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_metapop(CYTHON_UNUSED PyO
  *     unique_gams = []
  *     allgams = []
  *     for i in temp1:             # <<<<<<<<<<<<<<
- *         if unique_gams.count(i['chrom0'])==0:
- *             unique_gams.append(i['chrom0'])
+ *         if unique_gams.count(i[b'chrom0'])==0:
+ *             unique_gams.append(i[b'chrom0'])
  */
   if (likely(PyList_CheckExact(__pyx_v_temp1)) || PyTuple_CheckExact(__pyx_v_temp1)) {
     __pyx_t_1 = __pyx_v_temp1; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
@@ -19781,13 +19783,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_metapop(CYTHON_UNUSED PyO
     /* "fwdpy/views.pyx":199
  *     allgams = []
  *     for i in temp1:
- *         if unique_gams.count(i['chrom0'])==0:             # <<<<<<<<<<<<<<
- *             unique_gams.append(i['chrom0'])
- *         if unique_gams.count(i['chrom1'])==0:
+ *         if unique_gams.count(i[b'chrom0'])==0:             # <<<<<<<<<<<<<<
+ *             unique_gams.append(i[b'chrom0'])
+ *         if unique_gams.count(i[b'chrom1'])==0:
  */
     __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_unique_gams, __pyx_n_s_count); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 199, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_5 = PyObject_GetItem(__pyx_v_i, __pyx_n_s_chrom0); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 199, __pyx_L1_error)
+    __pyx_t_5 = PyObject_GetItem(__pyx_v_i, __pyx_n_b_chrom0); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 199, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
@@ -19824,12 +19826,12 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_metapop(CYTHON_UNUSED PyO
 
       /* "fwdpy/views.pyx":200
  *     for i in temp1:
- *         if unique_gams.count(i['chrom0'])==0:
- *             unique_gams.append(i['chrom0'])             # <<<<<<<<<<<<<<
- *         if unique_gams.count(i['chrom1'])==0:
- *             unique_gams.append(i['chrom1'])
+ *         if unique_gams.count(i[b'chrom0'])==0:
+ *             unique_gams.append(i[b'chrom0'])             # <<<<<<<<<<<<<<
+ *         if unique_gams.count(i[b'chrom1'])==0:
+ *             unique_gams.append(i[b'chrom1'])
  */
-      __pyx_t_8 = PyObject_GetItem(__pyx_v_i, __pyx_n_s_chrom0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 200, __pyx_L1_error)
+      __pyx_t_8 = PyObject_GetItem(__pyx_v_i, __pyx_n_b_chrom0); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 200, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_unique_gams, __pyx_t_8); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(2, 200, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -19837,22 +19839,22 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_metapop(CYTHON_UNUSED PyO
       /* "fwdpy/views.pyx":199
  *     allgams = []
  *     for i in temp1:
- *         if unique_gams.count(i['chrom0'])==0:             # <<<<<<<<<<<<<<
- *             unique_gams.append(i['chrom0'])
- *         if unique_gams.count(i['chrom1'])==0:
+ *         if unique_gams.count(i[b'chrom0'])==0:             # <<<<<<<<<<<<<<
+ *             unique_gams.append(i[b'chrom0'])
+ *         if unique_gams.count(i[b'chrom1'])==0:
  */
     }
 
     /* "fwdpy/views.pyx":201
- *         if unique_gams.count(i['chrom0'])==0:
- *             unique_gams.append(i['chrom0'])
- *         if unique_gams.count(i['chrom1'])==0:             # <<<<<<<<<<<<<<
- *             unique_gams.append(i['chrom1'])
- *         allgams.append(i['chrom0'])
+ *         if unique_gams.count(i[b'chrom0'])==0:
+ *             unique_gams.append(i[b'chrom0'])
+ *         if unique_gams.count(i[b'chrom1'])==0:             # <<<<<<<<<<<<<<
+ *             unique_gams.append(i[b'chrom1'])
+ *         allgams.append(i[b'chrom0'])
  */
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_unique_gams, __pyx_n_s_count); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 201, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = PyObject_GetItem(__pyx_v_i, __pyx_n_s_chrom1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 201, __pyx_L1_error)
+    __pyx_t_7 = PyObject_GetItem(__pyx_v_i, __pyx_n_b_chrom1); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 201, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -19888,46 +19890,46 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_metapop(CYTHON_UNUSED PyO
     if (__pyx_t_3) {
 
       /* "fwdpy/views.pyx":202
- *             unique_gams.append(i['chrom0'])
- *         if unique_gams.count(i['chrom1'])==0:
- *             unique_gams.append(i['chrom1'])             # <<<<<<<<<<<<<<
- *         allgams.append(i['chrom0'])
- *         allgams.append(i['chrom1'])
+ *             unique_gams.append(i[b'chrom0'])
+ *         if unique_gams.count(i[b'chrom1'])==0:
+ *             unique_gams.append(i[b'chrom1'])             # <<<<<<<<<<<<<<
+ *         allgams.append(i[b'chrom0'])
+ *         allgams.append(i[b'chrom1'])
  */
-      __pyx_t_4 = PyObject_GetItem(__pyx_v_i, __pyx_n_s_chrom1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 202, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetItem(__pyx_v_i, __pyx_n_b_chrom1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_unique_gams, __pyx_t_4); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(2, 202, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
       /* "fwdpy/views.pyx":201
- *         if unique_gams.count(i['chrom0'])==0:
- *             unique_gams.append(i['chrom0'])
- *         if unique_gams.count(i['chrom1'])==0:             # <<<<<<<<<<<<<<
- *             unique_gams.append(i['chrom1'])
- *         allgams.append(i['chrom0'])
+ *         if unique_gams.count(i[b'chrom0'])==0:
+ *             unique_gams.append(i[b'chrom0'])
+ *         if unique_gams.count(i[b'chrom1'])==0:             # <<<<<<<<<<<<<<
+ *             unique_gams.append(i[b'chrom1'])
+ *         allgams.append(i[b'chrom0'])
  */
     }
 
     /* "fwdpy/views.pyx":203
- *         if unique_gams.count(i['chrom1'])==0:
- *             unique_gams.append(i['chrom1'])
- *         allgams.append(i['chrom0'])             # <<<<<<<<<<<<<<
- *         allgams.append(i['chrom1'])
+ *         if unique_gams.count(i[b'chrom1'])==0:
+ *             unique_gams.append(i[b'chrom1'])
+ *         allgams.append(i[b'chrom0'])             # <<<<<<<<<<<<<<
+ *         allgams.append(i[b'chrom1'])
  *     #clear temp1 and fill it with unique gametes + their counts in this deme
  */
-    __pyx_t_4 = PyObject_GetItem(__pyx_v_i, __pyx_n_s_chrom0); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 203, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetItem(__pyx_v_i, __pyx_n_b_chrom0); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 203, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_allgams, __pyx_t_4); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(2, 203, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
     /* "fwdpy/views.pyx":204
- *             unique_gams.append(i['chrom1'])
- *         allgams.append(i['chrom0'])
- *         allgams.append(i['chrom1'])             # <<<<<<<<<<<<<<
+ *             unique_gams.append(i[b'chrom1'])
+ *         allgams.append(i[b'chrom0'])
+ *         allgams.append(i[b'chrom1'])             # <<<<<<<<<<<<<<
  *     #clear temp1 and fill it with unique gametes + their counts in this deme
  *     temp1=[]
  */
-    __pyx_t_4 = PyObject_GetItem(__pyx_v_i, __pyx_n_s_chrom1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 204, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetItem(__pyx_v_i, __pyx_n_b_chrom1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 204, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_allgams, __pyx_t_4); if (unlikely(__pyx_t_10 == -1)) __PYX_ERR(2, 204, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -19936,14 +19938,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_42view_gametes_metapop(CYTHON_UNUSED PyO
  *     unique_gams = []
  *     allgams = []
  *     for i in temp1:             # <<<<<<<<<<<<<<
- *         if unique_gams.count(i['chrom0'])==0:
- *             unique_gams.append(i['chrom0'])
+ *         if unique_gams.count(i[b'chrom0'])==0:
+ *             unique_gams.append(i[b'chrom0'])
  */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/views.pyx":206
- *         allgams.append(i['chrom1'])
+ *         allgams.append(i[b'chrom1'])
  *     #clear temp1 and fill it with unique gametes + their counts in this deme
  *     temp1=[]             # <<<<<<<<<<<<<<
  *     dummy=0
@@ -44545,7 +44547,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_check_popdata_singlepop, __pyx_k_check_popdata_singlepop, sizeof(__pyx_k_check_popdata_singlepop), 0, 0, 1, 1},
   {&__pyx_n_s_check_sum, __pyx_k_check_sum, sizeof(__pyx_k_check_sum), 0, 0, 1, 1},
   {&__pyx_n_s_chrom, __pyx_k_chrom, sizeof(__pyx_k_chrom), 0, 0, 1, 1},
+  {&__pyx_n_b_chrom0, __pyx_k_chrom0, sizeof(__pyx_k_chrom0), 0, 0, 0, 1},
   {&__pyx_n_s_chrom0, __pyx_k_chrom0, sizeof(__pyx_k_chrom0), 0, 0, 1, 1},
+  {&__pyx_n_b_chrom1, __pyx_k_chrom1, sizeof(__pyx_k_chrom1), 0, 0, 0, 1},
   {&__pyx_n_s_chrom1, __pyx_k_chrom1, sizeof(__pyx_k_chrom1), 0, 0, 1, 1},
   {&__pyx_n_s_cite, __pyx_k_cite, sizeof(__pyx_k_cite), 0, 0, 1, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
