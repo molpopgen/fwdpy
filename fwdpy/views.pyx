@@ -153,7 +153,7 @@ def view_mutations( object p, deme = None ):
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> muts[0] will be a list and muts[0][0] will be a dict
+    >>> #muts[0] will be a list and muts[0][0] will be a dict
     >>> muts = [fwdpy.view_mutations(i) for i in pops]
 
     .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
