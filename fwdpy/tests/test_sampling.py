@@ -121,9 +121,9 @@ class test_Fixations(unittest.TestCase):
         ##Checks that no polymorphisms are present as fixations in sample
         for i in samples:
             for j in i:
-                x=j[0][1].count('1')
+                x=j[0][1].count(b'1')
                 self.assertTrue(x<100)
-                x=j[1][1].count('1')
+                x=j[1][1].count(b'1')
                 self.assertTrue(x<100)
                 
     def test_CountFixationsInSample4(self):
@@ -138,7 +138,7 @@ class test_Fixations(unittest.TestCase):
         ##Checks that no polymorphisms are present as fixations in sample
         for i in samples:
             for j in i:
-                self.assertTrue(j[1].count('1')<100)
+                self.assertTrue(j[1].count(b'1')<100)
                 
 if __name__ == '__main__':
     unittest.main()
