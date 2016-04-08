@@ -153,11 +153,8 @@ def view_mutations( object p, deme = None ):
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> muts[0] will be a list and muts[0][0] will be a dict
     >>> muts = [fwdpy.view_mutations(i) for i in pops]
-    >>> type(muts[0])
-    <type 'list'>
-    >>> type(muts[0][0])
-    <type 'dict'>
 
     .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
     """
@@ -196,12 +193,12 @@ def view_gametes_metapop( metapop p, unsigned deme ):
     unique_gams = []
     allgams = []
     for i in temp1:
-        if unique_gams.count(i[b'chrom0'])==0:
-            unique_gams.append(i[b'chrom0'])
-        if unique_gams.count(i[b'chrom1'])==0:
-            unique_gams.append(i[b'chrom1'])
-        allgams.append(i[b'chrom0'])
-        allgams.append(i[b'chrom1'])
+        if unique_gams.count(i['chrom0'])==0:
+            unique_gams.append(i['chrom0'])
+        if unique_gams.count(i['chrom1'])==0:
+            unique_gams.append(i['chrom1'])
+        allgams.append(i['chrom0'])
+        allgams.append(i['chrom1'])
     #clear temp1 and fill it with unique gametes + their counts in this deme
     temp1=[]
     dummy=0
