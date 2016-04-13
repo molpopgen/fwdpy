@@ -324,6 +324,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "string.h"
 #include <string>
 #include <memory>
+#include "stdint.h"
 #include "gsl/gsl_rng.h"
 #include "fwdpp/forward_types.hpp"
 #include "fwdpp/sugar/popgenmut.hpp"
@@ -671,7 +672,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":207
+/* "fwdpy/fwdpy.pxd":208
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -763,10 +764,11 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data {
   unsigned int n;
   unsigned int g;
   int neutral;
+  uint16_t label;
 };
 
-/* "fwdpy/fwdpy.pxd":148
- *     bint neutral
+/* "fwdpy/fwdpy.pxd":149
+ *     uint16_t label
  * 
  * cdef struct gamete_data:             # <<<<<<<<<<<<<<
  *     vector[popgen_mut_data] neutral,selected
@@ -778,7 +780,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
   unsigned int n;
 };
 
-/* "fwdpy/fwdpy.pxd":152
+/* "fwdpy/fwdpy.pxd":153
  *     unsigned n
  * 
  * cdef struct diploid_data:             # <<<<<<<<<<<<<<
@@ -1846,6 +1848,8 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
 /* Module declarations from 'libcpp' */
 
 /* Module declarations from 'libcpp.memory' */
+
+/* Module declarations from 'libc.stdint' */
 
 /* Module declarations from 'fwdpy.gsl' */
 
