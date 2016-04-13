@@ -15,12 +15,13 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 from fwdpy.gsl cimport gsl_rng,gsl_ran_discrete_t
-
+from libc.stdint cimport uint16_t
 
 ##We will expose some low-level types from fwdpp:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
     cdef cppclass mutation_base:
         double pos
+        uint16_t xtra
         bool neutral
 
     cdef cppclass gamete_base[T]:
