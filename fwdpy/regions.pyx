@@ -6,11 +6,8 @@ class Region(object):
 
     Attributes:
         b: the beginning of the region
-        
         e: the end of the region
-        
         w: the "weight" assigned to the region
-
         l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation.
@@ -26,6 +23,7 @@ class Region(object):
         :param end: the end of the region
         :param weight: the weight to assign
         :param coupled: if True, the weight is converted to (end-beg)*weight
+        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.
 
         When coupled is True, the "weight" may be interpreted as a "per base pair"
         (or per unit, generally speaking) term.
@@ -78,6 +76,7 @@ class Sregion(Region):
         * e: the end of the region
         * w: the "weight" assigned to the region
         * h: the dominance term
+        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation.
 
@@ -98,6 +97,7 @@ class Sregion(Region):
         :param weight: the weight to assign
         :param h: the dominance
         :param coupled: if True, the weight is converted to (end-beg)*weight
+        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.
 
         When coupled is True, the "weight" may be interpreted as a "per base pair"
         (or per unit, generally speaking) term.
@@ -132,6 +132,7 @@ class GammaS(Sregion):
         * mean: mean of the Gamma
         * shape: shape of the Gamma
         * h: the dominance term
+        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -146,6 +147,7 @@ class GammaS(Sregion):
         :param shape: the shape parameter of the distribution
         :param h: the dominance
         :param coupled: if True, the weight is converted to (end-beg)*weight
+        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.
 
         When coupled is True, the "weight" may be interpreted as a "per base pair"
         (or per unit, generally speaking) term.
@@ -180,6 +182,7 @@ class ConstantS(Sregion):
         * w: the "weight" assigned to the region
         * s: the selection coefficient
         * h: the dominance term
+        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -193,6 +196,7 @@ class ConstantS(Sregion):
         :param s: the selection coefficient
         :param h: the dominance
         :param coupled: if True, the weight is converted to (end-beg)*weight
+        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.
 
         When coupled is True, the "weight" may be interpreted as a "per base pair"
         (or per unit, generally speaking) term.
@@ -224,6 +228,7 @@ class UniformS(Sregion):
         * lo: the lower bound on s
         * hi: the upper bound on s
         * h: the dominance term
+        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -238,6 +243,7 @@ class UniformS(Sregion):
         :param hi: upper bound on s
         :param h: the dominance
         :param coupled: if True, the weight is converted to (end-beg)*weight
+        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.
 
         When coupled is True, the "weight" may be interpreted as a "per base pair"
         (or per unit, generally speaking) term.
@@ -273,6 +279,7 @@ class ExpS(Sregion):
         * w: the "weight" assigned to the region
         * mean: the mean selection coefficient
         * h: the dominance term
+        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
@@ -286,6 +293,7 @@ class ExpS(Sregion):
         :param mean: the mean selection coefficient
         :param h: the dominance
         :param coupled: if True, the weight is converted to (end-beg)*weight
+        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.
 
         When coupled is True, the "weight" may be interpreted as a "per base pair"
         (or per unit, generally speaking) term.
@@ -315,7 +323,8 @@ class GaussianS(Sregion):
         * e: the end of the region
         * w: the "weight" assigned to the region
         * sd: the standard deviation
-        * h: the dominance term
+        * h: the dominance ter
+        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
 
     The mean is zero.
 
@@ -331,6 +340,7 @@ class GaussianS(Sregion):
         :param mean: the mean selection coefficient
         :param h: the dominance
         :param coupled: if True, the weight is converted to (end-beg)*weight
+        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.
 
         When coupled is True, the "weight" may be interpreted as a "per base pair"
         (or per unit, generally speaking) term.
