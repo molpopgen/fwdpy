@@ -3209,18 +3209,18 @@ ac_config_files="$ac_config_files Makefile setup.py conf.py fwdpy.doxygen"
 ac_config_headers="$ac_config_headers config.h"
 
 
-MINFWDPPVERSION="0.4.7"
+MINFWDPPVERSION="0.4.9"
 FWDPPVERSION=`fwdppConfig --version`
 MINFWDPP=$MINFWDPPVERSION
 
 GSLVERSION=`gsl-config --version`
 
-if test "$FWDPPVERSION" \> $MINFWDPPVERSION
+if test "$FWDPPVERSION" \< $MINFWDPPVERSION
 
 then
-	echo "fwdpp version $FWDPPVERSION detected"
-else
 	as_fn_error $? "fwdpp > $MINFWDPPVERSION required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
+else
+	echo "fwdpp version $FWDPPVERSION detected"
 fi
 
 echo "GSL version $GSLVERSION detected"
