@@ -118,7 +118,7 @@ namespace fwdpy
 				      evolve_qtrait_sampler_details<sampler,rules_t,Args&&...>,
 				      pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
 				      mu_neutral,mu_selected,littler,f,sigmaE,optimum,sample,
-				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
 				      std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
 				      std::move(rules_thread),
 				      std::forward<Args...>(args)...

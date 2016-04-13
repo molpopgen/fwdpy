@@ -17,7 +17,8 @@ namespace fwdpy {
 	       std::vector<double> * s,
 	       std::vector<double> * h,
 	       std::vector<double> * p,
-	       std::vector<double> * a);
+	       std::vector<double> * a,
+	       std::vector<decltype(KTfwd::mutation_base::xtra)> * l);
   /*!
     \brief Get detailed info about mutations in a sample taken from a fwdpy::metapop_t
     \note Definition in fwdpy/fwdpy/sample.cc
@@ -27,7 +28,8 @@ namespace fwdpy {
 	       std::vector<double> * s,
 	       std::vector<double> * h,
 	       std::vector<double> * p,
-	       std::vector<double> * a);
+	       std::vector<double> * a,
+	       std::vector<decltype(KTfwd::mutation_base::xtra)> * l);
 }
 
 #endif

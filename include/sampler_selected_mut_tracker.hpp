@@ -10,26 +10,35 @@ namespace fwdpy
   {
     double pos,esize;
     unsigned origin;
-    selected_mut_data(unsigned g,double p,double e) :
-      pos(p),esize(e),origin(g)
+    using label_t =decltype(KTfwd::mutation_base::xtra);
+    label_t label;
+    selected_mut_data(unsigned g,double p,double e,label_t l) :
+      pos(p),esize(e),origin(g),label(l)
     {
     }
     selected_mut_data() : pos(std::numeric_limits<double>::quiet_NaN()),
 			  esize(std::numeric_limits<double>::quiet_NaN()),
-			  origin(std::numeric_limits<unsigned>::max())
+			  origin(std::numeric_limits<unsigned>::max()),
+			  label(std::numeric_limits<label_t>::max())
+			  /*!
+			    This constructor assigns NaN or "max_int" 
+			    values to members.
+			   */
     {
     }
     inline bool operator==(const selected_mut_data & rhs) const noexcept
     {
       return this->origin == rhs.origin &&
 	this->pos == rhs.pos &&
-	this->esize == rhs.esize;
+	this->esize == rhs.esize
+	&& this->label == rhs.label;
+      
     }
   };
 
   
   //! Used internally to convert C++11 types to something Cython will understand
-  enum class traj_key_values : std::size_t { deme,origin,pos,esize };
+  enum class traj_key_values : std::size_t { deme,origin,pos,esize,label };
 
   /*!
     \brief Unique key for a mutation.  Used when tracking mutation frequencies.
@@ -38,7 +47,7 @@ namespace fwdpy
 
     \note Used in fwdpy::selected_mut_tracker
   */
-  using trajectories_key_t = std::tuple<unsigned,unsigned,double,double>;
+  using trajectories_key_t = std::tuple<unsigned,unsigned,double,double,decltype(KTfwd::mutation_base::xtra)>;
   /*!
     \brief Internal representation of mutation frequencies during a simulation
 
@@ -65,7 +74,7 @@ namespace fwdpy
 	      if( !__m.neutral )
 		{
 		  const auto freq = double(pop->mcounts[i])/double(2*pop->diploids.size());
-		  auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s);
+		  auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s,__m.xtra);
 		  auto __itr = trajectories.find(__p);
 		  if(__itr == trajectories.end())
 		    {
@@ -91,7 +100,8 @@ namespace fwdpy
 	{
 	  rv.emplace_back( std::make_pair( selected_mut_data(std::get<static_cast<std::size_t>(traj_key_values::origin)>(i.first),
 							     std::get<static_cast<std::size_t>(traj_key_values::pos)>(i.first),
-							     std::get<static_cast<std::size_t>(traj_key_values::esize)>(i.first)),
+							     std::get<static_cast<std::size_t>(traj_key_values::esize)>(i.first),
+							     std::get<static_cast<std::size_t>(traj_key_values::label)>(i.first)),
 					   i.second) );
 	}
       return rv;
