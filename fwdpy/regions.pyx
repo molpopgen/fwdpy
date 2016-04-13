@@ -11,12 +11,14 @@ class Region(object):
         
         w: the "weight" assigned to the region
 
+        l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.
+
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation.
 
     This class is extended by:
         * :class:`fwdpy.fwdpy.Sregion`
     """
-    def __init__(self,float beg,float end,float weight,coupled=True):
+    def __init__(self,float beg,float end,float weight,coupled=True, uint16_t label = 0):
         """
         Constructor
 
@@ -56,13 +58,14 @@ class Region(object):
         self.e=float(end)
         self.w=float(weight)
         self.c=coupled
+        self.l=label
         if self.c is True:
             self.w = (self.e-self.b)*self.w
     def __str__(self):
         bstr="{:.9f}".format(self.b)
         estr="{:.9f}".format(self.e)
         wstr="{:.9f}".format(self.w)
-        return "beg = " +bstr+ ", end = " + estr+ ", weight = "+wstr
+        return "beg = " +bstr+ ", end = " + estr+ ", weight = "+wstr+", label = "+format(self.l)
         
 class Sregion(Region):
     """
@@ -86,7 +89,7 @@ class Sregion(Region):
        :class:`fwdpy.fwdpy.GammaS`, and 
        :class:`fwdpy.fwdpy.GaussianS`
     """
-    def __init__(self,float beg,float end,float weight,float h=1.0,coupled=True):
+    def __init__(self,float beg,float end,float weight,float h=1.0,coupled=True,uint16_t label = 0):
         """
         Constructor
 
@@ -114,7 +117,7 @@ class Sregion(Region):
         if math.isnan(h):
             raise ValueError("fwdpy.Segion: h not a number")
         self.h=float(h)
-        super(Sregion,self).__init__(beg,end,weight,coupled)
+        super(Sregion,self).__init__(beg,end,weight,coupled,label)
     def __str__(self):
         return "h = "+"{:.9f}".format(self.h)+", "+super(Sregion,self).__str__()
         
@@ -132,7 +135,7 @@ class GammaS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float mean,float shape,float h=1.0,coupled=True):
+    def __init__(self,float beg,float end,float weight,float mean,float shape,float h=1.0,coupled=True, uint16_t label = 0):
         """
         Constructor
 
@@ -163,7 +166,7 @@ class GammaS(Sregion):
             raise ValueError("fwdpy.GammaS: shape not a number")
         self.mean=float(mean)
         self.shape=float(shape)
-        super(GammaS,self).__init__(beg,end,weight,h,coupled)
+        super(GammaS,self).__init__(beg,end,weight,h,coupled,label)
     def __str__(self):
         return "Gamma DFE, mean = "+"{:.9f}".format(self.mean)+", shape = "+"{:.9f}".format(self.shape)+", "+super(GammaS,self).__str__()
         
@@ -180,7 +183,7 @@ class ConstantS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float s,float h=1.0,coupled=True):
+    def __init__(self,float beg,float end,float weight,float s,float h=1.0,coupled=True, uint16_t label = 0):
         """
         Constructor
 
@@ -206,7 +209,7 @@ class ConstantS(Sregion):
         if math.isnan(s):
             raise ValueError("fwdpy.ConstantS: s not a number")
         self.s=float(s)
-        super(ConstantS,self).__init__(beg,end,weight,h,coupled)
+        super(ConstantS,self).__init__(beg,end,weight,h,coupled,label)
     def __str__(self):
         return "Constant s DFE, s = "+"{:.9f}".format(self.s)+", "+super(ConstantS,self).__str__()
 
@@ -273,7 +276,7 @@ class ExpS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float mean,float h=1.0,coupled=True):
+    def __init__(self,float beg,float end,float weight,float mean,float h=1.0,coupled=True, uint16_t label = 0):
         """
         Constructor
     
@@ -299,7 +302,7 @@ class ExpS(Sregion):
         if math.isnan(mean):
             raise ValueError("fwdpy.ExpS: mean not a number")
         self.mean=float(mean)
-        super(ExpS,self).__init__(beg,end,weight,h,coupled)
+        super(ExpS,self).__init__(beg,end,weight,h,coupled,label)
     def __str__(self):
         return "Exponential DFE, mean = "+"{:.9f}".format(self.mean)+", "+super(ExpS,self).__str__()
 
@@ -318,7 +321,7 @@ class GaussianS(Sregion):
 
     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
     """
-    def __init__(self,float beg,float end,float weight,float sd,float h=1.0,coupled=True):
+    def __init__(self,float beg,float end,float weight,float sd,float h=1.0,coupled=True, uint16_t label = 0):
         """
         Constructor
     
@@ -344,6 +347,6 @@ class GaussianS(Sregion):
         if math.isnan(sd):
             raise ValueError("fwdpy.GaussianS: sd not a number")
         self.sd=float(sd)
-        super(GaussianS,self).__init__(beg,end,weight,h,coupled)
+        super(GaussianS,self).__init__(beg,end,weight,h,coupled,label)
     def __str__(self):
         return "Gaussian DFE, s.d. = "+"{:.9f}".format(self.sd)+", "+super(GaussianS,self).__str__()
