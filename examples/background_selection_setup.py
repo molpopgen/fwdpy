@@ -2,11 +2,11 @@ import fwdpy as fp
 import array
 
 # Where neutral mutations occur:
-nregions = [fp.Region(beg=0,end=1,weight=1)]
+nregions = [fp.Region(beg=0,end=1,weight=1,label=1)]
 
 # Where selected mutations occur:
-sregions = [fp.ConstantS(beg=-1,end=0,weight=1,s=-0.05,h=1),
-            fp.ConstantS(beg=1,end=2,weight=1,s=-0.05,h=1)]
+sregions = [fp.ConstantS(beg=-1,end=0,weight=1,s=-0.05,h=1,label=2),
+            fp.ConstantS(beg=1,end=2,weight=1,s=-0.05,h=1,label=3)]
 
 
 # Recombination:
