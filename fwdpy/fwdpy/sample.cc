@@ -12,7 +12,8 @@ namespace fwdpy {
 		       std::vector<double> * s,
 		       std::vector<double> * h,
 		       std::vector<double> * p,
-		       std::vector<double> * a)
+		       std::vector<double> * a,
+		       std::vector<decltype(KTfwd::mutation_base::xtra)> * l)
   {
     for( const auto & site : sample )
       {
@@ -23,6 +24,7 @@ namespace fwdpy {
 	h->push_back(mitr->h);
 	p->push_back(double(mcounts[std::distance(mutations.begin(),mitr)])/double(twoN));
 	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
+	l->push_back(mitr->xtra); //This is the 'label' assigned to a mutation -- See Regions.pyx for details.
       }
   }
   
@@ -31,14 +33,15 @@ namespace fwdpy {
 	       std::vector<double> * s,
 	       std::vector<double> * h,
 	       std::vector<double> * p,
-	       std::vector<double> * a)
+	       std::vector<double> * a,
+	       std::vector<decltype(KTfwd::mutation_base::xtra)> * l)
   {
     get_sh_details(samples,
 		   pop->mutations,
 		   pop->mcounts,
 		   2*pop->diploids.size(),
 		   pop->generation,
-		   s,h,p,a);
+		   s,h,p,a,l);
   }
 
   void get_sh( const std::vector<std::pair<double,std::string> > & samples,
@@ -46,7 +49,8 @@ namespace fwdpy {
 	       std::vector<double> * s,
 	       std::vector<double> * h,
 	       std::vector<double> * p,
-	       std::vector<double> * a)
+	       std::vector<double> * a,
+	       std::vector<decltype(KTfwd::mutation_base::xtra)> * l)
   {
     unsigned ttlN=0;
     for(auto itr = pop->diploids.begin();itr!=pop->diploids.end();++itr)
@@ -58,7 +62,7 @@ namespace fwdpy {
 		   pop->mcounts,
 		   ttlN,
 		   pop->generation,
-		   s,h,p,a);
+		   s,h,p,a,l);
   }
 }
 
