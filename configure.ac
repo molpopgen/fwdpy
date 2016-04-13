@@ -404,18 +404,18 @@ dnl stuff added by KRT
 
 AC_CONFIG_HEADERS([config.h])
 
-MINFWDPPVERSION="0.4.7"
+MINFWDPPVERSION="0.4.9"
 FWDPPVERSION=`fwdppConfig --version`
 AC_SUBST(MINFWDPP,$MINFWDPPVERSION)
 GSLVERSION=`gsl-config --version`
 
 dnl Check that fwdpp version is sufficient
-if test "$FWDPPVERSION" \> $MINFWDPPVERSION
+if test "$FWDPPVERSION" \< $MINFWDPPVERSION
 
 then
-	echo "fwdpp version $FWDPPVERSION detected"
-else
 	AC_MSG_ERROR([fwdpp > $MINFWDPPVERSION required, please install from http://github.com/molpopgen/fwdpp])
+else
+	echo "fwdpp version $FWDPPVERSION detected"
 fi
 
 echo "GSL version $GSLVERSION detected"
