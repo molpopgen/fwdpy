@@ -20,16 +20,18 @@ cdef get_sh_single(const sample_t & ms_sample,
                     vector[double] * s,
                     vector[double] * h,
                     vector[double] * p,
-                    vector[double] * a):
-    get_sh(ms_sample,pop.pop.get(),s,h,p,a)
+                    vector[double] * a,
+                    vector[uint16_t] * l):
+    get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)
 
 cdef get_sh_metapop(const sample_t & ms_sample,
                     metapop pop,
                     vector[double] * s,
                     vector[double] * h,
                     vector[double] * p,
-                    vector[double] * a):
-    get_sh(ms_sample,pop.mpop.get(),s,h,p,a)  
+                    vector[double] * a,
+                    vector[uint16_t] * l):
+    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)  
 
 def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     """
@@ -114,11 +116,12 @@ def get_sample_details( sample_t ms_sample, poptype pop ):
     cdef vector[double] s
     cdef vector[double] p
     cdef vector[double] a
+    cdef vector[uint16_t] l
     if isinstance(pop,singlepop):
-        get_sh_single(ms_sample,pop,&s,&h,&p,&a)
+        get_sh_single(ms_sample,pop,&s,&h,&p,&a,&l)
     elif isinstance(pop,metapop):
-        get_sh_metapop(ms_sample,pop,&s,&h,&p,&a)
-    return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
+        get_sh_metapop(ms_sample,pop,&s,&h,&p,&a,&l)
+    return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})
 
 
 ###### Functions for manipulating samples.

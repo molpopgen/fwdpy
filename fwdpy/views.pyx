@@ -22,6 +22,7 @@ cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil:
     rv.s=m.s
     rv.h=m.h
     rv.neutral=m.neutral
+    rv.label=m.xtra
     return rv
 
 cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:

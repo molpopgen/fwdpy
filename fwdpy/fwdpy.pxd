@@ -144,6 +144,7 @@ cdef struct popgen_mut_data:
     double pos,s,h
     unsigned n,g
     bint neutral
+    uint16_t label
 
 cdef struct gamete_data:
     vector[popgen_mut_data] neutral,selected
@@ -165,8 +166,8 @@ cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, c
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
-    void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a)
-    void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a)
+    void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a, vector[uint16_t] * l)
+    void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a, vector[uint16_t] * l)
 
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
