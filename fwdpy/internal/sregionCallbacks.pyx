@@ -15,14 +15,16 @@ def process_regions(list regions):
     starts=list()
     stops=list()
     weights=list()
+    labels=list()
     for i in range(len(regions)):
         if isinstance(regions[i],fwdpy.Region):
             starts.append(regions[i].b)
             stops.append(regions[i].e)
             weights.append(regions[i].w)
+            labels.append(regions[i].l)
         else:
             raise ValueError("invalid callback type encountered")
-    return pandas.DataFrame({'beg':starts,'end':stops,'weight':weights})
+    return pandas.DataFrame({'beg':starts,'end':stops,'weight':weights,'labels':labels})
 
 def process_sregion_callbacks( shwrappervec v, list sregions ):
     """
