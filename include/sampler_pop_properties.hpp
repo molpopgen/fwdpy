@@ -104,6 +104,7 @@ namespace fwdpy {
 	      mvexpl,
 	      sum_e/double(nm),
 	      gsl_stats_mean(wbar.data(),1,wbar.size()),
+	      gsl_stats_variance(wbar.data(),1,wbar.size()),
 	      meanTrait,
 	      vst}});
     }
@@ -124,6 +125,7 @@ namespace fwdpy {
 	  rv.emplace_back( "max_expl", q[static_cast<size_t>(qtrait_stat_list::MAXEXP)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "ebar", q[static_cast<size_t>(qtrait_stat_list::EBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "wbar", q[static_cast<size_t>(qtrait_stat_list::WBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "varw", q[static_cast<size_t>(qtrait_stat_list::WVAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "tbar", q[static_cast<size_t>(qtrait_stat_list::TBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "Vst", q[static_cast<size_t>(qtrait_stat_list::VST)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	}
@@ -136,7 +138,7 @@ namespace fwdpy {
   private:
     qtrait_stats_t qstats;
     double optimum;
-    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,TBAR,VST };
+    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,WVAR,TBAR,VST };
   };
 }
 #endif
