@@ -24,7 +24,7 @@ namespace fwdpy {
     We could use a std::map, or a vector of final_t (see below),
     but that gets slow and RAM-intensive.
   */
-  using qtrait_stats_t = std::vector<std::array<double,10>>;
+  using qtrait_stats_t = std::vector<std::array<double,11>>;
 
   class pop_properties
   /*!
