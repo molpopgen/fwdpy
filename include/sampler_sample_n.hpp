@@ -50,7 +50,15 @@ namespace fwdpy
     {
       return rv;
     }
-    explicit sample_n(unsigned nsam_, const gsl_rng * r_) : rv(final_t()),nsam(nsam_),r(GSLrng_t(gsl_rng_get(r_)))
+    explicit sample_n(unsigned nsam_, const gsl_rng * r_) :
+      rv(final_t()),nsam(nsam_),r(GSLrng_t(gsl_rng_get(r_)))
+      /*!
+	Note the implementation of this constructor!!
+
+	By taking a gsl_rng * from outside, we are able to guarantee
+	that this object is reproducibly seeded to the extent that
+	this constructor is called in a reproducible order.
+      */
     {
     }
   private:
