@@ -2489,6 +2489,8 @@ static const char __pyx_k_mu_neutral[] = "mu_neutral";
 static const char __pyx_k_neutral_df[] = "neutral_df";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_recregions[] = "recregions";
+static const char __pyx_k_rng_evolve[] = "rng_evolve";
+static const char __pyx_k_rng_sample[] = "rng_sample";
 static const char __pyx_k_ExpS___init[] = "ExpS.__init__";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_allele_ages[] = "allele_ages";
@@ -3037,6 +3039,8 @@ static PyObject *__pyx_n_s_recregions;
 static PyObject *__pyx_n_s_removeFixed;
 static PyObject *__pyx_n_s_rmgr;
 static PyObject *__pyx_n_s_rng;
+static PyObject *__pyx_n_s_rng_evolve;
+static PyObject *__pyx_n_s_rng_sample;
 static PyObject *__pyx_n_s_rv;
 static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_sample;
@@ -3186,7 +3190,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_16check_input_params(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, int __pyx_v_npops, int __pyx_v_N, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_f, char const *__pyx_v_fitness); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, double __pyx_v_f, char const *__pyx_v_fitness); /* proto */
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, int __pyx_v_sample, unsigned int __pyx_v_nsam, double __pyx_v_f, char const *__pyx_v_fitness); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, int __pyx_v_sample, unsigned int __pyx_v_nsam, double __pyx_v_f, char const *__pyx_v_fitness); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, int __pyx_v_sample, double __pyx_v_f, char const *__pyx_v_fitness); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_6Region___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, float __pyx_v_beg, float __pyx_v_end, float __pyx_v_weight, PyObject *__pyx_v_coupled, uint16_t __pyx_v_label); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_6Region_2__str__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
@@ -11446,17 +11450,18 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
 /* "fwdpy/evolve_regions.pyx":157
  * 
  * @cython.boundscheck(False)
- * def evolve_regions_sample(GSLrng rng,             # <<<<<<<<<<<<<<
+ * def evolve_regions_sample(GSLrng rng_evolve, GSLrng rng_sample,             # <<<<<<<<<<<<<<
  *                             popvec pops,
  *                             unsigned[:] nlist,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_22evolve_regions_sample[] = "\n    Evolve a set of populations, taking a random sample of size \"nsam\" every \"sample\" generations.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: A list of populations simulated by :func:`evolve_regions`\n    :param N: The diploid population size to simulate\n    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).\n    :param mu_neutral: The mutation rate to variants not affecting fitness (\"neutral\" mutations).  The unit is per gamete, per generation.\n    :param mu_selected: The mutation rate to variants affecting fitness (\"selected\" mutations).  The unit is per gamete, per generation.\n    :param recrate: The recombination rate in the regions (per diploid, per generation)\n    :param nregions: A list specifying where neutral mutations occur\n    :param sregions: A list specifying where selected mutations occur\n    :param recregions: A list specifying how the genetic map varies along the region\n    :param sample: How often to record data about non-neutral mutations\n    :param nsam: The sample size\n    :param f: The selfing probabilty\n    :param fitness: The fitness model.  Must be either \"multiplicative\" or \"additive\".\n\n    :return: One list per population in \"pops\".  Each list contains a sample of genotypes + the generation from which it was taken.\n\n    :raises: RuntimeError if parameters do not pass checks\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_22evolve_regions_sample[] = "\n    Evolve a set of populations, taking a random sample of size \"nsam\" every \"sample\" generations.\n\n    :param rng_evolve: a :class:`GSLrng` used for the evolving\n    :param rng_sample: a :class:`GSLrng` used for the sampling\n    :param pops: A list of populations simulated by :func:`evolve_regions`\n    :param N: The diploid population size to simulate\n    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).\n    :param mu_neutral: The mutation rate to variants not affecting fitness (\"neutral\" mutations).  The unit is per gamete, per generation.\n    :param mu_selected: The mutation rate to variants affecting fitness (\"selected\" mutations).  The unit is per gamete, per generation.\n    :param recrate: The recombination rate in the regions (per diploid, per generation)\n    :param nregions: A list specifying where neutral mutations occur\n    :param sregions: A list specifying where selected mutations occur\n    :param recregions: A list specifying how the genetic map varies along the region\n    :param sample: How often to record data about non-neutral mutations\n    :param nsam: The sample size\n    :param f: The selfing probabilty\n    :param fitness: The fitness model.  Must be either \"multiplicative\" or \"additive\".\n\n    :return: One list per population in \"pops\".  Each list contains a sample of genotypes + the generation from which it was taken.\n\n    :raises: RuntimeError if parameters do not pass checks\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_23evolve_regions_sample = {"evolve_regions_sample", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_22evolve_regions_sample};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
+  struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve = 0;
+  struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample = 0;
   struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops = 0;
   __Pyx_memviewslice __pyx_v_nlist = { 0, 0, { 0 }, { 0 }, { 0 } };
   double __pyx_v_mu_neutral;
@@ -11473,12 +11478,13 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("evolve_regions_sample (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng,&__pyx_n_s_pops,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_recrate,&__pyx_n_s_nregions,&__pyx_n_s_sregions,&__pyx_n_s_recregions,&__pyx_n_s_sample,&__pyx_n_s_nsam,&__pyx_n_s_f,&__pyx_n_s_fitness,0};
-    PyObject* values[13] = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng_evolve,&__pyx_n_s_rng_sample,&__pyx_n_s_pops,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_recrate,&__pyx_n_s_nregions,&__pyx_n_s_sregions,&__pyx_n_s_recregions,&__pyx_n_s_sample,&__pyx_n_s_nsam,&__pyx_n_s_f,&__pyx_n_s_fitness,0};
+    PyObject* values[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
         case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
         case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
         case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
@@ -11498,67 +11504,72 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rng)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rng_evolve)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pops)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rng_sample)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 1); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 1); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pops)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 2); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 2); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  3:
-        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 3); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 3); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  4:
-        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 4); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 4); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  5:
-        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrate)) != 0)) kw_args--;
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 5); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 5); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  6:
-        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nregions)) != 0)) kw_args--;
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 6); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 6); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  7:
-        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sregions)) != 0)) kw_args--;
+        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 7); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 7); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  8:
-        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recregions)) != 0)) kw_args--;
+        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 8); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 8); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case  9:
-        if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sample)) != 0)) kw_args--;
+        if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 9); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 9); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case 10:
-        if (likely((values[10] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nsam)) != 0)) kw_args--;
+        if (likely((values[10] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sample)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, 10); __PYX_ERR(5, 157, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 10); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case 11:
-        if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
-          if (value) { values[11] = value; kw_args--; }
+        if (likely((values[11] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nsam)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, 11); __PYX_ERR(5, 157, __pyx_L3_error)
         }
         case 12:
         if (kw_args > 0) {
-          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fitness);
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
           if (value) { values[12] = value; kw_args--; }
+        }
+        case 13:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fitness);
+          if (value) { values[13] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
@@ -11566,9 +11577,10 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
         case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
         case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
-        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
         values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
         values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
         values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
@@ -11583,42 +11595,44 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_rng = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
-    __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)values[1]);
-    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[2]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(5, 159, __pyx_L3_error)
-    __pyx_v_mu_neutral = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_mu_neutral == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 160, __pyx_L3_error)
-    __pyx_v_mu_selected = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_mu_selected == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 161, __pyx_L3_error)
-    __pyx_v_recrate = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_recrate == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 162, __pyx_L3_error)
-    __pyx_v_nregions = ((PyObject*)values[6]);
-    __pyx_v_sregions = ((PyObject*)values[7]);
-    __pyx_v_recregions = ((PyObject*)values[8]);
-    __pyx_v_sample = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(5, 166, __pyx_L3_error)
-    __pyx_v_nsam = __Pyx_PyInt_As_unsigned_int(values[10]); if (unlikely((__pyx_v_nsam == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(5, 167, __pyx_L3_error)
-    if (values[11]) {
-      __pyx_v_f = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 168, __pyx_L3_error)
+    __pyx_v_rng_evolve = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
+    __pyx_v_rng_sample = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[1]);
+    __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)values[2]);
+    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[3]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(5, 159, __pyx_L3_error)
+    __pyx_v_mu_neutral = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_mu_neutral == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 160, __pyx_L3_error)
+    __pyx_v_mu_selected = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_mu_selected == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 161, __pyx_L3_error)
+    __pyx_v_recrate = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_recrate == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 162, __pyx_L3_error)
+    __pyx_v_nregions = ((PyObject*)values[7]);
+    __pyx_v_sregions = ((PyObject*)values[8]);
+    __pyx_v_recregions = ((PyObject*)values[9]);
+    __pyx_v_sample = __Pyx_PyInt_As_int(values[10]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(5, 166, __pyx_L3_error)
+    __pyx_v_nsam = __Pyx_PyInt_As_unsigned_int(values[11]); if (unlikely((__pyx_v_nsam == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(5, 167, __pyx_L3_error)
+    if (values[12]) {
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 168, __pyx_L3_error)
     } else {
       __pyx_v_f = ((double)0.0);
     }
-    if (values[12]) {
-      __pyx_v_fitness = __Pyx_PyObject_AsString(values[12]); if (unlikely((!__pyx_v_fitness) && PyErr_Occurred())) __PYX_ERR(5, 169, __pyx_L3_error)
+    if (values[13]) {
+      __pyx_v_fitness = __Pyx_PyObject_AsString(values[13]); if (unlikely((!__pyx_v_fitness) && PyErr_Occurred())) __PYX_ERR(5, 169, __pyx_L3_error)
     } else {
       __pyx_v_fitness = ((char const *)((char const *)"multiplicative"));
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 11, 13, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(5, 157, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolve_regions_sample", 0, 12, 14, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(5, 157, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.evolve_regions_sample", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(5, 157, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_evolve), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_evolve", 0))) __PYX_ERR(5, 157, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_sample), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_sample", 0))) __PYX_ERR(5, 157, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) __PYX_ERR(5, 158, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nregions), (&PyList_Type), 1, "nregions", 1))) __PYX_ERR(5, 163, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sregions), (&PyList_Type), 1, "sregions", 1))) __PYX_ERR(5, 164, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recregions), (&PyList_Type), 1, "recregions", 1))) __PYX_ERR(5, 165, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(__pyx_self, __pyx_v_rng, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_nregions, __pyx_v_sregions, __pyx_v_recregions, __pyx_v_sample, __pyx_v_nsam, __pyx_v_f, __pyx_v_fitness);
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(__pyx_self, __pyx_v_rng_evolve, __pyx_v_rng_sample, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_nregions, __pyx_v_sregions, __pyx_v_recregions, __pyx_v_sample, __pyx_v_nsam, __pyx_v_f, __pyx_v_fitness);
 
   /* function exit code */
   goto __pyx_L0;
@@ -11629,7 +11643,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_23evolve_regions_sample(PyObject *__pyx_
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, int __pyx_v_sample, unsigned int __pyx_v_nsam, double __pyx_v_f, char const *__pyx_v_fitness) {
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, double __pyx_v_mu_neutral, double __pyx_v_mu_selected, double __pyx_v_recrate, PyObject *__pyx_v_nregions, PyObject *__pyx_v_sregions, PyObject *__pyx_v_recregions, int __pyx_v_sample, unsigned int __pyx_v_nsam, double __pyx_v_f, char const *__pyx_v_fitness) {
   struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *__pyx_v_rmgr = NULL;
   size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
@@ -11646,20 +11660,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   Py_ssize_t __pyx_t_10;
   __Pyx_RefNannySetupContext("evolve_regions_sample", 0);
 
-  /* "fwdpy/evolve_regions.pyx":192
+  /* "fwdpy/evolve_regions.pyx":193
  *     :raises: RuntimeError if parameters do not pass checks
  *     """
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_check_input_params); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_check_input_params); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_mu_neutral); if (unlikely(!__pyx_t_3)) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_mu_neutral); if (unlikely(!__pyx_t_3)) __PYX_ERR(5, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_mu_selected); if (unlikely(!__pyx_t_4)) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_mu_selected); if (unlikely(!__pyx_t_4)) __PYX_ERR(5, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_recrate); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_recrate); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -11673,7 +11687,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_8 = PyTuple_New(6+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(6+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (__pyx_t_6) {
     __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -11696,13 +11710,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 192, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":193
+  /* "fwdpy/evolve_regions.pyx":194
  *     """
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:             # <<<<<<<<<<<<<<
@@ -11712,20 +11726,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   __pyx_t_9 = ((__pyx_v_sample <= 0) != 0);
   if (__pyx_t_9) {
 
-    /* "fwdpy/evolve_regions.pyx":194
+    /* "fwdpy/evolve_regions.pyx":195
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")             # <<<<<<<<<<<<<<
  *     if nsam == 0:
  *         raise RuntimeError("nsam must be > 0")
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 194, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 195, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(5, 194, __pyx_L1_error)
+    __PYX_ERR(5, 195, __pyx_L1_error)
 
-    /* "fwdpy/evolve_regions.pyx":193
+    /* "fwdpy/evolve_regions.pyx":194
  *     """
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:             # <<<<<<<<<<<<<<
@@ -11734,7 +11748,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
  */
   }
 
-  /* "fwdpy/evolve_regions.pyx":195
+  /* "fwdpy/evolve_regions.pyx":196
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")
  *     if nsam == 0:             # <<<<<<<<<<<<<<
@@ -11744,20 +11758,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   __pyx_t_9 = ((__pyx_v_nsam == 0) != 0);
   if (__pyx_t_9) {
 
-    /* "fwdpy/evolve_regions.pyx":196
+    /* "fwdpy/evolve_regions.pyx":197
  *         raise RuntimeError("sample must be > 0")
  *     if nsam == 0:
  *         raise RuntimeError("nsam must be > 0")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 196, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 197, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(5, 196, __pyx_L1_error)
+    __PYX_ERR(5, 197, __pyx_L1_error)
 
-    /* "fwdpy/evolve_regions.pyx":195
+    /* "fwdpy/evolve_regions.pyx":196
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")
  *     if nsam == 0:             # <<<<<<<<<<<<<<
@@ -11766,7 +11780,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
  */
   }
 
-  /* "fwdpy/evolve_regions.pyx":197
+  /* "fwdpy/evolve_regions.pyx":198
  *     if nsam == 0:
  *         raise RuntimeError("nsam must be > 0")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -11776,24 +11790,24 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   __pyx_t_9 = ((__pyx_v_f < 0.) != 0);
   if (__pyx_t_9) {
 
-    /* "fwdpy/evolve_regions.pyx":198
+    /* "fwdpy/evolve_regions.pyx":199
  *         raise RuntimeError("nsam must be > 0")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     rmgr = region_manager_wrapper()
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 199, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_warn); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 198, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_warn); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 199, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 198, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 199, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "fwdpy/evolve_regions.pyx":199
+    /* "fwdpy/evolve_regions.pyx":200
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0             # <<<<<<<<<<<<<<
@@ -11802,7 +11816,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
  */
     __pyx_v_f = 0.0;
 
-    /* "fwdpy/evolve_regions.pyx":197
+    /* "fwdpy/evolve_regions.pyx":198
  *     if nsam == 0:
  *         raise RuntimeError("nsam must be > 0")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -11811,28 +11825,28 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
  */
   }
 
-  /* "fwdpy/evolve_regions.pyx":200
+  /* "fwdpy/evolve_regions.pyx":201
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0
  *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 200, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_rmgr = ((struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":201
+  /* "fwdpy/evolve_regions.pyx":202
  *         f=0
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     cdef size_t listlen = len(nlist)
- *     return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
+ *     return evolve_regions_sample_async(rng_evolve.thisptr,rng_sample.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 201, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 201, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -11847,7 +11861,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_5 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 201, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -11864,36 +11878,36 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   __Pyx_INCREF(__pyx_v_recregions);
   __Pyx_GIVEREF(__pyx_v_recregions);
   PyTuple_SET_ITEM(__pyx_t_5, 3+__pyx_t_7, __pyx_v_recregions);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 201, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":202
+  /* "fwdpy/evolve_regions.pyx":203
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
- *     return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
+ *     return evolve_regions_sample_async(rng_evolve.thisptr,rng_sample.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
  * 
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 202, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(5, 202, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(5, 203, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_listlen = __pyx_t_7;
 
-  /* "fwdpy/evolve_regions.pyx":203
+  /* "fwdpy/evolve_regions.pyx":204
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)
- *     return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
+ *     return evolve_regions_sample_async(rng_evolve.thisptr,rng_sample.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
  * 
  * @cython.boundscheck(False)
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_10 = 0;
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_nlist.shape[0];
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(fwdpy::evolve_regions_sample_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_nsam, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 203, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(fwdpy::evolve_regions_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_nsam, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11902,7 +11916,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   /* "fwdpy/evolve_regions.pyx":157
  * 
  * @cython.boundscheck(False)
- * def evolve_regions_sample(GSLrng rng,             # <<<<<<<<<<<<<<
+ * def evolve_regions_sample(GSLrng rng_evolve, GSLrng rng_sample,             # <<<<<<<<<<<<<<
  *                             popvec pops,
  *                             unsigned[:] nlist,
  */
@@ -11926,7 +11940,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   return __pyx_r;
 }
 
-/* "fwdpy/evolve_regions.pyx":206
+/* "fwdpy/evolve_regions.pyx":207
  * 
  * @cython.boundscheck(False)
  * def evolve_regions_track(GSLrng rng,             # <<<<<<<<<<<<<<
@@ -11984,47 +11998,47 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_25evolve_regions_track(PyObject *__pyx_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pops)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 1); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 1); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 2); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 2); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 3); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 3); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 4); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 4); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrate)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 5); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 5); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 6); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 6); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 7); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 7); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recregions)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 8); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 8); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sample)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 9); __PYX_ERR(5, 206, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, 9); __PYX_ERR(5, 207, __pyx_L3_error)
         }
         case 10:
         if (kw_args > 0) {
@@ -12038,7 +12052,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_25evolve_regions_track(PyObject *__pyx_s
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_regions_track") < 0)) __PYX_ERR(5, 206, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_regions_track") < 0)) __PYX_ERR(5, 207, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12060,38 +12074,38 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_25evolve_regions_track(PyObject *__pyx_s
     }
     __pyx_v_rng = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
     __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)values[1]);
-    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[2]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(5, 208, __pyx_L3_error)
-    __pyx_v_mu_neutral = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_mu_neutral == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 209, __pyx_L3_error)
-    __pyx_v_mu_selected = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_mu_selected == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 210, __pyx_L3_error)
-    __pyx_v_recrate = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_recrate == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 211, __pyx_L3_error)
+    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[2]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(5, 209, __pyx_L3_error)
+    __pyx_v_mu_neutral = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_mu_neutral == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 210, __pyx_L3_error)
+    __pyx_v_mu_selected = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_mu_selected == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 211, __pyx_L3_error)
+    __pyx_v_recrate = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_recrate == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 212, __pyx_L3_error)
     __pyx_v_nregions = ((PyObject*)values[6]);
     __pyx_v_sregions = ((PyObject*)values[7]);
     __pyx_v_recregions = ((PyObject*)values[8]);
-    __pyx_v_sample = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(5, 215, __pyx_L3_error)
+    __pyx_v_sample = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(5, 216, __pyx_L3_error)
     if (values[10]) {
-      __pyx_v_f = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 216, __pyx_L3_error)
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(5, 217, __pyx_L3_error)
     } else {
       __pyx_v_f = ((double)0.0);
     }
     if (values[11]) {
-      __pyx_v_fitness = __Pyx_PyObject_AsString(values[11]); if (unlikely((!__pyx_v_fitness) && PyErr_Occurred())) __PYX_ERR(5, 217, __pyx_L3_error)
+      __pyx_v_fitness = __Pyx_PyObject_AsString(values[11]); if (unlikely((!__pyx_v_fitness) && PyErr_Occurred())) __PYX_ERR(5, 218, __pyx_L3_error)
     } else {
       __pyx_v_fitness = ((char const *)((char const *)"multiplicative"));
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(5, 206, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolve_regions_track", 0, 10, 12, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(5, 207, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.evolve_regions_track", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(5, 206, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) __PYX_ERR(5, 207, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nregions), (&PyList_Type), 1, "nregions", 1))) __PYX_ERR(5, 212, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sregions), (&PyList_Type), 1, "sregions", 1))) __PYX_ERR(5, 213, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recregions), (&PyList_Type), 1, "recregions", 1))) __PYX_ERR(5, 214, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(5, 207, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) __PYX_ERR(5, 208, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_nregions), (&PyList_Type), 1, "nregions", 1))) __PYX_ERR(5, 213, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sregions), (&PyList_Type), 1, "sregions", 1))) __PYX_ERR(5, 214, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recregions), (&PyList_Type), 1, "recregions", 1))) __PYX_ERR(5, 215, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(__pyx_self, __pyx_v_rng, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_nregions, __pyx_v_sregions, __pyx_v_recregions, __pyx_v_sample, __pyx_v_f, __pyx_v_fitness);
 
   /* function exit code */
@@ -12120,20 +12134,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   Py_ssize_t __pyx_t_10;
   __Pyx_RefNannySetupContext("evolve_regions_track", 0);
 
-  /* "fwdpy/evolve_regions.pyx":239
+  /* "fwdpy/evolve_regions.pyx":240
  *     :raises: RuntimeError if parameters do not pass checks
  *     """
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_check_input_params); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 239, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_check_input_params); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_mu_neutral); if (unlikely(!__pyx_t_3)) __PYX_ERR(5, 239, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_mu_neutral); if (unlikely(!__pyx_t_3)) __PYX_ERR(5, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_mu_selected); if (unlikely(!__pyx_t_4)) __PYX_ERR(5, 239, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_mu_selected); if (unlikely(!__pyx_t_4)) __PYX_ERR(5, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_recrate); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 239, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_recrate); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   __pyx_t_7 = 0;
@@ -12147,7 +12161,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_8 = PyTuple_New(6+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 239, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(6+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (__pyx_t_6) {
     __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -12170,13 +12184,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 239, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":240
+  /* "fwdpy/evolve_regions.pyx":241
  *     """
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:             # <<<<<<<<<<<<<<
@@ -12186,20 +12200,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   __pyx_t_9 = ((__pyx_v_sample <= 0) != 0);
   if (__pyx_t_9) {
 
-    /* "fwdpy/evolve_regions.pyx":241
+    /* "fwdpy/evolve_regions.pyx":242
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 241, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 242, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(5, 241, __pyx_L1_error)
+    __PYX_ERR(5, 242, __pyx_L1_error)
 
-    /* "fwdpy/evolve_regions.pyx":240
+    /* "fwdpy/evolve_regions.pyx":241
  *     """
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:             # <<<<<<<<<<<<<<
@@ -12208,7 +12222,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
  */
   }
 
-  /* "fwdpy/evolve_regions.pyx":242
+  /* "fwdpy/evolve_regions.pyx":243
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -12218,24 +12232,24 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   __pyx_t_9 = ((__pyx_v_f < 0.) != 0);
   if (__pyx_t_9) {
 
-    /* "fwdpy/evolve_regions.pyx":243
+    /* "fwdpy/evolve_regions.pyx":244
  *         raise RuntimeError("sample must be > 0")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     rmgr = region_manager_wrapper()
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 243, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_warnings); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_warn); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 243, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_warn); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 243, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "fwdpy/evolve_regions.pyx":244
+    /* "fwdpy/evolve_regions.pyx":245
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0             # <<<<<<<<<<<<<<
@@ -12244,7 +12258,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
  */
     __pyx_v_f = 0.0;
 
-    /* "fwdpy/evolve_regions.pyx":242
+    /* "fwdpy/evolve_regions.pyx":243
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")
  *     if f < 0.:             # <<<<<<<<<<<<<<
@@ -12253,28 +12267,28 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
  */
   }
 
-  /* "fwdpy/evolve_regions.pyx":245
+  /* "fwdpy/evolve_regions.pyx":246
  *         warnings.warn("f < 0 will be treated as 0")
  *         f=0
  *     rmgr = region_manager_wrapper()             # <<<<<<<<<<<<<<
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 245, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 246, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_rmgr = ((struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":246
+  /* "fwdpy/evolve_regions.pyx":247
  *         f=0
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)             # <<<<<<<<<<<<<<
  *     cdef size_t listlen = len(nlist)
  *     return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 246, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_internal); if (unlikely(!__pyx_t_2)) __PYX_ERR(5, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 246, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_make_region_manager); if (unlikely(!__pyx_t_8)) __PYX_ERR(5, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -12289,7 +12303,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
       __pyx_t_7 = 1;
     }
   }
-  __pyx_t_5 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 246, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(4+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(5, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -12306,26 +12320,26 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   __Pyx_INCREF(__pyx_v_recregions);
   __Pyx_GIVEREF(__pyx_v_recregions);
   PyTuple_SET_ITEM(__pyx_t_5, 3+__pyx_t_7, __pyx_v_recregions);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 246, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":247
+  /* "fwdpy/evolve_regions.pyx":248
  *     rmgr = region_manager_wrapper()
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
  * 
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 247, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(5, 247, __pyx_L1_error)
+  __pyx_t_7 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(5, 248, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_listlen = __pyx_t_7;
 
-  /* "fwdpy/evolve_regions.pyx":248
+  /* "fwdpy/evolve_regions.pyx":249
  *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
  *     cdef size_t listlen = len(nlist)
  *     return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)             # <<<<<<<<<<<<<<
@@ -12334,13 +12348,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_10 = 0;
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_nlist.shape[0];
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(fwdpy::evolve_regions_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 248, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(fwdpy::evolve_regions_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/evolve_regions.pyx":206
+  /* "fwdpy/evolve_regions.pyx":207
  * 
  * @cython.boundscheck(False)
  * def evolve_regions_track(GSLrng rng,             # <<<<<<<<<<<<<<
@@ -44983,6 +44997,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_removeFixed, __pyx_k_removeFixed, sizeof(__pyx_k_removeFixed), 0, 0, 1, 1},
   {&__pyx_n_s_rmgr, __pyx_k_rmgr, sizeof(__pyx_k_rmgr), 0, 0, 1, 1},
   {&__pyx_n_s_rng, __pyx_k_rng, sizeof(__pyx_k_rng), 0, 0, 1, 1},
+  {&__pyx_n_s_rng_evolve, __pyx_k_rng_evolve, sizeof(__pyx_k_rng_evolve), 0, 0, 1, 1},
+  {&__pyx_n_s_rng_sample, __pyx_k_rng_sample, sizeof(__pyx_k_rng_sample), 0, 0, 1, 1},
   {&__pyx_n_s_rv, __pyx_k_rv, sizeof(__pyx_k_rv), 0, 0, 1, 1},
   {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_sample, __pyx_k_sample, sizeof(__pyx_k_sample), 0, 0, 1, 1},
@@ -45287,58 +45303,58 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
 
-  /* "fwdpy/evolve_regions.pyx":194
+  /* "fwdpy/evolve_regions.pyx":195
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")             # <<<<<<<<<<<<<<
  *     if nsam == 0:
  *         raise RuntimeError("nsam must be > 0")
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_sample_must_be_0); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(5, 194, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_sample_must_be_0); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(5, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "fwdpy/evolve_regions.pyx":196
+  /* "fwdpy/evolve_regions.pyx":197
  *         raise RuntimeError("sample must be > 0")
  *     if nsam == 0:
  *         raise RuntimeError("nsam must be > 0")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_nsam_must_be_0); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(5, 196, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_nsam_must_be_0); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(5, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
 
-  /* "fwdpy/evolve_regions.pyx":198
+  /* "fwdpy/evolve_regions.pyx":199
  *         raise RuntimeError("nsam must be > 0")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     rmgr = region_manager_wrapper()
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(5, 198, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(5, 199, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "fwdpy/evolve_regions.pyx":241
+  /* "fwdpy/evolve_regions.pyx":242
  *     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
  *     if sample <= 0:
  *         raise RuntimeError("sample must be > 0")             # <<<<<<<<<<<<<<
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_sample_must_be_0); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(5, 241, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_sample_must_be_0); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(5, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
 
-  /* "fwdpy/evolve_regions.pyx":243
+  /* "fwdpy/evolve_regions.pyx":244
  *         raise RuntimeError("sample must be > 0")
  *     if f < 0.:
  *         warnings.warn("f < 0 will be treated as 0")             # <<<<<<<<<<<<<<
  *         f=0
  *     rmgr = region_manager_wrapper()
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(5, 243, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_f_0_will_be_treated_as_0); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(5, 244, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
 
@@ -46178,26 +46194,26 @@ static int __Pyx_InitCachedConstants(void) {
   /* "fwdpy/evolve_regions.pyx":157
  * 
  * @cython.boundscheck(False)
- * def evolve_regions_sample(GSLrng rng,             # <<<<<<<<<<<<<<
+ * def evolve_regions_sample(GSLrng rng_evolve, GSLrng rng_sample,             # <<<<<<<<<<<<<<
  *                             popvec pops,
  *                             unsigned[:] nlist,
  */
-  __pyx_tuple__110 = PyTuple_Pack(15, __pyx_n_s_rng, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sample, __pyx_n_s_nsam, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__110)) __PYX_ERR(5, 157, __pyx_L1_error)
+  __pyx_tuple__110 = PyTuple_Pack(16, __pyx_n_s_rng_evolve, __pyx_n_s_rng_sample, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sample, __pyx_n_s_nsam, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__110)) __PYX_ERR(5, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__110);
   __Pyx_GIVEREF(__pyx_tuple__110);
-  __pyx_codeobj__111 = (PyObject*)__Pyx_PyCode_New(13, 0, 15, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__110, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions_sample, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__111)) __PYX_ERR(5, 157, __pyx_L1_error)
+  __pyx_codeobj__111 = (PyObject*)__Pyx_PyCode_New(14, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__110, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions_sample, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__111)) __PYX_ERR(5, 157, __pyx_L1_error)
 
-  /* "fwdpy/evolve_regions.pyx":206
+  /* "fwdpy/evolve_regions.pyx":207
  * 
  * @cython.boundscheck(False)
  * def evolve_regions_track(GSLrng rng,             # <<<<<<<<<<<<<<
  *                             popvec pops,
  *                             unsigned[:] nlist,
  */
-  __pyx_tuple__112 = PyTuple_Pack(14, __pyx_n_s_rng, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sample, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__112)) __PYX_ERR(5, 206, __pyx_L1_error)
+  __pyx_tuple__112 = PyTuple_Pack(14, __pyx_n_s_rng, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sample, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__112)) __PYX_ERR(5, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__112);
   __Pyx_GIVEREF(__pyx_tuple__112);
-  __pyx_codeobj__113 = (PyObject*)__Pyx_PyCode_New(12, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__112, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions_track, 206, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__113)) __PYX_ERR(5, 206, __pyx_L1_error)
+  __pyx_codeobj__113 = (PyObject*)__Pyx_PyCode_New(12, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__112, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions_track, 207, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__113)) __PYX_ERR(5, 207, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":18
  *         * :class:`fwdpy.fwdpy.Sregion`
@@ -47254,7 +47270,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   /* "fwdpy/evolve_regions.pyx":157
  * 
  * @cython.boundscheck(False)
- * def evolve_regions_sample(GSLrng rng,             # <<<<<<<<<<<<<<
+ * def evolve_regions_sample(GSLrng rng_evolve, GSLrng rng_sample,             # <<<<<<<<<<<<<<
  *                             popvec pops,
  *                             unsigned[:] nlist,
  */
@@ -47263,16 +47279,16 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_regions_sample, __pyx_t_1) < 0) __PYX_ERR(5, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/evolve_regions.pyx":206
+  /* "fwdpy/evolve_regions.pyx":207
  * 
  * @cython.boundscheck(False)
  * def evolve_regions_track(GSLrng rng,             # <<<<<<<<<<<<<<
  *                             popvec pops,
  *                             unsigned[:] nlist,
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_25evolve_regions_track, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 206, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_25evolve_regions_track, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_regions_track, __pyx_t_1) < 0) __PYX_ERR(5, 206, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_regions_track, __pyx_t_1) < 0) __PYX_ERR(5, 207, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/regions.pyx":1
