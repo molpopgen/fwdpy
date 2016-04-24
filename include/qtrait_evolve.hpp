@@ -121,7 +121,7 @@ namespace fwdpy
 				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
 				      std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
 				      std::move(rules_thread),
-				      std::forward<Args...>(args)...
+				      std::forward<Args>(args)...
 				      )
 				);	
 	}
@@ -159,7 +159,7 @@ namespace fwdpy
 				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
 				      std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
 				      std::move(rules_thread),
-				      std::forward<Args...>(args)...
+				      std::forward<Args>(args)...
 				      )
 				);	
 	}
