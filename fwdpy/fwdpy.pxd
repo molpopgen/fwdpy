@@ -48,8 +48,24 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         vector[dipvector_t] diploids
         vector[popgenmut] fixations
         vector[unsigned] fixation_times
+        vector[unsigned] popsizes()
         int sane()
         int size()
+
+    cdef cppclass multilocus_t:
+        multilocus_t(unsigned,unsigned)
+        multilocus_t(const multilocus_t &)
+        unsigned generation
+        mcont_t mutations
+        vector[unsigned] mcounts
+        gcont_t gametes
+        #This has different interpretation than for a metapop--see fwdpp dox
+        vector[dipvector_t] diploids
+        vector[popgenmut] fixations
+        vector[unsigned] fixation_times
+        int gen()
+        int sane()
+        int popsize()
 
     # Types based around KTfwd::generalmut_vec
     ctypedef vector[generalmut_vec] mlist_gm_vec_t
