@@ -132,8 +132,7 @@ def evolve_qtrait_sample(GSLrng rng_evolve,GSLrng rng_sampling,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     
-    return evolve_qtrait_sample_async(rng_evolve.thisptr,rng_sampling.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,nsam,
-                                      rmgr.thisptr)
+    return evolve_qtrait_sample_async(rng_evolve.thisptr,rng_sampling.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,nsam,rmgr.thisptr)
 
 def evolve_qtrait_popstats(GSLrng rng,
                            popvec pops,
@@ -235,7 +234,7 @@ def evolve_gbr(GSLrng rng,
     return pops
 
 @cython.boundscheck(False)
-def evolve_gbr_sample(GSLrng rng,
+def evolve_gbr_sample(GSLrng rng,GSLrng rng_sample,
                       popvec pops,
                       unsigned[:] nlist,
                       double mu_neutral,
@@ -263,7 +262,7 @@ def evolve_gbr_sample(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     
-    return evolve_qtrait_sample_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,nsam,
+    return evolve_gbr_sample_async(rng.thisptr,rng_sample.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,nsam,
                                       rmgr.thisptr)
 
 @cython.boundscheck(False)
