@@ -154,7 +154,7 @@ def evolve_regions_more(GSLrng rng,
         evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
 
 @cython.boundscheck(False)
-def evolve_regions_sample(GSLrng rng,
+def evolve_regions_sample(GSLrng rng_evolve, GSLrng rng_sample,
                             popvec pops,
                             unsigned[:] nlist,
                             double mu_neutral,
@@ -170,7 +170,8 @@ def evolve_regions_sample(GSLrng rng,
     """
     Evolve a set of populations, taking a random sample of size "nsam" every "sample" generations.
 
-    :param rng: a :class:`GSLrng`
+    :param rng_evolve: a :class:`GSLrng` used for the evolving
+    :param rng_sample: a :class:`GSLrng` used for the sampling
     :param pops: A list of populations simulated by :func:`evolve_regions`
     :param N: The diploid population size to simulate
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
@@ -200,7 +201,7 @@ def evolve_regions_sample(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
-    return evolve_regions_sample_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
+    return evolve_regions_sample_async(rng_evolve.thisptr,rng_sample.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
 
 @cython.boundscheck(False)
 def evolve_regions_track(GSLrng rng,

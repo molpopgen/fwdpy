@@ -218,7 +218,7 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                           const region_manager * rm,
                                           const char * fitness)
 
-    vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng,
+    vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng_evolve,GSLrng_t * rng_sample,
                                                                         vector[shared_ptr[singlepop_t]] * pops,
                                                                         const unsigned * Nvector,
                                                                         const size_t Nvector_len,
