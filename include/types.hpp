@@ -270,6 +270,31 @@ namespace fwdpy {
       return int(N == diploids.size());
     }
   };
+
+  //Types for multi-"locus" (multi-region) simulations
+  using multilocus_diploid_t = std::vector<diploid_t>;
+
+  //Have to use fwdpy::diploid_t below, as GCC seems to get confused otherwise...
+  struct multilocus_pop_t : public KTfwd::multiloc<KTfwd::popgenmut,fwdpy::diploid_t>
+  {
+    using base = KTfwd::multiloc<KTfwd::popgenmut,fwdpy::diploid_t>;
+    unsigned generation;
+    multilocus_pop_t(const unsigned N, const unsigned nloci) : base(N,nloci),generation(0)
+    {
+    }
+    unsigned gen() const
+    {
+      return generation;
+    }
+    unsigned popsize() const
+    {
+      return N;
+    }
+    int sane() const
+    {
+      return int(N==diploids.size());
+    }
+  };
 }
 
 #endif
