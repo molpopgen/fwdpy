@@ -67,6 +67,38 @@ cdef class singlepop_gm_vec(poptype):
         """
         return self.pop.get().sane()
 
+cdef class multiloc(poptype):
+    """
+    Object representing data structures for single-deme, multi-locus/region simulations
+    based on a mutation type having a single 's' and 'h' term.
+
+    Users are not expected to construct these on their own.  Rather,
+    they should be working with :class:`popvec_mloc`.  This type exists as
+    the output of iterating through a :class:`popvec_mloc`.
+    """
+    def __del__(self):
+        self.pop.reset()
+    cpdef gen(self):
+        """
+        Returns the generation that the population is currently evolved to
+        """
+        return self.pop.get().generation
+    cpdef popsize(self):
+        """
+        Returns the size of the population
+        """
+        return self.pop.get().N
+    cpdef sane(self):
+        """
+        Makes sure that the population is in a sane state.
+
+        Internally, this checks that pop.N == pop.diploids.size(),
+        which it should be if the C++ code behind this all is properly updating
+        the data structures!
+
+        """
+        return self.pop.get().sane()  
+
 cdef class popvec(popcont):
     """
     Vector of single-deme objects
