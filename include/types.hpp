@@ -275,11 +275,11 @@ namespace fwdpy {
   using multilocus_diploid_t = std::vector<diploid_t>;
 
   //Have to use fwdpy::diploid_t below, as GCC seems to get confused otherwise...
-  struct multilocus_pop_t : public KTfwd::multiloc<KTfwd::popgenmut,fwdpy::diploid_t>
+  struct multilocus_t : public KTfwd::multiloc<KTfwd::popgenmut,fwdpy::diploid_t>
   {
     using base = KTfwd::multiloc<KTfwd::popgenmut,fwdpy::diploid_t>;
     unsigned generation;
-    multilocus_pop_t(const unsigned N, const unsigned nloci) : base(N,nloci),generation(0)
+    multilocus_t(const unsigned N, const unsigned nloci) : base(N,nloci),generation(0)
     {
     }
     unsigned gen() const
