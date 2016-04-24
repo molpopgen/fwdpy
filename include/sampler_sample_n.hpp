@@ -33,7 +33,7 @@ namespace fwdpy
     inline void operator()(const singlepop_t * pop,
 			   const unsigned generation)
     {
-      auto s = KTfwd::sample_separate(r,*pop,nsam,true);
+      auto s = KTfwd::sample_separate(r.get(),*pop,nsam,true);
       std::vector< std::pair<double,double> > sh;
       for( const auto & i : s.second )
 	{
@@ -50,13 +50,13 @@ namespace fwdpy
     {
       return rv;
     }
-    explicit sample_n(unsigned nsam_, const gsl_rng * r_) : rv(final_t()),nsam(nsam_),r(r_)
+    explicit sample_n(unsigned nsam_, const gsl_rng * r_) : rv(final_t()),nsam(nsam_),r(GSLrng_t(gsl_rng_get(r_)))
     {
     }
   private:
     final_t rv;
     const unsigned nsam;
-    const gsl_rng * r;
+    GSLrng_t r;
   };
 }
 
