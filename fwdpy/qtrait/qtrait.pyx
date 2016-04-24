@@ -40,7 +40,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				          const region_manager * rm)
 
     
-    vector[vector[pair[uint,detailed_deme_sample]]] evolve_qtrait_sample_async( GSLrng_t * rng,
+    vector[vector[pair[uint,detailed_deme_sample]]] evolve_qtrait_sample_async( GSLrng_t * rng,GSLrng_t * rng_sample,
                                                                                 vector[shared_ptr[singlepop_t]] * pops,
 				                                                const unsigned * Nvector,
 				                                                const size_t Nvector_length,
