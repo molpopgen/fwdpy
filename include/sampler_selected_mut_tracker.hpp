@@ -63,7 +63,7 @@ namespace fwdpy
   {
   public:
     using final_t = std::vector< std::pair<selected_mut_data, std::vector<double> > >;
-    inline void operator()(const singlepop_t * pop,gsl_rng * ,
+    inline void operator()(const singlepop_t * pop,
 			   const unsigned)
     {
       for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )

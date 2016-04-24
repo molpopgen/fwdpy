@@ -14,7 +14,7 @@ namespace fwdpy
   */
   {
     using final_t = void;
-    inline void operator()(const singlepop_t * ,gsl_rng * ,
+    inline void operator()(const singlepop_t * ,
 			   const unsigned )
     {
       return;

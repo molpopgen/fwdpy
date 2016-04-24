@@ -30,7 +30,7 @@ namespace fwdpy
   {
   public:
     using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
-    inline void operator()(const singlepop_t * pop,gsl_rng * r,
+    inline void operator()(const singlepop_t * pop,
 			   const unsigned generation)
     {
       auto s = KTfwd::sample_separate(r,*pop,nsam,true);
@@ -50,12 +50,13 @@ namespace fwdpy
     {
       return rv;
     }
-    explicit sample_n(unsigned nsam_) : rv(final_t()),nsam(nsam_)
+    explicit sample_n(unsigned nsam_, const gsl_rng * r_) : rv(final_t()),nsam(nsam_),r(r_)
     {
     }
   private:
     final_t rv;
     const unsigned nsam;
+    const gsl_rng * r;
   };
 }
 

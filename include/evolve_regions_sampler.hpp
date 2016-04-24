@@ -123,7 +123,7 @@ namespace fwdpy
 	pop->N=nextN;
 	if (interval && pop->generation &&(pop->generation+1)%interval==0.)
 	  {
-	    s(pop,rng,pop->generation+1);
+	    s(pop,pop->generation+1);
 	  }
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
@@ -161,7 +161,7 @@ namespace fwdpy
 					 mu_neutral,mu_selected,littler,f,fitness,sample,
 					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
 					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-					 std::forward<Args...>(args)...
+					 std::forward<Args>(args)...
 					 )
 			      );	
       }
@@ -195,7 +195,7 @@ namespace fwdpy
 					 mu_neutral,mu_selected,littler,f,fitness,0,//0 will mean not to sample
 					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
 					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-					 std::forward<Args...>(args)...
+					 std::forward<Args>(args)...
 					 )
 			      );	
       }
@@ -216,7 +216,9 @@ namespace fwdpy
   
   //Prototypes for functions using samplers
   std::vector<sample_n::final_t>
-  evolve_regions_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+  evolve_regions_sample_async( GSLrng_t * rng,         //To evolve the populations
+			       GSLrng_t * rng_sampling,//To take the random samples of size nsam
+			       std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
 			       const size_t Nvector_length,
 			       const double mu_neutral,

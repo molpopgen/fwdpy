@@ -35,7 +35,7 @@ namespace fwdpy {
   public:
     using final_t = std::vector<qtrait_stats_cython>;
 
-    inline void operator()(const singlepop_t * pop, gsl_rng *,
+    inline void operator()(const singlepop_t * pop,
 			   const unsigned generation)
     {
       std::vector<double> VG,VE,wbar,trait;
