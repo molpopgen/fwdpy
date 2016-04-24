@@ -182,7 +182,9 @@ namespace fwdpy
     
     //Take samples over time
     std::vector<sample_n::final_t>
-    evolve_qtrait_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+    evolve_qtrait_sample_async( GSLrng_t * rng,
+				GSLrng_t * rng_sample,
+				std::vector<std::shared_ptr<singlepop_t> > * pops,
 				const unsigned * Nvector,
 				const size_t Nvector_length,
 				const double mu_neutral,
