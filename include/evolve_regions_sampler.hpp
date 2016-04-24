@@ -61,7 +61,7 @@ namespace fwdpy
 				 const int interval,
 				 KTfwd::extensions::discrete_mut_model && __m,
 				 KTfwd::extensions::discrete_rec_model && __recmap,
-				 Args&&... args) 
+				 sampler && isampler)
   {
     const size_t simlen = Nvector_len;
     auto x = std::max_element(Nvector,Nvector+Nvector_len);
@@ -102,7 +102,7 @@ namespace fwdpy
       }
 
     //create the sampler
-    sampler s(std::forward<Args>(args)...);
+    sampler s(std::forward<sampler>(isampler));
     
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
@@ -161,7 +161,7 @@ namespace fwdpy
 					 mu_neutral,mu_selected,littler,f,fitness,sample,
 					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
 					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-					 std::forward<Args>(args)...
+					 sampler(std::forward<Args>(args)...)
 					 )
 			      );	
       }
@@ -195,7 +195,7 @@ namespace fwdpy
 					 mu_neutral,mu_selected,littler,f,fitness,0,//0 will mean not to sample
 					 std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
 					 std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-					 std::forward<Args>(args)...
+					 sampler(std::forward<Args>(args)...)
 					 )
 			      );	
       }

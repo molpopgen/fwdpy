@@ -36,7 +36,7 @@ namespace fwdpy
 				  KTfwd::extensions::discrete_mut_model && __m,
 				  KTfwd::extensions::discrete_rec_model && __recmap,
 				  rules_t && rules,
-				  Args&&... args)
+				  sampler && isampler)
     {
       gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
       gsl_rng_set(rng,seed);
@@ -49,7 +49,7 @@ namespace fwdpy
       const auto recpos = KTfwd::extensions::bind_drm(recmap,pop->gametes,pop->mutations,
 						      rng,recrate);
       //create the sampler
-      sampler s(std::forward<Args>(args)...);
+      sampler s(std::forward<sampler>(isampler));
       //We use an empty fitness fxn here b/c the rules policies keep track of it separately.
       const auto ff = []( const fwdpy::singlepop_t::diploid_t &,
 			  const fwdpy::singlepop_t::gcont_t &,
@@ -121,7 +121,7 @@ namespace fwdpy
 				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
 				      std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
 				      std::move(rules_thread),
-				      std::forward<Args>(args)...
+				      sampler(std::forward<Args>(args)...)
 				      )
 				);	
 	}
@@ -159,7 +159,7 @@ namespace fwdpy
 				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
 				      std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
 				      std::move(rules_thread),
-				      std::forward<Args>(args)...
+				      sampler(std::forward<Args>(args)...)
 				      )
 				);	
 	}
