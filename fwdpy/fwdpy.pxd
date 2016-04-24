@@ -56,6 +56,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         multilocus_t(unsigned,unsigned)
         multilocus_t(const multilocus_t &)
         unsigned generation
+        unsigned N
         mcont_t mutations
         vector[unsigned] mcounts
         gcont_t gametes
@@ -109,6 +110,12 @@ cdef class metapop(poptype):
     cpdef popsizes(self)
     cpdef sane(self)
     cpdef from_singlepop(self,singlepop p)
+
+cdef class multiloc(poptype):
+    cdef shared_ptr[multilocus_t] pop
+    cpdef gen(self)
+    cpdef popsize(self)
+    cpdef sane(self)
     
 cdef class singlepop_gm_vec(poptype):
     cdef shared_ptr[singlepop_gm_vec_t] pop
