@@ -111,7 +111,7 @@ cdef class metapop(poptype):
     cpdef sane(self)
     cpdef from_singlepop(self,singlepop p)
 
-cdef class multiloc(poptype):
+cdef class singlepop_mloc(poptype):
     cdef shared_ptr[multilocus_t] pop
     cpdef gen(self)
     cpdef popsize(self)
@@ -151,6 +151,13 @@ cdef class mpopvec(popcont):
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     cpdef append(self,mpopvec p)
 
+cdef class popvec_mloc(popcont):
+    cdef vector[shared_ptr[multilocus_t]] pops
+    cdef public object pypops
+    cpdef size(self)
+    cdef reset(self,const vector[shared_ptr[multilocus_t]] newpops)
+    cpdef append(self,popvec p)
+    
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
