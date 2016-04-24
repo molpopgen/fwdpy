@@ -54,7 +54,9 @@ namespace fwdpy
 								  sigmaE,optimum,rm,rules);
     }
     std::vector<sample_n::final_t>
-    evolve_qtrait_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+    evolve_qtrait_sample_async( GSLrng_t * rng,
+				GSLrng_t * rng_sampling,
+				std::vector<std::shared_ptr<singlepop_t> > * pops,
 				const unsigned * Nvector,
 				const size_t Nvector_length,
 				const double mu_neutral,
@@ -69,10 +71,14 @@ namespace fwdpy
 				const internal::region_manager * rm)
     {
       qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<sample_n,qtrait_model_rules,decltype(nsam)>(rng,pops,Nvector,Nvector_length,
-										     mu_neutral,mu_selected,littler,
-										     f,sigmaE,optimum,sample,rm,rules,
-										     std::forward<decltype(nsam)>(nsam));
+      return evolve_qtrait_async_wrapper<sample_n,
+					 qtrait_model_rules,
+					 decltype(nsam),
+					 const gsl_rng *>(rng,pops,Nvector,Nvector_length,
+							  mu_neutral,mu_selected,littler,
+							  f,sigmaE,optimum,sample,rm,rules,
+							  std::forward<decltype(nsam)>(nsam),
+							  rng_sampling->get());
     }
 
     std::vector<pop_properties::final_t>
@@ -143,7 +149,9 @@ namespace fwdpy
 							       sigmaE,optimum,rm,rules);
     }
     std::vector<sample_n::final_t>
-    evolve_gbr_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+    evolve_gbr_sample_async( GSLrng_t * rng,
+			     GSLrng_t * rng_sample,
+			     std::vector<std::shared_ptr<singlepop_t> > * pops,
 			     const unsigned * Nvector,
 			     const size_t Nvector_length,
 			     const double mu_neutral,
@@ -158,10 +166,14 @@ namespace fwdpy
 			     const internal::region_manager * rm)
     {
       gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<sample_n,gbr_model_rules,decltype(nsam)>(rng,pops,Nvector,Nvector_length,
-										  mu_neutral,mu_selected,littler,
-										  f,sigmaE,optimum,sample,rm,rules,
-										  std::forward<decltype(nsam)>(nsam));
+      return evolve_qtrait_async_wrapper<sample_n,
+					 gbr_model_rules,
+					 decltype(nsam),
+					 const gsl_rng *>(rng,pops,Nvector,Nvector_length,
+							  mu_neutral,mu_selected,littler,
+							  f,sigmaE,optimum,sample,rm,rules,
+							  std::forward<decltype(nsam)>(nsam),
+							  rng_sample->get());
     }
 
     std::vector<pop_properties::final_t>
