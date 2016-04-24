@@ -67,7 +67,7 @@ cdef class singlepop_gm_vec(poptype):
         """
         return self.pop.get().sane()
 
-cdef class multiloc(poptype):
+cdef class singlepop_mloc(poptype):
     """
     Object representing data structures for single-deme, multi-locus/region simulations
     based on a mutation type having a single 's' and 'h' term.
@@ -159,6 +159,67 @@ cdef class popvec(popcont):
         """
         return self.pops.size()
 
+cdef class popvec_mloc(popcont):
+    """
+    Vector of single-deme objects representing multiple partially-linked regions.
+
+    Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
+    have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the "usual"
+    Python way.
+
+    See :func:`evolve_regions` for use cases.
+    """
+    def __cinit__(self,unsigned npops,unsigned N,unsigned nloci):
+        """
+        Constructor:
+
+        :param npops: The number of populations
+        :param N: Initial population number for each population
+        :param nloci: Number of loci/regions
+        """
+        self.pypops=list()
+        for i in range(npops):
+            self.pops.push_back(shared_ptr[multilocus_t](new multilocus_t(N,nloci)))
+            pi = singlepop_mloc()
+            pi.pop = self.pops[i]
+            self.pypops.append(pi)
+    def __iter__(self):
+        return iter(self.pypops)
+    def __next__(self):
+        return next(self.pypops)
+    def __getitem__(self, int i):
+        return self.pypops[i]
+    def __len__(self):
+        cdef size_t size_ = len(self.pypops)
+        if self.pops.size() != size_:
+            raise RuntimeError("fwdpy.popvec_mloc internal data structures out of sync")
+        return self.pops.size()
+    cdef reset(self,const vector[shared_ptr[multilocus_t]] & newpops):
+        self.pops=newpops
+        self.pypops=list()
+        for i in range(self.pops.size()):
+            pi = singlepop_mloc()
+            pi.pop=self.pops[i]
+            self.pypops.append(pi)
+    def __append_details__(self,popvec_mloc p):
+        for i in range(len(p)):
+            self.pops.push_back(p.pops[i])
+            self.pypops.append(p[i])        
+    cpdef append(self,popvec p):
+        """
+        Append 'p' into this object.
+
+        This is done via a serialized copy, meaning that 
+        this object and p will not share any pointers
+        """
+        self.__append_details__(copypops(p))
+             
+    cpdef size(self):
+        """
+        Returns number of populations (size of underlying C++ vector)
+        """
+        return self.pops.size()
+    
 cdef class popvec_gmv(popcont):
     def __cinit__(self,unsigned npops,unsigned N):
         """
