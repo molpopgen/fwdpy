@@ -60,7 +60,7 @@ namespace fwdpy
 	  const unsigned nextN = *(Nvector+g);
 	  if (interval && pop->generation &&pop->generation%interval==0.)
 	    {
-	      s(pop,rng,pop->generation);
+	      s(pop,pop->generation);
 	    }
 	  KTfwd::experimental::sample_diploid(rng,
 					      pop->gametes,
@@ -83,7 +83,7 @@ namespace fwdpy
 	}
       if (interval && pop->generation &&pop->generation%interval==0.)
 	{
-	  s(pop,rng,pop->generation);
+	  s(pop,pop->generation);
 	}
       gsl_rng_free(rng);
       //Update population's size variable to be the current pop size
