@@ -26,11 +26,22 @@ Changelog (rough)
 
 0.0.4
 ----------------
-* Update to Cython_ 0.24.0
+
+Changes to the Python side:
+
 * Add fwdpy.demography module
+* Add :class:`fwdpy.fwdpy.singlepop_mloc`
+* Add :class:`fwdpy.fwdpy.popvec_mloc`
+* Changed interface to :function:`fwdpy.fwdpy.evolve_regions_sample` to require to RNG objects.  This is done for reprocibility/consistency across different types of temporal sampling schemes.
 * Added views of fixed mutations
 * Better Python3 compatibility
 * More unit tests of sampling and "views"
+
+Changes to the Cython/C++ back end:
+
+* Update to Cython_ 0.24.0
+* Sampler API changed for better reproducibility and consistency
+* Expose more fwdpp types for multi-locus/region simulations
   
 0.0.3
 -----------------
