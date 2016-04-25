@@ -21,7 +21,7 @@ namespace fwdpy
 			  origin(std::numeric_limits<unsigned>::max()),
 			  label(std::numeric_limits<label_t>::max())
 			  /*!
-			    This constructor assigns NaN or "max_int" 
+			    This constructor assigns NaN or "max_int"
 			    values to members.
 			   */
     {
@@ -32,11 +32,11 @@ namespace fwdpy
 	this->pos == rhs.pos &&
 	this->esize == rhs.esize
 	&& this->label == rhs.label;
-      
+
     }
   };
 
-  
+
   //! Used internally to convert C++11 types to something Cython will understand
   enum class traj_key_values : std::size_t { deme,origin,pos,esize,label };
 
@@ -54,7 +54,7 @@ namespace fwdpy
     \note Used in fwdpy::selected_mut_tracker
   */
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
-  
+
   class selected_mut_tracker
   /*!
     \brief A "sampler" for recording frequency trajectories of selected mutations.
@@ -63,7 +63,8 @@ namespace fwdpy
   {
   public:
     using final_t = std::vector< std::pair<selected_mut_data, std::vector<double> > >;
-    inline void operator()(const singlepop_t * pop,
+    template<typename pop_t>
+    inline void operator()(const pop_t * pop,
 			   const unsigned)
     {
       for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
@@ -92,7 +93,7 @@ namespace fwdpy
 	    }
       	}
     }
-    
+
     final_t final() const
     {
       final_t rv;
@@ -106,7 +107,7 @@ namespace fwdpy
 	}
       return rv;
     }
-    
+
     explicit selected_mut_tracker() : trajectories(trajectories_t())
     {
     }

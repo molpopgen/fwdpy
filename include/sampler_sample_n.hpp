@@ -30,7 +30,8 @@ namespace fwdpy
   {
   public:
     using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
-    inline void operator()(const singlepop_t * pop,
+    template<typename pop_t>
+    inline void operator()(const pop_t * pop,
 			   const unsigned generation)
     {
       auto s = KTfwd::sample_separate(r.get(),*pop,nsam,true);
