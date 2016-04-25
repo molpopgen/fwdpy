@@ -35,13 +35,13 @@ Changes to the Python side:
 * Changed interface to :function:`fwdpy.fwdpy.evolve_regions_sample` to require to RNG objects.  This is done for reprocibility/consistency across different types of temporal sampling schemes.
 * Added views of fixed mutations via :function:`fwdpy.fwdpy.view_fixations`
 * Better Python3 compatibility
-* More unit tests of sampling and "views"
 
 Changes to the Cython/C++ back end:
 
 * Update to Cython_ 0.24.0
 * Sampler API changed for better reproducibility and consistency
 * Expose more fwdpp types for multi-locus/region simulations
+* More unit tests of sampling and "views"
   
 0.0.3
 -----------------
