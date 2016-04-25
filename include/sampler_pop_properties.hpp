@@ -92,8 +92,6 @@ namespace fwdpy {
       auto meanG = gsl_stats_mean(VG.data(),1,VG.size());
       /*
 	Transform arrays so that they represent squared deviations from mean.
-
-	For "trait", this should be the optimum, but the API isn't allowing that right now...
       */
       std::transform(VG.begin(),VG.end(),VG.begin(),[meanG](const double d){ return std::pow(d-meanG,2.0);});
       std::transform(trait.begin(),trait.end(),trait.begin(),[this](const double d){ return std::pow(d-this->optimum,2.0);});
