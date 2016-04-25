@@ -45,6 +45,9 @@ namespace fwdpy {
       trait.reserve(pop->diploids.size());
       wbar.reserve(pop->diploids.size());
 
+      //This part will need to be contracted out,
+      //and specialized, for single- vs. multiple- region
+      //sims!
       for(const auto & dip : pop->diploids)
 	{
 	  VG.push_back(dip.g);
