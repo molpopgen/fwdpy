@@ -4,8 +4,10 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <type_traits>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/sugar/sampling.hpp>
+#include <fwdpp/sugar/poptypes/tags.hpp>
 #include "types.hpp"
 
 namespace fwdpy
@@ -22,6 +24,7 @@ namespace fwdpy
   };
 
 
+  template<typename pop_t = singlepop_t>
   class sample_n //take a sample of size n from a population
   /*
     \brief A "sampler" that takes a sample of n gametes from a population
@@ -29,8 +32,11 @@ namespace fwdpy
   */
   {
   public:
-    using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
-    template<typename pop_t>
+    using singlepop_type_return_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
+    using multilocus_type_return_t = std::vector<std::pair<unsigned,std::vector<detailed_deme_sample> > >;
+    using final_t = typename std::conditional < std::is_same<typename pop_t::popmodel_t,KTfwd::sugar::SINGLEPOP_TAG>::value,
+						singlepop_type_return_t,
+						multilocus_type_return_t >::type;
     inline void operator()(const pop_t * pop,
 			   const unsigned generation)
     {
@@ -67,6 +73,13 @@ namespace fwdpy
     const unsigned nsam;
     GSLrng_t r;
   };
+
+  template<>
+  inline void sample_n<multilocus_t>::operator()(const multilocus_t * pop,
+						 const unsigned generation)
+  {
+    //TODO
+  }
 }
 
 #endif
