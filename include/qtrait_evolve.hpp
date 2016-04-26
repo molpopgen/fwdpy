@@ -20,7 +20,7 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    template<typename sampler,typename rules_t,class... Args>
+    template<typename sampler,typename rules_t>
     inline typename sampler::final_t
     evolve_qtrait_sampler_details(singlepop_t * pop,
 				  const unsigned long seed,
@@ -115,7 +115,7 @@ namespace fwdpy
 	{
 	  rules_t rules_thread(rules);
 	  futures.emplace_back( std::async(std::launch::async,
-					   evolve_qtrait_sampler_details<sampler,rules_t,Args&&...>,
+					   evolve_qtrait_sampler_details<sampler,rules_t>,
 					   pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
 					   mu_neutral,mu_selected,littler,f,sigmaE,optimum,sample,
 					   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
@@ -153,7 +153,7 @@ namespace fwdpy
 	{
 	  rules_t rules_thread(rules);
 	  futures.emplace_back( std::async(std::launch::async,
-					   evolve_qtrait_sampler_details<sampler,rules_t,Args&&...>,
+					   evolve_qtrait_sampler_details<sampler,rules_t>,
 					   pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
 					   mu_neutral,mu_selected,littler,f,sigmaE,optimum,0,
 					   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
@@ -181,7 +181,7 @@ namespace fwdpy
 					  const internal::region_manager * rm);
     
     //Take samples over time
-    std::vector<sample_n::final_t>
+    std::vector<sample_n<singlepop_t>::final_t>
     evolve_qtrait_sample_async( GSLrng_t * rng,
 				GSLrng_t * rng_sample,
 				std::vector<std::shared_ptr<singlepop_t> > * pops,
@@ -242,7 +242,7 @@ namespace fwdpy
 				       const internal::region_manager * rm);
     
     //Take samples over time
-    std::vector<sample_n::final_t>
+    std::vector<sample_n<singlepop_t>::final_t>
     evolve_gbr_sample_async( GSLrng_t * rng, GSLrng_t * rng_sample,
 			     std::vector<std::shared_ptr<singlepop_t> > * pops,
 			     const unsigned * Nvector,

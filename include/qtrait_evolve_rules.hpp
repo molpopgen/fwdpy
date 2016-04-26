@@ -88,15 +88,15 @@ namespace fwdpy
 		  const gcont_t & gametes, const mcont_t & mutations) const noexcept
       {
 	offspring.g = KTfwd::site_dependent_fitness()(gametes[offspring.first],gametes[offspring.second],mutations,
-						      [=](double & fitness,const typename mcont_t::value_type & mut) noexcept
-						       {
-							 fitness += (2.*mut.s);
-						       },
-						       [](double & fitness,const typename mcont_t::value_type & mut) noexcept
-						       {
-							 fitness += (mut.h*mut.s);
-						       },
-						       0.);
+						      [](double & fitness,const typename mcont_t::value_type & mut) noexcept
+						      {
+							fitness += (2.*mut.s);
+						      },
+						      [](double & fitness,const typename mcont_t::value_type & mut) noexcept
+						      {
+							fitness += (mut.h*mut.s);
+						      },
+						      0.);
 	offspring.e = gsl_ran_gaussian_ziggurat(r,sigE);
 	double dev = (offspring.g+offspring.e-optimum);
 	offspring.w = std::exp( -(dev*dev)/(2.*VS) );

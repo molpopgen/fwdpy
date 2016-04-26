@@ -215,7 +215,7 @@ namespace fwdpy
 					const char * fitness);
   
   //Prototypes for functions using samplers
-  std::vector<sample_n::final_t>
+  std::vector<sample_n<singlepop_t>::final_t>
   evolve_regions_sample_async( GSLrng_t * rng,         //To evolve the populations
 			       GSLrng_t * rng_sampling,//To take the random samples of size nsam
 			       std::vector<std::shared_ptr<singlepop_t> > * pops,
