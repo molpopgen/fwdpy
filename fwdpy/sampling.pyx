@@ -1,5 +1,5 @@
 from cython.operator cimport dereference as deref
-from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
+from fwdpy.fwdpp cimport sep_sample_t,sample_t,gsl_rng
 import numpy as np
 import pandas as pd
 
@@ -7,13 +7,16 @@ import pandas as pd
 ##These fxns make calls to the C++ layer
 
 cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-    return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
+    return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
 
 cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-    return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+    return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
 cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
+
+cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:
+    return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
 cdef get_sh_single(const sample_t & ms_sample,
                     singlepop pop,
@@ -31,7 +34,7 @@ cdef get_sh_metapop(const sample_t & ms_sample,
                     vector[double] * p,
                     vector[double] * a,
                     vector[uint16_t] * l):
-    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)  
+    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
 
 def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     """
@@ -43,9 +46,9 @@ def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     :param removeFixed: if True, only polymorphic sites are retained
 
     Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations
-    
+
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
@@ -66,7 +69,7 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     :param nsam: The sample size to take.
     :param removeFixed: if True, only polymorphic sites are retained
     :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.
-    
+
     :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.
 
     :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`
@@ -74,7 +77,7 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.
 
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
@@ -89,6 +92,8 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
         if deme >= len(pop):
             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+    elif isinstance(pop,singlepop_mloc):
+        return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
@@ -104,7 +109,7 @@ def get_sample_details( sample_t ms_sample, poptype pop ):
     :rtype: pandas.DataFrame
 
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
@@ -132,7 +137,7 @@ def nderived_site(tuple site):
     :param site: A tuple.  See example
 
     .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.
-    
+
     Example:
 
     >>> import fwdpy
@@ -175,9 +180,9 @@ def getfreq(tuple site,bint derived = True):
     :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)
 
     .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\pi`, a.k.a. "sum of site heterozygosity").
-       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.
        In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.
-       
+
     Example:
 
     >>> import fwdpy
@@ -203,8 +208,8 @@ def getfreqs(list sample,bint derived = True):
     :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).
 
     .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. "sum of site heterozygosity").
-       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  
-    
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.
+
     Example:
 
     >>> import fwdpy,array
@@ -225,9 +230,9 @@ def freqfilter( list sample,
     :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
     :param minfreq: Remove all sites with frequency < minfreq
     :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.
-       
+
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
