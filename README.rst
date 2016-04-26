@@ -42,6 +42,8 @@ Changes to the Cython/C++ back end:
 * Sampler API changed for better reproducibility and consistency
 * Expose more fwdpp types for multi-locus/region simulations
 * More unit tests of sampling and "views"
+* Update how samples are taken from populations, reflecting a bug fix
+  in fwdpp 0.4.9 that made the Cython wrappers in this function incorrect.
   
 0.0.3
 -----------------
