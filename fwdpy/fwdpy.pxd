@@ -273,3 +273,8 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                                                                       const region_manager * rm,
                                                                                       const char * fitness)
 
+cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
+    sample_t sample_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
+    sep_sample_t sample_sep_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
+    vector[sample_t] sample_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
+    vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
