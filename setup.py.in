@@ -173,6 +173,17 @@ if QTRAIT is True:
                   libraries=LIBS)
     ])
     PKGS.append('fwdpy.qtrait')
+    extensions.extend([
+        Extension("fwdpy.qtrait_mloc.qtrait_mloc",
+                  sources=["fwdpy/qtrait_mloc/qtrait_mloc"+EXTENSION]+glob.glob("fwdpy.qtrait_mloc/*.cc"),
+                  language="c++",
+                  include_dirs=GLOBAL_INCLUDES, 
+                  extra_compile_args=GLOBAL_COMPILE_ARGS,
+                  extra_link_args=LINK_ARGS,
+                  libraries=LIBS)
+    ])
+    PKGS.append('fwdpy.qtrait_mloc')
+                  
 
 #If using Cython, edit extensions here:
 if USE_CYTHON:
