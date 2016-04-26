@@ -13,6 +13,7 @@
             "include/sampler_pop_properties.hpp", 
             "include/sampler_sample_n.hpp", 
             "include/sampler_selected_mut_tracker.hpp", 
+            "include/sampling_wrappers.hpp", 
             "include/types.hpp"
         ], 
         "extra_compile_args": [
@@ -340,6 +341,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "sampler_pop_properties.hpp"
 #include "allele_ages.hpp"
 #include "evolve_regions_sampler.hpp"
+#include "sampling_wrappers.hpp"
 #include "stdio.h"
 #include "pythread.h"
 #include <algorithm>
@@ -2258,6 +2260,7 @@ static struct __pyx_t_5fwdpy_5fwdpy_diploid_data __pyx_f_5fwdpy_5fwdpy_get_diplo
 static KTfwd::sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int, int); /*proto*/
 static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme_sep(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int, int); /*proto*/
 static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, int, int, int); /*proto*/
+static std::vector<KTfwd::sep_sample_t>  __pyx_f_5fwdpy_5fwdpy_ms_sample_singlepop_mloc(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc *, int, int); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(KTfwd::sample_t const &, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<uint16_t>  *); /*proto*/
 static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<double>  *, std::vector<uint16_t>  *); /*proto*/
 static std::vector<struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data>  __pyx_f_5fwdpy_5fwdpy_view_mutations_details(fwdpy::mcont_t const &, __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t const &); /*proto*/
@@ -2293,6 +2296,7 @@ static CYTHON_INLINE PyObject *__pyx_convert_PyByteArray_string_to_py_std__in_st
 static PyObject *__pyx_convert_pair_to_py_double____std_3a__3a_string(std::pair<double,std::string>  const &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(const std::vector<std::pair<double,std::string> >  &); /*proto*/
 static PyObject *__pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(std::pair<KTfwd::sample_t,KTfwd::sample_t>  const &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t(const std::vector<KTfwd::sep_sample_t>  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_uint16_t(const std::vector<uint16_t>  &); /*proto*/
 static PyObject *__pyx_convert_pair_to_py_double____double(std::pair<double,double>  const &); /*proto*/
@@ -2611,22 +2615,22 @@ static const char __pyx_k_Constant_s_DFE_s[] = "Constant s DFE, s = ";
 static const char __pyx_k_GaussianS___init[] = "GaussianS.__init__";
 static const char __pyx_k_Gaussian_DFE_s_d[] = "Gaussian DFE, s.d. = ";
 static const char __pyx_k_Uniform_s_DFE_lo[] = "Uniform s DFE, lo = ";
-static const char __pyx_k_getfreq_line_170[] = "getfreq (line 170)";
+static const char __pyx_k_getfreq_line_175[] = "getfreq (line 175)";
 static const char __pyx_k_is_not_supported[] = " is not supported";
 static const char __pyx_k_sample_must_be_0[] = "sample must be > 0";
 static const char __pyx_k_unsupported_type[] = "unsupported type";
 static const char __pyx_k_view_diploids_pd[] = "view_diploids_pd";
-static const char __pyx_k_getfreqs_line_198[] = "getfreqs (line 198)";
-static const char __pyx_k_ms_sample_line_36[] = "ms_sample (line 36)";
-static const char __pyx_k_nderived_line_153[] = "nderived (line 153)";
+static const char __pyx_k_getfreqs_line_203[] = "getfreqs (line 203)";
+static const char __pyx_k_ms_sample_line_39[] = "ms_sample (line 39)";
+static const char __pyx_k_nderived_line_158[] = "nderived (line 158)";
 static const char __pyx_k_check_input_params[] = "check_input_params";
 static const char __pyx_k_get_sample_details[] = "get_sample_details";
 static const char __pyx_k_merge_trajectories[] = "merge_trajectories";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static const char __pyx_k_deme_cannot_be_None[] = "deme cannot be None";
 static const char __pyx_k_evolve_regions_more[] = "evolve_regions_more";
-static const char __pyx_k_freqfilter_line_219[] = "freqfilter (line 219)";
-static const char __pyx_k_get_samples_line_60[] = "get_samples (line 60)";
+static const char __pyx_k_freqfilter_line_224[] = "freqfilter (line 224)";
+static const char __pyx_k_get_samples_line_63[] = "get_samples (line 63)";
 static const char __pyx_k_make_region_manager[] = "make_region_manager";
 static const char __pyx_k_view_gametes_popvec[] = "view_gametes_popvec";
 static const char __pyx_k_Exponential_DFE_mean[] = "Exponential DFE, mean = ";
@@ -2650,7 +2654,7 @@ static const char __pyx_k_MemoryView_of_r_object[] = "<MemoryView of %r object>"
 static const char __pyx_k_deserialize_singlepops[] = "deserialize_singlepops";
 static const char __pyx_k_diploid_view_to_sample[] = "diploid_view_to_sample";
 static const char __pyx_k_evolve_regions_line_27[] = "evolve_regions (line 27)";
-static const char __pyx_k_nderived_site_line_128[] = "nderived_site (line 128)";
+static const char __pyx_k_nderived_site_line_133[] = "nderived_site (line 133)";
 static const char __pyx_k_view_diploids_line_278[] = "view_diploids (line 278)";
 static const char __pyx_k_view_fixations_metapop[] = "view_fixations_metapop";
 static const char __pyx_k_view_fixations_mpopvec[] = "view_fixations_mpopvec";
@@ -2675,7 +2679,6 @@ static const char __pyx_k_Invalid_shape_in_axis_d_d[] = "Invalid shape in axis %
 static const char __pyx_k_UniformS___init___line_235[] = "UniformS.__init__ (line 235)";
 static const char __pyx_k_fwdpy_ExpS_mean_not_finite[] = "fwdpy.ExpS: mean not finite";
 static const char __pyx_k_fwdpy_Sregion_h_not_finite[] = "fwdpy.Sregion: h not finite";
-static const char __pyx_k_get_sample_details_line_95[] = "get_sample_details (line 95)";
 static const char __pyx_k_object_type_not_understood[] = "object type not understood";
 static const char __pyx_k_view_diploids_pd_singlepop[] = "view_diploids_pd_singlepop";
 static const char __pyx_k_ConstantS___init___line_189[] = "ConstantS.__init__ (line 189)";
@@ -2683,6 +2686,7 @@ static const char __pyx_k_GaussianS___init___line_333[] = "GaussianS.__init__ (l
 static const char __pyx_k_fwdpy_Region_beg_not_finite[] = "fwdpy.Region: beg not finite";
 static const char __pyx_k_fwdpy_Region_end_not_finite[] = "fwdpy.Region: end not finite";
 static const char __pyx_k_fwdpy_Segion_h_not_a_number[] = "fwdpy.Segion: h not a number";
+static const char __pyx_k_get_sample_details_line_100[] = "get_sample_details (line 100)";
 static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
 static const char __pyx_k_evolve_regions_more_line_101[] = "evolve_regions_more (line 101)";
 static const char __pyx_k_fwdpy_ConstantS_s_not_finite[] = "fwdpy.ConstantS: s not finite";
@@ -2698,7 +2702,7 @@ static const char __pyx_k_fwdpy_GaussianS_sd_not_finite[] = "fwdpy.GaussianS: sd
 static const char __pyx_k_fwdpy_Region_beg_not_a_number[] = "fwdpy.Region: beg not a number";
 static const char __pyx_k_fwdpy_Region_end_not_a_number[] = "fwdpy.Region: end not a number";
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
-static const char __pyx_k_Get_mutation_frequencies_param[] = "\n    Get mutation frequencies\n\n    :param site: A tuple. See example\n    :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  \n       In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.\n       \n    Example:\n\n    >>> import fwdpy\n    >>> #DAF = 7/10\n    >>> #MAF = 3/10\n    >>> x = (0.1,'0111111100')\n    >>> round(fwdpy.getfreq(x,True),3)\n    0.7\n    >>> round(fwdpy.getfreq(x,False),3)\n    0.3\n    ";
+static const char __pyx_k_Get_mutation_frequencies_param[] = "\n    Get mutation frequencies\n\n    :param site: A tuple. See example\n    :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.\n       In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.\n\n    Example:\n\n    >>> import fwdpy\n    >>> #DAF = 7/10\n    >>> #MAF = 3/10\n    >>> x = (0.1,'0111111100')\n    >>> round(fwdpy.getfreq(x,True),3)\n    0.7\n    >>> round(fwdpy.getfreq(x,False),3)\n    0.3\n    ";
 static const char __pyx_k_fwdpy_ConstantS_s_not_a_number[] = "fwdpy.ConstantS: s not a number";
 static const char __pyx_k_fwdpy_GammaS_mean_not_a_number[] = "fwdpy.GammaS: mean not a number";
 static const char __pyx_k_fwdpy_Region_weight_not_finite[] = "fwdpy.Region: weight not finite";
@@ -2713,15 +2717,15 @@ static const char __pyx_k_Evolve_a_region_with_variable_m[] = "\n    Evolve a re
 static const char __pyx_k_Exponential_distribution_on_sel[] = "\n    Exponential distribution on selection coefficients\n\n    Attributes:\n        * b: the beginning of the region\n        * e: the end of the region\n        * w: the \"weight\" assigned to the region\n        * mean: the mean selection coefficient\n        * h: the dominance term\n        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation\n    ";
 static const char __pyx_k_Gamma_distribution_of_fitness_e[] = "\n    Gamma distribution of fitness effects\n\n    Attributes:\n        * b: the beginning of the region\n        * e: the end of the region\n        * w: the \"weight\" assigned to the region\n        * mean: mean of the Gamma\n        * shape: shape of the Gamma\n        * h: the dominance term\n        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation\n    ";
 static const char __pyx_k_Gaussian_distribution_on_select[] = "\n    Gaussian distribution on selection coefficients (effect sizes for sims of quantitative traits)\n\n    Attributes:\n        * b: the beginning of the region\n        * e: the end of the region\n        * w: the \"weight\" assigned to the region\n        * sd: the standard deviation\n        * h: the dominance ter\n        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.\n\n    The mean is zero.\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation\n    ";
-static const char __pyx_k_Get_additional_details_for_popu[] = "\n    Get additional details for population samples\n\n    :param ms_samples: A list returned by :func:`ms_sample`\n    :param pops: A :class:`poptype`\n\n    :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.\n\n    :rtype: pandas.DataFrame\n\n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> details = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]\n    ";
+static const char __pyx_k_Get_additional_details_for_popu[] = "\n    Get additional details for population samples\n\n    :param ms_samples: A list returned by :func:`ms_sample`\n    :param pops: A :class:`poptype`\n\n    :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.\n\n    :rtype: pandas.DataFrame\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> details = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]\n    ";
 static const char __pyx_k_Get_detailed_list_of_a_set_of_d[] = "\n    Get detailed list of a set of diploids in the population\n\n    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`\n    :param deme: if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample\n    \n    :rtype: a list of dictionaries.  See Note.\n\n    Example:\n\n    >>> import fwdpy\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> dips = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]\n\n    .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported\n    ";
 static const char __pyx_k_Get_detailed_list_of_all_gamete[] = "\n    Get detailed list of all gametes in the population\n\n    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`\n    :param deme: If p is a :class:`fwdpy.fwdpy.metapop`, deme is the index of the deme to view\n\n    :rtype: a list of dictionaries.  See note.\n\n    Example for a single deme:\n\n    >>> import fwdpy\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> dips = [fwdpy.view_gametes(i) for i in pops]\n\n    .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported\n    ";
 static const char __pyx_k_Get_detailed_list_of_all_mutati[] = "\n    Get detailed list of all mutations in the population\n\n    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`\n\n    :rtype: a list of dictionaries.  See Note.\n\n    Example:\n\n    >>> import fwdpy\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> #muts[0] will be a list and muts[0][0] will be a dict\n    >>> muts = [fwdpy.view_mutations(i) for i in pops]\n\n    .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported\n    ";
-static const char __pyx_k_Get_the_number_of_derived_mutat[] = "\n    Get the number of derived mutations at a site.\n\n    :param site: A tuple.  See example\n\n    .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.\n    \n    Example:\n\n    >>> import fwdpy\n    >>> #Create a site at position 0.1 with the\n    >>> #genotypes as the second element. 0/1 = ancestral/derived\n    >>> x = (0.1,'01100111')\n    >>> fwdpy.nderived_site(x)\n    5\n    >>> #Process simulation results:\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> for i in s[0]: ndi = fwdpy.nderived_site(i)\n    ";
+static const char __pyx_k_Get_the_number_of_derived_mutat[] = "\n    Get the number of derived mutations at a site.\n\n    :param site: A tuple.  See example\n\n    .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.\n\n    Example:\n\n    >>> import fwdpy\n    >>> #Create a site at position 0.1 with the\n    >>> #genotypes as the second element. 0/1 = ancestral/derived\n    >>> x = (0.1,'01100111')\n    >>> fwdpy.nderived_site(x)\n    5\n    >>> #Process simulation results:\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> for i in s[0]: ndi = fwdpy.nderived_site(i)\n    ";
 static const char __pyx_k_Neutral_regions_must_be_defined[] = "Neutral regions must be defined when mutation rate > 0";
-static const char __pyx_k_Remove_low_frequency_variants_f[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n       \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
+static const char __pyx_k_Remove_low_frequency_variants_f[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
 static const char __pyx_k_Representation_of_a_region_in_a[] = "\n    Representation of a \"region\" in a simulation.\n\n    Attributes:\n        b: the beginning of the region\n        e: the end of the region\n        w: the \"weight\" assigned to the region\n        l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation.\n\n    This class is extended by:\n        * :class:`fwdpy.fwdpy.Sregion`\n    ";
-static const char __pyx_k_Take_a_sample_from_a_set_of_sim[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: An object inheriting from :class:`poptype`\n    :param nsam: List of sample sizes (no. chromosomes) to sample.\n    :param removeFixed: if True, only polymorphic sites are retained\n\n    Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations\n    \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    ";
+static const char __pyx_k_Take_a_sample_from_a_set_of_sim[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: An object inheriting from :class:`poptype`\n    :param nsam: List of sample sizes (no. chromosomes) to sample.\n    :param removeFixed: if True, only polymorphic sites are retained\n\n    Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    ";
 static const char __pyx_k_Uniform_distribution_on_selecti[] = "\n    Uniform distribution on selection coefficients\n\n    Attributes:\n        * b: the beginning of the region\n        * e: the end of the region\n        * w: the \"weight\" assigned to the region\n        * lo: the lower bound on s\n        * hi: the upper bound on s\n        * h: the dominance term\n        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation\n    ";
 static const char __pyx_k_fwdpy_GammaS_shape_not_a_number[] = "fwdpy.GammaS: shape not a number";
 static const char __pyx_k_fwdpy_GaussianS_sd_not_a_number[] = "fwdpy.GaussianS: sd not a number";
@@ -2776,9 +2780,9 @@ static const char __pyx_k_Constructor_param_beg_the_begin_4[] = "\n        Const
 static const char __pyx_k_Constructor_param_beg_the_begin_5[] = "\n        Constructor\n    \n        :param beg: the beginning of the region\n        :param end: the end of the region\n        :param weight: the weight to assign\n        :param lo: lower bound on s\n        :param hi: upper bound on s\n        :param h: the dominance\n        :param coupled: if True, the weight is converted to (end-beg)*weight\n        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.\n\n        When coupled is True, the \"weight\" may be interpreted as a \"per base pair\"\n        (or per unit, generally speaking) term.\n\n        Example:\n\n        >>> #A simple case\n        >>> import fwdpy\n        >>> #s is uniform on [0,-1]\n        >>> constantS = fwdpy.UniformS(0,1,1,0,-1,0)\n        ";
 static const char __pyx_k_Constructor_param_beg_the_begin_6[] = "\n        Constructor\n    \n        :param beg: the beginning of the region\n        :param end: the end of the region\n        :param weight: the weight to assign\n        :param mean: the mean selection coefficient\n        :param h: the dominance\n        :param coupled: if True, the weight is converted to (end-beg)*weight\n        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.\n\n        When coupled is True, the \"weight\" may be interpreted as a \"per base pair\"\n        (or per unit, generally speaking) term.\n\n        Example:\n\n        >>> #A simple case\n        >>> import fwdpy\n        >>> #s is exp(-0.1) and recessive\n        >>> constantS = fwdpy.ExpS(0,1,1,0,-0.1,0)\n        ";
 static const char __pyx_k_Constructor_param_beg_the_begin_7[] = "\n        Constructor\n    \n        :param beg: the beginning of the region\n        :param end: the end of the region\n        :param weight: the weight to assign\n        :param mean: the mean selection coefficient\n        :param h: the dominance\n        :param coupled: if True, the weight is converted to (end-beg)*weight\n        :param label: Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.\n\n        When coupled is True, the \"weight\" may be interpreted as a \"per base pair\"\n        (or per unit, generally speaking) term.\n\n        Example:\n\n        >>> #A simple case\n        >>> import fwdpy\n        >>> #s N(0,0.1) and co-dominant\n        >>> constantS = fwdpy.GaussianS(0,1,1,0,0.1,1)\n        ";
-static const char __pyx_k_Convenience_wrapper_around_func_2[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  \n    \n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
+static const char __pyx_k_Convenience_wrapper_around_func_2[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
 static const char __pyx_k_Representation_of_a_region_in_a_2[] = "\n    Representation of a \"region\" in a simulation with a dominance term.\n\n    This class is the base class for a general set of objects representing distributions of fitness effects.\n\n    Attributes:\n        * b: the beginning of the region\n        * e: the end of the region\n        * w: the \"weight\" assigned to the region\n        * h: the dominance term\n        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation.\n\n    .. note:: This class cannot be used directly to parameterize a simulation.  Rather, you must used\n       a derived type that specifies a distribution of fitness effects.  These types include:\n       :class:`fwdpy.fwdpy.ConstantS`,\n       :class:`fwdpy.fwdpy.UniformS`,\n       :class:`fwdpy.fwdpy.ExpS`,\n       :class:`fwdpy.fwdpy.GammaS`, and \n       :class:`fwdpy.fwdpy.GaussianS`\n    ";
-static const char __pyx_k_Take_a_sample_from_a_set_of_sim_2[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pop: An object inheriting from :class:`poptype`\n    :param nsam: The sample size to take.\n    :param removeFixed: if True, only polymorphic sites are retained\n    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.\n    \n    :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.\n\n    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`\n\n    Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.\n\n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]\n    ";
+static const char __pyx_k_Take_a_sample_from_a_set_of_sim_2[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pop: An object inheriting from :class:`poptype`\n    :param nsam: The sample size to take.\n    :param removeFixed: if True, only polymorphic sites are retained\n    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.\n\n    :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.\n\n    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`\n\n    Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]\n    ";
 static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_view_2[] = "/home/kevin/src/fwdpy/fwdpy/view_fixations.pyx";
 static const char __pyx_k_No_value_specified_for_struct_at_2[] = "No value specified for struct attribute 'esize'";
 static const char __pyx_k_No_value_specified_for_struct_at_3[] = "No value specified for struct attribute 'origin'";
@@ -2955,7 +2959,7 @@ static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_fpio;
 static PyObject *__pyx_n_s_freqfilter;
-static PyObject *__pyx_kp_u_freqfilter_line_219;
+static PyObject *__pyx_kp_u_freqfilter_line_224;
 static PyObject *__pyx_n_s_from_singlepop;
 static PyObject *__pyx_n_s_fwdpy;
 static PyObject *__pyx_kp_s_fwdpy_ConstantS_s_not_a_number;
@@ -2993,13 +2997,13 @@ static PyObject *__pyx_n_s_gams;
 static PyObject *__pyx_n_s_gen;
 static PyObject *__pyx_n_s_genotypes;
 static PyObject *__pyx_n_s_get_sample_details;
-static PyObject *__pyx_kp_u_get_sample_details_line_95;
+static PyObject *__pyx_kp_u_get_sample_details_line_100;
 static PyObject *__pyx_n_s_get_samples;
-static PyObject *__pyx_kp_u_get_samples_line_60;
+static PyObject *__pyx_kp_u_get_samples_line_63;
 static PyObject *__pyx_n_s_getfreq;
-static PyObject *__pyx_kp_u_getfreq_line_170;
+static PyObject *__pyx_kp_u_getfreq_line_175;
 static PyObject *__pyx_n_s_getfreqs;
-static PyObject *__pyx_kp_u_getfreqs_line_198;
+static PyObject *__pyx_kp_u_getfreqs_line_203;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
 static PyObject *__pyx_n_s_h;
 static PyObject *__pyx_kp_s_h_2;
@@ -3053,7 +3057,7 @@ static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_kp_s_mpopvec_deme_size_0_encountered;
 static PyObject *__pyx_n_s_ms_sample;
-static PyObject *__pyx_kp_u_ms_sample_line_36;
+static PyObject *__pyx_kp_u_ms_sample_line_39;
 static PyObject *__pyx_kp_s_ms_sample_unsupported_type_of_po;
 static PyObject *__pyx_n_s_mu_neutral;
 static PyObject *__pyx_n_s_mu_selected;
@@ -3066,9 +3070,9 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_ndemes;
 static PyObject *__pyx_n_s_nderived;
-static PyObject *__pyx_kp_u_nderived_line_153;
+static PyObject *__pyx_kp_u_nderived_line_158;
 static PyObject *__pyx_n_s_nderived_site;
-static PyObject *__pyx_kp_u_nderived_site_line_128;
+static PyObject *__pyx_kp_u_nderived_site_line_133;
 static PyObject *__pyx_n_s_ndim;
 static PyObject *__pyx_n_s_neutral;
 static PyObject *__pyx_n_s_neutral_df;
@@ -9725,41 +9729,56 @@ static void __pyx_pf_5fwdpy_5fwdpy_6GSLrng_2__dealloc__(struct __pyx_obj_5fwdpy_
  * ##These fxns make calls to the C++ layer
  * 
  * cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:             # <<<<<<<<<<<<<<
- *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
+ *     return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  */
 
 static KTfwd::sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_singlepop *__pyx_v_pop, int __pyx_v_nsam, int __pyx_v_removeFixed) {
   KTfwd::sample_t __pyx_r;
+  std::vector<std::pair<double,std::string> >  __pyx_t_1;
 
   /* "fwdpy/sampling.pyx":10
  * 
  * cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
- *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))             # <<<<<<<<<<<<<<
+ *     return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))             # <<<<<<<<<<<<<<
  * 
  * cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
  */
-  __pyx_r = KTfwd::sample<fwdpy::singlepop_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->pop.get()), __pyx_v_nsam, __pyx_v_removeFixed);
+  try {
+    __pyx_t_1 = fwdpy::sample_single<fwdpy::singlepop_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->pop.get()), __pyx_v_nsam, __pyx_v_removeFixed);
+  } catch(...) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+    #endif
+    __Pyx_CppExn2PyErr();
+    #ifdef WITH_THREAD
+    PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(4, 10, __pyx_L1_error)
+  }
+  __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
   /* "fwdpy/sampling.pyx":9
  * ##These fxns make calls to the C++ layer
  * 
  * cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:             # <<<<<<<<<<<<<<
- *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
+ *     return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  */
 
   /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("fwdpy.fwdpy.ms_sample_single_deme", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 1);
   __pyx_L0:;
   return __pyx_r;
 }
 
 /* "fwdpy/sampling.pyx":12
- *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
+ *     return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  * cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:             # <<<<<<<<<<<<<<
- *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+ *     return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
  * 
  */
 
@@ -9770,12 +9789,12 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme_sep(struc
   /* "fwdpy/sampling.pyx":13
  * 
  * cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
- *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)             # <<<<<<<<<<<<<<
+ *     return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)             # <<<<<<<<<<<<<<
  * 
  * cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
  */
   try {
-    __pyx_t_1 = KTfwd::sample_separate<fwdpy::singlepop_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->pop.get()), __pyx_v_nsam, __pyx_v_removeFixed);
+    __pyx_t_1 = fwdpy::sample_sep_single<fwdpy::singlepop_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->pop.get()), __pyx_v_nsam, __pyx_v_removeFixed);
   } catch(...) {
     #ifdef WITH_THREAD
     PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
@@ -9790,10 +9809,10 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme_sep(struc
   goto __pyx_L0;
 
   /* "fwdpy/sampling.pyx":12
- *     return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
+ *     return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
  * 
  * cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:             # <<<<<<<<<<<<<<
- *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+ *     return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
  * 
  */
 
@@ -9805,7 +9824,7 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme_sep(struc
 }
 
 /* "fwdpy/sampling.pyx":15
- *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+ *     return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
  * 
  * cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:             # <<<<<<<<<<<<<<
  *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
@@ -9821,7 +9840,7 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(struct __
  * cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
  *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)             # <<<<<<<<<<<<<<
  * 
- * cdef get_sh_single(const sample_t & ms_sample,
+ * cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:
  */
   try {
     __pyx_t_1 = KTfwd::sample_separate<fwdpy::metapop_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->mpop.get()), __pyx_v_deme, __pyx_v_nsam, __pyx_v_removeFixed);
@@ -9839,7 +9858,7 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(struct __
   goto __pyx_L0;
 
   /* "fwdpy/sampling.pyx":15
- *     return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+ *     return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
  * 
  * cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:             # <<<<<<<<<<<<<<
  *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
@@ -9856,6 +9875,55 @@ static KTfwd::sep_sample_t __pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(struct __
 /* "fwdpy/sampling.pyx":18
  *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
  * 
+ * cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:             # <<<<<<<<<<<<<<
+ *     return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+ * 
+ */
+
+static std::vector<KTfwd::sep_sample_t>  __pyx_f_5fwdpy_5fwdpy_ms_sample_singlepop_mloc(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc *__pyx_v_pop, int __pyx_v_nsam, int __pyx_v_removeFixed) {
+  std::vector<KTfwd::sep_sample_t>  __pyx_r;
+  std::vector<std::pair<std::vector<std::pair<double,std::string> > ,std::vector<std::pair<double,std::string> > > >  __pyx_t_1;
+
+  /* "fwdpy/sampling.pyx":19
+ * 
+ * cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:
+ *     return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)             # <<<<<<<<<<<<<<
+ * 
+ * cdef get_sh_single(const sample_t & ms_sample,
+ */
+  try {
+    __pyx_t_1 = fwdpy::sample_sep_single_mloc<fwdpy::multilocus_t>(__pyx_v_rng->thisptr->get(), (*__pyx_v_pop->pop.get()), __pyx_v_nsam, __pyx_v_removeFixed);
+  } catch(...) {
+    #ifdef WITH_THREAD
+    PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+    #endif
+    __Pyx_CppExn2PyErr();
+    #ifdef WITH_THREAD
+    PyGILState_Release(__pyx_gilstate_save);
+    #endif
+    __PYX_ERR(4, 19, __pyx_L1_error)
+  }
+  __pyx_r = __pyx_t_1;
+  goto __pyx_L0;
+
+  /* "fwdpy/sampling.pyx":18
+ *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
+ * 
+ * cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:             # <<<<<<<<<<<<<<
+ *     return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_WriteUnraisable("fwdpy.fwdpy.ms_sample_singlepop_mloc", __pyx_clineno, __pyx_lineno, __pyx_filename, 0, 1);
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "fwdpy/sampling.pyx":21
+ *     return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+ * 
  * cdef get_sh_single(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
  *                     singlepop pop,
  *                     vector[double] * s,
@@ -9866,7 +9934,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(KTfwd::sample_t const &__py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_sh_single", 0);
 
-  /* "fwdpy/sampling.pyx":25
+  /* "fwdpy/sampling.pyx":28
  *                     vector[double] * a,
  *                     vector[uint16_t] * l):
  *     get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)             # <<<<<<<<<<<<<<
@@ -9875,8 +9943,8 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(KTfwd::sample_t const &__py
  */
   fwdpy::get_sh(__pyx_v_ms_sample, __pyx_v_pop->pop.get(), __pyx_v_s, __pyx_v_h, __pyx_v_p, __pyx_v_a, __pyx_v_l);
 
-  /* "fwdpy/sampling.pyx":18
- *     return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
+  /* "fwdpy/sampling.pyx":21
+ *     return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
  * 
  * cdef get_sh_single(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
  *                     singlepop pop,
@@ -9890,7 +9958,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_single(KTfwd::sample_t const &__py
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":27
+/* "fwdpy/sampling.pyx":30
  *     get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)
  * 
  * cdef get_sh_metapop(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
@@ -9903,7 +9971,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &__p
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_sh_metapop", 0);
 
-  /* "fwdpy/sampling.pyx":34
+  /* "fwdpy/sampling.pyx":37
  *                     vector[double] * a,
  *                     vector[uint16_t] * l):
  *     get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)             # <<<<<<<<<<<<<<
@@ -9912,7 +9980,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &__p
  */
   fwdpy::get_sh(__pyx_v_ms_sample, __pyx_v_pop->mpop.get(), __pyx_v_s, __pyx_v_h, __pyx_v_p, __pyx_v_a, __pyx_v_l);
 
-  /* "fwdpy/sampling.pyx":27
+  /* "fwdpy/sampling.pyx":30
  *     get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)
  * 
  * cdef get_sh_metapop(const sample_t & ms_sample,             # <<<<<<<<<<<<<<
@@ -9927,7 +9995,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &__p
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":36
+/* "fwdpy/sampling.pyx":39
  *     get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
  * 
  * def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):             # <<<<<<<<<<<<<<
@@ -9937,7 +10005,7 @@ static PyObject *__pyx_f_5fwdpy_5fwdpy_get_sh_metapop(KTfwd::sample_t const &__p
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_1ms_sample(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_ms_sample[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: An object inheriting from :class:`poptype`\n    :param nsam: List of sample sizes (no. chromosomes) to sample.\n    :param removeFixed: if True, only polymorphic sites are retained\n\n    Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations\n    \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_ms_sample[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pops: An object inheriting from :class:`poptype`\n    :param nsam: List of sample sizes (no. chromosomes) to sample.\n    :param removeFixed: if True, only polymorphic sites are retained\n\n    Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_1ms_sample = {"ms_sample", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_1ms_sample, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_ms_sample};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_1ms_sample(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
@@ -9969,12 +10037,12 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_1ms_sample(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pop)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("ms_sample", 0, 3, 4, 1); __PYX_ERR(4, 36, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("ms_sample", 0, 3, 4, 1); __PYX_ERR(4, 39, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nsam)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("ms_sample", 0, 3, 4, 2); __PYX_ERR(4, 36, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("ms_sample", 0, 3, 4, 2); __PYX_ERR(4, 39, __pyx_L3_error)
         }
         case  3:
         if (kw_args > 0) {
@@ -9983,7 +10051,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_1ms_sample(PyObject *__pyx_self, PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ms_sample") < 0)) __PYX_ERR(4, 36, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ms_sample") < 0)) __PYX_ERR(4, 39, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -9997,23 +10065,23 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_1ms_sample(PyObject *__pyx_self, PyObjec
     }
     __pyx_v_rng = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
     __pyx_v_pop = ((struct __pyx_obj_5fwdpy_5fwdpy_poptype *)values[1]);
-    __pyx_v_nsam = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_nsam == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 36, __pyx_L3_error)
+    __pyx_v_nsam = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_nsam == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 39, __pyx_L3_error)
     if (values[3]) {
-      __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[3]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 36, __pyx_L3_error)
+      __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[3]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 39, __pyx_L3_error)
     } else {
       __pyx_v_removeFixed = ((int)1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ms_sample", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 36, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ms_sample", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 39, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.ms_sample", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(4, 36, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_poptype, 1, "pop", 0))) __PYX_ERR(4, 36, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(4, 39, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_poptype, 1, "pop", 0))) __PYX_ERR(4, 39, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_ms_sample(__pyx_self, __pyx_v_rng, __pyx_v_pop, __pyx_v_nsam, __pyx_v_removeFixed);
 
   /* function exit code */
@@ -10033,7 +10101,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_ms_sample(CYTHON_UNUSED PyObject *__pyx_
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("ms_sample", 0);
 
-  /* "fwdpy/sampling.pyx":55
+  /* "fwdpy/sampling.pyx":58
  *     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
  *     """
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -10044,7 +10112,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_ms_sample(CYTHON_UNUSED PyObject *__pyx_
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "fwdpy/sampling.pyx":56
+    /* "fwdpy/sampling.pyx":59
  *     """
  *     if isinstance(pop,singlepop):
  *         return ms_sample_single_deme(rng,pop,nsam,removeFixed)             # <<<<<<<<<<<<<<
@@ -10052,14 +10120,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_ms_sample(CYTHON_UNUSED PyObject *__pyx_
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  */
     __Pyx_XDECREF(__pyx_r);
-    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop))))) __PYX_ERR(4, 56, __pyx_L1_error)
-    __pyx_t_3 = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(__pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop), __pyx_v_nsam, __pyx_v_removeFixed)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 56, __pyx_L1_error)
+    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop))))) __PYX_ERR(4, 59, __pyx_L1_error)
+    __pyx_t_3 = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(__pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop), __pyx_v_nsam, __pyx_v_removeFixed)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/sampling.pyx":55
+    /* "fwdpy/sampling.pyx":58
  *     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
  *     """
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -10068,7 +10136,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_ms_sample(CYTHON_UNUSED PyObject *__pyx_
  */
   }
 
-  /* "fwdpy/sampling.pyx":58
+  /* "fwdpy/sampling.pyx":61
  *         return ms_sample_single_deme(rng,pop,nsam,removeFixed)
  *     else:
  *         raise ValueError("ms_sample: unsupported type of popcontainer")             # <<<<<<<<<<<<<<
@@ -10076,14 +10144,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_ms_sample(CYTHON_UNUSED PyObject *__pyx_
  * def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 58, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(4, 58, __pyx_L1_error)
+    __PYX_ERR(4, 61, __pyx_L1_error)
   }
 
-  /* "fwdpy/sampling.pyx":36
+  /* "fwdpy/sampling.pyx":39
  *     get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
  * 
  * def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):             # <<<<<<<<<<<<<<
@@ -10102,7 +10170,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_ms_sample(CYTHON_UNUSED PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":60
+/* "fwdpy/sampling.pyx":63
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):             # <<<<<<<<<<<<<<
@@ -10112,7 +10180,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_ms_sample(CYTHON_UNUSED PyObject *__pyx_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_3get_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_2get_samples[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pop: An object inheriting from :class:`poptype`\n    :param nsam: The sample size to take.\n    :param removeFixed: if True, only polymorphic sites are retained\n    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.\n    \n    :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.\n\n    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`\n\n    Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.\n\n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_2get_samples[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pop: An object inheriting from :class:`poptype`\n    :param nsam: The sample size to take.\n    :param removeFixed: if True, only polymorphic sites are retained\n    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.\n\n    :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.\n\n    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`\n\n    Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_3get_samples = {"get_samples", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_3get_samples, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_2get_samples};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_3get_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
@@ -10147,12 +10215,12 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_3get_samples(PyObject *__pyx_self, PyObj
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pop)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_samples", 0, 3, 5, 1); __PYX_ERR(4, 60, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_samples", 0, 3, 5, 1); __PYX_ERR(4, 63, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nsam)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_samples", 0, 3, 5, 2); __PYX_ERR(4, 60, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_samples", 0, 3, 5, 2); __PYX_ERR(4, 63, __pyx_L3_error)
         }
         case  3:
         if (kw_args > 0) {
@@ -10166,7 +10234,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_3get_samples(PyObject *__pyx_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_samples") < 0)) __PYX_ERR(4, 60, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_samples") < 0)) __PYX_ERR(4, 63, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10181,9 +10249,9 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_3get_samples(PyObject *__pyx_self, PyObj
     }
     __pyx_v_rng = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
     __pyx_v_pop = ((struct __pyx_obj_5fwdpy_5fwdpy_poptype *)values[1]);
-    __pyx_v_nsam = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_nsam == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 60, __pyx_L3_error)
+    __pyx_v_nsam = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_nsam == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 63, __pyx_L3_error)
     if (values[3]) {
-      __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[3]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 60, __pyx_L3_error)
+      __pyx_v_removeFixed = __Pyx_PyObject_IsTrue(values[3]); if (unlikely((__pyx_v_removeFixed == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 63, __pyx_L3_error)
     } else {
       __pyx_v_removeFixed = ((int)1);
     }
@@ -10191,14 +10259,14 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_3get_samples(PyObject *__pyx_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_samples", 0, 3, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 60, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_samples", 0, 3, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 63, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.get_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(4, 60, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_poptype, 1, "pop", 0))) __PYX_ERR(4, 60, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(4, 63, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_poptype, 1, "pop", 0))) __PYX_ERR(4, 63, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_2get_samples(__pyx_self, __pyx_v_rng, __pyx_v_pop, __pyx_v_nsam, __pyx_v_removeFixed, __pyx_v_deme);
 
   /* function exit code */
@@ -10222,7 +10290,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
   int __pyx_t_7;
   __Pyx_RefNannySetupContext("get_samples", 0);
 
-  /* "fwdpy/sampling.pyx":84
+  /* "fwdpy/sampling.pyx":87
  *     >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
  *     """
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -10233,7 +10301,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "fwdpy/sampling.pyx":85
+    /* "fwdpy/sampling.pyx":88
  *     """
  *     if isinstance(pop,singlepop):
  *         return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)             # <<<<<<<<<<<<<<
@@ -10241,14 +10309,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
  *         if deme is None:
  */
     __Pyx_XDECREF(__pyx_r);
-    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop))))) __PYX_ERR(4, 85, __pyx_L1_error)
-    __pyx_t_3 = __pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(__pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme_sep(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop), __pyx_v_nsam, __pyx_v_removeFixed)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 85, __pyx_L1_error)
+    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop))))) __PYX_ERR(4, 88, __pyx_L1_error)
+    __pyx_t_3 = __pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(__pyx_f_5fwdpy_5fwdpy_ms_sample_single_deme_sep(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop), __pyx_v_nsam, __pyx_v_removeFixed)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/sampling.pyx":84
+    /* "fwdpy/sampling.pyx":87
  *     >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
  *     """
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -10257,7 +10325,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
  */
   }
 
-  /* "fwdpy/sampling.pyx":86
+  /* "fwdpy/sampling.pyx":89
  *     if isinstance(pop,singlepop):
  *         return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
  *     elif isinstance(pop,metapop):             # <<<<<<<<<<<<<<
@@ -10268,7 +10336,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/sampling.pyx":87
+    /* "fwdpy/sampling.pyx":90
  *         return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
  *     elif isinstance(pop,metapop):
  *         if deme is None:             # <<<<<<<<<<<<<<
@@ -10279,20 +10347,20 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
     __pyx_t_2 = (__pyx_t_1 != 0);
     if (__pyx_t_2) {
 
-      /* "fwdpy/sampling.pyx":88
+      /* "fwdpy/sampling.pyx":91
  *     elif isinstance(pop,metapop):
  *         if deme is None:
  *             raise RuntimeError("deme may not be set to None when sampling from a meta-population")             # <<<<<<<<<<<<<<
  *         if deme >= len(pop):
  *             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 88, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 91, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(4, 88, __pyx_L1_error)
+      __PYX_ERR(4, 91, __pyx_L1_error)
 
-      /* "fwdpy/sampling.pyx":87
+      /* "fwdpy/sampling.pyx":90
  *         return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
  *     elif isinstance(pop,metapop):
  *         if deme is None:             # <<<<<<<<<<<<<<
@@ -10301,71 +10369,71 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
  */
     }
 
-    /* "fwdpy/sampling.pyx":89
+    /* "fwdpy/sampling.pyx":92
  *         if deme is None:
  *             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
  *         if deme >= len(pop):             # <<<<<<<<<<<<<<
  *             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
  *         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
  */
-    __pyx_t_4 = PyObject_Length(((PyObject *)__pyx_v_pop)); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(4, 89, __pyx_L1_error)
-    __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 89, __pyx_L1_error)
+    __pyx_t_4 = PyObject_Length(((PyObject *)__pyx_v_pop)); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(4, 92, __pyx_L1_error)
+    __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_v_deme, __pyx_t_3, Py_GE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 89, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_v_deme, __pyx_t_3, Py_GE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 92, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(4, 89, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(4, 92, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_2) {
 
-      /* "fwdpy/sampling.pyx":90
+      /* "fwdpy/sampling.pyx":93
  *             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
  *         if deme >= len(pop):
  *             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))             # <<<<<<<<<<<<<<
  *         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
- *     else:
+ *     elif isinstance(pop,singlepop_mloc):
  */
-      __pyx_t_4 = PyObject_Length(((PyObject *)__pyx_v_pop)); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(4, 90, __pyx_L1_error)
-      __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_4 = PyObject_Length(((PyObject *)__pyx_v_pop)); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(4, 93, __pyx_L1_error)
+      __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_5);
       PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
       __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_value_for_deme_out_of_range_len, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_value_for_deme_out_of_range_len, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_but_deme); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_kp_s_but_deme); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_v_deme);
       __Pyx_GIVEREF(__pyx_v_deme);
       PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_deme);
-      __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 90, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 93, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(4, 90, __pyx_L1_error)
+      __PYX_ERR(4, 93, __pyx_L1_error)
 
-      /* "fwdpy/sampling.pyx":89
+      /* "fwdpy/sampling.pyx":92
  *         if deme is None:
  *             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
  *         if deme >= len(pop):             # <<<<<<<<<<<<<<
@@ -10374,23 +10442,23 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
  */
     }
 
-    /* "fwdpy/sampling.pyx":91
+    /* "fwdpy/sampling.pyx":94
  *         if deme >= len(pop):
  *             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
  *         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)             # <<<<<<<<<<<<<<
- *     else:
- *         raise ValueError("ms_sample: unsupported type of popcontainer")
+ *     elif isinstance(pop,singlepop_mloc):
+ *         return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
  */
     __Pyx_XDECREF(__pyx_r);
-    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(4, 91, __pyx_L1_error)
-    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_deme); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 91, __pyx_L1_error)
-    __pyx_t_3 = __pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(__pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_pop), __pyx_v_nsam, __pyx_v_removeFixed, __pyx_t_7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 91, __pyx_L1_error)
+    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(4, 94, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_deme); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 94, __pyx_L1_error)
+    __pyx_t_3 = __pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t(__pyx_f_5fwdpy_5fwdpy_ms_sample_metapop_sep(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_pop), __pyx_v_nsam, __pyx_v_removeFixed, __pyx_t_7)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/sampling.pyx":86
+    /* "fwdpy/sampling.pyx":89
  *     if isinstance(pop,singlepop):
  *         return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
  *     elif isinstance(pop,metapop):             # <<<<<<<<<<<<<<
@@ -10399,22 +10467,57 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
  */
   }
 
-  /* "fwdpy/sampling.pyx":93
+  /* "fwdpy/sampling.pyx":95
+ *             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
  *         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+ *     elif isinstance(pop,singlepop_mloc):             # <<<<<<<<<<<<<<
+ *         return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
+ *     else:
+ */
+  __pyx_t_2 = __Pyx_TypeCheck(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc); 
+  __pyx_t_1 = (__pyx_t_2 != 0);
+  if (__pyx_t_1) {
+
+    /* "fwdpy/sampling.pyx":96
+ *         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+ *     elif isinstance(pop,singlepop_mloc):
+ *         return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)             # <<<<<<<<<<<<<<
+ *     else:
+ *         raise ValueError("ms_sample: unsupported type of popcontainer")
+ */
+    __Pyx_XDECREF(__pyx_r);
+    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc))))) __PYX_ERR(4, 96, __pyx_L1_error)
+    __pyx_t_3 = __pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t(__pyx_f_5fwdpy_5fwdpy_ms_sample_singlepop_mloc(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc *)__pyx_v_pop), __pyx_v_nsam, __pyx_v_removeFixed)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 96, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_r = __pyx_t_3;
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "fwdpy/sampling.pyx":95
+ *             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
+ *         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+ *     elif isinstance(pop,singlepop_mloc):             # <<<<<<<<<<<<<<
+ *         return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
+ *     else:
+ */
+  }
+
+  /* "fwdpy/sampling.pyx":98
+ *         return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
  *     else:
  *         raise ValueError("ms_sample: unsupported type of popcontainer")             # <<<<<<<<<<<<<<
  * 
  * def get_sample_details( sample_t ms_sample, poptype pop ):
  */
   /*else*/ {
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 93, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 98, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(4, 93, __pyx_L1_error)
+    __PYX_ERR(4, 98, __pyx_L1_error)
   }
 
-  /* "fwdpy/sampling.pyx":60
+  /* "fwdpy/sampling.pyx":63
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):             # <<<<<<<<<<<<<<
@@ -10435,7 +10538,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":95
+/* "fwdpy/sampling.pyx":100
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
@@ -10445,7 +10548,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_2get_samples(CYTHON_UNUSED PyObject *__p
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_5get_sample_details(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_4get_sample_details[] = "\n    Get additional details for population samples\n\n    :param ms_samples: A list returned by :func:`ms_sample`\n    :param pops: A :class:`poptype`\n\n    :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.\n\n    :rtype: pandas.DataFrame\n\n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> details = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_4get_sample_details[] = "\n    Get additional details for population samples\n\n    :param ms_samples: A list returned by :func:`ms_sample`\n    :param pops: A :class:`poptype`\n\n    :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.\n\n    :rtype: pandas.DataFrame\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> details = [fwdpy.get_sample_details(i,j) for i,j in zip(s,pop)]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_5get_sample_details = {"get_sample_details", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_5get_sample_details, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_4get_sample_details};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_5get_sample_details(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   KTfwd::sample_t __pyx_v_ms_sample;
@@ -10473,11 +10576,11 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_5get_sample_details(PyObject *__pyx_self
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pop)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("get_sample_details", 1, 2, 2, 1); __PYX_ERR(4, 95, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("get_sample_details", 1, 2, 2, 1); __PYX_ERR(4, 100, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_sample_details") < 0)) __PYX_ERR(4, 95, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_sample_details") < 0)) __PYX_ERR(4, 100, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -10485,18 +10588,18 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_5get_sample_details(PyObject *__pyx_self
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_ms_sample = __pyx_convert_vector_from_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 95, __pyx_L3_error)
+    __pyx_v_ms_sample = __pyx_convert_vector_from_py_std_3a__3a_pair_3c_double_2c_std_3a__3a_string_3e___(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 100, __pyx_L3_error)
     __pyx_v_pop = ((struct __pyx_obj_5fwdpy_5fwdpy_poptype *)values[1]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_sample_details", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 95, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("get_sample_details", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 100, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.get_sample_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_poptype, 1, "pop", 0))) __PYX_ERR(4, 95, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_poptype, 1, "pop", 0))) __PYX_ERR(4, 100, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_4get_sample_details(__pyx_self, __pyx_v_ms_sample, __pyx_v_pop);
 
   /* function exit code */
@@ -10525,7 +10628,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("get_sample_details", 0);
 
-  /* "fwdpy/sampling.pyx":120
+  /* "fwdpy/sampling.pyx":125
  *     cdef vector[double] a
  *     cdef vector[uint16_t] l
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -10536,19 +10639,19 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "fwdpy/sampling.pyx":121
+    /* "fwdpy/sampling.pyx":126
  *     cdef vector[uint16_t] l
  *     if isinstance(pop,singlepop):
  *         get_sh_single(ms_sample,pop,&s,&h,&p,&a,&l)             # <<<<<<<<<<<<<<
  *     elif isinstance(pop,metapop):
  *         get_sh_metapop(ms_sample,pop,&s,&h,&p,&a,&l)
  */
-    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop))))) __PYX_ERR(4, 121, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_5fwdpy_5fwdpy_get_sh_single(__pyx_v_ms_sample, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop), (&__pyx_v_s), (&__pyx_v_h), (&__pyx_v_p), (&__pyx_v_a), (&__pyx_v_l)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 121, __pyx_L1_error)
+    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_singlepop))))) __PYX_ERR(4, 126, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5fwdpy_5fwdpy_get_sh_single(__pyx_v_ms_sample, ((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_pop), (&__pyx_v_s), (&__pyx_v_h), (&__pyx_v_p), (&__pyx_v_a), (&__pyx_v_l)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "fwdpy/sampling.pyx":120
+    /* "fwdpy/sampling.pyx":125
  *     cdef vector[double] a
  *     cdef vector[uint16_t] l
  *     if isinstance(pop,singlepop):             # <<<<<<<<<<<<<<
@@ -10558,7 +10661,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
     goto __pyx_L3;
   }
 
-  /* "fwdpy/sampling.pyx":122
+  /* "fwdpy/sampling.pyx":127
  *     if isinstance(pop,singlepop):
  *         get_sh_single(ms_sample,pop,&s,&h,&p,&a,&l)
  *     elif isinstance(pop,metapop):             # <<<<<<<<<<<<<<
@@ -10569,19 +10672,19 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/sampling.pyx":123
+    /* "fwdpy/sampling.pyx":128
  *         get_sh_single(ms_sample,pop,&s,&h,&p,&a,&l)
  *     elif isinstance(pop,metapop):
  *         get_sh_metapop(ms_sample,pop,&s,&h,&p,&a,&l)             # <<<<<<<<<<<<<<
  *     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})
  * 
  */
-    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(4, 123, __pyx_L1_error)
-    __pyx_t_3 = __pyx_f_5fwdpy_5fwdpy_get_sh_metapop(__pyx_v_ms_sample, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_pop), (&__pyx_v_s), (&__pyx_v_h), (&__pyx_v_p), (&__pyx_v_a), (&__pyx_v_l)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 123, __pyx_L1_error)
+    if (!(likely(((((PyObject *)__pyx_v_pop)) == Py_None) || likely(__Pyx_TypeTest(((PyObject *)__pyx_v_pop), __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(4, 128, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_5fwdpy_5fwdpy_get_sh_metapop(__pyx_v_ms_sample, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_pop), (&__pyx_v_s), (&__pyx_v_h), (&__pyx_v_p), (&__pyx_v_a), (&__pyx_v_l)); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "fwdpy/sampling.pyx":122
+    /* "fwdpy/sampling.pyx":127
  *     if isinstance(pop,singlepop):
  *         get_sh_single(ms_sample,pop,&s,&h,&p,&a,&l)
  *     elif isinstance(pop,metapop):             # <<<<<<<<<<<<<<
@@ -10591,7 +10694,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
   }
   __pyx_L3:;
 
-  /* "fwdpy/sampling.pyx":124
+  /* "fwdpy/sampling.pyx":129
  *     elif isinstance(pop,metapop):
  *         get_sh_metapop(ms_sample,pop,&s,&h,&p,&a,&l)
  *     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})             # <<<<<<<<<<<<<<
@@ -10599,32 +10702,32 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_pandas); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_DataFrame); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_s); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_s); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_s, __pyx_t_6) < 0) __PYX_ERR(4, 124, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_s, __pyx_t_6) < 0) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_h); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_h); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_h, __pyx_t_6) < 0) __PYX_ERR(4, 124, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_h, __pyx_t_6) < 0) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_p); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_p); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_p, __pyx_t_6) < 0) __PYX_ERR(4, 124, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_p, __pyx_t_6) < 0) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_a); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_6 = __pyx_convert_vector_to_py_double(__pyx_v_a); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_a, __pyx_t_6) < 0) __PYX_ERR(4, 124, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_a, __pyx_t_6) < 0) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __pyx_convert_vector_to_py_uint16_t(__pyx_v_l); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_6 = __pyx_convert_vector_to_py_uint16_t(__pyx_v_l); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_label, __pyx_t_6) < 0) __PYX_ERR(4, 124, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_label, __pyx_t_6) < 0) __PYX_ERR(4, 129, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10637,17 +10740,17 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 124, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 129, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
-    __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(4, 124, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(4, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 124, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -10656,7 +10759,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/sampling.pyx":95
+  /* "fwdpy/sampling.pyx":100
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
@@ -10679,7 +10782,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":128
+/* "fwdpy/sampling.pyx":133
  * 
  * ###### Functions for manipulating samples.
  * def nderived_site(tuple site):             # <<<<<<<<<<<<<<
@@ -10689,13 +10792,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_4get_sample_details(CYTHON_UNUSED PyObje
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_7nderived_site(PyObject *__pyx_self, PyObject *__pyx_v_site); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_6nderived_site[] = "\n    Get the number of derived mutations at a site.\n\n    :param site: A tuple.  See example\n\n    .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.\n    \n    Example:\n\n    >>> import fwdpy\n    >>> #Create a site at position 0.1 with the\n    >>> #genotypes as the second element. 0/1 = ancestral/derived\n    >>> x = (0.1,'01100111')\n    >>> fwdpy.nderived_site(x)\n    5\n    >>> #Process simulation results:\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> for i in s[0]: ndi = fwdpy.nderived_site(i)\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_6nderived_site[] = "\n    Get the number of derived mutations at a site.\n\n    :param site: A tuple.  See example\n\n    .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.\n\n    Example:\n\n    >>> import fwdpy\n    >>> #Create a site at position 0.1 with the\n    >>> #genotypes as the second element. 0/1 = ancestral/derived\n    >>> x = (0.1,'01100111')\n    >>> fwdpy.nderived_site(x)\n    5\n    >>> #Process simulation results:\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> for i in s[0]: ndi = fwdpy.nderived_site(i)\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_7nderived_site = {"nderived_site", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_7nderived_site, METH_O, __pyx_doc_5fwdpy_5fwdpy_6nderived_site};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_7nderived_site(PyObject *__pyx_self, PyObject *__pyx_v_site) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("nderived_site (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_site), (&PyTuple_Type), 1, "site", 1))) __PYX_ERR(4, 128, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_site), (&PyTuple_Type), 1, "site", 1))) __PYX_ERR(4, 133, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_6nderived_site(__pyx_self, ((PyObject*)__pyx_v_site));
 
   /* function exit code */
@@ -10714,7 +10817,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6nderived_site(CYTHON_UNUSED PyObject *_
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("nderived_site", 0);
 
-  /* "fwdpy/sampling.pyx":151
+  /* "fwdpy/sampling.pyx":156
  *     >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
  *     """
  *     return str(site[1]).count('1')             # <<<<<<<<<<<<<<
@@ -10724,29 +10827,29 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6nderived_site(CYTHON_UNUSED PyObject *_
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_site == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(4, 151, __pyx_L1_error)
+    __PYX_ERR(4, 156, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_site, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_site, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_count); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/sampling.pyx":128
+  /* "fwdpy/sampling.pyx":133
  * 
  * ###### Functions for manipulating samples.
  * def nderived_site(tuple site):             # <<<<<<<<<<<<<<
@@ -10766,7 +10869,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6nderived_site(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":153
+/* "fwdpy/sampling.pyx":158
  *     return str(site[1]).count('1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
@@ -10782,7 +10885,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_9nderived(PyObject *__pyx_self, PyObject
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("nderived (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) __PYX_ERR(4, 153, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) __PYX_ERR(4, 158, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_8nderived(__pyx_self, ((PyObject*)__pyx_v_sample));
 
   /* function exit code */
@@ -10807,7 +10910,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8nderived(CYTHON_UNUSED PyObject *__pyx_
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("nderived", 0);
 
-  /* "fwdpy/sampling.pyx":168
+  /* "fwdpy/sampling.pyx":173
  *     >>> nd = [fwdpy.nderived(i) for i in s]
  *     """
  *     return [nderived_site(i) for i in sample]             # <<<<<<<<<<<<<<
@@ -10815,24 +10918,24 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8nderived(CYTHON_UNUSED PyObject *__pyx_
  * def getfreq(tuple site,bint derived = True):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 168, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_sample == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(4, 168, __pyx_L1_error)
+    __PYX_ERR(4, 173, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_v_sample; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(4, 168, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(4, 173, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 168, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_nderived_site); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 168, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_nderived_site); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -10845,21 +10948,21 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8nderived(CYTHON_UNUSED PyObject *__pyx_
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 168, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_i); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
     } else {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(4, 168, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(4, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_INCREF(__pyx_v_i);
       __Pyx_GIVEREF(__pyx_v_i);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_v_i);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 168, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(4, 168, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(4, 173, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -10867,7 +10970,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8nderived(CYTHON_UNUSED PyObject *__pyx_
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/sampling.pyx":153
+  /* "fwdpy/sampling.pyx":158
  *     return str(site[1]).count('1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
@@ -10892,7 +10995,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8nderived(CYTHON_UNUSED PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":170
+/* "fwdpy/sampling.pyx":175
  *     return [nderived_site(i) for i in sample]
  * 
  * def getfreq(tuple site,bint derived = True):             # <<<<<<<<<<<<<<
@@ -10902,7 +11005,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_8nderived(CYTHON_UNUSED PyObject *__pyx_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_11getfreq(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_10getfreq[] = "\n    Get mutation frequencies\n\n    :param site: A tuple. See example\n    :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  \n       In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.\n       \n    Example:\n\n    >>> import fwdpy\n    >>> #DAF = 7/10\n    >>> #MAF = 3/10\n    >>> x = (0.1,'0111111100')\n    >>> round(fwdpy.getfreq(x,True),3)\n    0.7\n    >>> round(fwdpy.getfreq(x,False),3)\n    0.3\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_10getfreq[] = "\n    Get mutation frequencies\n\n    :param site: A tuple. See example\n    :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.\n       In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.\n\n    Example:\n\n    >>> import fwdpy\n    >>> #DAF = 7/10\n    >>> #MAF = 3/10\n    >>> x = (0.1,'0111111100')\n    >>> round(fwdpy.getfreq(x,True),3)\n    0.7\n    >>> round(fwdpy.getfreq(x,False),3)\n    0.3\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_11getfreq = {"getfreq", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_11getfreq, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_10getfreq};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_11getfreq(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_site = 0;
@@ -10934,7 +11037,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_11getfreq(PyObject *__pyx_self, PyObject
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "getfreq") < 0)) __PYX_ERR(4, 170, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "getfreq") < 0)) __PYX_ERR(4, 175, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10946,20 +11049,20 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_11getfreq(PyObject *__pyx_self, PyObject
     }
     __pyx_v_site = ((PyObject*)values[0]);
     if (values[1]) {
-      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[1]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 170, __pyx_L3_error)
+      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[1]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 175, __pyx_L3_error)
     } else {
       __pyx_v_derived = ((int)1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("getfreq", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 170, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("getfreq", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 175, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.getfreq", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_site), (&PyTuple_Type), 1, "site", 1))) __PYX_ERR(4, 170, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_site), (&PyTuple_Type), 1, "site", 1))) __PYX_ERR(4, 175, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_10getfreq(__pyx_self, __pyx_v_site, __pyx_v_derived);
 
   /* function exit code */
@@ -10987,14 +11090,14 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
   double __pyx_t_9;
   __Pyx_RefNannySetupContext("getfreq", 0);
 
-  /* "fwdpy/sampling.pyx":192
+  /* "fwdpy/sampling.pyx":197
  *     0.3
  *     """
  *     o = nderived_site(site)             # <<<<<<<<<<<<<<
  *     dfreq = float(o)/float(len(site[1]))
  *     if derived is True:
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_nderived_site); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 192, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_nderived_site); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -11007,16 +11110,16 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_site); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 192, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_site); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 197, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 192, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 197, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
     __Pyx_INCREF(__pyx_v_site);
     __Pyx_GIVEREF(__pyx_v_site);
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_site);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 192, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 197, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -11024,29 +11127,29 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
   __pyx_v_o = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":193
+  /* "fwdpy/sampling.pyx":198
  *     """
  *     o = nderived_site(site)
  *     dfreq = float(o)/float(len(site[1]))             # <<<<<<<<<<<<<<
  *     if derived is True:
  *         return dfreq
  */
-  __pyx_t_5 = __Pyx_PyObject_AsDouble(__pyx_v_o); if (unlikely(__pyx_t_5 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(4, 193, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_AsDouble(__pyx_v_o); if (unlikely(__pyx_t_5 == ((double)-1) && PyErr_Occurred())) __PYX_ERR(4, 198, __pyx_L1_error)
   if (unlikely(__pyx_v_site == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(4, 193, __pyx_L1_error)
+    __PYX_ERR(4, 198, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_site, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 193, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_site, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(4, 193, __pyx_L1_error)
+  __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(4, 198, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(((double)__pyx_t_6) == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(4, 193, __pyx_L1_error)
+    __PYX_ERR(4, 198, __pyx_L1_error)
   }
   __pyx_v_dfreq = (__pyx_t_5 / ((double)__pyx_t_6));
 
-  /* "fwdpy/sampling.pyx":194
+  /* "fwdpy/sampling.pyx":199
  *     o = nderived_site(site)
  *     dfreq = float(o)/float(len(site[1]))
  *     if derived is True:             # <<<<<<<<<<<<<<
@@ -11056,7 +11159,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
   __pyx_t_7 = ((__pyx_v_derived == 1) != 0);
   if (__pyx_t_7) {
 
-    /* "fwdpy/sampling.pyx":195
+    /* "fwdpy/sampling.pyx":200
  *     dfreq = float(o)/float(len(site[1]))
  *     if derived is True:
  *         return dfreq             # <<<<<<<<<<<<<<
@@ -11064,13 +11167,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_dfreq); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 195, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_dfreq); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/sampling.pyx":194
+    /* "fwdpy/sampling.pyx":199
  *     o = nderived_site(site)
  *     dfreq = float(o)/float(len(site[1]))
  *     if derived is True:             # <<<<<<<<<<<<<<
@@ -11079,7 +11182,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
  */
   }
 
-  /* "fwdpy/sampling.pyx":196
+  /* "fwdpy/sampling.pyx":201
  *     if derived is True:
  *         return dfreq
  *     return min(dfreq,1.0-dfreq)             # <<<<<<<<<<<<<<
@@ -11094,13 +11197,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
   } else {
     __pyx_t_9 = __pyx_t_8;
   }
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 196, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/sampling.pyx":170
+  /* "fwdpy/sampling.pyx":175
  *     return [nderived_site(i) for i in sample]
  * 
  * def getfreq(tuple site,bint derived = True):             # <<<<<<<<<<<<<<
@@ -11123,7 +11226,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":198
+/* "fwdpy/sampling.pyx":203
  *     return min(dfreq,1.0-dfreq)
  * 
  * def getfreqs(list sample,bint derived = True):             # <<<<<<<<<<<<<<
@@ -11133,7 +11236,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10getfreq(CYTHON_UNUSED PyObject *__pyx_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_13getfreqs(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_12getfreqs[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.  \n    \n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_12getfreqs[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_13getfreqs = {"getfreqs", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_13getfreqs, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_12getfreqs};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_13getfreqs(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_sample = 0;
@@ -11165,7 +11268,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_13getfreqs(PyObject *__pyx_self, PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "getfreqs") < 0)) __PYX_ERR(4, 198, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "getfreqs") < 0)) __PYX_ERR(4, 203, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -11177,20 +11280,20 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_13getfreqs(PyObject *__pyx_self, PyObjec
     }
     __pyx_v_sample = ((PyObject*)values[0]);
     if (values[1]) {
-      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[1]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 198, __pyx_L3_error)
+      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[1]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 203, __pyx_L3_error)
     } else {
       __pyx_v_derived = ((int)1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("getfreqs", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 198, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("getfreqs", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 203, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.getfreqs", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) __PYX_ERR(4, 198, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) __PYX_ERR(4, 203, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_12getfreqs(__pyx_self, __pyx_v_sample, __pyx_v_derived);
 
   /* function exit code */
@@ -11217,7 +11320,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
   PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("getfreqs", 0);
 
-  /* "fwdpy/sampling.pyx":217
+  /* "fwdpy/sampling.pyx":222
  *     >>> freqs = [fwdpy.getfreqs(i) for i in s]
  *     """
  *     return [getfreq(i,derived) for i in sample]             # <<<<<<<<<<<<<<
@@ -11225,26 +11328,26 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
  * def freqfilter( list sample,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 217, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_sample == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(4, 217, __pyx_L1_error)
+    __PYX_ERR(4, 222, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_v_sample; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(4, 217, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(4, 222, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 217, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_getfreq); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 217, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_getfreq); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_derived); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 217, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyBool_FromLong(__pyx_v_derived); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
@@ -11258,7 +11361,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(4, 217, __pyx_L1_error)
+    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(4, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     if (__pyx_t_7) {
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -11269,11 +11372,11 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 217, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(4, 217, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(4, 222, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11281,7 +11384,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/sampling.pyx":198
+  /* "fwdpy/sampling.pyx":203
  *     return min(dfreq,1.0-dfreq)
  * 
  * def getfreqs(list sample,bint derived = True):             # <<<<<<<<<<<<<<
@@ -11307,7 +11410,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "fwdpy/sampling.pyx":219
+/* "fwdpy/sampling.pyx":224
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
@@ -11317,7 +11420,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_12getfreqs(CYTHON_UNUSED PyObject *__pyx
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_14freqfilter[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n       \n    Example:\n    \n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_14freqfilter[] = "\n    Remove low-frequency variants from a sample.\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param minfreq: Remove all sites with frequency < minfreq\n    :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_15freqfilter = {"freqfilter", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_15freqfilter, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_14freqfilter};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_sample = 0;
@@ -11347,7 +11450,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_minfreq)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, 1); __PYX_ERR(4, 219, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, 1); __PYX_ERR(4, 224, __pyx_L3_error)
         }
         case  2:
         if (kw_args > 0) {
@@ -11356,7 +11459,7 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "freqfilter") < 0)) __PYX_ERR(4, 219, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "freqfilter") < 0)) __PYX_ERR(4, 224, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -11368,12 +11471,12 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
       }
     }
     __pyx_v_sample = ((PyObject*)values[0]);
-    __pyx_v_minfreq = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_minfreq == (float)-1) && PyErr_Occurred())) __PYX_ERR(4, 220, __pyx_L3_error)
+    __pyx_v_minfreq = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_minfreq == (float)-1) && PyErr_Occurred())) __PYX_ERR(4, 225, __pyx_L3_error)
     if (values[2]) {
-      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 221, __pyx_L3_error)
+      __pyx_v_derived = __Pyx_PyObject_IsTrue(values[2]); if (unlikely((__pyx_v_derived == (int)-1) && PyErr_Occurred())) __PYX_ERR(4, 226, __pyx_L3_error)
     } else {
 
-      /* "fwdpy/sampling.pyx":221
+      /* "fwdpy/sampling.pyx":226
  * def freqfilter( list sample,
  *                 float minfreq,
  *                 bint derived = True ):             # <<<<<<<<<<<<<<
@@ -11385,16 +11488,16 @@ static PyObject *__pyx_pw_5fwdpy_5fwdpy_15freqfilter(PyObject *__pyx_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 219, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("freqfilter", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 224, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.fwdpy.freqfilter", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) __PYX_ERR(4, 219, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sample), (&PyList_Type), 1, "sample", 1))) __PYX_ERR(4, 224, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_5fwdpy_14freqfilter(__pyx_self, __pyx_v_sample, __pyx_v_minfreq, __pyx_v_derived);
 
-  /* "fwdpy/sampling.pyx":219
+  /* "fwdpy/sampling.pyx":224
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
@@ -11429,19 +11532,19 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("freqfilter", 0);
 
-  /* "fwdpy/sampling.pyx":238
+  /* "fwdpy/sampling.pyx":243
  *     >>> s2 = [fwdpy.freqfilter(i,0.2) for i in s]
  *     """
  *     rv=list()             # <<<<<<<<<<<<<<
  *     for i in sample:
  *         if type(i) is not tuple:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 238, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_rv = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":239
+  /* "fwdpy/sampling.pyx":244
  *     """
  *     rv=list()
  *     for i in sample:             # <<<<<<<<<<<<<<
@@ -11450,21 +11553,21 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
  */
   if (unlikely(__pyx_v_sample == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(4, 239, __pyx_L1_error)
+    __PYX_ERR(4, 244, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_sample; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_COMPILING_IN_CPYTHON
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(4, 239, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(4, 244, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 239, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 244, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "fwdpy/sampling.pyx":240
+    /* "fwdpy/sampling.pyx":245
  *     rv=list()
  *     for i in sample:
  *         if type(i) is not tuple:             # <<<<<<<<<<<<<<
@@ -11475,37 +11578,37 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
     __pyx_t_5 = (__pyx_t_4 != 0);
     if (__pyx_t_5) {
 
-      /* "fwdpy/sampling.pyx":241
+      /* "fwdpy/sampling.pyx":246
  *     for i in sample:
  *         if type(i) is not tuple:
  *             raise RuntimeError("values is sample must be tuples, not"+str(type(i)))             # <<<<<<<<<<<<<<
  *         if getfreq(i,derived)>=minfreq:
  *             rv.append(i)
  */
-      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 241, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_INCREF(((PyObject *)Py_TYPE(__pyx_v_i)));
       __Pyx_GIVEREF(((PyObject *)Py_TYPE(__pyx_v_i)));
       PyTuple_SET_ITEM(__pyx_t_3, 0, ((PyObject *)Py_TYPE(__pyx_v_i)));
-      __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 241, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_values_is_sample_must_be_tuples, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 241, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_kp_s_values_is_sample_must_be_tuples, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 241, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 241, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(4, 241, __pyx_L1_error)
+      __PYX_ERR(4, 246, __pyx_L1_error)
 
-      /* "fwdpy/sampling.pyx":240
+      /* "fwdpy/sampling.pyx":245
  *     rv=list()
  *     for i in sample:
  *         if type(i) is not tuple:             # <<<<<<<<<<<<<<
@@ -11514,16 +11617,16 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
  */
     }
 
-    /* "fwdpy/sampling.pyx":242
+    /* "fwdpy/sampling.pyx":247
  *         if type(i) is not tuple:
  *             raise RuntimeError("values is sample must be tuples, not"+str(type(i)))
  *         if getfreq(i,derived)>=minfreq:             # <<<<<<<<<<<<<<
  *             rv.append(i)
  *     return rv
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_getfreq); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 242, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_getfreq); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyBool_FromLong(__pyx_v_derived); if (unlikely(!__pyx_t_7)) __PYX_ERR(4, 242, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyBool_FromLong(__pyx_v_derived); if (unlikely(!__pyx_t_7)) __PYX_ERR(4, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     __pyx_t_9 = 0;
@@ -11537,7 +11640,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
         __pyx_t_9 = 1;
       }
     }
-    __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(4, 242, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(4, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     if (__pyx_t_8) {
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -11548,28 +11651,28 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
     __Pyx_GIVEREF(__pyx_t_7);
     PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_7);
     __pyx_t_7 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 242, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_minfreq); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 242, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_minfreq); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = PyObject_RichCompare(__pyx_t_3, __pyx_t_6, Py_GE); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(4, 242, __pyx_L1_error)
+    __pyx_t_10 = PyObject_RichCompare(__pyx_t_3, __pyx_t_6, Py_GE); __Pyx_XGOTREF(__pyx_t_10); if (unlikely(!__pyx_t_10)) __PYX_ERR(4, 247, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(4, 242, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_10); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(4, 247, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (__pyx_t_5) {
 
-      /* "fwdpy/sampling.pyx":243
+      /* "fwdpy/sampling.pyx":248
  *             raise RuntimeError("values is sample must be tuples, not"+str(type(i)))
  *         if getfreq(i,derived)>=minfreq:
  *             rv.append(i)             # <<<<<<<<<<<<<<
  *     return rv
  */
-      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_rv, __pyx_v_i); if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(4, 243, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyList_Append(__pyx_v_rv, __pyx_v_i); if (unlikely(__pyx_t_11 == -1)) __PYX_ERR(4, 248, __pyx_L1_error)
 
-      /* "fwdpy/sampling.pyx":242
+      /* "fwdpy/sampling.pyx":247
  *         if type(i) is not tuple:
  *             raise RuntimeError("values is sample must be tuples, not"+str(type(i)))
  *         if getfreq(i,derived)>=minfreq:             # <<<<<<<<<<<<<<
@@ -11578,7 +11681,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
  */
     }
 
-    /* "fwdpy/sampling.pyx":239
+    /* "fwdpy/sampling.pyx":244
  *     """
  *     rv=list()
  *     for i in sample:             # <<<<<<<<<<<<<<
@@ -11588,7 +11691,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":244
+  /* "fwdpy/sampling.pyx":249
  *         if getfreq(i,derived)>=minfreq:
  *             rv.append(i)
  *     return rv             # <<<<<<<<<<<<<<
@@ -11598,7 +11701,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_14freqfilter(CYTHON_UNUSED PyObject *__p
   __pyx_r = __pyx_v_rv;
   goto __pyx_L0;
 
-  /* "fwdpy/sampling.pyx":219
+  /* "fwdpy/sampling.pyx":224
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
@@ -31841,11 +31944,63 @@ static PyObject *__pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_
 
 /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_double")
- * cdef object __pyx_convert_vector_to_py_double(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t")
+ * cdef object __pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
+
+static PyObject *__pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t(const std::vector<KTfwd::sep_sample_t>  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t")
+ * cdef object __pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert_pair_to_py_KTfwd_3a__3a_sample_t____KTfwd_3a__3a_sample_t((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(11, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(11, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t")
+ * cdef object __pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_KTfwd_3a__3a_sep_sample_t", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 
 static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &__pyx_v_v) {
   size_t __pyx_v_i;
@@ -46704,7 +46859,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {&__pyx_n_s_fpio, __pyx_k_fpio, sizeof(__pyx_k_fpio), 0, 0, 1, 1},
   {&__pyx_n_s_freqfilter, __pyx_k_freqfilter, sizeof(__pyx_k_freqfilter), 0, 0, 1, 1},
-  {&__pyx_kp_u_freqfilter_line_219, __pyx_k_freqfilter_line_219, sizeof(__pyx_k_freqfilter_line_219), 0, 1, 0, 0},
+  {&__pyx_kp_u_freqfilter_line_224, __pyx_k_freqfilter_line_224, sizeof(__pyx_k_freqfilter_line_224), 0, 1, 0, 0},
   {&__pyx_n_s_from_singlepop, __pyx_k_from_singlepop, sizeof(__pyx_k_from_singlepop), 0, 0, 1, 1},
   {&__pyx_n_s_fwdpy, __pyx_k_fwdpy, sizeof(__pyx_k_fwdpy), 0, 0, 1, 1},
   {&__pyx_kp_s_fwdpy_ConstantS_s_not_a_number, __pyx_k_fwdpy_ConstantS_s_not_a_number, sizeof(__pyx_k_fwdpy_ConstantS_s_not_a_number), 0, 0, 1, 0},
@@ -46742,13 +46897,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_gen, __pyx_k_gen, sizeof(__pyx_k_gen), 0, 0, 1, 1},
   {&__pyx_n_s_genotypes, __pyx_k_genotypes, sizeof(__pyx_k_genotypes), 0, 0, 1, 1},
   {&__pyx_n_s_get_sample_details, __pyx_k_get_sample_details, sizeof(__pyx_k_get_sample_details), 0, 0, 1, 1},
-  {&__pyx_kp_u_get_sample_details_line_95, __pyx_k_get_sample_details_line_95, sizeof(__pyx_k_get_sample_details_line_95), 0, 1, 0, 0},
+  {&__pyx_kp_u_get_sample_details_line_100, __pyx_k_get_sample_details_line_100, sizeof(__pyx_k_get_sample_details_line_100), 0, 1, 0, 0},
   {&__pyx_n_s_get_samples, __pyx_k_get_samples, sizeof(__pyx_k_get_samples), 0, 0, 1, 1},
-  {&__pyx_kp_u_get_samples_line_60, __pyx_k_get_samples_line_60, sizeof(__pyx_k_get_samples_line_60), 0, 1, 0, 0},
+  {&__pyx_kp_u_get_samples_line_63, __pyx_k_get_samples_line_63, sizeof(__pyx_k_get_samples_line_63), 0, 1, 0, 0},
   {&__pyx_n_s_getfreq, __pyx_k_getfreq, sizeof(__pyx_k_getfreq), 0, 0, 1, 1},
-  {&__pyx_kp_u_getfreq_line_170, __pyx_k_getfreq_line_170, sizeof(__pyx_k_getfreq_line_170), 0, 1, 0, 0},
+  {&__pyx_kp_u_getfreq_line_175, __pyx_k_getfreq_line_175, sizeof(__pyx_k_getfreq_line_175), 0, 1, 0, 0},
   {&__pyx_n_s_getfreqs, __pyx_k_getfreqs, sizeof(__pyx_k_getfreqs), 0, 0, 1, 1},
-  {&__pyx_kp_u_getfreqs_line_198, __pyx_k_getfreqs_line_198, sizeof(__pyx_k_getfreqs_line_198), 0, 1, 0, 0},
+  {&__pyx_kp_u_getfreqs_line_203, __pyx_k_getfreqs_line_203, sizeof(__pyx_k_getfreqs_line_203), 0, 1, 0, 0},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
   {&__pyx_n_s_h, __pyx_k_h, sizeof(__pyx_k_h), 0, 0, 1, 1},
   {&__pyx_kp_s_h_2, __pyx_k_h_2, sizeof(__pyx_k_h_2), 0, 0, 1, 0},
@@ -46802,7 +46957,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_kp_s_mpopvec_deme_size_0_encountered, __pyx_k_mpopvec_deme_size_0_encountered, sizeof(__pyx_k_mpopvec_deme_size_0_encountered), 0, 0, 1, 0},
   {&__pyx_n_s_ms_sample, __pyx_k_ms_sample, sizeof(__pyx_k_ms_sample), 0, 0, 1, 1},
-  {&__pyx_kp_u_ms_sample_line_36, __pyx_k_ms_sample_line_36, sizeof(__pyx_k_ms_sample_line_36), 0, 1, 0, 0},
+  {&__pyx_kp_u_ms_sample_line_39, __pyx_k_ms_sample_line_39, sizeof(__pyx_k_ms_sample_line_39), 0, 1, 0, 0},
   {&__pyx_kp_s_ms_sample_unsupported_type_of_po, __pyx_k_ms_sample_unsupported_type_of_po, sizeof(__pyx_k_ms_sample_unsupported_type_of_po), 0, 0, 1, 0},
   {&__pyx_n_s_mu_neutral, __pyx_k_mu_neutral, sizeof(__pyx_k_mu_neutral), 0, 0, 1, 1},
   {&__pyx_n_s_mu_selected, __pyx_k_mu_selected, sizeof(__pyx_k_mu_selected), 0, 0, 1, 1},
@@ -46815,9 +46970,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_ndemes, __pyx_k_ndemes, sizeof(__pyx_k_ndemes), 0, 0, 1, 1},
   {&__pyx_n_s_nderived, __pyx_k_nderived, sizeof(__pyx_k_nderived), 0, 0, 1, 1},
-  {&__pyx_kp_u_nderived_line_153, __pyx_k_nderived_line_153, sizeof(__pyx_k_nderived_line_153), 0, 1, 0, 0},
+  {&__pyx_kp_u_nderived_line_158, __pyx_k_nderived_line_158, sizeof(__pyx_k_nderived_line_158), 0, 1, 0, 0},
   {&__pyx_n_s_nderived_site, __pyx_k_nderived_site, sizeof(__pyx_k_nderived_site), 0, 0, 1, 1},
-  {&__pyx_kp_u_nderived_site_line_128, __pyx_k_nderived_site_line_128, sizeof(__pyx_k_nderived_site_line_128), 0, 1, 0, 0},
+  {&__pyx_kp_u_nderived_site_line_133, __pyx_k_nderived_site_line_133, sizeof(__pyx_k_nderived_site_line_133), 0, 1, 0, 0},
   {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
   {&__pyx_n_s_neutral, __pyx_k_neutral, sizeof(__pyx_k_neutral), 0, 0, 1, 1},
   {&__pyx_n_s_neutral_df, __pyx_k_neutral_df, sizeof(__pyx_k_neutral_df), 0, 0, 1, 1},
@@ -47037,47 +47192,47 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "fwdpy/sampling.pyx":58
+  /* "fwdpy/sampling.pyx":61
  *         return ms_sample_single_deme(rng,pop,nsam,removeFixed)
  *     else:
  *         raise ValueError("ms_sample: unsupported type of popcontainer")             # <<<<<<<<<<<<<<
  * 
  * def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_ms_sample_unsupported_type_of_po); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(4, 58, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_ms_sample_unsupported_type_of_po); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(4, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "fwdpy/sampling.pyx":88
+  /* "fwdpy/sampling.pyx":91
  *     elif isinstance(pop,metapop):
  *         if deme is None:
  *             raise RuntimeError("deme may not be set to None when sampling from a meta-population")             # <<<<<<<<<<<<<<
  *         if deme >= len(pop):
  *             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_deme_may_not_be_set_to_None_when); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(4, 88, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_deme_may_not_be_set_to_None_when); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(4, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "fwdpy/sampling.pyx":93
- *         return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+  /* "fwdpy/sampling.pyx":98
+ *         return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
  *     else:
  *         raise ValueError("ms_sample: unsupported type of popcontainer")             # <<<<<<<<<<<<<<
  * 
  * def get_sample_details( sample_t ms_sample, poptype pop ):
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_ms_sample_unsupported_type_of_po); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(4, 93, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_ms_sample_unsupported_type_of_po); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(4, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "fwdpy/sampling.pyx":151
+  /* "fwdpy/sampling.pyx":156
  *     >>> for i in s[0]: ndi = fwdpy.nderived_site(i)
  *     """
  *     return str(site[1]).count('1')             # <<<<<<<<<<<<<<
  * 
  * def nderived( list sample ):
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_1); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_1); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(4, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -47936,101 +48091,101 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__88);
   __Pyx_GIVEREF(__pyx_tuple__88);
 
-  /* "fwdpy/sampling.pyx":36
+  /* "fwdpy/sampling.pyx":39
  *     get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
  * 
  * def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):             # <<<<<<<<<<<<<<
  *     """
  *     Take a sample from a set of simulated populations.
  */
-  __pyx_tuple__89 = PyTuple_Pack(4, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_nsam, __pyx_n_s_removeFixed); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(4, 36, __pyx_L1_error)
+  __pyx_tuple__89 = PyTuple_Pack(4, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_nsam, __pyx_n_s_removeFixed); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(4, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__89);
   __Pyx_GIVEREF(__pyx_tuple__89);
-  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_ms_sample, 36, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(4, 36, __pyx_L1_error)
+  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_ms_sample, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(4, 39, __pyx_L1_error)
 
-  /* "fwdpy/sampling.pyx":60
+  /* "fwdpy/sampling.pyx":63
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):             # <<<<<<<<<<<<<<
  *     """
  *     Take a sample from a set of simulated populations.
  */
-  __pyx_tuple__91 = PyTuple_Pack(5, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_nsam, __pyx_n_s_removeFixed, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(4, 60, __pyx_L1_error)
+  __pyx_tuple__91 = PyTuple_Pack(5, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_nsam, __pyx_n_s_removeFixed, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(4, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__91);
   __Pyx_GIVEREF(__pyx_tuple__91);
-  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_get_samples, 60, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(4, 60, __pyx_L1_error)
+  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_get_samples, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(4, 63, __pyx_L1_error)
 
-  /* "fwdpy/sampling.pyx":95
+  /* "fwdpy/sampling.pyx":100
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
  *     """
  *     Get additional details for population samples
  */
-  __pyx_tuple__93 = PyTuple_Pack(7, __pyx_n_s_ms_sample, __pyx_n_s_pop, __pyx_n_s_h, __pyx_n_s_s, __pyx_n_s_p, __pyx_n_s_a, __pyx_n_s_l); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(4, 95, __pyx_L1_error)
+  __pyx_tuple__93 = PyTuple_Pack(7, __pyx_n_s_ms_sample, __pyx_n_s_pop, __pyx_n_s_h, __pyx_n_s_s, __pyx_n_s_p, __pyx_n_s_a, __pyx_n_s_l); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(4, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__93);
   __Pyx_GIVEREF(__pyx_tuple__93);
-  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_get_sample_details, 95, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(4, 95, __pyx_L1_error)
+  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_get_sample_details, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(4, 100, __pyx_L1_error)
 
-  /* "fwdpy/sampling.pyx":128
+  /* "fwdpy/sampling.pyx":133
  * 
  * ###### Functions for manipulating samples.
  * def nderived_site(tuple site):             # <<<<<<<<<<<<<<
  *     """
  *     Get the number of derived mutations at a site.
  */
-  __pyx_tuple__95 = PyTuple_Pack(1, __pyx_n_s_site); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(4, 128, __pyx_L1_error)
+  __pyx_tuple__95 = PyTuple_Pack(1, __pyx_n_s_site); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(4, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__95);
   __Pyx_GIVEREF(__pyx_tuple__95);
-  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_nderived_site, 128, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(4, 128, __pyx_L1_error)
+  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_nderived_site, 133, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(4, 133, __pyx_L1_error)
 
-  /* "fwdpy/sampling.pyx":153
+  /* "fwdpy/sampling.pyx":158
  *     return str(site[1]).count('1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
  *     """
  *     Convenience wrapper around :func:`fwdpy.fwdpy.nderived`
  */
-  __pyx_tuple__97 = PyTuple_Pack(2, __pyx_n_s_sample, __pyx_n_s_i); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(4, 153, __pyx_L1_error)
+  __pyx_tuple__97 = PyTuple_Pack(2, __pyx_n_s_sample, __pyx_n_s_i); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(4, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__97);
   __Pyx_GIVEREF(__pyx_tuple__97);
-  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_nderived, 153, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(4, 153, __pyx_L1_error)
+  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_nderived, 158, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(4, 158, __pyx_L1_error)
 
-  /* "fwdpy/sampling.pyx":170
+  /* "fwdpy/sampling.pyx":175
  *     return [nderived_site(i) for i in sample]
  * 
  * def getfreq(tuple site,bint derived = True):             # <<<<<<<<<<<<<<
  *     """
  *     Get mutation frequencies
  */
-  __pyx_tuple__99 = PyTuple_Pack(4, __pyx_n_s_site, __pyx_n_s_derived, __pyx_n_s_o, __pyx_n_s_dfreq); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(4, 170, __pyx_L1_error)
+  __pyx_tuple__99 = PyTuple_Pack(4, __pyx_n_s_site, __pyx_n_s_derived, __pyx_n_s_o, __pyx_n_s_dfreq); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(4, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__99);
   __Pyx_GIVEREF(__pyx_tuple__99);
-  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_getfreq, 170, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(4, 170, __pyx_L1_error)
+  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_getfreq, 175, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(4, 175, __pyx_L1_error)
 
-  /* "fwdpy/sampling.pyx":198
+  /* "fwdpy/sampling.pyx":203
  *     return min(dfreq,1.0-dfreq)
  * 
  * def getfreqs(list sample,bint derived = True):             # <<<<<<<<<<<<<<
  *     """
  *     Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`
  */
-  __pyx_tuple__101 = PyTuple_Pack(3, __pyx_n_s_sample, __pyx_n_s_derived, __pyx_n_s_i); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(4, 198, __pyx_L1_error)
+  __pyx_tuple__101 = PyTuple_Pack(3, __pyx_n_s_sample, __pyx_n_s_derived, __pyx_n_s_i); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(4, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__101);
   __Pyx_GIVEREF(__pyx_tuple__101);
-  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_getfreqs, 198, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(4, 198, __pyx_L1_error)
+  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_getfreqs, 203, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(4, 203, __pyx_L1_error)
 
-  /* "fwdpy/sampling.pyx":219
+  /* "fwdpy/sampling.pyx":224
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
  *                 float minfreq,
  *                 bint derived = True ):
  */
-  __pyx_tuple__103 = PyTuple_Pack(5, __pyx_n_s_sample, __pyx_n_s_minfreq, __pyx_n_s_derived, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(4, 219, __pyx_L1_error)
+  __pyx_tuple__103 = PyTuple_Pack(5, __pyx_n_s_sample, __pyx_n_s_minfreq, __pyx_n_s_derived, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(4, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__103);
   __Pyx_GIVEREF(__pyx_tuple__103);
-  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_freqfilter, 219, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(4, 219, __pyx_L1_error)
+  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_freqfilter, 224, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(4, 224, __pyx_L1_error)
 
   /* "fwdpy/evolve_regions.pyx":8
  * import internal
@@ -48982,7 +49137,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
 
   /* "fwdpy/sampling.pyx":3
  * from cython.operator cimport dereference as deref
- * from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
+ * from fwdpy.fwdpp cimport sep_sample_t,sample_t,gsl_rng
  * import numpy as np             # <<<<<<<<<<<<<<
  * import pandas as pd
  * 
@@ -48993,7 +49148,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/sampling.pyx":4
- * from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
+ * from fwdpy.fwdpp cimport sep_sample_t,sample_t,gsl_rng
  * import numpy as np
  * import pandas as pd             # <<<<<<<<<<<<<<
  * 
@@ -49004,100 +49159,100 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pd, __pyx_t_1) < 0) __PYX_ERR(4, 4, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":36
+  /* "fwdpy/sampling.pyx":39
  *     get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
  * 
  * def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):             # <<<<<<<<<<<<<<
  *     """
  *     Take a sample from a set of simulated populations.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_1ms_sample, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 36, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_1ms_sample, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ms_sample, __pyx_t_1) < 0) __PYX_ERR(4, 36, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ms_sample, __pyx_t_1) < 0) __PYX_ERR(4, 39, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":60
+  /* "fwdpy/sampling.pyx":63
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):             # <<<<<<<<<<<<<<
  *     """
  *     Take a sample from a set of simulated populations.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_3get_samples, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 60, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_3get_samples, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_samples, __pyx_t_1) < 0) __PYX_ERR(4, 60, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_samples, __pyx_t_1) < 0) __PYX_ERR(4, 63, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":95
+  /* "fwdpy/sampling.pyx":100
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
  * 
  * def get_sample_details( sample_t ms_sample, poptype pop ):             # <<<<<<<<<<<<<<
  *     """
  *     Get additional details for population samples
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_5get_sample_details, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 95, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_5get_sample_details, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_sample_details, __pyx_t_1) < 0) __PYX_ERR(4, 95, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_sample_details, __pyx_t_1) < 0) __PYX_ERR(4, 100, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":128
+  /* "fwdpy/sampling.pyx":133
  * 
  * ###### Functions for manipulating samples.
  * def nderived_site(tuple site):             # <<<<<<<<<<<<<<
  *     """
  *     Get the number of derived mutations at a site.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_7nderived_site, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 128, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_7nderived_site, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nderived_site, __pyx_t_1) < 0) __PYX_ERR(4, 128, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nderived_site, __pyx_t_1) < 0) __PYX_ERR(4, 133, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":153
+  /* "fwdpy/sampling.pyx":158
  *     return str(site[1]).count('1')
  * 
  * def nderived( list sample ):             # <<<<<<<<<<<<<<
  *     """
  *     Convenience wrapper around :func:`fwdpy.fwdpy.nderived`
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_9nderived, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 153, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_9nderived, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nderived, __pyx_t_1) < 0) __PYX_ERR(4, 153, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_nderived, __pyx_t_1) < 0) __PYX_ERR(4, 158, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":170
+  /* "fwdpy/sampling.pyx":175
  *     return [nderived_site(i) for i in sample]
  * 
  * def getfreq(tuple site,bint derived = True):             # <<<<<<<<<<<<<<
  *     """
  *     Get mutation frequencies
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_11getfreq, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 170, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_11getfreq, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getfreq, __pyx_t_1) < 0) __PYX_ERR(4, 170, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getfreq, __pyx_t_1) < 0) __PYX_ERR(4, 175, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":198
+  /* "fwdpy/sampling.pyx":203
  *     return min(dfreq,1.0-dfreq)
  * 
  * def getfreqs(list sample,bint derived = True):             # <<<<<<<<<<<<<<
  *     """
  *     Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_13getfreqs, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 198, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_13getfreqs, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getfreqs, __pyx_t_1) < 0) __PYX_ERR(4, 198, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_getfreqs, __pyx_t_1) < 0) __PYX_ERR(4, 203, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/sampling.pyx":219
+  /* "fwdpy/sampling.pyx":224
  *     return [getfreq(i,derived) for i in sample]
  * 
  * def freqfilter( list sample,             # <<<<<<<<<<<<<<
  *                 float minfreq,
  *                 bint derived = True ):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_15freqfilter, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 219, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_15freqfilter, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_freqfilter, __pyx_t_1) < 0) __PYX_ERR(4, 219, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_freqfilter, __pyx_t_1) < 0) __PYX_ERR(4, 224, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/evolve_regions.pyx":4
@@ -50133,14 +50288,14 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_ms_sample_line_36, __pyx_kp_u_Take_a_sample_from_a_set_of_sim) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_get_samples_line_60, __pyx_kp_u_Take_a_sample_from_a_set_of_sim_2) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_get_sample_details_line_95, __pyx_kp_u_Get_additional_details_for_popu) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_nderived_site_line_128, __pyx_kp_u_Get_the_number_of_derived_mutat) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_nderived_line_153, __pyx_kp_u_Convenience_wrapper_around_func) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_getfreq_line_170, __pyx_kp_u_Get_mutation_frequencies_param) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_getfreqs_line_198, __pyx_kp_u_Convenience_wrapper_around_func_2) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_freqfilter_line_219, __pyx_kp_u_Remove_low_frequency_variants_f) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_ms_sample_line_39, __pyx_kp_u_Take_a_sample_from_a_set_of_sim) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_get_samples_line_63, __pyx_kp_u_Take_a_sample_from_a_set_of_sim_2) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_get_sample_details_line_100, __pyx_kp_u_Get_additional_details_for_popu) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_nderived_site_line_133, __pyx_kp_u_Get_the_number_of_derived_mutat) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_nderived_line_158, __pyx_kp_u_Convenience_wrapper_around_func) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_getfreq_line_175, __pyx_kp_u_Get_mutation_frequencies_param) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_getfreqs_line_203, __pyx_kp_u_Convenience_wrapper_around_func_2) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_freqfilter_line_224, __pyx_kp_u_Remove_low_frequency_variants_f) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_evolve_regions_line_27, __pyx_kp_u_Evolve_a_region_with_variable_m) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_evolve_regions_more_line_101, __pyx_kp_u_Continue_to_evolve_a_region_wit) < 0) __PYX_ERR(9, 1, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_Region___init___line_18, __pyx_kp_u_Constructor_param_beg_the_begin) < 0) __PYX_ERR(9, 1, __pyx_L1_error)

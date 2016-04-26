@@ -13,6 +13,7 @@
             "include/sampler_pop_properties.hpp", 
             "include/sampler_sample_n.hpp", 
             "include/sampler_selected_mut_tracker.hpp", 
+            "include/sampling_wrappers.hpp", 
             "include/types.hpp"
         ], 
         "extra_compile_args": [
@@ -337,6 +338,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "sampler_pop_properties.hpp"
 #include "allele_ages.hpp"
 #include "evolve_regions_sampler.hpp"
+#include "sampling_wrappers.hpp"
 #include "internal_callbacks.hpp"
 #include "internal_region_manager.hpp"
 #ifdef _OPENMP
