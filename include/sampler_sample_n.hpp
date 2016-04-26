@@ -78,7 +78,22 @@ namespace fwdpy
   inline void sample_n<multilocus_t>::operator()(const multilocus_t * pop,
 						 const unsigned generation)
   {
-    //TODO
+    auto s = KTfwd::sample_separate(r.get(),*pop,nsam,true);
+    std::vector<detailed_deme_sample> vds;
+    for(unsigned i=0;i<s.size();++i)
+      {	
+	std::vector< std::pair<double,double> > sh(s.size());
+	for( const auto & si : s[i].second)
+	  {
+	    auto itr = std::find_if(pop->mutations.begin(),pop->mutations.end(),[&si](const singlepop_t::mutation_t & m) noexcept
+				    {
+				      return m.pos == si.first;
+				    });
+	    sh.emplace_back(itr->s,itr->h);
+	  }
+	vds.emplace_back(std::move(s[i]),sh);
+      }
+    rv.emplace_back(generation,std::move(vds));
   }
 }
 
