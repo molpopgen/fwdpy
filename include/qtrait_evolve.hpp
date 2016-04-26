@@ -114,15 +114,15 @@ namespace fwdpy
       for(std::size_t i=0;i<pops->size();++i)
 	{
 	  rules_t rules_thread(rules);
-	  futures.emplace_back( async(std::launch::async,
-				      evolve_qtrait_sampler_details<sampler,rules_t,Args&&...>,
-				      pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
-				      mu_neutral,mu_selected,littler,f,sigmaE,optimum,sample,
-				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
-				      std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-				      std::move(rules_thread),
-				      sampler(std::forward<Args>(args)...)
-				      )
+	  futures.emplace_back( std::async(std::launch::async,
+					   evolve_qtrait_sampler_details<sampler,rules_t,Args&&...>,
+					   pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
+					   mu_neutral,mu_selected,littler,f,sigmaE,optimum,sample,
+					   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
+					   std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
+					   std::move(rules_thread),
+					   sampler(std::forward<Args>(args)...)
+					   )
 				);	
 	}
       std::vector<typename sampler::final_t> rv(futures.size());
@@ -152,15 +152,15 @@ namespace fwdpy
       for(std::size_t i=0;i<pops->size();++i)
 	{
 	  rules_t rules_thread(rules);
-	  futures.emplace_back( async(std::launch::async,
-				      evolve_qtrait_sampler_details<sampler,rules_t,Args&&...>,
-				      pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
-				      mu_neutral,mu_selected,littler,f,sigmaE,optimum,0,
-				      std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
-				      std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-				      std::move(rules_thread),
-				      sampler(std::forward<Args>(args)...)
-				      )
+	  futures.emplace_back( std::async(std::launch::async,
+					   evolve_qtrait_sampler_details<sampler,rules_t,Args&&...>,
+					   pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
+					   mu_neutral,mu_selected,littler,f,sigmaE,optimum,0,
+					   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
+					   std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
+					   std::move(rules_thread),
+					   sampler(std::forward<Args>(args)...)
+					   )
 				);	
 	}
       for(std::size_t i=0;i<futures.size();++i ) futures[i].get();
@@ -276,17 +276,17 @@ namespace fwdpy
     //track mutation frequencies
     std::vector<selected_mut_tracker::final_t>
     evolve_gbr_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			       const unsigned * Nvector,
-			       const size_t Nvector_length,
-			       const double mu_neutral,
-			       const double mu_selected,
-			       const double littler,
-			       const double f,
-			       const double sigmaE,
-			       const double optimum,
-			       const double VS,
-			       const int track,
-			       const internal::region_manager * rm);
+			    const unsigned * Nvector,
+			    const size_t Nvector_length,
+			    const double mu_neutral,
+			    const double mu_selected,
+			    const double littler,
+			    const double f,
+			    const double sigmaE,
+			    const double optimum,
+			    const double VS,
+			    const int track,
+			    const internal::region_manager * rm);
   }
 }
 
