@@ -19,6 +19,7 @@ namespace fwdpy
 					const char * fitness)
   {
     evolve_regions_async_wrapper<no_sampling>(rng,pops,Nvector,Nvector_length,mu_neutral,mu_selected,littler,f,
+					      0,
 					      rm,fitness);
   }
   

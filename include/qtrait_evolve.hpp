@@ -15,6 +15,7 @@
 #include "sampler_pop_properties.hpp"
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
+#include "metaprogramming.hpp"
 
 namespace fwdpy
 {
@@ -90,11 +91,12 @@ namespace fwdpy
       pop->N = KTfwd::uint_t(pop->diploids.size());
       return s.final();
     }
-    
+
     template<typename sampler,typename rules_t,class... Args>
     inline
-    typename std::enable_if<!std::is_void<typename sampler::final_t>::value,
-			    std::vector<typename sampler::final_t> >::type
+    typename std::conditional<std::is_void<typename sampler::final_t>::value,
+			      void,
+			      std::vector<typename sampler::final_t> >::type
     evolve_qtrait_async_wrapper( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
 				 const unsigned * Nvector,
 				 const size_t Nvector_len,
@@ -118,44 +120,6 @@ namespace fwdpy
 					   evolve_qtrait_sampler_details<sampler,rules_t>,
 					   pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
 					   mu_neutral,mu_selected,littler,f,sigmaE,optimum,sample,
-					   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->nl,rm->sl,rm->callbacks)),
-					   std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
-					   std::move(rules_thread),
-					   sampler(std::forward<Args>(args)...)
-					   )
-				);	
-	}
-      std::vector<typename sampler::final_t> rv(futures.size());
-      for(std::size_t i=0;i<futures.size();++i ) rv[i]=futures[i].get();
-      return rv;
-    }
-
-    template<typename sampler,typename rules_t,class... Args>
-    inline
-    typename std::enable_if<std::is_void<typename sampler::final_t>::value,
-			    void>::type
-    evolve_qtrait_async_wrapper( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-				 const unsigned * Nvector,
-				 const size_t Nvector_len,
-				 const double mu_neutral,
-				 const double mu_selected,
-				 const double littler,
-				 const double f,
-				 const double sigmaE,
-				 const double optimum,
-				 const internal::region_manager * rm,
-				 const rules_t & rules,
-				 Args&&... args)
-    {
-      using future_t = std::future<typename sampler::final_t>;
-      std::vector<future_t> futures;
-      for(std::size_t i=0;i<pops->size();++i)
-	{
-	  rules_t rules_thread(rules);
-	  futures.emplace_back( std::async(std::launch::async,
-					   evolve_qtrait_sampler_details<sampler,rules_t>,
-					   pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_len,
-					   mu_neutral,mu_selected,littler,f,sigmaE,optimum,0,
 					   std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
 					   std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
 					   std::move(rules_thread),
@@ -163,7 +127,7 @@ namespace fwdpy
 					   )
 				);	
 	}
-      for(std::size_t i=0;i<futures.size();++i ) futures[i].get();
+      return meta::return_sampler_futures(futures);
     }
 
     //No sampling

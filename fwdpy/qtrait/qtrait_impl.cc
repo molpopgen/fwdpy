@@ -51,7 +51,7 @@ namespace fwdpy
       qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
       evolve_qtrait_async_wrapper<no_sampling,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
 								  mu_neutral,mu_selected,littler,f,
-								  sigmaE,optimum,rm,rules);
+								  sigmaE,optimum,0,rm,rules);
     }
     std::vector<sample_n<singlepop_t>::final_t>
     evolve_qtrait_sample_async( GSLrng_t * rng,
@@ -146,7 +146,7 @@ namespace fwdpy
       gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
       evolve_qtrait_async_wrapper<no_sampling,gbr_model_rules>(rng,pops,Nvector,Nvector_length,
 							       mu_neutral,mu_selected,littler,f,
-							       sigmaE,optimum,rm,rules);
+							       sigmaE,optimum,0,rm,rules);
     }
     std::vector<sample_n<singlepop_t>::final_t>
     evolve_gbr_sample_async( GSLrng_t * rng,

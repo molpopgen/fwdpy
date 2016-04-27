@@ -14,6 +14,7 @@
 #include "sampler_pop_properties.hpp"
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
+#include "metaprogramming.hpp"
 
 namespace fwdpy
 {
@@ -134,11 +135,12 @@ namespace fwdpy
       gsl_rng_free(rng);
       return s.final();
     }
-
+    
     template<typename sampler,typename rules_t,class... Args>
     inline
-    typename std::enable_if<std::is_void<typename sampler::final_t>::value,
-			    void>::type
+    typename std::conditional<std::is_void<typename sampler::final_t>::value,
+			      void,
+			      std::vector<typename sampler::final_t>>::type
     evolve_qtrait_mloc_async_wrapper( GSLrng_t * rng,
 				      std::vector<std::shared_ptr<multilocus_t> > * pops,
 				      const unsigned * Nvector,
@@ -176,53 +178,7 @@ namespace fwdpy
 				      )
 				);	
 	}
-      for(std::size_t i=0;i<futures.size();++i ) futures[i].get();
-    }
-
-    template<typename sampler,typename rules_t,class... Args>
-    inline
-    typename std::enable_if<!std::is_void<typename sampler::final_t>::value,
-			    std::vector<typename sampler::final_t> >::type
-    evolve_qtrait_mloc_async_wrapper( GSLrng_t * rng,
-				      std::vector<std::shared_ptr<multilocus_t> > * pops,
-				      const unsigned * Nvector,
-				      const size_t Nvector_len,
-				      const std::vector<double> & neutral_mutation_rates,
-				      const std::vector<double> & selected_mutation_rates,
-				      const std::vector<double> & sigma_mus,
-				      const std::vector<double> & within_region_rec_rates,
-				      const std::vector<double> & between_region_rec_rates,
-				      const double f,
-				      const int sample,
-				      const rules_t & rules,
-				      Args&&... args)
-    {
-      using future_t = std::future<typename sampler::final_t>;
-      std::vector<future_t> futures;
-      for(std::size_t i=0;i<pops->size();++i)
-	{
-	  rules_t rules_thread(rules);
-	  futures.emplace_back( std::async(std::launch::async,
-					   evolve_qtrait_mloc_sampler_details<sampler,rules_t>,
-					   pops->operator[](i).get(),
-					   gsl_rng_get(rng->get()),
-					   Nvector,
-					   Nvector_len,
-					   neutral_mutation_rates,
-					   selected_mutation_rates,
-					   sigma_mus,
-					   within_region_rec_rates,
-					   between_region_rec_rates,
-					   f,
-					   sample,
-					   sampler(std::forward<Args>(args)...),
-					   std::move(rules_thread)
-					   )
-				);	
-	}
-      std::vector<typename sampler::final_t> rv(futures.size());
-      for(std::size_t i=0;i<futures.size();++i ) rv[i]=futures[i].get();
-      return rv;
+      return meta::return_sampler_futures(futures);
     }
 
     //CONCRETE FXNS BELOW THAT CYTHON CAN HANDLE
