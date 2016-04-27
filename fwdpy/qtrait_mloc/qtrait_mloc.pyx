@@ -29,3 +29,5 @@ cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
 				                                                              const double VS,
 				                                                              const int sample,
                                                                                               const unsigned nsam)
+
+include "evolve_qtraits_mloc.pyx"
