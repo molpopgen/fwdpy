@@ -4,6 +4,8 @@
 #include <future>
 #include <vector>
 #include <algorithm>
+#include <exception>
+#include <set>
 #include <type_traits>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
@@ -155,6 +157,33 @@ namespace fwdpy
 				      const rules_t & rules,
 				      Args&&... args)
     {
+      //Check inputs
+      std::set<std::size_t> vec_sizes{neutral_mutation_rates.size(),
+	  selected_mutation_rates.size(),
+	  sigma_mus.size(),
+	  within_region_rec_rates.size()};
+      if( vec_sizes.size() > 1 ) throw std::runtime_error("vectors of properties for each region must be same length");
+      if(between_region_rec_rates.size() != (*(vec_sizes.begin()) -1 ))
+	throw std::runtime_error("vector of between region recombination rates must contain k-1 elements for a k-locus model");
+      if( std::any_of(neutral_mutation_rates.begin(),neutral_mutation_rates.end(),
+		      [](double d){return d<0.;}) )
+	throw std::runtime_error("neutral mutation rates must be >= 0 for all loci");
+      for(auto i : selected_mutation_rates)
+	{
+	  if(i<0.) throw std::runtime_error("selected mutation rates must be >= 0 for all loci");
+	}
+      for(auto i : sigma_mus)
+	{
+	  if(i<0.) throw std::runtime_error("sigma terms for DFE must be >= 0 for all loci");
+	}
+      for( auto i : within_region_rec_rates )
+	{
+	  if(i<0.) throw std::runtime_error("recombination rates must be >= 0 within all loci");
+	}
+      for(auto i:between_region_rec_rates)
+	{
+	  if(i<0.) throw std::runtime_error("recombination rates must be >= 0 between all pairs of loci");
+	}
       using future_t = std::future<typename sampler::final_t>;
       std::vector<future_t> futures;
       for(std::size_t i=0;i<pops->size();++i)
