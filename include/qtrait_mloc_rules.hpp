@@ -61,6 +61,7 @@ namespace fwdpy
 
 	    //the g/e/w fields will be populated via update()
 	    fitnesses[i] = diploids[i][0].w;
+	    wbar += fitnesses[i];
 	  }
 
 	wbar /= double(diploids.size());
