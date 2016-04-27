@@ -82,7 +82,7 @@ namespace fwdpy
     std::vector<detailed_deme_sample> vds;
     for(unsigned i=0;i<s.size();++i)
       {	
-	std::vector< std::pair<double,double> > sh(s.size());
+	std::vector< std::pair<double,double> > sh;
 	for( const auto & si : s[i].second)
 	  {
 	    auto itr = std::find_if(pop->mutations.begin(),pop->mutations.end(),[&si](const singlepop_t::mutation_t & m) noexcept
