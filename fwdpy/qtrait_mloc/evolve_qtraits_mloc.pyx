@@ -13,6 +13,11 @@ def evolve_qtraits_mloc_sample(GSLrng rng_evolve,
                                double VS,
                                int sample,
                                int nsam):
+    """
+    Evolve a set of partially-linked regions contributing to variation
+    in a trait under real stabilizing selection.
+    """
+    #Note: exceptions are thrown from the C++ side...
     cdef size_t listlen = len(nlist)
     return evolve_qtrait_mloc_sample_async(rng_evolve.thisptr,
                                            rng_sample.thisptr,
