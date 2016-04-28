@@ -38,7 +38,7 @@ def evolve_qtraits_mloc_sample(GSLrng rng_evolve,
     This is a pure additive effects model.
 
     When evolving to an equilibrium around an optimum of 0, the total :math:`VG` for the trait would be 
-    approximately :math:`4\\sum_i\\mu_i VS`.
+    approximately :math:`4VS\\sum_i\\mu_i`.
 
     If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.
     """
