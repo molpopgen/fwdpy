@@ -1371,6 +1371,11 @@ static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, in
 /* GetModuleGlobalName.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
 
+/* ForceInitThreads.proto */
+#ifndef __PYX_FORCE_INIT_THREADS
+  #define __PYX_FORCE_INIT_THREADS 0
+#endif
+
 /* BufferFormatCheck.proto */
 static CYTHON_INLINE int  __Pyx_GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
     __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
@@ -1582,11 +1587,6 @@ static CYTHON_INLINE int __Pyx_PyList_Extend(PyObject* L, PyObject* v) {
 #endif
 }
 
-/* ForceInitThreads.proto */
-#ifndef __PYX_FORCE_INIT_THREADS
-  #define __PYX_FORCE_INIT_THREADS 0
-#endif
-
 /* None.proto */
 static CYTHON_INLINE long __Pyx_div_long(long, long);
 
@@ -1797,9 +1797,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value)
 static CYTHON_INLINE PyObject *__pyx_memview_get_unsigned_int(const char *itemp);
 static CYTHON_INLINE int __pyx_memview_set_unsigned_int(const char *itemp, PyObject *obj);
 
-static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_detailed_deme_sample(struct fwdpy::detailed_deme_sample s);
-static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(struct fwdpy::qtrait_stats_cython s);
-static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data(struct fwdpy::selected_mut_data s);
 /* CppExceptionConversion.proto */
 #ifndef __Pyx_CppExn2PyErr
 #include <new>
@@ -1840,6 +1837,9 @@ static void __Pyx_CppExn2PyErr() {
 }
 #endif
 
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_detailed_deme_sample(struct fwdpy::detailed_deme_sample s);
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(struct fwdpy::qtrait_stats_cython s);
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data(struct fwdpy::selected_mut_data s);
 /* None.proto */
 #include <new>
 
@@ -3180,7 +3180,18 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
  *     return pops
  * 
  */
-        fwdpy::qtrait::evolve_qtrait_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_rmgr->thisptr);
+        try {
+          fwdpy::qtrait::evolve_qtrait_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_rmgr->thisptr);
+        } catch(...) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+          #endif
+          __Pyx_CppExn2PyErr();
+          #ifdef WITH_THREAD
+          PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(0, 58, __pyx_L5_error)
+        }
       }
 
       /* "fwdpy/qtrait/evolve_qtraits.pyx":57
@@ -3196,6 +3207,12 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_2evolve_qtrait(CYTHON_UNUSED Py
           Py_BLOCK_THREADS
           #endif
           goto __pyx_L6;
+        }
+        __pyx_L5_error: {
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L1_error;
         }
         __pyx_L6:;
       }
@@ -3706,7 +3723,18 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_4evolve_qtrait_more(CYTHON_UNUS
  *                                         rmgr.thisptr)
  * 
  */
-        fwdpy::qtrait::evolve_qtrait_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_rmgr->thisptr);
+        try {
+          fwdpy::qtrait::evolve_qtrait_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_rmgr->thisptr);
+        } catch(...) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+          #endif
+          __Pyx_CppExn2PyErr();
+          #ifdef WITH_THREAD
+          PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(0, 105, __pyx_L5_error)
+        }
       }
 
       /* "fwdpy/qtrait/evolve_qtraits.pyx":104
@@ -3994,6 +4022,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_6evolve_qtrait_sample(CYTHON_UN
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
   int __pyx_t_11;
+  std::vector<std::vector<std::pair<unsigned int,struct fwdpy::detailed_deme_sample> > >  __pyx_t_12;
   __Pyx_RefNannySetupContext("evolve_qtrait_sample", 0);
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":123
@@ -4287,7 +4316,13 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_6evolve_qtrait_sample(CYTHON_UN
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_7 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(fwdpy::qtrait::evolve_qtrait_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sampling->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackSamples, __pyx_v_nsam, __pyx_v_rmgr->thisptr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
+  try {
+    __pyx_t_12 = fwdpy::qtrait::evolve_qtrait_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sampling->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackSamples, __pyx_v_nsam, __pyx_v_rmgr->thisptr);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 135, __pyx_L1_error)
+  }
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4533,6 +4568,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_8evolve_qtrait_popstats(CYTHON_
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
   int __pyx_t_11;
+  std::vector<std::vector<struct fwdpy::qtrait_stats_cython> >  __pyx_t_12;
   __Pyx_RefNannySetupContext("evolve_qtrait_popstats", 0);
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":151
@@ -4802,7 +4838,21 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_8evolve_qtrait_popstats(CYTHON_
  * 
  * def evolve_qtrait_track(GSLrng rng,
  */
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(fwdpy::qtrait::evolve_qtrait_popstats_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackStats, __pyx_v_rmgr->thisptr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
+  try {
+    __pyx_t_12 = fwdpy::qtrait::evolve_qtrait_popstats_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackStats, __pyx_v_rmgr->thisptr);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 161, __pyx_L1_error)
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":161
+ *     rmgr = region_manager_wrapper()
+ *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+ *     return evolve_qtrait_popstats_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackStats,             # <<<<<<<<<<<<<<
+ *                                         rmgr.thisptr)
+ * 
+ */
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5048,6 +5098,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_10evolve_qtrait_track(CYTHON_UN
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
   int __pyx_t_11;
+  std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_t_12;
   __Pyx_RefNannySetupContext("evolve_qtrait_track", 0);
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":178
@@ -5317,7 +5368,21 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_10evolve_qtrait_track(CYTHON_UN
  * 
  * #Below are functions related to the 'gene-based' recessive models of doi:10.1371/journal.pgen.1003258
  */
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(fwdpy::qtrait::evolve_qtrait_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_rmgr->thisptr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+  try {
+    __pyx_t_12 = fwdpy::qtrait::evolve_qtrait_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_rmgr->thisptr);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 188, __pyx_L1_error)
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":188
+ *     rmgr = region_manager_wrapper()
+ *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+ *     return evolve_qtrait_track_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,             # <<<<<<<<<<<<<<
+ *                                      rmgr.thisptr)
+ * 
+ */
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6224,7 +6289,18 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
  *     return pops
  * 
  */
-        fwdpy::qtrait::evolve_gbr_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_rmgr->thisptr);
+        try {
+          fwdpy::qtrait::evolve_gbr_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_rmgr->thisptr);
+        } catch(...) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+          #endif
+          __Pyx_CppExn2PyErr();
+          #ifdef WITH_THREAD
+          PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(0, 232, __pyx_L5_error)
+        }
       }
 
       /* "fwdpy/qtrait/evolve_qtraits.pyx":231
@@ -6240,6 +6316,12 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_14evolve_gbr(CYTHON_UNUSED PyOb
           Py_BLOCK_THREADS
           #endif
           goto __pyx_L6;
+        }
+        __pyx_L5_error: {
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L1_error;
         }
         __pyx_L6:;
       }
@@ -6516,6 +6598,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_16evolve_gbr_sample(CYTHON_UNUS
   PyObject *__pyx_t_8 = NULL;
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
+  std::vector<std::vector<std::pair<unsigned int,struct fwdpy::detailed_deme_sample> > >  __pyx_t_11;
   __Pyx_RefNannySetupContext("evolve_gbr_sample", 0);
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":252
@@ -6845,7 +6928,21 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_16evolve_gbr_sample(CYTHON_UNUS
  * 
  * @cython.boundscheck(False)
  */
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(fwdpy::qtrait::evolve_gbr_sample_async(__pyx_v_rng->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackSamples, __pyx_v_nsam, __pyx_v_rmgr->thisptr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
+  try {
+    __pyx_t_11 = fwdpy::qtrait::evolve_gbr_sample_async(__pyx_v_rng->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackSamples, __pyx_v_nsam, __pyx_v_rmgr->thisptr);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 265, __pyx_L1_error)
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":265
+ *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+ * 
+ *     return evolve_gbr_sample_async(rng.thisptr,rng_sample.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackSamples,nsam,             # <<<<<<<<<<<<<<
+ *                                       rmgr.thisptr)
+ * 
+ */
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7090,6 +7187,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_18evolve_gbr_popstats(CYTHON_UN
   PyObject *__pyx_t_8 = NULL;
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
+  std::vector<std::vector<struct fwdpy::qtrait_stats_cython> >  __pyx_t_11;
   __Pyx_RefNannySetupContext("evolve_gbr_popstats", 0);
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":283
@@ -7387,7 +7485,21 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_18evolve_gbr_popstats(CYTHON_UN
  * 
  * @cython.boundscheck(False)
  */
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(fwdpy::qtrait::evolve_gbr_popstats_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackStats, __pyx_v_rmgr->thisptr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
+  try {
+    __pyx_t_11 = fwdpy::qtrait::evolve_gbr_popstats_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_trackStats, __pyx_v_rmgr->thisptr);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 294, __pyx_L1_error)
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":294
+ *     rmgr = region_manager_wrapper()
+ *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+ *     return evolve_gbr_popstats_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,trackStats,             # <<<<<<<<<<<<<<
+ *                                      rmgr.thisptr)
+ * 
+ */
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7632,6 +7744,7 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_20evolve_gbr_track(CYTHON_UNUSE
   PyObject *__pyx_t_8 = NULL;
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
+  std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_t_11;
   __Pyx_RefNannySetupContext("evolve_gbr_track", 0);
 
   /* "fwdpy/qtrait/evolve_qtraits.pyx":312
@@ -7926,7 +8039,20 @@ static PyObject *__pyx_pf_5fwdpy_6qtrait_6qtrait_20evolve_gbr_track(CYTHON_UNUSE
  *     return evolve_gbr_track_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,
  *                                   rmgr.thisptr)             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(fwdpy::qtrait::evolve_gbr_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_rmgr->thisptr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 323, __pyx_L1_error)
+  try {
+    __pyx_t_11 = fwdpy::qtrait::evolve_gbr_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_t_7, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_track, __pyx_v_rmgr->thisptr);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 323, __pyx_L1_error)
+  }
+
+  /* "fwdpy/qtrait/evolve_qtraits.pyx":323
+ *     rmgr = region_manager_wrapper()
+ *     internal.make_region_manager(rmgr,nregions,sregions,recregions)
+ *     return evolve_gbr_track_async(rng.thisptr,&pops.pops,&nlist[0],len(nlist),mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,track,             # <<<<<<<<<<<<<<
+ *                                   rmgr.thisptr)
+ */
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;

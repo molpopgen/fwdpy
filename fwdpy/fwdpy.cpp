@@ -12672,7 +12672,18 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
  */
         __pyx_t_10 = 0;
         if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_nlist.shape[0];
-        fwdpy::evolve_regions_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+        try {
+          fwdpy::evolve_regions_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+        } catch(...) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+          #endif
+          __Pyx_CppExn2PyErr();
+          #ifdef WITH_THREAD
+          PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(5, 97, __pyx_L5_error)
+        }
       }
 
       /* "fwdpy/evolve_regions.pyx":96
@@ -12688,6 +12699,12 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_18evolve_regions(CYTHON_UNUSED PyObject 
           Py_BLOCK_THREADS
           #endif
           goto __pyx_L6;
+        }
+        __pyx_L5_error: {
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L1_error;
         }
         __pyx_L6:;
       }
@@ -13114,7 +13131,18 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
  */
         __pyx_t_10 = 0;
         if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_nlist.shape[0];
-        fwdpy::evolve_regions_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+        try {
+          fwdpy::evolve_regions_no_sampling_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+        } catch(...) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+          #endif
+          __Pyx_CppExn2PyErr();
+          #ifdef WITH_THREAD
+          PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(5, 154, __pyx_L5_error)
+        }
       }
 
       /* "fwdpy/evolve_regions.pyx":153
@@ -13130,6 +13158,12 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_20evolve_regions_more(CYTHON_UNUSED PyOb
           Py_BLOCK_THREADS
           #endif
           goto __pyx_L6;
+        }
+        __pyx_L5_error: {
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L1_error;
         }
         __pyx_L6:;
       }
@@ -13375,6 +13409,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   PyObject *__pyx_t_8 = NULL;
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
+  std::vector<std::vector<std::pair<unsigned int,struct fwdpy::detailed_deme_sample> > >  __pyx_t_11;
   __Pyx_RefNannySetupContext("evolve_regions_sample", 0);
 
   /* "fwdpy/evolve_regions.pyx":193
@@ -13624,7 +13659,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_22evolve_regions_sample(CYTHON_UNUSED Py
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_10 = 0;
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_nlist.shape[0];
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(fwdpy::evolve_regions_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_nsam, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 204, __pyx_L1_error)
+  try {
+    __pyx_t_11 = fwdpy::evolve_regions_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_nsam, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(5, 204, __pyx_L1_error)
+  }
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -13849,6 +13890,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   PyObject *__pyx_t_8 = NULL;
   int __pyx_t_9;
   Py_ssize_t __pyx_t_10;
+  std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_t_11;
   __Pyx_RefNannySetupContext("evolve_regions_track", 0);
 
   /* "fwdpy/evolve_regions.pyx":240
@@ -14065,7 +14107,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_24evolve_regions_track(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_10 = 0;
   if (__pyx_t_10 < 0) __pyx_t_10 += __pyx_v_nlist.shape[0];
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(fwdpy::evolve_regions_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_rmgr->thisptr, __pyx_v_fitness)); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 249, __pyx_L1_error)
+  try {
+    __pyx_t_11 = fwdpy::evolve_regions_track_async(__pyx_v_rng->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_10 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_recrate, __pyx_v_f, __pyx_v_sample, __pyx_v_rmgr->thisptr, __pyx_v_fitness);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(5, 249, __pyx_L1_error)
+  }
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(__pyx_t_11); if (unlikely(!__pyx_t_1)) __PYX_ERR(5, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
