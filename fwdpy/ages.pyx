@@ -38,3 +38,18 @@ def merge_trajectories( const vector[vector[pair[selected_mut_data,vector[double
         rv[i] = merge_trajectories_details(trajectories1[i],trajectories2[i])
 
     return rv
+
+def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories ):
+    """
+    Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
+    a pandas.DataFrame.
+    """
+    cdef vector[vector[selected_mut_data_tidy]] rv;
+    rv.resize(trajectories.size())
+    cdef size_t nt = trajectories.size()
+    cdef int i
+
+    for i in prange(nt,schedule='static',nogil=True,chunksize=1):
+        rv[i]=tidy_trajectory_info(trajectories[i])
+
+    return rv
