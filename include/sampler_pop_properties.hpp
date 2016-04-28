@@ -45,16 +45,7 @@ namespace fwdpy {
       trait.reserve(pop->diploids.size());
       wbar.reserve(pop->diploids.size());
 
-      //This part will need to be contracted out,
-      //and specialized, for single- vs. multiple- region
-      //sims!
-      for(const auto & dip : pop->diploids)
-	{
-	  VG.push_back(dip.g);
-	  VE.push_back(dip.e);
-	  trait.push_back(dip.g+dip.e);
-	  wbar.push_back(dip.w);
-	}
+      fill_vectors(pop,VG,VG,trait,wbar);
 
       double twoN=2.*double(pop->diploids.size());
       double mvexpl = 0.,
@@ -138,9 +129,45 @@ namespace fwdpy {
     {
     }
   private:
+    template<typename pop_t> void
+    fill_vectors(const pop_t * pop,
+		 std::vector<double> & VG,
+		 std::vector<double> & VE,
+		 std::vector<double> & wbar,
+		 std::vector<double> & trait)
+    {
+      for(const auto & dip : pop->diploids)
+	{
+	  VG.push_back(dip.g);
+	  VE.push_back(dip.e);
+	  trait.push_back(dip.g+dip.e);
+	  wbar.push_back(dip.w);
+	}
+    }
+
     qtrait_stats_t qstats;
     double optimum;
     enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,WVAR,TBAR,VST };
   };
+
+  template<>
+  inline
+  void pop_properties::fill_vectors<multilocus_t>(const multilocus_t * pop,
+						  std::vector<double> & VG,
+						  std::vector<double> & VE,
+						  std::vector<double> & wbar,
+						  std::vector<double> & trait)
+  /*!
+    Specialization for fwdpy::multilocus_t
+  */
+  {
+    for(const auto & dip : pop->diploids)
+      {
+	VG.push_back(dip[0].g);
+	VE.push_back(dip[0].e);
+	trait.push_back(dip[0].g+dip[0].e);
+	wbar.push_back(dip[0].w);
+      }
+  }
 }
 #endif
