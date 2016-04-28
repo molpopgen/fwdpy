@@ -134,7 +134,7 @@ namespace fwdpy {
       return rv;
     }
 
-    explicit pop_properties(double optimum_) : optimum(optimum_)
+    explicit pop_properties(double optimum_) noexcept : optimum(optimum_)
     {
     }
   private:
