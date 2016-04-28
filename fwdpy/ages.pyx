@@ -39,10 +39,14 @@ def merge_trajectories( const vector[vector[pair[selected_mut_data,vector[double
 
     return rv
 
-def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories ):
+def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
     """
     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
     a pandas.DataFrame.
+
+    :param trajectories: A container of mutation frequency trajectories from a simulation.
+    :param min_sojourn: Exclude mutations that segregate for fewer generations than this value.
+    :param min_freq: Exclude mutations that never reach a frequency :math:`\\geq` this value.
     """
     cdef vector[vector[selected_mut_data_tidy]] rv;
     rv.resize(trajectories.size())
@@ -50,6 +54,6 @@ def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]
     cdef int i
 
     for i in prange(nt,schedule='static',nogil=True,chunksize=1):
-        rv[i]=tidy_trajectory_info(trajectories[i])
+        rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)
 
     return rv

@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <stdexcept>
 
+#include <algorithm>
 #include "allele_ages.hpp"
+
 using namespace std;
 
 namespace fwdpy
@@ -54,15 +56,23 @@ namespace fwdpy
   }
 
   
-  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<double>>> & trajectories )
+  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<double>>> & trajectories,
+							    const unsigned min_sojourn,
+							    const double min_freq)
   {
     std::vector<selected_mut_data_tidy> rv;
     for( const auto & ti : trajectories )
       {
-	unsigned gen=0;
-	for( const auto & f : ti.second )
+	if(!ti.second.empty()&&ti.second.size() >= min_sojourn)
 	  {
-	    rv.emplace_back(ti.first.origin,ti.first.origin+gen++,ti.first.pos,f,ti.first.esize,ti.first.label);
+	    if( *std::max_element(ti.second.begin(),ti.second.end()) >= min_freq )
+	      {
+		unsigned gen=0;
+		for( const auto & f : ti.second )
+		  {
+		    rv.emplace_back(ti.first.origin,ti.first.origin+gen++,ti.first.pos,f,ti.first.esize,ti.first.label);
+		  }
+	      }
 	  }
       }
     return rv;
