@@ -112,24 +112,24 @@ namespace fwdpy
 	    {
 	      s(pop,pop->generation);
 	    }
-	  auto wbar = KTfwd::experimental::sample_diploid(rng,
-							  pop->gametes,
-							  pop->diploids,
-							  pop->mutations,
-							  pop->mcounts,
-							  pop->N,nextN,
-							  tmu.data(),
-							  mmodels,
-							  recpols,
-							  between_region_rec_rates.data(),
-							  //rec b/w loci is interpreted as cM!!!!!
-							  [](const gsl_rng * __r, const double __d){ return gsl_ran_binomial(__r,__d,1); },
-							  std::bind(no_selection_multi(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3),
-							  pop->neutral,
-							  pop->selected,
-							  f,
-							  rules,
-							  KTfwd::remove_neutral());
+	  KTfwd::experimental::sample_diploid(rng,
+					      pop->gametes,
+					      pop->diploids,
+					      pop->mutations,
+					      pop->mcounts,
+					      pop->N,nextN,
+					      tmu.data(),
+					      mmodels,
+					      recpols,
+					      between_region_rec_rates.data(),
+					      //rec b/w loci is interpreted as cM!!!!!
+					      [](const gsl_rng * __r, const double __d){ return gsl_ran_binomial(__r,__d,1); },
+					      std::bind(no_selection_multi(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3),
+					      pop->neutral,
+					      pop->selected,
+					      f,
+					      rules,
+					      KTfwd::remove_neutral());
 	  pop->N=nextN;
 	}
       if (interval && pop->generation &&pop->generation%interval==0.)
