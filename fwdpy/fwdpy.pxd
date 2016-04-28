@@ -221,7 +221,8 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
         unsigned origin
         unsigned generation
 
-    vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[pair[selected_mut_data,vector[double]]] & trajectories );
+    vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
+                                                         const unsigned min_sojourn, const double min_freq);
 
 cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
     cdef struct qtrait_stats_cython:
