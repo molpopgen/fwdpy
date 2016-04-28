@@ -2,6 +2,7 @@
 #define __FWDPY_HOCRULES_HPP__
 
 #include <cmath>
+#include <exception>
 #include <fwdpp/diploid.hh>
 #include "types.hpp"
 /*
@@ -28,13 +29,19 @@ namespace fwdpy
       qtrait_model_rules(const double & __sigE,
 			 const double & __optimum,
 			 const double & __VS,
-			 const unsigned __maxN = 100000) :wbar(0.),
+			 const unsigned __maxN = 100000) noexcept(false) :
+							  wbar(0.),
 							  sigE(__sigE),
 							  optimum(__optimum),
 							  VS(__VS),
 							  fitnesses(std::vector<double>(__maxN)),
 							  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
+							  /*!
+							    Constructor throws std::runtime_error if params are not valid.
+							  */
       {
+	if(sigE<0.) throw std::runtime_error("Environmental noise term must be >= 0.");
+	if(VS <= 0.) throw std::runtime_error("VS must be > 0.");
       }
 
       qtrait_model_rules(qtrait_model_rules &&) = default;
