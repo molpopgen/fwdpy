@@ -37,7 +37,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				          const double sigmaE,
 				          const double optimum,
 				          const double VS,
-				          const region_manager * rm)
+				          const region_manager * rm) except +
 
     
     vector[vector[pair[uint,detailed_deme_sample]]] evolve_qtrait_sample_async( GSLrng_t * rng,GSLrng_t * rng_sample,
@@ -53,7 +53,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				                                                const double VS,
 				                                                const int sample,
 				                                                const unsigned nsam,
-				                                                const region_manager * rm)
+				                                                const region_manager * rm) except +
 
     vector[vector[qtrait_stats_cython]] evolve_qtrait_popstats_async( GSLrng_t * rng,
                                                                       vector[shared_ptr[singlepop_t]] * pops,
@@ -67,7 +67,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				                                      const double optimum,
 				                                      const double VS,
 				                                      const int sample,
-				                                      const region_manager * rm)
+				                                      const region_manager * rm) except +
 
     vector[vector[pair[selected_mut_data,vector[double]]]] evolve_qtrait_track_async( GSLrng_t * rng,
                                                                                               vector[shared_ptr[singlepop_t]] * pops,
@@ -81,7 +81,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				                                                              const double optimum,
 				                                                              const double VS,
 				                                                              const int track,
-				                                                              const region_manager * rm)
+				                                                              const region_manager * rm) except +
 
     void evolve_gbr_no_sampling_async( GSLrng_t * rng,
                                        vector[shared_ptr[singlepop_t]] * pops,
@@ -94,7 +94,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				       const double sigmaE,
 				       const double optimum,
 				       const double VS,
-				       const region_manager * rm)
+				       const region_manager * rm) except +
     
     
     vector[vector[pair[uint,detailed_deme_sample]]] evolve_gbr_sample_async( GSLrng_t * rng,GSLrng_t * rng_sample,
@@ -110,7 +110,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				                                             const double VS,
 				                                             const int sample,
 				                                             const unsigned nsam,
-				                                             const region_manager * rm)
+				                                             const region_manager * rm) except +
 
     vector[vector[qtrait_stats_cython]] evolve_gbr_popstats_async( GSLrng_t * rng,
                                                                    vector[shared_ptr[singlepop_t]] * pops,
@@ -124,7 +124,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				                                   const double optimum,
 				                                   const double VS,
 				                                   const int sample,
-				                                   const region_manager * rm)
+				                                   const region_manager * rm) except +
 
     vector[vector[pair[selected_mut_data,vector[double]]]] evolve_gbr_track_async( GSLrng_t * rng,
                                                                                            vector[shared_ptr[singlepop_t]] * pops,
@@ -138,7 +138,7 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				                                                           const double optimum,
                                                                                            const double VS,
 				                                                           const int track,
-				                                                           const region_manager * rm)
+				                                                           const region_manager * rm) except +
     
 include "evolve_qtraits.pyx"
 include "ew2010.pyx"

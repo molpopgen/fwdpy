@@ -246,7 +246,7 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                           const double littler,
                                           const double f,
                                           const region_manager * rm,
-                                          const char * fitness)
+                                          const char * fitness) except +
 
     vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng_evolve,GSLrng_t * rng_sample,
                                                                         vector[shared_ptr[singlepop_t]] * pops,
@@ -259,7 +259,7 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                                                         const int sample,
                                                                         const unsigned nsam,
                                                                         const region_manager * rm,
-                                                                        const char * fitness)
+                                                                        const char * fitness) except +
 
     vector[vector[pair[selected_mut_data,vector[double]]]] evolve_regions_track_async(GSLrng_t * rng,
                                                                                       vector[shared_ptr[singlepop_t]] * pops,
@@ -271,7 +271,7 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                                                                       const double f,
                                                                                       const int sample,
                                                                                       const region_manager * rm,
-                                                                                      const char * fitness)
+                                                                                      const char * fitness) except +
 
 cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
     sample_t sample_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
