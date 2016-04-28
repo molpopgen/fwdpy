@@ -241,7 +241,6 @@ namespace fwdpy
 
     //Sample nothing
     void evolve_qtrait_mloc_no_sampling_async( GSLrng_t * rng,
-					       GSLrng_t * rng_sample,
 					       std::vector<std::shared_ptr<multilocus_t> > * pops,
 					       const unsigned * Nvector,
 					       const size_t Nvector_length,
@@ -259,7 +258,6 @@ namespace fwdpy
     //Sample quant. genetics params from pop
     std::vector<pop_properties::final_t>
     evolve_qtrait_mloc_popstats_async( GSLrng_t * rng,
-				       GSLrng_t * rng_sample,
 				       std::vector<std::shared_ptr<multilocus_t> > * pops,
 				       const unsigned * Nvector,
 				       const size_t Nvector_length,
@@ -278,7 +276,6 @@ namespace fwdpy
     //Causative mutation frequency trajectories
     std::vector<selected_mut_tracker::final_t>
     evolve_qtrait_mloc_track_async( GSLrng_t * rng,
-				    GSLrng_t * rng_sample,
 				    std::vector<std::shared_ptr<multilocus_t> > * pops,
 				    const unsigned * Nvector,
 				    const size_t Nvector_length,
@@ -293,8 +290,6 @@ namespace fwdpy
 				    const double VS,
 				    const int sample,
 				    const unsigned nsam);
-
-    
   }
 }
 #endif
