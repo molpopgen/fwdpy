@@ -36,7 +36,24 @@ namespace fwdpy
     }
   };
 
+  struct selected_mut_data_tidy
+  /*!
+    \brief Convenience type for conversion to dict -> pandas.DataFrame
+   */
+  {
+    double pos,esize,freq;
+    unsigned origin,generation;
+    using label_t=decltype(KTfwd::mutation_base::xtra);
+    label_t label;
+    selected_mut_data_tidy(unsigned o,unsigned g,double p,double q,double e,label_t l) :
+      pos(p),esize(e),freq(q),origin(o),generation(g),label(l)
+    {
+    }
+  };
 
+  //non-inline!  This is part of fwdpy's main module.
+  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<double>>> & trajectories );
+  
   //! Used internally to convert C++11 types to something Cython will understand
   enum class traj_key_values : std::size_t { deme,origin,pos,esize,label };
 
