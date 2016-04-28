@@ -214,6 +214,15 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
         double esize
         unsigned origin
 
+    cdef struct selected_mut_data_tidy:
+        double pos
+        double esize
+        double freq
+        unsigned origin
+        unsigned generation
+
+    vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[pair[selected_mut_data,vector[double]]] & trajectories );
+
 cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
     cdef struct qtrait_stats_cython:
         string stat
