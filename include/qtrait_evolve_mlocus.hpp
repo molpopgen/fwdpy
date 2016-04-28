@@ -163,9 +163,12 @@ namespace fwdpy
 	  selected_mutation_rates.size(),
 	  sigma_mus.size(),
 	  within_region_rec_rates.size()};
+
       if( vec_sizes.size() > 1 ) throw std::runtime_error("vectors of properties for each region must be same length");
-      if(between_region_rec_rates.size() != (*(vec_sizes.begin()) -1 ))
-	throw std::runtime_error("vector of between region recombination rates must contain k-1 elements for a k-locus model");
+
+      if(between_region_rec_rates.size() != neutral_mutation_rates.size()-1)
+	  throw std::runtime_error("vector of between region recombination rates must contain k-1 elements for a k-locus model");
+
       if( std::any_of(neutral_mutation_rates.begin(),neutral_mutation_rates.end(),
 		      [](double d){return d<0.;}) )
 	throw std::runtime_error("neutral mutation rates must be >= 0 for all loci");
