@@ -91,7 +91,7 @@ namespace fwdpy
 				    });
 	    sh.emplace_back(itr->s,itr->h);
 	  }
-	vds.emplace_back(std::move(s[i]),sh);
+	vds.emplace_back(std::move(s[i]),std::move(sh));
       }
     rv.emplace_back(generation,std::move(vds));
   }
