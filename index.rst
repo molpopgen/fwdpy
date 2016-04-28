@@ -85,6 +85,10 @@ Functions and classes
    :members:
    :show-inheritance:
 
+.. automodule:: fwdpy.qtrait_mloc.qtrait_mloc
+   :members:
+   :show-inheritance:
+
 
 
 Indices and tables
