@@ -164,6 +164,10 @@ namespace fwdpy
 	  sigma_mus.size(),
 	  within_region_rec_rates.size()};
 
+      if(sample < 0) throw std::runtime_error("sample must be non-negative");
+
+      if(f<0.0 || f>1.0) throw std::runtime_error("selfing probability must be 0<= f <= 1");
+      
       if( vec_sizes.size() > 1 ) throw std::runtime_error("vectors of properties for each region must be same length");
 
       if(between_region_rec_rates.size() != neutral_mutation_rates.size()-1)
