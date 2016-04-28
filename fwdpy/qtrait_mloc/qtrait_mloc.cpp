@@ -2120,7 +2120,7 @@ static PyObject *__pyx_codeobj__16;
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mloc_sample(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample[] = "\n    Evolve a set of partially-linked regions contributing to variation\n    in a trait under real Gaussian stabilizing selection.\n\n    :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations\n    :param rng_sample: a :class:`fwdpy.fwdpy.GSLrng` used for sampling from populations\n    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`\n    :param nlist: Population sizes over time (array of 32 bit unsigned integers)\n    :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation\n    :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation\n    :param sigmas: Effect sizes are N(0,sigma[i]) at the i-th locus.\n    :param recrates_within: Recombination rates within each locus.  Per diploid, per generation\n    :param recrates_betwen: Genetic distance, in centiMorgans, between each pair of loci.\n    :param sample: Take a sample of size nsam every \"sample\" generations\n    :param nsam: Sample size (no. chromosomes)\n    :param optimum: Optimum trait value\n    :param sigmaE: Std. dev. of Gaussian noise to add to trait values.\n    :param f: Selfing probability\n    :param VS: Intensity of selection against extreme phenotypes.  Smaller = more selection.\n\n    This is a pure additive effects model.\n\n    When evolving to an equilibrium around an optimum of 0, the total :math:`VG` for the trait would be \n    approximately :math:`4\\sum_i\\mu_i VS`.\n\n    If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.\n    ";
+static char __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample[] = "\n    Evolve a set of partially-linked regions contributing to variation\n    in a trait under real Gaussian stabilizing selection. \n\n    This version takes a sample from the population at regular intervals.\n\n    :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations\n    :param rng_sample: a :class:`fwdpy.fwdpy.GSLrng` used for sampling from populations\n    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`\n    :param nlist: Population sizes over time (array of 32 bit unsigned integers)\n    :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation\n    :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation\n    :param sigmas: Effect sizes are N(0,sigma[i]) at the i-th locus.\n    :param recrates_within: Recombination rates within each locus.  Per diploid, per generation\n    :param recrates_betwen: Genetic distance, in centiMorgans, between each pair of loci.\n    :param sample: Take a sample of size nsam every \"sample\" generations\n    :param nsam: Sample size (no. chromosomes)\n    :param optimum: Optimum trait value\n    :param sigmaE: Std. dev. of Gaussian noise to add to trait values.\n    :param f: Selfing probability\n    :param VS: Intensity of selection against extreme phenotypes.  Smaller = more selection.\n\n    This is a pure additive effects model.\n\n    When evolving to an equilibrium around an optimum of 0, the total :math:`VG` for the trait would be \n    approximately :math:`4VS\\sum_i\\mu_i`.\n\n    If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.\n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mloc_sample = {"evolve_qtraits_mloc_sample", (PyCFunction)__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mloc_sample, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample};
 static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mloc_sample(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve = 0;
@@ -2341,20 +2341,20 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
   std::vector<std::vector<std::pair<unsigned int,std::vector<struct fwdpy::detailed_deme_sample> > > >  __pyx_t_10;
   __Pyx_RefNannySetupContext("evolve_qtraits_mloc_sample", 0);
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":44
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":46
  *     """
  *     #Note: exceptions are thrown from the C++ side...
  *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     return evolve_qtrait_mloc_sample_async(rng_evolve.thisptr,
  *                                            rng_sample.thisptr,
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_listlen = __pyx_t_2;
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":45
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":47
  *     #Note: exceptions are thrown from the C++ side...
  *     cdef size_t listlen = len(nlist)
  *     return evolve_qtrait_mloc_sample_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
@@ -2363,7 +2363,7 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":48
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":50
  *                                            rng_sample.thisptr,
  *                                            &pops.pops,
  *                                            &nlist[0],listlen,             # <<<<<<<<<<<<<<
@@ -2378,31 +2378,31 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
   } else if (unlikely(__pyx_t_3 >= __pyx_v_nlist.shape[0])) __pyx_t_4 = 0;
   if (unlikely(__pyx_t_4 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_4);
-    __PYX_ERR(0, 48, __pyx_L1_error)
+    __PYX_ERR(0, 50, __pyx_L1_error)
   }
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":49
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":51
  *                                            &pops.pops,
  *                                            &nlist[0],listlen,
  *                                            mu_neutral,mu_selected,sigmas,             # <<<<<<<<<<<<<<
  *                                            recrates_within,recrates_between,
  *                                            f,sigmaE,optimum,VS,sample,nsam)
  */
-  __pyx_t_5 = __pyx_convert_vector_from_py_double(__pyx_v_mu_neutral); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
-  __pyx_t_6 = __pyx_convert_vector_from_py_double(__pyx_v_mu_selected); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
-  __pyx_t_7 = __pyx_convert_vector_from_py_double(__pyx_v_sigmas); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_5 = __pyx_convert_vector_from_py_double(__pyx_v_mu_neutral); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_6 = __pyx_convert_vector_from_py_double(__pyx_v_mu_selected); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_7 = __pyx_convert_vector_from_py_double(__pyx_v_sigmas); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":50
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":52
  *                                            &nlist[0],listlen,
  *                                            mu_neutral,mu_selected,sigmas,
  *                                            recrates_within,recrates_between,             # <<<<<<<<<<<<<<
  *                                            f,sigmaE,optimum,VS,sample,nsam)
  * 
  */
-  __pyx_t_8 = __pyx_convert_vector_from_py_double(__pyx_v_recrates_within); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
-  __pyx_t_9 = __pyx_convert_vector_from_py_double(__pyx_v_recrates_between); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_t_8 = __pyx_convert_vector_from_py_double(__pyx_v_recrates_within); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_9 = __pyx_convert_vector_from_py_double(__pyx_v_recrates_between); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":45
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":47
  *     #Note: exceptions are thrown from the C++ side...
  *     cdef size_t listlen = len(nlist)
  *     return evolve_qtrait_mloc_sample_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
@@ -2413,9 +2413,9 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
     __pyx_t_10 = fwdpy::qtrait::evolve_qtrait_mloc_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_3 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8, __pyx_t_9, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_sample, __pyx_v_nsam);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 45, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e____3e___(__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e____3e___(__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
