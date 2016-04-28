@@ -20,5 +20,5 @@ samples = qtm.evolve_qtraits_mloc_sample(rnge,rngs,x,nlist,
                                          [0.1]*NLOCI,
                                          [mu_n_region]*NLOCI,
                                          [0.5]*(NLOCI-1),#loci unlinked
-                                         0,0,0.,1,10,20)
+                                         10,20)
 print samples[0]
