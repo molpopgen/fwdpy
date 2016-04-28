@@ -45,7 +45,7 @@ namespace fwdpy {
       trait.reserve(pop->diploids.size());
       wbar.reserve(pop->diploids.size());
 
-      fill_vectors(pop,VG,VG,trait,wbar);
+      fill_vectors(pop,VG,VE,trait,wbar);
 
       double twoN=2.*double(pop->diploids.size());
       double mvexpl = 0.,
@@ -133,8 +133,8 @@ namespace fwdpy {
     fill_vectors(const pop_t * pop,
 		 std::vector<double> & VG,
 		 std::vector<double> & VE,
-		 std::vector<double> & wbar,
-		 std::vector<double> & trait)
+		 std::vector<double> & trait,
+		 std::vector<double> & wbar)
     {
       for(const auto & dip : pop->diploids)
 	{
@@ -155,8 +155,8 @@ namespace fwdpy {
   void pop_properties::fill_vectors<multilocus_t>(const multilocus_t * pop,
 						  std::vector<double> & VG,
 						  std::vector<double> & VE,
-						  std::vector<double> & wbar,
-						  std::vector<double> & trait)
+						  std::vector<double> & trait,
+						  std::vector<double> & wbar)
   /*!
     Specialization for fwdpy::multilocus_t
   */
