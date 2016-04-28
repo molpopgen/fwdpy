@@ -674,7 +674,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":238
+/* "fwdpy/fwdpy.pxd":248
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<

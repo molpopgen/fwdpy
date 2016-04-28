@@ -677,7 +677,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":238
+/* "fwdpy/fwdpy.pxd":248
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -2032,6 +2032,7 @@ static PyObject* __pyx_convert__to_py_struct____pyx_t_5fwdpy_5fwdpy_diploid_data
 struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data;
 static PyObject* __pyx_convert__to_py_struct____pyx_t_5fwdpy_5fwdpy_diploid_view_data(struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data s);
 static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_allele_age_data_t(struct fwdpy::allele_age_data_t s);
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy(struct fwdpy::selected_mut_data_tidy s);
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
 __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
@@ -2318,6 +2319,8 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_s
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_struct____pyx_t_5fwdpy_5fwdpy_popgen_mut_data_3e____3e___(const std::vector<std::vector<std::pair<unsigned int,struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data> > >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_allele_age_data_t(const std::vector<struct fwdpy::allele_age_data_t>  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_allele_age_data_t_3e___(const std::vector<std::vector<struct fwdpy::allele_age_data_t> >  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy(const std::vector<struct fwdpy::selected_mut_data_tidy>  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___(const std::vector<std::vector<struct fwdpy::selected_mut_data_tidy> >  &); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2428,6 +2431,7 @@ static const char __pyx_k_csum[] = "csum";
 static const char __pyx_k_deme[] = "deme";
 static const char __pyx_k_estr[] = "estr";
 static const char __pyx_k_fpio[] = "fpio";
+static const char __pyx_k_freq[] = "freq";
 static const char __pyx_k_gams[] = "gams";
 static const char __pyx_k_hi_2[] = ", hi = ";
 static const char __pyx_k_init[] = "__init__";
@@ -2532,6 +2536,7 @@ static const char __pyx_k_getfreqs[] = "getfreqs";
 static const char __pyx_k_internal[] = "internal";
 static const char __pyx_k_itemsize[] = "itemsize";
 static const char __pyx_k_max_freq[] = "max_freq";
+static const char __pyx_k_min_freq[] = "min_freq";
 static const char __pyx_k_nderived[] = "nderived";
 static const char __pyx_k_nregions[] = "nregions";
 static const char __pyx_k_popsizes[] = "popsizes";
@@ -2560,6 +2565,7 @@ static const char __pyx_k_ExpS___str[] = "ExpS.__str__";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_freqfilter[] = "freqfilter";
+static const char __pyx_k_generation[] = "generation";
 static const char __pyx_k_minsojourn[] = "minsojourn";
 static const char __pyx_k_mu_neutral[] = "mu_neutral";
 static const char __pyx_k_neutral_df[] = "neutral_df";
@@ -2572,6 +2578,7 @@ static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_allele_ages[] = "allele_ages";
 static const char __pyx_k_fwdpy_fwdpy[] = "fwdpy.fwdpy";
 static const char __pyx_k_get_samples[] = "get_samples";
+static const char __pyx_k_min_sojourn[] = "min_sojourn";
 static const char __pyx_k_mu_selected[] = "mu_selected";
 static const char __pyx_k_pkg_version[] = "pkg_version";
 static const char __pyx_k_removeFixed[] = "removeFixed";
@@ -2623,6 +2630,7 @@ static const char __pyx_k_view_diploids_pd[] = "view_diploids_pd";
 static const char __pyx_k_getfreqs_line_203[] = "getfreqs (line 203)";
 static const char __pyx_k_ms_sample_line_39[] = "ms_sample (line 39)";
 static const char __pyx_k_nderived_line_158[] = "nderived (line 158)";
+static const char __pyx_k_tidy_trajectories[] = "tidy_trajectories";
 static const char __pyx_k_check_input_params[] = "check_input_params";
 static const char __pyx_k_get_sample_details[] = "get_sample_details";
 static const char __pyx_k_merge_trajectories[] = "merge_trajectories";
@@ -2958,6 +2966,7 @@ static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_fpio;
+static PyObject *__pyx_n_s_freq;
 static PyObject *__pyx_n_s_freqfilter;
 static PyObject *__pyx_kp_u_freqfilter_line_224;
 static PyObject *__pyx_n_s_from_singlepop;
@@ -2995,6 +3004,7 @@ static PyObject *__pyx_n_s_fwdpyio;
 static PyObject *__pyx_n_s_g;
 static PyObject *__pyx_n_s_gams;
 static PyObject *__pyx_n_s_gen;
+static PyObject *__pyx_n_s_generation;
 static PyObject *__pyx_n_s_genotypes;
 static PyObject *__pyx_n_s_get_sample_details;
 static PyObject *__pyx_kp_u_get_sample_details_line_100;
@@ -3051,6 +3061,8 @@ static PyObject *__pyx_n_s_mean;
 static PyObject *__pyx_n_s_memview;
 static PyObject *__pyx_n_s_merge_trajectories;
 static PyObject *__pyx_n_s_metaclass;
+static PyObject *__pyx_n_s_min_freq;
+static PyObject *__pyx_n_s_min_sojourn;
 static PyObject *__pyx_n_s_minfreq;
 static PyObject *__pyx_n_s_minsojourn;
 static PyObject *__pyx_n_s_mode;
@@ -3156,6 +3168,7 @@ static PyObject *__pyx_n_s_super;
 static PyObject *__pyx_n_s_temp1;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_kp_s_the_two_input_lists_must_be_the;
+static PyObject *__pyx_n_s_tidy_trajectories;
 static PyObject *__pyx_n_s_tlen;
 static PyObject *__pyx_n_s_trajectories;
 static PyObject *__pyx_n_s_trajectories1;
@@ -3331,8 +3344,9 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_80check_popdata_mpopvec(CYTHON_UNUSED Py
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_82check_popdata(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_p); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_84allele_ages(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories, double __pyx_v_minfreq, unsigned int __pyx_v_minsojourn); /* proto */
 static PyObject *__pyx_pf_5fwdpy_5fwdpy_86merge_trajectories(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories1, std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories2); /* proto */
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_88pkg_version(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_90cite(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories, unsigned int __pyx_v_min_sojourn, double __pyx_v_min_freq); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_90pkg_version(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_92cite(CYTHON_UNUSED PyObject *__pyx_self); /* proto */
 static int __pyx_pf_7cpython_5array_5array___getbuffer__(arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info, CYTHON_UNUSED int __pyx_v_flags); /* proto */
 static void __pyx_pf_7cpython_5array_5array_2__releasebuffer__(CYTHON_UNUSED arrayobject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -3531,11 +3545,12 @@ static PyObject *__pyx_tuple__199;
 static PyObject *__pyx_tuple__201;
 static PyObject *__pyx_tuple__203;
 static PyObject *__pyx_tuple__205;
-static PyObject *__pyx_tuple__208;
-static PyObject *__pyx_tuple__209;
+static PyObject *__pyx_tuple__207;
 static PyObject *__pyx_tuple__210;
 static PyObject *__pyx_tuple__211;
 static PyObject *__pyx_tuple__212;
+static PyObject *__pyx_tuple__213;
+static PyObject *__pyx_tuple__214;
 static PyObject *__pyx_codeobj__90;
 static PyObject *__pyx_codeobj__92;
 static PyObject *__pyx_codeobj__94;
@@ -3595,7 +3610,8 @@ static PyObject *__pyx_codeobj__200;
 static PyObject *__pyx_codeobj__202;
 static PyObject *__pyx_codeobj__204;
 static PyObject *__pyx_codeobj__206;
-static PyObject *__pyx_codeobj__207;
+static PyObject *__pyx_codeobj__208;
+static PyObject *__pyx_codeobj__209;
 
 /* "fwdpy/classes.pyx":13
  *     the output of iterating through a :class:`popvec`.
@@ -29467,6 +29483,8 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_86merge_trajectories(CYTHON_UNUSED PyObj
  *         rv[i] = merge_trajectories_details(trajectories1[i],trajectories2[i])
  * 
  *     return rv             # <<<<<<<<<<<<<<
+ * 
+ * def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(__pyx_v_rv); if (unlikely(!__pyx_t_2)) __PYX_ERR(8, 40, __pyx_L1_error)
@@ -29494,6 +29512,236 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_86merge_trajectories(CYTHON_UNUSED PyObj
   return __pyx_r;
 }
 
+/* "fwdpy/ages.pyx":42
+ *     return rv
+ * 
+ * def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):             # <<<<<<<<<<<<<<
+ *     """
+ *     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_89tidy_trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_5fwdpy_88tidy_trajectories[] = "\n    Take a set of allele frequency trajectories and 'tidy' them for easier coercion into\n    a pandas.DataFrame.\n\n    :param trajectories: A container of mutation frequency trajectories from a simulation.\n    :param min_sojourn: Exclude mutations that segregate for fewer generations than this value.\n    :param min_freq: Exclude mutations that never reach a frequency :math:`\\geq` this value.\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_89tidy_trajectories = {"tidy_trajectories", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_89tidy_trajectories, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_88tidy_trajectories};
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_89tidy_trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories;
+  unsigned int __pyx_v_min_sojourn;
+  double __pyx_v_min_freq;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("tidy_trajectories (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_trajectories,&__pyx_n_s_min_sojourn,&__pyx_n_s_min_freq,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_trajectories)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_min_sojourn);
+          if (value) { values[1] = value; kw_args--; }
+        }
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_min_freq);
+          if (value) { values[2] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "tidy_trajectories") < 0)) __PYX_ERR(8, 42, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_trajectories = __pyx_convert_vector_from_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(values[0]); if (unlikely(PyErr_Occurred())) __PYX_ERR(8, 42, __pyx_L3_error)
+    if (values[1]) {
+      __pyx_v_min_sojourn = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_min_sojourn == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(8, 42, __pyx_L3_error)
+    } else {
+      __pyx_v_min_sojourn = ((unsigned int)0);
+    }
+    if (values[2]) {
+      __pyx_v_min_freq = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_min_freq == (double)-1) && PyErr_Occurred())) __PYX_ERR(8, 42, __pyx_L3_error)
+    } else {
+      __pyx_v_min_freq = ((double)0.0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("tidy_trajectories", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(8, 42, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("fwdpy.fwdpy.tidy_trajectories", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(__pyx_self, __pyx_v_trajectories, __pyx_v_min_sojourn, __pyx_v_min_freq);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObject *__pyx_self, std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories, unsigned int __pyx_v_min_sojourn, double __pyx_v_min_freq) {
+  std::vector<std::vector<struct fwdpy::selected_mut_data_tidy> >  __pyx_v_rv;
+  CYTHON_UNUSED size_t __pyx_v_nt;
+  int __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  size_t __pyx_t_1;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  int __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  __Pyx_RefNannySetupContext("tidy_trajectories", 0);
+
+  /* "fwdpy/ages.pyx":52
+ *     """
+ *     cdef vector[vector[selected_mut_data_tidy]] rv;
+ *     rv.resize(trajectories.size())             # <<<<<<<<<<<<<<
+ *     cdef size_t nt = trajectories.size()
+ *     cdef int i
+ */
+  try {
+    __pyx_v_rv.resize(__pyx_v_trajectories.size());
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(8, 52, __pyx_L1_error)
+  }
+
+  /* "fwdpy/ages.pyx":53
+ *     cdef vector[vector[selected_mut_data_tidy]] rv;
+ *     rv.resize(trajectories.size())
+ *     cdef size_t nt = trajectories.size()             # <<<<<<<<<<<<<<
+ *     cdef int i
+ * 
+ */
+  __pyx_v_nt = __pyx_v_trajectories.size();
+
+  /* "fwdpy/ages.pyx":56
+ *     cdef int i
+ * 
+ *     for i in prange(nt,schedule='static',nogil=True,chunksize=1):             # <<<<<<<<<<<<<<
+ *         rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)
+ * 
+ */
+  {
+      #ifdef WITH_THREAD
+      PyThreadState *_save;
+      Py_UNBLOCK_THREADS
+      #endif
+      /*try:*/ {
+        __pyx_t_1 = __pyx_v_nt;
+        if (1 == 0) abort();
+        {
+            __pyx_t_4 = 1;
+            #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+                #undef likely
+                #undef unlikely
+                #define likely(x)   (x)
+                #define unlikely(x) (x)
+            #endif
+            __pyx_t_3 = (__pyx_t_1 - 0 + 1 - 1/abs(1)) / 1;
+            if (__pyx_t_3 > 0)
+            {
+                #ifdef _OPENMP
+                #pragma omp parallel
+                #endif /* _OPENMP */
+                {
+                    #ifdef _OPENMP
+                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) schedule(static, __pyx_t_4)
+                    #endif /* _OPENMP */
+                    for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_3; __pyx_t_2++){
+                        {
+                            __pyx_v_i = (int)(0 + 1 * __pyx_t_2);
+
+                            /* "fwdpy/ages.pyx":57
+ * 
+ *     for i in prange(nt,schedule='static',nogil=True,chunksize=1):
+ *         rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)             # <<<<<<<<<<<<<<
+ * 
+ *     return rv
+ */
+                            (__pyx_v_rv[__pyx_v_i]) = fwdpy::tidy_trajectory_info((__pyx_v_trajectories[__pyx_v_i]), __pyx_v_min_sojourn, __pyx_v_min_freq);
+                        }
+                    }
+                }
+            }
+        }
+        #if ((defined(__APPLE__) || defined(__OSX__)) && (defined(__GNUC__) && (__GNUC__ > 2 || (__GNUC__ == 2 && (__GNUC_MINOR__ > 95)))))
+            #undef likely
+            #undef unlikely
+            #define likely(x)   __builtin_expect(!!(x), 1)
+            #define unlikely(x) __builtin_expect(!!(x), 0)
+        #endif
+      }
+
+      /* "fwdpy/ages.pyx":56
+ *     cdef int i
+ * 
+ *     for i in prange(nt,schedule='static',nogil=True,chunksize=1):             # <<<<<<<<<<<<<<
+ *         rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)
+ * 
+ */
+      /*finally:*/ {
+        /*normal exit:*/{
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L5;
+        }
+        __pyx_L5:;
+      }
+  }
+
+  /* "fwdpy/ages.pyx":59
+ *         rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)
+ * 
+ *     return rv             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_5 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___(__pyx_v_rv); if (unlikely(!__pyx_t_5)) __PYX_ERR(8, 59, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5 = 0;
+  goto __pyx_L0;
+
+  /* "fwdpy/ages.pyx":42
+ *     return rv
+ * 
+ * def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):             # <<<<<<<<<<<<<<
+ *     """
+ *     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("fwdpy.fwdpy.tidy_trajectories", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "fwdpy/fwdpy.pyx":20
  * include "ages.pyx"
  * 
@@ -29503,21 +29751,21 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_86merge_trajectories(CYTHON_UNUSED PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_89pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_88pkg_version[] = "\n    Return version numbers of this package\n\n    This function is very handy when reporting bugs!\n\n    :returns: dict\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_89pkg_version = {"pkg_version", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_89pkg_version, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_88pkg_version};
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_89pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_91pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5fwdpy_5fwdpy_90pkg_version[] = "\n    Return version numbers of this package\n\n    This function is very handy when reporting bugs!\n\n    :returns: dict\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_91pkg_version = {"pkg_version", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_91pkg_version, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_90pkg_version};
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_91pkg_version(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("pkg_version (wrapper)", 0);
-  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_88pkg_version(__pyx_self);
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_90pkg_version(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_88pkg_version(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_90pkg_version(CYTHON_UNUSED PyObject *__pyx_self) {
   std::vector<std::string>  __pyx_v_v;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -29581,21 +29829,21 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_88pkg_version(CYTHON_UNUSED PyObject *__
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_91cite(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_90cite[] = "\n    Returns how to cite this package\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_91cite = {"cite", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_91cite, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_90cite};
-static PyObject *__pyx_pw_5fwdpy_5fwdpy_91cite(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_93cite(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_5fwdpy_5fwdpy_92cite[] = "\n    Returns how to cite this package\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_93cite = {"cite", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_93cite, METH_NOARGS, __pyx_doc_5fwdpy_5fwdpy_92cite};
+static PyObject *__pyx_pw_5fwdpy_5fwdpy_93cite(PyObject *__pyx_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("cite (wrapper)", 0);
-  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_90cite(__pyx_self);
+  __pyx_r = __pyx_pf_5fwdpy_5fwdpy_92cite(__pyx_self);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_5fwdpy_90cite(CYTHON_UNUSED PyObject *__pyx_self) {
+static PyObject *__pyx_pf_5fwdpy_5fwdpy_92cite(CYTHON_UNUSED PyObject *__pyx_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("cite", 0);
@@ -33203,6 +33451,110 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_allele_age_data_t_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy(const std::vector<struct fwdpy::selected_mut_data_tidy>  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(11, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(11, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___(const std::vector<std::vector<struct fwdpy::selected_mut_data_tidy> >  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(11, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(11, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -46906,6 +47258,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {&__pyx_n_s_fpio, __pyx_k_fpio, sizeof(__pyx_k_fpio), 0, 0, 1, 1},
+  {&__pyx_n_s_freq, __pyx_k_freq, sizeof(__pyx_k_freq), 0, 0, 1, 1},
   {&__pyx_n_s_freqfilter, __pyx_k_freqfilter, sizeof(__pyx_k_freqfilter), 0, 0, 1, 1},
   {&__pyx_kp_u_freqfilter_line_224, __pyx_k_freqfilter_line_224, sizeof(__pyx_k_freqfilter_line_224), 0, 1, 0, 0},
   {&__pyx_n_s_from_singlepop, __pyx_k_from_singlepop, sizeof(__pyx_k_from_singlepop), 0, 0, 1, 1},
@@ -46943,6 +47296,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_g, __pyx_k_g, sizeof(__pyx_k_g), 0, 0, 1, 1},
   {&__pyx_n_s_gams, __pyx_k_gams, sizeof(__pyx_k_gams), 0, 0, 1, 1},
   {&__pyx_n_s_gen, __pyx_k_gen, sizeof(__pyx_k_gen), 0, 0, 1, 1},
+  {&__pyx_n_s_generation, __pyx_k_generation, sizeof(__pyx_k_generation), 0, 0, 1, 1},
   {&__pyx_n_s_genotypes, __pyx_k_genotypes, sizeof(__pyx_k_genotypes), 0, 0, 1, 1},
   {&__pyx_n_s_get_sample_details, __pyx_k_get_sample_details, sizeof(__pyx_k_get_sample_details), 0, 0, 1, 1},
   {&__pyx_kp_u_get_sample_details_line_100, __pyx_k_get_sample_details_line_100, sizeof(__pyx_k_get_sample_details_line_100), 0, 1, 0, 0},
@@ -46999,6 +47353,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
   {&__pyx_n_s_merge_trajectories, __pyx_k_merge_trajectories, sizeof(__pyx_k_merge_trajectories), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
+  {&__pyx_n_s_min_freq, __pyx_k_min_freq, sizeof(__pyx_k_min_freq), 0, 0, 1, 1},
+  {&__pyx_n_s_min_sojourn, __pyx_k_min_sojourn, sizeof(__pyx_k_min_sojourn), 0, 0, 1, 1},
   {&__pyx_n_s_minfreq, __pyx_k_minfreq, sizeof(__pyx_k_minfreq), 0, 0, 1, 1},
   {&__pyx_n_s_minsojourn, __pyx_k_minsojourn, sizeof(__pyx_k_minsojourn), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
@@ -47104,6 +47460,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_temp1, __pyx_k_temp1, sizeof(__pyx_k_temp1), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_kp_s_the_two_input_lists_must_be_the, __pyx_k_the_two_input_lists_must_be_the, sizeof(__pyx_k_the_two_input_lists_must_be_the), 0, 0, 1, 0},
+  {&__pyx_n_s_tidy_trajectories, __pyx_k_tidy_trajectories, sizeof(__pyx_k_tidy_trajectories), 0, 0, 1, 1},
   {&__pyx_n_s_tlen, __pyx_k_tlen, sizeof(__pyx_k_tlen), 0, 0, 1, 1},
   {&__pyx_n_s_trajectories, __pyx_k_trajectories, sizeof(__pyx_k_trajectories), 0, 0, 1, 1},
   {&__pyx_n_s_trajectories1, __pyx_k_trajectories1, sizeof(__pyx_k_trajectories1), 0, 0, 1, 1},
@@ -48832,6 +49189,18 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__203);
   __pyx_codeobj__204 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__203, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_ages, __pyx_n_s_merge_trajectories, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__204)) __PYX_ERR(8, 19, __pyx_L1_error)
 
+  /* "fwdpy/ages.pyx":42
+ *     return rv
+ * 
+ * def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):             # <<<<<<<<<<<<<<
+ *     """
+ *     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
+ */
+  __pyx_tuple__205 = PyTuple_Pack(6, __pyx_n_s_trajectories, __pyx_n_s_min_sojourn, __pyx_n_s_min_freq, __pyx_n_s_rv, __pyx_n_s_nt, __pyx_n_s_i); if (unlikely(!__pyx_tuple__205)) __PYX_ERR(8, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__205);
+  __Pyx_GIVEREF(__pyx_tuple__205);
+  __pyx_codeobj__206 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__205, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_ages, __pyx_n_s_tidy_trajectories, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__206)) __PYX_ERR(8, 42, __pyx_L1_error)
+
   /* "fwdpy/fwdpy.pyx":20
  * include "ages.pyx"
  * 
@@ -48839,10 +49208,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """
  *     Return version numbers of this package
  */
-  __pyx_tuple__205 = PyTuple_Pack(1, __pyx_n_s_v); if (unlikely(!__pyx_tuple__205)) __PYX_ERR(9, 20, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__205);
-  __Pyx_GIVEREF(__pyx_tuple__205);
-  __pyx_codeobj__206 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__205, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_pkg_version, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__206)) __PYX_ERR(9, 20, __pyx_L1_error)
+  __pyx_tuple__207 = PyTuple_Pack(1, __pyx_n_s_v); if (unlikely(!__pyx_tuple__207)) __PYX_ERR(9, 20, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__207);
+  __Pyx_GIVEREF(__pyx_tuple__207);
+  __pyx_codeobj__208 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__207, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_pkg_version, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__208)) __PYX_ERR(9, 20, __pyx_L1_error)
 
   /* "fwdpy/fwdpy.pyx":31
  *     return ({'fwdpy':v[0]})
@@ -48851,7 +49220,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     """
  *     Returns how to cite this package
  */
-  __pyx_codeobj__207 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_cite, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__207)) __PYX_ERR(9, 31, __pyx_L1_error)
+  __pyx_codeobj__209 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_cite, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__209)) __PYX_ERR(9, 31, __pyx_L1_error)
 
   /* "View.MemoryView":282
  *         return self.name
@@ -48860,9 +49229,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__208 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__208)) __PYX_ERR(11, 282, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__208);
-  __Pyx_GIVEREF(__pyx_tuple__208);
+  __pyx_tuple__210 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__210)) __PYX_ERR(11, 282, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__210);
+  __Pyx_GIVEREF(__pyx_tuple__210);
 
   /* "View.MemoryView":283
  * 
@@ -48871,9 +49240,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__209 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__209)) __PYX_ERR(11, 283, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__209);
-  __Pyx_GIVEREF(__pyx_tuple__209);
+  __pyx_tuple__211 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__211)) __PYX_ERR(11, 283, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__211);
+  __Pyx_GIVEREF(__pyx_tuple__211);
 
   /* "View.MemoryView":284
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -48882,9 +49251,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__210 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__210)) __PYX_ERR(11, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__210);
-  __Pyx_GIVEREF(__pyx_tuple__210);
+  __pyx_tuple__212 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__212)) __PYX_ERR(11, 284, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__212);
+  __Pyx_GIVEREF(__pyx_tuple__212);
 
   /* "View.MemoryView":287
  * 
@@ -48893,9 +49262,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__211 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__211)) __PYX_ERR(11, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__211);
-  __Pyx_GIVEREF(__pyx_tuple__211);
+  __pyx_tuple__213 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__213)) __PYX_ERR(11, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__213);
+  __Pyx_GIVEREF(__pyx_tuple__213);
 
   /* "View.MemoryView":288
  * 
@@ -48904,9 +49273,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__212 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__212)) __PYX_ERR(11, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__212);
-  __Pyx_GIVEREF(__pyx_tuple__212);
+  __pyx_tuple__214 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__214)) __PYX_ERR(11, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__214);
+  __Pyx_GIVEREF(__pyx_tuple__214);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -50305,6 +50674,18 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_merge_trajectories, __pyx_t_1) < 0) __PYX_ERR(8, 19, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
+  /* "fwdpy/ages.pyx":42
+ *     return rv
+ * 
+ * def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):             # <<<<<<<<<<<<<<
+ *     """
+ *     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_89tidy_trajectories, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(8, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_tidy_trajectories, __pyx_t_1) < 0) __PYX_ERR(8, 42, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
   /* "fwdpy/fwdpy.pyx":20
  * include "ages.pyx"
  * 
@@ -50312,7 +50693,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  *     """
  *     Return version numbers of this package
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_89pkg_version, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 20, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_91pkg_version, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pkg_version, __pyx_t_1) < 0) __PYX_ERR(9, 20, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -50324,7 +50705,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  *     """
  *     Returns how to cite this package
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_91cite, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 31, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_5fwdpy_93cite, NULL, __pyx_n_s_fwdpy_fwdpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(9, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_cite, __pyx_t_1) < 0) __PYX_ERR(9, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -50379,7 +50760,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__208, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 282, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__210, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 282, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_1);
@@ -50393,7 +50774,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__209, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 283, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__211, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_1);
@@ -50407,7 +50788,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__210, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 284, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__212, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_1);
@@ -50421,7 +50802,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__211, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 287, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__213, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_1);
@@ -50435,7 +50816,7 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__212, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 288, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__214, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(11, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);
@@ -54166,6 +54547,31 @@ static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_detailed_deme_sample(
                     Py_DECREF(member);
                     member = __Pyx_PyInt_From_unsigned_int(s.tlen); if (unlikely(!member)) goto bad;
                     if (unlikely(PyDict_SetItem(res, __pyx_n_s_tlen, member) < 0)) goto bad;
+                    Py_DECREF(member);
+                    return res;
+                    bad:
+                    Py_XDECREF(member);
+                    Py_DECREF(res);
+                    return NULL;
+                  }
+                  static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data_tidy(struct fwdpy::selected_mut_data_tidy s) {
+                    PyObject* res;
+                    PyObject* member;
+                    res = PyDict_New(); if (unlikely(!res)) return NULL;
+                    member = PyFloat_FromDouble(s.pos); if (unlikely(!member)) goto bad;
+                    if (unlikely(PyDict_SetItem(res, __pyx_n_s_pos, member) < 0)) goto bad;
+                    Py_DECREF(member);
+                    member = PyFloat_FromDouble(s.esize); if (unlikely(!member)) goto bad;
+                    if (unlikely(PyDict_SetItem(res, __pyx_n_s_esize, member) < 0)) goto bad;
+                    Py_DECREF(member);
+                    member = PyFloat_FromDouble(s.freq); if (unlikely(!member)) goto bad;
+                    if (unlikely(PyDict_SetItem(res, __pyx_n_s_freq, member) < 0)) goto bad;
+                    Py_DECREF(member);
+                    member = __Pyx_PyInt_From_unsigned_int(s.origin); if (unlikely(!member)) goto bad;
+                    if (unlikely(PyDict_SetItem(res, __pyx_n_s_origin, member) < 0)) goto bad;
+                    Py_DECREF(member);
+                    member = __Pyx_PyInt_From_unsigned_int(s.generation); if (unlikely(!member)) goto bad;
+                    if (unlikely(PyDict_SetItem(res, __pyx_n_s_generation, member) < 0)) goto bad;
                     Py_DECREF(member);
                     return res;
                     bad:

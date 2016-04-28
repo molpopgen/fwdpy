@@ -563,7 +563,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":238
+/* "fwdpy/fwdpy.pxd":248
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<

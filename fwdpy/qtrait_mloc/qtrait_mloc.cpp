@@ -664,7 +664,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":238
+/* "fwdpy/fwdpy.pxd":248
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -1339,6 +1339,18 @@ static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
 static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
 static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *, int, int);
 
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
+
+/* ForceInitThreads.proto */
+#ifndef __PYX_FORCE_INIT_THREADS
+  #define __PYX_FORCE_INIT_THREADS 0
+#endif
+
 /* PyObjectGetAttrStr.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
@@ -1373,13 +1385,6 @@ static CYTHON_INLINE int __Pyx_ListComp_Append(PyObject* list, PyObject* x) {
 }
 #else
 #define __Pyx_ListComp_Append(L,x) PyList_Append(L,x)
-#endif
-
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
 /* PyThreadStateGet.proto */
@@ -1557,11 +1562,6 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
 
-/* ForceInitThreads.proto */
-#ifndef __PYX_FORCE_INIT_THREADS
-  #define __PYX_FORCE_INIT_THREADS 0
-#endif
-
 /* None.proto */
 static CYTHON_INLINE long __Pyx_div_long(long, long);
 
@@ -1707,6 +1707,8 @@ static void __Pyx_CppExn2PyErr() {
 #endif
 
 static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_detailed_deme_sample(struct fwdpy::detailed_deme_sample s);
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data(struct fwdpy::selected_mut_data s);
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(struct fwdpy::qtrait_stats_cython s);
 /* None.proto */
 #include <new>
 
@@ -1807,6 +1809,10 @@ static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_mpopvec = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_GSLrng = 0;
 
+/* Module declarations from 'cython.view' */
+
+/* Module declarations from 'cython' */
+
 /* Module declarations from 'fwdpy.qtrait_mloc.qtrait_mloc' */
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
@@ -1834,6 +1840,12 @@ static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_detailed_deme_s
 static PyObject *__pyx_convert_pair_to_py_unsigned_int____std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e___(std::pair<unsigned int,std::vector<struct fwdpy::detailed_deme_sample> >  const &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_unsigned_int_2c_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e___(const std::vector<std::pair<unsigned int,std::vector<struct fwdpy::detailed_deme_sample> > >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e____3e___(const std::vector<std::vector<std::pair<unsigned int,std::vector<struct fwdpy::detailed_deme_sample> > > >  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &); /*proto*/
+static PyObject *__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___(std::pair<struct fwdpy::selected_mut_data,std::vector<double> >  const &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___(const std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > >  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(const std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(const std::vector<struct fwdpy::qtrait_stats_cython>  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(const std::vector<std::vector<struct fwdpy::qtrait_stats_cython> >  &); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -1879,6 +1891,7 @@ static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
+static const char __pyx_k_N[] = "N";
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_f[] = "f";
@@ -1887,6 +1900,7 @@ static const char __pyx_k_id[] = "id";
 static const char __pyx_k_sh[] = "sh";
 static const char __pyx_k__14[] = "*";
 static const char __pyx_k_obj[] = "obj";
+static const char __pyx_k_pos[] = "pos";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mode[] = "mode";
@@ -1896,21 +1910,27 @@ static const char __pyx_k_nsam[] = "nsam";
 static const char __pyx_k_pack[] = "pack";
 static const char __pyx_k_pops[] = "pops";
 static const char __pyx_k_size[] = "size";
+static const char __pyx_k_stat[] = "stat";
 static const char __pyx_k_step[] = "step";
 static const char __pyx_k_stop[] = "stop";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_ASCII[] = "ASCII";
 static const char __pyx_k_class[] = "__class__";
 static const char __pyx_k_error[] = "error";
+static const char __pyx_k_esize[] = "esize";
 static const char __pyx_k_flags[] = "flags";
 static const char __pyx_k_nlist[] = "nlist";
+static const char __pyx_k_nloci[] = "nloci";
+static const char __pyx_k_npops[] = "npops";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_start[] = "start";
+static const char __pyx_k_value[] = "value";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_name_2[] = "__name__";
+static const char __pyx_k_origin[] = "origin";
 static const char __pyx_k_pandas[] = "pandas";
 static const char __pyx_k_sample[] = "sample";
 static const char __pyx_k_sigmaE[] = "sigmaE";
@@ -1929,6 +1949,7 @@ static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_genotypes[] = "genotypes";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
+static const char __pyx_k_generation[] = "generation";
 static const char __pyx_k_mu_neutral[] = "mu_neutral";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_rng_evolve[] = "rng_evolve";
@@ -1942,6 +1963,7 @@ static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_recrates_within[] = "recrates_within";
 static const char __pyx_k_recrates_between[] = "recrates_between";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
+static const char __pyx_k_evolve_qtraits_mloc[] = "evolve_qtraits_mloc";
 static const char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
 static const char __pyx_k_contiguous_and_direct[] = "<contiguous and direct>";
 static const char __pyx_k_MemoryView_of_r_object[] = "<MemoryView of %r object>";
@@ -1949,8 +1971,10 @@ static const char __pyx_k_MemoryView_of_r_at_0x_x[] = "<MemoryView of %r at 0x%x
 static const char __pyx_k_contiguous_and_indirect[] = "<contiguous and indirect>";
 static const char __pyx_k_Cannot_index_with_type_s[] = "Cannot index with type '%s'";
 static const char __pyx_k_Invalid_shape_in_axis_d_d[] = "Invalid shape in axis %d: %d.";
+static const char __pyx_k_evolve_qtraits_mloc_track[] = "evolve_qtraits_mloc_track";
 static const char __pyx_k_evolve_qtraits_mloc_sample[] = "evolve_qtraits_mloc_sample";
 static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
+static const char __pyx_k_evolve_qtraits_mloc_popstats[] = "evolve_qtraits_mloc_popstats";
 static const char __pyx_k_fwdpy_qtrait_mloc_qtrait_mloc[] = "fwdpy.qtrait_mloc.qtrait_mloc";
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
@@ -1977,6 +2001,7 @@ static PyObject *__pyx_kp_s_Invalid_shape_in_axis_d_d;
 static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_kp_s_MemoryView_of_r_at_0x_x;
 static PyObject *__pyx_kp_s_MemoryView_of_r_object;
+static PyObject *__pyx_n_s_N;
 static PyObject *__pyx_n_b_O;
 static PyObject *__pyx_kp_s_Out_of_bounds_on_buffer_access_a;
 static PyObject *__pyx_n_s_TypeError;
@@ -1995,7 +2020,11 @@ static PyObject *__pyx_n_s_dtype_is_object;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
+static PyObject *__pyx_n_s_esize;
+static PyObject *__pyx_n_s_evolve_qtraits_mloc;
+static PyObject *__pyx_n_s_evolve_qtraits_mloc_popstats;
 static PyObject *__pyx_n_s_evolve_qtraits_mloc_sample;
+static PyObject *__pyx_n_s_evolve_qtraits_mloc_track;
 static PyObject *__pyx_n_s_f;
 static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
@@ -2003,6 +2032,7 @@ static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
 static PyObject *__pyx_n_s_fwdpy_internal;
 static PyObject *__pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc;
+static PyObject *__pyx_n_s_generation;
 static PyObject *__pyx_n_s_genotypes;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
 static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra;
@@ -2021,12 +2051,16 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_ndim;
 static PyObject *__pyx_n_s_nlist;
+static PyObject *__pyx_n_s_nloci;
+static PyObject *__pyx_n_s_npops;
 static PyObject *__pyx_n_s_nsam;
 static PyObject *__pyx_n_s_obj;
 static PyObject *__pyx_n_s_optimum;
+static PyObject *__pyx_n_s_origin;
 static PyObject *__pyx_n_s_pack;
 static PyObject *__pyx_n_s_pandas;
 static PyObject *__pyx_n_s_pops;
+static PyObject *__pyx_n_s_pos;
 static PyObject *__pyx_n_s_pyx_getbuffer;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
@@ -2041,6 +2075,7 @@ static PyObject *__pyx_n_s_sigmaE;
 static PyObject *__pyx_n_s_sigmas;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_start;
+static PyObject *__pyx_n_s_stat;
 static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_stop;
 static PyObject *__pyx_kp_s_strided_and_direct;
@@ -2051,7 +2086,11 @@ static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_n_s_unpack;
-static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, PyObject *__pyx_v_mu_neutral, PyObject *__pyx_v_mu_selected, PyObject *__pyx_v_sigmas, PyObject *__pyx_v_recrates_within, PyObject *__pyx_v_recrates_between, int __pyx_v_sample, int __pyx_v_nsam, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS); /* proto */
+static PyObject *__pyx_n_s_value;
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, int __pyx_v_sample, int __pyx_v_nsam, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS); /* proto */
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_2evolve_qtraits_mloc_track(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, int __pyx_v_sample, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS); /* proto */
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_4evolve_qtraits_mloc_popstats(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, int __pyx_v_sample, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS); /* proto */
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_6evolve_qtraits_mloc(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, unsigned int __pyx_v_npops, unsigned int __pyx_v_N, unsigned int __pyx_v_nloci, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2106,13 +2145,21 @@ static PyObject *__pyx_slice__12;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__15;
 static PyObject *__pyx_tuple__17;
-static PyObject *__pyx_tuple__18;
 static PyObject *__pyx_tuple__19;
-static PyObject *__pyx_tuple__20;
 static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__24;
+static PyObject *__pyx_tuple__25;
+static PyObject *__pyx_tuple__26;
+static PyObject *__pyx_tuple__27;
 static PyObject *__pyx_codeobj__16;
+static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_codeobj__20;
+static PyObject *__pyx_codeobj__22;
 
-/* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":1
+/* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":3
+ * cimport cython
+ * 
  * def evolve_qtraits_mloc_sample(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
  *                                GSLrng rng_sample,
  *                                popvec_mloc pops,
@@ -2127,11 +2174,11 @@ static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mlo
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample = 0;
   struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops = 0;
   __Pyx_memviewslice __pyx_v_nlist = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_v_mu_neutral = 0;
-  PyObject *__pyx_v_mu_selected = 0;
-  PyObject *__pyx_v_sigmas = 0;
-  PyObject *__pyx_v_recrates_within = 0;
-  PyObject *__pyx_v_recrates_between = 0;
+  std::vector<double>  __pyx_v_mu_neutral;
+  std::vector<double>  __pyx_v_mu_selected;
+  std::vector<double>  __pyx_v_sigmas;
+  std::vector<double>  __pyx_v_recrates_within;
+  std::vector<double>  __pyx_v_recrates_between;
   int __pyx_v_sample;
   int __pyx_v_nsam;
   double __pyx_v_optimum;
@@ -2174,52 +2221,52 @@ static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mlo
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rng_sample)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 1); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 1); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pops)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 2); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 2); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 3); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 3); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 4); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 4); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 5); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 5); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmas)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 6); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 6); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_within)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 7); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 7); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_between)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 8); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 8); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sample)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 9); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 9); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case 10:
         if (likely((values[10] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nsam)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 10); __PYX_ERR(0, 1, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, 10); __PYX_ERR(0, 3, __pyx_L3_error)
         }
         case 11:
         if (kw_args > 0) {
@@ -2243,7 +2290,7 @@ static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mlo
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_qtraits_mloc_sample") < 0)) __PYX_ERR(0, 1, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_qtraits_mloc_sample") < 0)) __PYX_ERR(0, 3, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2269,51 +2316,46 @@ static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mlo
     __pyx_v_rng_evolve = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
     __pyx_v_rng_sample = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[1]);
     __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *)values[2]);
-    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[3]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(0, 4, __pyx_L3_error)
-    __pyx_v_mu_neutral = ((PyObject*)values[4]);
-    __pyx_v_mu_selected = ((PyObject*)values[5]);
-    __pyx_v_sigmas = ((PyObject*)values[6]);
-    __pyx_v_recrates_within = ((PyObject*)values[7]);
-    __pyx_v_recrates_between = ((PyObject*)values[8]);
-    __pyx_v_sample = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
-    __pyx_v_nsam = __Pyx_PyInt_As_int(values[10]); if (unlikely((__pyx_v_nsam == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[3]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(0, 6, __pyx_L3_error)
+    __pyx_v_mu_neutral = __pyx_convert_vector_from_py_double(values[4]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 7, __pyx_L3_error)
+    __pyx_v_mu_selected = __pyx_convert_vector_from_py_double(values[5]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 8, __pyx_L3_error)
+    __pyx_v_sigmas = __pyx_convert_vector_from_py_double(values[6]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
+    __pyx_v_recrates_within = __pyx_convert_vector_from_py_double(values[7]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+    __pyx_v_recrates_between = __pyx_convert_vector_from_py_double(values[8]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 11, __pyx_L3_error)
+    __pyx_v_sample = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L3_error)
+    __pyx_v_nsam = __Pyx_PyInt_As_int(values[10]); if (unlikely((__pyx_v_nsam == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L3_error)
     if (values[11]) {
-      __pyx_v_optimum = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_optimum == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L3_error)
+      __pyx_v_optimum = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_optimum == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L3_error)
     } else {
       __pyx_v_optimum = ((double)0.0);
     }
     if (values[12]) {
-      __pyx_v_sigmaE = __pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_sigmaE == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L3_error)
+      __pyx_v_sigmaE = __pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_sigmaE == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
     } else {
       __pyx_v_sigmaE = ((double)0.0);
     }
     if (values[13]) {
-      __pyx_v_f = __pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L3_error)
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 16, __pyx_L3_error)
     } else {
       __pyx_v_f = ((double)0.0);
     }
     if (values[14]) {
-      __pyx_v_VS = __pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_VS == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 15, __pyx_L3_error)
+      __pyx_v_VS = __pyx_PyFloat_AsDouble(values[14]); if (unlikely((__pyx_v_VS == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 17, __pyx_L3_error)
     } else {
       __pyx_v_VS = ((double)1.0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_sample", 0, 11, 15, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 3, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc_sample", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_evolve), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_evolve", 0))) __PYX_ERR(0, 1, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_sample), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_sample", 0))) __PYX_ERR(0, 2, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec_mloc, 1, "pops", 0))) __PYX_ERR(0, 3, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mu_neutral), (&PyList_Type), 1, "mu_neutral", 1))) __PYX_ERR(0, 5, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mu_selected), (&PyList_Type), 1, "mu_selected", 1))) __PYX_ERR(0, 6, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_sigmas), (&PyList_Type), 1, "sigmas", 1))) __PYX_ERR(0, 7, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recrates_within), (&PyList_Type), 1, "recrates_within", 1))) __PYX_ERR(0, 8, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_recrates_between), (&PyList_Type), 1, "recrates_between", 1))) __PYX_ERR(0, 9, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_evolve), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_evolve", 0))) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_sample), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_sample", 0))) __PYX_ERR(0, 4, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec_mloc, 1, "pops", 0))) __PYX_ERR(0, 5, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample(__pyx_self, __pyx_v_rng_evolve, __pyx_v_rng_sample, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_sample, __pyx_v_nsam, __pyx_v_optimum, __pyx_v_sigmaE, __pyx_v_f, __pyx_v_VS);
 
   /* function exit code */
@@ -2325,7 +2367,7 @@ static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mlo
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, PyObject *__pyx_v_mu_neutral, PyObject *__pyx_v_mu_selected, PyObject *__pyx_v_sigmas, PyObject *__pyx_v_recrates_within, PyObject *__pyx_v_recrates_between, int __pyx_v_sample, int __pyx_v_nsam, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS) {
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc_sample(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_sample, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, int __pyx_v_sample, int __pyx_v_nsam, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS) {
   size_t __pyx_v_listlen;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2333,28 +2375,23 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
-  std::vector<double>  __pyx_t_5;
-  std::vector<double>  __pyx_t_6;
-  std::vector<double>  __pyx_t_7;
-  std::vector<double>  __pyx_t_8;
-  std::vector<double>  __pyx_t_9;
-  std::vector<std::vector<std::pair<unsigned int,std::vector<struct fwdpy::detailed_deme_sample> > > >  __pyx_t_10;
+  std::vector<std::vector<std::pair<unsigned int,std::vector<struct fwdpy::detailed_deme_sample> > > >  __pyx_t_5;
   __Pyx_RefNannySetupContext("evolve_qtraits_mloc_sample", 0);
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":46
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":48
  *     """
  *     #Note: exceptions are thrown from the C++ side...
  *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
  *     return evolve_qtrait_mloc_sample_async(rng_evolve.thisptr,
  *                                            rng_sample.thisptr,
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_listlen = __pyx_t_2;
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":47
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":49
  *     #Note: exceptions are thrown from the C++ side...
  *     cdef size_t listlen = len(nlist)
  *     return evolve_qtrait_mloc_sample_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
@@ -2363,7 +2400,7 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":50
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":52
  *                                            rng_sample.thisptr,
  *                                            &pops.pops,
  *                                            &nlist[0],listlen,             # <<<<<<<<<<<<<<
@@ -2378,31 +2415,10 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
   } else if (unlikely(__pyx_t_3 >= __pyx_v_nlist.shape[0])) __pyx_t_4 = 0;
   if (unlikely(__pyx_t_4 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_4);
-    __PYX_ERR(0, 50, __pyx_L1_error)
+    __PYX_ERR(0, 52, __pyx_L1_error)
   }
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":51
- *                                            &pops.pops,
- *                                            &nlist[0],listlen,
- *                                            mu_neutral,mu_selected,sigmas,             # <<<<<<<<<<<<<<
- *                                            recrates_within,recrates_between,
- *                                            f,sigmaE,optimum,VS,sample,nsam)
- */
-  __pyx_t_5 = __pyx_convert_vector_from_py_double(__pyx_v_mu_neutral); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_t_6 = __pyx_convert_vector_from_py_double(__pyx_v_mu_selected); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
-  __pyx_t_7 = __pyx_convert_vector_from_py_double(__pyx_v_sigmas); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
-
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":52
- *                                            &nlist[0],listlen,
- *                                            mu_neutral,mu_selected,sigmas,
- *                                            recrates_within,recrates_between,             # <<<<<<<<<<<<<<
- *                                            f,sigmaE,optimum,VS,sample,nsam)
- * 
- */
-  __pyx_t_8 = __pyx_convert_vector_from_py_double(__pyx_v_recrates_within); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
-  __pyx_t_9 = __pyx_convert_vector_from_py_double(__pyx_v_recrates_between); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 52, __pyx_L1_error)
-
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":47
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":49
  *     #Note: exceptions are thrown from the C++ side...
  *     cdef size_t listlen = len(nlist)
  *     return evolve_qtrait_mloc_sample_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
@@ -2410,18 +2426,20 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
  *                                            &pops.pops,
  */
   try {
-    __pyx_t_10 = fwdpy::qtrait::evolve_qtrait_mloc_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_3 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_t_8, __pyx_t_9, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_sample, __pyx_v_nsam);
+    __pyx_t_5 = fwdpy::qtrait::evolve_qtrait_mloc_sample_async(__pyx_v_rng_evolve->thisptr, __pyx_v_rng_sample->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_3 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_sample, __pyx_v_nsam);
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(0, 47, __pyx_L1_error)
+    __PYX_ERR(0, 49, __pyx_L1_error)
   }
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e____3e___(__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e____3e___(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":1
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":3
+ * cimport cython
+ * 
  * def evolve_qtraits_mloc_sample(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
  *                                GSLrng rng_sample,
  *                                popvec_mloc pops,
@@ -2433,6 +2451,926 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_evolve_qtraits_mloc
   __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc_sample", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_nlist, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":58
+ * 
+ * 
+ * def evolve_qtraits_mloc_track(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                               popvec_mloc pops,
+ *                               unsigned[:] nlist,
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_3evolve_qtraits_mloc_track(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_2evolve_qtraits_mloc_track[] = "\n    Evolve a set of partially-linked regions contributing to variation\n    in a trait under real Gaussian stabilizing selection. \n\n    This version records the frequencies of all mutations affecting trait/fitness\n    at regular intervals.\n\n    :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations\n    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`\n    :param nlist: Population sizes over time (array of 32 bit unsigned integers)\n    :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation\n    :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation\n    :param sigmas: Effect sizes are N(0,sigma[i]) at the i-th locus.\n    :param recrates_within: Recombination rates within each locus.  Per diploid, per generation\n    :param recrates_betwen: Genetic distance, in centiMorgans, between each pair of loci.\n    :param nsam: Sample size (no. chromosomes)\n    :param optimum: Optimum trait value\n    :param sigmaE: Std. dev. of Gaussian noise to add to trait values.\n    :param f: Selfing probability\n    :param VS: Intensity of selection against extreme phenotypes.  Smaller = more selection.\n\n    This is a pure additive effects model.\n\n    When evolving to an equilibrium around an optimum of 0, the total :math:`VG` for the trait would be \n    approximately :math:`4VS\\sum_i\\mu_i`.\n\n    If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_3evolve_qtraits_mloc_track = {"evolve_qtraits_mloc_track", (PyCFunction)__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_3evolve_qtraits_mloc_track, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_2evolve_qtraits_mloc_track};
+static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_3evolve_qtraits_mloc_track(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve = 0;
+  struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops = 0;
+  __Pyx_memviewslice __pyx_v_nlist = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<double>  __pyx_v_mu_neutral;
+  std::vector<double>  __pyx_v_mu_selected;
+  std::vector<double>  __pyx_v_sigmas;
+  std::vector<double>  __pyx_v_recrates_within;
+  std::vector<double>  __pyx_v_recrates_between;
+  int __pyx_v_sample;
+  double __pyx_v_optimum;
+  double __pyx_v_sigmaE;
+  double __pyx_v_f;
+  double __pyx_v_VS;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("evolve_qtraits_mloc_track (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng_evolve,&__pyx_n_s_pops,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_sigmas,&__pyx_n_s_recrates_within,&__pyx_n_s_recrates_between,&__pyx_n_s_sample,&__pyx_n_s_optimum,&__pyx_n_s_sigmaE,&__pyx_n_s_f,&__pyx_n_s_VS,0};
+    PyObject* values[13] = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+        case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rng_evolve)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pops)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 1); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 2); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 3); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 4); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmas)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 5); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  6:
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_within)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 6); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  7:
+        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_between)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 7); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  8:
+        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sample)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, 8); __PYX_ERR(0, 58, __pyx_L3_error)
+        }
+        case  9:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_optimum);
+          if (value) { values[9] = value; kw_args--; }
+        }
+        case 10:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmaE);
+          if (value) { values[10] = value; kw_args--; }
+        }
+        case 11:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
+          if (value) { values[11] = value; kw_args--; }
+        }
+        case 12:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_VS);
+          if (value) { values[12] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_qtraits_mloc_track") < 0)) __PYX_ERR(0, 58, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+        case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_rng_evolve = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
+    __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *)values[1]);
+    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[2]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(0, 60, __pyx_L3_error)
+    __pyx_v_mu_neutral = __pyx_convert_vector_from_py_double(values[3]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 61, __pyx_L3_error)
+    __pyx_v_mu_selected = __pyx_convert_vector_from_py_double(values[4]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L3_error)
+    __pyx_v_sigmas = __pyx_convert_vector_from_py_double(values[5]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 63, __pyx_L3_error)
+    __pyx_v_recrates_within = __pyx_convert_vector_from_py_double(values[6]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 64, __pyx_L3_error)
+    __pyx_v_recrates_between = __pyx_convert_vector_from_py_double(values[7]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L3_error)
+    __pyx_v_sample = __Pyx_PyInt_As_int(values[8]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 66, __pyx_L3_error)
+    if (values[9]) {
+      __pyx_v_optimum = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_optimum == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 67, __pyx_L3_error)
+    } else {
+      __pyx_v_optimum = ((double)0.0);
+    }
+    if (values[10]) {
+      __pyx_v_sigmaE = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_sigmaE == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L3_error)
+    } else {
+      __pyx_v_sigmaE = ((double)0.0);
+    }
+    if (values[11]) {
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 69, __pyx_L3_error)
+    } else {
+      __pyx_v_f = ((double)0.0);
+    }
+    if (values[12]) {
+      __pyx_v_VS = __pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_VS == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
+    } else {
+      __pyx_v_VS = ((double)1.0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_track", 0, 9, 13, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 58, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc_track", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_evolve), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_evolve", 0))) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec_mloc, 1, "pops", 0))) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_r = __pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_2evolve_qtraits_mloc_track(__pyx_self, __pyx_v_rng_evolve, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_sample, __pyx_v_optimum, __pyx_v_sigmaE, __pyx_v_f, __pyx_v_VS);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_2evolve_qtraits_mloc_track(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, int __pyx_v_sample, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS) {
+  size_t __pyx_v_listlen;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_t_5;
+  __Pyx_RefNannySetupContext("evolve_qtraits_mloc_track", 0);
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":99
+ *     If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.
+ *     """
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     return evolve_qtrait_mloc_track_async(rng_evolve.thisptr,
+ *                                           &pops.pops,
+ */
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_listlen = __pyx_t_2;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":100
+ *     """
+ *     cdef size_t listlen = len(nlist)
+ *     return evolve_qtrait_mloc_track_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
+ *                                           &pops.pops,
+ *                                           &nlist[0],listlen,
+ */
+  __Pyx_XDECREF(__pyx_r);
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":102
+ *     return evolve_qtrait_mloc_track_async(rng_evolve.thisptr,
+ *                                           &pops.pops,
+ *                                           &nlist[0],listlen,             # <<<<<<<<<<<<<<
+ *                                           mu_neutral,mu_selected,sigmas,
+ *                                           recrates_within,recrates_between,
+ */
+  __pyx_t_3 = 0;
+  __pyx_t_4 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_nlist.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_4 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_nlist.shape[0])) __pyx_t_4 = 0;
+  if (unlikely(__pyx_t_4 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_4);
+    __PYX_ERR(0, 102, __pyx_L1_error)
+  }
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":100
+ *     """
+ *     cdef size_t listlen = len(nlist)
+ *     return evolve_qtrait_mloc_track_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
+ *                                           &pops.pops,
+ *                                           &nlist[0],listlen,
+ */
+  try {
+    __pyx_t_5 = fwdpy::qtrait::evolve_qtrait_mloc_track_async(__pyx_v_rng_evolve->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_3 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_sample);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 100, __pyx_L1_error)
+  }
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":58
+ * 
+ * 
+ * def evolve_qtraits_mloc_track(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                               popvec_mloc pops,
+ *                               unsigned[:] nlist,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc_track", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_nlist, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":107
+ *                                           f,sigmaE,optimum,VS,sample)
+ * 
+ * def evolve_qtraits_mloc_popstats(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                                  popvec_mloc pops,
+ *                                  unsigned[:] nlist,
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_5evolve_qtraits_mloc_popstats(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_4evolve_qtraits_mloc_popstats[] = "\n    Evolve a set of partially-linked regions contributing to variation\n    in a trait under real Gaussian stabilizing selection. \n\n    This version records various \"quantitative gentics\" statistics from the population\n    at regular intervals.\n\n    :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations\n    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`\n    :param nlist: Population sizes over time (array of 32 bit unsigned integers)\n    :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation\n    :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation\n    :param sigmas: Effect sizes are N(0,sigma[i]) at the i-th locus.\n    :param recrates_within: Recombination rates within each locus.  Per diploid, per generation\n    :param recrates_betwen: Genetic distance, in centiMorgans, between each pair of loci.\n    :param nsam: Sample size (no. chromosomes)\n    :param optimum: Optimum trait value\n    :param sigmaE: Std. dev. of Gaussian noise to add to trait values.\n    :param f: Selfing probability\n    :param VS: Intensity of selection against extreme phenotypes.  Smaller = more selection.\n\n    This is a pure additive effects model.\n\n    When evolving to an equilibrium around an optimum of 0, the total :math:`VG` for the trait would be \n    approximately :math:`4VS\\sum_i\\mu_i`.\n\n    If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_5evolve_qtraits_mloc_popstats = {"evolve_qtraits_mloc_popstats", (PyCFunction)__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_5evolve_qtraits_mloc_popstats, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_4evolve_qtraits_mloc_popstats};
+static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_5evolve_qtraits_mloc_popstats(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve = 0;
+  struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops = 0;
+  __Pyx_memviewslice __pyx_v_nlist = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<double>  __pyx_v_mu_neutral;
+  std::vector<double>  __pyx_v_mu_selected;
+  std::vector<double>  __pyx_v_sigmas;
+  std::vector<double>  __pyx_v_recrates_within;
+  std::vector<double>  __pyx_v_recrates_between;
+  int __pyx_v_sample;
+  double __pyx_v_optimum;
+  double __pyx_v_sigmaE;
+  double __pyx_v_f;
+  double __pyx_v_VS;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("evolve_qtraits_mloc_popstats (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng_evolve,&__pyx_n_s_pops,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_sigmas,&__pyx_n_s_recrates_within,&__pyx_n_s_recrates_between,&__pyx_n_s_sample,&__pyx_n_s_optimum,&__pyx_n_s_sigmaE,&__pyx_n_s_f,&__pyx_n_s_VS,0};
+    PyObject* values[13] = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+        case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rng_evolve)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pops)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 1); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 2); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 3); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 4); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmas)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 5); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  6:
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_within)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 6); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  7:
+        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_between)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 7); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  8:
+        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sample)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, 8); __PYX_ERR(0, 107, __pyx_L3_error)
+        }
+        case  9:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_optimum);
+          if (value) { values[9] = value; kw_args--; }
+        }
+        case 10:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmaE);
+          if (value) { values[10] = value; kw_args--; }
+        }
+        case 11:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
+          if (value) { values[11] = value; kw_args--; }
+        }
+        case 12:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_VS);
+          if (value) { values[12] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_qtraits_mloc_popstats") < 0)) __PYX_ERR(0, 107, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+        case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_rng_evolve = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
+    __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *)values[1]);
+    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[2]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(0, 109, __pyx_L3_error)
+    __pyx_v_mu_neutral = __pyx_convert_vector_from_py_double(values[3]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L3_error)
+    __pyx_v_mu_selected = __pyx_convert_vector_from_py_double(values[4]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L3_error)
+    __pyx_v_sigmas = __pyx_convert_vector_from_py_double(values[5]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L3_error)
+    __pyx_v_recrates_within = __pyx_convert_vector_from_py_double(values[6]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 113, __pyx_L3_error)
+    __pyx_v_recrates_between = __pyx_convert_vector_from_py_double(values[7]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 114, __pyx_L3_error)
+    __pyx_v_sample = __Pyx_PyInt_As_int(values[8]); if (unlikely((__pyx_v_sample == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 115, __pyx_L3_error)
+    if (values[9]) {
+      __pyx_v_optimum = __pyx_PyFloat_AsDouble(values[9]); if (unlikely((__pyx_v_optimum == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 116, __pyx_L3_error)
+    } else {
+      __pyx_v_optimum = ((double)0.0);
+    }
+    if (values[10]) {
+      __pyx_v_sigmaE = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_sigmaE == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L3_error)
+    } else {
+      __pyx_v_sigmaE = ((double)0.0);
+    }
+    if (values[11]) {
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 118, __pyx_L3_error)
+    } else {
+      __pyx_v_f = ((double)0.0);
+    }
+    if (values[12]) {
+      __pyx_v_VS = __pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_VS == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L3_error)
+    } else {
+      __pyx_v_VS = ((double)1.0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc_popstats", 0, 9, 13, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 107, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc_popstats", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_evolve), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_evolve", 0))) __PYX_ERR(0, 107, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec_mloc, 1, "pops", 0))) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_r = __pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_4evolve_qtraits_mloc_popstats(__pyx_self, __pyx_v_rng_evolve, __pyx_v_pops, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_sample, __pyx_v_optimum, __pyx_v_sigmaE, __pyx_v_f, __pyx_v_VS);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_4evolve_qtraits_mloc_popstats(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, int __pyx_v_sample, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS) {
+  size_t __pyx_v_listlen;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  std::vector<std::vector<struct fwdpy::qtrait_stats_cython> >  __pyx_t_5;
+  __Pyx_RefNannySetupContext("evolve_qtraits_mloc_popstats", 0);
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":148
+ *     If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.
+ *     """
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     return evolve_qtrait_mloc_popstats_async(rng_evolve.thisptr,
+ *                                              &pops.pops,
+ */
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_listlen = __pyx_t_2;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":149
+ *     """
+ *     cdef size_t listlen = len(nlist)
+ *     return evolve_qtrait_mloc_popstats_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
+ *                                              &pops.pops,
+ *                                              &nlist[0],listlen,
+ */
+  __Pyx_XDECREF(__pyx_r);
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":151
+ *     return evolve_qtrait_mloc_popstats_async(rng_evolve.thisptr,
+ *                                              &pops.pops,
+ *                                              &nlist[0],listlen,             # <<<<<<<<<<<<<<
+ *                                              mu_neutral,mu_selected,sigmas,
+ *                                              recrates_within,recrates_between,
+ */
+  __pyx_t_3 = 0;
+  __pyx_t_4 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_v_nlist.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_4 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_v_nlist.shape[0])) __pyx_t_4 = 0;
+  if (unlikely(__pyx_t_4 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_4);
+    __PYX_ERR(0, 151, __pyx_L1_error)
+  }
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":149
+ *     """
+ *     cdef size_t listlen = len(nlist)
+ *     return evolve_qtrait_mloc_popstats_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
+ *                                              &pops.pops,
+ *                                              &nlist[0],listlen,
+ */
+  try {
+    __pyx_t_5 = fwdpy::qtrait::evolve_qtrait_mloc_popstats_async(__pyx_v_rng_evolve->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_3 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS, __pyx_v_sample);
+  } catch(...) {
+    __Pyx_CppExn2PyErr();
+    __PYX_ERR(0, 149, __pyx_L1_error)
+  }
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":107
+ *                                           f,sigmaE,optimum,VS,sample)
+ * 
+ * def evolve_qtraits_mloc_popstats(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                                  popvec_mloc pops,
+ *                                  unsigned[:] nlist,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc_popstats", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_nlist, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":157
+ * 
+ * @cython.boundscheck(False)
+ * def evolve_qtraits_mloc(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                         unsigned npops,
+ *                         unsigned N,
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_7evolve_qtraits_mloc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_6evolve_qtraits_mloc[] = "\n    Evolve a set of partially-linked regions contributing to variation\n    in a trait under real Gaussian stabilizing selection. \n\n    This version records various \"quantitative gentics\" statistics from the population\n    at regular intervals.\n\n    :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations\n    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`\n    :param nlist: Population sizes over time (array of 32 bit unsigned integers)\n    :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation\n    :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation\n    :param sigmas: Effect sizes are N(0,sigma[i]) at the i-th locus.\n    :param recrates_within: Recombination rates within each locus.  Per diploid, per generation\n    :param recrates_betwen: Genetic distance, in centiMorgans, between each pair of loci.\n    :param nsam: Sample size (no. chromosomes)\n    :param optimum: Optimum trait value\n    :param sigmaE: Std. dev. of Gaussian noise to add to trait values.\n    :param f: Selfing probability\n    :param VS: Intensity of selection against extreme phenotypes.  Smaller = more selection.\n\n    This is a pure additive effects model.\n\n    When evolving to an equilibrium around an optimum of 0, the total :math:`VG` for the trait would be \n    approximately :math:`4VS\\sum_i\\mu_i`.\n\n    If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_7evolve_qtraits_mloc = {"evolve_qtraits_mloc", (PyCFunction)__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_7evolve_qtraits_mloc, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_11qtrait_mloc_11qtrait_mloc_6evolve_qtraits_mloc};
+static PyObject *__pyx_pw_5fwdpy_11qtrait_mloc_11qtrait_mloc_7evolve_qtraits_mloc(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve = 0;
+  unsigned int __pyx_v_npops;
+  unsigned int __pyx_v_N;
+  unsigned int __pyx_v_nloci;
+  __Pyx_memviewslice __pyx_v_nlist = { 0, 0, { 0 }, { 0 }, { 0 } };
+  std::vector<double>  __pyx_v_mu_neutral;
+  std::vector<double>  __pyx_v_mu_selected;
+  std::vector<double>  __pyx_v_sigmas;
+  std::vector<double>  __pyx_v_recrates_within;
+  std::vector<double>  __pyx_v_recrates_between;
+  double __pyx_v_optimum;
+  double __pyx_v_sigmaE;
+  double __pyx_v_f;
+  double __pyx_v_VS;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("evolve_qtraits_mloc (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_rng_evolve,&__pyx_n_s_npops,&__pyx_n_s_N,&__pyx_n_s_nloci,&__pyx_n_s_nlist,&__pyx_n_s_mu_neutral,&__pyx_n_s_mu_selected,&__pyx_n_s_sigmas,&__pyx_n_s_recrates_within,&__pyx_n_s_recrates_between,&__pyx_n_s_optimum,&__pyx_n_s_sigmaE,&__pyx_n_s_f,&__pyx_n_s_VS,0};
+    PyObject* values[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
+        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+        case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_rng_evolve)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_npops)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 1); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 2); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nloci)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 3); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlist)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 4); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_neutral)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 5); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  6:
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_mu_selected)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 6); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  7:
+        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmas)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 7); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  8:
+        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_within)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 8); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case  9:
+        if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_recrates_between)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, 9); __PYX_ERR(0, 157, __pyx_L3_error)
+        }
+        case 10:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_optimum);
+          if (value) { values[10] = value; kw_args--; }
+        }
+        case 11:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_sigmaE);
+          if (value) { values[11] = value; kw_args--; }
+        }
+        case 12:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_f);
+          if (value) { values[12] = value; kw_args--; }
+        }
+        case 13:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_VS);
+          if (value) { values[13] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evolve_qtraits_mloc") < 0)) __PYX_ERR(0, 157, __pyx_L3_error)
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
+        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+        values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_rng_evolve = ((struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *)values[0]);
+    __pyx_v_npops = __Pyx_PyInt_As_unsigned_int(values[1]); if (unlikely((__pyx_v_npops == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L3_error)
+    __pyx_v_N = __Pyx_PyInt_As_unsigned_int(values[2]); if (unlikely((__pyx_v_N == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 159, __pyx_L3_error)
+    __pyx_v_nloci = __Pyx_PyInt_As_unsigned_int(values[3]); if (unlikely((__pyx_v_nloci == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 160, __pyx_L3_error)
+    __pyx_v_nlist = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[4]); if (unlikely(!__pyx_v_nlist.memview)) __PYX_ERR(0, 161, __pyx_L3_error)
+    __pyx_v_mu_neutral = __pyx_convert_vector_from_py_double(values[5]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 162, __pyx_L3_error)
+    __pyx_v_mu_selected = __pyx_convert_vector_from_py_double(values[6]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 163, __pyx_L3_error)
+    __pyx_v_sigmas = __pyx_convert_vector_from_py_double(values[7]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L3_error)
+    __pyx_v_recrates_within = __pyx_convert_vector_from_py_double(values[8]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 165, __pyx_L3_error)
+    __pyx_v_recrates_between = __pyx_convert_vector_from_py_double(values[9]); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 166, __pyx_L3_error)
+    if (values[10]) {
+      __pyx_v_optimum = __pyx_PyFloat_AsDouble(values[10]); if (unlikely((__pyx_v_optimum == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 167, __pyx_L3_error)
+    } else {
+      __pyx_v_optimum = ((double)0.0);
+    }
+    if (values[11]) {
+      __pyx_v_sigmaE = __pyx_PyFloat_AsDouble(values[11]); if (unlikely((__pyx_v_sigmaE == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 168, __pyx_L3_error)
+    } else {
+      __pyx_v_sigmaE = ((double)0.0);
+    }
+    if (values[12]) {
+      __pyx_v_f = __pyx_PyFloat_AsDouble(values[12]); if (unlikely((__pyx_v_f == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
+    } else {
+      __pyx_v_f = ((double)0.0);
+    }
+    if (values[13]) {
+      __pyx_v_VS = __pyx_PyFloat_AsDouble(values[13]); if (unlikely((__pyx_v_VS == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
+    } else {
+      __pyx_v_VS = ((double)1.0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("evolve_qtraits_mloc", 0, 10, 14, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 157, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng_evolve), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng_evolve", 0))) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_r = __pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_6evolve_qtraits_mloc(__pyx_self, __pyx_v_rng_evolve, __pyx_v_npops, __pyx_v_N, __pyx_v_nloci, __pyx_v_nlist, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_optimum, __pyx_v_sigmaE, __pyx_v_f, __pyx_v_VS);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_6evolve_qtraits_mloc(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng_evolve, unsigned int __pyx_v_npops, unsigned int __pyx_v_N, unsigned int __pyx_v_nloci, __Pyx_memviewslice __pyx_v_nlist, std::vector<double>  __pyx_v_mu_neutral, std::vector<double>  __pyx_v_mu_selected, std::vector<double>  __pyx_v_sigmas, std::vector<double>  __pyx_v_recrates_within, std::vector<double>  __pyx_v_recrates_between, double __pyx_v_optimum, double __pyx_v_sigmaE, double __pyx_v_f, double __pyx_v_VS) {
+  size_t __pyx_v_listlen;
+  struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *__pyx_v_pops = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  Py_ssize_t __pyx_t_6;
+  __Pyx_RefNannySetupContext("evolve_qtraits_mloc", 0);
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":199
+ *     If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.
+ *     """
+ *     cdef size_t listlen = len(nlist)             # <<<<<<<<<<<<<<
+ *     pops = popvec_mloc(npops,N,nloci)
+ *     with nogil:
+ */
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_nlist, 1, (PyObject *(*)(char *)) __pyx_memview_get_unsigned_int, (int (*)(char *, PyObject *)) __pyx_memview_set_unsigned_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_listlen = __pyx_t_2;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":200
+ *     """
+ *     cdef size_t listlen = len(nlist)
+ *     pops = popvec_mloc(npops,N,nloci)             # <<<<<<<<<<<<<<
+ *     with nogil:
+ *         evolve_qtrait_mloc_no_sampling_async(rng_evolve.thisptr,
+ */
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_npops); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_int(__pyx_v_N); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_int(__pyx_v_nloci); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_4);
+  __pyx_t_1 = 0;
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 200, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_pops = ((struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *)__pyx_t_4);
+  __pyx_t_4 = 0;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":201
+ *     cdef size_t listlen = len(nlist)
+ *     pops = popvec_mloc(npops,N,nloci)
+ *     with nogil:             # <<<<<<<<<<<<<<
+ *         evolve_qtrait_mloc_no_sampling_async(rng_evolve.thisptr,
+ *                                              &pops.pops,
+ */
+  {
+      #ifdef WITH_THREAD
+      PyThreadState *_save;
+      Py_UNBLOCK_THREADS
+      #endif
+      /*try:*/ {
+
+        /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":204
+ *         evolve_qtrait_mloc_no_sampling_async(rng_evolve.thisptr,
+ *                                              &pops.pops,
+ *                                              &nlist[0],listlen,             # <<<<<<<<<<<<<<
+ *                                              mu_neutral,mu_selected,sigmas,
+ *                                              recrates_within,recrates_between,
+ */
+        __pyx_t_6 = 0;
+        if (__pyx_t_6 < 0) __pyx_t_6 += __pyx_v_nlist.shape[0];
+
+        /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":202
+ *     pops = popvec_mloc(npops,N,nloci)
+ *     with nogil:
+ *         evolve_qtrait_mloc_no_sampling_async(rng_evolve.thisptr,             # <<<<<<<<<<<<<<
+ *                                              &pops.pops,
+ *                                              &nlist[0],listlen,
+ */
+        try {
+          fwdpy::qtrait::evolve_qtrait_mloc_no_sampling_async(__pyx_v_rng_evolve->thisptr, (&__pyx_v_pops->pops), (&(*((unsigned int *) ( /* dim=0 */ (__pyx_v_nlist.data + __pyx_t_6 * __pyx_v_nlist.strides[0]) )))), __pyx_v_listlen, __pyx_v_mu_neutral, __pyx_v_mu_selected, __pyx_v_sigmas, __pyx_v_recrates_within, __pyx_v_recrates_between, __pyx_v_f, __pyx_v_sigmaE, __pyx_v_optimum, __pyx_v_VS);
+        } catch(...) {
+          #ifdef WITH_THREAD
+          PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+          #endif
+          __Pyx_CppExn2PyErr();
+          #ifdef WITH_THREAD
+          PyGILState_Release(__pyx_gilstate_save);
+          #endif
+          __PYX_ERR(0, 202, __pyx_L4_error)
+        }
+      }
+
+      /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":201
+ *     cdef size_t listlen = len(nlist)
+ *     pops = popvec_mloc(npops,N,nloci)
+ *     with nogil:             # <<<<<<<<<<<<<<
+ *         evolve_qtrait_mloc_no_sampling_async(rng_evolve.thisptr,
+ *                                              &pops.pops,
+ */
+      /*finally:*/ {
+        /*normal exit:*/{
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L5;
+        }
+        __pyx_L4_error: {
+          #ifdef WITH_THREAD
+          Py_BLOCK_THREADS
+          #endif
+          goto __pyx_L1_error;
+        }
+        __pyx_L5:;
+      }
+  }
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":208
+ *                                              recrates_within,recrates_between,
+ *                                              f,sigmaE,optimum,VS)
+ *     return pops             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(((PyObject *)__pyx_v_pops));
+  __pyx_r = ((PyObject *)__pyx_v_pops);
+  goto __pyx_L0;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":157
+ * 
+ * @cython.boundscheck(False)
+ * def evolve_qtraits_mloc(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                         unsigned npops,
+ *                         unsigned N,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("fwdpy.qtrait_mloc.qtrait_mloc.evolve_qtraits_mloc", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF((PyObject *)__pyx_v_pops);
   __PYX_XDEC_MEMVIEW(&__pyx_v_nlist, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -3304,6 +4242,335 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_unsigned_int_2c_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_detailed_deme_sample_3e____3e____3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_double", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_double")
+ * cdef object __pyx_convert_vector_to_py_double(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_double")
+ * cdef object __pyx_convert_vector_to_py_double(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pair.to_py":180
+ * 
+ * @cname("__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___")
+ * cdef object __pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
+ *     return X_to_py(p.first), Y_to_py(p.second)
+ * 
+ */
+
+static PyObject *__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___(std::pair<struct fwdpy::selected_mut_data,std::vector<double> >  const &__pyx_v_p) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___", 0);
+
+  /* "pair.to_py":181
+ * @cname("__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___")
+ * cdef object __pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___(const pair[X,Y]& p):
+ *     return X_to_py(p.first), Y_to_py(p.second)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data(__pyx_v_p.first); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 181, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_convert_vector_to_py_double(__pyx_v_p.second); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 181, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 181, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_2);
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
+  goto __pyx_L0;
+
+  /* "pair.to_py":180
+ * 
+ * @cname("__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___")
+ * cdef object __pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___(const pair[X,Y]& p):             # <<<<<<<<<<<<<<
+ *     return X_to_py(p.first), Y_to_py(p.second)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("pair.to_py.__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___(const std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > >  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(const std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(const std::vector<struct fwdpy::qtrait_stats_cython>  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert__to_py_struct__fwdpy_3a__3a_qtrait_stats_cython((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(const std::vector<std::vector<struct fwdpy::qtrait_stats_cython> >  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -15584,6 +16851,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {&__pyx_kp_s_MemoryView_of_r_at_0x_x, __pyx_k_MemoryView_of_r_at_0x_x, sizeof(__pyx_k_MemoryView_of_r_at_0x_x), 0, 0, 1, 0},
   {&__pyx_kp_s_MemoryView_of_r_object, __pyx_k_MemoryView_of_r_object, sizeof(__pyx_k_MemoryView_of_r_object), 0, 0, 1, 0},
+  {&__pyx_n_s_N, __pyx_k_N, sizeof(__pyx_k_N), 0, 0, 1, 1},
   {&__pyx_n_b_O, __pyx_k_O, sizeof(__pyx_k_O), 0, 0, 0, 1},
   {&__pyx_kp_s_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 0, 1, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
@@ -15602,7 +16870,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
+  {&__pyx_n_s_esize, __pyx_k_esize, sizeof(__pyx_k_esize), 0, 0, 1, 1},
+  {&__pyx_n_s_evolve_qtraits_mloc, __pyx_k_evolve_qtraits_mloc, sizeof(__pyx_k_evolve_qtraits_mloc), 0, 0, 1, 1},
+  {&__pyx_n_s_evolve_qtraits_mloc_popstats, __pyx_k_evolve_qtraits_mloc_popstats, sizeof(__pyx_k_evolve_qtraits_mloc_popstats), 0, 0, 1, 1},
   {&__pyx_n_s_evolve_qtraits_mloc_sample, __pyx_k_evolve_qtraits_mloc_sample, sizeof(__pyx_k_evolve_qtraits_mloc_sample), 0, 0, 1, 1},
+  {&__pyx_n_s_evolve_qtraits_mloc_track, __pyx_k_evolve_qtraits_mloc_track, sizeof(__pyx_k_evolve_qtraits_mloc_track), 0, 0, 1, 1},
   {&__pyx_n_s_f, __pyx_k_f, sizeof(__pyx_k_f), 0, 0, 1, 1},
   {&__pyx_n_s_flags, __pyx_k_flags, sizeof(__pyx_k_flags), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
@@ -15610,6 +16882,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
   {&__pyx_n_s_fwdpy_internal, __pyx_k_fwdpy_internal, sizeof(__pyx_k_fwdpy_internal), 0, 0, 1, 1},
   {&__pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc, __pyx_k_fwdpy_qtrait_mloc_qtrait_mloc, sizeof(__pyx_k_fwdpy_qtrait_mloc_qtrait_mloc), 0, 0, 1, 1},
+  {&__pyx_n_s_generation, __pyx_k_generation, sizeof(__pyx_k_generation), 0, 0, 1, 1},
   {&__pyx_n_s_genotypes, __pyx_k_genotypes, sizeof(__pyx_k_genotypes), 0, 0, 1, 1},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
   {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_k_home_kevin_src_fwdpy_fwdpy_qtra, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_qtra), 0, 0, 1, 0},
@@ -15628,12 +16901,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
   {&__pyx_n_s_nlist, __pyx_k_nlist, sizeof(__pyx_k_nlist), 0, 0, 1, 1},
+  {&__pyx_n_s_nloci, __pyx_k_nloci, sizeof(__pyx_k_nloci), 0, 0, 1, 1},
+  {&__pyx_n_s_npops, __pyx_k_npops, sizeof(__pyx_k_npops), 0, 0, 1, 1},
   {&__pyx_n_s_nsam, __pyx_k_nsam, sizeof(__pyx_k_nsam), 0, 0, 1, 1},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
   {&__pyx_n_s_optimum, __pyx_k_optimum, sizeof(__pyx_k_optimum), 0, 0, 1, 1},
+  {&__pyx_n_s_origin, __pyx_k_origin, sizeof(__pyx_k_origin), 0, 0, 1, 1},
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
   {&__pyx_n_s_pandas, __pyx_k_pandas, sizeof(__pyx_k_pandas), 0, 0, 1, 1},
   {&__pyx_n_s_pops, __pyx_k_pops, sizeof(__pyx_k_pops), 0, 0, 1, 1},
+  {&__pyx_n_s_pos, __pyx_k_pos, sizeof(__pyx_k_pos), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_getbuffer, __pyx_k_pyx_getbuffer, sizeof(__pyx_k_pyx_getbuffer), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
@@ -15648,6 +16925,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sigmas, __pyx_k_sigmas, sizeof(__pyx_k_sigmas), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
+  {&__pyx_n_s_stat, __pyx_k_stat, sizeof(__pyx_k_stat), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
   {&__pyx_kp_s_strided_and_direct, __pyx_k_strided_and_direct, sizeof(__pyx_k_strided_and_direct), 0, 0, 1, 0},
@@ -15658,6 +16936,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
+  {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -15824,15 +17103,53 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":1
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":3
+ * cimport cython
+ * 
  * def evolve_qtraits_mloc_sample(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
  *                                GSLrng rng_sample,
  *                                popvec_mloc pops,
  */
-  __pyx_tuple__15 = PyTuple_Pack(16, __pyx_n_s_rng_evolve, __pyx_n_s_rng_sample, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_nsam, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(16, __pyx_n_s_rng_evolve, __pyx_n_s_rng_sample, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_nsam, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(15, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_sample, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(15, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_sample, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 3, __pyx_L1_error)
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":58
+ * 
+ * 
+ * def evolve_qtraits_mloc_track(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                               popvec_mloc pops,
+ *                               unsigned[:] nlist,
+ */
+  __pyx_tuple__17 = PyTuple_Pack(14, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_track, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 58, __pyx_L1_error)
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":107
+ *                                           f,sigmaE,optimum,VS,sample)
+ * 
+ * def evolve_qtraits_mloc_popstats(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                                  popvec_mloc pops,
+ *                                  unsigned[:] nlist,
+ */
+  __pyx_tuple__19 = PyTuple_Pack(14, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_popstats, 107, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 107, __pyx_L1_error)
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":157
+ * 
+ * @cython.boundscheck(False)
+ * def evolve_qtraits_mloc(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                         unsigned npops,
+ *                         unsigned N,
+ */
+  __pyx_tuple__21 = PyTuple_Pack(16, __pyx_n_s_rng_evolve, __pyx_n_s_npops, __pyx_n_s_N, __pyx_n_s_nloci, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen, __pyx_n_s_pops); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(14, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 157, __pyx_L1_error)
 
   /* "View.MemoryView":282
  *         return self.name
@@ -15841,9 +17158,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(1, 282, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(1, 282, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "View.MemoryView":283
  * 
@@ -15852,9 +17169,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(1, 283, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(1, 283, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "View.MemoryView":284
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -15863,9 +17180,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(1, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(1, 284, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
 
   /* "View.MemoryView":287
  * 
@@ -15874,9 +17191,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 287, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
 
   /* "View.MemoryView":288
  * 
@@ -15885,9 +17202,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(1, 288, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -16085,14 +17402,52 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pandas, __pyx_t_2) < 0) __PYX_ERR(2, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":1
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":3
+ * cimport cython
+ * 
  * def evolve_qtraits_mloc_sample(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
  *                                GSLrng rng_sample,
  *                                popvec_mloc pops,
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mloc_sample, NULL, __pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_1evolve_qtraits_mloc_sample, NULL, __pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtraits_mloc_sample, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtraits_mloc_sample, __pyx_t_2) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":58
+ * 
+ * 
+ * def evolve_qtraits_mloc_track(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                               popvec_mloc pops,
+ *                               unsigned[:] nlist,
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_3evolve_qtraits_mloc_track, NULL, __pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtraits_mloc_track, __pyx_t_2) < 0) __PYX_ERR(0, 58, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":107
+ *                                           f,sigmaE,optimum,VS,sample)
+ * 
+ * def evolve_qtraits_mloc_popstats(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                                  popvec_mloc pops,
+ *                                  unsigned[:] nlist,
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_5evolve_qtraits_mloc_popstats, NULL, __pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtraits_mloc_popstats, __pyx_t_2) < 0) __PYX_ERR(0, 107, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":157
+ * 
+ * @cython.boundscheck(False)
+ * def evolve_qtraits_mloc(GSLrng rng_evolve,             # <<<<<<<<<<<<<<
+ *                         unsigned npops,
+ *                         unsigned N,
+ */
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_11qtrait_mloc_11qtrait_mloc_7evolve_qtraits_mloc, NULL, __pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evolve_qtraits_mloc, __pyx_t_2) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/qtrait_mloc/qtrait_mloc.pyx":1
@@ -16125,7 +17480,7 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 282, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 282, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_2);
@@ -16139,7 +17494,7 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 283, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_2);
@@ -16153,7 +17508,7 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 284, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_2);
@@ -16167,7 +17522,7 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_2);
@@ -16181,7 +17536,7 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 288, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
@@ -17149,20 +18504,6 @@ static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
     }
 }
 
-/* GetBuiltinName */
-  static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
-
 /* PyObjectCall */
   #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
@@ -17182,6 +18523,20 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
     return result;
 }
 #endif
+
+/* GetBuiltinName */
+  static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
 
 /* PyErrFetchRestore */
   #if CYTHON_COMPILING_IN_CPYTHON
@@ -18668,6 +20023,44 @@ static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_detailed_deme_sample(
           Py_DECREF(member);
           member = __pyx_convert_vector_to_py_std_3a__3a_pair_3c_double_2c_double_3e___(s.sh); if (unlikely(!member)) goto bad;
           if (unlikely(PyDict_SetItem(res, __pyx_n_s_sh, member) < 0)) goto bad;
+          Py_DECREF(member);
+          return res;
+          bad:
+          Py_XDECREF(member);
+          Py_DECREF(res);
+          return NULL;
+        }
+        static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data(struct fwdpy::selected_mut_data s) {
+          PyObject* res;
+          PyObject* member;
+          res = PyDict_New(); if (unlikely(!res)) return NULL;
+          member = PyFloat_FromDouble(s.pos); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_pos, member) < 0)) goto bad;
+          Py_DECREF(member);
+          member = PyFloat_FromDouble(s.esize); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_esize, member) < 0)) goto bad;
+          Py_DECREF(member);
+          member = __Pyx_PyInt_From_unsigned_int(s.origin); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_origin, member) < 0)) goto bad;
+          Py_DECREF(member);
+          return res;
+          bad:
+          Py_XDECREF(member);
+          Py_DECREF(res);
+          return NULL;
+        }
+        static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(struct fwdpy::qtrait_stats_cython s) {
+          PyObject* res;
+          PyObject* member;
+          res = PyDict_New(); if (unlikely(!res)) return NULL;
+          member = __pyx_convert_PyObject_string_to_py_std__in_string(s.stat); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_stat, member) < 0)) goto bad;
+          Py_DECREF(member);
+          member = PyFloat_FromDouble(s.value); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_value, member) < 0)) goto bad;
+          Py_DECREF(member);
+          member = __Pyx_PyInt_From_unsigned_int(s.generation); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_generation, member) < 0)) goto bad;
           Py_DECREF(member);
           return res;
           bad:
