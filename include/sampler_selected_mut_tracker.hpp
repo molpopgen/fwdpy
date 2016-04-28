@@ -52,7 +52,9 @@ namespace fwdpy
   };
 
   //non-inline!  This is part of fwdpy's main module.
-  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<double>>> & trajectories );
+  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<double>>> & trajectories,
+							    const unsigned min_sojourn ,
+							    const double min_freq);
   
   //! Used internally to convert C++11 types to something Cython will understand
   enum class traj_key_values : std::size_t { deme,origin,pos,esize,label };
