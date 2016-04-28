@@ -108,7 +108,7 @@ namespace fwdpy
       return rv;
     }
 
-    explicit selected_mut_tracker() : trajectories(trajectories_t())
+    explicit selected_mut_tracker() noexcept : trajectories(trajectories_t())
     {
     }
   private:
