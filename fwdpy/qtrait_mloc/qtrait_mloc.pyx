@@ -25,8 +25,7 @@ cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
 				                const double f,
 				                const double sigmaE,
 				                const double optimum,
-				                const double VS,
-                                                const unsigned nsam) except +
+				                const double VS) except +
      
      vector[vector[pair[uint,vector[detailed_deme_sample]]]] evolve_qtrait_mloc_sample_async( GSLrng_t * rng,
 				                                                              GSLrng_t * rng_sample,
@@ -58,8 +57,7 @@ cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
 				                                            const double sigmaE,
 				                                            const double optimum,
 				                                            const double VS,
-				                                            const int sample,
-                                                                            const unsigned nsam) except +
+				                                            const int sample) except +
 
      vector[vector[pair[selected_mut_data,vector[double]]]] evolve_qtrait_mloc_track_async( GSLrng_t * rng,
 				                                                            vector[shared_ptr[multilocus_t]] * pops,
@@ -74,8 +72,7 @@ cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
 				                                                            const double sigmaE,
 				                                                            const double optimum,
 				                                                            const double VS,
-				                                                            const int sample,
-                                                                                            const unsigned nsam) except +
+				                                                            const int sample) except +
 
      
 
