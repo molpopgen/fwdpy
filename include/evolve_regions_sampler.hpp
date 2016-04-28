@@ -153,6 +153,18 @@ namespace fwdpy
 				const char * fitness,
 				Args&&... args)
   {
+    //check inputs--this is point of failure.  Throw excceptions here b4 getting into any threaded nonsense.
+    if(mu_neutral < 0. || mu_selected < 0. || littler < 0.)
+      {
+	throw std::runtime_error("mutation and recombination rates must all be non-negative.");
+      }
+    if(f<0.||f>1.) throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
+    if(sample<0) throw std::runtime_error("sampling interval must be non-negative");
+    std::string ftnss(fitness);
+    if(ftnss!="additive"||ftnss!="multiplicative")
+      {
+	throw std::runtime_error("fitness model must be additive or multiplicative");
+      }
     using future_t = std::future<typename sampler::final_t>;
     std::vector<future_t> futures;
     for(std::size_t i=0;i<pops->size();++i)
