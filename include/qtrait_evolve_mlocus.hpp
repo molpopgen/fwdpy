@@ -13,6 +13,7 @@
 #include <fwdpp/experimental/sample_diploid_mloc.hpp>
 #include "types.hpp"
 #include "reserve.hpp"
+#include "sampler_no_sampling.hpp"
 #include "sampler_pop_properties.hpp"
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
@@ -252,8 +253,8 @@ namespace fwdpy
 					       const double f,
 					       const double sigmaE,
 					       const double optimum,
-					       const double VS,
-					       const unsigned nsam);
+					       const double VS);
+
     
     //Sample quant. genetics params from pop
     std::vector<pop_properties::final_t>
@@ -270,8 +271,7 @@ namespace fwdpy
 				       const double sigmaE,
 				       const double optimum,
 				       const double VS,
-				       const int sample,
-				       const unsigned nsam);
+				       const int sample);
 
     //Causative mutation frequency trajectories
     std::vector<selected_mut_tracker::final_t>
@@ -288,8 +288,7 @@ namespace fwdpy
 				    const double sigmaE,
 				    const double optimum,
 				    const double VS,
-				    const int sample,
-				    const unsigned nsam);
+				    const int sample);
   }
 }
 #endif
