@@ -63,7 +63,9 @@ namespace fwdpy
     std::vector<selected_mut_data_tidy> rv;
     for( const auto & ti : trajectories )
       {
-	if(!ti.second.empty()&&ti.second.size() >= min_sojourn)
+	//Make sure that sojourn time filter is not applied to fixations, as
+	//those are usually of particular interest.
+	if(!ti.second.empty()&&(ti.second.size() >= min_sojourn||ti.second.back()==1.0))
 	  {
 	    if( *std::max_element(ti.second.begin(),ti.second.end()) >= min_freq )
 	      {
