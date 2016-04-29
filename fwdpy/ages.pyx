@@ -47,6 +47,10 @@ def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]
     :param trajectories: A container of mutation frequency trajectories from a simulation.
     :param min_sojourn: Exclude mutations that segregate for fewer generations than this value.
     :param min_freq: Exclude mutations that never reach a frequency :math:`\\geq` this value.
+
+    .. note:: The sojourn time filter is not applied to fixations.  I'm assuming you are always
+    interested in those.
+  
     """
     cdef vector[vector[selected_mut_data_tidy]] rv;
     rv.resize(trajectories.size())
