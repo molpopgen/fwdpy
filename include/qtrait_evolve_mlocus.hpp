@@ -17,6 +17,7 @@
 #include "sampler_pop_properties.hpp"
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
+#include "sampler_additive_variance.hpp"
 #include "metaprogramming.hpp"
 
 namespace fwdpy
@@ -289,6 +290,23 @@ namespace fwdpy
 				    const double optimum,
 				    const double VS,
 				    const int sample);
+
+    //Track contributions of mutations to additive genetic variance over time
+    std::vector<additive_variance::final_t>
+    evolve_qtrait_mloc_VA_async( GSLrng_t * rng,
+				 std::vector<std::shared_ptr<multilocus_t> > * pops,
+				 const unsigned * Nvector,
+				 const size_t Nvector_length,
+				 const std::vector<double> & neutral_mutation_rates,
+				 const std::vector<double> & selected_mutation_rates,
+				 const std::vector<double> & sigma_mus,
+				 const std::vector<double> & within_region_rec_rates,
+				 const std::vector<double> & between_region_rec_rates,
+				 const double f,
+				 const double sigmaE,
+				 const double optimum,
+				 const double VS,
+				 const int sample);
   }
 }
 #endif
