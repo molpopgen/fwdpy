@@ -230,6 +230,17 @@ cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
         double value
         unsigned generation
 
+cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
+    cdef struct VGdata:
+        double pos
+        double esize
+        double VG
+        double SS
+        double pSS
+        double freq
+        unsigned origin
+        unsigned generation
+
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     cdef struct allele_age_data_t:
         double esize
