@@ -10,6 +10,7 @@
             "include/internal_callbacks.hpp", 
             "include/internal_region_manager.hpp", 
             "include/sample.hpp", 
+            "include/sampler_additive_variance.hpp", 
             "include/sampler_pop_properties.hpp", 
             "include/sampler_sample_n.hpp", 
             "include/sampler_selected_mut_tracker.hpp", 
@@ -339,6 +340,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
 #include "sampler_pop_properties.hpp"
+#include "sampler_additive_variance.hpp"
 #include "allele_ages.hpp"
 #include "evolve_regions_sampler.hpp"
 #include "sampling_wrappers.hpp"
@@ -677,7 +679,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":248
+/* "fwdpy/fwdpy.pxd":259
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
