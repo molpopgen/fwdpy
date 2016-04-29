@@ -29522,7 +29522,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_86merge_trajectories(CYTHON_UNUSED PyObj
 
 /* Python wrapper */
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_89tidy_trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_5fwdpy_88tidy_trajectories[] = "\n    Take a set of allele frequency trajectories and 'tidy' them for easier coercion into\n    a pandas.DataFrame.\n\n    :param trajectories: A container of mutation frequency trajectories from a simulation.\n    :param min_sojourn: Exclude mutations that segregate for fewer generations than this value.\n    :param min_freq: Exclude mutations that never reach a frequency :math:`\\geq` this value.\n    ";
+static char __pyx_doc_5fwdpy_5fwdpy_88tidy_trajectories[] = "\n    Take a set of allele frequency trajectories and 'tidy' them for easier coercion into\n    a pandas.DataFrame.\n\n    :param trajectories: A container of mutation frequency trajectories from a simulation.\n    :param min_sojourn: Exclude mutations that segregate for fewer generations than this value.\n    :param min_freq: Exclude mutations that never reach a frequency :math:`\\geq` this value.\n\n    .. note:: The sojourn time filter is not applied to fixations.  I'm assuming you are always\n    interested in those.\n  \n    ";
 static PyMethodDef __pyx_mdef_5fwdpy_5fwdpy_89tidy_trajectories = {"tidy_trajectories", (PyCFunction)__pyx_pw_5fwdpy_5fwdpy_89tidy_trajectories, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_5fwdpy_88tidy_trajectories};
 static PyObject *__pyx_pw_5fwdpy_5fwdpy_89tidy_trajectories(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  __pyx_v_trajectories;
@@ -29612,7 +29612,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObje
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("tidy_trajectories", 0);
 
-  /* "fwdpy/ages.pyx":52
+  /* "fwdpy/ages.pyx":56
  *     """
  *     cdef vector[vector[selected_mut_data_tidy]] rv;
  *     rv.resize(trajectories.size())             # <<<<<<<<<<<<<<
@@ -29623,10 +29623,10 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObje
     __pyx_v_rv.resize(__pyx_v_trajectories.size());
   } catch(...) {
     __Pyx_CppExn2PyErr();
-    __PYX_ERR(8, 52, __pyx_L1_error)
+    __PYX_ERR(8, 56, __pyx_L1_error)
   }
 
-  /* "fwdpy/ages.pyx":53
+  /* "fwdpy/ages.pyx":57
  *     cdef vector[vector[selected_mut_data_tidy]] rv;
  *     rv.resize(trajectories.size())
  *     cdef size_t nt = trajectories.size()             # <<<<<<<<<<<<<<
@@ -29635,7 +29635,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObje
  */
   __pyx_v_nt = __pyx_v_trajectories.size();
 
-  /* "fwdpy/ages.pyx":56
+  /* "fwdpy/ages.pyx":60
  *     cdef int i
  * 
  *     for i in prange(nt,schedule='static',nogil=True,chunksize=1):             # <<<<<<<<<<<<<<
@@ -29672,7 +29672,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObje
                         {
                             __pyx_v_i = (int)(0 + 1 * __pyx_t_2);
 
-                            /* "fwdpy/ages.pyx":57
+                            /* "fwdpy/ages.pyx":61
  * 
  *     for i in prange(nt,schedule='static',nogil=True,chunksize=1):
  *         rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)             # <<<<<<<<<<<<<<
@@ -29693,7 +29693,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObje
         #endif
       }
 
-      /* "fwdpy/ages.pyx":56
+      /* "fwdpy/ages.pyx":60
  *     cdef int i
  * 
  *     for i in prange(nt,schedule='static',nogil=True,chunksize=1):             # <<<<<<<<<<<<<<
@@ -29711,13 +29711,13 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_88tidy_trajectories(CYTHON_UNUSED PyObje
       }
   }
 
-  /* "fwdpy/ages.pyx":59
+  /* "fwdpy/ages.pyx":63
  *         rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)
  * 
  *     return rv             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___(__pyx_v_rv); if (unlikely(!__pyx_t_5)) __PYX_ERR(8, 59, __pyx_L1_error)
+  __pyx_t_5 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_selected_mut_data_tidy_3e___(__pyx_v_rv); if (unlikely(!__pyx_t_5)) __PYX_ERR(8, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
