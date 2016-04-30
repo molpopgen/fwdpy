@@ -41,7 +41,7 @@ namespace fwdpy
   //Enable use of smart pointers for GSL types
   struct gsl_matrix_deleter
   {
-    void operator()( gsl_matrix * l ) noexcept 
+    void operator()( gsl_matrix * l ) noexcept
     {
       gsl_matrix_free(l);
     }
@@ -49,7 +49,7 @@ namespace fwdpy
 
   struct gsl_vector_deleter
   {
-    void operator()( gsl_vector * l ) noexcept 
+    void operator()( gsl_vector * l ) noexcept
     {
       gsl_vector_free(l);
     }
@@ -57,11 +57,11 @@ namespace fwdpy
 
   using gsl_vector_ptr_t = std::unique_ptr< gsl_vector, gsl_vector_deleter >;
   using gsl_matrix_ptr_t = std::unique_ptr< gsl_matrix, gsl_matrix_deleter >;
-  
+
   struct additive_variance
   {
     using final_t = std::vector<VGdata>;
-    
+
     template<typename pop_t>
     inline void operator()(const pop_t * pop,
 			   unsigned generation)
@@ -75,14 +75,14 @@ namespace fwdpy
       auto genotypes = make_variant_matrix(pop,mut_keys);
 
       std::size_t NROW = pop->diploids.size();
-      std::size_t NCOL = genotypes->size2; //Neat... 
+      std::size_t NCOL = genotypes->size2; //Neat...
       //Allocate placeholder variables
       gsl_vector_ptr_t tau(gsl_vector_alloc(NCOL));
       gsl_vector_ptr_t sums(gsl_vector_alloc(NROW));
       gsl_vector_ptr_t SS(gsl_vector_alloc(NROW));
       gsl_matrix_ptr_t Q(gsl_matrix_alloc(NROW,NROW));
       gsl_matrix_ptr_t R(gsl_matrix_alloc(NROW,NCOL));
-      
+
       //QR decomposition...
       gsl_linalg_QR_decomp(genotypes.get(), tau.get());
       //Get the Q and R matrix separately
@@ -100,8 +100,9 @@ namespace fwdpy
 	  if(i)
 	    {
 	      vSumOfSquares.push_back(p);
+	      SumOfSquares+=p;
 	    }
-	  SumOfSquares+=p;
+
 	  //gsl_vector_set(SS.get(), i, p);
 	}
       double VGcheck=0.0;
@@ -160,8 +161,8 @@ namespace fwdpy
 	}
       return mut_keys;
     }
-    
-    
+
+
     template<typename pop_t>
     gsl_matrix_ptr_t make_variant_matrix(const pop_t * pop, const std::vector<std::size_t> & mut_keys)
     {
@@ -208,7 +209,7 @@ namespace fwdpy
 	}
       return rv;
     }
-    
+
     template<typename pop_t>
     gsl_matrix_ptr_t make_variant_matrix_details(const pop_t * pop, const std::vector<std::size_t> & mut_keys) //single pop -- specialized for multilocus pop
     /*!
@@ -221,7 +222,7 @@ namespace fwdpy
       update_matrix_counts(pop,mut_keys,rv);
       return rv;
     };
-    
+
     template<typename pop_t>
     gsl_vector_ptr_t fillG(const pop_t * pop, double  * VG) //single-pop...
     /*!
@@ -256,7 +257,7 @@ namespace fwdpy
   template<>
   inline void
   additive_variance::update_matrix_counts<multilocus_t>(const multilocus_t * pop, const std::vector<std::size_t> & mut_keys,
-							gsl_matrix_ptr_t & rv) 
+							gsl_matrix_ptr_t & rv)
   /*!
     Return a 0,1,2 matrix of counts of causative alleles in each diploid.
 
