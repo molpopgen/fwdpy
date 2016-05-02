@@ -1,3 +1,12 @@
+/*!
+  \file sampler_additive_variance.hpp
+  
+  Estimates cumulative contribution of mutations to 
+  V(A).
+
+  Big thanks to Jaleal Sanjak for help with the QR
+  decomposition code.
+ */
 #ifndef FWDPY_SAMPLER_ADDITIVE_VARIANCE_HPP
 #define FWDPY_SAMPLER_ADDITIVE_VARIANCE_HPP
 
@@ -14,7 +23,6 @@
 #include <set>
 #include <algorithm>
 #include <memory>
-#include <iostream>
 #include "types.hpp"
 
 namespace fwdpy
@@ -59,11 +67,9 @@ namespace fwdpy
   {
     gsl_vector_ptr_t sums;
     std::vector<std::size_t> ucol_labels;
-    std::size_t DF;
-    regression_results(gsl_vector_ptr_t && s, std::vector<std::size_t> && p, std::size_t df) :
+    regression_results(gsl_vector_ptr_t && s, std::vector<std::size_t> && p) :
       sums(std::move(s)),
-      ucol_labels(std::move(p)),
-      DF(df)
+      ucol_labels(std::move(p))
     {
     }
   };
@@ -91,23 +97,31 @@ namespace fwdpy
       std::vector<KTfwd::uint_t> mut_key_counts;
       for( const auto i : mut_keys ) mut_key_counts.emplace_back(pop->mcounts[i]);
 
-      auto results = regression_details(G,genotypes,mut_keys,mut_key_counts);
+      auto results = regression_details(G,genotypes,mut_keys,mut_key_counts,generation);
+      auto DF = std::count(results.ucol_labels.begin(),results.ucol_labels.end(),1);
       double SumOfSquares=0.0;
       std::vector<double> vSumOfSquares;
-      for(std::size_t i = 1; i < genotypes->size1 ; i++)
+      std::size_t DUMMY = 1;
+      //for(std::size_t i = 1; i <= DF+1 ; i++)
+      for( auto i : results.ucol_labels )
       	{
-      	  auto s = gsl_vector_get(results.sums.get(),i);
-      	  auto p = gsl_sf_pow_int(s,2);
-      	  if(i)
-      	    {
-      	      vSumOfSquares.push_back(p);
-      	      SumOfSquares+=p;
-      	    }
+	  if(i)
+	    {
+	      auto s = gsl_vector_get(results.sums.get(),DUMMY++);
+	      auto p = gsl_sf_pow_int(s,2);
+	      vSumOfSquares.push_back(p);
+	      SumOfSquares+=p;
+	    }
+	  else
+	    {
+	      vSumOfSquares.push_back(0.);
+	    }
       	}
       //residual sum of squares
-      //double RSS = std::accumulate(results.sums->data+(results.sums->size-results.DF),results.sums->data+results.sums->size,
-      //0.,[](double a,double b) { return a + gsl_sf_pow_int(b,2); });
+      double RSS = std::accumulate(results.sums->data+DF+1,results.sums->data+results.sums->size,
+				   0.,[](double a,double b) { return a + gsl_sf_pow_int(b,2); });
 
+      SumOfSquares += RSS; //add in the RSS.
       //Assign VA to each frequency bin.
       std::set<size_t> ucounts;
       for(std::size_t i=0;i<results.ucol_labels.size();++i)
@@ -115,7 +129,7 @@ namespace fwdpy
 	  if(results.ucol_labels[i]) ucounts.insert(mut_key_counts[i]);
 	}
 
-      double VGcheck=0.0,adjrsqcheck=0.0;;
+      double cum_rsq=0.;
       for( const auto ui : ucounts ) //this starts w/rares
 	{
 	  //Have to count up the number of markers at this count that were used in the regression
@@ -131,17 +145,20 @@ namespace fwdpy
 	    }
 	  //Get SS for mutations at this count and those not at this count
 	  double SSui=0.0,SSnotui=0.0;
+	  unsigned found = 0;
 	  for(std::size_t i=0;i<vSumOfSquares.size();++i)
 	    {
-	      if( std::binary_search(uindexes.begin(),uindexes.end(),i) ) SSui += vSumOfSquares[i];
+	      if( std::binary_search(uindexes.begin(),uindexes.end(),i) )
+		{
+		  SSui += vSumOfSquares[i];
+		  ++found;
+		}
 	      else SSnotui += vSumOfSquares[i];
 	    }
-	  double adj_rsq = SSui/SumOfSquares;
-	  adjrsqcheck += adj_rsq;
-	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),adjrsqcheck,generation,pop->diploids.size()));
-	  VGcheck += adj_rsq*VG;
+	  double rsq = SSui/SumOfSquares;
+	  cum_rsq += rsq;
+	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),cum_rsq,generation,pop->diploids.size()));
 	}
-      std::cerr << generation << ' ' << adjrsqcheck << ' ' << VGcheck << ' ' << VG << '\n';
     }
 
     final_t final() const
@@ -158,7 +175,8 @@ namespace fwdpy
     regression_results regression_details(const gsl_vector_ptr_t & G,
 					  const gsl_matrix_ptr_t & genotypes,
 					  const std::vector<size_t> & mut_keys,
-					  const std::vector<KTfwd::uint_t> & mut_key_counts)
+					  const std::vector<KTfwd::uint_t> & mut_key_counts,
+					  unsigned generation)
     /*!
       Handles ugly details of the regression:
       1. Reduces genotypes just to the set of unique columns
@@ -205,8 +223,6 @@ namespace fwdpy
       gsl_matrix_ptr_t Q(gsl_matrix_alloc(NROW,NROW));
       gsl_matrix_ptr_t R(gsl_matrix_alloc(NROW,NCOL));
 
-      //FILE * fp1 = fopen("trait_values.txt","w");
-      //FILE * fp2 = fopen("matrix.txt","w");
       if (identical)
 	{
 	  //Make new matrix of unique columns.
@@ -223,22 +239,6 @@ namespace fwdpy
 		  ++j;
 		}
 	    }
-	  // std::cerr << "type 1\n";
-	  // for(std::size_t i=0;i<G->size;++i)
-	  //   {
-	  //     fprintf(fp1,"%lf\n",gsl_vector_get(G.get(),i));
-	  //   }
-	  // for(std::size_t i=0;i<ugeno->size1;++i)
-	  //   {
-	  //     for(std::size_t j=0;j<ugeno->size2;++j)
-	  // 	{
-	  // 	  fprintf(fp2,"%lf\t",gsl_matrix_get(ugeno.get(),i,j));
-	  // 	}
-	  //     fprintf(fp2,"\n");
-	  //   }
-	  // fclose(fp1);
-	  // fclose(fp2);
-	  // exit(1);
 	  //QR decomposition...
 	  gsl_linalg_QR_decomp(ugeno.get(), tau.get());
 	  //Get the Q and R matrix separately
@@ -246,27 +246,8 @@ namespace fwdpy
 	  //Multiply t(Q) %*% b and store in sums
 	  gsl_blas_dgemv(CblasTrans, 1.0, Q.get(), G.get(), 0.0, sums.get());
 	  return regression_results(std::move(sums),
-				    std::move(column_labels),
-				    //This next value is the # of elements at end of sums
-				    //from which RSS can be calculated.
-				    NCOL-(2-identical));
+				    std::move(column_labels));
 	}
-      // std::cerr << "type 2\n";
-      // for(std::size_t i=0;i<G->size;++i)
-      // 	{
-      // 	  fprintf(fp1,"%lf\n",gsl_vector_get(G.get(),i));
-      // 	}
-      // for(std::size_t i=0;i<genotypes->size1;++i)
-      // 	{
-      // 	  for(std::size_t j=0;j<genotypes->size2;++j)
-      // 	    {
-      // 	      fprintf(fp2,"%lf\t",gsl_matrix_get(genotypes.get(),i,j));
-      // 	    }
-      // 	  fprintf(fp2,"\n");
-      // 	}
-      // fclose(fp1);
-      // fclose(fp2);
-      // exit(1);
       //QR decomposition...
       gsl_linalg_QR_decomp(genotypes.get(), tau.get());
       //Get the Q and R matrix separately
@@ -274,10 +255,7 @@ namespace fwdpy
       //Multiply t(Q) %*% b and store in sums
       gsl_blas_dgemv(CblasTrans, 1.0, Q.get(), G.get(), 0.0, sums.get());
       return regression_results(std::move(sums),
-				std::move(column_labels),
-				//This next value is the # of elements at end of sums
-				//from which RSS can be calculated.
-				NCOL-(2-identical));
+				std::move(column_labels));
     }
 
     template<typename pop_t>
@@ -360,7 +338,6 @@ namespace fwdpy
 	{
 	  gsl_matrix_set(rv.get(),row,0,1.0); //set column 0 to a value of 1.0
 	  update_matrix_counts_details(rv,pop,mut_keys,dip,row);
-	  update_matrix_counts_details(rv,pop,mut_keys,dip,row);
 	  row++;
 	}
     }
@@ -426,7 +403,6 @@ namespace fwdpy
 	gsl_matrix_set(rv.get(),row,0,1.0); //set column 0 to a value of 1.0
 	for( const auto & locus : dip)
 	  {
-	    update_matrix_counts_details(rv,pop,mut_keys,locus,row);
 	    update_matrix_counts_details(rv,pop,mut_keys,locus,row);
 	  }
 	row++;
