@@ -10,30 +10,27 @@
 #include <gsl/gsl_statistics_double.h>
 
 #include <cmath>
-#include <iostream>
 #include <vector>
 #include <set>
 #include <algorithm>
 #include <memory>
+#include <iostream>
 #include "types.hpp"
 
 namespace fwdpy
 {
-  struct VGdata
+  struct VAcum
+  /*!
+    Cumulative additive genetic varianace as a function
+    of frequency over time.
+   */
   {
-    double pos,esize,VG,SS,pSS,freq;
-    unsigned origin,generation;
-    VGdata(double p,double e,double vg,
-	   double ss, double pss,
-	   double q,
-	   unsigned o,unsigned g) : pos(p),
-				    esize(e),
-				    VG(vg),
-				    SS(ss),
-				    pSS(pss),
-				    freq(q),
-				    origin(o),
-				    generation(g)
+    double freq,cumsum;
+    unsigned generation,N;
+    VAcum(double f, double c, unsigned g,unsigned n) : freq(f),
+						       cumsum(c),
+						       generation(g),
+						       N(n)
     {
     }
   };
@@ -73,13 +70,12 @@ namespace fwdpy
 
   struct additive_variance
   {
-    using final_t = std::vector<VGdata>;
+    using final_t = std::vector<VAcum>;
 
     template<typename pop_t>
     inline void operator()(const pop_t * pop,
 			   unsigned generation)
     {
-      if(generation%100==0.) std::cerr << generation << '\n';
       auto mut_keys = get_mut_keys(pop);
       if(mut_keys.empty())
 	{
@@ -94,7 +90,7 @@ namespace fwdpy
       //Get a vector of the mcounts corresponding to mut_kets
       std::vector<KTfwd::uint_t> mut_key_counts;
       for( const auto i : mut_keys ) mut_key_counts.emplace_back(pop->mcounts[i]);
-      
+
       auto results = regression_details(G,genotypes,mut_keys,mut_key_counts);
       double SumOfSquares=0.0;
       std::vector<double> vSumOfSquares;
@@ -108,22 +104,44 @@ namespace fwdpy
       	      SumOfSquares+=p;
       	    }
       	}
-      // double VGcheck=0.0;
-      // for( std::size_t i=1 ; i < mut_keys.size() ; ++i )
-      // 	{
-      // 	  double pSS=vSumOfSquares[i]/SumOfSquares;
-      // 	  VGcollection.emplace_back(pop->mutations[mut_keys[i]].pos,
-      // 				    pop->mutations[mut_keys[i]].s,
-      // 				    pSS*VG,
-      // 				    vSumOfSquares[i],
-      // 				    pSS,
-      // 				    double(pop->mcounts[mut_keys[i]])/(2.0*double(pop->diploids.size())),
-      // 				    pop->mutations[mut_keys[i]].g,
-      // 				    generation
-      // 				    );
-      // 	  VGcheck+=pSS*VG;
-      // 	}
-      // std::cerr << VGcheck << ' ' << VG << ' ' << ' ' << SumOfSquares << '\n';
+      //residual sum of squares
+      //double RSS = std::accumulate(results.sums->data+(results.sums->size-results.DF),results.sums->data+results.sums->size,
+      //0.,[](double a,double b) { return a + gsl_sf_pow_int(b,2); });
+
+      //Assign VA to each frequency bin.
+      std::set<size_t> ucounts;
+      for(std::size_t i=0;i<results.ucol_labels.size();++i)
+	{
+	  if(results.ucol_labels[i]) ucounts.insert(mut_key_counts[i]);
+	}
+
+      double VGcheck=0.0,adjrsqcheck=0.0;;
+      for( const auto ui : ucounts ) //this starts w/rares
+	{
+	  //Have to count up the number of markers at this count that were used in the regression
+	  unsigned cui=0;
+	  std::vector<std::size_t> uindexes;
+	  for(std::size_t i=0;i<results.ucol_labels.size();++i) //Filling this is the problem!!!!
+	    {
+	      if(results.ucol_labels[i] && mut_key_counts[i] == ui)
+		{
+		  ++cui;
+		  uindexes.push_back(i);
+		}
+	    }
+	  //Get SS for mutations at this count and those not at this count
+	  double SSui=0.0,SSnotui=0.0;
+	  for(std::size_t i=0;i<vSumOfSquares.size();++i)
+	    {
+	      if( std::binary_search(uindexes.begin(),uindexes.end(),i) ) SSui += vSumOfSquares[i];
+	      else SSnotui += vSumOfSquares[i];
+	    }
+	  double adj_rsq = SSui/SumOfSquares;
+	  adjrsqcheck += adj_rsq;
+	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),adjrsqcheck,generation,pop->diploids.size()));
+	  VGcheck += adj_rsq*VG;
+	}
+      std::cerr << generation << ' ' << adjrsqcheck << ' ' << VGcheck << ' ' << VG << '\n';
     }
 
     final_t final() const
@@ -150,30 +168,31 @@ namespace fwdpy
       \note The indexing in this code is tricky, and could be improved via a GSL matrix view skipping 1st column of genotypes.
      */
     {
-      std::vector<size_t> column_labels(mut_keys.size());
-      std::size_t LAB=0;
-      std::generate(column_labels.begin(),column_labels.end(),[&LAB](){return LAB++;});
-      
+      std::vector<size_t> column_labels(mut_keys.size(),1);
       unsigned identical = 0;
       for( std::size_t col = 1 ; col < genotypes->size2-1 ; ++col ) //skip column 0...
 	{
 	  //gsl_vector_view col_i = gsl_matrix_column(genotypes,col);
-	  for( std::size_t col2 = col+1 ; col2 < genotypes->size2 ; ++col2 )
+	  if(column_labels[col-1])
 	    {
-	      //columns can only be identical if mutations have same frequency!
-	      //The -1 is b/c genotypes has 1 extra columns
-	      if(mut_key_counts[col-1]==mut_key_counts[col2-1]) 
+	      for( std::size_t col2 = col+1 ; col2 < genotypes->size2 ; ++col2 )
 		{
-		  unsigned ndiff=0;
-		  for( std::size_t row = 0 ; row < genotypes->size1 ; ++row )
+		  //columns can only be identical if mutations have same frequency!
+		  //The -1 is b/c genotypes has 1 extra columns
+		  if(column_labels[col2-1] && mut_key_counts[col-1]==mut_key_counts[col2-1])
 		    {
-		      if(gsl_matrix_get(genotypes.get(),row,col) != gsl_matrix_get(genotypes.get(),row,col2))
-			++ndiff;
-		    }
-		  if(!ndiff)
-		    {
-		      ++identical;
-		      column_labels[col2-1]=col-1; //This marks col2 as non-unique.
+		      unsigned ndiff=0;
+		      for( std::size_t row = 0 ; row < genotypes->size1 ; ++row )
+			{
+			  if(gsl_matrix_get(genotypes.get(),row,col) != gsl_matrix_get(genotypes.get(),row,col2))
+			    ++ndiff;
+			}
+		      if(!ndiff)
+			{
+			  ++identical;
+			  //column_labels[col2-1]=col-1; //This marks col2 as non-unique.
+			  column_labels[col2-1]=0;
+			}
 		    }
 		}
 	    }
@@ -186,6 +205,8 @@ namespace fwdpy
       gsl_matrix_ptr_t Q(gsl_matrix_alloc(NROW,NROW));
       gsl_matrix_ptr_t R(gsl_matrix_alloc(NROW,NCOL));
 
+      //FILE * fp1 = fopen("trait_values.txt","w");
+      //FILE * fp2 = fopen("matrix.txt","w");
       if (identical)
 	{
 	  //Make new matrix of unique columns.
@@ -193,7 +214,7 @@ namespace fwdpy
 	  for(std::size_t i=0,j=0;i<genotypes->size2;++i)
 	    {
 	      //The -1 is b/c of the different lengths, as above...
-	      if(i==0 ||(column_labels[i-1]==i-1)) //Column is either column 0 or the column is unique
+	      if(i==0 ||(column_labels[i-1])) //Column is either column 0 or the column is unique
 		{
 		  for(std::size_t k = 0 ; k < genotypes->size1 ; ++k )
 		    {
@@ -202,6 +223,22 @@ namespace fwdpy
 		  ++j;
 		}
 	    }
+	  // std::cerr << "type 1\n";
+	  // for(std::size_t i=0;i<G->size;++i)
+	  //   {
+	  //     fprintf(fp1,"%lf\n",gsl_vector_get(G.get(),i));
+	  //   }
+	  // for(std::size_t i=0;i<ugeno->size1;++i)
+	  //   {
+	  //     for(std::size_t j=0;j<ugeno->size2;++j)
+	  // 	{
+	  // 	  fprintf(fp2,"%lf\t",gsl_matrix_get(ugeno.get(),i,j));
+	  // 	}
+	  //     fprintf(fp2,"\n");
+	  //   }
+	  // fclose(fp1);
+	  // fclose(fp2);
+	  // exit(1);
 	  //QR decomposition...
 	  gsl_linalg_QR_decomp(ugeno.get(), tau.get());
 	  //Get the Q and R matrix separately
@@ -211,10 +248,25 @@ namespace fwdpy
 	  return regression_results(std::move(sums),
 				    std::move(column_labels),
 				    //This next value is the # of elements at end of sums
-				    //from which RSS can be calculates
-				    sums->size-NCOL-identical);
+				    //from which RSS can be calculated.
+				    NCOL-(2-identical));
 	}
-
+      // std::cerr << "type 2\n";
+      // for(std::size_t i=0;i<G->size;++i)
+      // 	{
+      // 	  fprintf(fp1,"%lf\n",gsl_vector_get(G.get(),i));
+      // 	}
+      // for(std::size_t i=0;i<genotypes->size1;++i)
+      // 	{
+      // 	  for(std::size_t j=0;j<genotypes->size2;++j)
+      // 	    {
+      // 	      fprintf(fp2,"%lf\t",gsl_matrix_get(genotypes.get(),i,j));
+      // 	    }
+      // 	  fprintf(fp2,"\n");
+      // 	}
+      // fclose(fp1);
+      // fclose(fp2);
+      // exit(1);
       //QR decomposition...
       gsl_linalg_QR_decomp(genotypes.get(), tau.get());
       //Get the Q and R matrix separately
@@ -224,10 +276,10 @@ namespace fwdpy
       return regression_results(std::move(sums),
 				std::move(column_labels),
 				//This next value is the # of elements at end of sums
-				//from which RSS can be calculates
-				sums->size-NCOL-identical);
+				//from which RSS can be calculated.
+				NCOL-(2-identical));
     }
-    
+
     template<typename pop_t>
     std::vector<std::size_t> get_mut_keys(const pop_t * pop)
     {
@@ -236,12 +288,14 @@ namespace fwdpy
       for(std::size_t i=0;i<pop->mutations.size();++i)
 	{
 	  //first check is to avoid extinct variants that fwdpp will recycle later.
-	  if(pop->mcounts[i] && !pop->mutations[i].neutral)
+	  //The second avoids fixed variants
+	  if(pop->mcounts[i] && (pop->mcounts[i] < 2*pop->diploids.size()) && !pop->mutations[i].neutral)
 	    {
 	      mut_keys.push_back(i);
 	      ucounts.insert(pop->mcounts[i]);
 	    }
 	}
+
       //Now, I need to sort based on frequency, descending order
       std::sort(mut_keys.begin(),mut_keys.end(),
 		[&pop](std::size_t a, std::size_t b) { return pop->mcounts[a] > pop->mcounts[b]; });
@@ -271,19 +325,26 @@ namespace fwdpy
 				      const diploid_t & dip,
 				      const size_t row)
     {
+      //auto x = pop->gametes[dip.first].smutations.size() + pop->gametes[dip.second].smutations.size();
       for( const auto k : pop->gametes[dip.first].smutations )
 	{
-	  auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
-	  std::size_t col = std::distance(mut_keys.begin(),i);
-	  auto mp = gsl_matrix_ptr(m.get(),row,col+1);
-	  *mp += 1.0; //update counts
+	  if( pop->mcounts[k] < 2*pop->N ) //skip fixations!!!
+	    {
+	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
+	      std::size_t col = std::distance(mut_keys.begin(),i);
+	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
+	      *mp += 1.0; //update counts
+	    }
 	}
       for( const auto k : pop->gametes[dip.second].smutations )
 	{
-	  auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
-	  std::size_t col = std::distance(mut_keys.begin(),i);
-	  auto mp = gsl_matrix_ptr(m.get(),row,col+1);
-	  *mp += 1.0; //update counts
+	  if( pop->mcounts[k] < 2*pop->N ) //skip fixations!!!
+	    {
+	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
+	      std::size_t col = std::distance(mut_keys.begin(),i);
+	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
+	      *mp += 1.0; //update counts
+	    }
 	}
     }
 
@@ -302,7 +363,6 @@ namespace fwdpy
 	  update_matrix_counts_details(rv,pop,mut_keys,dip,row);
 	  row++;
 	}
-      return rv;
     }
 
     template<typename pop_t>
@@ -363,6 +423,7 @@ namespace fwdpy
     std::size_t row=0;
     for( const auto & dip : pop->diploids )
       {
+	gsl_matrix_set(rv.get(),row,0,1.0); //set column 0 to a value of 1.0
 	for( const auto & locus : dip)
 	  {
 	    update_matrix_counts_details(rv,pop,mut_keys,locus,row);
