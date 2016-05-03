@@ -5,7 +5,7 @@ When simulating quantitative traits, one is often interested in the relationship
 
 Under additive models, it is tempting to use the equation from the methods section of Simons *et al* (2014), which provides an explicit formula for generating such curves.  Similar formulas exist in Eyre-Walker (2010).  However, *they are incorrect when the assumption of independent sites is violated*, because the genetic background on which a site finds itself is a function of both linkage and the effect sizes of mutations, and hence not randomized each generation.  Thus, it is incorrect to apply these formulas to simulations from recombining regions.  In other words, if such curves were used to estimate the total additive variance (:math:`V(A)`) under an additive model, from simulations where sites affecting the trait are partially-linked, then the result would be different from the actual total genetic variance (:math:`V(G)`).
 
-In order to generate these curves from simulations with linkage, we turn to an approach based on explicit linear regression and estimation of effect sizes within frequncy classes based on a Type I sum of squares.  We first applied this procedure in Sanjak *et al.*, and it is re-implemented here.
+In order to generate these curves from simulations with linkage, we turn to an approach based on explicit linear regression and estimation of effect sizes within frequency classes based on a Type I sum of squares.  We first applied this procedure in Sanjak *et al.*, and it is re-implemented here.
 
 The procedure is as follows:
 
