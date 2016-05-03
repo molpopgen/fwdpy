@@ -183,18 +183,19 @@ namespace fwdpy
       void update(const gsl_rng * r,diploid_t & offspring, const diploid_t &, const diploid_t &,
 		  const gcont_t & gametes, const mcont_t & mutations) const noexcept
       {
-	offspring.g = std::accumulate( gametes[offspring.first].smutations.cbegin(),
-				       gametes[offspring.first].smutations.cend(),0.0,
-				       [&mutations](const double & d,const std::size_t & i) noexcept
-				       {
-					 return d + mutations[i].s;
-				       } ) +
-	  std::accumulate( gametes[offspring.second].smutations.cbegin(),
-			   gametes[offspring.second].smutations.cend(),0.0,
-			   [&mutations](const double & d,const std::size_t & i) noexcept
-			   {
-			     return d + mutations[i].s;
-			   } );
+	auto h1 = std::accumulate( gametes[offspring.first].smutations.cbegin(),
+				   gametes[offspring.first].smutations.cend(),0.0,
+				   [&mutations](const double & d,const std::size_t & i) noexcept
+				   {
+				     return d + mutations[i].s;
+				   } );
+	auto h2 = std::accumulate( gametes[offspring.second].smutations.cbegin(),
+				   gametes[offspring.second].smutations.cend(),0.0,
+				   [&mutations](const double & d,const std::size_t & i) noexcept
+				   {
+				     return d + mutations[i].s;
+				   } );
+	offspring.g = std::sqrt(h1*h2);
 	offspring.e = gsl_ran_gaussian_ziggurat(r,sigE);
 	double dev = (offspring.g+offspring.e-optimum);
 	offspring.w = std::exp( -(dev*dev)/(2.*VS) );
