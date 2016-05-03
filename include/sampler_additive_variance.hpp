@@ -129,7 +129,6 @@ namespace fwdpy
 	  if(results.ucol_labels[i]) ucounts.insert(mut_key_counts[i]);
 	}
 
-      double cum_rsq=0.;
       for( const auto ui : ucounts ) //this starts w/rares
 	{
 	  //Have to count up the number of markers at this count that were used in the regression
@@ -156,7 +155,6 @@ namespace fwdpy
 	      else SSnotui += vSumOfSquares[i];
 	    }
 	  double rsq = SSui/SumOfSquares;
-	  //cum_rsq += rsq;
 	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),rsq,generation,pop->diploids.size()));
 	}
     }
