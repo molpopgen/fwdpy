@@ -25,7 +25,7 @@
 #include "qtrait_details.hpp"
 #include "qtrait_evolve.hpp"
 #include "sampler_no_sampling.hpp"
-
+#include "sampler_additive_variance.hpp"
 
 using namespace std;
 
@@ -126,8 +126,28 @@ namespace fwdpy
     {
       qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
       return evolve_qtrait_async_wrapper<selected_mut_tracker,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
-										   mu_neutral,mu_selected,littler,
-										   f,sigmaE,optimum,track,rm,rules);
+										  mu_neutral,mu_selected,littler,
+										  f,sigmaE,optimum,track,rm,rules);
+    }
+
+    std::vector<additive_variance::final_t>
+    evolve_qtrait_VA_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
+			    const unsigned * Nvector,
+			    const size_t Nvector_length,
+			    const double mu_neutral,
+			    const double mu_selected,
+			    const double littler,
+			    const double f,
+			    const double sigmaE,
+			    const double optimum,
+			    const double VS,
+			    const int track,
+			    const internal::region_manager * rm)
+    {
+      qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
+      return evolve_qtrait_async_wrapper<additive_variance,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
+									       mu_neutral,mu_selected,littler,
+									       f,sigmaE,optimum,track,rm,rules);
     }
     
     void evolve_gbr_no_sampling_async( GSLrng_t * rng,
@@ -216,8 +236,8 @@ namespace fwdpy
     {
       gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
       return evolve_qtrait_async_wrapper<selected_mut_tracker,gbr_model_rules>(rng,pops,Nvector,Nvector_length,
-										mu_neutral,mu_selected,littler,
-										f,sigmaE,optimum,track,rm,rules);
+									       mu_neutral,mu_selected,littler,
+									       f,sigmaE,optimum,track,rm,rules);
 									
     }
   } //ns qtrait
