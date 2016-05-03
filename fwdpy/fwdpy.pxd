@@ -116,7 +116,7 @@ cdef class singlepop_mloc(poptype):
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
-    
+
 cdef class singlepop_gm_vec(poptype):
     cdef shared_ptr[singlepop_gm_vec_t] pop
     cpdef gen(self)
@@ -157,7 +157,7 @@ cdef class popvec_mloc(popcont):
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[multilocus_t]] newpops)
     cpdef append(self,popvec p)
-    
+
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
@@ -231,15 +231,11 @@ cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
         unsigned generation
 
 cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
-    cdef struct VGdata:
-        double pos
-        double esize
-        double VG
-        double SS
-        double pSS
+    cdef struct VAcum:
         double freq
-        unsigned origin
+        double cumsum
         unsigned generation
+        unsigned N
 
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     cdef struct allele_age_data_t:
@@ -252,10 +248,10 @@ cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +
-    
+
     vector[pair[selected_mut_data,vector[double]]] merge_trajectories_details( vector[pair[selected_mut_data,vector[double]]] traj1,
                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
-    
+
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
     void evolve_regions_no_sampling_async(GSLrng_t * rng,
