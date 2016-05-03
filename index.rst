@@ -57,6 +57,14 @@ Examples
    examples/trajectories
    examples/copypops
 
+Special topics
+##########################################
+
+.. toctree::
+   :maxdepth: 2
+
+   docs/vareg
+
 
 Functions and classes
 ##########################################
