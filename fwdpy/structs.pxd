@@ -36,7 +36,7 @@ cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
 cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
     cdef struct VAcum:
         double freq
-        double cumsum
+        double pss
         unsigned generation
         unsigned N
 
