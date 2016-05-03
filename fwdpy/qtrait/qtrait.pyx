@@ -9,7 +9,7 @@ from libcpp.string cimport string
 from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
 from fwdpy.fwdpp cimport sep_sample_t
-from fwdpp.structs cimport VAcum
+from fwdpy.structs cimport VAcum
 
 import fwdpy.internal as internal
 import pandas
@@ -84,6 +84,20 @@ cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
 				                                                              const double VS,
 				                                                              const int track,
 				                                                              const region_manager * rm) except +
+
+    vector[vector[VAcum]] evolve_qtrait_VA_async( GSLrng_t * rng,
+                                                  vector[shared_ptr[singlepop_t]] * pops,
+				                  const unsigned * Nvector,
+				                  const size_t Nvector_length,
+				                  const double mu_neutral,
+				                  const double mu_selected,
+				                  const double littler,
+				                  const double f,
+				                  const double sigmaE,
+				                  const double optimum,
+                                                  const double VS,
+				                  const int track,
+				                  const region_manager * rm) except +
 
     void evolve_gbr_no_sampling_async( GSLrng_t * rng,
                                        vector[shared_ptr[singlepop_t]] * pops,
