@@ -331,7 +331,6 @@ namespace fwdpy
 			      const std::vector<std::size_t> & mut_keys,
 			      gsl_matrix_ptr_t & rv)
     {
-      return rv;
       //Fill the matrix
       std::size_t row=0;
       for( const auto & dip : pop->diploids )
