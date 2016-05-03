@@ -9,6 +9,8 @@ from libcpp.string cimport string
 from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
 from fwdpy.fwdpp cimport sep_sample_t
+from fwdpy.structs cimport VAcum
+
 import fwdpy.internal as internal
 import pandas
 
