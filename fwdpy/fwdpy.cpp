@@ -334,14 +334,14 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/internal/gsl_discrete.hpp"
 #include "internal_callbacks.hpp"
 #include "internal_region_manager.hpp"
-#include "types.hpp"
-#include "sample.hpp"
-#include "deps.hpp"
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
 #include "sampler_pop_properties.hpp"
 #include "sampler_additive_variance.hpp"
 #include "allele_ages.hpp"
+#include "types.hpp"
+#include "sample.hpp"
+#include "deps.hpp"
 #include "evolve_regions_sampler.hpp"
 #include "sampling_wrappers.hpp"
 #include "stdio.h"
@@ -679,7 +679,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":259
+/* "fwdpy/fwdpy.pxd":218
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -715,7 +715,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
 struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
 struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data;
 
-/* "fwdpy/fwdpy.pxd":165
+/* "fwdpy/fwdpy.pxd":166
  * 
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr             # <<<<<<<<<<<<<<
@@ -724,7 +724,7 @@ struct __pyx_t_5fwdpy_5fwdpy_diploid_view_data;
  */
 typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_itr;
 
-/* "fwdpy/fwdpy.pxd":166
+/* "fwdpy/fwdpy.pxd":167
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t             # <<<<<<<<<<<<<<
@@ -733,7 +733,7 @@ typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_i
  */
 typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mut_container_t;
 
-/* "fwdpy/fwdpy.pxd":167
+/* "fwdpy/fwdpy.pxd":168
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr             # <<<<<<<<<<<<<<
@@ -742,7 +742,7 @@ typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mu
  */
 typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_itr;
 
-/* "fwdpy/fwdpy.pxd":168
+/* "fwdpy/fwdpy.pxd":169
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr
  * ctypedef vector[diploid_t].iterator dipvector_t_itr             # <<<<<<<<<<<<<<
@@ -751,7 +751,7 @@ typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_it
  */
 typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector_t_itr;
 
-/* "fwdpy/fwdpy.pxd":170
+/* "fwdpy/fwdpy.pxd":171
  * ctypedef vector[diploid_t].iterator dipvector_t_itr
  * #vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
  * ctypedef vector[unsigned] mcounts_cont_t             # <<<<<<<<<<<<<<
@@ -760,7 +760,7 @@ typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector
  */
 typedef std::vector<unsigned int>  __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t;
 
-/* "fwdpy/fwdpy.pxd":173
+/* "fwdpy/fwdpy.pxd":174
  * 
  * ##Define some low-level functions that may be useful for others
  * cdef struct popgen_mut_data:             # <<<<<<<<<<<<<<
@@ -777,7 +777,7 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data {
   uint16_t label;
 };
 
-/* "fwdpy/fwdpy.pxd":179
+/* "fwdpy/fwdpy.pxd":180
  *     uint16_t label
  * 
  * cdef struct gamete_data:             # <<<<<<<<<<<<<<
@@ -790,7 +790,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
   unsigned int n;
 };
 
-/* "fwdpy/fwdpy.pxd":183
+/* "fwdpy/fwdpy.pxd":184
  *     unsigned n
  * 
  * cdef struct diploid_data:             # <<<<<<<<<<<<<<
@@ -878,7 +878,7 @@ struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper {
 };
 
 
-/* "fwdpy/fwdpy.pxd":93
+/* "fwdpy/fwdpy.pxd":94
  * 
  * #Now, provide definitions for classes in classes.pyx
  * cdef class poptype(object):             # <<<<<<<<<<<<<<
@@ -890,7 +890,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_poptype {
 };
 
 
-/* "fwdpy/fwdpy.pxd":101
+/* "fwdpy/fwdpy.pxd":102
  *     pass
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
@@ -904,7 +904,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop {
 };
 
 
-/* "fwdpy/fwdpy.pxd":107
+/* "fwdpy/fwdpy.pxd":108
  *     cpdef sane(self)
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
@@ -918,7 +918,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_metapop {
 };
 
 
-/* "fwdpy/fwdpy.pxd":114
+/* "fwdpy/fwdpy.pxd":115
  *     cpdef from_singlepop(self,singlepop p)
  * 
  * cdef class singlepop_mloc(poptype):             # <<<<<<<<<<<<<<
@@ -932,7 +932,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc {
 };
 
 
-/* "fwdpy/fwdpy.pxd":120
+/* "fwdpy/fwdpy.pxd":121
  *     cpdef sane(self)
  * 
  * cdef class singlepop_gm_vec(poptype):             # <<<<<<<<<<<<<<
@@ -946,7 +946,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":126
+/* "fwdpy/fwdpy.pxd":127
  *     cpdef sane(self)
  * 
  * cdef class popcont(object):             # <<<<<<<<<<<<<<
@@ -958,7 +958,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popcont {
 };
 
 
-/* "fwdpy/fwdpy.pxd":134
+/* "fwdpy/fwdpy.pxd":135
  *     pass
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
@@ -973,7 +973,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":141
+/* "fwdpy/fwdpy.pxd":142
  *     cpdef append(self,popvec p)
  * 
  * cdef class popvec_gmv(popcont):             # <<<<<<<<<<<<<<
@@ -988,7 +988,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv {
 };
 
 
-/* "fwdpy/fwdpy.pxd":147
+/* "fwdpy/fwdpy.pxd":148
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -1003,7 +1003,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_mpopvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":154
+/* "fwdpy/fwdpy.pxd":155
  *     cpdef append(self,mpopvec p)
  * 
  * cdef class popvec_mloc(popcont):             # <<<<<<<<<<<<<<
@@ -1018,7 +1018,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc {
 };
 
 
-/* "fwdpy/fwdpy.pxd":161
+/* "fwdpy/fwdpy.pxd":162
  *     cpdef append(self,popvec p)
  * 
  * cdef class GSLrng:             # <<<<<<<<<<<<<<
@@ -2142,6 +2142,8 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
 /* Module declarations from 'fwdpy.internal.internal' */
 static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_shwrappervec = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper = 0;
+
+/* Module declarations from 'fwdpy.structs' */
 
 /* Module declarations from 'cython.view' */
 
@@ -5882,7 +5884,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_6popvec_14size(struct __pyx_obj_5fwdpy_5
   return __pyx_r;
 }
 
-/* "fwdpy/fwdpy.pxd":136
+/* "fwdpy/fwdpy.pxd":137
  * cdef class popvec(popcont):
  *     cdef vector[shared_ptr[singlepop_t]] pops
  *     cdef public object pypops             # <<<<<<<<<<<<<<
@@ -6978,7 +6980,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_11popvec_mloc_14size(struct __pyx_obj_5f
   return __pyx_r;
 }
 
-/* "fwdpy/fwdpy.pxd":156
+/* "fwdpy/fwdpy.pxd":157
  * cdef class popvec_mloc(popcont):
  *     cdef vector[shared_ptr[multilocus_t]] pops
  *     cdef public object pypops             # <<<<<<<<<<<<<<
@@ -7777,7 +7779,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_10popvec_gmv_10size(struct __pyx_obj_5fw
   return __pyx_r;
 }
 
-/* "fwdpy/fwdpy.pxd":143
+/* "fwdpy/fwdpy.pxd":144
  * cdef class popvec_gmv(popcont):
  *     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
  *     cdef public object pypops             # <<<<<<<<<<<<<<
@@ -9523,7 +9525,7 @@ static PyObject *__pyx_pf_5fwdpy_5fwdpy_7mpopvec_14append(struct __pyx_obj_5fwdp
   return __pyx_r;
 }
 
-/* "fwdpy/fwdpy.pxd":149
+/* "fwdpy/fwdpy.pxd":150
  * cdef class mpopvec(popcont):
  *     cdef vector[shared_ptr[metapop_t]] mpops
  *     cdef public object pympops             # <<<<<<<<<<<<<<
@@ -49400,9 +49402,9 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (__Pyx_ExportFunction("get_gamete", (void (*)(void))__pyx_f_5fwdpy_5fwdpy_get_gamete, "struct __pyx_t_5fwdpy_5fwdpy_gamete_data (fwdpy::gamete_t const &, fwdpy::mcont_t const &, __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t const &)") < 0) __PYX_ERR(9, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("get_diploid", (void (*)(void))__pyx_f_5fwdpy_5fwdpy_get_diploid, "struct __pyx_t_5fwdpy_5fwdpy_diploid_data (fwdpy::diploid_t const &, fwdpy::gcont_t const &, fwdpy::mcont_t const &, __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t const &)") < 0) __PYX_ERR(9, 1, __pyx_L1_error)
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_poptype) < 0) __PYX_ERR(12, 93, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_poptype) < 0) __PYX_ERR(12, 94, __pyx_L1_error)
   __pyx_type_5fwdpy_5fwdpy_poptype.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "poptype", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_poptype) < 0) __PYX_ERR(12, 93, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "poptype", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_poptype) < 0) __PYX_ERR(12, 94, __pyx_L1_error)
   __pyx_ptype_5fwdpy_5fwdpy_poptype = &__pyx_type_5fwdpy_5fwdpy_poptype;
   __pyx_vtabptr_5fwdpy_5fwdpy_singlepop = &__pyx_vtable_5fwdpy_5fwdpy_singlepop;
   __pyx_vtable_5fwdpy_5fwdpy_singlepop.gen = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_singlepop *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_9singlepop_gen;
@@ -49445,9 +49447,9 @@ PyMODINIT_FUNC PyInit_fwdpy(void)
   if (__Pyx_SetVtable(__pyx_type_5fwdpy_5fwdpy_singlepop_gm_vec.tp_dict, __pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec) < 0) __PYX_ERR(1, 36, __pyx_L1_error)
   if (PyObject_SetAttrString(__pyx_m, "singlepop_gm_vec", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_singlepop_gm_vec) < 0) __PYX_ERR(1, 36, __pyx_L1_error)
   __pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec = &__pyx_type_5fwdpy_5fwdpy_singlepop_gm_vec;
-  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_popcont) < 0) __PYX_ERR(12, 126, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5fwdpy_5fwdpy_popcont) < 0) __PYX_ERR(12, 127, __pyx_L1_error)
   __pyx_type_5fwdpy_5fwdpy_popcont.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "popcont", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_popcont) < 0) __PYX_ERR(12, 126, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "popcont", (PyObject *)&__pyx_type_5fwdpy_5fwdpy_popcont) < 0) __PYX_ERR(12, 127, __pyx_L1_error)
   __pyx_ptype_5fwdpy_5fwdpy_popcont = &__pyx_type_5fwdpy_5fwdpy_popcont;
   __pyx_vtabptr_5fwdpy_5fwdpy_popvec = &__pyx_vtable_5fwdpy_5fwdpy_popvec;
   __pyx_vtable_5fwdpy_5fwdpy_popvec.size = (PyObject *(*)(struct __pyx_obj_5fwdpy_5fwdpy_popvec *, int __pyx_skip_dispatch))__pyx_f_5fwdpy_5fwdpy_6popvec_size;

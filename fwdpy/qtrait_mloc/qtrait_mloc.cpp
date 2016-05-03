@@ -334,14 +334,14 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "fwdpp/internal/gsl_discrete.hpp"
 #include "internal_callbacks.hpp"
 #include "internal_region_manager.hpp"
-#include "types.hpp"
-#include "sample.hpp"
-#include "deps.hpp"
 #include "sampler_sample_n.hpp"
 #include "sampler_selected_mut_tracker.hpp"
 #include "sampler_pop_properties.hpp"
 #include "sampler_additive_variance.hpp"
 #include "allele_ages.hpp"
+#include "types.hpp"
+#include "sample.hpp"
+#include "deps.hpp"
 #include "evolve_regions_sampler.hpp"
 #include "sampling_wrappers.hpp"
 #include "qtrait_evolve_mlocus.hpp"
@@ -666,7 +666,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":259
+/* "fwdpy/fwdpy.pxd":218
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -697,7 +697,7 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data;
 struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
 struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
 
-/* "fwdpy/fwdpy.pxd":165
+/* "fwdpy/fwdpy.pxd":166
  * 
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr             # <<<<<<<<<<<<<<
@@ -706,7 +706,7 @@ struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
  */
 typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_itr;
 
-/* "fwdpy/fwdpy.pxd":166
+/* "fwdpy/fwdpy.pxd":167
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t             # <<<<<<<<<<<<<<
@@ -715,7 +715,7 @@ typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_i
  */
 typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mut_container_t;
 
-/* "fwdpy/fwdpy.pxd":167
+/* "fwdpy/fwdpy.pxd":168
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr             # <<<<<<<<<<<<<<
@@ -724,7 +724,7 @@ typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mu
  */
 typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_itr;
 
-/* "fwdpy/fwdpy.pxd":168
+/* "fwdpy/fwdpy.pxd":169
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr
  * ctypedef vector[diploid_t].iterator dipvector_t_itr             # <<<<<<<<<<<<<<
@@ -733,7 +733,7 @@ typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_it
  */
 typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector_t_itr;
 
-/* "fwdpy/fwdpy.pxd":170
+/* "fwdpy/fwdpy.pxd":171
  * ctypedef vector[diploid_t].iterator dipvector_t_itr
  * #vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
  * ctypedef vector[unsigned] mcounts_cont_t             # <<<<<<<<<<<<<<
@@ -742,7 +742,7 @@ typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector
  */
 typedef std::vector<unsigned int>  __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t;
 
-/* "fwdpy/fwdpy.pxd":173
+/* "fwdpy/fwdpy.pxd":174
  * 
  * ##Define some low-level functions that may be useful for others
  * cdef struct popgen_mut_data:             # <<<<<<<<<<<<<<
@@ -759,7 +759,7 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data {
   uint16_t label;
 };
 
-/* "fwdpy/fwdpy.pxd":179
+/* "fwdpy/fwdpy.pxd":180
  *     uint16_t label
  * 
  * cdef struct gamete_data:             # <<<<<<<<<<<<<<
@@ -772,7 +772,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
   unsigned int n;
 };
 
-/* "fwdpy/fwdpy.pxd":183
+/* "fwdpy/fwdpy.pxd":184
  *     unsigned n
  * 
  * cdef struct diploid_data:             # <<<<<<<<<<<<<<
@@ -817,7 +817,7 @@ struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper {
 };
 
 
-/* "fwdpy/fwdpy.pxd":93
+/* "fwdpy/fwdpy.pxd":94
  * 
  * #Now, provide definitions for classes in classes.pyx
  * cdef class poptype(object):             # <<<<<<<<<<<<<<
@@ -829,7 +829,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_poptype {
 };
 
 
-/* "fwdpy/fwdpy.pxd":101
+/* "fwdpy/fwdpy.pxd":102
  *     pass
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
@@ -843,7 +843,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop {
 };
 
 
-/* "fwdpy/fwdpy.pxd":107
+/* "fwdpy/fwdpy.pxd":108
  *     cpdef sane(self)
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
@@ -857,7 +857,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_metapop {
 };
 
 
-/* "fwdpy/fwdpy.pxd":114
+/* "fwdpy/fwdpy.pxd":115
  *     cpdef from_singlepop(self,singlepop p)
  * 
  * cdef class singlepop_mloc(poptype):             # <<<<<<<<<<<<<<
@@ -871,7 +871,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc {
 };
 
 
-/* "fwdpy/fwdpy.pxd":120
+/* "fwdpy/fwdpy.pxd":121
  *     cpdef sane(self)
  * 
  * cdef class singlepop_gm_vec(poptype):             # <<<<<<<<<<<<<<
@@ -885,7 +885,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":126
+/* "fwdpy/fwdpy.pxd":127
  *     cpdef sane(self)
  * 
  * cdef class popcont(object):             # <<<<<<<<<<<<<<
@@ -897,7 +897,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popcont {
 };
 
 
-/* "fwdpy/fwdpy.pxd":134
+/* "fwdpy/fwdpy.pxd":135
  *     pass
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
@@ -912,7 +912,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":141
+/* "fwdpy/fwdpy.pxd":142
  *     cpdef append(self,popvec p)
  * 
  * cdef class popvec_gmv(popcont):             # <<<<<<<<<<<<<<
@@ -927,7 +927,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv {
 };
 
 
-/* "fwdpy/fwdpy.pxd":147
+/* "fwdpy/fwdpy.pxd":148
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -942,7 +942,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_mpopvec {
 };
 
 
-/* "fwdpy/fwdpy.pxd":154
+/* "fwdpy/fwdpy.pxd":155
  *     cpdef append(self,mpopvec p)
  * 
  * cdef class popvec_mloc(popcont):             # <<<<<<<<<<<<<<
@@ -957,7 +957,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc {
 };
 
 
-/* "fwdpy/fwdpy.pxd":161
+/* "fwdpy/fwdpy.pxd":162
  *     cpdef append(self,popvec p)
  * 
  * cdef class GSLrng:             # <<<<<<<<<<<<<<
@@ -1048,7 +1048,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "fwdpy/fwdpy.pxd":101
+/* "fwdpy/fwdpy.pxd":102
  *     pass
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
@@ -1064,7 +1064,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop;
 
 
-/* "fwdpy/fwdpy.pxd":107
+/* "fwdpy/fwdpy.pxd":108
  *     cpdef sane(self)
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
@@ -1081,7 +1081,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop *__pyx_vtabptr_5fwdpy_5fwdpy_metapop;
 
 
-/* "fwdpy/fwdpy.pxd":114
+/* "fwdpy/fwdpy.pxd":115
  *     cpdef from_singlepop(self,singlepop p)
  * 
  * cdef class singlepop_mloc(poptype):             # <<<<<<<<<<<<<<
@@ -1097,7 +1097,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_mloc {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_mloc *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_mloc;
 
 
-/* "fwdpy/fwdpy.pxd":120
+/* "fwdpy/fwdpy.pxd":121
  *     cpdef sane(self)
  * 
  * cdef class singlepop_gm_vec(poptype):             # <<<<<<<<<<<<<<
@@ -1113,7 +1113,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec;
 
 
-/* "fwdpy/fwdpy.pxd":134
+/* "fwdpy/fwdpy.pxd":135
  *     pass
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
@@ -1129,7 +1129,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec *__pyx_vtabptr_5fwdpy_5fwdpy_popvec;
 
 
-/* "fwdpy/fwdpy.pxd":141
+/* "fwdpy/fwdpy.pxd":142
  *     cpdef append(self,popvec p)
  * 
  * cdef class popvec_gmv(popcont):             # <<<<<<<<<<<<<<
@@ -1144,7 +1144,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv *__pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv;
 
 
-/* "fwdpy/fwdpy.pxd":147
+/* "fwdpy/fwdpy.pxd":148
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -1160,7 +1160,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec *__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec;
 
 
-/* "fwdpy/fwdpy.pxd":154
+/* "fwdpy/fwdpy.pxd":155
  *     cpdef append(self,mpopvec p)
  * 
  * cdef class popvec_mloc(popcont):             # <<<<<<<<<<<<<<
@@ -1710,7 +1710,7 @@ static void __Pyx_CppExn2PyErr() {
 
 static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_detailed_deme_sample(struct fwdpy::detailed_deme_sample s);
 static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_selected_mut_data(struct fwdpy::selected_mut_data s);
-static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_VGdata(struct fwdpy::VGdata s);
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum(struct fwdpy::VAcum s);
 static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(struct fwdpy::qtrait_stats_cython s);
 /* None.proto */
 #include <new>
@@ -1799,6 +1799,8 @@ static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memo
 static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_shwrappervec = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper = 0;
 
+/* Module declarations from 'fwdpy.structs' */
+
 /* Module declarations from 'fwdpy.fwdpy' */
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_poptype = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_singlepop = 0;
@@ -1847,8 +1849,8 @@ static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &)
 static PyObject *__pyx_convert_pair_to_py_struct__fwdpy_3a__3a_selected_mut_data____std_3a__3a_vector_3c_double_3e___(std::pair<struct fwdpy::selected_mut_data,std::vector<double> >  const &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e___(const std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair_3c_struct__fwdpy_3a__3a_selected_mut_data_2c_std_3a__3a_vector_3c_double_3e____3e____3e___(const std::vector<std::vector<std::pair<struct fwdpy::selected_mut_data,std::vector<double> > > >  &); /*proto*/
-static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(const std::vector<struct fwdpy::VGdata>  &); /*proto*/
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___(const std::vector<std::vector<struct fwdpy::VGdata> >  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(const std::vector<struct fwdpy::VAcum>  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___(const std::vector<std::vector<struct fwdpy::VAcum> >  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_qtrait_stats_cython(const std::vector<struct fwdpy::qtrait_stats_cython>  &); /*proto*/
 static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_qtrait_stats_cython_3e___(const std::vector<std::vector<struct fwdpy::qtrait_stats_cython> >  &); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
@@ -1900,14 +1902,11 @@ static const char __pyx_k_N[] = "N";
 static const char __pyx_k_O[] = "O";
 static const char __pyx_k_c[] = "c";
 static const char __pyx_k_f[] = "f";
-static const char __pyx_k_SS[] = "SS";
-static const char __pyx_k_VG[] = "VG";
 static const char __pyx_k_VS[] = "VS";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_sh[] = "sh";
 static const char __pyx_k__14[] = "*";
 static const char __pyx_k_obj[] = "obj";
-static const char __pyx_k_pSS[] = "pSS";
 static const char __pyx_k_pos[] = "pos";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_freq[] = "freq";
@@ -1935,6 +1934,7 @@ static const char __pyx_k_range[] = "range";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_start[] = "start";
 static const char __pyx_k_value[] = "value";
+static const char __pyx_k_cumsum[] = "cumsum";
 static const char __pyx_k_encode[] = "encode";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
@@ -2014,10 +2014,8 @@ static PyObject *__pyx_kp_s_MemoryView_of_r_object;
 static PyObject *__pyx_n_s_N;
 static PyObject *__pyx_n_b_O;
 static PyObject *__pyx_kp_s_Out_of_bounds_on_buffer_access_a;
-static PyObject *__pyx_n_s_SS;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
-static PyObject *__pyx_n_s_VG;
 static PyObject *__pyx_n_s_VS;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s__14;
@@ -2028,6 +2026,7 @@ static PyObject *__pyx_n_u_c;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
 static PyObject *__pyx_kp_s_contiguous_and_indirect;
+static PyObject *__pyx_n_s_cumsum;
 static PyObject *__pyx_n_s_dtype_is_object;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_enumerate;
@@ -2071,7 +2070,6 @@ static PyObject *__pyx_n_s_nsam;
 static PyObject *__pyx_n_s_obj;
 static PyObject *__pyx_n_s_optimum;
 static PyObject *__pyx_n_s_origin;
-static PyObject *__pyx_n_s_pSS;
 static PyObject *__pyx_n_s_pack;
 static PyObject *__pyx_n_s_pandas;
 static PyObject *__pyx_n_s_pops;
@@ -2955,7 +2953,7 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_4evolve_qtraits_mlo
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
   int __pyx_t_4;
-  std::vector<std::vector<struct fwdpy::VGdata> >  __pyx_t_5;
+  std::vector<std::vector<struct fwdpy::VAcum> >  __pyx_t_5;
   __Pyx_RefNannySetupContext("evolve_qtraits_mloc_VA", 0);
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":147
@@ -3011,7 +3009,7 @@ static PyObject *__pyx_pf_5fwdpy_11qtrait_mloc_11qtrait_mloc_4evolve_qtraits_mlo
     __Pyx_CppExn2PyErr();
     __PYX_ERR(0, 148, __pyx_L1_error)
   }
-  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_1 = __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4773,7 +4771,7 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_std_3a__3a_pair
   return __pyx_r;
 }
 
-static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(const std::vector<struct fwdpy::VGdata>  &__pyx_v_v) {
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(const std::vector<struct fwdpy::VAcum>  &__pyx_v_v) {
   size_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -4781,11 +4779,11 @@ static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(const st
   size_t __pyx_t_2;
   size_t __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum", 0);
 
   /* "vector.to_py":68
- * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata")
- * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(vector[X]& v):
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(vector[X]& v):
  *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
  * 
  * 
@@ -4796,7 +4794,7 @@ static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(const st
   __pyx_t_2 = __pyx_v_v.size();
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
-    __pyx_t_4 = __pyx_convert__to_py_struct__fwdpy_3a__3a_VGdata((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __pyx_t_4 = __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4807,8 +4805,8 @@ static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(const st
 
   /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata")
- * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
@@ -4817,7 +4815,7 @@ static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(const st
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4825,7 +4823,7 @@ static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata(const st
   return __pyx_r;
 }
 
-static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___(const std::vector<std::vector<struct fwdpy::VGdata> >  &__pyx_v_v) {
+static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___(const std::vector<std::vector<struct fwdpy::VAcum> >  &__pyx_v_v) {
   size_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -4833,11 +4831,11 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3
   size_t __pyx_t_2;
   size_t __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
-  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___", 0);
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___", 0);
 
   /* "vector.to_py":68
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___(vector[X]& v):
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___(vector[X]& v):
  *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
  * 
  * 
@@ -4848,7 +4846,7 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3
   __pyx_t_2 = __pyx_v_v.size();
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
-    __pyx_t_4 = __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VGdata((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __pyx_t_4 = __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4859,8 +4857,8 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3
 
   /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___")
- * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___")
+ * cdef object __pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
@@ -4869,7 +4867,7 @@ static PyObject *__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VGdata_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_std_3a__3a_vector_3c_struct__fwdpy_3a__3a_VAcum_3e___", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -17257,10 +17255,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_N, __pyx_k_N, sizeof(__pyx_k_N), 0, 0, 1, 1},
   {&__pyx_n_b_O, __pyx_k_O, sizeof(__pyx_k_O), 0, 0, 0, 1},
   {&__pyx_kp_s_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 0, 1, 0},
-  {&__pyx_n_s_SS, __pyx_k_SS, sizeof(__pyx_k_SS), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
-  {&__pyx_n_s_VG, __pyx_k_VG, sizeof(__pyx_k_VG), 0, 0, 1, 1},
   {&__pyx_n_s_VS, __pyx_k_VS, sizeof(__pyx_k_VS), 0, 0, 1, 1},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s__14, __pyx_k__14, sizeof(__pyx_k__14), 0, 0, 1, 1},
@@ -17271,6 +17267,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
   {&__pyx_kp_s_contiguous_and_indirect, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
+  {&__pyx_n_s_cumsum, __pyx_k_cumsum, sizeof(__pyx_k_cumsum), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
@@ -17314,7 +17311,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
   {&__pyx_n_s_optimum, __pyx_k_optimum, sizeof(__pyx_k_optimum), 0, 0, 1, 1},
   {&__pyx_n_s_origin, __pyx_k_origin, sizeof(__pyx_k_origin), 0, 0, 1, 1},
-  {&__pyx_n_s_pSS, __pyx_k_pSS, sizeof(__pyx_k_pSS), 0, 0, 1, 1},
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
   {&__pyx_n_s_pandas, __pyx_k_pandas, sizeof(__pyx_k_pandas), 0, 0, 1, 1},
   {&__pyx_n_s_pops, __pyx_k_pops, sizeof(__pyx_k_pops), 0, 0, 1, 1},
@@ -17766,25 +17762,25 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
   /*--- Type import code ---*/
   __pyx_ptype_5fwdpy_8internal_8internal_shwrappervec = __Pyx_ImportType("fwdpy.internal.internal", "shwrappervec", sizeof(struct __pyx_obj_5fwdpy_8internal_8internal_shwrappervec), 1); if (unlikely(!__pyx_ptype_5fwdpy_8internal_8internal_shwrappervec)) __PYX_ERR(3, 7, __pyx_L1_error)
   __pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper = __Pyx_ImportType("fwdpy.internal.internal", "region_manager_wrapper", sizeof(struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper), 1); if (unlikely(!__pyx_ptype_5fwdpy_8internal_8internal_region_manager_wrapper)) __PYX_ERR(3, 17, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_poptype = __Pyx_ImportType("fwdpy.fwdpy", "poptype", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_poptype), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_poptype)) __PYX_ERR(4, 93, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_singlepop = __Pyx_ImportType("fwdpy.fwdpy", "singlepop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop)) __PYX_ERR(4, 101, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop)) __PYX_ERR(4, 101, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_metapop = __Pyx_ImportType("fwdpy.fwdpy", "metapop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_metapop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_metapop)) __PYX_ERR(4, 107, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_metapop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_metapop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_metapop)) __PYX_ERR(4, 107, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc = __Pyx_ImportType("fwdpy.fwdpy", "singlepop_mloc", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc)) __PYX_ERR(4, 114, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop_mloc = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_mloc*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_mloc)) __PYX_ERR(4, 114, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec = __Pyx_ImportType("fwdpy.fwdpy", "singlepop_gm_vec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec)) __PYX_ERR(4, 120, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec)) __PYX_ERR(4, 120, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_popcont = __Pyx_ImportType("fwdpy.fwdpy", "popcont", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popcont), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popcont)) __PYX_ERR(4, 126, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_popvec = __Pyx_ImportType("fwdpy.fwdpy", "popvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec)) __PYX_ERR(4, 134, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_popvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec)) __PYX_ERR(4, 134, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_popvec_gmv = __Pyx_ImportType("fwdpy.fwdpy", "popvec_gmv", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec_gmv)) __PYX_ERR(4, 141, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec_gmv->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv)) __PYX_ERR(4, 141, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_mpopvec = __Pyx_ImportType("fwdpy.fwdpy", "mpopvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_mpopvec)) __PYX_ERR(4, 147, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_mpopvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec)) __PYX_ERR(4, 147, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_popvec_mloc = __Pyx_ImportType("fwdpy.fwdpy", "popvec_mloc", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc)) __PYX_ERR(4, 154, __pyx_L1_error)
-  __pyx_vtabptr_5fwdpy_5fwdpy_popvec_mloc = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_mloc*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec_mloc)) __PYX_ERR(4, 154, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) __PYX_ERR(4, 161, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_poptype = __Pyx_ImportType("fwdpy.fwdpy", "poptype", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_poptype), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_poptype)) __PYX_ERR(4, 94, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_singlepop = __Pyx_ImportType("fwdpy.fwdpy", "singlepop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop)) __PYX_ERR(4, 102, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop)) __PYX_ERR(4, 102, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_metapop = __Pyx_ImportType("fwdpy.fwdpy", "metapop", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_metapop), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_metapop)) __PYX_ERR(4, 108, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_metapop = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_metapop->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_metapop)) __PYX_ERR(4, 108, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc = __Pyx_ImportType("fwdpy.fwdpy", "singlepop_mloc", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc)) __PYX_ERR(4, 115, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop_mloc = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_mloc*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop_mloc->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_mloc)) __PYX_ERR(4, 115, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec = __Pyx_ImportType("fwdpy.fwdpy", "singlepop_gm_vec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec)) __PYX_ERR(4, 121, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_singlepop_gm_vec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec)) __PYX_ERR(4, 121, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_popcont = __Pyx_ImportType("fwdpy.fwdpy", "popcont", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popcont), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popcont)) __PYX_ERR(4, 127, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_popvec = __Pyx_ImportType("fwdpy.fwdpy", "popvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec)) __PYX_ERR(4, 135, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_popvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec)) __PYX_ERR(4, 135, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_popvec_gmv = __Pyx_ImportType("fwdpy.fwdpy", "popvec_gmv", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec_gmv)) __PYX_ERR(4, 142, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec_gmv->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv)) __PYX_ERR(4, 142, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_mpopvec = __Pyx_ImportType("fwdpy.fwdpy", "mpopvec", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_mpopvec), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_mpopvec)) __PYX_ERR(4, 148, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_mpopvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec)) __PYX_ERR(4, 148, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_popvec_mloc = __Pyx_ImportType("fwdpy.fwdpy", "popvec_mloc", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc)) __PYX_ERR(4, 155, __pyx_L1_error)
+  __pyx_vtabptr_5fwdpy_5fwdpy_popvec_mloc = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_mloc*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec_mloc)) __PYX_ERR(4, 155, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) __PYX_ERR(4, 162, __pyx_L1_error)
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/
@@ -17792,34 +17788,34 @@ PyMODINIT_FUNC PyInit_qtrait_mloc(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   #endif
 
-  /* "fwdpy/qtrait_mloc/qtrait_mloc.pyx":12
- * from fwdpy.internal.internal cimport shwrappervec
- * from fwdpy.fwdpp cimport sep_sample_t
+  /* "fwdpy/qtrait_mloc/qtrait_mloc.pyx":14
+ * from fwdpy.structs cimport VAcum
+ * 
  * import fwdpy.internal as internal             # <<<<<<<<<<<<<<
  * import pandas
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s__14);
   __Pyx_GIVEREF(__pyx_n_s__14);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__14);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_fwdpy_internal, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_fwdpy_internal, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_internal, __pyx_t_2) < 0) __PYX_ERR(2, 12, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_internal, __pyx_t_2) < 0) __PYX_ERR(2, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "fwdpy/qtrait_mloc/qtrait_mloc.pyx":13
- * from fwdpy.fwdpp cimport sep_sample_t
+  /* "fwdpy/qtrait_mloc/qtrait_mloc.pyx":15
+ * 
  * import fwdpy.internal as internal
  * import pandas             # <<<<<<<<<<<<<<
  * 
  * cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 13, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pandas, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pandas, __pyx_t_2) < 0) __PYX_ERR(2, 13, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pandas, __pyx_t_2) < 0) __PYX_ERR(2, 15, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":3
@@ -20481,33 +20477,21 @@ static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_detailed_deme_sample(
           Py_DECREF(res);
           return NULL;
         }
-        static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_VGdata(struct fwdpy::VGdata s) {
+        static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum(struct fwdpy::VAcum s) {
           PyObject* res;
           PyObject* member;
           res = PyDict_New(); if (unlikely(!res)) return NULL;
-          member = PyFloat_FromDouble(s.pos); if (unlikely(!member)) goto bad;
-          if (unlikely(PyDict_SetItem(res, __pyx_n_s_pos, member) < 0)) goto bad;
-          Py_DECREF(member);
-          member = PyFloat_FromDouble(s.esize); if (unlikely(!member)) goto bad;
-          if (unlikely(PyDict_SetItem(res, __pyx_n_s_esize, member) < 0)) goto bad;
-          Py_DECREF(member);
-          member = PyFloat_FromDouble(s.VG); if (unlikely(!member)) goto bad;
-          if (unlikely(PyDict_SetItem(res, __pyx_n_s_VG, member) < 0)) goto bad;
-          Py_DECREF(member);
-          member = PyFloat_FromDouble(s.SS); if (unlikely(!member)) goto bad;
-          if (unlikely(PyDict_SetItem(res, __pyx_n_s_SS, member) < 0)) goto bad;
-          Py_DECREF(member);
-          member = PyFloat_FromDouble(s.pSS); if (unlikely(!member)) goto bad;
-          if (unlikely(PyDict_SetItem(res, __pyx_n_s_pSS, member) < 0)) goto bad;
-          Py_DECREF(member);
           member = PyFloat_FromDouble(s.freq); if (unlikely(!member)) goto bad;
           if (unlikely(PyDict_SetItem(res, __pyx_n_s_freq, member) < 0)) goto bad;
           Py_DECREF(member);
-          member = __Pyx_PyInt_From_unsigned_int(s.origin); if (unlikely(!member)) goto bad;
-          if (unlikely(PyDict_SetItem(res, __pyx_n_s_origin, member) < 0)) goto bad;
+          member = PyFloat_FromDouble(s.cumsum); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_cumsum, member) < 0)) goto bad;
           Py_DECREF(member);
           member = __Pyx_PyInt_From_unsigned_int(s.generation); if (unlikely(!member)) goto bad;
           if (unlikely(PyDict_SetItem(res, __pyx_n_s_generation, member) < 0)) goto bad;
+          Py_DECREF(member);
+          member = __Pyx_PyInt_From_unsigned_int(s.N); if (unlikely(!member)) goto bad;
+          if (unlikely(PyDict_SetItem(res, __pyx_n_s_N, member) < 0)) goto bad;
           Py_DECREF(member);
           return res;
           bad:
