@@ -26,7 +26,7 @@ cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
 				                const double sigmaE,
 				                const double optimum,
 				                const double VS) except +
-     
+
      vector[vector[pair[uint,vector[detailed_deme_sample]]]] evolve_qtrait_mloc_sample_async( GSLrng_t * rng,
 				                                                              GSLrng_t * rng_sample,
 				                                                              vector[shared_ptr[multilocus_t]] * pops,
@@ -73,25 +73,25 @@ cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
 				                                                            const double optimum,
 				                                                            const double VS,
 				                                                            const int sample) except +
-     
-     vector[vector[VGdata]] evolve_qtrait_mloc_VA_async( GSLrng_t * rng,
-				                 vector[shared_ptr[multilocus_t]] * pops,
-				                 const unsigned * Nvector,
-				                 const size_t Nvector_length,
-				                 const vector[double] & neutral_mutation_rates,
-				                 const vector[double] & selected_mutation_rates,
-				                 const vector[double] & sigma_mus,
-				                 const vector[double] & within_region_rec_rates,
-				                 const vector[double] & between_region_rec_rates,
-				                 const double f,
-				                 const double sigmaE,
-				                 const double optimum,
-                                                 const double VS,
-				                 const int sample) except +
+
+     vector[vector[VAcum]] evolve_qtrait_mloc_VA_async( GSLrng_t * rng,
+				                        vector[shared_ptr[multilocus_t]] * pops,
+				                        const unsigned * Nvector,
+				                        const size_t Nvector_length,
+				                        const vector[double] & neutral_mutation_rates,
+				                        const vector[double] & selected_mutation_rates,
+				                        const vector[double] & sigma_mus,
+				                        const vector[double] & within_region_rec_rates,
+				                        const vector[double] & between_region_rec_rates,
+				                        const double f,
+				                        const double sigmaE,
+				                        const double optimum,
+                                                        const double VS,
+				                        const int sample) except +
 
 
-     
 
-     
+
+
 
 include "evolve_qtraits_mloc.pyx"
