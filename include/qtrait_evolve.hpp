@@ -203,17 +203,17 @@ namespace fwdpy
     //track VA vs frequency over time
     std::vector<additive_variance::final_t>
     evolve_qtrait_VA_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			 const unsigned * Nvector,
-			 const size_t Nvector_length,
-			 const double mu_neutral,
-			 const double mu_selected,
-			 const double littler,
-			 const double f,
-			 const double sigmaE,
-			 const double optimum,
-			 const double VS,
-			 const int track,
-			 const internal::region_manager * rm);
+			    const unsigned * Nvector,
+			    const size_t Nvector_length,
+			    const double mu_neutral,
+			    const double mu_selected,
+			    const double littler,
+			    const double f,
+			    const double sigmaE,
+			    const double optimum,
+			    const double VS,
+			    const int track,
+			    const internal::region_manager * rm);
 
     void evolve_gbr_no_sampling_async( GSLrng_t * rng,
 				       std::vector<std::shared_ptr<singlepop_t> > * pops,
