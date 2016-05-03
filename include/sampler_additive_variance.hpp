@@ -33,10 +33,10 @@ namespace fwdpy
     of frequency over time.
    */
   {
-    double freq,cumsum;
+    double freq,pss;
     unsigned generation,N;
     VAcum(double f, double c, unsigned g,unsigned n) : freq(f),
-						       cumsum(c),
+						       pss(c),
 						       generation(g),
 						       N(n)
     {
@@ -156,8 +156,8 @@ namespace fwdpy
 	      else SSnotui += vSumOfSquares[i];
 	    }
 	  double rsq = SSui/SumOfSquares;
-	  cum_rsq += rsq;
-	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),cum_rsq,generation,pop->diploids.size()));
+	  //cum_rsq += rsq;
+	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),rsq,generation,pop->diploids.size()));
 	}
     }
 
