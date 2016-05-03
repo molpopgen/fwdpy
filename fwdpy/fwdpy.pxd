@@ -7,6 +7,7 @@ from libcpp.map cimport map
 from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.gsl cimport gsl_rng
+from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t
 
 ##Create hooks to C++ types
 
@@ -203,47 +204,9 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
 
-cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
-    cdef struct detailed_deme_sample:
-        sep_sample_t genotypes
-        vector[pair[double,double]] sh
-
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
-    cdef struct selected_mut_data:
-        double pos
-        double esize
-        unsigned origin
-
-    cdef struct selected_mut_data_tidy:
-        double pos
-        double esize
-        double freq
-        unsigned origin
-        unsigned generation
-
     vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
                                                          const unsigned min_sojourn, const double min_freq);
-
-cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
-    cdef struct qtrait_stats_cython:
-        string stat
-        double value
-        unsigned generation
-
-cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
-    cdef struct VAcum:
-        double freq
-        double cumsum
-        unsigned generation
-        unsigned N
-
-cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
-    cdef struct allele_age_data_t:
-        double esize
-        double max_freq
-        double last_freq
-        unsigned origin
-        unsigned tlen
 
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
