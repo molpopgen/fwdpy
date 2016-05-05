@@ -1134,6 +1134,46 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
 
+/* CppExceptionConversion.proto */
+#ifndef __Pyx_CppExn2PyErr
+#include <new>
+#include <typeinfo>
+#include <stdexcept>
+#include <ios>
+static void __Pyx_CppExn2PyErr() {
+  try {
+    if (PyErr_Occurred())
+      ; // let the latest Python exn pass through and ignore the current one
+    else
+      throw;
+  } catch (const std::bad_alloc& exn) {
+    PyErr_SetString(PyExc_MemoryError, exn.what());
+  } catch (const std::bad_cast& exn) {
+    PyErr_SetString(PyExc_TypeError, exn.what());
+  } catch (const std::domain_error& exn) {
+    PyErr_SetString(PyExc_ValueError, exn.what());
+  } catch (const std::invalid_argument& exn) {
+    PyErr_SetString(PyExc_ValueError, exn.what());
+  } catch (const std::ios_base::failure& exn) {
+    PyErr_SetString(PyExc_IOError, exn.what());
+  } catch (const std::out_of_range& exn) {
+    PyErr_SetString(PyExc_IndexError, exn.what());
+  } catch (const std::overflow_error& exn) {
+    PyErr_SetString(PyExc_OverflowError, exn.what());
+  } catch (const std::range_error& exn) {
+    PyErr_SetString(PyExc_ArithmeticError, exn.what());
+  } catch (const std::underflow_error& exn) {
+    PyErr_SetString(PyExc_ArithmeticError, exn.what());
+  } catch (const std::exception& exn) {
+    PyErr_SetString(PyExc_RuntimeError, exn.what());
+  }
+  catch (...)
+  {
+    PyErr_SetString(PyExc_RuntimeError, "Unknown exception");
+  }
+}
+#endif
+
 static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_gwas_3a__3a_genotype_matrix(struct fwdpy::gwas::genotype_matrix s);
 /* None.proto */
 #include <new>
@@ -1294,7 +1334,8 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyO
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
   Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
+  struct fwdpy::gwas::genotype_matrix __pyx_t_4;
+  int __pyx_t_5;
   __Pyx_RefNannySetupContext("genotype_matrices", 0);
 
   /* "fwdpy/gwas/gwas.pyx":4
@@ -1327,7 +1368,13 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyO
  *         rv.append(temp)
  *     return rv
  */
-    __pyx_v_temp = fwdpy::gwas::make_geno_matrix((__pyx_v_pops->pops[__pyx_v_i]).get(), 1);
+    try {
+      __pyx_t_4 = fwdpy::gwas::make_geno_matrix((__pyx_v_pops->pops[__pyx_v_i]).get(), 1);
+    } catch(...) {
+      __Pyx_CppExn2PyErr();
+      __PYX_ERR(0, 6, __pyx_L1_error)
+    }
+    __pyx_v_temp = __pyx_t_4;
 
     /* "fwdpy/gwas/gwas.pyx":7
  *     for i in range(len(pops)):
@@ -1337,7 +1384,7 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyO
  */
     __pyx_t_1 = __pyx_convert__to_py_struct__fwdpy_3a__3a_gwas_3a__3a_genotype_matrix(__pyx_v_temp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyList_Append(__pyx_v_rv, __pyx_t_1); if (unlikely(__pyx_t_4 == -1)) __PYX_ERR(0, 7, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_rv, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 7, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
