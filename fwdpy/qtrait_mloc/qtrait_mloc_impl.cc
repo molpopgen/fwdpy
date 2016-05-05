@@ -24,6 +24,17 @@ namespace fwdpy
 {
   namespace qtrait
   {
+    std::vector<KTfwd::extensions::shmodel> make_GaussianDFE(const std::vector<double> & sigma_mus)
+    //! Convenience function for what is below: makes additive Gaussian DFE for all elements in sigma_mus
+    {
+      std::vector<KTfwd::extensions::shmodel> rv;
+      for(  auto & s : sigma_mus )
+	{
+	  rv.emplace_back(KTfwd::extensions::gaussian(s),KTfwd::extensions::constant(1.0));
+	}
+      return rv;
+    }
+    
     std::vector<sample_n<multilocus_t>::final_t>
     evolve_qtrait_mloc_sample_async( GSLrng_t * rng,
 				     GSLrng_t * rng_sampling,
@@ -52,7 +63,7 @@ namespace fwdpy
 							       Nvector_length,
 							       neutral_mutation_rates,
 							       selected_mutation_rates,
-							       sigma_mus,
+							       make_GaussianDFE(sigma_mus),
 							       within_region_rec_rates,
 							       between_region_rec_rates,
 							       f,
@@ -84,7 +95,7 @@ namespace fwdpy
 							  Nvector_length,
 							  neutral_mutation_rates,
 							  selected_mutation_rates,
-							  sigma_mus,
+							  make_GaussianDFE(sigma_mus),
 							  within_region_rec_rates,
 							  between_region_rec_rates,
 							  f,
@@ -118,7 +129,7 @@ namespace fwdpy
 								  Nvector_length,
 								  neutral_mutation_rates,
 								  selected_mutation_rates,
-								  sigma_mus,
+								  make_GaussianDFE(sigma_mus),
 								  within_region_rec_rates,
 								  between_region_rec_rates,
 								  f,
@@ -153,7 +164,7 @@ namespace fwdpy
 								  Nvector_length,
 								  neutral_mutation_rates,
 								  selected_mutation_rates,
-								  sigma_mus,
+								  make_GaussianDFE(sigma_mus),
 								  within_region_rec_rates,
 								  between_region_rec_rates,
 								  f,
@@ -185,7 +196,7 @@ namespace fwdpy
 								  Nvector_length,
 								  neutral_mutation_rates,
 								  selected_mutation_rates,
-								  sigma_mus,
+								  make_GaussianDFE(sigma_mus),
 								  within_region_rec_rates,
 								  between_region_rec_rates,
 								  f,
