@@ -107,7 +107,6 @@ namespace fwdpy
       return genotype_matrix(std::move(G),std::move(E),
 			     std::vector<double>(gn->data,gn->data+(gn->size1*gn->size2)),
 			     std::vector<double>(gc->data,gc->data+(gc->size1*gc->size2)),
-			     std::move(cc),
 			     pop->diploids.size(),
 			     neut_indexes.size(),
 			     causative_indexes.size());
