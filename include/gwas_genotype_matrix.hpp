@@ -111,7 +111,7 @@ namespace fwdpy
 		  if(i!=neut_indexes.end())
 		    {
 		      std::size_t col = std::distance(neut_indexes.begin(),i);
-		      if(col >= gn->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gc->size2));
+		      if(col >= gn->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gn->size2));
 		      auto m = gsl_matrix_ptr(gn.get(),row,col);
 		      *m += 1.0;
 		    }
@@ -124,7 +124,7 @@ namespace fwdpy
 		  if(i!=neut_indexes.end())
 		    {
 		      std::size_t col = std::distance(neut_indexes.begin(),i);
-		      if(col >= gn->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gc->size2));
+		      if(col >= gn->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gn->size2));
 		      auto m = gsl_matrix_ptr(gn.get(),row,col);
 		      *m += 1.0;
 		    }
