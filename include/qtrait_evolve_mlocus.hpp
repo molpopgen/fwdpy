@@ -4,6 +4,7 @@
 #include <future>
 #include <vector>
 #include <algorithm>
+#include <functional>
 #include <exception>
 #include <set>
 #include <type_traits>
@@ -11,6 +12,7 @@
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
 #include <fwdpp/experimental/sample_diploid_mloc.hpp>
+#include <fwdpp/extensions/callbacks.hpp>
 #include "types.hpp"
 #include "reserve.hpp"
 #include "sampler_no_sampling.hpp"
@@ -45,7 +47,8 @@ namespace fwdpy
 				       const size_t Nvector_len,
 				       const std::vector<double> & neutral_mutation_rates,
 				       const std::vector<double> & selected_mutation_rates,
-				       const std::vector<double> & sigma_mus,
+				       //const std::vector<double> & sigma_mus,
+				       const std::vector<KTfwd::extensions::shmodel> & effects_dominance,
 				       const std::vector<double> & within_region_rec_rates,
 				       const std::vector<double> & between_region_rec_rates,
 				       const double f,
@@ -91,8 +94,14 @@ namespace fwdpy
 					 mi, //mutation rate
 					 selected_mutation_rates[i], //mutation rate
 					 [&rng,i](){return gsl_ran_flat(rng,double(i),double(i+1));},   //mutation pos'n
-					 [&sigma_mus,&rng,i](){return gsl_ran_gaussian_ziggurat(rng,sigma_mus[i]);}, //effect size of non-neutral mutants
-					 [](){return 1.;})); //dominance of non-neutral mutants
+					 [&effects_dominance,i,rng](){return effects_dominance[i].s(rng);},
+					 [&effects_dominance,i,rng](){return effects_dominance[i].h(rng);}));
+					 //std::bind(&effects_dominance[i].s,rng),
+					 //std::bind(&effects_dominance[i].h,rng)));
+					 //std::bind(effects_dominance[i].s,rng), //effect size distro
+					 //std::bind(effects_dominance[i].h),rng));
+	  //[&effects_dominance,&rng,i](){return gsl_ran_gaussian_ziggurat(rng,effects_dominance[i].s);}, //effect size of non-neutral mutants
+	  //[&effects_dominance](){return 1.;})); //dominance of non-neutral mutants
 	  ++i;
 	}
 
@@ -152,7 +161,8 @@ namespace fwdpy
 					const size_t Nvector_len,
 					const std::vector<double> & neutral_mutation_rates,
 					const std::vector<double> & selected_mutation_rates,
-					const std::vector<double> & sigma_mus,
+					const std::vector<KTfwd::extensions::shmodel> & effects_dominance,
+					//const std::vector<double> & sigma_mus,
 					const std::vector<double> & within_region_rec_rates,
 					const std::vector<double> & between_region_rec_rates,
 					const double f,
@@ -163,7 +173,8 @@ namespace fwdpy
       //Check inputs
       std::set<std::size_t> vec_sizes{neutral_mutation_rates.size(),
 	  selected_mutation_rates.size(),
-	  sigma_mus.size(),
+	  effects_dominance.size(),
+	  //sigma_mus.size(),
 	  within_region_rec_rates.size()};
 
       if(sample < 0) throw std::runtime_error("sample must be non-negative");
@@ -182,10 +193,12 @@ namespace fwdpy
 	{
 	  if(i<0.) throw std::runtime_error("selected mutation rates must be >= 0 for all loci");
 	}
+      /*
       for(auto i : sigma_mus)
 	{
 	  if(i<0.) throw std::runtime_error("sigma terms for DFE must be >= 0 for all loci");
 	}
+      */
       for( auto i : within_region_rec_rates )
 	{
 	  if(i<0.) throw std::runtime_error("recombination rates must be >= 0 within all loci");
@@ -207,7 +220,8 @@ namespace fwdpy
 					   Nvector_len,
 					   neutral_mutation_rates,
 					   selected_mutation_rates,
-					   sigma_mus,
+					   effects_dominance,
+					   //sigma_mus,
 					   within_region_rec_rates,
 					   between_region_rec_rates,
 					   f,
