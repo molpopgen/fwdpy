@@ -1,6 +1,8 @@
 #ifndef FWDPY_GWAS_GENOTYPE_MATRIX_HPP
 #define FWDPY_GWAS_GENOTYPE_MATRIX_HPP
 
+#include <stdexcept>
+#include <string>
 #include <vector>
 #include <algorithm>
 #include "types.hpp"
@@ -75,17 +77,27 @@ namespace fwdpy
 		{
 		  auto i = std::find(causative_indexes.begin(),
 				     causative_indexes.end(),k);
-		  std::size_t col = std::distance(causative_indexes.begin(),i);
-		  auto m = gsl_matrix_ptr(gc.get(),row,col);
-		  *m += 1.0;	      
+		  //if(i==causative_indexes.end()) throw std::runtime_error("causative mutation key not found");
+		  if(i!=causative_indexes.end())
+		    {
+		      std::size_t col = std::distance(causative_indexes.begin(),i);
+		      if(col >= gc->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gc->size2));
+		      auto m = gsl_matrix_ptr(gc.get(),row,col);
+		      *m += 1.0;
+		    }
 		}
 	      for( auto k : pop->gametes[dip.second].smutations )
 		{
 		  auto i = std::find(causative_indexes.begin(),
 				     causative_indexes.end(),k);
-		  std::size_t col = std::distance(causative_indexes.begin(),i);
-		  auto m = gsl_matrix_ptr(gc.get(),row,col);
-		  *m += 1.0;
+		  //if(i==causative_indexes.end()) throw std::runtime_error("causative mutation key not found");
+		  if(i!=causative_indexes.end())
+		    {
+		      std::size_t col = std::distance(causative_indexes.begin(),i);
+		      if(col >= gc->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gc->size2));
+		      auto m = gsl_matrix_ptr(gc.get(),row,col);
+		      *m += 1.0;
+		    }
 		}
 	    }
 	  //Fill neutral matrix
@@ -95,17 +107,27 @@ namespace fwdpy
 		{
 		  auto i = std::find(neut_indexes.begin(),
 				     neut_indexes.end(),k);
-		  std::size_t col = std::distance(neut_indexes.begin(),i);
-		  auto m = gsl_matrix_ptr(gn.get(),row,col);
-		  *m += 1.0;	      
+		  //if(i==causative_indexes.end()) throw std::runtime_error("neutral mutation key not found");
+		  if(i!=neut_indexes.end())
+		    {
+		      std::size_t col = std::distance(neut_indexes.begin(),i);
+		      if(col >= gn->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gc->size2));
+		      auto m = gsl_matrix_ptr(gn.get(),row,col);
+		      *m += 1.0;
+		    }
 		}
 	      for( auto k : pop->gametes[dip.second].mutations )
 		{
 		  auto i = std::find(neut_indexes.begin(),
 				     neut_indexes.end(),k);
-		  std::size_t col = std::distance(neut_indexes.begin(),i);
-		  auto m = gsl_matrix_ptr(gn.get(),row,col);
-		  *m += 1.0;
+		  //if(i==causative_indexes.end()) throw std::runtime_error("neutral mutation key not found");
+		  if(i!=neut_indexes.end())
+		    {
+		      std::size_t col = std::distance(neut_indexes.begin(),i);
+		      if(col >= gn->size2) throw std::out_of_range("column index out of range: "+std::to_string(col)+">="+std::to_string(gc->size2));
+		      auto m = gsl_matrix_ptr(gn.get(),row,col);
+		      *m += 1.0;
+		    }
 		}
 	    }
 	  ++row;
