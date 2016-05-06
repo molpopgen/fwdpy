@@ -161,7 +161,7 @@ namespace fwdpy
     if(f<0.||f>1.) throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
     if(sample<0) throw std::runtime_error("sampling interval must be non-negative");
     std::string ftnss(fitness);
-    if(ftnss!="additive" && ftnss!="multiplicative")
+    if(ftnss!="additive"&&ftnss!="multiplicative")
       {
 	throw std::runtime_error("fitness model must be additive or multiplicative");
       }

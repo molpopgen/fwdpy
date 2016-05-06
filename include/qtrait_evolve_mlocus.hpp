@@ -169,6 +169,7 @@ namespace fwdpy
       //Check inputs
       std::set<std::size_t> vec_sizes{neutral_mutation_rates.size(),
 	  selected_mutation_rates.size(),
+	  effects_dominance.size(),
 	  //sigma_mus.size(),
 	  within_region_rec_rates.size()};
 
