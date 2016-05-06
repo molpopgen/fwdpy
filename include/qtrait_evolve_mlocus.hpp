@@ -4,6 +4,7 @@
 #include <future>
 #include <vector>
 #include <algorithm>
+#include <functional>
 #include <exception>
 #include <set>
 #include <type_traits>
@@ -11,6 +12,7 @@
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
 #include <fwdpp/experimental/sample_diploid_mloc.hpp>
+#include <fwdpp/extensions/callbacks.hpp>
 #include "types.hpp"
 #include "reserve.hpp"
 #include "sampler_no_sampling.hpp"
