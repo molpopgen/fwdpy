@@ -1322,7 +1322,7 @@ static const char __pyx_k_Make_an_exact_copy_of_an_existi[] = "\n    Make an exa
 static const char __pyx_k_Merge_population_max_deme_i_dem[] = "\n    Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> m[0].popsizes()\n    [1000, 1000, 1000]\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.merge_pops(m,0,1)\n    >>> m[0].popsizes()\n    [3000]\n    ";
 static const char __pyx_k_Remove_a_deme_from_a_metapopula[] = "\n    Remove a deme from a metapopulation.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.remove_pop(m,0)\n    >>> m[0].popsizes()\n    [2000]\n    ";
 static const char __pyx_k_Split_an_existing_deme_into_two[] = "\n    Split an existing deme into two.\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param N_new: The size of the new deme.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if N_new is larger than parental deme size.\n\n    ..note:: The parental population's size is reduced by a value of N_new.  If splitting **without** replacement,\n    then the daughter deme is generated from a list of unique diploids who are remvoed from the parental deme.  **With**\n    replacement, both demes are populated by random samples from the parental deme.  The new deme is added to the end of \n    the metapopulation.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> m[0].popsizes()\n    [1000]\n    >>> #Split pops into sizes 250 and 750:\n    >>> rng = fp.GSLrng(100)\n    >>> demog.split_pops(rng,m,0,750)\n    >>> m[0].popsizes()\n    [250, 750]\n    ";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_demo[] = "/home/kevin/src/fwdpy/fwdpy/demography.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_de[] = "/home/jsanjak/src/fwdpy/fwdpy/demography.pyx";
 static PyObject *__pyx_kp_u_Admix_two_demes_param_rng_A_cla;
 static PyObject *__pyx_kp_u_Initialize_class_fwdpy_fwdpy_mp;
 static PyObject *__pyx_kp_u_Make_an_exact_copy_of_an_existi;
@@ -1343,7 +1343,7 @@ static PyObject *__pyx_n_s_deme_index;
 static PyObject *__pyx_n_s_deme_j;
 static PyObject *__pyx_n_s_from_singlepop;
 static PyObject *__pyx_n_s_fwdpy_demography;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_make_mpopvec;
@@ -3035,7 +3035,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_deme_j, __pyx_k_deme_j, sizeof(__pyx_k_deme_j), 0, 0, 1, 1},
   {&__pyx_n_s_from_singlepop, __pyx_k_from_singlepop, sizeof(__pyx_k_from_singlepop), 0, 0, 1, 1},
   {&__pyx_n_s_fwdpy_demography, __pyx_k_fwdpy_demography, sizeof(__pyx_k_fwdpy_demography), 0, 0, 1, 1},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_k_home_kevin_src_fwdpy_fwdpy_demo, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_demo), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_de, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_de), 0, 0, 1, 0},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_make_mpopvec, __pyx_k_make_mpopvec, sizeof(__pyx_k_make_mpopvec), 0, 0, 1, 1},
@@ -3079,7 +3079,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(3, __pyx_n_s_pops, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_make_mpopvec, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_make_mpopvec, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 25, __pyx_L1_error)
 
   /* "fwdpy/demography.pyx":41
  *     return rv
@@ -3091,7 +3091,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__3 = PyTuple_Pack(3, __pyx_n_s_mpops, __pyx_n_s_deme_index, __pyx_n_s_i); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_copy_pop, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_copy_pop, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 41, __pyx_L1_error)
 
   /* "fwdpy/demography.pyx":69
  *         copy_pop_details(i,deme_index)
@@ -3103,7 +3103,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__5 = PyTuple_Pack(4, __pyx_n_s_mpops, __pyx_n_s_deme_i, __pyx_n_s_deme_j, __pyx_n_s_i); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_merge_pops, 69, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_merge_pops, 69, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 69, __pyx_L1_error)
 
   /* "fwdpy/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
@@ -3115,7 +3115,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__7 = PyTuple_Pack(3, __pyx_n_s_mpops, __pyx_n_s_deme_index, __pyx_n_s_i); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_remove_pop, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_remove_pop, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 99, __pyx_L1_error)
 
   /* "fwdpy/demography.pyx":126
  *         remove_pop_details(i,deme_index)
@@ -3127,7 +3127,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__9 = PyTuple_Pack(6, __pyx_n_s_rng, __pyx_n_s_mpops, __pyx_n_s_deme_index, __pyx_n_s_N_new, __pyx_n_s_replacement, __pyx_n_s_i); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_split_pops, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_split_pops, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 126, __pyx_L1_error)
 
   /* "fwdpy/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
@@ -3139,7 +3139,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__11 = PyTuple_Pack(8, __pyx_n_s_rng, __pyx_n_s_mpops, __pyx_n_s_deme1, __pyx_n_s_deme2, __pyx_n_s_admix_proportion, __pyx_n_s_N_new, __pyx_n_s_replacement, __pyx_n_s_i); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(7, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_admix_pops, 162, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(7, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_admix_pops, 162, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 162, __pyx_L1_error)
 
   /* "fwdpy/demography.pyx":191
  *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
@@ -3151,7 +3151,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_mpops, __pyx_n_s_deme_i, __pyx_n_s_deme_j, __pyx_n_s_i); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_swap_pops, 191, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_swap_pops, 191, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

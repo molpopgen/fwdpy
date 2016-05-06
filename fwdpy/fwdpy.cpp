@@ -2742,14 +2742,14 @@ static const char __pyx_k_Uniform_distribution_on_selecti[] = "\n    Uniform dis
 static const char __pyx_k_fwdpy_GammaS_shape_not_a_number[] = "fwdpy.GammaS: shape not a number";
 static const char __pyx_k_fwdpy_GaussianS_sd_not_a_number[] = "fwdpy.GaussianS: sd not a number";
 static const char __pyx_k_fwdpy_popvec_mloc_internal_data[] = "fwdpy.popvec_mloc internal data structures out of sync";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_ages[] = "/home/kevin/src/fwdpy/fwdpy/ages.pyx";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_copy[] = "/home/kevin/src/fwdpy/fwdpy/copy.pyx";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_debu[] = "/home/kevin/src/fwdpy/fwdpy/debug.pyx";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_evol[] = "/home/kevin/src/fwdpy/fwdpy/evolve_regions.pyx";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp[] = "/home/kevin/src/fwdpy/fwdpy/fwdpy.pyx";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_regi[] = "/home/kevin/src/fwdpy/fwdpy/regions.pyx";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_samp[] = "/home/kevin/src/fwdpy/fwdpy/sampling.pyx";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_view[] = "/home/kevin/src/fwdpy/fwdpy/views.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_ag[] = "/home/jsanjak/src/fwdpy/fwdpy/ages.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_co[] = "/home/jsanjak/src/fwdpy/fwdpy/copy.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_de[] = "/home/jsanjak/src/fwdpy/fwdpy/debug.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_ev[] = "/home/jsanjak/src/fwdpy/fwdpy/evolve_regions.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_fw[] = "/home/jsanjak/src/fwdpy/fwdpy/fwdpy.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_re[] = "/home/jsanjak/src/fwdpy/fwdpy/regions.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_sa[] = "/home/jsanjak/src/fwdpy/fwdpy/sampling.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_vi[] = "/home/jsanjak/src/fwdpy/fwdpy/views.pyx";
 static const char __pyx_k_mpopvec_deme_size_0_encountered[] = "mpopvec: deme size < 0 encountered";
 static const char __pyx_k_the_two_input_lists_must_be_the[] = "the two input lists must be the same length";
 static const char __pyx_k_value_for_deme_out_of_range_len[] = "value for deme out of range. len(pop) = ";
@@ -2795,7 +2795,7 @@ static const char __pyx_k_Constructor_param_beg_the_begin_7[] = "\n        Const
 static const char __pyx_k_Convenience_wrapper_around_func_2[] = "\n    Convenience wrapper around :func:`fwdpy.fwdpy.getfreq`\n\n    :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`\n    :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).\n\n    .. note:: Do **not** use this function to calculate :math:`\\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. \"sum of site heterozygosity\").\n       :math:`\\pi` for a **sample** is not :math:`2\\sum_ip_iq_i`. because the sample is *finite*.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]\n    >>> freqs = [fwdpy.getfreqs(i) for i in s]\n    ";
 static const char __pyx_k_Representation_of_a_region_in_a_2[] = "\n    Representation of a \"region\" in a simulation with a dominance term.\n\n    This class is the base class for a general set of objects representing distributions of fitness effects.\n\n    Attributes:\n        * b: the beginning of the region\n        * e: the end of the region\n        * w: the \"weight\" assigned to the region\n        * h: the dominance term\n        * l: A label assigned to the region.  Labels must be integers, and can be used to 'tag' mutations arising in different regions.\n\n    See :func:`evolve_regions` for how this class may be used to parameterize a simulation.\n\n    .. note:: This class cannot be used directly to parameterize a simulation.  Rather, you must used\n       a derived type that specifies a distribution of fitness effects.  These types include:\n       :class:`fwdpy.fwdpy.ConstantS`,\n       :class:`fwdpy.fwdpy.UniformS`,\n       :class:`fwdpy.fwdpy.ExpS`,\n       :class:`fwdpy.fwdpy.GammaS`, and \n       :class:`fwdpy.fwdpy.GaussianS`\n    ";
 static const char __pyx_k_Take_a_sample_from_a_set_of_sim_2[] = "\n    Take a sample from a set of simulated populations.\n\n    :param rng: a :class:`GSLrng`\n    :param pop: An object inheriting from :class:`poptype`\n    :param nsam: The sample size to take.\n    :param removeFixed: if True, only polymorphic sites are retained\n    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.\n\n    :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.\n\n    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`\n\n    Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.\n\n    Example:\n\n    >>> import fwdpy,array\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes=array.array('I',[1000]*1000)\n    >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])\n    >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]\n    ";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_view_2[] = "/home/kevin/src/fwdpy/fwdpy/view_fixations.pyx";
+static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_vi_2[] = "/home/jsanjak/src/fwdpy/fwdpy/view_fixations.pyx";
 static const char __pyx_k_No_value_specified_for_struct_at_2[] = "No value specified for struct attribute 'esize'";
 static const char __pyx_k_No_value_specified_for_struct_at_3[] = "No value specified for struct attribute 'origin'";
 static const char __pyx_k_diploid_view_to_sample_fill_cont_2[] = "diploid_view_to_sample_fill_containers_details: offset out of range";
@@ -3023,15 +3023,15 @@ static PyObject *__pyx_n_s_h;
 static PyObject *__pyx_kp_s_h_2;
 static PyObject *__pyx_n_s_hi;
 static PyObject *__pyx_kp_s_hi_2;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_ages;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_copy;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_debu;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view;
-static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view_2;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ag;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_co;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ev;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi;
+static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi_2;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_il;
@@ -47315,15 +47315,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_h_2, __pyx_k_h_2, sizeof(__pyx_k_h_2), 0, 0, 1, 0},
   {&__pyx_n_s_hi, __pyx_k_hi, sizeof(__pyx_k_hi), 0, 0, 1, 1},
   {&__pyx_kp_s_hi_2, __pyx_k_hi_2, sizeof(__pyx_k_hi_2), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_ages, __pyx_k_home_kevin_src_fwdpy_fwdpy_ages, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_ages), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_copy, __pyx_k_home_kevin_src_fwdpy_fwdpy_copy, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_copy), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_debu, __pyx_k_home_kevin_src_fwdpy_fwdpy_debu, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_debu), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_k_home_kevin_src_fwdpy_fwdpy_evol, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_evol), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_k_home_kevin_src_fwdpy_fwdpy_regi, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_regi), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_k_home_kevin_src_fwdpy_fwdpy_samp, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_samp), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_k_home_kevin_src_fwdpy_fwdpy_view, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_view), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view_2, __pyx_k_home_kevin_src_fwdpy_fwdpy_view_2, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_view_2), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ag, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_ag, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_ag), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_co, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_co, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_co), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_de, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_de), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ev, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_ev, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_ev), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_fw, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_fw), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_re, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_re), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_sa, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_sa), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_vi, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_vi), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi_2, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_vi_2, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_vi_2), 0, 0, 1, 0},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_il, __pyx_k_il, sizeof(__pyx_k_il), 0, 0, 1, 1},
@@ -48510,7 +48510,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__89 = PyTuple_Pack(4, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_nsam, __pyx_n_s_removeFixed); if (unlikely(!__pyx_tuple__89)) __PYX_ERR(4, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__89);
   __Pyx_GIVEREF(__pyx_tuple__89);
-  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_ms_sample, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(4, 39, __pyx_L1_error)
+  __pyx_codeobj__90 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__89, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_ms_sample, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__90)) __PYX_ERR(4, 39, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":63
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
@@ -48522,7 +48522,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__91 = PyTuple_Pack(5, __pyx_n_s_rng, __pyx_n_s_pop, __pyx_n_s_nsam, __pyx_n_s_removeFixed, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__91)) __PYX_ERR(4, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__91);
   __Pyx_GIVEREF(__pyx_tuple__91);
-  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_get_samples, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(4, 63, __pyx_L1_error)
+  __pyx_codeobj__92 = (PyObject*)__Pyx_PyCode_New(5, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__91, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_get_samples, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__92)) __PYX_ERR(4, 63, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":100
  *         raise ValueError("ms_sample: unsupported type of popcontainer")
@@ -48534,7 +48534,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__93 = PyTuple_Pack(7, __pyx_n_s_ms_sample, __pyx_n_s_pop, __pyx_n_s_h, __pyx_n_s_s, __pyx_n_s_p, __pyx_n_s_a, __pyx_n_s_l); if (unlikely(!__pyx_tuple__93)) __PYX_ERR(4, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__93);
   __Pyx_GIVEREF(__pyx_tuple__93);
-  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_get_sample_details, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(4, 100, __pyx_L1_error)
+  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_get_sample_details, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) __PYX_ERR(4, 100, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":133
  * 
@@ -48546,7 +48546,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__95 = PyTuple_Pack(1, __pyx_n_s_site); if (unlikely(!__pyx_tuple__95)) __PYX_ERR(4, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__95);
   __Pyx_GIVEREF(__pyx_tuple__95);
-  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_nderived_site, 133, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(4, 133, __pyx_L1_error)
+  __pyx_codeobj__96 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__95, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_nderived_site, 133, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__96)) __PYX_ERR(4, 133, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":158
  *     return str(site[1]).count('1')
@@ -48558,7 +48558,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__97 = PyTuple_Pack(2, __pyx_n_s_sample, __pyx_n_s_i); if (unlikely(!__pyx_tuple__97)) __PYX_ERR(4, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__97);
   __Pyx_GIVEREF(__pyx_tuple__97);
-  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_nderived, 158, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(4, 158, __pyx_L1_error)
+  __pyx_codeobj__98 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__97, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_nderived, 158, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__98)) __PYX_ERR(4, 158, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":175
  *     return [nderived_site(i) for i in sample]
@@ -48570,7 +48570,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__99 = PyTuple_Pack(4, __pyx_n_s_site, __pyx_n_s_derived, __pyx_n_s_o, __pyx_n_s_dfreq); if (unlikely(!__pyx_tuple__99)) __PYX_ERR(4, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__99);
   __Pyx_GIVEREF(__pyx_tuple__99);
-  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_getfreq, 175, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(4, 175, __pyx_L1_error)
+  __pyx_codeobj__100 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__99, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_getfreq, 175, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__100)) __PYX_ERR(4, 175, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":203
  *     return min(dfreq,1.0-dfreq)
@@ -48582,7 +48582,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__101 = PyTuple_Pack(3, __pyx_n_s_sample, __pyx_n_s_derived, __pyx_n_s_i); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(4, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__101);
   __Pyx_GIVEREF(__pyx_tuple__101);
-  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_getfreqs, 203, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(4, 203, __pyx_L1_error)
+  __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_getfreqs, 203, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(4, 203, __pyx_L1_error)
 
   /* "fwdpy/sampling.pyx":224
  *     return [getfreq(i,derived) for i in sample]
@@ -48594,7 +48594,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__103 = PyTuple_Pack(5, __pyx_n_s_sample, __pyx_n_s_minfreq, __pyx_n_s_derived, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple__103)) __PYX_ERR(4, 224, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__103);
   __Pyx_GIVEREF(__pyx_tuple__103);
-  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_samp, __pyx_n_s_freqfilter, 224, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(4, 224, __pyx_L1_error)
+  __pyx_codeobj__104 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__103, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_sa, __pyx_n_s_freqfilter, 224, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__104)) __PYX_ERR(4, 224, __pyx_L1_error)
 
   /* "fwdpy/evolve_regions.pyx":8
  * import internal
@@ -48606,7 +48606,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__105 = PyTuple_Pack(7, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_i); if (unlikely(!__pyx_tuple__105)) __PYX_ERR(5, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__105);
   __Pyx_GIVEREF(__pyx_tuple__105);
-  __pyx_codeobj__106 = (PyObject*)__Pyx_PyCode_New(6, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__105, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_check_input_params, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__106)) __PYX_ERR(5, 8, __pyx_L1_error)
+  __pyx_codeobj__106 = (PyObject*)__Pyx_PyCode_New(6, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__105, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ev, __pyx_n_s_check_input_params, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__106)) __PYX_ERR(5, 8, __pyx_L1_error)
 
   /* "fwdpy/evolve_regions.pyx":27
  * 
@@ -48618,7 +48618,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__107 = PyTuple_Pack(15, __pyx_n_s_rng, __pyx_n_s_npops, __pyx_n_s_N, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_pops, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__107)) __PYX_ERR(5, 27, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__107);
   __Pyx_GIVEREF(__pyx_tuple__107);
-  __pyx_codeobj__108 = (PyObject*)__Pyx_PyCode_New(12, 0, 15, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__107, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__108)) __PYX_ERR(5, 27, __pyx_L1_error)
+  __pyx_codeobj__108 = (PyObject*)__Pyx_PyCode_New(12, 0, 15, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__107, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ev, __pyx_n_s_evolve_regions, 27, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__108)) __PYX_ERR(5, 27, __pyx_L1_error)
 
   /* "fwdpy/evolve_regions.pyx":101
  * 
@@ -48630,7 +48630,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__109 = PyTuple_Pack(13, __pyx_n_s_rng, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__109)) __PYX_ERR(5, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__109);
   __Pyx_GIVEREF(__pyx_tuple__109);
-  __pyx_codeobj__110 = (PyObject*)__Pyx_PyCode_New(11, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__109, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions_more, 101, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__110)) __PYX_ERR(5, 101, __pyx_L1_error)
+  __pyx_codeobj__110 = (PyObject*)__Pyx_PyCode_New(11, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__109, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ev, __pyx_n_s_evolve_regions_more, 101, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__110)) __PYX_ERR(5, 101, __pyx_L1_error)
 
   /* "fwdpy/evolve_regions.pyx":157
  * 
@@ -48642,7 +48642,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__111 = PyTuple_Pack(16, __pyx_n_s_rng_evolve, __pyx_n_s_rng_sample, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sample, __pyx_n_s_nsam, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__111)) __PYX_ERR(5, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__111);
   __Pyx_GIVEREF(__pyx_tuple__111);
-  __pyx_codeobj__112 = (PyObject*)__Pyx_PyCode_New(14, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__111, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions_sample, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__112)) __PYX_ERR(5, 157, __pyx_L1_error)
+  __pyx_codeobj__112 = (PyObject*)__Pyx_PyCode_New(14, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__111, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ev, __pyx_n_s_evolve_regions_sample, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__112)) __PYX_ERR(5, 157, __pyx_L1_error)
 
   /* "fwdpy/evolve_regions.pyx":207
  * 
@@ -48654,7 +48654,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__113 = PyTuple_Pack(14, __pyx_n_s_rng, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_recrate, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_sample, __pyx_n_s_f, __pyx_n_s_fitness, __pyx_n_s_rmgr, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__113)) __PYX_ERR(5, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__113);
   __Pyx_GIVEREF(__pyx_tuple__113);
-  __pyx_codeobj__114 = (PyObject*)__Pyx_PyCode_New(12, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__113, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_evol, __pyx_n_s_evolve_regions_track, 207, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__114)) __PYX_ERR(5, 207, __pyx_L1_error)
+  __pyx_codeobj__114 = (PyObject*)__Pyx_PyCode_New(12, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__113, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ev, __pyx_n_s_evolve_regions_track, 207, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__114)) __PYX_ERR(5, 207, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":18
  *         * :class:`fwdpy.fwdpy.Sregion`
@@ -48666,7 +48666,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__115 = PyTuple_Pack(6, __pyx_n_s_self, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_weight, __pyx_n_s_coupled, __pyx_n_s_label); if (unlikely(!__pyx_tuple__115)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__115);
   __Pyx_GIVEREF(__pyx_tuple__115);
-  __pyx_codeobj__116 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__115, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_init, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__116)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_codeobj__116 = (PyObject*)__Pyx_PyCode_New(6, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__115, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_init, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__116)) __PYX_ERR(0, 18, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":62
  *         if self.c is True:
@@ -48678,7 +48678,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__117 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_bstr, __pyx_n_s_estr, __pyx_n_s_wstr); if (unlikely(!__pyx_tuple__117)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__117);
   __Pyx_GIVEREF(__pyx_tuple__117);
-  __pyx_codeobj__118 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__117, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_str, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__118)) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_codeobj__118 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__117, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_str, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__118)) __PYX_ERR(0, 62, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":91
  *        :class:`fwdpy.fwdpy.GaussianS`
@@ -48690,7 +48690,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__119 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_weight, __pyx_n_s_h, __pyx_n_s_coupled, __pyx_n_s_label); if (unlikely(!__pyx_tuple__119)) __PYX_ERR(0, 91, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__119);
   __Pyx_GIVEREF(__pyx_tuple__119);
-  __pyx_codeobj__120 = (PyObject*)__Pyx_PyCode_New(7, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__119, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_init, 91, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__120)) __PYX_ERR(0, 91, __pyx_L1_error)
+  __pyx_codeobj__120 = (PyObject*)__Pyx_PyCode_New(7, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__119, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_init, 91, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__120)) __PYX_ERR(0, 91, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":121
  *         self.h=float(h)
@@ -48702,7 +48702,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__121 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__121)) __PYX_ERR(0, 121, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__121);
   __Pyx_GIVEREF(__pyx_tuple__121);
-  __pyx_codeobj__122 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__121, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_str, 121, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__122)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_codeobj__122 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__121, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_str, 121, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__122)) __PYX_ERR(0, 121, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":139
  *     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
@@ -48714,7 +48714,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__123 = PyTuple_Pack(9, __pyx_n_s_self, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_weight, __pyx_n_s_mean, __pyx_n_s_shape, __pyx_n_s_h, __pyx_n_s_coupled, __pyx_n_s_label); if (unlikely(!__pyx_tuple__123)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__123);
   __Pyx_GIVEREF(__pyx_tuple__123);
-  __pyx_codeobj__124 = (PyObject*)__Pyx_PyCode_New(9, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__123, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_init, 139, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__124)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_codeobj__124 = (PyObject*)__Pyx_PyCode_New(9, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__123, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_init, 139, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__124)) __PYX_ERR(0, 139, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":172
  *         self.shape=float(shape)
@@ -48726,7 +48726,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__125 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__125)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__125);
   __Pyx_GIVEREF(__pyx_tuple__125);
-  __pyx_codeobj__126 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__125, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_str, 172, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__126)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_codeobj__126 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__125, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_str, 172, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__126)) __PYX_ERR(0, 172, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":189
  *     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
@@ -48738,7 +48738,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__127 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_weight, __pyx_n_s_s, __pyx_n_s_h, __pyx_n_s_coupled, __pyx_n_s_label); if (unlikely(!__pyx_tuple__127)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__127);
   __Pyx_GIVEREF(__pyx_tuple__127);
-  __pyx_codeobj__128 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__127, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_init, 189, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__128)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_codeobj__128 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__127, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_init, 189, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__128)) __PYX_ERR(0, 189, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":217
  *         self.s=float(s)
@@ -48750,7 +48750,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__129 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__129)) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__129);
   __Pyx_GIVEREF(__pyx_tuple__129);
-  __pyx_codeobj__130 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__129, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_str, 217, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__130)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_codeobj__130 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__129, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_str, 217, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__130)) __PYX_ERR(0, 217, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":235
  *     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
@@ -48762,7 +48762,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__131 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_weight, __pyx_n_s_lo, __pyx_n_s_hi, __pyx_n_s_h, __pyx_n_s_coupled); if (unlikely(!__pyx_tuple__131)) __PYX_ERR(0, 235, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__131);
   __Pyx_GIVEREF(__pyx_tuple__131);
-  __pyx_codeobj__132 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_init, 235, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__132)) __PYX_ERR(0, 235, __pyx_L1_error)
+  __pyx_codeobj__132 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__131, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_init, 235, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__132)) __PYX_ERR(0, 235, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":269
  *         self.hi=float(hi)
@@ -48774,7 +48774,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__133 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__133)) __PYX_ERR(0, 269, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__133);
   __Pyx_GIVEREF(__pyx_tuple__133);
-  __pyx_codeobj__134 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__133, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_str, 269, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__134)) __PYX_ERR(0, 269, __pyx_L1_error)
+  __pyx_codeobj__134 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__133, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_str, 269, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__134)) __PYX_ERR(0, 269, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":286
  *     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
@@ -48786,7 +48786,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__135 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_weight, __pyx_n_s_mean, __pyx_n_s_h, __pyx_n_s_coupled, __pyx_n_s_label); if (unlikely(!__pyx_tuple__135)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__135);
   __Pyx_GIVEREF(__pyx_tuple__135);
-  __pyx_codeobj__136 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__135, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_init, 286, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__136)) __PYX_ERR(0, 286, __pyx_L1_error)
+  __pyx_codeobj__136 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__135, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_init, 286, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__136)) __PYX_ERR(0, 286, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":314
  *         self.mean=float(mean)
@@ -48798,7 +48798,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__137 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__137)) __PYX_ERR(0, 314, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__137);
   __Pyx_GIVEREF(__pyx_tuple__137);
-  __pyx_codeobj__138 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__137, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_str, 314, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__138)) __PYX_ERR(0, 314, __pyx_L1_error)
+  __pyx_codeobj__138 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__137, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_str, 314, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__138)) __PYX_ERR(0, 314, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":333
  *     See :func:`evolve_regions` for how this class may be used to parameterize a simulation
@@ -48810,7 +48810,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__139 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_weight, __pyx_n_s_sd, __pyx_n_s_h, __pyx_n_s_coupled, __pyx_n_s_label); if (unlikely(!__pyx_tuple__139)) __PYX_ERR(0, 333, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__139);
   __Pyx_GIVEREF(__pyx_tuple__139);
-  __pyx_codeobj__140 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__139, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_init, 333, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__140)) __PYX_ERR(0, 333, __pyx_L1_error)
+  __pyx_codeobj__140 = (PyObject*)__Pyx_PyCode_New(8, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__139, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_init, 333, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__140)) __PYX_ERR(0, 333, __pyx_L1_error)
 
   /* "fwdpy/regions.pyx":361
  *         self.sd=float(sd)
@@ -48821,7 +48821,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__141 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__141)) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__141);
   __Pyx_GIVEREF(__pyx_tuple__141);
-  __pyx_codeobj__142 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__141, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_regi, __pyx_n_s_str, 361, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__142)) __PYX_ERR(0, 361, __pyx_L1_error)
+  __pyx_codeobj__142 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__141, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_re, __pyx_n_s_str, 361, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__142)) __PYX_ERR(0, 361, __pyx_L1_error)
 
   /* "fwdpy/copy.pyx":3
  * import fwdpyio as fpio
@@ -48833,7 +48833,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__143 = PyTuple_Pack(2, __pyx_n_s_pop, __pyx_n_s_s); if (unlikely(!__pyx_tuple__143)) __PYX_ERR(6, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__143);
   __Pyx_GIVEREF(__pyx_tuple__143);
-  __pyx_codeobj__144 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__143, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_copy, __pyx_n_s_copypop, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__144)) __PYX_ERR(6, 3, __pyx_L1_error)
+  __pyx_codeobj__144 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__143, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_co, __pyx_n_s_copypop, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__144)) __PYX_ERR(6, 3, __pyx_L1_error)
 
   /* "fwdpy/copy.pyx":21
  *         raise RuntimeError("fwdpy.copypop: poptype "+str(type(pop))+" is not supported")
@@ -48845,7 +48845,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__145 = PyTuple_Pack(3, __pyx_n_s_pops, __pyx_n_s_s, __pyx_n_s_pop); if (unlikely(!__pyx_tuple__145)) __PYX_ERR(6, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__145);
   __Pyx_GIVEREF(__pyx_tuple__145);
-  __pyx_codeobj__146 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__145, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_copy, __pyx_n_s_copypops, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__146)) __PYX_ERR(6, 21, __pyx_L1_error)
+  __pyx_codeobj__146 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__145, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_co, __pyx_n_s_copypops, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__146)) __PYX_ERR(6, 21, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":92
  *     return rv
@@ -48857,7 +48857,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__147 = PyTuple_Pack(4, __pyx_n_s_p, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_rv); if (unlikely(!__pyx_tuple__147)) __PYX_ERR(2, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__147);
   __Pyx_GIVEREF(__pyx_tuple__147);
-  __pyx_codeobj__148 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__147, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_mutations_singlepop, 92, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__148)) __PYX_ERR(2, 92, __pyx_L1_error)
+  __pyx_codeobj__148 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__147, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_mutations_singlepop, 92, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__148)) __PYX_ERR(2, 92, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":100
  *     return rv
@@ -48869,7 +48869,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__149 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_rv, __pyx_n_s_npops, __pyx_n_s_i); if (unlikely(!__pyx_tuple__149)) __PYX_ERR(2, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__149);
   __Pyx_GIVEREF(__pyx_tuple__149);
-  __pyx_codeobj__150 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__149, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_mutations_popvec, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__150)) __PYX_ERR(2, 100, __pyx_L1_error)
+  __pyx_codeobj__150 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__149, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_mutations_popvec, 100, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__150)) __PYX_ERR(2, 100, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":112
  *     return rv
@@ -48881,7 +48881,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__151 = PyTuple_Pack(10, __pyx_n_s_p, __pyx_n_s_deme, __pyx_n_s_gams, __pyx_n_s_allmuts, __pyx_n_s_umuts, __pyx_n_s_g, __pyx_n_s_m, __pyx_n_s_rv, __pyx_n_s_dummy, __pyx_n_s_i); if (unlikely(!__pyx_tuple__151)) __PYX_ERR(2, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__151);
   __Pyx_GIVEREF(__pyx_tuple__151);
-  __pyx_codeobj__152 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__151, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_mutations_metapop, 112, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__152)) __PYX_ERR(2, 112, __pyx_L1_error)
+  __pyx_codeobj__152 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__151, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_mutations_metapop, 112, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__152)) __PYX_ERR(2, 112, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":138
  *     return rv
@@ -48893,7 +48893,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__153 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__153)) __PYX_ERR(2, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__153);
   __Pyx_GIVEREF(__pyx_tuple__153);
-  __pyx_codeobj__154 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__153, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_mutations, 138, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__154)) __PYX_ERR(2, 138, __pyx_L1_error)
+  __pyx_codeobj__154 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__153, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_mutations, 138, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__154)) __PYX_ERR(2, 138, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":173
  *         raise RuntimeError("view_mutations: unsupported object type")
@@ -48905,7 +48905,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__155 = PyTuple_Pack(1, __pyx_n_s_p); if (unlikely(!__pyx_tuple__155)) __PYX_ERR(2, 173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__155);
   __Pyx_GIVEREF(__pyx_tuple__155);
-  __pyx_codeobj__156 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__155, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_gametes_singlepop, 173, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__156)) __PYX_ERR(2, 173, __pyx_L1_error)
+  __pyx_codeobj__156 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__155, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_gametes_singlepop, 173, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__156)) __PYX_ERR(2, 173, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":178
  *     return view_gametes_details(p.pop.get())
@@ -48917,7 +48917,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__157 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_beg, __pyx_n_s_end, __pyx_n_s_npops, __pyx_n_s_i, __pyx_n_s_rv); if (unlikely(!__pyx_tuple__157)) __PYX_ERR(2, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__157);
   __Pyx_GIVEREF(__pyx_tuple__157);
-  __pyx_codeobj__158 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__157, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_gametes_popvec, 178, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__158)) __PYX_ERR(2, 178, __pyx_L1_error)
+  __pyx_codeobj__158 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__157, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_gametes_popvec, 178, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__158)) __PYX_ERR(2, 178, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":189
  *         rv[i]=view_gametes_details(p.pops[i].get())
@@ -48929,7 +48929,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__159 = PyTuple_Pack(7, __pyx_n_s_p, __pyx_n_s_deme, __pyx_n_s_temp1, __pyx_n_s_unique_gams, __pyx_n_s_allgams, __pyx_n_s_i, __pyx_n_s_dummy); if (unlikely(!__pyx_tuple__159)) __PYX_ERR(2, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__159);
   __Pyx_GIVEREF(__pyx_tuple__159);
-  __pyx_codeobj__160 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__159, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_gametes_metapop, 189, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__160)) __PYX_ERR(2, 189, __pyx_L1_error)
+  __pyx_codeobj__160 = (PyObject*)__Pyx_PyCode_New(2, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__159, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_gametes_metapop, 189, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__160)) __PYX_ERR(2, 189, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":212
  *     return temp1
@@ -48941,7 +48941,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__161 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__161)) __PYX_ERR(2, 212, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__161);
   __Pyx_GIVEREF(__pyx_tuple__161);
-  __pyx_codeobj__162 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__161, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_gametes, 212, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__162)) __PYX_ERR(2, 212, __pyx_L1_error)
+  __pyx_codeobj__162 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__161, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_gametes, 212, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__162)) __PYX_ERR(2, 212, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":247
  *         raise RuntimeError("view_gametes: unsupported object type")
@@ -48953,7 +48953,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__163 = PyTuple_Pack(3, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_i); if (unlikely(!__pyx_tuple__163)) __PYX_ERR(2, 247, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__163);
   __Pyx_GIVEREF(__pyx_tuple__163);
-  __pyx_codeobj__164 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__163, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_diploids_singlepop, 247, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__164)) __PYX_ERR(2, 247, __pyx_L1_error)
+  __pyx_codeobj__164 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__163, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_diploids_singlepop, 247, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__164)) __PYX_ERR(2, 247, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":253
  *     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
@@ -48965,7 +48965,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__165 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_npops, __pyx_n_s_i, __pyx_n_s_rv, __pyx_n_s_il); if (unlikely(!__pyx_tuple__165)) __PYX_ERR(2, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__165);
   __Pyx_GIVEREF(__pyx_tuple__165);
-  __pyx_codeobj__166 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__165, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_diploids_popvec, 253, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__166)) __PYX_ERR(2, 253, __pyx_L1_error)
+  __pyx_codeobj__166 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__165, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_diploids_popvec, 253, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__166)) __PYX_ERR(2, 253, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":268
  *     return rv
@@ -48977,7 +48977,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__167 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_deme, __pyx_n_s_psizes, __pyx_n_s_i, __pyx_n_s_ps); if (unlikely(!__pyx_tuple__167)) __PYX_ERR(2, 268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__167);
   __Pyx_GIVEREF(__pyx_tuple__167);
-  __pyx_codeobj__168 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__167, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_diploids_metapop, 268, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__168)) __PYX_ERR(2, 268, __pyx_L1_error)
+  __pyx_codeobj__168 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__167, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_diploids_metapop, 268, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__168)) __PYX_ERR(2, 268, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":278
  *     return view_diploids_details(p.mpop.get().diploids[deme],p.mpop.get().gametes,p.mpop.get().mutations,p.mpop.get().mcounts,indlist)
@@ -48989,7 +48989,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__169 = PyTuple_Pack(3, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__169)) __PYX_ERR(2, 278, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__169);
   __Pyx_GIVEREF(__pyx_tuple__169);
-  __pyx_codeobj__170 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__169, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_diploids, 278, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__170)) __PYX_ERR(2, 278, __pyx_L1_error)
+  __pyx_codeobj__170 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__169, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_diploids, 278, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__170)) __PYX_ERR(2, 278, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":355
  *     move[map[double,string].iterator,back_insert_itr](m.begin(),m.end(),back_inserter[fwdpy_sample_t](v))
@@ -49001,7 +49001,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__171 = PyTuple_Pack(16, __pyx_n_s_view, __pyx_n_s_ttl_nsam, __pyx_n_s_neutral, __pyx_n_s_selected, __pyx_n_s_map_itr, __pyx_n_s_neutral_info, __pyx_n_s_selected_info, __pyx_n_s_ancestral, __pyx_n_s_derived, __pyx_n_s_dip, __pyx_n_s_size_2, __pyx_n_s_vneutral, __pyx_n_s_vselected, __pyx_n_s_neutral_df, __pyx_n_s_selected_df, __pyx_n_s_i); if (unlikely(!__pyx_tuple__171)) __PYX_ERR(2, 355, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__171);
   __Pyx_GIVEREF(__pyx_tuple__171);
-  __pyx_codeobj__172 = (PyObject*)__Pyx_PyCode_New(1, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__171, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_diploid_view_to_sample, 355, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__172)) __PYX_ERR(2, 355, __pyx_L1_error)
+  __pyx_codeobj__172 = (PyObject*)__Pyx_PyCode_New(1, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__171, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_diploid_view_to_sample, 355, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__172)) __PYX_ERR(2, 355, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":486
  *         inc(beg)
@@ -49013,7 +49013,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__173 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_selectedOnly, __pyx_n_s_npops, __pyx_n_s_i, __pyx_n_s_rv); if (unlikely(!__pyx_tuple__173)) __PYX_ERR(2, 486, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__173);
   __Pyx_GIVEREF(__pyx_tuple__173);
-  __pyx_codeobj__174 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__173, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_diploids_pd_popvec, 486, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__174)) __PYX_ERR(2, 486, __pyx_L1_error)
+  __pyx_codeobj__174 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__173, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_diploids_pd_popvec, 486, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__174)) __PYX_ERR(2, 486, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":495
  *     return rv
@@ -49025,7 +49025,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__175 = PyTuple_Pack(3, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_selectedOnly); if (unlikely(!__pyx_tuple__175)) __PYX_ERR(2, 495, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__175);
   __Pyx_GIVEREF(__pyx_tuple__175);
-  __pyx_codeobj__176 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__175, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_diploids_pd_singlepop, 495, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__176)) __PYX_ERR(2, 495, __pyx_L1_error)
+  __pyx_codeobj__176 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__175, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_diploids_pd_singlepop, 495, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__176)) __PYX_ERR(2, 495, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":498
  *     return view_diploids_pd_details(p.pop.get(),indlist,selectedOnly)
@@ -49037,7 +49037,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__177 = PyTuple_Pack(4, __pyx_n_s_p, __pyx_n_s_indlist, __pyx_n_s_selectedOnly, __pyx_n_s_i); if (unlikely(!__pyx_tuple__177)) __PYX_ERR(2, 498, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__177);
   __Pyx_GIVEREF(__pyx_tuple__177);
-  __pyx_codeobj__178 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__177, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_view_diploids_pd, 498, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__178)) __PYX_ERR(2, 498, __pyx_L1_error)
+  __pyx_codeobj__178 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__177, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_view_diploids_pd, 498, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__178)) __PYX_ERR(2, 498, __pyx_L1_error)
 
   /* "fwdpy/views.pyx":538
  *     return [diploid_traits_mpop(i,deme) for i in p]
@@ -49049,7 +49049,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__179 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_deme); if (unlikely(!__pyx_tuple__179)) __PYX_ERR(2, 538, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__179);
   __Pyx_GIVEREF(__pyx_tuple__179);
-  __pyx_codeobj__180 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__179, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view, __pyx_n_s_diploid_traits, 538, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__180)) __PYX_ERR(2, 538, __pyx_L1_error)
+  __pyx_codeobj__180 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__179, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi, __pyx_n_s_diploid_traits, 538, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__180)) __PYX_ERR(2, 538, __pyx_L1_error)
 
   /* "fwdpy/view_fixations.pyx":14
  *     return rv
@@ -49061,7 +49061,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__181 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_rv); if (unlikely(!__pyx_tuple__181)) __PYX_ERR(3, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__181);
   __Pyx_GIVEREF(__pyx_tuple__181);
-  __pyx_codeobj__182 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__181, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view_2, __pyx_n_s_view_fixations_singlepop, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__182)) __PYX_ERR(3, 14, __pyx_L1_error)
+  __pyx_codeobj__182 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__181, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi_2, __pyx_n_s_view_fixations_singlepop, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__182)) __PYX_ERR(3, 14, __pyx_L1_error)
 
   /* "fwdpy/view_fixations.pyx":20
  *     return rv
@@ -49073,7 +49073,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__183 = PyTuple_Pack(4, __pyx_n_s_p, __pyx_n_s_rv, __pyx_n_s_npops, __pyx_n_s_i); if (unlikely(!__pyx_tuple__183)) __PYX_ERR(3, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__183);
   __Pyx_GIVEREF(__pyx_tuple__183);
-  __pyx_codeobj__184 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__183, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view_2, __pyx_n_s_view_fixations_popvec, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__184)) __PYX_ERR(3, 20, __pyx_L1_error)
+  __pyx_codeobj__184 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__183, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi_2, __pyx_n_s_view_fixations_popvec, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__184)) __PYX_ERR(3, 20, __pyx_L1_error)
 
   /* "fwdpy/view_fixations.pyx":28
  *     return rv
@@ -49085,7 +49085,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__185 = PyTuple_Pack(3, __pyx_n_s_p, __pyx_n_s_rv, __pyx_n_s_Ns); if (unlikely(!__pyx_tuple__185)) __PYX_ERR(3, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__185);
   __Pyx_GIVEREF(__pyx_tuple__185);
-  __pyx_codeobj__186 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__185, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view_2, __pyx_n_s_view_fixations_metapop, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__186)) __PYX_ERR(3, 28, __pyx_L1_error)
+  __pyx_codeobj__186 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__185, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi_2, __pyx_n_s_view_fixations_metapop, 28, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__186)) __PYX_ERR(3, 28, __pyx_L1_error)
 
   /* "fwdpy/view_fixations.pyx":35
  *     return rv
@@ -49097,7 +49097,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__187 = PyTuple_Pack(5, __pyx_n_s_p, __pyx_n_s_rv, __pyx_n_s_npops, __pyx_n_s_i, __pyx_n_s_Ns); if (unlikely(!__pyx_tuple__187)) __PYX_ERR(3, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__187);
   __Pyx_GIVEREF(__pyx_tuple__187);
-  __pyx_codeobj__188 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__187, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view_2, __pyx_n_s_view_fixations_mpopvec, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__188)) __PYX_ERR(3, 35, __pyx_L1_error)
+  __pyx_codeobj__188 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__187, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi_2, __pyx_n_s_view_fixations_mpopvec, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__188)) __PYX_ERR(3, 35, __pyx_L1_error)
 
   /* "fwdpy/view_fixations.pyx":47
  *     return rv
@@ -49109,7 +49109,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__189 = PyTuple_Pack(1, __pyx_n_s_p); if (unlikely(!__pyx_tuple__189)) __PYX_ERR(3, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__189);
   __Pyx_GIVEREF(__pyx_tuple__189);
-  __pyx_codeobj__190 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__189, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_view_2, __pyx_n_s_view_fixations, 47, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__190)) __PYX_ERR(3, 47, __pyx_L1_error)
+  __pyx_codeobj__190 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__189, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_vi_2, __pyx_n_s_view_fixations, 47, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__190)) __PYX_ERR(3, 47, __pyx_L1_error)
 
   /* "fwdpy/debug.pyx":1
  * def check_popdata_singlepop(singlepop p):             # <<<<<<<<<<<<<<
@@ -49119,7 +49119,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__191 = PyTuple_Pack(3, __pyx_n_s_p, __pyx_n_s_csum, __pyx_n_s_pds); if (unlikely(!__pyx_tuple__191)) __PYX_ERR(7, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__191);
   __Pyx_GIVEREF(__pyx_tuple__191);
-  __pyx_codeobj__192 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__191, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_debu, __pyx_n_s_check_popdata_singlepop, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__192)) __PYX_ERR(7, 1, __pyx_L1_error)
+  __pyx_codeobj__192 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__191, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_check_popdata_singlepop, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__192)) __PYX_ERR(7, 1, __pyx_L1_error)
 
   /* "fwdpy/debug.pyx":6
  *     return {'check_sum':csum,'popdata_sane':pds}
@@ -49131,7 +49131,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__193 = PyTuple_Pack(6, __pyx_n_s_p, __pyx_n_s_csum, __pyx_n_s_lpds, __pyx_n_s_pds, __pyx_n_s_i, __pyx_n_s_ndemes); if (unlikely(!__pyx_tuple__193)) __PYX_ERR(7, 6, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__193);
   __Pyx_GIVEREF(__pyx_tuple__193);
-  __pyx_codeobj__194 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__193, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_debu, __pyx_n_s_check_popdata_metapop, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__194)) __PYX_ERR(7, 6, __pyx_L1_error)
+  __pyx_codeobj__194 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__193, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_check_popdata_metapop, 6, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__194)) __PYX_ERR(7, 6, __pyx_L1_error)
 
   /* "fwdpy/debug.pyx":18
  *     return {'check_sum':csum,'popdata_sane':lpds}
@@ -49143,7 +49143,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__195 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_i); if (unlikely(!__pyx_tuple__195)) __PYX_ERR(7, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__195);
   __Pyx_GIVEREF(__pyx_tuple__195);
-  __pyx_codeobj__196 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__195, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_debu, __pyx_n_s_check_popdata_popvec, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__196)) __PYX_ERR(7, 18, __pyx_L1_error)
+  __pyx_codeobj__196 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__195, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_check_popdata_popvec, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__196)) __PYX_ERR(7, 18, __pyx_L1_error)
 
   /* "fwdpy/debug.pyx":21
  *     return [check_popdata_singlepop(i) for i in p]
@@ -49155,7 +49155,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__197 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_i); if (unlikely(!__pyx_tuple__197)) __PYX_ERR(7, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__197);
   __Pyx_GIVEREF(__pyx_tuple__197);
-  __pyx_codeobj__198 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__197, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_debu, __pyx_n_s_check_popdata_mpopvec, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__198)) __PYX_ERR(7, 21, __pyx_L1_error)
+  __pyx_codeobj__198 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__197, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_check_popdata_mpopvec, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__198)) __PYX_ERR(7, 21, __pyx_L1_error)
 
   /* "fwdpy/debug.pyx":24
  *     return [check_popdata_metapop(i) for i in p]
@@ -49167,7 +49167,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__199 = PyTuple_Pack(1, __pyx_n_s_p); if (unlikely(!__pyx_tuple__199)) __PYX_ERR(7, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__199);
   __Pyx_GIVEREF(__pyx_tuple__199);
-  __pyx_codeobj__200 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__199, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_debu, __pyx_n_s_check_popdata, 24, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__200)) __PYX_ERR(7, 24, __pyx_L1_error)
+  __pyx_codeobj__200 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__199, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_de, __pyx_n_s_check_popdata, 24, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__200)) __PYX_ERR(7, 24, __pyx_L1_error)
 
   /* "fwdpy/ages.pyx":3
  * from cython.parallel import parallel, prange
@@ -49179,7 +49179,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__201 = PyTuple_Pack(6, __pyx_n_s_trajectories, __pyx_n_s_minfreq, __pyx_n_s_minsojourn, __pyx_n_s_nt, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple__201)) __PYX_ERR(8, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__201);
   __Pyx_GIVEREF(__pyx_tuple__201);
-  __pyx_codeobj__202 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__201, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_ages, __pyx_n_s_allele_ages, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__202)) __PYX_ERR(8, 3, __pyx_L1_error)
+  __pyx_codeobj__202 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__201, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ag, __pyx_n_s_allele_ages, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__202)) __PYX_ERR(8, 3, __pyx_L1_error)
 
   /* "fwdpy/ages.pyx":19
  *     return rv
@@ -49191,7 +49191,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__203 = PyTuple_Pack(5, __pyx_n_s_trajectories1, __pyx_n_s_trajectories2, __pyx_n_s_nt, __pyx_n_s_rv, __pyx_n_s_i); if (unlikely(!__pyx_tuple__203)) __PYX_ERR(8, 19, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__203);
   __Pyx_GIVEREF(__pyx_tuple__203);
-  __pyx_codeobj__204 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__203, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_ages, __pyx_n_s_merge_trajectories, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__204)) __PYX_ERR(8, 19, __pyx_L1_error)
+  __pyx_codeobj__204 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__203, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ag, __pyx_n_s_merge_trajectories, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__204)) __PYX_ERR(8, 19, __pyx_L1_error)
 
   /* "fwdpy/ages.pyx":42
  *     return rv
@@ -49203,7 +49203,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__205 = PyTuple_Pack(6, __pyx_n_s_trajectories, __pyx_n_s_min_sojourn, __pyx_n_s_min_freq, __pyx_n_s_rv, __pyx_n_s_nt, __pyx_n_s_i); if (unlikely(!__pyx_tuple__205)) __PYX_ERR(8, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__205);
   __Pyx_GIVEREF(__pyx_tuple__205);
-  __pyx_codeobj__206 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__205, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_ages, __pyx_n_s_tidy_trajectories, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__206)) __PYX_ERR(8, 42, __pyx_L1_error)
+  __pyx_codeobj__206 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__205, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_ag, __pyx_n_s_tidy_trajectories, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__206)) __PYX_ERR(8, 42, __pyx_L1_error)
 
   /* "fwdpy/fwdpy.pyx":20
  * include "ages.pyx"
@@ -49215,7 +49215,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__207 = PyTuple_Pack(1, __pyx_n_s_v); if (unlikely(!__pyx_tuple__207)) __PYX_ERR(9, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__207);
   __Pyx_GIVEREF(__pyx_tuple__207);
-  __pyx_codeobj__208 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__207, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_pkg_version, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__208)) __PYX_ERR(9, 20, __pyx_L1_error)
+  __pyx_codeobj__208 = (PyObject*)__Pyx_PyCode_New(0, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__207, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_n_s_pkg_version, 20, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__208)) __PYX_ERR(9, 20, __pyx_L1_error)
 
   /* "fwdpy/fwdpy.pyx":31
  *     return ({'fwdpy':v[0]})
@@ -49224,7 +49224,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     """
  *     Returns how to cite this package
  */
-  __pyx_codeobj__209 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_cite, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__209)) __PYX_ERR(9, 31, __pyx_L1_error)
+  __pyx_codeobj__209 = (PyObject*)__Pyx_PyCode_New(0, 0, 0, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_n_s_cite, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__209)) __PYX_ERR(9, 31, __pyx_L1_error)
 
   /* "View.MemoryView":282
  *         return self.name
