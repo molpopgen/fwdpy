@@ -11,25 +11,12 @@ cdef vector[pair[uint,popgen_mut_data]] view_fixations_details( const mcont_t & 
         i+=1
     return rv
 
-def view_fixations_singlepop(singlepop p):
-    cdef vector[pair[uint,popgen_mut_data]] rv
-    with nogil:
-        rv=view_fixations_details(p.pop.get().fixations,p.pop.get().fixation_times,p.pop.get().N)
-    return rv
-
 def view_fixations_popvec(popvec p):
     cdef vector[vector[pair[uint,popgen_mut_data]]] rv
     cdef size_t npops=p.pops.size()
     cdef int i
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i]=view_fixations_details(p.pops[i].get().fixations,p.pops[i].get().fixation_times,p.pops[i].get().N)
-    return rv
-
-def view_fixations_metapop(metapop p):
-    cdef vector[pair[uint,popgen_mut_data]] rv
-    cdef unsigned Ns=sum(p.mpop.get().Ns)
-    with nogil:
-        rv=view_fixations_details(p.mpop.get().fixations,p.mpop.get().fixation_times,Ns)
     return rv
 
 def view_fixations_mpopvec(mpopvec p):
@@ -54,12 +41,15 @@ def view_fixations(object p):
 
     .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types of fixations, depending on the type of simulation you are running.
     """
+
+    #Streamline using casts:
     if isinstance(p,singlepop):
-        return view_fixations_singlepop(p)
+        return view_fixations_details((<singlepop>p).pop.get().fixations,p.pop.get().fixation_times,p.pop.get().N)
+    if isinstance(p,metapop):
+        return view_fixations_details((<metapop>p).mpop.get().fixations,p.mpop.get().fixation_times,sum(p.mpop.get().Ns))
+    
     elif isinstance(p,popvec):
         return view_fixations_popvec(p)
-    elif isinstance(p,metapop):
-        return view_fixations_metapop(p)
     elif isinstance(p,mpopvec):
         return view_fixations_mpopvec(p)
     else:
