@@ -96,8 +96,12 @@ namespace fwdpy
 					 [&rng,i](){return gsl_ran_flat(rng,double(i),double(i+1));},   //mutation pos'n
 					 [&effects_dominance,i,rng](){return effects_dominance[i].s(rng);},
 					 [&effects_dominance,i,rng](){return effects_dominance[i].h(rng);}));
-					 //[&sigma_mus,&rng,i](){return gsl_ran_gaussian_ziggurat(rng,sigma_mus[i]);}, //effect size of non-neutral mutants
-					 //[](){return 1.;})); //dominance of non-neutral mutants
+					 //std::bind(&effects_dominance[i].s,rng),
+					 //std::bind(&effects_dominance[i].h,rng)));
+					 //std::bind(effects_dominance[i].s,rng), //effect size distro
+					 //std::bind(effects_dominance[i].h),rng));
+	  //[&effects_dominance,&rng,i](){return gsl_ran_gaussian_ziggurat(rng,effects_dominance[i].s);}, //effect size of non-neutral mutants
+	  //[&effects_dominance](){return 1.;})); //dominance of non-neutral mutants
 	  ++i;
 	}
 
@@ -189,10 +193,12 @@ namespace fwdpy
 	{
 	  if(i<0.) throw std::runtime_error("selected mutation rates must be >= 0 for all loci");
 	}
-      /*for(auto i : sigma_mus)
+      /*
+      for(auto i : sigma_mus)
 	{
 	  if(i<0.) throw std::runtime_error("sigma terms for DFE must be >= 0 for all loci");
-	}*/
+	}
+	  */
       for( auto i : within_region_rec_rates )
 	{
 	  if(i<0.) throw std::runtime_error("recombination rates must be >= 0 within all loci");
