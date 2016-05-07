@@ -29,7 +29,10 @@ namespace fwdpy {
   }
   
   void get_sh( const std::vector<std::pair<double,std::string> > & samples,
-	       const singlepop_t * pop,
+	       const std::vector<KTfwd::popgenmut> & mutations,
+	       const std::vector<KTfwd::uint_t> & mcounts,
+	       const KTfwd::uint_t & ttlN,
+	       const unsigned & generation,
 	       std::vector<double> * s,
 	       std::vector<double> * h,
 	       std::vector<double> * p,
@@ -37,31 +40,10 @@ namespace fwdpy {
 	       std::vector<decltype(KTfwd::mutation_base::xtra)> * l)
   {
     get_sh_details(samples,
-		   pop->mutations,
-		   pop->mcounts,
-		   2*pop->diploids.size(),
-		   pop->generation,
-		   s,h,p,a,l);
-  }
-
-  void get_sh( const std::vector<std::pair<double,std::string> > & samples,
-	       const metapop_t * pop,
-	       std::vector<double> * s,
-	       std::vector<double> * h,
-	       std::vector<double> * p,
-	       std::vector<double> * a,
-	       std::vector<decltype(KTfwd::mutation_base::xtra)> * l)
-  {
-    unsigned ttlN=0;
-    for(auto itr = pop->diploids.begin();itr!=pop->diploids.end();++itr)
-      {
-	ttlN+=itr->size();
-      }
-    get_sh_details(samples,
-		   pop->mutations,
-		   pop->mcounts,
+		   mutations,
+		   mcounts,
 		   ttlN,
-		   pop->generation,
+		   generation,
 		   s,h,p,a,l);
   }
 }

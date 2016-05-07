@@ -126,9 +126,19 @@ def get_sample_details( sample_t ms_sample, poptype pop ):
     cdef vector[double] a
     cdef vector[uint16_t] l
     if isinstance(pop,singlepop):
-        get_sh(ms_sample,(<singlepop>pop).pop.get(),&s,&h,&p,&a,&l)
+        get_sh(ms_sample,
+               (<singlepop>pop).pop.get().mutations,
+               (<singlepop>pop).pop.get().mcounts,
+               (<singlepop>pop).pop.get().N,
+               (<singlepop>pop).pop.get().generation,
+               &s,&h,&p,&a,&l)
     elif isinstance(pop,metapop):
-        get_sh(ms_sample,(<metapop>pop).mpop.get(),&s,&h,&p,&a,&l)
+        get_sh(ms_sample,
+               (<metapop>pop).mpop.get().mutations,
+               (<metapop>pop).mpop.get().mcounts,
+               sum((<metapop>pop).mpop.get().mcounts.Ns),
+               (<metapop>pop).mpop.get().generation,
+               &s,&h,&p,&a,&l)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})
 
 
