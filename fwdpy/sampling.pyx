@@ -6,35 +6,35 @@ import pandas as pd
 ##Undocumented fxns are wrappers to enable run-time polymorphism within the Py environs.
 ##These fxns make calls to the C++ layer
 
-cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-    return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
+#cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
+#    return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
 
-cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-    return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+#cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
+#    return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
-cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
-    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
+#cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
+#    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
 
-cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:
-    return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+#cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:
+#    return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
-cdef get_sh_single(const sample_t & ms_sample,
-                    singlepop pop,
-                    vector[double] * s,
-                    vector[double] * h,
-                    vector[double] * p,
-                    vector[double] * a,
-                    vector[uint16_t] * l):
-    get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)
+#cdef get_sh_single(const sample_t & ms_sample,
+#                    singlepop pop,
+#                    vector[double] * s,
+#                    vector[double] * h,
+#                    vector[double] * p,
+#                    vector[double] * a,
+#                    vector[uint16_t] * l):
+#    get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)
 
-cdef get_sh_metapop(const sample_t & ms_sample,
-                    metapop pop,
-                    vector[double] * s,
-                    vector[double] * h,
-                    vector[double] * p,
-                    vector[double] * a,
-                    vector[uint16_t] * l):
-    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
+#cdef get_sh_metapop(const sample_t & ms_sample,
+#                    metapop pop,
+#                    vector[double] * s,
+#                    vector[double] * h,
+#                    vector[double] * p,
+#                    vector[double] * a,
+#                    vector[uint16_t] * l):
+#    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
 
 def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     """
@@ -56,7 +56,7 @@ def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     """
     if isinstance(pop,singlepop):
-        return ms_sample_single_deme(rng,pop,nsam,removeFixed)
+        return sample_single[singlepop_t](rng.thisptr.get(),deref((<singlepop>pop).pop.get()),nsam, int(removeFixed))
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
@@ -85,15 +85,18 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
     """
     if isinstance(pop,singlepop):
-        return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
+        return sample_sep_single[singlepop_t](rng.thisptr.get(),deref((<singlepop>pop).pop.get()),nsam, int(removeFixed))
+        #return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
     elif isinstance(pop,metapop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
         if deme >= len(pop):
             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
-        return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+        return sample_separate[metapop_t](rng.thisptr.get(),deref((<metapop>pop).mpop.get()),deme,nsam,removeFixed)
+        #return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
     elif isinstance(pop,singlepop_mloc):
-        return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
+        return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<singlepop_mloc>pop).pop.get()),nsam,removeFixed)
+        #return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
@@ -123,9 +126,9 @@ def get_sample_details( sample_t ms_sample, poptype pop ):
     cdef vector[double] a
     cdef vector[uint16_t] l
     if isinstance(pop,singlepop):
-        get_sh_single(ms_sample,pop,&s,&h,&p,&a,&l)
+        get_sh(ms_sample,(<singlepop>pop).pop.get(),&s,&h,&p,&a,&l)
     elif isinstance(pop,metapop):
-        get_sh_metapop(ms_sample,pop,&s,&h,&p,&a,&l)
+        get_sh(ms_sample,(<metapop>pop).mpop.get(),&s,&h,&p,&a,&l)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})
 
 
