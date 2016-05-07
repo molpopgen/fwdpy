@@ -22,7 +22,7 @@ namespace fwdpy {
 	  });
 	s->push_back(mitr->s);
 	h->push_back(mitr->h);
-	p->push_back(double(mcounts[std::distance(mutations.begin(),mitr)])/double(twoN));
+	p->push_back(double(mcounts[std::distance(mutations.begin(),mitr)])/(2.0*double(twoN)));
 	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
 	l->push_back(mitr->xtra); //This is the 'label' assigned to a mutation -- See Regions.pyx for details.
       }
