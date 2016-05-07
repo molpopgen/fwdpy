@@ -196,6 +196,8 @@ cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, c
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
+##TODO: This should be streamlined to not depend on the poptype, but rather on lower-level containers.
+##Such a change will reduce boiler plate.
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & ms_sample, const singlepop_t * pop, vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a, vector[uint16_t] * l)
     void get_sh( const vector[pair[double,string]] & samples, const metapop_t * pop, vector[double] * s, vector[double] * h, vector[double] * p, vector[double] * a, vector[uint16_t] * l)
