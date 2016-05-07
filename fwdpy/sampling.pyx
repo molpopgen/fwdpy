@@ -132,6 +132,13 @@ def get_sample_details( sample_t ms_sample, poptype pop ):
                (<singlepop>pop).pop.get().N,
                (<singlepop>pop).pop.get().generation,
                &s,&h,&p,&a,&l)
+    elif isinstance(pop,singlepop_mloc):
+        get_sh(ms_sample,
+               (<singlepop_mloc>pop).pop.get().mutations,
+               (<singlepop_mloc>pop).pop.get().mcounts,
+               (<singlepop_mloc>pop).pop.get().N,
+               (<singlepop_mloc>pop).pop.get().generation,
+               &s,&h,&p,&a,&l)
     elif isinstance(pop,metapop):
         get_sh(ms_sample,
                (<metapop>pop).mpop.get().mutations,
