@@ -30,7 +30,8 @@ class test_singlepop_views(unittest.TestCase):
     def testException1(self):
         with self.assertRaises(IndexError):
             fwdpy.view_diploids(pops[0],[pops[0].popsize()])
-        
+    def testFixationViews(self):
+        temp = fwdpy.view_fixations(pops[0])
 #class test_metapop_views(unittest.TestCase):
 #    def testNumGametes(self):
 #        gams = fwdpy.view_gametes(mpops[0],0) 
