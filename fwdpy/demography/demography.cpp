@@ -5,6 +5,7 @@
     "distutils": {
         "depends": [
             "include/allele_ages.hpp", 
+            "include/demography_migrates.hpp", 
             "include/deps.hpp", 
             "include/evolve_regions_sampler.hpp", 
             "include/internal_callbacks.hpp", 
@@ -342,6 +343,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "evolve_regions_sampler.hpp"
 #include "sampling_wrappers.hpp"
 #include "metapop.hpp"
+#include "demography_migrates.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -1246,6 +1248,10 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 /* Module declarations from 'libc.stdint' */
 
 /* Module declarations from 'fwdpy.fwdpp' */
+
+/* Module declarations from 'fwdpy.cpp' */
+
+/* Module declarations from 'fwdpy.fwdpp_internal' */
 
 /* Module declarations from 'libcpp.memory' */
 
