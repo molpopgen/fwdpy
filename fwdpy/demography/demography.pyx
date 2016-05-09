@@ -1,4 +1,4 @@
-from fwdpy cimport singlepop,metapop,popvec,mpopvec,GSLrng
+from fwdpy.fwdpy cimport singlepop,metapop,popvec,mpopvec,GSLrng
 
 ##cdef function act directly on C++ types
 

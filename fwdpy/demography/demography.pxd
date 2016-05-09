@@ -1,5 +1,5 @@
-from fwdpp cimport *
-from fwdpy cimport metapop_t,singlepop_t
+from fwdpy.fwdpp cimport *
+from fwdpy.fwdpy cimport metapop_t,singlepop_t
 
 cdef extern from "metapop.hpp" namespace "fwdpy" nogil:
     void re_init_mpop( metapop_t * mpop, const singlepop_t * pop)

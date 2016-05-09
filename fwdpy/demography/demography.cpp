@@ -308,8 +308,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__fwdpy__demography
-#define __PYX_HAVE_API__fwdpy__demography
+#define __PYX_HAVE__fwdpy__demography__demography
+#define __PYX_HAVE_API__fwdpy__demography__demography
 #include <utility>
 #include "ios"
 #include "new"
@@ -557,12 +557,12 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "fwdpy/demography.pyx",
+  "fwdpy/demography/demography.pyx",
   "fwdpy/internal/internal.pxd",
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy.pxd":222
+/* "fwdpy/fwdpy.pxd":222
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -589,7 +589,7 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data;
 struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
 struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
 
-/* "fwdpy.pxd":166
+/* "fwdpy/fwdpy.pxd":166
  * 
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr             # <<<<<<<<<<<<<<
@@ -598,7 +598,7 @@ struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
  */
 typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_itr;
 
-/* "fwdpy.pxd":167
+/* "fwdpy/fwdpy.pxd":167
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t             # <<<<<<<<<<<<<<
@@ -607,7 +607,7 @@ typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_i
  */
 typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mut_container_t;
 
-/* "fwdpy.pxd":168
+/* "fwdpy/fwdpy.pxd":168
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr             # <<<<<<<<<<<<<<
@@ -616,7 +616,7 @@ typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mu
  */
 typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_itr;
 
-/* "fwdpy.pxd":169
+/* "fwdpy/fwdpy.pxd":169
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr
  * ctypedef vector[diploid_t].iterator dipvector_t_itr             # <<<<<<<<<<<<<<
@@ -625,7 +625,7 @@ typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_it
  */
 typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector_t_itr;
 
-/* "fwdpy.pxd":171
+/* "fwdpy/fwdpy.pxd":171
  * ctypedef vector[diploid_t].iterator dipvector_t_itr
  * #vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
  * ctypedef vector[unsigned] mcounts_cont_t             # <<<<<<<<<<<<<<
@@ -634,7 +634,7 @@ typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector
  */
 typedef std::vector<unsigned int>  __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t;
 
-/* "fwdpy.pxd":174
+/* "fwdpy/fwdpy.pxd":174
  * 
  * ##Define some low-level functions that may be useful for others
  * cdef struct popgen_mut_data:             # <<<<<<<<<<<<<<
@@ -651,7 +651,7 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data {
   uint16_t label;
 };
 
-/* "fwdpy.pxd":180
+/* "fwdpy/fwdpy.pxd":180
  *     uint16_t label
  * 
  * cdef struct gamete_data:             # <<<<<<<<<<<<<<
@@ -664,7 +664,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
   unsigned int n;
 };
 
-/* "fwdpy.pxd":184
+/* "fwdpy/fwdpy.pxd":184
  *     unsigned n
  * 
  * cdef struct diploid_data:             # <<<<<<<<<<<<<<
@@ -709,7 +709,7 @@ struct __pyx_obj_5fwdpy_8internal_8internal_region_manager_wrapper {
 };
 
 
-/* "fwdpy.pxd":94
+/* "fwdpy/fwdpy.pxd":94
  * 
  * #Now, provide definitions for classes in classes.pyx
  * cdef class poptype(object):             # <<<<<<<<<<<<<<
@@ -721,7 +721,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_poptype {
 };
 
 
-/* "fwdpy.pxd":102
+/* "fwdpy/fwdpy.pxd":102
  *     pass
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
@@ -735,7 +735,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop {
 };
 
 
-/* "fwdpy.pxd":108
+/* "fwdpy/fwdpy.pxd":108
  *     cpdef sane(self)
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
@@ -749,7 +749,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_metapop {
 };
 
 
-/* "fwdpy.pxd":115
+/* "fwdpy/fwdpy.pxd":115
  *     cpdef from_singlepop(self,singlepop p)
  * 
  * cdef class singlepop_mloc(poptype):             # <<<<<<<<<<<<<<
@@ -763,7 +763,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop_mloc {
 };
 
 
-/* "fwdpy.pxd":121
+/* "fwdpy/fwdpy.pxd":121
  *     cpdef sane(self)
  * 
  * cdef class singlepop_gm_vec(poptype):             # <<<<<<<<<<<<<<
@@ -777,7 +777,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_singlepop_gm_vec {
 };
 
 
-/* "fwdpy.pxd":127
+/* "fwdpy/fwdpy.pxd":127
  *     cpdef sane(self)
  * 
  * cdef class popcont(object):             # <<<<<<<<<<<<<<
@@ -789,7 +789,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popcont {
 };
 
 
-/* "fwdpy.pxd":135
+/* "fwdpy/fwdpy.pxd":135
  *     pass
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
@@ -804,7 +804,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec {
 };
 
 
-/* "fwdpy.pxd":142
+/* "fwdpy/fwdpy.pxd":142
  *     cpdef append(self,popvec p)
  * 
  * cdef class popvec_gmv(popcont):             # <<<<<<<<<<<<<<
@@ -819,7 +819,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_gmv {
 };
 
 
-/* "fwdpy.pxd":148
+/* "fwdpy/fwdpy.pxd":148
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -834,7 +834,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_mpopvec {
 };
 
 
-/* "fwdpy.pxd":155
+/* "fwdpy/fwdpy.pxd":155
  *     cpdef append(self,mpopvec p)
  * 
  * cdef class popvec_mloc(popcont):             # <<<<<<<<<<<<<<
@@ -849,7 +849,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc {
 };
 
 
-/* "fwdpy.pxd":162
+/* "fwdpy/fwdpy.pxd":162
  *     cpdef append(self,popvec p)
  * 
  * cdef class GSLrng:             # <<<<<<<<<<<<<<
@@ -863,7 +863,7 @@ struct __pyx_obj_5fwdpy_5fwdpy_GSLrng {
 
 
 
-/* "fwdpy.pxd":102
+/* "fwdpy/fwdpy.pxd":102
  *     pass
  * 
  * cdef class singlepop(poptype):             # <<<<<<<<<<<<<<
@@ -879,7 +879,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop;
 
 
-/* "fwdpy.pxd":108
+/* "fwdpy/fwdpy.pxd":108
  *     cpdef sane(self)
  * 
  * cdef class metapop(poptype):             # <<<<<<<<<<<<<<
@@ -896,7 +896,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_metapop *__pyx_vtabptr_5fwdpy_5fwdpy_metapop;
 
 
-/* "fwdpy.pxd":115
+/* "fwdpy/fwdpy.pxd":115
  *     cpdef from_singlepop(self,singlepop p)
  * 
  * cdef class singlepop_mloc(poptype):             # <<<<<<<<<<<<<<
@@ -912,7 +912,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_mloc {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_mloc *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_mloc;
 
 
-/* "fwdpy.pxd":121
+/* "fwdpy/fwdpy.pxd":121
  *     cpdef sane(self)
  * 
  * cdef class singlepop_gm_vec(poptype):             # <<<<<<<<<<<<<<
@@ -928,7 +928,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_singlepop_gm_vec *__pyx_vtabptr_5fwdpy_5fwdpy_singlepop_gm_vec;
 
 
-/* "fwdpy.pxd":135
+/* "fwdpy/fwdpy.pxd":135
  *     pass
  * 
  * cdef class popvec(popcont):             # <<<<<<<<<<<<<<
@@ -944,7 +944,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec *__pyx_vtabptr_5fwdpy_5fwdpy_popvec;
 
 
-/* "fwdpy.pxd":142
+/* "fwdpy/fwdpy.pxd":142
  *     cpdef append(self,popvec p)
  * 
  * cdef class popvec_gmv(popcont):             # <<<<<<<<<<<<<<
@@ -959,7 +959,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_gmv *__pyx_vtabptr_5fwdpy_5fwdpy_popvec_gmv;
 
 
-/* "fwdpy.pxd":148
+/* "fwdpy/fwdpy.pxd":148
  *     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
  * 
  * cdef class mpopvec(popcont):             # <<<<<<<<<<<<<<
@@ -975,7 +975,7 @@ struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec {
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec *__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec;
 
 
-/* "fwdpy.pxd":155
+/* "fwdpy/fwdpy.pxd":155
  *     cpdef append(self,mpopvec p)
  * 
  * cdef class popvec_mloc(popcont):             # <<<<<<<<<<<<<<
@@ -1270,17 +1270,17 @@ static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_mpopvec = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_GSLrng = 0;
 
-/* Module declarations from 'fwdpy.demography' */
-static PyObject *__pyx_f_5fwdpy_10demography_copy_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t); /*proto*/
-static PyObject *__pyx_f_5fwdpy_10demography_remove_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t); /*proto*/
-static PyObject *__pyx_f_5fwdpy_10demography_merge_pops_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t); /*proto*/
-static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, unsigned int, int); /*proto*/
-static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t, double, unsigned int, int); /*proto*/
-static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t); /*proto*/
-#define __Pyx_MODULE_NAME "fwdpy.demography"
-int __pyx_module_is_main_fwdpy__demography = 0;
+/* Module declarations from 'fwdpy.demography.demography' */
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_copy_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t); /*proto*/
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_remove_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t); /*proto*/
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_merge_pops_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t); /*proto*/
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_split_deme_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, unsigned int, int); /*proto*/
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *, struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t, double, unsigned int, int); /*proto*/
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_swap_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *, size_t, size_t); /*proto*/
+#define __Pyx_MODULE_NAME "fwdpy.demography.demography"
+int __pyx_module_is_main_fwdpy__demography__demography = 0;
 
-/* Implementation of 'fwdpy.demography' */
+/* Implementation of 'fwdpy.demography.demography' */
 static PyObject *__pyx_builtin_range;
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_rv[] = "rv";
@@ -1308,13 +1308,13 @@ static const char __pyx_k_make_mpopvec[] = "make_mpopvec";
 static const char __pyx_k_from_singlepop[] = "from_singlepop";
 static const char __pyx_k_admix_proportion[] = "admix_proportion";
 static const char __pyx_k_copy_pop_line_41[] = "copy_pop (line 41)";
-static const char __pyx_k_fwdpy_demography[] = "fwdpy.demography";
 static const char __pyx_k_merge_pops_line_69[] = "merge_pops (line 69)";
 static const char __pyx_k_remove_pop_line_99[] = "remove_pop (line 99)";
 static const char __pyx_k_swap_pops_line_191[] = "swap_pops (line 191)";
 static const char __pyx_k_admix_pops_line_162[] = "admix_pops (line 162)";
 static const char __pyx_k_split_pops_line_126[] = "split_pops (line 126)";
 static const char __pyx_k_make_mpopvec_line_25[] = "make_mpopvec (line 25)";
+static const char __pyx_k_fwdpy_demography_demography[] = "fwdpy.demography.demography";
 static const char __pyx_k_Swap_demes_param_mpops_A_class[] = "\n    Swap demes.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops).`\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_i or deme_j is out of range\n\n    ..note:: This function simply swaps the diploids in two demes, and is probably only useful if you\n    want the deme order to be a certain way after performing other demographic operations.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of different size\n    >>> m = fp.mpopvec(64,[1000,500])\n    >>> m[0].popsizes()\n    [1000, 500]\n    >>> demog.swap_pops(m,0,1)\n    >>> m[0].popsizes()\n    [500, 1000]\n    ";
 static const char __pyx_k_Admix_two_demes_param_rng_A_cla[] = "\n    Admix two demes\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme1: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme2: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param admix_proportion: The probability that an individual in the admixed deme comes from deme1.\n    :param N_new: population size of admixed population\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    ..note:: The new deme is added to the end of the metapopulation.\n\n    Example:\n    \n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000])\n    >>> #Create new admixed deme with N=500, 25% individuals from deme 0:\n    >>> rng=fp.GSLrng(100)\n    >>> demog.admix_pops(rng,m,0,1,0.25,500)\n    >>> m[0].popsizes()\n    [1000, 1000, 500]\n    ";
 static const char __pyx_k_Initialize_class_fwdpy_fwdpy_mp[] = "\n    Initialize :class:`fwdpy.fwdpy.mpopvec` from :class:`fwdpy.fwdpy.popvec`\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> s=fp.popvec(40,100)\n    >>> m=demog.make_mpopvec(s)\n    ";
@@ -1322,7 +1322,7 @@ static const char __pyx_k_Make_an_exact_copy_of_an_existi[] = "\n    Make an exa
 static const char __pyx_k_Merge_population_max_deme_i_dem[] = "\n    Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> m[0].popsizes()\n    [1000, 1000, 1000]\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.merge_pops(m,0,1)\n    >>> m[0].popsizes()\n    [3000]\n    ";
 static const char __pyx_k_Remove_a_deme_from_a_metapopula[] = "\n    Remove a deme from a metapopulation.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.remove_pop(m,0)\n    >>> m[0].popsizes()\n    [2000]\n    ";
 static const char __pyx_k_Split_an_existing_deme_into_two[] = "\n    Split an existing deme into two.\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param N_new: The size of the new deme.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if N_new is larger than parental deme size.\n\n    ..note:: The parental population's size is reduced by a value of N_new.  If splitting **without** replacement,\n    then the daughter deme is generated from a list of unique diploids who are remvoed from the parental deme.  **With**\n    replacement, both demes are populated by random samples from the parental deme.  The new deme is added to the end of \n    the metapopulation.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> m[0].popsizes()\n    [1000]\n    >>> #Split pops into sizes 250 and 750:\n    >>> rng = fp.GSLrng(100)\n    >>> demog.split_pops(rng,m,0,750)\n    >>> m[0].popsizes()\n    [250, 750]\n    ";
-static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_demo[] = "/home/kevin/src/fwdpy/fwdpy/demography.pyx";
+static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_demo[] = "/home/kevin/src/fwdpy/fwdpy/demography/demography.pyx";
 static PyObject *__pyx_kp_u_Admix_two_demes_param_rng_A_cla;
 static PyObject *__pyx_kp_u_Initialize_class_fwdpy_fwdpy_mp;
 static PyObject *__pyx_kp_u_Make_an_exact_copy_of_an_existi;
@@ -1342,7 +1342,7 @@ static PyObject *__pyx_n_s_deme_i;
 static PyObject *__pyx_n_s_deme_index;
 static PyObject *__pyx_n_s_deme_j;
 static PyObject *__pyx_n_s_from_singlepop;
-static PyObject *__pyx_n_s_fwdpy_demography;
+static PyObject *__pyx_n_s_fwdpy_demography_demography;
 static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_main;
@@ -1364,13 +1364,13 @@ static PyObject *__pyx_kp_u_split_pops_line_126;
 static PyObject *__pyx_n_s_swap_pops;
 static PyObject *__pyx_kp_u_swap_pops_line_191;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops); /* proto */
-static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index); /* proto */
-static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j); /* proto */
-static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index); /* proto */
-static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index, unsigned int __pyx_v_N_new, int __pyx_v_replacement); /* proto */
-static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, unsigned int __pyx_v_N_new, int __pyx_v_replacement); /* proto */
-static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_make_mpopvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_2copy_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_4merge_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_6remove_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_8split_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index, unsigned int __pyx_v_N_new, int __pyx_v_replacement); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, unsigned int __pyx_v_N_new, int __pyx_v_replacement); /* proto */
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_12swap_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
@@ -1387,7 +1387,7 @@ static PyObject *__pyx_codeobj__10;
 static PyObject *__pyx_codeobj__12;
 static PyObject *__pyx_codeobj__14;
 
-/* "fwdpy/demography.pyx":5
+/* "fwdpy/demography/demography.pyx":5
  * ##cdef function act directly on C++ types
  * 
  * cdef copy_pop_details(metapop mpop,size_t deme):             # <<<<<<<<<<<<<<
@@ -1395,12 +1395,12 @@ static PyObject *__pyx_codeobj__14;
  * 
  */
 
-static PyObject *__pyx_f_5fwdpy_10demography_copy_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_deme) {
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_copy_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_deme) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("copy_pop_details", 0);
 
-  /* "fwdpy/demography.pyx":6
+  /* "fwdpy/demography/demography.pyx":6
  * 
  * cdef copy_pop_details(metapop mpop,size_t deme):
  *     copy_deme(mpop.mpop.get(),deme)             # <<<<<<<<<<<<<<
@@ -1414,7 +1414,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_copy_pop_details(struct __pyx_obj_5
     __PYX_ERR(0, 6, __pyx_L1_error)
   }
 
-  /* "fwdpy/demography.pyx":5
+  /* "fwdpy/demography/demography.pyx":5
  * ##cdef function act directly on C++ types
  * 
  * cdef copy_pop_details(metapop mpop,size_t deme):             # <<<<<<<<<<<<<<
@@ -1426,7 +1426,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_copy_pop_details(struct __pyx_obj_5
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("fwdpy.demography.copy_pop_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.copy_pop_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1434,7 +1434,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_copy_pop_details(struct __pyx_obj_5
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":8
+/* "fwdpy/demography/demography.pyx":8
  *     copy_deme(mpop.mpop.get(),deme)
  * 
  * cdef remove_pop_details(metapop mpop,size_t deme):             # <<<<<<<<<<<<<<
@@ -1442,12 +1442,12 @@ static PyObject *__pyx_f_5fwdpy_10demography_copy_pop_details(struct __pyx_obj_5
  * 
  */
 
-static PyObject *__pyx_f_5fwdpy_10demography_remove_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_deme) {
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_remove_pop_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_deme) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("remove_pop_details", 0);
 
-  /* "fwdpy/demography.pyx":9
+  /* "fwdpy/demography/demography.pyx":9
  * 
  * cdef remove_pop_details(metapop mpop,size_t deme):
  *     remove_deme(mpop.mpop.get(),deme)             # <<<<<<<<<<<<<<
@@ -1461,7 +1461,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_remove_pop_details(struct __pyx_obj
     __PYX_ERR(0, 9, __pyx_L1_error)
   }
 
-  /* "fwdpy/demography.pyx":8
+  /* "fwdpy/demography/demography.pyx":8
  *     copy_deme(mpop.mpop.get(),deme)
  * 
  * cdef remove_pop_details(metapop mpop,size_t deme):             # <<<<<<<<<<<<<<
@@ -1473,7 +1473,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_remove_pop_details(struct __pyx_obj
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("fwdpy.demography.remove_pop_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.remove_pop_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1481,7 +1481,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_remove_pop_details(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":11
+/* "fwdpy/demography/demography.pyx":11
  *     remove_deme(mpop.mpop.get(),deme)
  * 
  * cdef merge_pops_details(metapop mpop,size_t i,size_t j):             # <<<<<<<<<<<<<<
@@ -1489,12 +1489,12 @@ static PyObject *__pyx_f_5fwdpy_10demography_remove_pop_details(struct __pyx_obj
  * 
  */
 
-static PyObject *__pyx_f_5fwdpy_10demography_merge_pops_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j) {
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_merge_pops_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("merge_pops_details", 0);
 
-  /* "fwdpy/demography.pyx":12
+  /* "fwdpy/demography/demography.pyx":12
  * 
  * cdef merge_pops_details(metapop mpop,size_t i,size_t j):
  *     merge_demes(mpop.mpop.get(),i,j)             # <<<<<<<<<<<<<<
@@ -1508,7 +1508,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_merge_pops_details(struct __pyx_obj
     __PYX_ERR(0, 12, __pyx_L1_error)
   }
 
-  /* "fwdpy/demography.pyx":11
+  /* "fwdpy/demography/demography.pyx":11
  *     remove_deme(mpop.mpop.get(),deme)
  * 
  * cdef merge_pops_details(metapop mpop,size_t i,size_t j):             # <<<<<<<<<<<<<<
@@ -1520,7 +1520,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_merge_pops_details(struct __pyx_obj
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("fwdpy.demography.merge_pops_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.merge_pops_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1528,7 +1528,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_merge_pops_details(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":14
+/* "fwdpy/demography/demography.pyx":14
  *     merge_demes(mpop.mpop.get(),i,j)
  * 
  * cdef split_deme_details(GSLrng r,metapop mpop,size_t i, unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
@@ -1536,12 +1536,12 @@ static PyObject *__pyx_f_5fwdpy_10demography_merge_pops_details(struct __pyx_obj
  * 
  */
 
-static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_r, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_split_deme_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_r, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("split_deme_details", 0);
 
-  /* "fwdpy/demography.pyx":15
+  /* "fwdpy/demography/demography.pyx":15
  * 
  * cdef split_deme_details(GSLrng r,metapop mpop,size_t i, unsigned N_new, bint replacement):
  *     split_deme(r.thisptr.get(),mpop.mpop.get(),i,N_new,replacement)             # <<<<<<<<<<<<<<
@@ -1555,7 +1555,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj
     __PYX_ERR(0, 15, __pyx_L1_error)
   }
 
-  /* "fwdpy/demography.pyx":14
+  /* "fwdpy/demography/demography.pyx":14
  *     merge_demes(mpop.mpop.get(),i,j)
  * 
  * cdef split_deme_details(GSLrng r,metapop mpop,size_t i, unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
@@ -1567,7 +1567,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("fwdpy.demography.split_deme_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.split_deme_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1575,7 +1575,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":17
+/* "fwdpy/demography/demography.pyx":17
  *     split_deme(r.thisptr.get(),mpop.mpop.get(),i,N_new,replacement)
  * 
  * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
@@ -1583,12 +1583,12 @@ static PyObject *__pyx_f_5fwdpy_10demography_split_deme_details(struct __pyx_obj
  * 
  */
 
-static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_r, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j, double __pyx_v_p, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_admix_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_r, struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j, double __pyx_v_p, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("admix_demes_details", 0);
 
-  /* "fwdpy/demography.pyx":18
+  /* "fwdpy/demography/demography.pyx":18
  * 
  * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):
  *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)             # <<<<<<<<<<<<<<
@@ -1602,7 +1602,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_ob
     __PYX_ERR(0, 18, __pyx_L1_error)
   }
 
-  /* "fwdpy/demography.pyx":17
+  /* "fwdpy/demography/demography.pyx":17
  *     split_deme(r.thisptr.get(),mpop.mpop.get(),i,N_new,replacement)
  * 
  * cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):             # <<<<<<<<<<<<<<
@@ -1614,7 +1614,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_ob
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("fwdpy.demography.admix_demes_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.admix_demes_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1622,7 +1622,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":20
+/* "fwdpy/demography/demography.pyx":20
  *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
  * 
  * cdef swap_demes_details(metapop mpop, size_t i, size_t j):             # <<<<<<<<<<<<<<
@@ -1630,12 +1630,12 @@ static PyObject *__pyx_f_5fwdpy_10demography_admix_demes_details(struct __pyx_ob
  * 
  */
 
-static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j) {
+static PyObject *__pyx_f_5fwdpy_10demography_10demography_swap_demes_details(struct __pyx_obj_5fwdpy_5fwdpy_metapop *__pyx_v_mpop, size_t __pyx_v_i, size_t __pyx_v_j) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("swap_demes_details", 0);
 
-  /* "fwdpy/demography.pyx":21
+  /* "fwdpy/demography/demography.pyx":21
  * 
  * cdef swap_demes_details(metapop mpop, size_t i, size_t j):
  *     swap_demes(mpop.mpop.get(),i,j)             # <<<<<<<<<<<<<<
@@ -1649,7 +1649,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj
     __PYX_ERR(0, 21, __pyx_L1_error)
   }
 
-  /* "fwdpy/demography.pyx":20
+  /* "fwdpy/demography/demography.pyx":20
  *     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
  * 
  * cdef swap_demes_details(metapop mpop, size_t i, size_t j):             # <<<<<<<<<<<<<<
@@ -1661,7 +1661,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_AddTraceback("fwdpy.demography.swap_demes_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.swap_demes_details", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1669,7 +1669,7 @@ static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":25
+/* "fwdpy/demography/demography.pyx":25
  * ##def function are callable from Python:
  * 
  * def make_mpopvec(popvec pops):             # <<<<<<<<<<<<<<
@@ -1678,15 +1678,15 @@ static PyObject *__pyx_f_5fwdpy_10demography_swap_demes_details(struct __pyx_obj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_10demography_1make_mpopvec(PyObject *__pyx_self, PyObject *__pyx_v_pops); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_make_mpopvec[] = "\n    Initialize :class:`fwdpy.fwdpy.mpopvec` from :class:`fwdpy.fwdpy.popvec`\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> s=fp.popvec(40,100)\n    >>> m=demog.make_mpopvec(s)\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_10demography_1make_mpopvec = {"make_mpopvec", (PyCFunction)__pyx_pw_5fwdpy_10demography_1make_mpopvec, METH_O, __pyx_doc_5fwdpy_10demography_make_mpopvec};
-static PyObject *__pyx_pw_5fwdpy_10demography_1make_mpopvec(PyObject *__pyx_self, PyObject *__pyx_v_pops) {
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_1make_mpopvec(PyObject *__pyx_self, PyObject *__pyx_v_pops); /*proto*/
+static char __pyx_doc_5fwdpy_10demography_10demography_make_mpopvec[] = "\n    Initialize :class:`fwdpy.fwdpy.mpopvec` from :class:`fwdpy.fwdpy.popvec`\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> s=fp.popvec(40,100)\n    >>> m=demog.make_mpopvec(s)\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_10demography_10demography_1make_mpopvec = {"make_mpopvec", (PyCFunction)__pyx_pw_5fwdpy_10demography_10demography_1make_mpopvec, METH_O, __pyx_doc_5fwdpy_10demography_10demography_make_mpopvec};
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_1make_mpopvec(PyObject *__pyx_self, PyObject *__pyx_v_pops) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("make_mpopvec (wrapper)", 0);
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) __PYX_ERR(0, 25, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_10demography_make_mpopvec(__pyx_self, ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_pops));
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10demography_make_mpopvec(__pyx_self, ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_pops));
 
   /* function exit code */
   goto __pyx_L0;
@@ -1697,7 +1697,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_1make_mpopvec(PyObject *__pyx_self
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_make_mpopvec(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_rv = NULL;
   Py_ssize_t __pyx_v_i;
   PyObject *__pyx_r = NULL;
@@ -1711,7 +1711,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
   PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("make_mpopvec", 0);
 
-  /* "fwdpy/demography.pyx":36
+  /* "fwdpy/demography/demography.pyx":36
  *     >>> m=demog.make_mpopvec(s)
  *     """
  *     rv=mpopvec(len(pops),[0])             # <<<<<<<<<<<<<<
@@ -1740,7 +1740,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
   __pyx_v_rv = ((struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "fwdpy/demography.pyx":37
+  /* "fwdpy/demography/demography.pyx":37
  *     """
  *     rv=mpopvec(len(pops),[0])
  *     for i in range(len(pops)):             # <<<<<<<<<<<<<<
@@ -1751,7 +1751,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_1; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "fwdpy/demography.pyx":38
+    /* "fwdpy/demography/demography.pyx":38
  *     rv=mpopvec(len(pops),[0])
  *     for i in range(len(pops)):
  *         rv[i].from_singlepop(pops[i])             # <<<<<<<<<<<<<<
@@ -1794,7 +1794,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
 
-  /* "fwdpy/demography.pyx":39
+  /* "fwdpy/demography/demography.pyx":39
  *     for i in range(len(pops)):
  *         rv[i].from_singlepop(pops[i])
  *     return rv             # <<<<<<<<<<<<<<
@@ -1806,7 +1806,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
   __pyx_r = ((PyObject *)__pyx_v_rv);
   goto __pyx_L0;
 
-  /* "fwdpy/demography.pyx":25
+  /* "fwdpy/demography/demography.pyx":25
  * ##def function are callable from Python:
  * 
  * def make_mpopvec(popvec pops):             # <<<<<<<<<<<<<<
@@ -1821,7 +1821,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("fwdpy.demography.make_mpopvec", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.make_mpopvec", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF((PyObject *)__pyx_v_rv);
@@ -1830,7 +1830,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":41
+/* "fwdpy/demography/demography.pyx":41
  *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -1839,10 +1839,10 @@ static PyObject *__pyx_pf_5fwdpy_10demography_make_mpopvec(CYTHON_UNUSED PyObjec
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_10demography_3copy_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_2copy_pop[] = "\n    Make an exact copy of an existing deme.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> len(m)\n    64\n    >>> m[0].popsizes()\n    [1000]\n    >>> demog.copy_pop(m,0)\n    >>> m[0].popsizes()\n    [1000, 1000]\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_10demography_3copy_pop = {"copy_pop", (PyCFunction)__pyx_pw_5fwdpy_10demography_3copy_pop, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_2copy_pop};
-static PyObject *__pyx_pw_5fwdpy_10demography_3copy_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_3copy_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_10demography_10demography_2copy_pop[] = "\n    Make an exact copy of an existing deme.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> len(m)\n    64\n    >>> m[0].popsizes()\n    [1000]\n    >>> demog.copy_pop(m,0)\n    >>> m[0].popsizes()\n    [1000, 1000]\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_10demography_10demography_3copy_pop = {"copy_pop", (PyCFunction)__pyx_pw_5fwdpy_10demography_10demography_3copy_pop, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10demography_2copy_pop};
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_3copy_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
   size_t __pyx_v_deme_index;
   PyObject *__pyx_r = 0;
@@ -1887,12 +1887,12 @@ static PyObject *__pyx_pw_5fwdpy_10demography_3copy_pop(PyObject *__pyx_self, Py
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("copy_pop", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 41, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("fwdpy.demography.copy_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.copy_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) __PYX_ERR(0, 41, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_10demography_2copy_pop(__pyx_self, __pyx_v_mpops, __pyx_v_deme_index);
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10demography_2copy_pop(__pyx_self, __pyx_v_mpops, __pyx_v_deme_index);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1903,7 +1903,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_3copy_pop(PyObject *__pyx_self, Py
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_2copy_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1913,7 +1913,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("copy_pop", 0);
 
-  /* "fwdpy/demography.pyx":66
+  /* "fwdpy/demography/demography.pyx":66
  *     [1000, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -1962,7 +1962,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":67
+    /* "fwdpy/demography/demography.pyx":67
  *     """
  *     for i in mpops:
  *         copy_pop_details(i,deme_index)             # <<<<<<<<<<<<<<
@@ -1970,11 +1970,11 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):
  */
     if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(0, 67, __pyx_L1_error)
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_copy_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_10demography_copy_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":66
+    /* "fwdpy/demography/demography.pyx":66
  *     [1000, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -1984,7 +1984,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":41
+  /* "fwdpy/demography/demography.pyx":41
  *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -1998,7 +1998,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("fwdpy.demography.copy_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.copy_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -2007,7 +2007,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":69
+/* "fwdpy/demography/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -2016,10 +2016,10 @@ static PyObject *__pyx_pf_5fwdpy_10demography_2copy_pop(CYTHON_UNUSED PyObject *
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_4merge_pops[] = "\n    Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> m[0].popsizes()\n    [1000, 1000, 1000]\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.merge_pops(m,0,1)\n    >>> m[0].popsizes()\n    [3000]\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_10demography_5merge_pops = {"merge_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_5merge_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_4merge_pops};
-static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_5merge_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_10demography_10demography_4merge_pops[] = "\n    Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if deme_i == deme_j\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> m[0].popsizes()\n    [1000, 1000, 1000]\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.merge_pops(m,0,1)\n    >>> m[0].popsizes()\n    [3000]\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_10demography_10demography_5merge_pops = {"merge_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_10demography_5merge_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10demography_4merge_pops};
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_5merge_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
   size_t __pyx_v_deme_i;
   size_t __pyx_v_deme_j;
@@ -2073,12 +2073,12 @@ static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, 
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("merge_pops", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 69, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("fwdpy.demography.merge_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.merge_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) __PYX_ERR(0, 69, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_10demography_4merge_pops(__pyx_self, __pyx_v_mpops, __pyx_v_deme_i, __pyx_v_deme_j);
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10demography_4merge_pops(__pyx_self, __pyx_v_mpops, __pyx_v_deme_i, __pyx_v_deme_j);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2089,7 +2089,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_5merge_pops(PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_4merge_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2099,7 +2099,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("merge_pops", 0);
 
-  /* "fwdpy/demography.pyx":96
+  /* "fwdpy/demography/demography.pyx":96
  *     [3000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2148,7 +2148,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":97
+    /* "fwdpy/demography/demography.pyx":97
  *     """
  *     for i in mpops:
  *         merge_pops_details(i,deme_i,deme_j)             # <<<<<<<<<<<<<<
@@ -2156,11 +2156,11 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
  * def remove_pop(mpopvec mpops, size_t deme_index):
  */
     if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(0, 97, __pyx_L1_error)
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_merge_pops_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_10demography_merge_pops_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 97, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":96
+    /* "fwdpy/demography/demography.pyx":96
  *     [3000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2170,7 +2170,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":69
+  /* "fwdpy/demography/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -2184,7 +2184,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("fwdpy.demography.merge_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.merge_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -2193,7 +2193,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":99
+/* "fwdpy/demography/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -2202,10 +2202,10 @@ static PyObject *__pyx_pf_5fwdpy_10demography_4merge_pops(CYTHON_UNUSED PyObject
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_6remove_pop[] = "\n    Remove a deme from a metapopulation.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.remove_pop(m,0)\n    >>> m[0].popsizes()\n    [2000]\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_10demography_7remove_pop = {"remove_pop", (PyCFunction)__pyx_pw_5fwdpy_10demography_7remove_pop, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_6remove_pop};
-static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_7remove_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_10demography_10demography_6remove_pop[] = "\n    Remove a deme from a metapopulation.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 3 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000,1000])\n    >>> demog.merge_pops(m,1,2)\n    >>> m[0].popsizes()\n    [1000, 2000]\n    >>> demog.remove_pop(m,0)\n    >>> m[0].popsizes()\n    [2000]\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_10demography_10demography_7remove_pop = {"remove_pop", (PyCFunction)__pyx_pw_5fwdpy_10demography_10demography_7remove_pop, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10demography_6remove_pop};
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_7remove_pop(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
   size_t __pyx_v_deme_index;
   PyObject *__pyx_r = 0;
@@ -2250,12 +2250,12 @@ static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, 
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("remove_pop", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 99, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("fwdpy.demography.remove_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.remove_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) __PYX_ERR(0, 99, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_10demography_6remove_pop(__pyx_self, __pyx_v_mpops, __pyx_v_deme_index);
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10demography_6remove_pop(__pyx_self, __pyx_v_mpops, __pyx_v_deme_index);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2266,7 +2266,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_7remove_pop(PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_6remove_pop(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2276,7 +2276,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("remove_pop", 0);
 
-  /* "fwdpy/demography.pyx":123
+  /* "fwdpy/demography/demography.pyx":123
  *     [2000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2325,7 +2325,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":124
+    /* "fwdpy/demography/demography.pyx":124
  *     """
  *     for i in mpops:
  *         remove_pop_details(i,deme_index)             # <<<<<<<<<<<<<<
@@ -2333,11 +2333,11 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
  * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):
  */
     if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(0, 124, __pyx_L1_error)
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_remove_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_10demography_remove_pop_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":123
+    /* "fwdpy/demography/demography.pyx":123
  *     [2000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2347,7 +2347,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":99
+  /* "fwdpy/demography/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -2361,7 +2361,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("fwdpy.demography.remove_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.remove_pop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -2370,7 +2370,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":126
+/* "fwdpy/demography/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
  * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
@@ -2379,10 +2379,10 @@ static PyObject *__pyx_pf_5fwdpy_10demography_6remove_pop(CYTHON_UNUSED PyObject
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_10demography_9split_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_8split_pops[] = "\n    Split an existing deme into two.\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param N_new: The size of the new deme.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if N_new is larger than parental deme size.\n\n    ..note:: The parental population's size is reduced by a value of N_new.  If splitting **without** replacement,\n    then the daughter deme is generated from a list of unique diploids who are remvoed from the parental deme.  **With**\n    replacement, both demes are populated by random samples from the parental deme.  The new deme is added to the end of \n    the metapopulation.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> m[0].popsizes()\n    [1000]\n    >>> #Split pops into sizes 250 and 750:\n    >>> rng = fp.GSLrng(100)\n    >>> demog.split_pops(rng,m,0,750)\n    >>> m[0].popsizes()\n    [250, 750]\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_10demography_9split_pops = {"split_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_9split_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_8split_pops};
-static PyObject *__pyx_pw_5fwdpy_10demography_9split_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_9split_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_10demography_10demography_8split_pops[] = "\n    Split an existing deme into two.\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_index: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param N_new: The size of the new deme.\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    :return: nothing\n\n    :raise: IndexError if deme_index out of range or RuntimeError if N_new is larger than parental deme size.\n\n    ..note:: The parental population's size is reduced by a value of N_new.  If splitting **without** replacement,\n    then the daughter deme is generated from a list of unique diploids who are remvoed from the parental deme.  **With**\n    replacement, both demes are populated by random samples from the parental deme.  The new deme is added to the end of \n    the metapopulation.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 1 deme of N=1,000\n    >>> m = fp.mpopvec(64,[1000])\n    >>> m[0].popsizes()\n    [1000]\n    >>> #Split pops into sizes 250 and 750:\n    >>> rng = fp.GSLrng(100)\n    >>> demog.split_pops(rng,m,0,750)\n    >>> m[0].popsizes()\n    [250, 750]\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_10demography_10demography_9split_pops = {"split_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_10demography_9split_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10demography_8split_pops};
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_9split_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
   size_t __pyx_v_deme_index;
@@ -2460,13 +2460,13 @@ static PyObject *__pyx_pw_5fwdpy_10demography_9split_pops(PyObject *__pyx_self, 
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("split_pops", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 126, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("fwdpy.demography.split_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.split_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(0, 126, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) __PYX_ERR(0, 126, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_10demography_8split_pops(__pyx_self, __pyx_v_rng, __pyx_v_mpops, __pyx_v_deme_index, __pyx_v_N_new, __pyx_v_replacement);
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10demography_8split_pops(__pyx_self, __pyx_v_rng, __pyx_v_mpops, __pyx_v_deme_index, __pyx_v_N_new, __pyx_v_replacement);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2477,7 +2477,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_9split_pops(PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_8split_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_index, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2487,7 +2487,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("split_pops", 0);
 
-  /* "fwdpy/demography.pyx":159
+  /* "fwdpy/demography/demography.pyx":159
  *     [250, 750]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2536,7 +2536,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":160
+    /* "fwdpy/demography/demography.pyx":160
  *     """
  *     for i in mpops:
  *         split_deme_details(rng,i,deme_index,N_new,replacement)             # <<<<<<<<<<<<<<
@@ -2544,11 +2544,11 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
  * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):
  */
     if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(0, 160, __pyx_L1_error)
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_split_deme_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index, __pyx_v_N_new, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 160, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_10demography_split_deme_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_index, __pyx_v_N_new, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 160, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":159
+    /* "fwdpy/demography/demography.pyx":159
  *     [250, 750]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2558,7 +2558,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":126
+  /* "fwdpy/demography/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
  * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
@@ -2572,7 +2572,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("fwdpy.demography.split_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.split_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -2581,7 +2581,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":162
+/* "fwdpy/demography/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
  * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
@@ -2590,10 +2590,10 @@ static PyObject *__pyx_pf_5fwdpy_10demography_8split_pops(CYTHON_UNUSED PyObject
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_10admix_pops[] = "\n    Admix two demes\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme1: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme2: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param admix_proportion: The probability that an individual in the admixed deme comes from deme1.\n    :param N_new: population size of admixed population\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    ..note:: The new deme is added to the end of the metapopulation.\n\n    Example:\n    \n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000])\n    >>> #Create new admixed deme with N=500, 25% individuals from deme 0:\n    >>> rng=fp.GSLrng(100)\n    >>> demog.admix_pops(rng,m,0,1,0.25,500)\n    >>> m[0].popsizes()\n    [1000, 1000, 500]\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_10demography_11admix_pops = {"admix_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_11admix_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10admix_pops};
-static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_11admix_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_10demography_10demography_10admix_pops[] = "\n    Admix two demes\n\n    :param rng: A :class:`fwdpy.fwdpy.GSLrng`\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme1: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param deme2: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n    :param admix_proportion: The probability that an individual in the admixed deme comes from deme1.\n    :param N_new: population size of admixed population\n    :bint replacement: Whether to sample individuals into new deme with replacement\n\n    ..note:: The new deme is added to the end of the metapopulation.\n\n    Example:\n    \n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of N=1,000\n    >>> m = fp.mpopvec(64,[1000,1000])\n    >>> #Create new admixed deme with N=500, 25% individuals from deme 0:\n    >>> rng=fp.GSLrng(100)\n    >>> demog.admix_pops(rng,m,0,1,0.25,500)\n    >>> m[0].popsizes()\n    [1000, 1000, 500]\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_10demography_10demography_11admix_pops = {"admix_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_10demography_11admix_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10demography_10admix_pops};
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_11admix_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng = 0;
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
   size_t __pyx_v_deme1;
@@ -2689,13 +2689,13 @@ static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self,
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("admix_pops", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 162, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("fwdpy.demography.admix_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.admix_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_rng), __pyx_ptype_5fwdpy_5fwdpy_GSLrng, 1, "rng", 0))) __PYX_ERR(0, 162, __pyx_L1_error)
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) __PYX_ERR(0, 162, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_10demography_10admix_pops(__pyx_self, __pyx_v_rng, __pyx_v_mpops, __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_N_new, __pyx_v_replacement);
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10demography_10admix_pops(__pyx_self, __pyx_v_rng, __pyx_v_mpops, __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_N_new, __pyx_v_replacement);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2706,7 +2706,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_11admix_pops(PyObject *__pyx_self,
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_10admix_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_GSLrng *__pyx_v_rng, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme1, size_t __pyx_v_deme2, double __pyx_v_admix_proportion, unsigned int __pyx_v_N_new, int __pyx_v_replacement) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2716,7 +2716,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("admix_pops", 0);
 
-  /* "fwdpy/demography.pyx":188
+  /* "fwdpy/demography/demography.pyx":188
  *     [1000, 1000, 500]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2765,7 +2765,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":189
+    /* "fwdpy/demography/demography.pyx":189
  *     """
  *     for i in mpops:
  *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)             # <<<<<<<<<<<<<<
@@ -2773,11 +2773,11 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):
  */
     if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(0, 189, __pyx_L1_error)
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_admix_demes_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_N_new, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_10demography_admix_demes_details(__pyx_v_rng, ((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme1, __pyx_v_deme2, __pyx_v_admix_proportion, __pyx_v_N_new, __pyx_v_replacement); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":188
+    /* "fwdpy/demography/demography.pyx":188
  *     [1000, 1000, 500]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2787,7 +2787,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":162
+  /* "fwdpy/demography/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
  * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
@@ -2801,7 +2801,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("fwdpy.demography.admix_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.admix_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -2810,7 +2810,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 
-/* "fwdpy/demography.pyx":191
+/* "fwdpy/demography/demography.pyx":191
  *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -2819,10 +2819,10 @@ static PyObject *__pyx_pf_5fwdpy_10demography_10admix_pops(CYTHON_UNUSED PyObjec
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_5fwdpy_10demography_12swap_pops[] = "\n    Swap demes.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops).`\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_i or deme_j is out of range\n\n    ..note:: This function simply swaps the diploids in two demes, and is probably only useful if you\n    want the deme order to be a certain way after performing other demographic operations.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of different size\n    >>> m = fp.mpopvec(64,[1000,500])\n    >>> m[0].popsizes()\n    [1000, 500]\n    >>> demog.swap_pops(m,0,1)\n    >>> m[0].popsizes()\n    [500, 1000]\n    ";
-static PyMethodDef __pyx_mdef_5fwdpy_10demography_13swap_pops = {"swap_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_13swap_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_12swap_pops};
-static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_13swap_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_5fwdpy_10demography_10demography_12swap_pops[] = "\n    Swap demes.\n\n    :param mpops: A :class:`fwdpy.fwdpy.mpopvec`\n    :param deme_i: A value in the range :math:`0 \\leq x \\leq len(mpops).`\n    :param deme_j: A value in the range :math:`0 \\leq x \\leq len(mpops)`.\n\n    :return: nothing\n\n    :raise: IndexError if deme_i or deme_j is out of range\n\n    ..note:: This function simply swaps the diploids in two demes, and is probably only useful if you\n    want the deme order to be a certain way after performing other demographic operations.\n\n    Example:\n\n    >>> import fwdpy as fp\n    >>> import fwdpy.demography as demog\n    >>> #Init 64 metapops with 2 demes of different size\n    >>> m = fp.mpopvec(64,[1000,500])\n    >>> m[0].popsizes()\n    [1000, 500]\n    >>> demog.swap_pops(m,0,1)\n    >>> m[0].popsizes()\n    [500, 1000]\n    ";
+static PyMethodDef __pyx_mdef_5fwdpy_10demography_10demography_13swap_pops = {"swap_pops", (PyCFunction)__pyx_pw_5fwdpy_10demography_10demography_13swap_pops, METH_VARARGS|METH_KEYWORDS, __pyx_doc_5fwdpy_10demography_10demography_12swap_pops};
+static PyObject *__pyx_pw_5fwdpy_10demography_10demography_13swap_pops(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops = 0;
   size_t __pyx_v_deme_i;
   size_t __pyx_v_deme_j;
@@ -2876,12 +2876,12 @@ static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, 
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("swap_pops", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 191, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("fwdpy.demography.swap_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.swap_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mpops), __pyx_ptype_5fwdpy_5fwdpy_mpopvec, 1, "mpops", 0))) __PYX_ERR(0, 191, __pyx_L1_error)
-  __pyx_r = __pyx_pf_5fwdpy_10demography_12swap_pops(__pyx_self, __pyx_v_mpops, __pyx_v_deme_i, __pyx_v_deme_j);
+  __pyx_r = __pyx_pf_5fwdpy_10demography_10demography_12swap_pops(__pyx_self, __pyx_v_mpops, __pyx_v_deme_i, __pyx_v_deme_j);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2892,7 +2892,7 @@ static PyObject *__pyx_pw_5fwdpy_10demography_13swap_pops(PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j) {
+static PyObject *__pyx_pf_5fwdpy_10demography_10demography_12swap_pops(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_mpopvec *__pyx_v_mpops, size_t __pyx_v_deme_i, size_t __pyx_v_deme_j) {
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2902,7 +2902,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("swap_pops", 0);
 
-  /* "fwdpy/demography.pyx":218
+  /* "fwdpy/demography/demography.pyx":218
  *     [500, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2950,17 +2950,17 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":219
+    /* "fwdpy/demography/demography.pyx":219
  *     """
  *     for i in mpops:
  *         swap_demes_details(i,deme_i,deme_j)             # <<<<<<<<<<<<<<
  */
     if (!(likely(((__pyx_v_i) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_i, __pyx_ptype_5fwdpy_5fwdpy_metapop))))) __PYX_ERR(0, 219, __pyx_L1_error)
-    __pyx_t_4 = __pyx_f_5fwdpy_10demography_swap_demes_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 219, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_5fwdpy_10demography_10demography_swap_demes_details(((struct __pyx_obj_5fwdpy_5fwdpy_metapop *)__pyx_v_i), __pyx_v_deme_i, __pyx_v_deme_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 219, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "fwdpy/demography.pyx":218
+    /* "fwdpy/demography/demography.pyx":218
  *     [500, 1000]
  *     """
  *     for i in mpops:             # <<<<<<<<<<<<<<
@@ -2969,7 +2969,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":191
+  /* "fwdpy/demography/demography.pyx":191
  *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -2983,7 +2983,7 @@ static PyObject *__pyx_pf_5fwdpy_10demography_12swap_pops(CYTHON_UNUSED PyObject
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("fwdpy.demography.swap_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("fwdpy.demography.demography.swap_pops", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_i);
@@ -3034,7 +3034,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_deme_index, __pyx_k_deme_index, sizeof(__pyx_k_deme_index), 0, 0, 1, 1},
   {&__pyx_n_s_deme_j, __pyx_k_deme_j, sizeof(__pyx_k_deme_j), 0, 0, 1, 1},
   {&__pyx_n_s_from_singlepop, __pyx_k_from_singlepop, sizeof(__pyx_k_from_singlepop), 0, 0, 1, 1},
-  {&__pyx_n_s_fwdpy_demography, __pyx_k_fwdpy_demography, sizeof(__pyx_k_fwdpy_demography), 0, 0, 1, 1},
+  {&__pyx_n_s_fwdpy_demography_demography, __pyx_k_fwdpy_demography_demography, sizeof(__pyx_k_fwdpy_demography_demography), 0, 0, 1, 1},
   {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_k_home_kevin_src_fwdpy_fwdpy_demo, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_demo), 0, 0, 1, 0},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
@@ -3069,7 +3069,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "fwdpy/demography.pyx":25
+  /* "fwdpy/demography/demography.pyx":25
  * ##def function are callable from Python:
  * 
  * def make_mpopvec(popvec pops):             # <<<<<<<<<<<<<<
@@ -3081,7 +3081,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple_);
   __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_make_mpopvec, 25, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 25, __pyx_L1_error)
 
-  /* "fwdpy/demography.pyx":41
+  /* "fwdpy/demography/demography.pyx":41
  *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -3093,7 +3093,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__3);
   __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_copy_pop, 41, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 41, __pyx_L1_error)
 
-  /* "fwdpy/demography.pyx":69
+  /* "fwdpy/demography/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -3105,7 +3105,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__5);
   __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_merge_pops, 69, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 69, __pyx_L1_error)
 
-  /* "fwdpy/demography.pyx":99
+  /* "fwdpy/demography/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
@@ -3117,7 +3117,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__7);
   __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_remove_pop, 99, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 99, __pyx_L1_error)
 
-  /* "fwdpy/demography.pyx":126
+  /* "fwdpy/demography/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
  * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
@@ -3129,7 +3129,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__9);
   __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_split_pops, 126, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 126, __pyx_L1_error)
 
-  /* "fwdpy/demography.pyx":162
+  /* "fwdpy/demography/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
  * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
@@ -3141,7 +3141,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__11);
   __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(7, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_demo, __pyx_n_s_admix_pops, 162, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 162, __pyx_L1_error)
 
-  /* "fwdpy/demography.pyx":191
+  /* "fwdpy/demography/demography.pyx":191
  *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
@@ -3232,14 +3232,14 @@ PyMODINIT_FUNC PyInit_demography(void)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_fwdpy__demography) {
+  if (__pyx_module_is_main_fwdpy__demography__demography) {
     if (PyObject_SetAttrString(__pyx_m, "__name__", __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "fwdpy.demography")) {
-      if (unlikely(PyDict_SetItemString(modules, "fwdpy.demography", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "fwdpy.demography.demography")) {
+      if (unlikely(PyDict_SetItemString(modules, "fwdpy.demography.demography", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -3280,92 +3280,92 @@ PyMODINIT_FUNC PyInit_demography(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "fwdpy/demography.pyx":25
+  /* "fwdpy/demography/demography.pyx":25
  * ##def function are callable from Python:
  * 
  * def make_mpopvec(popvec pops):             # <<<<<<<<<<<<<<
  *     """
  *     Initialize :class:`fwdpy.fwdpy.mpopvec` from :class:`fwdpy.fwdpy.popvec`
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_1make_mpopvec, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_10demography_1make_mpopvec, NULL, __pyx_n_s_fwdpy_demography_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_mpopvec, __pyx_t_1) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":41
+  /* "fwdpy/demography/demography.pyx":41
  *     return rv
  * 
  * def copy_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """
  *     Make an exact copy of an existing deme.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_3copy_pop, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_10demography_3copy_pop, NULL, __pyx_n_s_fwdpy_demography_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_copy_pop, __pyx_t_1) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":69
+  /* "fwdpy/demography/demography.pyx":69
  *         copy_pop_details(i,deme_index)
  * 
  * def merge_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
  *     Merge population max(deme_i,deme_j) into min(deme_i,deme_j) and remove max(deme_i,deme_j).
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_5merge_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_10demography_5merge_pops, NULL, __pyx_n_s_fwdpy_demography_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_merge_pops, __pyx_t_1) < 0) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":99
+  /* "fwdpy/demography/demography.pyx":99
  *         merge_pops_details(i,deme_i,deme_j)
  * 
  * def remove_pop(mpopvec mpops, size_t deme_index):             # <<<<<<<<<<<<<<
  *     """
  *     Remove a deme from a metapopulation.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_7remove_pop, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_10demography_7remove_pop, NULL, __pyx_n_s_fwdpy_demography_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_remove_pop, __pyx_t_1) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":126
+  /* "fwdpy/demography/demography.pyx":126
  *         remove_pop_details(i,deme_index)
  * 
  * def split_pops(GSLrng rng,mpopvec mpops,size_t deme_index, unsigned N_new, bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Split an existing deme into two.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_9split_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_10demography_9split_pops, NULL, __pyx_n_s_fwdpy_demography_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_split_pops, __pyx_t_1) < 0) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":162
+  /* "fwdpy/demography/demography.pyx":162
  *         split_deme_details(rng,i,deme_index,N_new,replacement)
  * 
  * def admix_pops(GSLrng rng, mpopvec mpops, size_t deme1, size_t deme2, double admix_proportion,unsigned N_new,bint replacement = False):             # <<<<<<<<<<<<<<
  *     """
  *     Admix two demes
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_11admix_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_10demography_11admix_pops, NULL, __pyx_n_s_fwdpy_demography_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_admix_pops, __pyx_t_1) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":191
+  /* "fwdpy/demography/demography.pyx":191
  *         admix_demes_details(rng,i,deme1,deme2,admix_proportion,N_new,replacement)
  * 
  * def swap_pops(mpopvec mpops, size_t deme_i, size_t deme_j):             # <<<<<<<<<<<<<<
  *     """
  *     Swap demes.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_13swap_pops, NULL, __pyx_n_s_fwdpy_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_10demography_10demography_13swap_pops, NULL, __pyx_n_s_fwdpy_demography_demography); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_swap_pops, __pyx_t_1) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "fwdpy/demography.pyx":1
- * from fwdpy cimport singlepop,metapop,popvec,mpopvec,GSLrng             # <<<<<<<<<<<<<<
+  /* "fwdpy/demography/demography.pyx":1
+ * from fwdpy.fwdpy cimport singlepop,metapop,popvec,mpopvec,GSLrng             # <<<<<<<<<<<<<<
  * 
  * ##cdef function act directly on C++ types
  */
@@ -3388,11 +3388,11 @@ PyMODINIT_FUNC PyInit_demography(void)
   __Pyx_XDECREF(__pyx_t_1);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init fwdpy.demography", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init fwdpy.demography.demography", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_DECREF(__pyx_m); __pyx_m = 0;
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init fwdpy.demography");
+    PyErr_SetString(PyExc_ImportError, "init fwdpy.demography.demography");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
