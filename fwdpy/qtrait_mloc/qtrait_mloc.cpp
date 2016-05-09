@@ -666,7 +666,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":222
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -1997,7 +1997,7 @@ static const char __pyx_k_fwdpy_qtrait_mloc_qtrait_mloc[] = "fwdpy.qtrait_mloc.q
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
 static const char __pyx_k_evolve_qtraits_mloc_pm_popstats[] = "evolve_qtraits_mloc_pm_popstats";
-static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_qt[] = "/home/jsanjak/src/fwdpy/fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx";
+static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_qtra[] = "/home/kevin/src/fwdpy/fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx";
 static const char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does not expose strides";
 static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create a buffer that is contiguous in memory.";
 static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tuple for cython.array";
@@ -2065,7 +2065,7 @@ static PyObject *__pyx_n_s_fwdpy_qtrait_mloc_qtrait_mloc;
 static PyObject *__pyx_n_s_generation;
 static PyObject *__pyx_n_s_genotypes;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
-static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt;
+static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_internal;
@@ -19013,7 +19013,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_generation, __pyx_k_generation, sizeof(__pyx_k_generation), 0, 0, 1, 1},
   {&__pyx_n_s_genotypes, __pyx_k_genotypes, sizeof(__pyx_k_genotypes), 0, 0, 1, 1},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_qt, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_qt), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_k_home_kevin_src_fwdpy_fwdpy_qtra, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_qtra), 0, 0, 1, 0},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_internal, __pyx_k_internal, sizeof(__pyx_k_internal), 0, 0, 1, 1},
@@ -19242,7 +19242,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__15 = PyTuple_Pack(16, __pyx_n_s_rng_evolve, __pyx_n_s_rng_sample, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_nsam, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 3, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(15, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_sample, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(15, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_sample, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 3, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":58
  * 
@@ -19254,7 +19254,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__17 = PyTuple_Pack(14, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 58, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_track, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_track, 58, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 58, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":107
  *                                           f,sigmaE,optimum,VS,sample)
@@ -19266,7 +19266,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__19 = PyTuple_Pack(14, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 107, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_VA, 107, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_VA, 107, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 107, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":155
  *                                        f,sigmaE,optimum,VS,sample)
@@ -19278,7 +19278,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__21 = PyTuple_Pack(14, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_popstats, 155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(13, 0, 14, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_popstats, 155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 155, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":205
  * 
@@ -19290,7 +19290,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__23 = PyTuple_Pack(16, __pyx_n_s_rng_evolve, __pyx_n_s_npops, __pyx_n_s_N, __pyx_n_s_nloci, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen, __pyx_n_s_pops); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 205, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(14, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(14, 0, 16, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc, 205, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 205, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":260
  * #POWER MEAN FUNCTIONS
@@ -19302,7 +19302,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__25 = PyTuple_Pack(20, __pyx_n_s_rng_evolve, __pyx_n_s_rng_sample, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_nsam, __pyx_n_s_SLd, __pyx_n_s_SLp, __pyx_n_s_MLd, __pyx_n_s_MLp, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(0, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(19, 0, 20, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_pm_sample, 260, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 260, __pyx_L1_error)
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(19, 0, 20, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_pm_sample, 260, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) __PYX_ERR(0, 260, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":324
  * 
@@ -19314,7 +19314,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__27 = PyTuple_Pack(18, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_SLd, __pyx_n_s_SLp, __pyx_n_s_MLd, __pyx_n_s_MLp, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(0, 324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
-  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(17, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_pm_track, 324, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_codeobj__28 = (PyObject*)__Pyx_PyCode_New(17, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__27, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_pm_track, 324, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__28)) __PYX_ERR(0, 324, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":382
  *                                           f,sigmaE,optimum,VS,SLd,SLp,MLd,MLp,sample)
@@ -19326,7 +19326,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__29 = PyTuple_Pack(18, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_SLd, __pyx_n_s_SLp, __pyx_n_s_MLd, __pyx_n_s_MLp, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(17, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_pm_VA, 382, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 382, __pyx_L1_error)
+  __pyx_codeobj__30 = (PyObject*)__Pyx_PyCode_New(17, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_pm_VA, 382, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__30)) __PYX_ERR(0, 382, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":438
  *                                        f,sigmaE,optimum,VS,SLd,SLp,MLd,MLp,sample)
@@ -19338,7 +19338,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__31 = PyTuple_Pack(18, __pyx_n_s_rng_evolve, __pyx_n_s_pops, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_sample, __pyx_n_s_SLd, __pyx_n_s_SLp, __pyx_n_s_MLd, __pyx_n_s_MLp, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 438, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
-  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(17, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_pm_popstats, 438, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(17, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_pm_popstats, 438, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 438, __pyx_L1_error)
 
   /* "fwdpy/qtrait_mloc/evolve_qtraits_mloc.pyx":495
  * 
@@ -19350,7 +19350,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__33 = PyTuple_Pack(20, __pyx_n_s_rng_evolve, __pyx_n_s_npops, __pyx_n_s_N, __pyx_n_s_nloci, __pyx_n_s_nlist, __pyx_n_s_mu_neutral, __pyx_n_s_mu_selected, __pyx_n_s_sigmas, __pyx_n_s_recrates_within, __pyx_n_s_recrates_between, __pyx_n_s_SLd, __pyx_n_s_SLp, __pyx_n_s_MLd, __pyx_n_s_MLp, __pyx_n_s_optimum, __pyx_n_s_sigmaE, __pyx_n_s_f, __pyx_n_s_VS, __pyx_n_s_listlen, __pyx_n_s_pops); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 495, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__33);
   __Pyx_GIVEREF(__pyx_tuple__33);
-  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(18, 0, 20, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_qt, __pyx_n_s_evolve_qtraits_mloc_pm, 495, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(18, 0, 20, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_qtra, __pyx_n_s_evolve_qtraits_mloc_pm, 495, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 495, __pyx_L1_error)
 
   /* "View.MemoryView":282
  *         return self.name

@@ -565,7 +565,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":222
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -1385,10 +1385,10 @@ static const char __pyx_k_make_region_manager[] = "make_region_manager";
 static const char __pyx_k_fwdpy_internal_internal[] = "fwdpy.internal.internal";
 static const char __pyx_k_process_sregion_callbacks[] = "process_sregion_callbacks";
 static const char __pyx_k_fwdpy_process_sregion_callbacks[] = "fwdpy.process_sregion_callbacks: invalid object type";
-static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_in[] = "/home/jsanjak/src/fwdpy/fwdpy/internal/sregionCallbacks.pyx";
+static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_inte[] = "/home/kevin/src/fwdpy/fwdpy/internal/sregionCallbacks.pyx";
 static const char __pyx_k_invalid_callback_type_encountere[] = "invalid callback type encountered";
 static const char __pyx_k_fwdpy_process_sregion_callbacks_2[] = "fwdpy.process_sregion_callbacks: unsupported Sregion type";
-static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_in_2[] = "/home/jsanjak/src/fwdpy/fwdpy/internal/internal.pyx";
+static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_inte_2[] = "/home/kevin/src/fwdpy/fwdpy/internal/internal.pyx";
 static PyObject *__pyx_n_s_ConstantS;
 static PyObject *__pyx_n_s_DataFrame;
 static PyObject *__pyx_n_s_ExpS;
@@ -1408,8 +1408,8 @@ static PyObject *__pyx_kp_s_fwdpy_process_sregion_callbacks;
 static PyObject *__pyx_kp_s_fwdpy_process_sregion_callbacks_2;
 static PyObject *__pyx_n_s_h;
 static PyObject *__pyx_n_s_hi;
-static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_in;
-static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_in_2;
+static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte;
+static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_2;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_kp_s_invalid_callback_type_encountere;
@@ -3649,8 +3649,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_fwdpy_process_sregion_callbacks_2, __pyx_k_fwdpy_process_sregion_callbacks_2, sizeof(__pyx_k_fwdpy_process_sregion_callbacks_2), 0, 0, 1, 0},
   {&__pyx_n_s_h, __pyx_k_h, sizeof(__pyx_k_h), 0, 0, 1, 1},
   {&__pyx_n_s_hi, __pyx_k_hi, sizeof(__pyx_k_hi), 0, 0, 1, 1},
-  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_in, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_in, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_in), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_in_2, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_in_2, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_in_2), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte, __pyx_k_home_kevin_src_fwdpy_fwdpy_inte, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_inte), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_2, __pyx_k_home_kevin_src_fwdpy_fwdpy_inte_2, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_inte_2), 0, 0, 1, 0},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_kp_s_invalid_callback_type_encountere, __pyx_k_invalid_callback_type_encountere, sizeof(__pyx_k_invalid_callback_type_encountere), 0, 0, 1, 0},
@@ -3741,7 +3741,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__4 = PyTuple_Pack(6, __pyx_n_s_regions, __pyx_n_s_starts, __pyx_n_s_stops, __pyx_n_s_weights, __pyx_n_s_labels, __pyx_n_s_i); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_in, __pyx_n_s_process_regions, 5, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte, __pyx_n_s_process_regions, 5, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 5, __pyx_L1_error)
 
   /* "fwdpy/internal/sregionCallbacks.pyx":29
  *     return pandas.DataFrame({'beg':starts,'end':stops,'weight':weights,'labels':labels})
@@ -3753,7 +3753,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__6 = PyTuple_Pack(4, __pyx_n_s_v, __pyx_n_s_sregions, __pyx_n_s_temp, __pyx_n_s_i); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_in, __pyx_n_s_process_sregion_callbacks, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte, __pyx_n_s_process_sregion_callbacks, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 29, __pyx_L1_error)
 
   /* "fwdpy/internal/internal.pyx":13
  * 
@@ -3765,7 +3765,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__8 = PyTuple_Pack(8, __pyx_n_s_rv, __pyx_n_s_nregions, __pyx_n_s_sregions, __pyx_n_s_recregions, __pyx_n_s_nreg, __pyx_n_s_sreg, __pyx_n_s_recreg, __pyx_n_s_v); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_in_2, __pyx_n_s_make_region_manager, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(1, 13, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(4, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_inte_2, __pyx_n_s_make_region_manager, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(1, 13, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

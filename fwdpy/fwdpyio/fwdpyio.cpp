@@ -562,7 +562,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":222
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -1250,7 +1250,7 @@ static const char __pyx_k_deserialize_singlepops[] = "deserialize_singlepops";
 static const char __pyx_k_Return_a_binary_representation[] = "\n    Return a binary representation of an evolved population\n\n    :param pop: A list of :class:`fwdpy.fwdpy.poptype`\n    \n    Example:\n\n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    ";
 static const char __pyx_k_deserialize_singlepops_line_38[] = "deserialize_singlepops (line 38)";
 static const char __pyx_k_Convert_binary_representation_b[] = "\n    Convert binary representation back to a :class:`fwdpy.fwdpy.popvec`\n\n    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`\n\n    :returns: :func:`fwdpy.fwdpy.popvec`\n\n    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.\n        \n    Example:\n    \n    >>> import fwdpy\n    >>> import fwdpy.fwdpyio as fpio\n    >>> import numpy as np\n    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]\n    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]\n    >>> rregions = [fwdpy.Region(0,3,1)]\n    >>> rng = fwdpy.GSLrng(100)\n    >>> popsizes = np.array([1000],dtype=np.uint32)\n    >>> popsizes=np.tile(popsizes,100)\n    >>> pops = fwdpy.evolve_regions(rng,4,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)\n    >>> strings = [fpio.serialize(i) for i in pops]\n    >>> len(strings)\n    4\n    >>> pops2 = fpio.deserialize_singlepops(strings)\n    ";
-static const char __pyx_k_home_jsanjak_src_fwdpy_fwdpy_fw[] = "/home/jsanjak/src/fwdpy/fwdpy/fwdpyio/fwdpyio.pyx";
+static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp[] = "/home/kevin/src/fwdpy/fwdpy/fwdpyio/fwdpyio.pyx";
 static const char __pyx_k_fwdpyio_serialize_unsupported_po[] = "fwdpyio.serialize: unsupported poptype ";
 static PyObject *__pyx_kp_u_Convert_binary_representation_b;
 static PyObject *__pyx_kp_u_Return_a_binary_representation;
@@ -1260,7 +1260,7 @@ static PyObject *__pyx_n_s_deserialize_singlepops;
 static PyObject *__pyx_kp_u_deserialize_singlepops_line_38;
 static PyObject *__pyx_n_s_fwdpy_fwdpyio_fwdpyio;
 static PyObject *__pyx_kp_s_fwdpyio_serialize_unsupported_po;
-static PyObject *__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw;
+static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_mpop;
 static PyObject *__pyx_n_s_mpops;
@@ -2287,7 +2287,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_deserialize_singlepops_line_38, __pyx_k_deserialize_singlepops_line_38, sizeof(__pyx_k_deserialize_singlepops_line_38), 0, 1, 0, 0},
   {&__pyx_n_s_fwdpy_fwdpyio_fwdpyio, __pyx_k_fwdpy_fwdpyio_fwdpyio, sizeof(__pyx_k_fwdpy_fwdpyio_fwdpyio), 0, 0, 1, 1},
   {&__pyx_kp_s_fwdpyio_serialize_unsupported_po, __pyx_k_fwdpyio_serialize_unsupported_po, sizeof(__pyx_k_fwdpyio_serialize_unsupported_po), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_k_home_jsanjak_src_fwdpy_fwdpy_fw, sizeof(__pyx_k_home_jsanjak_src_fwdpy_fwdpy_fw), 0, 0, 1, 0},
+  {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_fwdp), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_mpop, __pyx_k_mpop, sizeof(__pyx_k_mpop), 0, 0, 1, 1},
   {&__pyx_n_s_mpops, __pyx_k_mpops, sizeof(__pyx_k_mpops), 0, 0, 1, 1},
@@ -2335,7 +2335,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__2 = PyTuple_Pack(1, __pyx_n_s_pop); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_n_s_serialize_single, 5, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_serialize_single, 5, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 5, __pyx_L1_error)
 
   /* "fwdpy/fwdpyio/fwdpyio.pyx":8
  *     return serialize_singlepop(pop.pop.get())
@@ -2347,7 +2347,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_mpop); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_n_s_serialize_meta, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 8, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_serialize_meta, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 8, __pyx_L1_error)
 
   /* "fwdpy/fwdpyio/fwdpyio.pyx":11
  *     return serialize_metapop(mpop.mpop.get())
@@ -2359,7 +2359,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__6 = PyTuple_Pack(1, __pyx_n_s_pop); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
-  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_n_s_serialize, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_serialize, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) __PYX_ERR(0, 11, __pyx_L1_error)
 
   /* "fwdpy/fwdpyio/fwdpyio.pyx":38
  *         raise RuntimeError("fwdpyio.serialize: unsupported poptype "+str(type(pop)))
@@ -2371,7 +2371,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__8 = PyTuple_Pack(3, __pyx_n_s_strings, __pyx_n_s_temp, __pyx_n_s_pops); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_n_s_deserialize_singlepops, 38, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_deserialize_singlepops, 38, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(0, 38, __pyx_L1_error)
 
   /* "fwdpy/fwdpyio/fwdpyio.pyx":70
  *     return pops
@@ -2383,7 +2383,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__10 = PyTuple_Pack(3, __pyx_n_s_strings, __pyx_n_s_temp, __pyx_n_s_mpops); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_jsanjak_src_fwdpy_fwdpy_fw, __pyx_n_s_deserialize_metapops, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_fwdp, __pyx_n_s_deserialize_metapops, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
