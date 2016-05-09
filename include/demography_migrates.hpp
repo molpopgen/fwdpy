@@ -1,3 +1,8 @@
+/*!
+  \file demography_migrates.hpp
+
+  \brief Defines object for choosing parents in models with migration.
+*/
 #ifndef FWDPY_DEMOGRAPHY_MIGRATES_HPP
 #define FWDPY_DEMOGRAPHY_MIGRATES_HPP
 
