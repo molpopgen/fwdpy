@@ -22,7 +22,7 @@ namespace fwdpy
       using lookup_t = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr;
       using vec_lookup_t = std::vector<lookup_t>;
       vec_lookup_t lookups;
-      migrates(const std::vector<std::vector<double> > > & weights) :
+      migrates(const std::vector<std::vector<double> > & weights) :
 	lookups(vec_lookup_t())
 	/*!
 	  Constructor
@@ -49,7 +49,7 @@ namespace fwdpy
       {
 	return gsl_ran_discrete(r,lookups[deme].get());
       }
-    }
+    };
   }
 }
 
