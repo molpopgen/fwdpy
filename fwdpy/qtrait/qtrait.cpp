@@ -676,7 +676,7 @@ typedef volatile __pyx_atomic_int_type __pyx_atomic_int;
 #endif
 
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":226
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -710,8 +710,9 @@ struct __pyx_memoryviewslice_obj;
 struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data;
 struct __pyx_t_5fwdpy_5fwdpy_gamete_data;
 struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
+struct __pyx_t_5fwdpy_5fwdpy_diploid_mloc_data;
 
-/* "fwdpy/fwdpy.pxd":166
+/* "fwdpy/fwdpy.pxd":167
  * 
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr             # <<<<<<<<<<<<<<
@@ -720,7 +721,7 @@ struct __pyx_t_5fwdpy_5fwdpy_diploid_data;
  */
 typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_itr;
 
-/* "fwdpy/fwdpy.pxd":167
+/* "fwdpy/fwdpy.pxd":168
  * #Typedefs for convenience
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t             # <<<<<<<<<<<<<<
@@ -729,7 +730,7 @@ typedef std::vector<KTfwd::popgenmut> ::iterator __pyx_t_5fwdpy_5fwdpy_mcont_t_i
  */
 typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mut_container_t;
 
-/* "fwdpy/fwdpy.pxd":168
+/* "fwdpy/fwdpy.pxd":169
  * ctypedef vector[popgenmut].iterator mcont_t_itr
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr             # <<<<<<<<<<<<<<
@@ -738,7 +739,7 @@ typedef std::vector<__pyx_t_5fwdpy_5fwdpy_mcont_t_itr>  __pyx_t_5fwdpy_5fwdpy_mu
  */
 typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_itr;
 
-/* "fwdpy/fwdpy.pxd":169
+/* "fwdpy/fwdpy.pxd":170
  * ctypedef vector[mcont_t_itr] mut_container_t
  * ctypedef vector[gamete_t].iterator gcont_t_itr
  * ctypedef vector[diploid_t].iterator dipvector_t_itr             # <<<<<<<<<<<<<<
@@ -747,7 +748,7 @@ typedef std::vector<fwdpy::gamete_t> ::iterator __pyx_t_5fwdpy_5fwdpy_gcont_t_it
  */
 typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector_t_itr;
 
-/* "fwdpy/fwdpy.pxd":171
+/* "fwdpy/fwdpy.pxd":172
  * ctypedef vector[diploid_t].iterator dipvector_t_itr
  * #vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
  * ctypedef vector[unsigned] mcounts_cont_t             # <<<<<<<<<<<<<<
@@ -756,7 +757,7 @@ typedef std::vector<fwdpy::diploid_t> ::iterator __pyx_t_5fwdpy_5fwdpy_dipvector
  */
 typedef std::vector<unsigned int>  __pyx_t_5fwdpy_5fwdpy_mcounts_cont_t;
 
-/* "fwdpy/fwdpy.pxd":174
+/* "fwdpy/fwdpy.pxd":175
  * 
  * ##Define some low-level functions that may be useful for others
  * cdef struct popgen_mut_data:             # <<<<<<<<<<<<<<
@@ -773,7 +774,7 @@ struct __pyx_t_5fwdpy_5fwdpy_popgen_mut_data {
   uint16_t label;
 };
 
-/* "fwdpy/fwdpy.pxd":180
+/* "fwdpy/fwdpy.pxd":181
  *     uint16_t label
  * 
  * cdef struct gamete_data:             # <<<<<<<<<<<<<<
@@ -786,7 +787,7 @@ struct __pyx_t_5fwdpy_5fwdpy_gamete_data {
   unsigned int n;
 };
 
-/* "fwdpy/fwdpy.pxd":184
+/* "fwdpy/fwdpy.pxd":185
  *     unsigned n
  * 
  * cdef struct diploid_data:             # <<<<<<<<<<<<<<
@@ -803,6 +804,25 @@ struct __pyx_t_5fwdpy_5fwdpy_diploid_data {
   double sh1;
   int n0;
   int n1;
+};
+
+/* "fwdpy/fwdpy.pxd":190
+ *     int n0,n1
+ * 
+ * cdef struct diploid_mloc_data:             # <<<<<<<<<<<<<<
+ *     vector[gamete_data] chrom0,chrom1
+ *     double g,e,w
+ */
+struct __pyx_t_5fwdpy_5fwdpy_diploid_mloc_data {
+  std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  chrom0;
+  std::vector<struct __pyx_t_5fwdpy_5fwdpy_gamete_data>  chrom1;
+  double g;
+  double e;
+  double w;
+  std::vector<double>  sh0;
+  std::vector<double>  sh1;
+  std::vector<int>  n0;
+  std::vector<int>  n1;
 };
 
 /* "fwdpy/internal/internal.pxd":7
@@ -971,8 +991,8 @@ struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc {
 };
 
 
-/* "fwdpy/fwdpy.pxd":162
- *     cpdef append(self,popvec p)
+/* "fwdpy/fwdpy.pxd":163
+ * 
  * 
  * cdef class GSLrng:             # <<<<<<<<<<<<<<
  *     cdef GSLrng_t * thisptr
@@ -1185,7 +1205,7 @@ static struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec *__pyx_vtabptr_5fwdpy_5fwdp
 struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_mloc {
   PyObject *(*size)(struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *, int __pyx_skip_dispatch);
   PyObject *(*reset)(struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *, std::vector<std::shared_ptr<fwdpy::multilocus_t> >  const );
-  PyObject *(*append)(struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *, struct __pyx_obj_5fwdpy_5fwdpy_popvec *, int __pyx_skip_dispatch);
+  PyObject *(*append)(struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *, struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_mloc *__pyx_vtabptr_5fwdpy_5fwdpy_popvec_mloc;
 
@@ -24261,7 +24281,7 @@ PyMODINIT_FUNC PyInit_qtrait(void)
   __pyx_vtabptr_5fwdpy_5fwdpy_mpopvec = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_mpopvec*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_mpopvec->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_mpopvec)) __PYX_ERR(6, 148, __pyx_L1_error)
   __pyx_ptype_5fwdpy_5fwdpy_popvec_mloc = __Pyx_ImportType("fwdpy.fwdpy", "popvec_mloc", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_popvec_mloc), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc)) __PYX_ERR(6, 155, __pyx_L1_error)
   __pyx_vtabptr_5fwdpy_5fwdpy_popvec_mloc = (struct __pyx_vtabstruct_5fwdpy_5fwdpy_popvec_mloc*)__Pyx_GetVtable(__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc->tp_dict); if (unlikely(!__pyx_vtabptr_5fwdpy_5fwdpy_popvec_mloc)) __PYX_ERR(6, 155, __pyx_L1_error)
-  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) __PYX_ERR(6, 162, __pyx_L1_error)
+  __pyx_ptype_5fwdpy_5fwdpy_GSLrng = __Pyx_ImportType("fwdpy.fwdpy", "GSLrng", sizeof(struct __pyx_obj_5fwdpy_5fwdpy_GSLrng), 1); if (unlikely(!__pyx_ptype_5fwdpy_5fwdpy_GSLrng)) __PYX_ERR(6, 163, __pyx_L1_error)
   __pyx_ptype_7cpython_4type_type = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "type", 
   #if CYTHON_COMPILING_IN_PYPY
   sizeof(PyTypeObject),

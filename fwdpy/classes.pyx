@@ -205,7 +205,7 @@ cdef class popvec_mloc(popcont):
         for i in range(len(p)):
             self.pops.push_back(p.pops[i])
             self.pypops.append(p[i])        
-    cpdef append(self,popvec p):
+    cpdef append(self,popvec_mloc p):
         """
         Append 'p' into this object.
 

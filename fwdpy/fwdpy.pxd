@@ -157,7 +157,8 @@ cdef class popvec_mloc(popcont):
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[multilocus_t]] newpops)
-    cpdef append(self,popvec p)
+    cpdef append(self,popvec_mloc p)
+
 
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
@@ -186,12 +187,19 @@ cdef struct diploid_data:
     double g,e,w,sh0,sh1
     int n0,n1
 
+cdef struct diploid_mloc_data:
+    vector[gamete_data] chrom0,chrom1
+    double g,e,w
+    vector[double] sh0,sh1
+    vector[int] n0,n1
+
 #cdef popgen_mut_data get_mutation( const vector[popgenmut].iterator & ) nogil
 #cdef gamete_data get_gamete( const vector[gamete_t].iterator & ) nogil
 #cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
 cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil
 cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
 cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
+cdef diploid_mloc_data get_diploid_mloc( const dipvector_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
 
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
