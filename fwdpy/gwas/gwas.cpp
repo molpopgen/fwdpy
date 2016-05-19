@@ -8,6 +8,7 @@
             "include/deps.hpp", 
             "include/evolve_regions_sampler.hpp", 
             "include/gwas_genotype_matrix.hpp", 
+            "include/haplotype_matrix.hpp", 
             "include/internal_callbacks.hpp", 
             "include/internal_region_manager.hpp", 
             "include/sample.hpp", 
@@ -336,6 +337,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 #include "sampler_pop_properties.hpp"
 #include "sampler_additive_variance.hpp"
 #include "allele_ages.hpp"
+#include "haplotype_matrix.hpp"
 #include "types.hpp"
 #include "sample.hpp"
 #include "deps.hpp"
