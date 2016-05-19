@@ -54,9 +54,13 @@ cdef extern from "haplotype_matrix.hpp" namespace "fwdpy" nogil:
         vector[size_t] s
         vector[double] np
         vector[double] sp
+        vector[double] nf
+        vector[double] sf
         vector[double] G
         vector[double] E
         vector[double] w
+        vector[double] esizes
+        vector[double] h
         size_t nrow
         size_t ncol_n
         size_t ncol_s
