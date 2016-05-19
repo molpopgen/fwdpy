@@ -17,18 +17,22 @@ namespace fwdpy
       Intended to be coerced to 2D numpy matrix
     */
     {
-      std::vector<double> G,E,neutral,causative;
+      std::vector<double> G,E,neutral,causative,npos,cpos;
       std::size_t N,n_neutral,n_causative;
       genotype_matrix( std::vector<double> && G_,
 		       std::vector<double> && E_,
 		       std::vector<double> && n_,
 		       std::vector<double> && c_,
+		       std::vector<double> && np_,
+		       std::vector<double> && cp_,
 		       std::size_t N_,
 		       std::size_t nn_,
 		       std::size_t ns_) : G(std::move(G_)),
 					  E(std::move(E_)),
 					  neutral(std::move(n_)),
 					  causative(std::move(c_)),
+					  npos(std::move(n_)),
+					  cpos(std::move(c_)),
 					  N(N_),
 					  n_neutral(nn_),
 					  n_causative(ns_)
@@ -44,6 +48,7 @@ namespace fwdpy
     //! Quick and dirty for ADL & Ted.
     {
       std::vector<std::size_t> neut_indexes,causative_indexes;
+      std::vector<double> npos,cpos;
       for(std::size_t i=0;i<pop->mcounts.size();++i)
 	{
 	  if(pop->mcounts[i] && pop->mcounts[i] < 2*pop->diploids.size())
@@ -51,10 +56,12 @@ namespace fwdpy
 	      if(pop->mutations[i].neutral)
 		{
 		  neut_indexes.push_back(i);
+		  npos.push_back(pop->mutations[i].pos);
 		}
 	      else
 		{
 		  causative_indexes.push_back(i);
+		  cpos.push_back(pop->mutations[i].pos);
 		}
 	    }
 	}
@@ -135,6 +142,8 @@ namespace fwdpy
       return genotype_matrix(std::move(G),std::move(E),
 			     (!neut_indexes.empty()) ? std::vector<double>(gn->data,gn->data+(gn->size1*gn->size2)) : std::vector<double>(),
 			     (!causative_indexes.empty()) ? std::vector<double>(gc->data,gc->data+(gc->size1*gc->size2)) : std::vector<double>(),
+			     std::move(npos),
+			     std::move(cpos),
 			     pop->diploids.size(),
 			     neut_indexes.size(),
 			     causative_indexes.size());
