@@ -20,14 +20,22 @@ namespace fwdpy
     std::vector<std::size_t> s;
     //!Positions of neutral markers
     std::vector<double> np;
+    //!Frequencies of neutral markers
+    std::vector<double> nf;
     //!Positions of selected markers
     std::vector<double> sp;
+    //!Frequencies of selected markers
+    std::vector<double> sf;
     //! Genetic value
     std::vector<double> G;
     //! Random value
     std::vector<double> E;
     //! fitness
     std::vector<double> w;
+    //! Effect sizes of mutations
+    std::vector<double> esizes;
+    //! Dominances of mutations
+    std::vector<double> h;
     std::size_t nrow,ncol_n,ncol_s;
   };
 
@@ -35,6 +43,8 @@ namespace fwdpy
   std::pair<std::vector<std::size_t>,
 	    std::vector<std::size_t>>
     get_mut_keys_common(const mcont_t & mutations,
+			const std::vector<KTfwd::uint_t> & mcounts,
+			const KTfwd::uint_t twoN,
 			const std::unordered_set<std::size_t> & n,
 			const std::unordered_set<std::size_t> & s,
 			haplotype_matrix & hm)
@@ -50,8 +60,19 @@ namespace fwdpy
     std::sort(rv.second.begin(),rv.second.end(),[&mutations](const std::size_t i, const std::size_t j) {
 	return mutations[i].pos<mutations[j].pos;
       });
-    for( auto & ni : rv.first ) hm.np.push_back(mutations[ni].pos);
-    for( auto & si : rv.second ) hm.sp.push_back(mutations[si].pos);
+    for( auto & ni : rv.first )
+      {
+	hm.np.push_back(mutations[ni].pos);
+	hm.nf.push_back(double(mcounts[ni])/double(twoN));
+      }
+      
+    for( auto & si : rv.second )
+      {
+	hm.sp.push_back(mutations[si].pos);
+	hm.esizes.push_back(mutations[si].s);
+	hm.h.push_back(mutations[si].h);
+	hm.sf.push_back(double(mcounts[si])/double(twoN));
+      }
     return rv;
   }
 				  
@@ -95,7 +116,7 @@ namespace fwdpy
 	      s.insert(m);
 	  }
       }
-    auto rv = get_mut_keys_common(mutations,n,s,hm);
+    auto rv = get_mut_keys_common(mutations,mcounts,2*diploids.size(),n,s,hm);
     hm.nrow=2*diploids_sample.size();
     hm.ncol_n=rv.first.size();
     hm.ncol_s=rv.second.size();
@@ -142,7 +163,7 @@ namespace fwdpy
 	      }
 	  }
       }
-    auto rv=get_mut_keys_common(mutations,n,s,hm);
+    auto rv=get_mut_keys_common(mutations,mcounts,2*diploids.size(),n,s,hm);
     hm.nrow=2*diploids_sample.size();
     hm.ncol_n=rv.first.size();
     hm.ncol_s=rv.second.size();
