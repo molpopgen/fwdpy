@@ -563,7 +563,7 @@ static const char *__pyx_f[] = {
   "fwdpy/fwdpy.pxd",
 };
 
-/* "fwdpy/fwdpy.pxd":218
+/* "fwdpy/fwdpy.pxd":222
  *                                                                                const vector[pair[selected_mut_data,vector[double]]] & traj2 )
  * 
  * ctypedef unsigned uint             # <<<<<<<<<<<<<<
@@ -1263,7 +1263,9 @@ static const char __pyx_k_G[] = "G";
 static const char __pyx_k_N[] = "N";
 static const char __pyx_k_i[] = "i";
 static const char __pyx_k_rv[] = "rv";
+static const char __pyx_k_cpos[] = "cpos";
 static const char __pyx_k_main[] = "__main__";
+static const char __pyx_k_npos[] = "npos";
 static const char __pyx_k_pops[] = "pops";
 static const char __pyx_k_temp[] = "temp";
 static const char __pyx_k_test[] = "__test__";
@@ -1280,6 +1282,7 @@ static PyObject *__pyx_n_s_E;
 static PyObject *__pyx_n_s_G;
 static PyObject *__pyx_n_s_N;
 static PyObject *__pyx_n_s_causative;
+static PyObject *__pyx_n_s_cpos;
 static PyObject *__pyx_n_s_fwdpy_gwas_gwas;
 static PyObject *__pyx_n_s_genotype_matrices;
 static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_gwas;
@@ -1288,6 +1291,7 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_n_causative;
 static PyObject *__pyx_n_s_n_neutral;
 static PyObject *__pyx_n_s_neutral;
+static PyObject *__pyx_n_s_npos;
 static PyObject *__pyx_n_s_pops;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
@@ -1505,6 +1509,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_G, __pyx_k_G, sizeof(__pyx_k_G), 0, 0, 1, 1},
   {&__pyx_n_s_N, __pyx_k_N, sizeof(__pyx_k_N), 0, 0, 1, 1},
   {&__pyx_n_s_causative, __pyx_k_causative, sizeof(__pyx_k_causative), 0, 0, 1, 1},
+  {&__pyx_n_s_cpos, __pyx_k_cpos, sizeof(__pyx_k_cpos), 0, 0, 1, 1},
   {&__pyx_n_s_fwdpy_gwas_gwas, __pyx_k_fwdpy_gwas_gwas, sizeof(__pyx_k_fwdpy_gwas_gwas), 0, 0, 1, 1},
   {&__pyx_n_s_genotype_matrices, __pyx_k_genotype_matrices, sizeof(__pyx_k_genotype_matrices), 0, 0, 1, 1},
   {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_gwas, __pyx_k_home_kevin_src_fwdpy_fwdpy_gwas, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_gwas), 0, 0, 1, 0},
@@ -1513,6 +1518,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_n_causative, __pyx_k_n_causative, sizeof(__pyx_k_n_causative), 0, 0, 1, 1},
   {&__pyx_n_s_n_neutral, __pyx_k_n_neutral, sizeof(__pyx_k_n_neutral), 0, 0, 1, 1},
   {&__pyx_n_s_neutral, __pyx_k_neutral, sizeof(__pyx_k_neutral), 0, 0, 1, 1},
+  {&__pyx_n_s_npos, __pyx_k_npos, sizeof(__pyx_k_npos), 0, 0, 1, 1},
   {&__pyx_n_s_pops, __pyx_k_pops, sizeof(__pyx_k_pops), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
@@ -1977,6 +1983,12 @@ static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_gwas_3a__3a_genotype_
   Py_DECREF(member);
   member = __pyx_convert_vector_to_py_double(s.causative); if (unlikely(!member)) goto bad;
   if (unlikely(PyDict_SetItem(res, __pyx_n_s_causative, member) < 0)) goto bad;
+  Py_DECREF(member);
+  member = __pyx_convert_vector_to_py_double(s.npos); if (unlikely(!member)) goto bad;
+  if (unlikely(PyDict_SetItem(res, __pyx_n_s_npos, member) < 0)) goto bad;
+  Py_DECREF(member);
+  member = __pyx_convert_vector_to_py_double(s.cpos); if (unlikely(!member)) goto bad;
+  if (unlikely(PyDict_SetItem(res, __pyx_n_s_cpos, member) < 0)) goto bad;
   Py_DECREF(member);
   member = __Pyx_PyInt_FromSize_t(s.N); if (unlikely(!member)) goto bad;
   if (unlikely(PyDict_SetItem(res, __pyx_n_s_N, member) < 0)) goto bad;
