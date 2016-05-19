@@ -112,7 +112,6 @@ namespace fwdpy
 		{
 		  auto i = std::find(neut_indexes.begin(),
 				     neut_indexes.end(),k);
-		  //if(i==causative_indexes.end()) throw std::runtime_error("neutral mutation key not found");
 		  if(i!=neut_indexes.end())
 		    {
 		      std::size_t col = std::distance(neut_indexes.begin(),i);
@@ -125,7 +124,6 @@ namespace fwdpy
 		{
 		  auto i = std::find(neut_indexes.begin(),
 				     neut_indexes.end(),k);
-		  //if(i==causative_indexes.end()) throw std::runtime_error("neutral mutation key not found");
 		  if(i!=neut_indexes.end())
 		    {
 		      std::size_t col = std::distance(neut_indexes.begin(),i);
