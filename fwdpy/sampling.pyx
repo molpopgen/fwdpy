@@ -267,3 +267,35 @@ def freqfilter( list sample,
         if getfreq(i,derived)>=minfreq:
             rv.append(i)
     return rv
+
+def hapmatrix(p,const vector[size_t] & diploids, deme = None):
+    """
+    Obtain compact representations of a "haplotype matrix" from a population object
+
+    :param p: A population object or vector of such objects
+    :param diploids: Indexes of individuals to include in matrix
+    :param deme: Deme index (only needed if p represents a meta-population)
+
+    :return: A dict that will allow construction of a 0/1 matrix represting ancestral and derived genotypes,
+    respectively, corresponding the the individuals in 'diploids'.
+
+    .. note:: Examples will be provided elsewhere.
+    """
+    if isinstance(p,singlepop):
+        return make_haplotype_matrix((<singlepop>p).pop.get(),diploids)
+    elif isinstance(p,singlepop_mloc):
+        return make_haplotype_matrix((<singlepop_mloc>p).pop.get(),diploids)
+    elif isinstance(p,popvec):
+        return [make_haplotype_matrix((<singlepop>i).pop.get(),diploids) for i in <popvec>p]
+    elif isinstance(p,popvec_mloc):
+        return [make_haplotype_matrix((<singlepop_mloc>i).pop.get(),diploids) for i in <popvec_mloc>p]
+    elif isinstance(p,metapop):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return make_haplotype_matrix((<metapop>p).mpop.get(),diploids,deme)
+    elif isinstance(p,mpopvec):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return [make_haplotype_matrix((<metapop>i).mpop.get(),diploids,deme) for i in <mpopvec>p]
+    else:
+        raise RuntimeError("object type not understood")    
