@@ -8,6 +8,9 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <cmath>
+#include <map>
+#include <unordered_map>
 #include "types.hpp"
 
 namespace fwdpy
@@ -291,6 +294,71 @@ namespace fwdpy
 	  }
       }
     return rv;
+  }
+
+  inline void update_genotype_matrix(const std::multimap<std::size_t,std::size_t> & m,
+				     const std::size_t hap_row,
+				     const std::size_t geno_row,
+				     const std::size_t ncol,
+				     std::vector<std::size_t> & Aa,
+				     std::vector<std::size_t> & aa)
+  {
+    //find mutationgs in this rows
+    auto r1=m.equal_range(hap_row);
+    auto r2=m.equal_range(hap_row+1);
+    std::unordered_map<std::size_t,std::size_t> counts;
+    for(auto j = r1.first ; j != r1.second ; ++j)
+      {
+	counts[j->second]++;
+      }
+    for(auto j = r2.first ; j != r2.second ; ++j)
+      {
+	counts[j->second]++;
+      }
+    for(const auto & j : counts)
+      {
+	if(j.second==1)
+	  {
+	    Aa.push_back(geno_row*ncol + j.first);
+	  }
+	else if (j.second == 2)
+	  {
+	    aa.push_back(geno_row*ncol + j.first);
+	  }
+      } 
+  }
+  
+  std::map< std::string, std::vector<std::size_t> > make_genotype_matrix(const haplotype_matrix & hm)
+  //! Take haplotype matrix and return info needed to make a genotype matrix
+  {
+    std::vector<std::size_t> nAa,naa,sAa,saa;
+
+    //record row/column positions of each element in hm
+    std::multimap<std::size_t,std::size_t> n,s;
+    auto position = [&hm](const std::size_t i,const double ncol)
+      {
+	double t = double(i+1)/ncol;
+	double row = std::floor(t);
+	double col = (t-row)*ncol-1.0;
+	return std::make_pair(std::size_t(row),std::size_t(col));
+      };
+    for( const auto & i : hm.n ) n.insert(position(i,double(hm.ncol_n)));
+    for( const auto & i : hm.s ) s.insert(position(i,double(hm.ncol_s)));
+
+    unsigned nrow=0;
+    for(std::size_t i=0;i<hm.nrow;i+=2)
+      {
+	update_genotype_matrix(n,i,nrow,hm.ncol_n,nAa,naa);
+	update_genotype_matrix(s,i,nrow,hm.ncol_s,sAa,saa);
+	++nrow;
+      }
+    
+    return std::map<std::string,std::vector<std::size_t> >{
+      {"nAa",std::move(nAa)},
+	{"naa",std::move(naa)},
+	  {"sAa",std::move(sAa)},
+	    {"saa",std::move(saa)}
+    };
   }
 }
 
