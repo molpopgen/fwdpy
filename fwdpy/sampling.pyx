@@ -298,4 +298,63 @@ def hapmatrix(p,const vector[size_t] & diploids, deme = None):
             raise RuntimeError("deme cannot be None")
         return [make_haplotype_matrix((<metapop>i).mpop.get(),diploids,deme) for i in <mpopvec>p]
     else:
-        raise RuntimeError("object type not understood")    
+        raise RuntimeError("object type not understood")
+
+cdef row_col_indexes(list indexes,
+                     size_t ncol):
+    rv=[]
+    for i in indexes:
+        t=float(i+1)/float(ncol)
+        row=np.floor(t)
+        col=(t-row)*float(ncol)-1.0
+        rv.append((int(row),int(col)))
+    return rv
+
+def genomatrix(dict m):
+    """
+    Generate a "genotype matrix" from a haplotype matrix
+
+    :param m: The return value from :func:`fwdpy.fwdpy.hapmatrix`
+
+    :return: A dict containing the indexes of Aa and aa genotypes
+    for neutral (n) and selected (s) markers in a 1d array of length m['nrow']*m['ncol_n']/2
+
+    ..note :: The return value is most useful when used to create a 2d numpy array representing 
+    genotypes.
+    """
+
+    #Step 1: get the row/column index of each mutation in the haplotype matrix
+    n=row_col_indexes(m['n'],m['ncol_n'])
+    s=row_col_indexes(m['s'],m['ncol_s'])
+
+    #Step 2: For each pair of rows, collect Aa and aa genotypes
+    nAa=[]
+    naa=[]
+    sAa=[]
+    saa=[]
+    newrows=m['nrow']/2
+    newrow=0
+    for row in range(0,m['nrow'],2):
+        #Get data for this and the next row in the hap matrix
+        x=[i[1] for i in n if (i[0]==row or i[0]==(row+1))]
+        xu=set(x)
+        for i in xu:
+            ci=x.count(i)
+            if ci == 1:
+                nAa.append(newrow*m['ncol_n']+i)
+            elif ci == 2:
+                naa.append(newrow*m['ncol_n']+i)
+
+        #do same for selected variants
+        x=[i[1] for i in s if (i[0]==row or i[0]==(row+1))]
+        xu=set(x)
+        for i in xu:
+            ci=x.count(i)
+            if ci == 1:
+                sAa.append(newrow*m['ncol_s']+i)
+            elif ci == 2:
+                saa.append(newrow*m['ncol_s']+i)
+
+        newrow+=1
+
+    return {'nAa':nAa,'naa':naa,'sAa':sAa,'saa':saa}
