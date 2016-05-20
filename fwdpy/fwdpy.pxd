@@ -275,3 +275,4 @@ cdef extern from "haplotype_matrix.hpp" namespace "fwdpy" nogil:
     haplotype_matrix make_haplotype_matrix(const singlepop_t * pop, const vector[size_t] & diploids) except +
     haplotype_matrix make_haplotype_matrix(const metapop_t * pop, const vector[size_t] & diploids,const size_t deme) except +
     haplotype_matrix make_haplotype_matrix(const multilocus_t * pop, const vector[size_t] & diploids) except +
+    map[string,vector[size_t]] make_genotype_matrix(const haplotype_matrix & hm)
