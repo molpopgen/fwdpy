@@ -34,6 +34,7 @@ Changes to the Python side:
 * Add :class:`fwdpy.fwdpy.popvec_mloc`
 * Add :func:`fwdpy.fwdpy.tidy_trajectories`, which really speeds up
   coercion of mutation frequency trajectories to a pandas DataFrame.
+* Add :func:`fwdpy.fwdpy.hapmatrix` and :func:`fwdpy.fwdpy.genomatrix`
 * Changed interface to :func:`fwdpy.fwdpy.evolve_regions_sample` to require to RNG objects.  This is done for reproducibility/consistency across different types of temporal sampling schemes.
 * Added views of fixed mutations via :func:`fwdpy.fwdpy.view_fixations`
 * Better Python3 compatibility
