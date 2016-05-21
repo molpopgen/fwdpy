@@ -31,8 +31,8 @@ namespace fwdpy
 					  E(std::move(E_)),
 					  neutral(std::move(n_)),
 					  causative(std::move(c_)),
-					  npos(std::move(n_)),
-					  cpos(std::move(c_)),
+					  npos(std::move(np_)),
+					  cpos(std::move(cp_)),
 					  N(N_),
 					  n_neutral(nn_),
 					  n_causative(ns_)
