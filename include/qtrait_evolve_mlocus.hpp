@@ -96,10 +96,10 @@ namespace fwdpy
 					 [&rng,i](){return gsl_ran_flat(rng,double(i),double(i+1));},   //mutation pos'n
 					 [&effects_dominance,i,rng](){return effects_dominance[i].s(rng);},
 					 [&effects_dominance,i,rng](){return effects_dominance[i].h(rng);}));
-					 //std::bind(&effects_dominance[i].s,rng),
-					 //std::bind(&effects_dominance[i].h,rng)));
-					 //std::bind(effects_dominance[i].s,rng), //effect size distro
-					 //std::bind(effects_dominance[i].h),rng));
+	  //std::bind(&effects_dominance[i].s,rng),
+	  //std::bind(&effects_dominance[i].h,rng)));
+	  //std::bind(effects_dominance[i].s,rng), //effect size distro
+	  //std::bind(effects_dominance[i].h),rng));
 	  //[&effects_dominance,&rng,i](){return gsl_ran_gaussian_ziggurat(rng,effects_dominance[i].s);}, //effect size of non-neutral mutants
 	  //[&effects_dominance](){return 1.;})); //dominance of non-neutral mutants
 	  ++i;
@@ -194,9 +194,9 @@ namespace fwdpy
 	  if(i<0.) throw std::runtime_error("selected mutation rates must be >= 0 for all loci");
 	}
       /*
-      for(auto i : sigma_mus)
+	for(auto i : sigma_mus)
 	{
-	  if(i<0.) throw std::runtime_error("sigma terms for DFE must be >= 0 for all loci");
+	if(i<0.) throw std::runtime_error("sigma terms for DFE must be >= 0 for all loci");
 	}
       */
         
@@ -330,48 +330,69 @@ namespace fwdpy
 
     std::vector<sample_n<multilocus_t>::final_t>
     evolve_qtrait_mloc_pm_sample_async( GSLrng_t * rng,
-				     GSLrng_t * rng_sample,
-				     std::vector<std::shared_ptr<multilocus_t> > * pops,
-				     const unsigned * Nvector,
-				     const size_t Nvector_length,
-				     const std::vector<double> & neutral_mutation_rates,
-				     const std::vector<double> & selected_mutation_rates,
-				     const std::vector<double> & sigma_mus,
-				     const std::vector<double> & within_region_rec_rates,
-				     const std::vector<double> & between_region_rec_rates,
-				     const double f,
-				     const double sigmaE,
-				     const double optimum,
-				     const double VS,
-				     const std::vector<double> & SLd,
-					 const double & SLp,
-			  		 const std::vector<double> & MLd,
-			  		 const double & MLp,
-				     const int sample,
-				     const unsigned nsam);
+					GSLrng_t * rng_sample,
+					std::vector<std::shared_ptr<multilocus_t> > * pops,
+					const unsigned * Nvector,
+					const size_t Nvector_length,
+					const std::vector<double> & neutral_mutation_rates,
+					const std::vector<double> & selected_mutation_rates,
+					const std::vector<double> & sigma_mus,
+					const std::vector<double> & within_region_rec_rates,
+					const std::vector<double> & between_region_rec_rates,
+					const double f,
+					const double sigmaE,
+					const double optimum,
+					const double VS,
+					const std::vector<double> & SLd,
+					const double & SLp,
+					const std::vector<double> & MLd,
+					const double & MLp,
+					const int sample,
+					const unsigned nsam);
     //Sample nothing
     void evolve_qtrait_mloc_pm_no_sampling_async( GSLrng_t * rng,
-					       std::vector<std::shared_ptr<multilocus_t> > * pops,
-					       const unsigned * Nvector,
-					       const size_t Nvector_length,
-					       const std::vector<double> & neutral_mutation_rates,
-					       const std::vector<double> & selected_mutation_rates,
-					       const std::vector<double> & sigma_mus,
-					       const std::vector<double> & within_region_rec_rates,
-					       const std::vector<double> & between_region_rec_rates,
-					       const double f,
-					       const double sigmaE,
-					       const double optimum,
-					       const double VS,
-					       const std::vector<double> & SLd,
-					 	   const double & SLp,
-			  		 	   const std::vector<double> & MLd,
-			  		 	   const double & MLp);
+						  std::vector<std::shared_ptr<multilocus_t> > * pops,
+						  const unsigned * Nvector,
+						  const size_t Nvector_length,
+						  const std::vector<double> & neutral_mutation_rates,
+						  const std::vector<double> & selected_mutation_rates,
+						  const std::vector<double> & sigma_mus,
+						  const std::vector<double> & within_region_rec_rates,
+						  const std::vector<double> & between_region_rec_rates,
+						  const double f,
+						  const double sigmaE,
+						  const double optimum,
+						  const double VS,
+						  const std::vector<double> & SLd,
+						  const double & SLp,
+						  const std::vector<double> & MLd,
+						  const double & MLp);
 
     
     //Sample quant. genetics params from pop
     std::vector<pop_properties::final_t>
     evolve_qtrait_mloc_pm_popstats_async( GSLrng_t * rng,
+					  std::vector<std::shared_ptr<multilocus_t> > * pops,
+					  const unsigned * Nvector,
+					  const size_t Nvector_length,
+					  const std::vector<double> & neutral_mutation_rates,
+					  const std::vector<double> & selected_mutation_rates,
+					  const std::vector<double> & sigma_mus,
+					  const std::vector<double> & within_region_rec_rates,
+					  const std::vector<double> & between_region_rec_rates,
+					  const double f,
+					  const double sigmaE,
+					  const double optimum,
+					  const double VS,
+					  const std::vector<double> & SLd,
+					  const double & SLp,
+					  const std::vector<double> & MLd,
+					  const double & MLp,
+					  const int sample);
+
+    //Causative mutation frequency trajectories
+    std::vector<selected_mut_tracker::final_t>
+    evolve_qtrait_mloc_pm_track_async( GSLrng_t * rng,
 				       std::vector<std::shared_ptr<multilocus_t> > * pops,
 				       const unsigned * Nvector,
 				       const size_t Nvector_length,
@@ -385,14 +406,14 @@ namespace fwdpy
 				       const double optimum,
 				       const double VS,
 				       const std::vector<double> & SLd,
-					   const double & SLp,
-			  		   const std::vector<double> & MLd,
-			  		   const double & MLp,
+				       const double & SLp,
+				       const std::vector<double> & MLd,
+				       const double & MLp,
 				       const int sample);
 
-    //Causative mutation frequency trajectories
-    std::vector<selected_mut_tracker::final_t>
-    evolve_qtrait_mloc_pm_track_async( GSLrng_t * rng,
+    //Track contributions of mutations to additive genetic variance over time
+    std::vector<additive_variance::final_t>
+    evolve_qtrait_mloc_pm_VA_async( GSLrng_t * rng,
 				    std::vector<std::shared_ptr<multilocus_t> > * pops,
 				    const unsigned * Nvector,
 				    const size_t Nvector_length,
@@ -406,31 +427,10 @@ namespace fwdpy
 				    const double optimum,
 				    const double VS,
 				    const std::vector<double> & SLd,
-					const double & SLp,
-			  		const std::vector<double> & MLd,
-			  		const double & MLp,
+				    const double & SLp,
+				    const std::vector<double> & MLd,
+				    const double & MLp,
 				    const int sample);
-
-    //Track contributions of mutations to additive genetic variance over time
-    std::vector<additive_variance::final_t>
-    evolve_qtrait_mloc_pm_VA_async( GSLrng_t * rng,
-				 std::vector<std::shared_ptr<multilocus_t> > * pops,
-				 const unsigned * Nvector,
-				 const size_t Nvector_length,
-				 const std::vector<double> & neutral_mutation_rates,
-				 const std::vector<double> & selected_mutation_rates,
-				 const std::vector<double> & sigma_mus,
-				 const std::vector<double> & within_region_rec_rates,
-				 const std::vector<double> & between_region_rec_rates,
-				 const double f,
-				 const double sigmaE,
-				 const double optimum,
-				 const double VS,
-				 const std::vector<double> & SLd,
-				 const double & SLp,
-			  	 const std::vector<double> & MLd,
-			  	 const double & MLp,
-				 const int sample);
   }
 }
 #endif
