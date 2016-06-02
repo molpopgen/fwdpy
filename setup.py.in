@@ -175,7 +175,7 @@ if QTRAIT is True:
     PKGS.append('fwdpy.qtrait')
     extensions.extend([
         Extension("fwdpy.qtrait_mloc.qtrait_mloc",
-                  sources=["fwdpy/qtrait_mloc/qtrait_mloc"+EXTENSION]+glob.glob("fwdpy.qtrait_mloc/*.cc"),
+                  sources=["fwdpy/qtrait_mloc/qtrait_mloc"+EXTENSION]+glob.glob("fwdpy/qtrait_mloc/*.cc"),
                   language="c++",
                   include_dirs=GLOBAL_INCLUDES, 
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
@@ -186,7 +186,7 @@ if QTRAIT is True:
     PKGS.append('fwdpy.gwas')
     extensions.extend([
         Extension("fwdpy.gwas.gwas",
-                  sources=["fwdpy/gwas/gwas"+EXTENSION]+glob.glob("fwdpy.gwas/*.cc"),
+                  sources=["fwdpy/gwas/gwas"+EXTENSION]+glob.glob("fwdpy/gwas/*.cc"),
                   language="c++",
                   include_dirs=GLOBAL_INCLUDES,
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
