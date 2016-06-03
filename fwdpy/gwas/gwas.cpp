@@ -1197,6 +1197,10 @@ static void __Pyx_CppExn2PyErr() {
 #endif
 
 static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_gwas_3a__3a_genotype_matrix(struct fwdpy::gwas::genotype_matrix s);
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
+
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum(struct fwdpy::VAcum s);
 /* None.proto */
 #include <new>
 
@@ -1273,6 +1277,8 @@ static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_mpopvec = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_popvec_mloc = 0;
 static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_GSLrng = 0;
 
+/* Module declarations from 'fwdpy.samplers' */
+
 /* Module declarations from 'fwdpy.gwas.gwas' */
 static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &); /*proto*/
 #define __Pyx_MODULE_NAME "fwdpy.gwas.gwas"
@@ -1284,8 +1290,12 @@ static const char __pyx_k_E[] = "E";
 static const char __pyx_k_G[] = "G";
 static const char __pyx_k_N[] = "N";
 static const char __pyx_k_i[] = "i";
+static const char __pyx_k_p[] = "p";
 static const char __pyx_k_rv[] = "rv";
+static const char __pyx_k_pss[] = "pss";
+static const char __pyx_k_VAVG[] = "VAVG";
 static const char __pyx_k_cpos[] = "cpos";
+static const char __pyx_k_freq[] = "freq";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_npos[] = "npos";
 static const char __pyx_k_pops[] = "pops";
@@ -1295,6 +1305,7 @@ static const char __pyx_k_range[] = "range";
 static const char __pyx_k_neutral[] = "neutral";
 static const char __pyx_k_causative[] = "causative";
 static const char __pyx_k_n_neutral[] = "n_neutral";
+static const char __pyx_k_generation[] = "generation";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_n_causative[] = "n_causative";
 static const char __pyx_k_fwdpy_gwas_gwas[] = "fwdpy.gwas.gwas";
@@ -1303,9 +1314,12 @@ static const char __pyx_k_home_kevin_src_fwdpy_fwdpy_gwas[] = "/home/kevin/src/f
 static PyObject *__pyx_n_s_E;
 static PyObject *__pyx_n_s_G;
 static PyObject *__pyx_n_s_N;
+static PyObject *__pyx_n_s_VAVG;
 static PyObject *__pyx_n_s_causative;
 static PyObject *__pyx_n_s_cpos;
+static PyObject *__pyx_n_s_freq;
 static PyObject *__pyx_n_s_fwdpy_gwas_gwas;
+static PyObject *__pyx_n_s_generation;
 static PyObject *__pyx_n_s_genotype_matrices;
 static PyObject *__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_gwas;
 static PyObject *__pyx_n_s_i;
@@ -1314,18 +1328,23 @@ static PyObject *__pyx_n_s_n_causative;
 static PyObject *__pyx_n_s_n_neutral;
 static PyObject *__pyx_n_s_neutral;
 static PyObject *__pyx_n_s_npos;
+static PyObject *__pyx_n_s_p;
 static PyObject *__pyx_n_s_pops;
+static PyObject *__pyx_n_s_pss;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_rv;
 static PyObject *__pyx_n_s_temp;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_5fwdpy_5fwdpy_popvec *__pyx_v_pops); /* proto */
+static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_2VAVG(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_p); /* proto */
 static PyObject *__pyx_tuple_;
+static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_codeobj__2;
+static PyObject *__pyx_codeobj__4;
 
-/* "fwdpy/gwas/gwas.pyx":3
- * from fwdpy.fwdpy cimport popvec,singlepop,singlepop_t
+/* "fwdpy/gwas/gwas.pyx":4
+ * from fwdpy.samplers cimport additive_variance_wrapper
  * 
  * def genotype_matrices(popvec pops):             # <<<<<<<<<<<<<<
  *     rv=[]
@@ -1339,7 +1358,7 @@ static PyObject *__pyx_pw_5fwdpy_4gwas_4gwas_1genotype_matrices(PyObject *__pyx_
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("genotype_matrices (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pops), __pyx_ptype_5fwdpy_5fwdpy_popvec, 1, "pops", 0))) __PYX_ERR(0, 4, __pyx_L1_error)
   __pyx_r = __pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(__pyx_self, ((struct __pyx_obj_5fwdpy_5fwdpy_popvec *)__pyx_v_pops));
 
   /* function exit code */
@@ -1364,30 +1383,30 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyO
   int __pyx_t_5;
   __Pyx_RefNannySetupContext("genotype_matrices", 0);
 
-  /* "fwdpy/gwas/gwas.pyx":4
+  /* "fwdpy/gwas/gwas.pyx":5
  * 
  * def genotype_matrices(popvec pops):
  *     rv=[]             # <<<<<<<<<<<<<<
  *     for i in range(len(pops)):
  *         temp=make_geno_matrix(pops.pops[i].get(),True)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 5, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_rv = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "fwdpy/gwas/gwas.pyx":5
+  /* "fwdpy/gwas/gwas.pyx":6
  * def genotype_matrices(popvec pops):
  *     rv=[]
  *     for i in range(len(pops)):             # <<<<<<<<<<<<<<
  *         temp=make_geno_matrix(pops.pops[i].get(),True)
  *         rv.append(temp)
  */
-  __pyx_t_2 = PyObject_Length(((PyObject *)__pyx_v_pops)); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(((PyObject *)__pyx_v_pops)); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(0, 6, __pyx_L1_error)
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "fwdpy/gwas/gwas.pyx":6
+    /* "fwdpy/gwas/gwas.pyx":7
  *     rv=[]
  *     for i in range(len(pops)):
  *         temp=make_geno_matrix(pops.pops[i].get(),True)             # <<<<<<<<<<<<<<
@@ -1398,34 +1417,37 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyO
       __pyx_t_4 = fwdpy::gwas::make_geno_matrix((__pyx_v_pops->pops[__pyx_v_i]).get(), 1);
     } catch(...) {
       __Pyx_CppExn2PyErr();
-      __PYX_ERR(0, 6, __pyx_L1_error)
+      __PYX_ERR(0, 7, __pyx_L1_error)
     }
     __pyx_v_temp = __pyx_t_4;
 
-    /* "fwdpy/gwas/gwas.pyx":7
+    /* "fwdpy/gwas/gwas.pyx":8
  *     for i in range(len(pops)):
  *         temp=make_geno_matrix(pops.pops[i].get(),True)
  *         rv.append(temp)             # <<<<<<<<<<<<<<
  *     return rv
+ * 
  */
-    __pyx_t_1 = __pyx_convert__to_py_struct__fwdpy_3a__3a_gwas_3a__3a_genotype_matrix(__pyx_v_temp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+    __pyx_t_1 = __pyx_convert__to_py_struct__fwdpy_3a__3a_gwas_3a__3a_genotype_matrix(__pyx_v_temp); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 8, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_rv, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 7, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_rv, __pyx_t_1); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 8, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "fwdpy/gwas/gwas.pyx":8
+  /* "fwdpy/gwas/gwas.pyx":9
  *         temp=make_geno_matrix(pops.pops[i].get(),True)
  *         rv.append(temp)
  *     return rv             # <<<<<<<<<<<<<<
+ * 
+ * def VAVG(object p):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_rv);
   __pyx_r = __pyx_v_rv;
   goto __pyx_L0;
 
-  /* "fwdpy/gwas/gwas.pyx":3
- * from fwdpy.fwdpy cimport popvec,singlepop,singlepop_t
+  /* "fwdpy/gwas/gwas.pyx":4
+ * from fwdpy.samplers cimport additive_variance_wrapper
  * 
  * def genotype_matrices(popvec pops):             # <<<<<<<<<<<<<<
  *     rv=[]
@@ -1439,6 +1461,152 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyO
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_rv);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "fwdpy/gwas/gwas.pyx":11
+ *     return rv
+ * 
+ * def VAVG(object p):             # <<<<<<<<<<<<<<
+ *     if isinstance(p,singlepop):
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5fwdpy_4gwas_4gwas_3VAVG(PyObject *__pyx_self, PyObject *__pyx_v_p); /*proto*/
+static PyMethodDef __pyx_mdef_5fwdpy_4gwas_4gwas_3VAVG = {"VAVG", (PyCFunction)__pyx_pw_5fwdpy_4gwas_4gwas_3VAVG, METH_O, 0};
+static PyObject *__pyx_pw_5fwdpy_4gwas_4gwas_3VAVG(PyObject *__pyx_self, PyObject *__pyx_v_p) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("VAVG (wrapper)", 0);
+  __pyx_r = __pyx_pf_5fwdpy_4gwas_4gwas_2VAVG(__pyx_self, ((PyObject *)__pyx_v_p));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_2VAVG(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_p) {
+  PyObject *__pyx_v_i = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *(*__pyx_t_5)(PyObject *);
+  PyObject *__pyx_t_6 = NULL;
+  __Pyx_RefNannySetupContext("VAVG", 0);
+
+  /* "fwdpy/gwas/gwas.pyx":12
+ * 
+ * def VAVG(object p):
+ *     if isinstance(p,singlepop):             # <<<<<<<<<<<<<<
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+ */
+  __pyx_t_1 = __Pyx_TypeCheck(__pyx_v_p, __pyx_ptype_5fwdpy_5fwdpy_singlepop); 
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (__pyx_t_2) {
+
+    /* "fwdpy/gwas/gwas.pyx":14
+ *     if isinstance(p,singlepop):
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]             # <<<<<<<<<<<<<<
+ *     elif isinstance(p,popvec):
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_3 = __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum((fwdpy::additive_variance_wrapper<fwdpy::singlepop_t>(((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_p)->pop.get())[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 14, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_r = __pyx_t_3;
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "fwdpy/gwas/gwas.pyx":12
+ * 
+ * def VAVG(object p):
+ *     if isinstance(p,singlepop):             # <<<<<<<<<<<<<<
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+ */
+  }
+
+  /* "fwdpy/gwas/gwas.pyx":15
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+ *     elif isinstance(p,popvec):             # <<<<<<<<<<<<<<
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]
+ */
+  __pyx_t_2 = __Pyx_TypeCheck(__pyx_v_p, __pyx_ptype_5fwdpy_5fwdpy_popvec); 
+  __pyx_t_1 = (__pyx_t_2 != 0);
+  if (__pyx_t_1) {
+
+    /* "fwdpy/gwas/gwas.pyx":16
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+ *     elif isinstance(p,popvec):
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]             # <<<<<<<<<<<<<<
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = PyObject_GetIter(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_popvec)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
+    for (;;) {
+      {
+        __pyx_t_6 = __pyx_t_5(__pyx_t_4);
+        if (unlikely(!__pyx_t_6)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 16, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_6);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_6);
+      __pyx_t_6 = 0;
+      __pyx_t_6 = __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum((fwdpy::additive_variance_wrapper<fwdpy::singlepop_t>(((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_i)->pop.get())[0])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 16, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 16, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_r = __pyx_t_3;
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "fwdpy/gwas/gwas.pyx":15
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+ *     elif isinstance(p,popvec):             # <<<<<<<<<<<<<<
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]
+ */
+  }
+
+  /* "fwdpy/gwas/gwas.pyx":11
+ *     return rv
+ * 
+ * def VAVG(object p):             # <<<<<<<<<<<<<<
+ *     if isinstance(p,singlepop):
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("fwdpy.gwas.gwas.VAVG", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_i);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -1530,9 +1698,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_E, __pyx_k_E, sizeof(__pyx_k_E), 0, 0, 1, 1},
   {&__pyx_n_s_G, __pyx_k_G, sizeof(__pyx_k_G), 0, 0, 1, 1},
   {&__pyx_n_s_N, __pyx_k_N, sizeof(__pyx_k_N), 0, 0, 1, 1},
+  {&__pyx_n_s_VAVG, __pyx_k_VAVG, sizeof(__pyx_k_VAVG), 0, 0, 1, 1},
   {&__pyx_n_s_causative, __pyx_k_causative, sizeof(__pyx_k_causative), 0, 0, 1, 1},
   {&__pyx_n_s_cpos, __pyx_k_cpos, sizeof(__pyx_k_cpos), 0, 0, 1, 1},
+  {&__pyx_n_s_freq, __pyx_k_freq, sizeof(__pyx_k_freq), 0, 0, 1, 1},
   {&__pyx_n_s_fwdpy_gwas_gwas, __pyx_k_fwdpy_gwas_gwas, sizeof(__pyx_k_fwdpy_gwas_gwas), 0, 0, 1, 1},
+  {&__pyx_n_s_generation, __pyx_k_generation, sizeof(__pyx_k_generation), 0, 0, 1, 1},
   {&__pyx_n_s_genotype_matrices, __pyx_k_genotype_matrices, sizeof(__pyx_k_genotype_matrices), 0, 0, 1, 1},
   {&__pyx_kp_s_home_kevin_src_fwdpy_fwdpy_gwas, __pyx_k_home_kevin_src_fwdpy_fwdpy_gwas, sizeof(__pyx_k_home_kevin_src_fwdpy_fwdpy_gwas), 0, 0, 1, 0},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
@@ -1541,7 +1712,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_n_neutral, __pyx_k_n_neutral, sizeof(__pyx_k_n_neutral), 0, 0, 1, 1},
   {&__pyx_n_s_neutral, __pyx_k_neutral, sizeof(__pyx_k_neutral), 0, 0, 1, 1},
   {&__pyx_n_s_npos, __pyx_k_npos, sizeof(__pyx_k_npos), 0, 0, 1, 1},
+  {&__pyx_n_s_p, __pyx_k_p, sizeof(__pyx_k_p), 0, 0, 1, 1},
   {&__pyx_n_s_pops, __pyx_k_pops, sizeof(__pyx_k_pops), 0, 0, 1, 1},
+  {&__pyx_n_s_pss, __pyx_k_pss, sizeof(__pyx_k_pss), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_rv, __pyx_k_rv, sizeof(__pyx_k_rv), 0, 0, 1, 1},
@@ -1550,7 +1723,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 5, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 6, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -1560,17 +1733,29 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "fwdpy/gwas/gwas.pyx":3
- * from fwdpy.fwdpy cimport popvec,singlepop,singlepop_t
+  /* "fwdpy/gwas/gwas.pyx":4
+ * from fwdpy.samplers cimport additive_variance_wrapper
  * 
  * def genotype_matrices(popvec pops):             # <<<<<<<<<<<<<<
  *     rv=[]
  *     for i in range(len(pops)):
  */
-  __pyx_tuple_ = PyTuple_Pack(4, __pyx_n_s_pops, __pyx_n_s_rv, __pyx_n_s_i, __pyx_n_s_temp); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(4, __pyx_n_s_pops, __pyx_n_s_rv, __pyx_n_s_i, __pyx_n_s_temp); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_gwas, __pyx_n_s_genotype_matrices, 3, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_gwas, __pyx_n_s_genotype_matrices, 4, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 4, __pyx_L1_error)
+
+  /* "fwdpy/gwas/gwas.pyx":11
+ *     return rv
+ * 
+ * def VAVG(object p):             # <<<<<<<<<<<<<<
+ *     if isinstance(p,singlepop):
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ */
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_i); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kevin_src_fwdpy_fwdpy_gwas, __pyx_n_s_VAVG, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1698,22 +1883,34 @@ PyMODINIT_FUNC PyInit_gwas(void)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "fwdpy/gwas/gwas.pyx":3
- * from fwdpy.fwdpy cimport popvec,singlepop,singlepop_t
+  /* "fwdpy/gwas/gwas.pyx":4
+ * from fwdpy.samplers cimport additive_variance_wrapper
  * 
  * def genotype_matrices(popvec pops):             # <<<<<<<<<<<<<<
  *     rv=[]
  *     for i in range(len(pops)):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_4gwas_4gwas_1genotype_matrices, NULL, __pyx_n_s_fwdpy_gwas_gwas); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 3, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_4gwas_4gwas_1genotype_matrices, NULL, __pyx_n_s_fwdpy_gwas_gwas); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_genotype_matrices, __pyx_t_1) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_genotype_matrices, __pyx_t_1) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "fwdpy/gwas/gwas.pyx":11
+ *     return rv
+ * 
+ * def VAVG(object p):             # <<<<<<<<<<<<<<
+ *     if isinstance(p,singlepop):
+ *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_4gwas_4gwas_3VAVG, NULL, __pyx_n_s_fwdpy_gwas_gwas); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_VAVG, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "fwdpy/gwas/gwas.pyx":1
  * from fwdpy.fwdpy cimport popvec,singlepop,singlepop_t             # <<<<<<<<<<<<<<
+ * from fwdpy.samplers cimport additive_variance_wrapper
  * 
- * def genotype_matrices(popvec pops):
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2020,6 +2217,55 @@ static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_gwas_3a__3a_genotype_
   Py_DECREF(member);
   member = __Pyx_PyInt_FromSize_t(s.n_causative); if (unlikely(!member)) goto bad;
   if (unlikely(PyDict_SetItem(res, __pyx_n_s_n_causative, member) < 0)) goto bad;
+  Py_DECREF(member);
+  return res;
+  bad:
+  Py_XDECREF(member);
+  Py_DECREF(res);
+  return NULL;
+}
+/* CIntToPy */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value) {
+    const unsigned int neg_one = (unsigned int) -1, const_zero = (unsigned int) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(unsigned int) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(unsigned int) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+        } else if (sizeof(unsigned int) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+        }
+    } else {
+        if (sizeof(unsigned int) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(unsigned int) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(unsigned int),
+                                     little, !is_unsigned);
+    }
+}
+
+static PyObject* __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum(struct fwdpy::VAcum s) {
+  PyObject* res;
+  PyObject* member;
+  res = PyDict_New(); if (unlikely(!res)) return NULL;
+  member = PyFloat_FromDouble(s.freq); if (unlikely(!member)) goto bad;
+  if (unlikely(PyDict_SetItem(res, __pyx_n_s_freq, member) < 0)) goto bad;
+  Py_DECREF(member);
+  member = PyFloat_FromDouble(s.pss); if (unlikely(!member)) goto bad;
+  if (unlikely(PyDict_SetItem(res, __pyx_n_s_pss, member) < 0)) goto bad;
+  Py_DECREF(member);
+  member = __Pyx_PyInt_From_unsigned_int(s.generation); if (unlikely(!member)) goto bad;
+  if (unlikely(PyDict_SetItem(res, __pyx_n_s_generation, member) < 0)) goto bad;
+  Py_DECREF(member);
+  member = __Pyx_PyInt_From_unsigned_int(s.N); if (unlikely(!member)) goto bad;
+  if (unlikely(PyDict_SetItem(res, __pyx_n_s_N, member) < 0)) goto bad;
   Py_DECREF(member);
   return res;
   bad:
