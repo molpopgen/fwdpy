@@ -10,7 +10,6 @@ def genotype_matrices(popvec pops):
 
 def VAVG(object p):
     if isinstance(p,singlepop):
-        #Return element 0, as there is no need to return a vector, as not running sampler over time...
-        return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+        return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
     elif isinstance(p,popvec):
-        return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]
+        return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get()) for i in (<popvec>(p))]
