@@ -1281,6 +1281,7 @@ static PyTypeObject *__pyx_ptype_5fwdpy_5fwdpy_GSLrng = 0;
 
 /* Module declarations from 'fwdpy.gwas.gwas' */
 static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &); /*proto*/
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(const std::vector<struct fwdpy::VAcum>  &); /*proto*/
 #define __Pyx_MODULE_NAME "fwdpy.gwas.gwas"
 int __pyx_module_is_main_fwdpy__gwas__gwas = 0;
 
@@ -1471,7 +1472,7 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_genotype_matrices(CYTHON_UNUSED PyO
  * 
  * def VAVG(object p):             # <<<<<<<<<<<<<<
  *     if isinstance(p,singlepop):
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
  */
 
 /* Python wrapper */
@@ -1496,30 +1497,31 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_2VAVG(CYTHON_UNUSED PyObject *__pyx
   int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *(*__pyx_t_5)(PyObject *);
-  PyObject *__pyx_t_6 = NULL;
+  Py_ssize_t __pyx_t_5;
+  PyObject *(*__pyx_t_6)(PyObject *);
+  PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("VAVG", 0);
 
   /* "fwdpy/gwas/gwas.pyx":12
  * 
  * def VAVG(object p):
  *     if isinstance(p,singlepop):             # <<<<<<<<<<<<<<
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
- *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
+ *     elif isinstance(p,popvec):
  */
   __pyx_t_1 = __Pyx_TypeCheck(__pyx_v_p, __pyx_ptype_5fwdpy_5fwdpy_singlepop); 
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "fwdpy/gwas/gwas.pyx":14
+    /* "fwdpy/gwas/gwas.pyx":13
+ * def VAVG(object p):
  *     if isinstance(p,singlepop):
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
- *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]             # <<<<<<<<<<<<<<
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())             # <<<<<<<<<<<<<<
  *     elif isinstance(p,popvec):
- *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get()) for i in (<popvec>(p))]
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum((fwdpy::additive_variance_wrapper<fwdpy::singlepop_t>(((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_p)->pop.get())[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 14, __pyx_L1_error)
+    __pyx_t_3 = __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(fwdpy::additive_variance_wrapper<fwdpy::singlepop_t>(((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_p)->pop.get())); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 13, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -1529,62 +1531,85 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_2VAVG(CYTHON_UNUSED PyObject *__pyx
  * 
  * def VAVG(object p):
  *     if isinstance(p,singlepop):             # <<<<<<<<<<<<<<
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
- *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
+ *     elif isinstance(p,popvec):
  */
   }
 
-  /* "fwdpy/gwas/gwas.pyx":15
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
- *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+  /* "fwdpy/gwas/gwas.pyx":14
+ *     if isinstance(p,singlepop):
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
  *     elif isinstance(p,popvec):             # <<<<<<<<<<<<<<
- *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get()) for i in (<popvec>(p))]
  */
   __pyx_t_2 = __Pyx_TypeCheck(__pyx_v_p, __pyx_ptype_5fwdpy_5fwdpy_popvec); 
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "fwdpy/gwas/gwas.pyx":16
- *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+    /* "fwdpy/gwas/gwas.pyx":15
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
  *     elif isinstance(p,popvec):
- *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]             # <<<<<<<<<<<<<<
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get()) for i in (<popvec>(p))]             # <<<<<<<<<<<<<<
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 16, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 15, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyObject_GetIter(((PyObject *)__pyx_ptype_5fwdpy_5fwdpy_popvec)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 16, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 16, __pyx_L1_error)
+    if (likely(PyList_CheckExact(__pyx_v_p)) || PyTuple_CheckExact(__pyx_v_p)) {
+      __pyx_t_4 = __pyx_v_p; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
+      __pyx_t_6 = NULL;
+    } else {
+      __pyx_t_5 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_v_p); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 15, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_6 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 15, __pyx_L1_error)
+    }
     for (;;) {
-      {
-        __pyx_t_6 = __pyx_t_5(__pyx_t_4);
-        if (unlikely(!__pyx_t_6)) {
+      if (likely(!__pyx_t_6)) {
+        if (likely(PyList_CheckExact(__pyx_t_4))) {
+          if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
+          #if CYTHON_COMPILING_IN_CPYTHON
+          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 15, __pyx_L1_error)
+          #else
+          __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 15, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          #endif
+        } else {
+          if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
+          #if CYTHON_COMPILING_IN_CPYTHON
+          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_7); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 15, __pyx_L1_error)
+          #else
+          __pyx_t_7 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 15, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_7);
+          #endif
+        }
+      } else {
+        __pyx_t_7 = __pyx_t_6(__pyx_t_4);
+        if (unlikely(!__pyx_t_7)) {
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 16, __pyx_L1_error)
+            else __PYX_ERR(0, 15, __pyx_L1_error)
           }
           break;
         }
-        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_GOTREF(__pyx_t_7);
       }
-      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_6);
-      __pyx_t_6 = 0;
-      __pyx_t_6 = __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum((fwdpy::additive_variance_wrapper<fwdpy::singlepop_t>(((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_i)->pop.get())[0])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 16, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 16, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_7 = __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(fwdpy::additive_variance_wrapper<fwdpy::singlepop_t>(((struct __pyx_obj_5fwdpy_5fwdpy_singlepop *)__pyx_v_i)->pop.get())); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 15, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_3, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 15, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "fwdpy/gwas/gwas.pyx":15
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
- *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())[0]
+    /* "fwdpy/gwas/gwas.pyx":14
+ *     if isinstance(p,singlepop):
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
  *     elif isinstance(p,popvec):             # <<<<<<<<<<<<<<
- *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get())[0] for i in popvec]
+ *         return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get()) for i in (<popvec>(p))]
  */
   }
 
@@ -1593,7 +1618,7 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_2VAVG(CYTHON_UNUSED PyObject *__pyx
  * 
  * def VAVG(object p):             # <<<<<<<<<<<<<<
  *     if isinstance(p,singlepop):
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
  */
 
   /* function exit code */
@@ -1602,7 +1627,7 @@ static PyObject *__pyx_pf_5fwdpy_4gwas_4gwas_2VAVG(CYTHON_UNUSED PyObject *__pyx
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("fwdpy.gwas.gwas.VAVG", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -1665,6 +1690,58 @@ static PyObject *__pyx_convert_vector_to_py_double(const std::vector<double>  &_
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_double", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(const std::vector<struct fwdpy::VAcum>  &__pyx_v_v) {
+  size_t __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  size_t __pyx_t_2;
+  size_t __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum", 0);
+
+  /* "vector.to_py":68
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(vector[X]& v):
+ *     return [X_to_py(v[i]) for i in range(v.size())]             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 68, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __pyx_v_v.size();
+  for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
+    __pyx_v_i = __pyx_t_3;
+    __pyx_t_4 = __pyx_convert__to_py_struct__fwdpy_3a__3a_VAcum((__pyx_v_v[__pyx_v_i])); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(1, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "vector.to_py":67
+ * 
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(vector[X]& v):             # <<<<<<<<<<<<<<
+ *     return [X_to_py(v[i]) for i in range(v.size())]
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("vector.to_py.__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1750,7 +1827,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * def VAVG(object p):             # <<<<<<<<<<<<<<
  *     if isinstance(p,singlepop):
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
  */
   __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_s_p, __pyx_n_s_i); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
@@ -1900,7 +1977,7 @@ PyMODINIT_FUNC PyInit_gwas(void)
  * 
  * def VAVG(object p):             # <<<<<<<<<<<<<<
  *     if isinstance(p,singlepop):
- *         #Return element 0, as there is no need to return a vector, as not running sampler over time...
+ *         return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_5fwdpy_4gwas_4gwas_3VAVG, NULL, __pyx_n_s_fwdpy_gwas_gwas); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1919,8 +1996,8 @@ PyMODINIT_FUNC PyInit_gwas(void)
 
   /* "vector.to_py":67
  * 
- * @cname("__pyx_convert_vector_to_py_double")
- * cdef object __pyx_convert_vector_to_py_double(vector[X]& v):             # <<<<<<<<<<<<<<
+ * @cname("__pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum")
+ * cdef object __pyx_convert_vector_to_py_struct__fwdpy_3a__3a_VAcum(vector[X]& v):             # <<<<<<<<<<<<<<
  *     return [X_to_py(v[i]) for i in range(v.size())]
  * 
  */
