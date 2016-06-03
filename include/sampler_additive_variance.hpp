@@ -405,6 +405,18 @@ namespace fwdpy
 	row++;
       }
   };
+
+  template<typename poptype>
+  additive_variance::final_t additive_variance_wrapper(const poptype * p)
+  /*!
+    Convenience wrapper for Cython. To be used when you want to do the above calculations
+    from an object on the Python side.
+  */
+  {
+    additive_variance AV;
+    AV(p,p->generation);
+    return AV.final();
+  }
 }
 
 #endif
