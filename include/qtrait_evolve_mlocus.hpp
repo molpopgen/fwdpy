@@ -133,7 +133,7 @@ namespace fwdpy
 					      recpols,
 					      between_region_rec_rates.data(),
 					      //rec b/w loci is interpreted as cM!!!!!
-					      [](const gsl_rng * __r, const double __d){ return gsl_ran_binomial(__r,__d,1); },
+					      [](const gsl_rng * __r, const double __d){return gsl_ran_bernoulli(__r,__d);},
 					      std::bind(no_selection_multi(),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3),
 					      pop->neutral,
 					      pop->selected,
