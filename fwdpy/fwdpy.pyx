@@ -3,7 +3,6 @@
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
-
 ## for DataFrame
 import pandas
 
@@ -16,6 +15,7 @@ include "views.pyx"
 include "view_fixations.pyx"
 include "debug.pyx"
 include "ages.pyx"
+include "temporal_samplers.pyx"
 
 def pkg_version():
     """
