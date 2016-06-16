@@ -24,6 +24,7 @@
 #include <algorithm>
 #include <memory>
 #include "types.hpp"
+#include "sampler_base.hpp"
 
 namespace fwdpy
 {
@@ -74,13 +75,33 @@ namespace fwdpy
     }
   };
 
-  struct additive_variance
+  struct additive_variance : public sampler_base
   {
     using final_t = std::vector<VAcum>;
 
+    virtual void operator()(const singlepop_t * pop, const unsigned generation)
+    {
+      call_operator_details(pop,generation);
+    }
+    virtual void operator()(const multilocus_t * pop, const unsigned generation)
+    {
+      call_operator_details(pop,generation);
+    }
+    
+    final_t final() const
+    {
+      return VGcollection;
+    }
+
+    additive_variance() : VGcollection(final_t())
+    {
+    }
+  private:
+    final_t VGcollection;
+
     template<typename pop_t>
-    inline void operator()(const pop_t * pop,
-			   unsigned generation)
+    inline void call_operator_details(const pop_t * pop,
+				      unsigned generation)
     {
       auto mut_keys = get_mut_keys(pop);
       if(mut_keys.empty())
@@ -158,18 +179,7 @@ namespace fwdpy
 	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),rsq,generation,pop->diploids.size()));
 	}
     }
-
-    final_t final() const
-    {
-      return VGcollection;
-    }
-
-    additive_variance() : VGcollection(final_t())
-    {
-    }
-  private:
-    final_t VGcollection;
-
+    
     regression_results regression_details(const gsl_vector_ptr_t & G,
 					  const gsl_matrix_ptr_t & genotypes,
 					  const std::vector<size_t> & mut_keys,

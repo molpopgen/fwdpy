@@ -4,6 +4,8 @@
 #include <vector>
 #include <array>
 #include <string>
+#include <iostream>
+#include <sampler_base.hpp>
 #include "types.hpp"
 
 namespace fwdpy {
@@ -26,7 +28,7 @@ namespace fwdpy {
   */
   using qtrait_stats_t = std::vector<std::array<double,11>>;
 
-  class pop_properties
+  class pop_properties : public sampler_base
   /*!
     \brief A "sampler" that records "quantitative genetics" kinda stuff.
     \ingroup samplers
@@ -35,10 +37,64 @@ namespace fwdpy {
   public:
     using final_t = std::vector<qtrait_stats_cython>;
 
-    template<typename pop_t>
-    inline void operator()(const pop_t * pop,
-			   const unsigned generation)
+    virtual void operator()(const singlepop_t * pop, const unsigned generation)
     {
+      call_operator_details(pop,generation);
+    }
+
+    virtual void operator()(const multilocus_t * pop, const unsigned generation)
+    {
+      call_operator_details(pop,generation);
+    }
+
+    final_t final() const
+    /*!
+      The implementation details of this are messy,
+      and the enum is used to guard against indexing errors.
+    */
+    {
+      final_t rv;
+      for( const auto & q : qstats)
+	{
+	  rv.emplace_back( "VG", q[static_cast<size_t>(qtrait_stat_list::VG)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "VE", q[static_cast<size_t>(qtrait_stat_list::VE)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "leading_q", q[static_cast<size_t>(qtrait_stat_list::PLF)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "leading_e", q[static_cast<size_t>(qtrait_stat_list::LE)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "max_expl", q[static_cast<size_t>(qtrait_stat_list::MAXEXP)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "ebar", q[static_cast<size_t>(qtrait_stat_list::EBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "wbar", q[static_cast<size_t>(qtrait_stat_list::WBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "varw", q[static_cast<size_t>(qtrait_stat_list::WVAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "tbar", q[static_cast<size_t>(qtrait_stat_list::TBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "Vst", q[static_cast<size_t>(qtrait_stat_list::VST)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	}
+      return rv;
+    }
+
+    explicit pop_properties(double optimum_) noexcept : optimum(optimum_)
+    {
+    }
+  private:
+    template<typename pop_t> void
+    fill_vectors(const pop_t * pop,
+		 std::vector<double> & VG,
+		 std::vector<double> & VE,
+		 std::vector<double> & trait,
+		 std::vector<double> & wbar)
+    {
+      for(const auto & dip : pop->diploids)
+	{
+	  VG.push_back(dip.g);
+	  VE.push_back(dip.e);
+	  trait.push_back(dip.g+dip.e);
+	  wbar.push_back(dip.w);
+	}
+    }
+
+    template<typename pop_t>
+    inline void call_operator_details(const pop_t * pop,
+				      const unsigned generation)
+    {
+      std::cerr << "here\n";
       std::vector<double> VG,VE,wbar,trait;
       VG.reserve(pop->diploids.size());
       VE.reserve(pop->diploids.size());
@@ -102,48 +158,6 @@ namespace fwdpy {
 	      vst}});
     }
 
-    final_t final() const
-    /*!
-      The implementation details of this are messy,
-      and the enum is used to guard against indexing errors.
-    */
-    {
-      final_t rv;
-      for( const auto & q : qstats)
-	{
-	  rv.emplace_back( "VG", q[static_cast<size_t>(qtrait_stat_list::VG)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "VE", q[static_cast<size_t>(qtrait_stat_list::VE)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "leading_q", q[static_cast<size_t>(qtrait_stat_list::PLF)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "leading_e", q[static_cast<size_t>(qtrait_stat_list::LE)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "max_expl", q[static_cast<size_t>(qtrait_stat_list::MAXEXP)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "ebar", q[static_cast<size_t>(qtrait_stat_list::EBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "wbar", q[static_cast<size_t>(qtrait_stat_list::WBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "varw", q[static_cast<size_t>(qtrait_stat_list::WVAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "tbar", q[static_cast<size_t>(qtrait_stat_list::TBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	  rv.emplace_back( "Vst", q[static_cast<size_t>(qtrait_stat_list::VST)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
-	}
-      return rv;
-    }
-
-    explicit pop_properties(double optimum_) noexcept : optimum(optimum_)
-    {
-    }
-  private:
-    template<typename pop_t> void
-    fill_vectors(const pop_t * pop,
-		 std::vector<double> & VG,
-		 std::vector<double> & VE,
-		 std::vector<double> & trait,
-		 std::vector<double> & wbar)
-    {
-      for(const auto & dip : pop->diploids)
-	{
-	  VG.push_back(dip.g);
-	  VE.push_back(dip.e);
-	  trait.push_back(dip.g+dip.e);
-	  wbar.push_back(dip.w);
-	}
-    }
 
     qtrait_stats_t qstats;
     double optimum;

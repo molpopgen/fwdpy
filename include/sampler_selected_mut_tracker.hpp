@@ -3,7 +3,7 @@
 
 #include <limits>
 #include "types.hpp"
-
+#include "sampler_base.hpp"
 namespace fwdpy
 {
   struct selected_mut_data
@@ -74,7 +74,7 @@ namespace fwdpy
   */
   using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
 
-  class selected_mut_tracker
+  class selected_mut_tracker : public sampler_base
   /*!
     \brief A "sampler" for recording frequency trajectories of selected mutations.
     \ingroup samplers
@@ -82,9 +82,37 @@ namespace fwdpy
   {
   public:
     using final_t = std::vector< std::pair<selected_mut_data, std::vector<double> > >;
+
+    virtual void operator()(const singlepop_t * pop, const unsigned generation)
+    {
+      call_operator_details(pop,generation);
+    }
+    virtual void operator()(const multilocus_t * pop, const unsigned generation)
+    {
+      call_operator_details(pop,generation);
+    }
+    
+    final_t final() const
+    {
+      final_t rv;
+      for( const auto & i : trajectories )
+	{
+	  rv.emplace_back( std::make_pair( selected_mut_data(std::get<static_cast<std::size_t>(traj_key_values::origin)>(i.first),
+							     std::get<static_cast<std::size_t>(traj_key_values::pos)>(i.first),
+							     std::get<static_cast<std::size_t>(traj_key_values::esize)>(i.first),
+							     std::get<static_cast<std::size_t>(traj_key_values::label)>(i.first)),
+					   i.second) );
+	}
+      return rv;
+    }
+
+    explicit selected_mut_tracker() noexcept : trajectories(trajectories_t())
+    {
+    }
+  private:
+    trajectories_t trajectories;
     template<typename pop_t>
-    inline void operator()(const pop_t * pop,
-			   const unsigned)
+    inline void call_operator_details(const pop_t * pop, const unsigned)
     {
       for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
       	{
@@ -112,26 +140,6 @@ namespace fwdpy
 	    }
       	}
     }
-
-    final_t final() const
-    {
-      final_t rv;
-      for( const auto & i : trajectories )
-	{
-	  rv.emplace_back( std::make_pair( selected_mut_data(std::get<static_cast<std::size_t>(traj_key_values::origin)>(i.first),
-							     std::get<static_cast<std::size_t>(traj_key_values::pos)>(i.first),
-							     std::get<static_cast<std::size_t>(traj_key_values::esize)>(i.first),
-							     std::get<static_cast<std::size_t>(traj_key_values::label)>(i.first)),
-					   i.second) );
-	}
-      return rv;
-    }
-
-    explicit selected_mut_tracker() noexcept : trajectories(trajectories_t())
-    {
-    }
-  private:
-    trajectories_t trajectories;
   };
 }
 

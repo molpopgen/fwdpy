@@ -9,7 +9,7 @@
 #include <fwdpp/sugar/sampling.hpp>
 #include <fwdpp/sugar/poptypes/tags.hpp>
 #include "types.hpp"
-
+#include "sampler_base.hpp"
 namespace fwdpy
 {
   struct detailed_deme_sample
@@ -24,21 +24,21 @@ namespace fwdpy
   };
 
 
-  template<typename pop_t = singlepop_t>
-  class sample_n //take a sample of size n from a population
+  class sample_n : public sampler_base//take a sample of size n from a population
   /*
     \brief A "sampler" that takes a sample of n gametes from a population
     \ingroup samplers
   */
   {
   public:
-    using singlepop_type_return_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
-    using multilocus_type_return_t = std::vector<std::pair<unsigned,std::vector<detailed_deme_sample> > >;
-    using final_t = typename std::conditional < std::is_same<typename pop_t::popmodel_t,KTfwd::sugar::SINGLEPOP_TAG>::value,
-						singlepop_type_return_t,
-						multilocus_type_return_t >::type;
-    inline void operator()(const pop_t * pop,
-			   const unsigned generation)
+    // using singlepop_type_return_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
+    // using multilocus_type_return_t = std::vector<std::pair<unsigned,std::vector<detailed_deme_sample> > >;
+    // using final_t = typename std::conditional < std::is_same<typename pop_t::popmodel_t,KTfwd::sugar::SINGLEPOP_TAG>::value,
+    // 						singlepop_type_return_t,
+    // 						multilocus_type_return_t >::type;
+
+    using final_t = std::vector<std::pair<unsigned,detailed_deme_sample> >;
+    virtual void operator()(const singlepop_t * pop, const unsigned generation)
     {
       auto s = KTfwd::sample_separate(r.get(),*pop,nsam,true);
       std::vector< std::pair<double,double> > sh;
@@ -52,7 +52,26 @@ namespace fwdpy
 	}
       rv.emplace_back(generation,detailed_deme_sample(std::move(s),std::move(sh)));
     }
-
+    
+    virtual void operator()(const multilocus_t * pop, const unsigned generation)
+    {
+      auto s = KTfwd::sample_separate(r.get(),*pop,nsam,true);
+      std::vector<detailed_deme_sample> vds;
+      for(unsigned i=0;i<s.size();++i)
+	{	
+	  std::vector< std::pair<double,double> > sh;
+	  for( const auto & si : s[i].second)
+	    {
+	      auto itr = std::find_if(pop->mutations.begin(),pop->mutations.end(),[&si](const singlepop_t::mutation_t & m) noexcept
+				      {
+					return m.pos == si.first;
+				      });
+	      sh.emplace_back(itr->s,itr->h);
+	    }
+	  rv.emplace_back(generation,detailed_deme_sample(std::move(s[i]),std::move(sh)));
+	}
+    }
+    
     final_t final() const
     {
       return rv;
@@ -73,28 +92,6 @@ namespace fwdpy
     const unsigned nsam;
     GSLrng_t r;
   };
-
-  template<>
-  inline void sample_n<multilocus_t>::operator()(const multilocus_t * pop,
-						 const unsigned generation)
-  {
-    auto s = KTfwd::sample_separate(r.get(),*pop,nsam,true);
-    std::vector<detailed_deme_sample> vds;
-    for(unsigned i=0;i<s.size();++i)
-      {	
-	std::vector< std::pair<double,double> > sh;
-	for( const auto & si : s[i].second)
-	  {
-	    auto itr = std::find_if(pop->mutations.begin(),pop->mutations.end(),[&si](const singlepop_t::mutation_t & m) noexcept
-				    {
-				      return m.pos == si.first;
-				    });
-	    sh.emplace_back(itr->s,itr->h);
-	  }
-	vds.emplace_back(std::move(s[i]),std::move(sh));
-      }
-    rv.emplace_back(generation,std::move(vds));
-  }
 }
 
 #endif
