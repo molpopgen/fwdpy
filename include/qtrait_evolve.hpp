@@ -153,7 +153,7 @@ namespace fwdpy
 					  const internal::region_manager * rm);
     
     //Take samples over time
-    std::vector<sample_n<singlepop_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_qtrait_sample_async( GSLrng_t * rng,
 				GSLrng_t * rng_sample,
 				std::vector<std::shared_ptr<singlepop_t> > * pops,
@@ -229,7 +229,7 @@ namespace fwdpy
 				       const internal::region_manager * rm);
     
     //Take samples over time
-    std::vector<sample_n<singlepop_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_gbr_sample_async( GSLrng_t * rng, GSLrng_t * rng_sample,
 			     std::vector<std::shared_ptr<singlepop_t> > * pops,
 			     const unsigned * Nvector,

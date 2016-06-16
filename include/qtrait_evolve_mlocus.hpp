@@ -238,7 +238,7 @@ namespace fwdpy
     //CONCRETE FXNS BELOW THAT CYTHON CAN HANDLE
   
     //Take samples over time
-    std::vector<sample_n<multilocus_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_qtrait_mloc_sample_async( GSLrng_t * rng,
 				     GSLrng_t * rng_sample,
 				     std::vector<std::shared_ptr<multilocus_t> > * pops,
@@ -328,7 +328,7 @@ namespace fwdpy
 
 
 
-    std::vector<sample_n<multilocus_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_qtrait_mloc_pm_sample_async( GSLrng_t * rng,
 					GSLrng_t * rng_sample,
 					std::vector<std::shared_ptr<multilocus_t> > * pops,
