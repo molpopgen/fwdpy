@@ -53,7 +53,7 @@ namespace fwdpy
 								  mu_neutral,mu_selected,littler,f,
 								  sigmaE,optimum,0,rm,rules);
     }
-    std::vector<sample_n<singlepop_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_qtrait_sample_async( GSLrng_t * rng,
 				GSLrng_t * rng_sampling,
 				std::vector<std::shared_ptr<singlepop_t> > * pops,
@@ -71,7 +71,7 @@ namespace fwdpy
 				const internal::region_manager * rm)
     {
       qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<sample_n<singlepop_t>,
+      return evolve_qtrait_async_wrapper<sample_n,
 					 qtrait_model_rules,
 					 decltype(nsam),
 					 const gsl_rng *>(rng,pops,Nvector,Nvector_length,
@@ -168,7 +168,7 @@ namespace fwdpy
 							       mu_neutral,mu_selected,littler,f,
 							       sigmaE,optimum,0,rm,rules);
     }
-    std::vector<sample_n<singlepop_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_gbr_sample_async( GSLrng_t * rng,
 			     GSLrng_t * rng_sample,
 			     std::vector<std::shared_ptr<singlepop_t> > * pops,
@@ -186,7 +186,7 @@ namespace fwdpy
 			     const internal::region_manager * rm)
     {
       gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<sample_n<singlepop_t>,
+      return evolve_qtrait_async_wrapper<sample_n,
 					 gbr_model_rules,
 					 decltype(nsam),
 					 const gsl_rng *>(rng,pops,Nvector,Nvector_length,

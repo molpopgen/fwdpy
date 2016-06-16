@@ -23,7 +23,7 @@ namespace fwdpy
 					      rm,fitness);
   }
   
-  std::vector<sample_n<singlepop_t>::final_t>
+  std::vector<sample_n::final_t>
   evolve_regions_sample_async( GSLrng_t * rng, GSLrng_t * rng_sampler,
 			       std::vector<std::shared_ptr<singlepop_t> > * pops,
 			       const unsigned * Nvector,
@@ -37,7 +37,7 @@ namespace fwdpy
 			       const internal::region_manager * rm,
 			       const char * fitness)
   {
-    return evolve_regions_async_wrapper<sample_n<singlepop_t>,
+    return evolve_regions_async_wrapper<sample_n,
 					decltype(nsam),
 					const gsl_rng *>(rng,pops,Nvector,Nvector_len,
 							 mu_neutral,mu_selected,littler,f,sample,

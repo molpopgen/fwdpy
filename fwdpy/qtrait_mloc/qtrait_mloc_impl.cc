@@ -46,7 +46,7 @@ namespace fwdpy
       return rv;
     }
 
-    std::vector<sample_n<multilocus_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_qtrait_mloc_sample_async( GSLrng_t * rng,
 				     GSLrng_t * rng_sampling,
 				     std::vector<std::shared_ptr<multilocus_t> > * pops,
@@ -65,7 +65,7 @@ namespace fwdpy
 				     const unsigned nsam)
     {
       qtrait_mloc_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_mloc_async_wrapper<fwdpy::sample_n<multilocus_t>,
+      return evolve_qtrait_mloc_async_wrapper<fwdpy::sample_n,
 					      qtrait_mloc_rules,
 					      decltype(nsam),
 					      const gsl_rng *>(rng,
@@ -215,7 +215,7 @@ namespace fwdpy
 								  rules);
     }
     //POWER MEAN FUNCTIONS
-    std::vector<sample_n<multilocus_t>::final_t>
+    std::vector<sample_n::final_t>
     evolve_qtrait_mloc_pm_sample_async( GSLrng_t * rng,
 					GSLrng_t * rng_sampling,
 					std::vector<std::shared_ptr<multilocus_t> > * pops,
@@ -238,7 +238,7 @@ namespace fwdpy
 					const unsigned nsam)
     {
       qtrait_mloc_pm_rules rules(sigmaE,optimum,VS,SLd,SLp,MLd,MLp,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_mloc_async_wrapper<fwdpy::sample_n<multilocus_t>,
+      return evolve_qtrait_mloc_async_wrapper<fwdpy::sample_n,
 					      qtrait_mloc_pm_rules,
 					      decltype(nsam),
 					      const gsl_rng *>(rng,
