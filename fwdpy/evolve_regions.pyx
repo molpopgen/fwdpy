@@ -25,17 +25,17 @@ def check_input_params(double mu_neutral, double mu_selected, double recrate,
                        
 @cython.boundscheck(False)
 def evolve_regions(GSLrng rng,
-                    int npops,
-                    int N,
-                    unsigned[:] nlist,
-                    double mu_neutral,
-                    double mu_selected,
-                    double recrate,
-                    list nregions,
-                    list sregions,
-                    list recregions,
-                    double f = 0,
-                    const char * fitness = "multiplicative"):
+                   int npops,
+                   int N,
+                   unsigned[:] nlist,
+                   double mu_neutral,
+                   double mu_selected,
+                   double recrate,
+                   list nregions,
+                   list sregions,
+                   list recregions,
+                   double f = 0,
+                   const char * fitness = "multiplicative"):
     """
     Evolve a region with variable mutation, fitness effects, and recombination rates.
 
@@ -86,15 +86,12 @@ def evolve_regions(GSLrng rng,
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
-    if f < 0.:
-        warnings.warn("f < 0 will be treated as 0")
-        f=0
     pops = popvec(npops,N)
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef size_t listlen = len(nlist)
-    with nogil:
-        evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+    donothing = nothing_sampler(npops)
+    evolve_regions_sampler(rng,pops,donothing,nlist,
+                           mu_neutral,mu_selected,recrate,
+                           nregions,sregions,recregions,len(nlist),
+                           f,fitness)
     return pops
 
 @cython.boundscheck(False)
@@ -113,8 +110,7 @@ def evolve_regions_more(GSLrng rng,
     Continue to evolve a region with variable mutation, fitness effects, and recombination rates.
 
     :param rng: a :class:`GSLrng`
-    :param pops: A list of populations simulated by :func:`evolve_regions`
-    :param N: The diploid population size to simulate
+    :param pops: a :class:`popvec`
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
     :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
     :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
@@ -143,85 +139,30 @@ def evolve_regions_more(GSLrng rng,
     >>> # Evolve for another 5N generations
     >>> fwdpy.evolve_regions_more(rng,pops,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
-    check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
-    if f < 0.:
-        warnings.warn("f < 0 will be treated as 0")
-        f=0
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef size_t listlen = len(nlist)
-    with nogil:
-        evolve_regions_no_sampling_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,rmgr.thisptr,fitness)
+    donothing = nothing_sampler(len(pops))
+    evolve_regions_sampler(rng,pops,donothing,nlist,
+                           mu_neutral,mu_selected,recrate,
+                           nregions,sregions,recregions,int(len(nlist)),
+                           f,fitness)
 
 @cython.boundscheck(False)
-def evolve_regions_sample(GSLrng rng_evolve, GSLrng rng_sample,
-                            popvec pops,
-                            unsigned[:] nlist,
-                            double mu_neutral,
-                            double mu_selected,
-                            double recrate,
-                            list nregions,
-                            list sregions,
-                            list recregions,
-                            int sample,
-                            unsigned nsam,
-                            double f = 0,
-                            const char * fitness = "multiplicative"):
+def evolve_regions_sampler(GSLrng rng,
+                           popvec pops,
+                           temporal_sampler slist,
+                           unsigned[:] nlist,
+                           double mu_neutral,
+                           double mu_selected,
+                           double recrate,
+                           list nregions,
+                           list sregions,
+                           list recregions,
+                           int sample,
+                           double f = 0,
+                           const char * fitness = "multiplicative"):
     """
-    Evolve a set of populations, taking a random sample of size "nsam" every "sample" generations.
-
-    :param rng_evolve: a :class:`GSLrng` used for the evolving
-    :param rng_sample: a :class:`GSLrng` used for the sampling
-    :param pops: A list of populations simulated by :func:`evolve_regions`
-    :param N: The diploid population size to simulate
-    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
-    :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
-    :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
-    :param recrate: The recombination rate in the regions (per diploid, per generation)
-    :param nregions: A list specifying where neutral mutations occur
-    :param sregions: A list specifying where selected mutations occur
-    :param recregions: A list specifying how the genetic map varies along the region
-    :param sample: How often to record data about non-neutral mutations
-    :param nsam: The sample size
-    :param f: The selfing probabilty
-    :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
-
-    :return: One list per population in "pops".  Each list contains a sample of genotypes + the generation from which it was taken.
-
-    :raises: RuntimeError if parameters do not pass checks
-    """
-    check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
-    if sample <= 0:
-        raise RuntimeError("sample must be > 0")
-    if nsam == 0:
-        raise RuntimeError("nsam must be > 0")
-    if f < 0.:
-        warnings.warn("f < 0 will be treated as 0")
-        f=0
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef size_t listlen = len(nlist)
-    return evolve_regions_sample_async(rng_evolve.thisptr,rng_sample.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,nsam,rmgr.thisptr,fitness)
-
-@cython.boundscheck(False)
-def evolve_regions_track(GSLrng rng,
-                            popvec pops,
-                            unsigned[:] nlist,
-                            double mu_neutral,
-                            double mu_selected,
-                            double recrate,
-                            list nregions,
-                            list sregions,
-                            list recregions,
-                            int sample,
-                            double f = 0,
-                            const char * fitness = "multiplicative"):
-    """
-    Evolve a set of populations, recording data on non-neutral every "sample" generations.  
-
     :param rng: a :class:`GSLrng`
-    :param pops: A list of populations simulated by :func:`evolve_regions`
-    :param N: The diploid population size to simulate
+    :param pops: A :class:`popvec`
+    :param slist: A :class:`temporal_sampler`.
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
     :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
     :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
@@ -229,13 +170,9 @@ def evolve_regions_track(GSLrng rng,
     :param nregions: A list specifying where neutral mutations occur
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
-    :param sample: How often to record data about non-neutral mutations
+    :param sample: Apply the temporal sample every 'sample' generations during the simulation.
     :param f: The selfing probabilty
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
-
-    :return: One list per population in "pops".  Each list contains information on mutation frequency, effect size, etc., over time.
-
-    :raises: RuntimeError if parameters do not pass checks
     """
     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if sample <= 0:
@@ -246,25 +183,5 @@ def evolve_regions_track(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
-    return evolve_regions_track_async(rng.thisptr,&pops.pops,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
-    
-##Experimental
-
-def evolve_sampler_test(GSLrng rng,
-                        popvec pops,
-                        temporal_sampler slist,
-                        unsigned[:] nlist,
-                        double mu_neutral,
-                        double mu_selected,
-                        double recrate,
-                        list nregions,
-                        list sregions,
-                        list recregions,
-                        int sample,
-                        double f = 0,
-                        const char * fitness = "multiplicative"):
-    rmgr = region_manager_wrapper()
-    internal.make_region_manager(rmgr,nregions,sregions,recregions)
-    cdef size_t listlen = len(nlist)
-    evolve_regions_sampler_test(rng.thisptr,&pops.pops,
-                                slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
+    evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
+                               slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
