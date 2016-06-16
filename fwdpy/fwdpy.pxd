@@ -2,12 +2,13 @@ from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
+
 from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.gsl cimport gsl_rng
-from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix
+from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum
 
 ##Create hooks to C++ types
 
@@ -163,6 +164,62 @@ cdef class popvec_mloc(popcont):
 cdef class GSLrng:
     cdef GSLrng_t * thisptr
 
+#Functions relating to built-in temporal sampling features
+
+cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
+    cdef cppclass sampler_base:
+        pass
+
+cdef extern from "sampler_no_sampling.hpp" namespace "fwdpy" nogil:
+    cdef cppclass no_sampling(sampler_base):
+        no_sampling()
+
+cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
+    cdef cppclass pop_properties(sampler_base):
+        pop_properties(double optimum)
+        vector[qtrait_stats_cython] final() const
+
+cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
+    vector[VAcum] additive_variance_wrapper[POPTYPE](const POPTYPE * p)
+    cdef cppclass additive_variance(sampler_base):
+        additive_variance()
+        vector[VAcum] final() const
+
+cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
+    cdef cppclass sample_n(sampler_base):
+        sample_n(unsigned, const gsl_rng *)
+        vector[pair[uint,detailed_deme_sample]] final() const
+
+cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
+    cdef cppclass selected_mut_tracker(sampler_base):
+        selected_mut_tracker()
+        vector[pair[selected_mut_data, vector[double]]] final() const
+        
+#Extension classes for temporal sampling
+from libcpp.memory cimport unique_ptr
+
+cdef class temporal_sampler:
+    cdef vector[unique_ptr[sampler_base]] vec
+
+cdef class nothing_sampler(temporal_sampler):
+    pass
+
+cdef class qtrait_stats_sampler(temporal_sampler):
+    pass
+
+cdef class nsam_sampler(temporal_sampler):
+    pass
+
+cdef class VA_sampler(temporal_sampler):
+    pass
+
+cdef class freq_sampler(temporal_sampler):
+    pass
+
+
+
+
+
 #Typedefs for convenience
 ctypedef vector[popgenmut].iterator mcont_t_itr
 ctypedef vector[mcont_t_itr] mut_container_t
@@ -264,6 +321,20 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
                                                                                       const int sample,
                                                                                       const region_manager * rm,
                                                                                       const char * fitness) except +
+
+    void evolve_regions_sampler_test( GSLrng_t * rng,
+				      vector[shared_ptr[singlepop_t]] * pops,
+				      vector[unique_ptr[sampler_base]] & samplers,
+				      const unsigned * Nvector,
+				      const size_t Nvector_length,
+				      const double mu_neutral,
+				      const double mu_selected,
+				      const double littler,
+				      const double f,
+				      const int sample,
+				      const region_manager * rm,
+				      const char * fitness)
+
 
 cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
     sample_t sample_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
