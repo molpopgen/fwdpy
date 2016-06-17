@@ -5,7 +5,7 @@
 #include "types.hpp"
 #include "sampler_base.hpp"
 #include "internal_region_manager.hpp"
-
+#include "fwdpy_fitness.hpp"
 namespace fwdpy
 {
   void evolve_regions_sampler_cpp( GSLrng_t * rng,
@@ -19,6 +19,6 @@ namespace fwdpy
 				   const double f,
 				   const int sample,
 				   const internal::region_manager * rm,
-				   const char * fitness);
+				   const singlepop_fitness & fitness);
 } //ns fwdpy
 #endif
