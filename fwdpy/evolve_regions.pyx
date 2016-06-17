@@ -4,6 +4,8 @@ from cpython cimport array
 import warnings,math
 cimport cython
 import internal
+from fitness cimport singlepopAdditive,singlepopMult,singlepopFitness
+from fitness cimport make_additive_fitness
 
 def check_input_params(double mu_neutral, double mu_selected, double recrate,
                        list nregions, list sregions, list recregions) :
@@ -183,5 +185,17 @@ def evolve_regions_sampler(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
-    evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
-                               slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness)
+
+    if fitness == b'multiplicative':
+        ffm = singlepopMult()
+        print type(ffm)
+        evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
+                                   slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,ffm.wfxn)
+    elif fitness == b'additive':
+        ffa = singlepopAdditive()
+        print type(ffa)
+        evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
+                                   slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,ffa.wfxn)
+
+    else:
+        raise RuntimeError("fitness must be either multiplicative or additive")
