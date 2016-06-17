@@ -9,6 +9,7 @@ from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.gsl cimport gsl_rng
 from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum
+from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
 
@@ -337,7 +338,7 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
 				     const double f,
 				     const int sample,
 				     const region_manager * rm,
-				     const char * fitness)
+				     const singlepop_fitness & fitness)
 
 
 cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
