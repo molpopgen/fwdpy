@@ -26,5 +26,8 @@ cdef class singlepopFitness(object):
 cdef class singlepopAdditive(singlepopFitness):
     pass
 
+cdef class singlepopGBR(singlepopFitness):
+    pass
+
 cdef class singlepopMult(singlepopFitness):
     pass
