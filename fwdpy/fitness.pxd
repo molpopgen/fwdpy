@@ -31,3 +31,18 @@ cdef class singlepopGBR(singlepopFitness):
 
 cdef class singlepopMult(singlepopFitness):
     pass
+
+cdef class multilocusFitness(object):
+    """
+    Base object for multi-locus fitness functions
+    """
+    cdef multilocus_fitness wfxn
+
+cdef class multilocusAdditive(multilocusFitness):
+    pass
+
+cdef class multilocusGBR(multilocusFitness):
+    pass
+
+cdef class multilocusMult(multilocusFitness):
+    pass
