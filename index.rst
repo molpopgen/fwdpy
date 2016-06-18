@@ -73,6 +73,10 @@ Functions and classes
    :members:
    :show-inheritance:
 
+.. automodule:: fwdpy.fitness
+   :members:
+   :show-inheritance:
+
 .. automodule:: fwdpy.demography
    :members:
    :show-inheritance:
