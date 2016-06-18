@@ -37,7 +37,8 @@ def evolve_regions(GSLrng rng,
                    list sregions,
                    list recregions,
                    double f = 0,
-                   const char * fitness = "multiplicative"):
+                   double scaling = 2.0,
+                   const char * fitness = "multiplicative",):
     """
     Evolve a region with variable mutation, fitness effects, and recombination rates.
 
@@ -52,6 +53,7 @@ def evolve_regions(GSLrng rng,
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
     :param f: The selfing probabilty
+    :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively.
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
     :raises: RuntimeError if parameters do not pass checks
@@ -93,7 +95,7 @@ def evolve_regions(GSLrng rng,
     evolve_regions_sampler(rng,pops,donothing,nlist,
                            mu_neutral,mu_selected,recrate,
                            nregions,sregions,recregions,len(nlist),
-                           f,fitness)
+                           f,scaling,fitness)
     return pops
 
 @cython.boundscheck(False)
@@ -107,6 +109,7 @@ def evolve_regions_more(GSLrng rng,
                         list sregions,
                         list recregions,
                         double f = 0,
+                        double scaling = 2.0,
                         const char * fitness = "multiplicative"):
     """
     Continue to evolve a region with variable mutation, fitness effects, and recombination rates.
@@ -121,6 +124,7 @@ def evolve_regions_more(GSLrng rng,
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
     :param f: The selfing probabilty
+    :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively.
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
 
     :raises: RuntimeError if parameters do not pass checks
@@ -145,7 +149,7 @@ def evolve_regions_more(GSLrng rng,
     evolve_regions_sampler(rng,pops,donothing,nlist,
                            mu_neutral,mu_selected,recrate,
                            nregions,sregions,recregions,int(len(nlist)),
-                           f,fitness)
+                           f,scaling,fitness)
 
 @cython.boundscheck(False)
 def evolve_regions_sampler(GSLrng rng,
@@ -160,6 +164,7 @@ def evolve_regions_sampler(GSLrng rng,
                            list recregions,
                            int sample,
                            double f = 0,
+                           double scaling = 2.0,
                            const char * fitness = "multiplicative"):
     """
     :param rng: a :class:`GSLrng`
@@ -174,6 +179,7 @@ def evolve_regions_sampler(GSLrng rng,
     :param recregions: A list specifying how the genetic map varies along the region
     :param sample: Apply the temporal sample every 'sample' generations during the simulation.
     :param f: The selfing probabilty
+    :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively.
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
     """
     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
@@ -187,11 +193,11 @@ def evolve_regions_sampler(GSLrng rng,
     cdef size_t listlen = len(nlist)
 
     if fitness == b'multiplicative':
-        ffm = singlepopMult()
+        ffm = singlepopMult(scaling)
         evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
                                    slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,ffm.wfxn)
     elif fitness == b'additive':
-        ffa = singlepopAdditive()
+        ffa = singlepopAdditive(scaling)
         evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
                                    slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,ffa.wfxn)
 
