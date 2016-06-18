@@ -167,6 +167,8 @@ def evolve_regions_sampler(GSLrng rng,
                            double scaling = 2.0,
                            const char * fitness = "multiplicative"):
     """
+    Evolve a single population under standard population genetic fitness models and apply a "sampler" at regular intervals.
+    
     :param rng: a :class:`GSLrng`
     :param pops: A :class:`popvec`
     :param slist: A :class:`temporal_sampler`.
@@ -182,6 +184,54 @@ def evolve_regions_sampler(GSLrng rng,
     :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively.
     :param fitness: The fitness model.  Must be either "multiplicative" or "additive".
     """
+
+    if fitness == b'multiplicative':
+        ffm = singlepopMult(scaling)
+        evolve_regions_sampler_fitness(rng,pops,ffm,nlist,
+                                       mu_neutral,mu_selected,recrate,
+                                       nregions,sregions,recregions,
+                                       sample,f)
+    elif fitness == b'additive':
+        ffa = singlepopAdditive(scaling)
+        evolve_regions_sampler_fitness(rng,pops,ffa,nlist,
+                                       mu_neutral,mu_selected,recrate,
+                                       nregions,sregions,recregions,
+                                       sample,f)
+
+    else:
+        raise RuntimeError("fitness must be either multiplicative or additive")
+
+@cython.boundscheck(False)
+def evolve_regions_sampler_fitness(GSLrng rng,
+                                   popvec pops,
+                                   temporal_sampler slist,
+                                   singlepopFitness fitness_function,
+                                   unsigned[:] nlist,
+                                   double mu_neutral,
+                                   double mu_selected,
+                                   double recrate,
+                                   list nregions,
+                                   list sregions,
+                                   list recregions,
+                                   int sample,
+                                   double f = 0):
+    """
+    Evolve a single population under arbitrary fitness models and apply a "sampler" at regular intervals.
+    
+    :param rng: a :class:`GSLrng`
+    :param pops: A :class:`popvec`
+    :param slist: A :class:`temporal_sampler`.
+    :param fitness_function: A :class:`fwdpy.fitness.singlepopFitness`
+    :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
+    :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
+    :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
+    :param recrate: The recombination rate in the regions (per diploid, per generation)
+    :param nregions: A list specifying where neutral mutations occur
+    :param sregions: A list specifying where selected mutations occur
+    :param recregions: A list specifying how the genetic map varies along the region
+    :param sample: Apply the temporal sample every 'sample' generations during the simulation.
+    :param f: The selfing probabilty
+    """
     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if sample <= 0:
         raise RuntimeError("sample must be > 0")
@@ -191,15 +241,5 @@ def evolve_regions_sampler(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
-
-    if fitness == b'multiplicative':
-        ffm = singlepopMult(scaling)
-        evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
-                                   slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,ffm.wfxn)
-    elif fitness == b'additive':
-        ffa = singlepopAdditive(scaling)
-        evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
-                                   slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,ffa.wfxn)
-
-    else:
-        raise RuntimeError("fitness must be either multiplicative or additive")
+    evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
+                               slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness_function.wfxn)
