@@ -1,5 +1,5 @@
 from fwdpy.fwdpy cimport popvec,singlepop,singlepop_t
-from fwdpy.samplers cimport additive_variance_wrapper
+from fwdpy.fwdpy cimport additive_variance_wrapper
 
 def genotype_matrices(popvec pops):
     rv=[]
