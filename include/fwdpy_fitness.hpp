@@ -10,6 +10,34 @@
 
 namespace fwdpy
 {
+  //! Function pointer representing policy signature for site-dependent fitness models
+  using genotype_fitness_updater = double(*)(double, std::size_t, const mcont_t &);
+  using fitness_function_finalizer = double(*)(double);
+  
+  struct site_dependent_fitness_wrapper
+  /*!
+    fwdpp's site_dependent_fitness::operator() is allowed to return values < 0, 
+    making it usable for calculating "genetic values" in addition to "fitness". 
+    However, that is bad if we're going to allow users to define custom fitness functions,
+    hence this light wrapper.
+  */
+  {
+    using result_type = double;
+    template< typename diploid2dispatch,
+	      typename fitness_updating_policy_hom,
+	      typename fitness_updating_policy_het,
+	      typename wfinalizer>
+    inline result_type operator()( const diploid2dispatch & dip,
+				   const fitness_updating_policy_hom & fpol_hom,
+				   const fitness_updating_policy_het & fpol_het,
+				   const wfinalizer & wfinal,
+				   const double & starting_fitness) const noexcept
+    {
+      auto x = KTfwd::site_dependent_fitness()(dip.first,dip.second,fpol_hom,fpol_het,starting_fitness);
+      return std::max(wfinal(x),0.0);
+    }
+  };
+  
   struct singlepop_fitness
   /*!
     Base class for fitness schemes for single-deme simulations
@@ -74,7 +102,7 @@ namespace fwdpy
   inline singlepop_fitness make_gbr_fitness()
   /*!
     "GBR" model of Thornton et al., 2013, for a single region
-   */
+  */
   {
     return singlepop_fitness([](const diploid_t & diploid,
 				const gcont_t & gametes,
@@ -109,6 +137,24 @@ namespace fwdpy
 				       std::placeholders::_3,
 				       scaling));
   }
+
+  //The following requires some patches/changes in fwdpp first:
+  //the range_based_site_dep_fitness branch fixes this issue with
+  //custom diploid dispatch, but maybe I just want to fix that in "dev"
+  //now?
+  /*
+  inline singlepop_fitness make_custom_fitness(genotype_fitness_updater Aa,
+					       genotype_fitness_updater aa,
+					       fitness_function_finalizer wfinal,
+					       double starting_fitness)
+  {
+    return singlepop_fitness(std::bind(site_dependent_fitness_wrapper(),
+				       std::placeholders::_1,
+				       std::placeholders::_2,
+				       std::placeholders::_3,
+				       aa,Aa,wfinal,starting_fitness));
+  }
+  */
 
   inline multilocus_fitness make_mloc_additive_fitness(double scaling = 2.0)
   /*!
