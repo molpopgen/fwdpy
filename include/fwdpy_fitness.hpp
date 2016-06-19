@@ -10,10 +10,14 @@
 
 namespace fwdpy
 {
-  //! Function pointer representing policy signature for site-dependent fitness models
-  using genotype_fitness_updater = double(*)(double, std::size_t, const mcont_t &);
+  /*! 
+    Function pointer representing policy signature for site-dependent fitness models.
+    The first argument is a non-const reference to the current "fitness".  The function
+    must update this value appropriately given the data in the second argument.
+  */
+  using genotype_fitness_updater = void(*)(double &, const mcont_t::value_type &);
   using fitness_function_finalizer = double(*)(double);
-  
+
   struct site_dependent_fitness_wrapper
   /*!
     fwdpp's site_dependent_fitness::operator() is allowed to return values < 0, 
@@ -24,17 +28,24 @@ namespace fwdpy
   {
     using result_type = double;
     template< typename diploid2dispatch,
+	      typename gcont_t,
+	      typename mcont_t,
 	      typename fitness_updating_policy_hom,
-	      typename fitness_updating_policy_het,
-	      typename wfinalizer>
+	      typename fitness_updating_policy_het>
     inline result_type operator()( const diploid2dispatch & dip,
+				   const gcont_t & gametes,
+				   const mcont_t & mutations,
 				   const fitness_updating_policy_hom & fpol_hom,
 				   const fitness_updating_policy_het & fpol_het,
-				   const wfinalizer & wfinal,
-				   const double & starting_fitness) const noexcept
+				   fitness_function_finalizer f,
+				   const double & starting_fitness = 1. ) const noexcept
     {
-      auto x = KTfwd::site_dependent_fitness()(dip.first,dip.second,fpol_hom,fpol_het,starting_fitness);
-      return std::max(wfinal(x),0.0);
+      auto x = KTfwd::site_dependent_fitness()(gametes[dip.first].smutations.cbegin(),
+					       gametes[dip.first].smutations.cend(),
+					       gametes[dip.second].smutations.cbegin(),
+					       gametes[dip.second].smutations.cend(),
+					       mutations,fpol_hom,fpol_het,starting_fitness);
+      return std::max(f(x),0.0);
     }
   };
   
@@ -137,24 +148,19 @@ namespace fwdpy
 				       std::placeholders::_3,
 				       scaling));
   }
-
-  //The following requires some patches/changes in fwdpp first:
-  //the range_based_site_dep_fitness branch fixes this issue with
-  //custom diploid dispatch, but maybe I just want to fix that in "dev"
-  //now?
-  /*
+  
   inline singlepop_fitness make_custom_fitness(genotype_fitness_updater Aa,
 					       genotype_fitness_updater aa,
 					       fitness_function_finalizer wfinal,
 					       double starting_fitness)
   {
-    return singlepop_fitness(std::bind(site_dependent_fitness_wrapper(),
-				       std::placeholders::_1,
-				       std::placeholders::_2,
-				       std::placeholders::_3,
-				       aa,Aa,wfinal,starting_fitness));
+    return singlepop_fitness( std::bind(site_dependent_fitness_wrapper(),
+					std::placeholders::_1,
+					std::placeholders::_2,
+					std::placeholders::_3,
+					aa,Aa,wfinal,starting_fitness));
   }
-  */
+  
 
   inline multilocus_fitness make_mloc_additive_fitness(double scaling = 2.0)
   /*!
