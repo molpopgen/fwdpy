@@ -13,7 +13,7 @@
 #include "types.hpp"
 #include "reserve.hpp"
 #include "sampler_base.hpp"
-
+#include "fwdpy_fitness.hpp"
 using namespace std;
 
 namespace fwdpy
@@ -26,7 +26,7 @@ namespace fwdpy
 					  const double selected,
 					  const double recrate,
 					  const double f,
-					  const char * fitness,
+					  const singlepop_fitness & fitness,
 					  const int interval,
 					  KTfwd::extensions::discrete_mut_model && __m,
 					  KTfwd::extensions::discrete_rec_model && __recmap,
@@ -55,20 +55,12 @@ namespace fwdpy
       the proper function signature, which is a member typedef provided by the fwdpp sugar type
       from which fwdpy::singlepop_t inherits
     */
-    fwdpy::singlepop_t::fitness_t dipfit = std::bind(KTfwd::multiplicative_diploid(),
-						     std::placeholders::_1,
-						     std::placeholders::_2,
-						     std::placeholders::_3,
-						     2.);
+    // auto dipfit = make_multiplicative_fitness(2.0);
 
-    if( std::string(fitness) == "additive" )
-      {
-	dipfit = std::bind(KTfwd::additive_diploid(),
-			   std::placeholders::_1,
-			   std::placeholders::_2,
-			   std::placeholders::_3,
-			   2.);
-      }
+    // if( std::string(fitness) == "additive" )
+    //    {
+    // 	 dipfit = make_additive_fitness(2.0);
+    //    }
     
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
@@ -83,7 +75,7 @@ namespace fwdpy
 			      mu_tot,
 			      KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
 			      recpos,
-			      dipfit,
+			      fitness.fitness_function,
 			      pop->neutral,pop->selected,
 			      f);
 	pop->N=nextN;
@@ -112,7 +104,7 @@ namespace fwdpy
 				   const double f,
 				   const int sample,
 				   const internal::region_manager * rm,
-				   const char * fitness)
+				   const singlepop_fitness & fitness)
   {
     //check inputs--this is point of failure.  Throw excceptions here b4 getting into any threaded nonsense.
     if(mu_neutral < 0. || mu_selected < 0. || littler < 0.)
@@ -121,11 +113,6 @@ namespace fwdpy
       }
     if(f<0.||f>1.) throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
     if(sample<0) throw std::runtime_error("sampling interval must be non-negative");
-    std::string ftnss(fitness);
-    if(ftnss!="additive"&&ftnss!="multiplicative")
-      {
-	throw std::runtime_error("fitness model must be additive or multiplicative");
-      }
     std::vector<std::thread> threads;
     for(std::size_t i=0;i<pops->size();++i)
       {
