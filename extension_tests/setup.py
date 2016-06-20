@@ -9,12 +9,16 @@ import platform, glob, sys, subprocess
 if 'install' in sys.argv:
     print("Sorry, you shouldn't be trying to install these!")
     sys.exit(0)
-          
-pyxnames = glob.glob('*.pyx')
 
+DIR='test_fwdpy_extensions'
+print (DIR+'/'+'*.pyx')
+pyxnames = glob.glob('test_fwdpy_extensions/*.pyx')
+print(pyxnames)
 modules=[]
 for i in pyxnames:
+    print(i)
     i=i.rsplit('.')[0]
+    print (i)
     modules.append(i)
 
 extensions=[]
