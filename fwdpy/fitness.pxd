@@ -1,4 +1,5 @@
 from fwdpy.fwdpy cimport singlepop_t,multilocus_t
+from fwdpy.fwdpp cimport popgenmut
 
 cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     cdef cppclass singlepop_fitness:
@@ -8,15 +9,22 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     cdef cppclass multilocus_fitness:
         multilocus_fitness()
         void update(const multilocus_t *)
+
+    ctypedef void(*genotype_fitness_updater)(double &, const popgenmut &)
+    ctypedef double(*fitness_function_finalizer)(double)
         
     singlepop_fitness make_additive_fitness(double scaling)
     singlepop_fitness make_multiplicative_fitness(double scaling)
     singlepop_fitness make_gbr_fitness()
+    singlepop_fitness make_custom_fitness(genotype_fitness_updater Aa,
+					  genotype_fitness_updater aa,
+					  fitness_function_finalizer wfinal,
+					  double starting_fitness)
     
     multilocus_fitness make_mloc_additive_fitness(double scaling)
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)
     multilocus_fitness make_mloc_gbr_fitness()
-    
+
 cdef class singlepopFitness(object):
     """
     Base object for single-deme fitness functions
