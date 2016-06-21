@@ -171,6 +171,7 @@ Here is the model:
    from fwdpy.fwdpp cimport popgenmut,gamete_base
    from fwdpy.fitness cimport singlepopFitness
    from fwdpy.fitness cimport make_custom_haplotype_fitness,haplotype_fitness_fxn,haplotype_fitness_fxn_finalizer
+   #This is important--we need to import something from the C++ library:
    from libcpp.vector cimport vector
 
    #You must create these typedef names.
@@ -195,6 +196,8 @@ Here is the model:
        def __cinit__(self):
           self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>addEsizes,
           <haplotype_fitness_fxn_finalizer>geomean)
+
+.. note:: Those ctypedefs are a drag.  They are actually already defined in *fwdpy*, but Cython won't let them be "cimported".  I'm going to bring this up with the developers.
 
 Let's work through that "addEsizes" function in more detail.  Let's start with its "function signature" (or prototype):
 
