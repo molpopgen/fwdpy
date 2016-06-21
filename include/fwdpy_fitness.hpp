@@ -19,9 +19,9 @@ namespace fwdpy
   //! "Finalizer" for site-based fitness schemes
   using fitness_function_finalizer = double(*)(double);
   //! "Finalizer" for haplotype-based fitness schemes
-  using hap_fitness_function_finalizer = double(*)(double,double);
+  using haplotype_fitness_fxn_finalizer = double(*)(double,double);
   //! Polycy signature for haplotype-dependent models
-  using haplotype_fitness_fxn = double(const gamete_t &, const mcont_t &);
+  using haplotype_fitness_fxn = double(*)(const gamete_t &, const mcont_t &);
   
   struct site_dependent_fitness_wrapper
   /*!
@@ -186,7 +186,7 @@ namespace fwdpy
   }
   
   inline singlepop_fitness make_custom_haplotype_fitness(haplotype_fitness_fxn h,
-							 hap_fitness_function_finalizer f)
+							 haplotype_fitness_fxn_finalizer f)
   {
     return singlepop_fitness(std::bind(haplotype_dependent_fitness_wrapper(),
 				       std::placeholders::_1,
