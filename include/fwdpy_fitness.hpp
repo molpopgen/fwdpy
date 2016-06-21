@@ -20,6 +20,8 @@ namespace fwdpy
   using fitness_function_finalizer = double(*)(double);
   //! "Finalizer" for haplotype-based fitness schemes
   using hap_fitness_function_finalizer = double(*)(double,double);
+  //! Polycy signature for haplotype-dependent models
+  using haplotype_fitness_fxn = double(const gamete_t &, const mcont_t &);
   
   struct site_dependent_fitness_wrapper
   /*!
@@ -49,6 +51,25 @@ namespace fwdpy
 					       gametes[dip.second].smutations.cend(),
 					       mutations,fpol_hom,fpol_het,starting_fitness);
       return f(x);
+    }
+  };
+
+  struct haplotype_dependent_fitness_wrapper
+  {
+    using result_type = double;
+    template< typename diploid_t,
+	      typename gcont_t,
+	      typename mcont_t,
+	      typename haplotype_policy,
+	      typename diploid_policy >
+    inline result_type operator()(const diploid_t & dip,
+				  const gcont_t & gametes,
+				  const mcont_t & mutations,
+				  const haplotype_policy & hpol,
+				  const diploid_policy & dpol) const noexcept
+    {
+      return KTfwd::haplotype_dependent_fitness()(gametes[dip.first],gametes[dip.second],
+						  mutations,hpol,dpol);
     }
   };
   
@@ -164,7 +185,16 @@ namespace fwdpy
 					aa,Aa,wfinal,starting_fitness));
   }
   
-
+  inline singlepop_fitness make_custom_haplotype_fitness(haplotype_fitness_fxn h,
+							 hap_fitness_function_finalizer f)
+  {
+    return singlepop_fitness(std::bind(haplotype_dependent_fitness_wrapper(),
+				       std::placeholders::_1,
+				       std::placeholders::_2,
+				       std::placeholders::_3,
+				       h,f));
+  }
+  
   inline multilocus_fitness make_mloc_additive_fitness(double scaling = 2.0)
   /*!
     Additive within loci w/dominance, and then additive across loci

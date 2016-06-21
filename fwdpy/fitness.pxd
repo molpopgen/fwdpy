@@ -1,5 +1,11 @@
-from fwdpy.fwdpy cimport singlepop_t,multilocus_t
-from fwdpy.fwdpp cimport popgenmut
+#Note: Cython cannot cimport typedefs, which is a bummer
+from fwdpy.fwdpy cimport singlepop_t,multilocus_t#,gamete_t,mcont_t
+from fwdpy.fwdpp cimport popgenmut,gamete_base
+from libcpp.vector cimport vector
+
+ctypedef gamete_base[void] gamete_t
+ctypedef vector[gamete_t] gcont_t
+ctypedef vector[popgenmut] mcont_t
 
 cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     cdef cppclass singlepop_fitness:
@@ -12,7 +18,9 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 
     ctypedef void(*genotype_fitness_updater)(double &, const popgenmut &)
     ctypedef double(*fitness_function_finalizer)(double)
-        
+    ctypedef double(*hap_fitness_function_finalizer)(double,double)
+    ctypedef double(*haplotype_fitness_fxn)(const gamete_t &, const mcont_t &)
+    
     singlepop_fitness make_additive_fitness(double scaling)
     singlepop_fitness make_multiplicative_fitness(double scaling)
     singlepop_fitness make_gbr_fitness()
@@ -20,6 +28,9 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 					  genotype_fitness_updater aa,
 					  fitness_function_finalizer wfinal,
 					  double starting_fitness)
+    singlepop_fitness make_custom_haplotype_fitness(haplotype_fitness_fxn h,
+                                                    hap_fitness_function_finalizer f)
+                                                    
     
     multilocus_fitness make_mloc_additive_fitness(double scaling)
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)
