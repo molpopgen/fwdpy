@@ -53,25 +53,6 @@ namespace fwdpy
       return f(x);
     }
   };
-
-  struct haplotype_dependent_fitness_wrapper
-  {
-    using result_type = double;
-    template< typename diploid_t,
-	      typename gcont_t,
-	      typename mcont_t,
-	      typename haplotype_policy,
-	      typename diploid_policy >
-    inline result_type operator()(const diploid_t & dip,
-				  const gcont_t & gametes,
-				  const mcont_t & mutations,
-				  const haplotype_policy & hpol,
-				  const diploid_policy & dpol) const noexcept
-    {
-      return KTfwd::haplotype_dependent_fitness()(gametes[dip.first],gametes[dip.second],
-						  mutations,hpol,dpol);
-    }
-  };
   
   struct singlepop_fitness
   /*!
@@ -188,7 +169,7 @@ namespace fwdpy
   inline singlepop_fitness make_custom_haplotype_fitness(haplotype_fitness_fxn h,
 							 haplotype_fitness_fxn_finalizer f)
   {
-    return singlepop_fitness(std::bind(haplotype_dependent_fitness_wrapper(),
+    return singlepop_fitness(std::bind(KTfwd::haplotype_dependent_fitness(),
 				       std::placeholders::_1,
 				       std::placeholders::_2,
 				       std::placeholders::_3,
