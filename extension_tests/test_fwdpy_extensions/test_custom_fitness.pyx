@@ -7,7 +7,7 @@ cdef class additiveFitnessTesting(singlepopFitness):
                                         <fitness_function_finalizer>return_w_plus1,
                                         0.0)
 
-cdef class AA_only_testing(singlepopFitness):
+cdef class Aa_only_testing(singlepopFitness):
     def __cinit__(self):
         self.wfxn = make_custom_fitness(<genotype_fitness_updater>Aa_only_het_testing,
                                         <genotype_fitness_updater>Aa_only_hom_testing,
