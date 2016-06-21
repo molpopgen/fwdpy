@@ -51,7 +51,7 @@ First, let us define our custom data types in a file called "myCustomFitness.pxd
    #is heterozygous. Note the "signature" of this function:
    #1. It returns nothing, which is what the void means
    #2. It takes a reference to current fitness (w) as its first argument
-   #3. It takes a reference to a mutation (m) as its second argument
+   #3. It takes a constant reference to a mutation (m) as its second argument
    #The function add the product s*h to the current value of w.
    cdef inline void wAa( double & w, const popgenmut & m):
        #This manipulation of w should look odd, and it is.
