@@ -120,7 +120,6 @@ Without all the comments, the custom fitness setup is quite short:
 		<fitness_function_finalizer>return_w_plus1,
                 0.0)
    
-.. _fwdpp: http://molpopgen.github.io/fwdpp/
 
 The standard multiplicative model with dominance
 --------------------------------------------------
@@ -180,6 +179,7 @@ Here is the model:
    ctypedef gamete_base[void] gamete_t
    ctypedef vector[popgenmut] mcont_t;
 
+   #This sums effect sizes on a haplotype
    cdef inline double addEsizes(const gamete_t & g, const mcont_t & m):
        cdef size_t i=0,n=g.smutations.size()
        cdef double sum = 0.0
@@ -195,3 +195,34 @@ Here is the model:
        def __cinit__(self):
           self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>addEsizes,
           <haplotype_fitness_fxn_finalizer>geomean)
+
+Let's work through that "addEsizes" function in more detail.  Let's start with its "function signature" (or prototype):
+
+.. code-block:: cython
+
+   double addEsizes(const gamete_t & g, const mcont_t & m)
+   
+
+This function returns a double representing the effect of the gamete (g) on fitness.  Inside of fwdpp_, the C++ library that *fwdpy* uses, a gamete contains keys to the mutations it contains.  Thus, we need the container of mutations in the population (m) in order to do anything useful.  The "const" bit means that the function may not modify the data containg in g nor that in m.
+
+In fwdpp_, a gamete contains is "neutral" and "selected" mutations in separate containers, which speeds up fitness calculations. Thus, a fitness function will iterate over the latter container, whose name is *smutations*.
+
+Now we can look through the function body:
+
+.. code-block:: cython
+
+   #i is a "dummy" counter, n is now many selected mutations g contains
+   cdef size_t i=0,n=g.smutations.size()
+   #initialize sum of effect sizes to 0
+   cdef double sum = 0.0
+   #loop over each mutation in g.smutations
+   while i<n:
+       #increment the sum of effect sizes
+       sum+=m[g.smutations[i]].s
+       #update our counter.  Important, else we get an infinite loop!
+       i+=1
+   #return sum over fitness effects
+   return sum
+		 
+
+.. _fwdpp: http://molpopgen.github.io/fwdpp/
