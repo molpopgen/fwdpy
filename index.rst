@@ -36,7 +36,7 @@ Important concepts for setting up simulations
    docs/slim
    docs/threads
 
-Custom analyses
+Custom fitness models
 ########################################################################################
 
 .. toctree::
