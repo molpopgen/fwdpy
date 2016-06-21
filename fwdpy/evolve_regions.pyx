@@ -187,13 +187,13 @@ def evolve_regions_sampler(GSLrng rng,
 
     if fitness == b'multiplicative':
         ffm = singlepopMult(scaling)
-        evolve_regions_sampler_fitness(rng,pops,ffm,nlist,
+        evolve_regions_sampler_fitness(rng,pops,slist,ffm,nlist,
                                        mu_neutral,mu_selected,recrate,
                                        nregions,sregions,recregions,
                                        sample,f)
     elif fitness == b'additive':
         ffa = singlepopAdditive(scaling)
-        evolve_regions_sampler_fitness(rng,pops,ffa,nlist,
+        evolve_regions_sampler_fitness(rng,pops,slist,ffa,nlist,
                                        mu_neutral,mu_selected,recrate,
                                        nregions,sregions,recregions,
                                        sample,f)
