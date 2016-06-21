@@ -36,6 +36,15 @@ Important concepts for setting up simulations
    docs/slim
    docs/threads
 
+Custom analyses
+########################################################################################
+
+.. toctree::
+   :maxdepth: 2
+	      
+   docs/customAnalyses
+   docs/customFitness
+
 Notes for people wanting to work with the code
 ####################################################################################
 
