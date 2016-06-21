@@ -13,3 +13,10 @@ cdef class Aa_only_testing(singlepopFitness):
                                         <genotype_fitness_updater>Aa_only_hom_testing,
                                         <fitness_function_finalizer>return_w_plus1,
                                         0.0)
+
+from fwdpy.fitness cimport make_custom_haplotype_fitness,haplotype_fitness_fxn,haplotype_fitness_fxn_finalizer
+        
+cdef class GBRfitness(singlepopFitness):
+    def __cinit__(self):
+        self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>addEsizes,
+                                                  <haplotype_fitness_fxn_finalizer>geomean)
