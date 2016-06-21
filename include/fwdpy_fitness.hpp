@@ -16,8 +16,11 @@ namespace fwdpy
     must update this value appropriately given the data in the second argument.
   */
   using genotype_fitness_updater = void(*)(double &, const mcont_t::value_type &);
+  //! "Finalizer" for site-based fitness schemes
   using fitness_function_finalizer = double(*)(double);
-
+  //! "Finalizer" for haplotype-based fitness schemes
+  using hap_fitness_function_finalizer = double(*)(double,double);
+  
   struct site_dependent_fitness_wrapper
   /*!
     fwdpp's site_dependent_fitness::operator() is allowed to return values < 0, 
@@ -45,7 +48,7 @@ namespace fwdpy
 					       gametes[dip.second].smutations.cbegin(),
 					       gametes[dip.second].smutations.cend(),
 					       mutations,fpol_hom,fpol_het,starting_fitness);
-      return std::max(f(x),0.0);
+      return f(x);
     }
   };
   
