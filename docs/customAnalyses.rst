@@ -12,8 +12,7 @@ In this section, we'll refer to custom extensions to fwdpy as "widgets".  A cust
 
 The generic recipe is:
 
-* Generate a "pxd" file that *declares* the name(s) of your widget(s).  If you are familiar with C/C++, this is a lot like a header file providing a list of names of types and functions.
-* Generate a "pyx" file that *defines* your widgets.  Again C/C++ users can view this as a source file that contains the code that actually makes these types and functions work.
+* Generate a "pyx" file that *defines* your widgets.  A "pyx" file is a Cython source file--the "py" means Python and the "x" means extension. Again C/C++ users can view this as a source file that contains the code that actually makes these types and functions work.
 * Generate a script to compile your fancy custom module!
 
 The next sections of the manual cover the following topics:

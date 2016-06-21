@@ -10,10 +10,12 @@ Fundamentally, there are two ways that these types of functions work:
 1. As a function of the genotypes of each variable position in the diploid.  In other words, fitness depends on whether or not each site is heterozyguous (Aa) or homozygous (aa).
 2. As a function of the two haplotypes in each diploid.
 
-The standard additive and multiplicative models with dominance are an example of the first type.   Let's call these models "site-based" fitness models.
+The standard additive and multiplicative models with dominance are an example of the first type.   Let's call these models "site-based" fitness models.  We'll call the latter "haplotype-based" fitness models.
 
 The standard additive model with dominance
 --------------------------------------------------
+
+.. note:: This model is already implemented in *fwdpy* via :class:`fwdpy.fitness.singlepopAdditive`.  This section is to illustrate what it would take to implement it as an extension to *fwdpy*.
 
 Here, we re-implement the additve model as if it were a custom model.  Working through this standard model will help us understand how to implement custom "site-based" fitness models in general.
 
@@ -33,19 +35,12 @@ Thus, for "site-based" models, we need:
 
 In general, these functions will be very short and simple.
 
-First, let us define our custom data types in a file called "myCustomFitness.pxd":
+First, let us define our custom data types in a file called "myCustomFitness.pyx":
 
 .. code-block:: cython
 
    from fwdpy.fwdpp cimport popgenmut
    from fwdpy.fitness cimport singlepopFitness
-
-   #This is the name of our Cython extension type.
-   #It is an object type inheriting from singlepopFitness.
-   #We don't need to define any functions here, so we "pass"
-   #on its implementation
-   cdef myAdditiveFitness(singlepopFitness):
-       pass
 
    #This is the function that updates w when a genotype
    #is heterozygous. Note the "signature" of this function:
@@ -62,7 +57,7 @@ First, let us define our custom data types in a file called "myCustomFitness.pxd
 
    #This function updates w for a homozygous genotye,
    #for which case w += 2s
-   cdef inline void waa( double & w, const popgenmut & m):
+   cdef inline void waa(double & w, const popgenmut & m):
        (&w)[0] += 2.0*m.s
 
 Now, we have to make our type "myFitness" actually work in Python, which means defining its
@@ -72,7 +67,7 @@ behavior in "myCustomFitness.pyx":
 		
    from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_w_plus1
 
-   #This defines the behavior of our type.
+   #This is our type that we will use in Python.
    #The __cinit__ function is a "constructor"
    #which creates a fitness function that can be
    #passed to the C++ code behind fwdpy. Where you see
@@ -103,5 +98,100 @@ Here's how these things were accomplised:
 3. Use of the Cython function return_w_plus1, which is part of fwdpy.fitness
 
 The call to make_custom_fitness passes our custom functions along, and returns an object representing a call to stuff in fwdpp_ that will apply the wAa and waa functions to the appropriate sites in a diploid.  You don't need to understand any of the nasty C++ of what this "wfxn" thing really is--that's all taken care of.
+
+Without all the comments, the custom fitness setup is quite short:
+
+.. code-block:: cython
+
+   from fwdpy.fwdpp cimport popgenmut
+   from fwdpy.fitness cimport singlepopFitness
+   from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_w_plus1
+   
+   cdef inline void wAa( double & w, const popgenmut & m):
+       (&w)[0] += m.s*m.h
+
+   cdef inline void waa(double & w, const popgenmut & m):
+       (&w)[0] += 2.0*m.s
+
+   cdef class myAdditiveFitness(singlepopFitness):
+		def __cinit__(self):
+		self.wfxn = make_custom_fitness(<genotype_fitness_updater>wAa
+		<genotype_fitness_updater>waa,
+		<fitness_function_finalizer>return_w_plus1,
+                0.0)
    
 .. _fwdpp: http://molpopgen.github.io/fwdpp/
+
+The standard multiplicative model with dominance
+--------------------------------------------------
+
+.. note:: This model is already implemented in *fwdpy* via :class:`fwdpy.fitness.singlepopMulti`. This section is to illustrate what it would take to implement it as an extension to *fwdpy*.
+	  
+The multiplicative model would also be easy to implement: :math:`w = \prod_i (1+w_i)`.  The only difference is that we have a starting fitness of 1 instead of 0, and we can return w instead of 1+w at the end. The full setup would look like this:
+
+.. code-block:: cython
+
+   from fwdpy.fwdpp cimport popgenmut
+   from fwdpy.fitness cimport singlepopFitness
+   from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_w_plus1
+   
+   cdef inline void wAa( double & w, const popgenmut & m):
+	#*= instead of += !!!
+       (&w)[0] *= m.s*m.h
+
+   cdef inline void waa(double & w, const popgenmut & m):
+   	#*= instead of += !!!
+       (&w)[0] *= 2.0*m.s
+
+   cdef class myMultiplicativeFitness(singlepopFitness):
+		def __cinit__(self):
+		self.wfxn = make_custom_fitness(<genotype_fitness_updater>wAa
+		<genotype_fitness_updater>waa,
+		#returns max(0,w) instead of max(0,1+w)
+		<fitness_function_finalizer>return_w,
+		#starting value of 1.0 instead of 0.0
+                1.0)
+
+A custom haplotype-based model
+------------------------------------------------------
+
+.. note:: This model is already implemented in *fwdpy* via :class:`fwdpy.fitness.singlepopGBR`. This section is to illustrate what it would take to implement it as an extension to *fwdpy*.
+
+
+Let's implement the recessive haplotype model from Thornton *et al.* (2013) PLoS Genetics.  For this model, the effect size of a haplotype is additive over all mutations.  The final fitness value is the geometric mean of the two haplotype effect sizes, giving :math:`w = \sqrt{e1*e2}`.
+
+Haplotype-based models differ from site-based models:
+
+1. You need a function to operate on a *gamete* rather than on a *mutation*
+2. You need a function to combine the values calculated from each gamete.
+
+Here is the model:
+
+.. code-block:: cython
+
+   from fwdpy.fwdpp cimport popgenmut,gamete_base
+   from fwdpy.fitness cimport singlepopFitness
+   from fwdpy.fitness cimport make_custom_haplotype_fitness,haplotype_fitness_fxn,haplotype_fitness_fxn_finalizer
+   from libcpp.vector cimport vector
+
+   #You must create these typedef names.
+   #The first represents the type of a gamete.
+   #The second is a vector of mutations
+   ctypedef gamete_base[void] gamete_t
+   ctypedef vector[popgenmut] mcont_t;
+
+   cdef inline double addEsizes(const gamete_t & g, const mcont_t & m):
+       cdef size_t i=0,n=g.smutations.size()
+       cdef double sum = 0.0
+       while i<n:
+          sum+=m[g.smutations[i]].s
+          i+=1
+       return sum
+
+   cdef inline double geomean(double e1, double e2):
+       return sqrt(e1*e2)
+
+   cdef class GBRfitness(singlepopFitness):
+       def __cinit__(self):
+          self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>addEsizes,
+          <haplotype_fitness_fxn_finalizer>geomean)
