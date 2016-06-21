@@ -18,7 +18,7 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 
     ctypedef void(*genotype_fitness_updater)(double &, const popgenmut &)
     ctypedef double(*fitness_function_finalizer)(double)
-    ctypedef double(*hap_fitness_function_finalizer)(double,double)
+    ctypedef double(*haplotype_fitness_fxn_finalizer)(double,double)
     ctypedef double(*haplotype_fitness_fxn)(const gamete_t &, const mcont_t &)
     
     singlepop_fitness make_additive_fitness(double scaling)
@@ -29,7 +29,7 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 					  fitness_function_finalizer wfinal,
 					  double starting_fitness)
     singlepop_fitness make_custom_haplotype_fitness(haplotype_fitness_fxn h,
-                                                    hap_fitness_function_finalizer f)
+                                                    haplotype_fitness_fxn_finalizer f)
                                                     
     
     multilocus_fitness make_mloc_additive_fitness(double scaling)
