@@ -24,9 +24,7 @@ pyxnames = glob.glob('test_fwdpy_extensions/*.pyx')
 print(pyxnames)
 modules=[]
 for i in pyxnames:
-    print(i)
     i=i.rsplit('.')[0]
-    print (i)
     modules.append(i)
 
 extensions=[]
