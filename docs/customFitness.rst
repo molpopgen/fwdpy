@@ -7,7 +7,7 @@ This section covers how to write your own "fitness" functions.  (I'm using the t
 
 Fundamentally, there are two ways that these types of functions work:
 
-1. As a function of the genotypes of each variable position in the diploid.  In other words, fitness depends on wheter or not each site is heterozyguous (Aa) or homozygous (aa).
+1. As a function of the genotypes of each variable position in the diploid.  In other words, fitness depends on whether or not each site is heterozyguous (Aa) or homozygous (aa).
 2. As a function of the two haplotypes in each diploid.
 
 The standard additive and multiplicative models with dominance are an example of the first type.   Let's call these models "site-based" fitness models.
