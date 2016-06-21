@@ -22,6 +22,14 @@ namespace fwdpy
   using haplotype_fitness_fxn_finalizer = double(*)(double,double);
   //! Polycy signature for haplotype-dependent models
   using haplotype_fitness_fxn = double(*)(const gamete_t &, const mcont_t &);
+
+  //! C++11 signature for a fitness function. Not exposed to Python (yet).
+  using single_region_fitness_fxn = std::function<double(const diploid_t &,
+							 const gcont_t &,
+							 const mcont_t &)>;
+  
+  //! C++11 signature for a multi-locus fitness function. Not exposed to Python (yet).
+  using multi_locus_fitness_fxn = std::function<double(const std::vector<diploid_t> &,const gcont_t &, const mcont_t &)>;
   
   struct site_dependent_fitness_wrapper
   /*!
@@ -59,10 +67,7 @@ namespace fwdpy
     Base class for fitness schemes for single-deme simulations
   */
   {
-    //! This is the form of a fitness function for a single-deme simulation
-    using fitness_fxn_t = std::function<double(const diploid_t &,
-					       const gcont_t &,
-					       const mcont_t &)>;
+    using fitness_fxn_t = single_region_fitness_fxn;
 
     //! The fitness function itself
     fitness_fxn_t fitness_function;
@@ -85,7 +90,7 @@ namespace fwdpy
   */
   {
     //! This is the form of a fitness function for a single-deme simulation
-    using fitness_fxn_t = std::function<double(const std::vector<diploid_t> &,const gcont_t &, const mcont_t &)>;
+    using fitness_fxn_t = multi_locus_fitness_fxn;
 
     //! The fitness function itself
     fitness_fxn_t fitness_function;
