@@ -25,6 +25,13 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)
     multilocus_fitness make_mloc_gbr_fitness()
 
+#Helper functions for making custom fitness functions
+cdef inline double return_w(const double w):
+    return max(0.0,w)
+
+cdef inline double return_w_plus1(const double w):
+    return max(0.0,1.0+w)
+
 cdef class singlepopFitness(object):
     """
     Base object for single-deme fitness functions
