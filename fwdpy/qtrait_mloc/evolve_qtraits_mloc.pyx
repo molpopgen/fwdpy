@@ -296,8 +296,8 @@ def evolve_qtraits_mloc_pm_sample(GSLrng rng_evolve,
     :param nsam: Sample size (no. chromosomes)
     :param SLd: Single locus power mean weights
     :param SLp: Single locus power mean power
-    :param MLd: Multilocus power mean weights
-    :param MLp: Multilocus power mean power
+    :param MLd: Mlocus power mean weights
+    :param MLp: Mlocus power mean power
     :param optimum: Optimum trait value
     :param sigmaE: Std. dev. of Gaussian noise to add to trait values.
     :param f: Selfing probability
@@ -358,8 +358,8 @@ def evolve_qtraits_mloc_pm_track(GSLrng rng_evolve,
     :param nsam: Sample size (no. chromosomes)
     :param SLd: Single locus power mean weights
     :param SLp: Single locus power mean power
-    :param MLd: Multilocus power mean weights
-    :param MLp: Multilocus power mean power
+    :param MLd: Mlocus power mean weights
+    :param MLp: Mlocus power mean power
     :param optimum: Optimum trait value
     :param sigmaE: Std. dev. of Gaussian noise to add to trait values.
     :param f: Selfing probability
@@ -414,8 +414,8 @@ def evolve_qtraits_mloc_pm_VA(GSLrng rng_evolve,
     :param nsam: Sample size (no. chromosomes)
     :param SLd: Single locus power mean weights
     :param SLp: Single locus power mean power
-    :param MLd: Multilocus power mean weights
-    :param MLp: Multilocus power mean power
+    :param MLd: Mlocus power mean weights
+    :param MLp: Mlocus power mean power
     :param optimum: Optimum trait value
     :param sigmaE: Std. dev. of Gaussian noise to add to trait values.
     :param f: Selfing probability
@@ -471,8 +471,8 @@ def evolve_qtraits_mloc_pm_popstats(GSLrng rng_evolve,
     :param nsam: Sample size (no. chromosomes)
     :param SLd: Single locus power mean weights
     :param SLp: Single locus power mean power
-    :param MLd: Multilocus power mean weights
-    :param MLp: Multilocus power mean power
+    :param MLd: Mlocus power mean weights
+    :param MLp: Mlocus power mean power
     :param optimum: Optimum trait value
     :param sigmaE: Std. dev. of Gaussian noise to add to trait values.
     :param f: Selfing probability
@@ -529,8 +529,8 @@ def evolve_qtraits_mloc_pm(GSLrng rng_evolve,
     :param nsam: Sample size (no. chromosomes)
     :param SLd: Single locus power mean weights
     :param SLp: Single locus power mean power
-    :param MLd: Multilocus power mean weights
-    :param MLp: Multilocus power mean power
+    :param MLd: Mlocus power mean weights
+    :param MLp: Mlocus power mean power
     :param optimum: Optimum trait value
     :param sigmaE: Std. dev. of Gaussian noise to add to trait values.
     :param f: Selfing probability

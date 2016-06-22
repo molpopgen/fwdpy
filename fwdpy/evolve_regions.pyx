@@ -4,7 +4,7 @@ from cpython cimport array
 import warnings,math
 cimport cython
 import internal
-from fitness cimport SinglepopAdditive,SinglepopMult,SinglepopFitness
+from fitness cimport SpopAdditive,SpopMult,SpopFitness
 from fitness cimport make_additive_fitness
 
 def check_input_params(double mu_neutral, double mu_selected, double recrate,
@@ -186,13 +186,13 @@ def evolve_regions_sampler(GSLrng rng,
     """
 
     if fitness == b'multiplicative':
-        ffm = SinglepopMult(scaling)
+        ffm = SpopMult(scaling)
         evolve_regions_sampler_fitness(rng,pops,slist,ffm,nlist,
                                        mu_neutral,mu_selected,recrate,
                                        nregions,sregions,recregions,
                                        sample,f)
     elif fitness == b'additive':
-        ffa = SinglepopAdditive(scaling)
+        ffa = SpopAdditive(scaling)
         evolve_regions_sampler_fitness(rng,pops,slist,ffa,nlist,
                                        mu_neutral,mu_selected,recrate,
                                        nregions,sregions,recregions,
@@ -205,7 +205,7 @@ def evolve_regions_sampler(GSLrng rng,
 def evolve_regions_sampler_fitness(GSLrng rng,
                                    popvec pops,
                                    TemporalSampler slist,
-                                   SinglepopFitness fitness_function,
+                                   SpopFitness fitness_function,
                                    unsigned[:] nlist,
                                    double mu_neutral,
                                    double mu_selected,
@@ -221,7 +221,7 @@ def evolve_regions_sampler_fitness(GSLrng rng,
     :param rng: a :class:`GSLrng`
     :param pops: A :class:`popvec`
     :param slist: A :class:`TemporalSampler`.
-    :param fitness_function: A :class:`fwdpy.fitness.SinglepopFitness`
+    :param fitness_function: A :class:`fwdpy.fitness.SpopFitness`
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
     :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
     :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
