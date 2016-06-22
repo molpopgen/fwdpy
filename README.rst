@@ -29,6 +29,8 @@ Changelog (rough)
 
 Changes to the Python side:
 
+* Class names now more "Pythonic".  This will break existing scripts.
+* Massive reduction in code base
 * Add fwdpy.demography module.
 * Add :class:`fwdpy.fwdpy.singlepop_mloc`
 * Add :class:`fwdpy.fwdpy.popvec_mloc`
