@@ -6,6 +6,7 @@
 #include <limits>
 #include <vector>
 #include <utility>
+#include <set>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/sugar/singlepop.hpp>
@@ -17,8 +18,6 @@
 #include "qtrait_mloc_rules.hpp"
 
 using namespace std;
-
-using poptype = fwdpy::singlepop_t;
 
 namespace fwdpy
 {
@@ -46,146 +45,9 @@ namespace fwdpy
       return rv;
     }
 
-    std::vector<sample_n::final_t>
-    evolve_qtrait_mloc_sample_async( GSLrng_t * rng,
-				     GSLrng_t * rng_sampling,
-				     std::vector<std::shared_ptr<multilocus_t> > * pops,
-				     const unsigned * Nvector,
-				     const size_t Nvector_length,
-				     const std::vector<double> & neutral_mutation_rates,
-				     const std::vector<double> & selected_mutation_rates,
-				     const std::vector<double> & sigma_mus,
-				     const std::vector<double> & within_region_rec_rates,
-				     const std::vector<double> & between_region_rec_rates,
-				     const double f,
-				     const double sigmaE,
-				     const double optimum,
-				     const double VS,
-				     const int sample,
-				     const unsigned nsam)
-    {
-      qtrait_mloc_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_mloc_async_wrapper<fwdpy::sample_n,
-					      qtrait_mloc_rules,
-					      decltype(nsam),
-					      const gsl_rng *>(rng,
-							       pops,
-							       Nvector,
-							       Nvector_length,
-							       neutral_mutation_rates,
-							       selected_mutation_rates,
-							       make_GaussianDFE(sigma_mus),
-							       within_region_rec_rates,
-							       between_region_rec_rates,
-							       f,
-							       sample,
-							       rules,
-							       std::forward<decltype(nsam)>(nsam),rng_sampling->get());
-    }
-
-    //Sample nothing
-    void evolve_qtrait_mloc_no_sampling_async( GSLrng_t * rng,
-					       std::vector<std::shared_ptr<multilocus_t> > * pops,
-					       const unsigned * Nvector,
-					       const size_t Nvector_length,
-					       const std::vector<double> & neutral_mutation_rates,
-					       const std::vector<double> & selected_mutation_rates,
-					       const std::vector<double> & sigma_mus,
-					       const std::vector<double> & within_region_rec_rates,
-					       const std::vector<double> & between_region_rec_rates,
-					       const double f,
-					       const double sigmaE,
-					       const double optimum,
-					       const double VS)
-    {
-      qtrait_mloc_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      evolve_qtrait_mloc_async_wrapper<fwdpy::no_sampling,
-				       qtrait_mloc_rules>(rng,
-							  pops,
-							  Nvector,
-							  Nvector_length,
-							  neutral_mutation_rates,
-							  selected_mutation_rates,
-							  make_GaussianDFE(sigma_mus),
-							  within_region_rec_rates,
-							  between_region_rec_rates,
-							  f,
-							  0,
-							  rules);
-    }
-    
-    //Sample quant. genetics params from pop
-    std::vector<pop_properties::final_t>
-    evolve_qtrait_mloc_popstats_async( GSLrng_t * rng,
-				       std::vector<std::shared_ptr<multilocus_t> > * pops,
-				       const unsigned * Nvector,
-				       const size_t Nvector_length,
-				       const std::vector<double> & neutral_mutation_rates,
-				       const std::vector<double> & selected_mutation_rates,
-				       const std::vector<double> & sigma_mus,
-				       const std::vector<double> & within_region_rec_rates,
-				       const std::vector<double> & between_region_rec_rates,
-				       const double f,
-				       const double sigmaE,
-				       const double optimum,
-				       const double VS,
-				       const int sample)
-    {
-      qtrait_mloc_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return  evolve_qtrait_mloc_async_wrapper<fwdpy::pop_properties,
-					       qtrait_mloc_rules,
-					       decltype(optimum)>(rng,
-								  pops,
-								  Nvector,
-								  Nvector_length,
-								  neutral_mutation_rates,
-								  selected_mutation_rates,
-								  make_GaussianDFE(sigma_mus),
-								  within_region_rec_rates,
-								  between_region_rec_rates,
-								  f,
-								  sample,
-								  rules,
-								  std::forward<decltype(optimum)>(optimum));
-
-    }
-
-    //Causative mutation frequency trajectories
-    std::vector<selected_mut_tracker::final_t>
-    evolve_qtrait_mloc_track_async( GSLrng_t * rng,
-				    std::vector<std::shared_ptr<multilocus_t> > * pops,
-				    const unsigned * Nvector,
-				    const size_t Nvector_length,
-				    const std::vector<double> & neutral_mutation_rates,
-				    const std::vector<double> & selected_mutation_rates,
-				    const std::vector<double> & sigma_mus,
-				    const std::vector<double> & within_region_rec_rates,
-				    const std::vector<double> & between_region_rec_rates,
-				    const double f,
-				    const double sigmaE,
-				    const double optimum,
-				    const double VS,
-				    const int sample)
-    {
-      qtrait_mloc_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return  evolve_qtrait_mloc_async_wrapper<fwdpy::selected_mut_tracker,
-					       qtrait_mloc_rules>(rng,
-								  pops,
-								  Nvector,
-								  Nvector_length,
-								  neutral_mutation_rates,
-								  selected_mutation_rates,
-								  make_GaussianDFE(sigma_mus),
-								  within_region_rec_rates,
-								  between_region_rec_rates,
-								  f,
-								  sample,
-								  rules);
-    }
-
-    std::vector<additive_variance::final_t>
-    evolve_qtrait_mloc_VA_async( GSLrng_t * rng,
+    void evolve_qtrait_mloc_cpp( GSLrng_t * rng,
 				 std::vector<std::shared_ptr<multilocus_t> > * pops,
+				 std::vector<std::unique_ptr<sampler_base> > & samplers,
 				 const unsigned * Nvector,
 				 const size_t Nvector_length,
 				 const std::vector<double> & neutral_mutation_rates,
@@ -197,212 +59,45 @@ namespace fwdpy
 				 const double sigmaE,
 				 const double optimum,
 				 const double VS,
-				 const int sample)
+				 const int interval,
+				 const multilocus_fitness & fitness)
     {
+      std::set<std::size_t> vec_sizes{neutral_mutation_rates.size(),
+	  selected_mutation_rates.size(),
+	  sigma_mus.size(),
+	  within_region_rec_rates.size()};
+      
+      if( vec_sizes.size() > 1 ) throw std::runtime_error("vectors of properties for each region must be same length");
+      
+      if( std::any_of(neutral_mutation_rates.begin(),neutral_mutation_rates.end(),
+		      [](double d){return d<0.;}) )
+	throw std::runtime_error("neutral mutation rates must be >= 0 for all loci");
+      
+      if(f<0.||f>1.) throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
+      if(interval<0) throw std::runtime_error("sampling interval must be non-negative");
+      std::vector<std::thread> threads;
       qtrait_mloc_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return  evolve_qtrait_mloc_async_wrapper<fwdpy::additive_variance,
-					       qtrait_mloc_rules>(rng,
-								  pops,
-								  Nvector,
-								  Nvector_length,
-								  neutral_mutation_rates,
-								  selected_mutation_rates,
-								  make_GaussianDFE(sigma_mus),
-								  within_region_rec_rates,
-								  between_region_rec_rates,
-								  f,
-								  sample,
-								  rules);
+      for(std::size_t i=0;i<pops->size();++i)
+	{
+	  threads.emplace_back( std::thread(evolve_qtrait_mloc_cpp_details<qtrait_mloc_rules>,
+					    pops->operator[](i).get(),
+					    fitness,
+					    std::ref(*samplers[i]),
+					    gsl_rng_get(rng->get()),
+					    Nvector,
+					    Nvector_length,
+					    neutral_mutation_rates,
+					    selected_mutation_rates,
+					    make_GaussianDFE(sigma_mus),
+					    within_region_rec_rates,
+					    between_region_rec_rates,
+					    f,
+					    interval,
+					    rules
+					    )
+				);	
+	}
+      for(auto & t : threads) t.join();
     }
-    //POWER MEAN FUNCTIONS
-    std::vector<sample_n::final_t>
-    evolve_qtrait_mloc_pm_sample_async( GSLrng_t * rng,
-					GSLrng_t * rng_sampling,
-					std::vector<std::shared_ptr<multilocus_t> > * pops,
-					const unsigned * Nvector,
-					const size_t Nvector_length,
-					const std::vector<double> & neutral_mutation_rates,
-					const std::vector<double> & selected_mutation_rates,
-					const std::vector<double> & sigma_mus,
-					const std::vector<double> & within_region_rec_rates,
-					const std::vector<double> & between_region_rec_rates,
-					const double f,
-					const double sigmaE,
-					const double optimum,
-					const double VS,
-					const std::vector<double> & SLd,
-					const double & SLp,
-					const std::vector<double> & MLd,
-					const double & MLp,
-					const int sample,
-					const unsigned nsam)
-    {
-      qtrait_mloc_pm_rules rules(sigmaE,optimum,VS,SLd,SLp,MLd,MLp,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_mloc_async_wrapper<fwdpy::sample_n,
-					      qtrait_mloc_pm_rules,
-					      decltype(nsam),
-					      const gsl_rng *>(rng,
-							       pops,
-							       Nvector,
-							       Nvector_length,
-							       neutral_mutation_rates,
-							       selected_mutation_rates,
-							       make_ExponentialDFE(sigma_mus),
-							       within_region_rec_rates,
-							       between_region_rec_rates,
-							       f,
-							       sample,
-							       rules,
-							       std::forward<decltype(nsam)>(nsam),rng_sampling->get());
-    }
-
-    //Sample nothing
-    void evolve_qtrait_mloc_pm_no_sampling_async( GSLrng_t * rng,
-						  std::vector<std::shared_ptr<multilocus_t> > * pops,
-						  const unsigned * Nvector,
-						  const size_t Nvector_length,
-						  const std::vector<double> & neutral_mutation_rates,
-						  const std::vector<double> & selected_mutation_rates,
-						  const std::vector<double> & sigma_mus,
-						  const std::vector<double> & within_region_rec_rates,
-						  const std::vector<double> & between_region_rec_rates,
-						  const double f,
-						  const double sigmaE,
-						  const double optimum,
-						  const double VS,
-						  const std::vector<double> & SLd,
-						  const double & SLp,
-						  const std::vector<double> & MLd,
-						  const double & MLp)
-    {
-      qtrait_mloc_pm_rules rules(sigmaE,optimum,VS,SLd,SLp,MLd,MLp,*std::max_element(Nvector,Nvector+Nvector_length));
-      evolve_qtrait_mloc_async_wrapper<fwdpy::no_sampling,
-				       qtrait_mloc_pm_rules>(rng,
-							     pops,
-							     Nvector,
-							     Nvector_length,
-							     neutral_mutation_rates,
-							     selected_mutation_rates,
-							     make_ExponentialDFE(sigma_mus),
-							     within_region_rec_rates,
-							     between_region_rec_rates,
-							     f,
-							     0,
-							     rules);
-    }
-    
-    //Sample quant. genetics params from pop
-    std::vector<pop_properties::final_t>
-    evolve_qtrait_mloc_pm_popstats_async( GSLrng_t * rng,
-					  std::vector<std::shared_ptr<multilocus_t> > * pops,
-					  const unsigned * Nvector,
-					  const size_t Nvector_length,
-					  const std::vector<double> & neutral_mutation_rates,
-					  const std::vector<double> & selected_mutation_rates,
-					  const std::vector<double> & sigma_mus,
-					  const std::vector<double> & within_region_rec_rates,
-					  const std::vector<double> & between_region_rec_rates,
-					  const double f,
-					  const double sigmaE,
-					  const double optimum,
-					  const double VS,
-					  const std::vector<double> & SLd,
-					  const double & SLp,
-					  const std::vector<double> & MLd,
-					  const double & MLp,
-					  const int sample)
-    {
-      qtrait_mloc_pm_rules rules(sigmaE,optimum,VS,SLd,SLp,MLd,MLp,*std::max_element(Nvector,Nvector+Nvector_length));
-      return  evolve_qtrait_mloc_async_wrapper<fwdpy::pop_properties,
-					       qtrait_mloc_pm_rules,
-					       decltype(optimum)>(rng,
-								  pops,
-								  Nvector,
-								  Nvector_length,
-								  neutral_mutation_rates,
-								  selected_mutation_rates,
-								  make_ExponentialDFE(sigma_mus),
-								  within_region_rec_rates,
-								  between_region_rec_rates,
-								  f,
-								  sample,
-								  rules,
-								  std::forward<decltype(optimum)>(optimum));
-
-    }
-
-    //Causative mutation frequency trajectories
-    std::vector<selected_mut_tracker::final_t>
-    evolve_qtrait_mloc_pm_track_async( GSLrng_t * rng,
-				       std::vector<std::shared_ptr<multilocus_t> > * pops,
-				       const unsigned * Nvector,
-				       const size_t Nvector_length,
-				       const std::vector<double> & neutral_mutation_rates,
-				       const std::vector<double> & selected_mutation_rates,
-				       const std::vector<double> & sigma_mus,
-				       const std::vector<double> & within_region_rec_rates,
-				       const std::vector<double> & between_region_rec_rates,
-				       const double f,
-				       const double sigmaE,
-				       const double optimum,
-				       const double VS,
-				       const std::vector<double> & SLd,
-				       const double & SLp,
-				       const std::vector<double> & MLd,
-				       const double & MLp,
-				       const int sample)
-    {
-      qtrait_mloc_pm_rules rules(sigmaE,optimum,VS,SLd,SLp,MLd,MLp,*std::max_element(Nvector,Nvector+Nvector_length));
-      return  evolve_qtrait_mloc_async_wrapper<fwdpy::selected_mut_tracker,
-					       qtrait_mloc_pm_rules>(rng,
-								     pops,
-								     Nvector,
-								     Nvector_length,
-								     neutral_mutation_rates,
-								     selected_mutation_rates,
-								     make_ExponentialDFE(sigma_mus),
-								     within_region_rec_rates,
-								     between_region_rec_rates,
-								     f,
-								     sample,
-								     rules);
-    }
-
-    std::vector<additive_variance::final_t>
-    evolve_qtrait_mloc_pm_VA_async( GSLrng_t * rng,
-				    std::vector<std::shared_ptr<multilocus_t> > * pops,
-				    const unsigned * Nvector,
-				    const size_t Nvector_length,
-				    const std::vector<double> & neutral_mutation_rates,
-				    const std::vector<double> & selected_mutation_rates,
-				    const std::vector<double> & sigma_mus,
-				    const std::vector<double> & within_region_rec_rates,
-				    const std::vector<double> & between_region_rec_rates,
-				    const double f,
-				    const double sigmaE,
-				    const double optimum,
-				    const double VS,
-				    const std::vector<double> & SLd,
-				    const double & SLp,
-				    const std::vector<double> & MLd,
-				    const double & MLp,
-				    const int sample)
-    {
-      qtrait_mloc_pm_rules rules(sigmaE,optimum,VS,SLd,SLp,MLd,MLp,*std::max_element(Nvector,Nvector+Nvector_length));
-      return  evolve_qtrait_mloc_async_wrapper<fwdpy::additive_variance,
-					       qtrait_mloc_pm_rules>(rng,
-								     pops,
-								     Nvector,
-								     Nvector_length,
-								     neutral_mutation_rates,
-								     selected_mutation_rates,
-								     make_ExponentialDFE(sigma_mus),
-								     within_region_rec_rates,
-								     between_region_rec_rates,
-								     f,
-								     sample,
-								     rules);
-    }
-
   }
 }
