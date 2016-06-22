@@ -1,4 +1,4 @@
-from fwdpy.fwdpy cimport popvec,singlepop,singlepop_t
+from fwdpy.fwdpy cimport popvec,Spop,singlepop_t
 from fwdpy.fwdpy cimport additive_variance_wrapper
 
 def genotype_matrices(popvec pops):
@@ -9,7 +9,7 @@ def genotype_matrices(popvec pops):
     return rv
 
 def VAVG(object p):
-    if isinstance(p,singlepop):
-        return additive_variance_wrapper[singlepop_t]((<singlepop>p).pop.get())
+    if isinstance(p,Spop):
+        return additive_variance_wrapper[singlepop_t]((<Spop>p).pop.get())
     elif isinstance(p,popvec):
-        return [additive_variance_wrapper[singlepop_t]((<singlepop>i).pop.get()) for i in (<popvec>(p))]
+        return [additive_variance_wrapper[singlepop_t]((<Spop>i).pop.get()) for i in (<popvec>(p))]
