@@ -84,6 +84,8 @@ cdef class MlocusMult(MlocusFitness):
 
 cdef class MlocusPowerMean(MlocusFitness):
     def __cinit__(self,double slp,double mlp,vector[double] & sld, vector[double] & mld):
+        if sld.size() != 2:
+            raise RuntimeError("sld must be of length 2")
         self.SLp = slp
         self.MLp = mlp
         self.SLd = sld
