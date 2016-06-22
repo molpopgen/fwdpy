@@ -81,3 +81,11 @@ cdef class MlocusMult(MlocusFitness):
         :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively
         """
         self.wfxn=make_mloc_multiplicative_fitness(scaling)
+
+cdef class MlocusPowerMean(MlocusFitness):
+    def __cinit__(self,double slp,double mlp,vector[double] & sld, vector[double] & mld):
+        self.SLp = slp
+        self.MLp = mlp
+        self.SLd = sld
+        self.MLd = mld
+        self.wfxn = make_mloc_power_mean_fitness(self.SLp,self.MLp,self.SLd,self.MLd)

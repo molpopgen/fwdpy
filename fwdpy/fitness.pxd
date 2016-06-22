@@ -35,7 +35,9 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     multilocus_fitness make_mloc_additive_fitness(double scaling)
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)
     multilocus_fitness make_mloc_gbr_fitness()
-
+    multilocus_fitness make_mloc_power_mean_fitness(const double SLd,const double MLd,
+						    const vector[double] SLp,
+						    const vector[double] MLp)
     cdef double(*mlocus_fitness_fxn)(const vector[diploid_t] &, const gcont_t &, const mcont_t)
 
 #Helper functions for making custom fitness functions
@@ -74,3 +76,7 @@ cdef class MlocusGBR(MlocusFitness):
 
 cdef class MlocusMult(MlocusFitness):
     pass
+
+cdef class MlocusPowerMean(MlocusFitness):
+    cdef vector[double] SLd,MLd
+    cdef double SLp,MLp
