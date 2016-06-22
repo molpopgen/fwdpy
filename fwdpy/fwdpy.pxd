@@ -199,26 +199,26 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
 #Extension classes for temporal sampling
 from libcpp.memory cimport unique_ptr
 
-cdef class temporalSampler:
+cdef class TemporalSampler:
     """
     Base class representing containers of functions
     to be applied to simluated populations at regular intervals.
     """
     cdef vector[unique_ptr[sampler_base]] vec
 
-cdef class nothingSampler(temporalSampler):
+cdef class NothingSampler(TemporalSampler):
     pass
 
-cdef class qtraitStatsSampler(temporalSampler):
+cdef class QtraitStatsSampler(TemporalSampler):
     pass
 
-cdef class nsamSampler(temporalSampler):
+cdef class PopSampler(TemporalSampler):
     pass
 
-cdef class vaSampler(temporalSampler):
+cdef class VASampler(TemporalSampler):
     pass
 
-cdef class freqSampler(temporalSampler):
+cdef class FreqSampler(TemporalSampler):
     pass
 
 

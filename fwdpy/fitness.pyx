@@ -1,4 +1,4 @@
-cdef class singlepopAdditive(singlepopFitness):
+cdef class SinglepopAdditive(SinglepopFitness):
     """
     Additive fitness model for a single deme.
     """
@@ -10,7 +10,7 @@ cdef class singlepopAdditive(singlepopFitness):
         """
         self.wfxn = make_additive_fitness(scaling)
 
-cdef class singlepopMult(singlepopFitness):
+cdef class SinglepopMult(SinglepopFitness):
     """
     Multiplicative fitness model for a single deme.
     """
@@ -22,7 +22,7 @@ cdef class singlepopMult(singlepopFitness):
         """
         self.wfxn = make_multiplicative_fitness(scaling)
 
-cdef class singlepopGBR(singlepopFitness):
+cdef class SinglepopGBR(SinglepopFitness):
     """
     The "gene-based recessive" (GBR) model of Thornton et al (2013) PLoS Genetics.
 
@@ -36,7 +36,7 @@ cdef class singlepopGBR(singlepopFitness):
     def __cinit__(self):
         self.wfxn = make_gbr_fitness()
 
-cdef class multilocusAdditive(multilocusFitness):
+cdef class MultilocusAdditive(MultilocusFitness):
     """
     Additive fitness for a multi-region model.
 
@@ -51,7 +51,7 @@ cdef class multilocusAdditive(multilocusFitness):
         """
         self.wfxn=make_mloc_additive_fitness(scaling)
 
-cdef class multilocusGBR(multilocusFitness):
+cdef class MultilocusGBR(MultilocusFitness):
     """
     The "gene-based recessive" (GBR) model of Thornton et al (2013) PLoS Genetics.
 
@@ -67,7 +67,7 @@ cdef class multilocusGBR(multilocusFitness):
     def __cinit__(self):
         self.wfxn=make_mloc_gbr_fitness()
 
-cdef class multilocusMult(multilocusFitness):
+cdef class MultilocusMult(MultilocusFitness):
     """
     Multiplicative fitness for a multi-region model.
 

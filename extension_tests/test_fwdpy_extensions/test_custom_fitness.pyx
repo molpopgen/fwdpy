@@ -1,5 +1,5 @@
 from fwdpy.fwdpp cimport popgenmut,gamete_base
-from fwdpy.fitness cimport singlepopFitness
+from fwdpy.fitness cimport SinglepopFitness
 from libcpp.vector cimport vector
 from libc.math cimport sqrt
 from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_w_plus1
@@ -30,14 +30,14 @@ cdef inline double addEsizes(const gamete_t & g, const mcont_t & m):
 cdef inline double geomean(double e1, double e2):
     return sqrt(e1*e2)
 
-cdef class additiveFitnessTesting(singlepopFitness):
+cdef class AdditiveFitnessTesting(SinglepopFitness):
     def __cinit__(self):
         self.wfxn = make_custom_fitness(<genotype_fitness_updater>additive_het_testing,
                                         <genotype_fitness_updater>additive_hom_testing,
                                         <fitness_function_finalizer>return_w_plus1,
                                         0.0)
 
-cdef class Aa_only_testing(singlepopFitness):
+cdef class AaOnlyTesting(SinglepopFitness):
     def __cinit__(self):
         self.wfxn = make_custom_fitness(<genotype_fitness_updater>Aa_only_het_testing,
                                         <genotype_fitness_updater>Aa_only_hom_testing,
@@ -46,7 +46,7 @@ cdef class Aa_only_testing(singlepopFitness):
 
 from fwdpy.fitness cimport make_custom_haplotype_fitness,haplotype_fitness_fxn,haplotype_fitness_fxn_finalizer
         
-cdef class GBRfitness(singlepopFitness):
+cdef class GBRFitness(SinglepopFitness):
     def __cinit__(self):
         self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>addEsizes,
                                                   <haplotype_fitness_fxn_finalizer>geomean)

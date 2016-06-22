@@ -43,32 +43,32 @@ cdef inline double return_w(const double w):
 cdef inline double return_w_plus1(const double w):
     return max(0.0,1.0+w)
 
-cdef class singlepopFitness(object):
+cdef class SinglepopFitness(object):
     """
     Base object for single-deme fitness functions
     """
     cdef singlepop_fitness wfxn
     
-cdef class singlepopAdditive(singlepopFitness):
+cdef class SinglepopAdditive(SinglepopFitness):
     pass
 
-cdef class singlepopGBR(singlepopFitness):
+cdef class SinglepopGBR(SinglepopFitness):
     pass
 
-cdef class singlepopMult(singlepopFitness):
+cdef class SinglepopMult(SinglepopFitness):
     pass
 
-cdef class multilocusFitness(object):
+cdef class MultilocusFitness(object):
     """
     Base object for multi-locus fitness functions
     """
     cdef multilocus_fitness wfxn
 
-cdef class multilocusAdditive(multilocusFitness):
+cdef class MultilocusAdditive(MultilocusFitness):
     pass
 
-cdef class multilocusGBR(multilocusFitness):
+cdef class MultilocusGBR(MultilocusFitness):
     pass
 
-cdef class multilocusMult(multilocusFitness):
+cdef class MultilocusMult(MultilocusFitness):
     pass

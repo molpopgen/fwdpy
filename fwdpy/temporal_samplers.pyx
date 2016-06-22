@@ -1,12 +1,12 @@
 # distutils: language = c++
-cdef class nothingSampler(temporalSampler):
+cdef class NothingSampler(TemporalSampler):
     def __cinit__(self, unsigned n):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[no_sampling](new no_sampling()))
     def get(self):
         return None
     
-cdef class qtraitStatsSampler(temporalSampler):
+cdef class QtraitStatsSampler(TemporalSampler):
     def __cinit__(self, unsigned n, double optimum):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[pop_properties](new pop_properties(optimum)))
@@ -19,7 +19,7 @@ cdef class qtraitStatsSampler(temporalSampler):
             i+=1
         return rv
 
-cdef class nsamSampler(temporalSampler):
+cdef class PopSampler(TemporalSampler):
     def __cinit__(self, unsigned n, unsigned nsam,GSLrng rng):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new sample_n(nsam,rng.thisptr.get())))
@@ -32,7 +32,7 @@ cdef class nsamSampler(temporalSampler):
             i+=1
         return rv
 
-cdef class vaSampler(temporalSampler):
+cdef class VASampler(TemporalSampler):
     def __cinit__(self,unsigned n):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[additive_variance](new additive_variance()))
@@ -45,7 +45,7 @@ cdef class vaSampler(temporalSampler):
             i+=1
         return rv
 
-cdef class freqSampler(temporalSampler):
+cdef class FreqSampler(TemporalSampler):
     def __cinit__(self,unsigned n):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[selected_mut_tracker](new selected_mut_tracker()))

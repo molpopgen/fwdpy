@@ -2,8 +2,8 @@ import warnings,fwdpy
 from cython.view cimport array as cvarray
 from cpython cimport array
 cimport cython
-from fwdpy.fitness cimport singlepopFitness
-from fwdpy.fitness import singlepopAdditive
+from fwdpy.fitness cimport SinglepopFitness
+from fwdpy.fitness import SinglepopAdditive
 def check_input_params(double sigmaE, double VS):
     if sigmaE < 0.:
         raise RuntimeError("sigmaE must be >= 0.")
@@ -46,8 +46,8 @@ def evolve_regions_qtrait(GSLrng rng,
     :raises: RuntimeError if parameters do not pass checks
     """
     pops = popvec(npops,N)
-    donothing = nothingSampler(npops)
-    fitness = singlepopAdditive()
+    donothing = NothingSampler(npops)
+    fitness = SinglepopAdditive()
     evolve_regions_qtrait_sampler_fitness(rng,pops,donothing,fitness,
                                           mu_neutral,mu_selected,recrate,
                                           nregions,sregions,recregions,
@@ -68,8 +68,8 @@ def evolve_regions_qtrait_more(GSLrng rng,
                                double optimum = 0.,
                                double f = 0.,
                                double VS=1,):
-    donothing = nothingSampler(len(pops))
-    fitness = singlepopAdditive()
+    donothing = NothingSampler(len(pops))
+    fitness = SinglepopAdditive()
     evolve_regions_qtrait_sampler_fitness(rng,pops,donothing,fitness,
                                           mu_neutral,mu_selected,recrate,
                                           nregions,sregions,recregions,
@@ -78,7 +78,7 @@ def evolve_regions_qtrait_more(GSLrng rng,
 @cython.boundscheck(False)
 def evolve_regions_qtrait_sampler(GSLrng rng,
                                   popvec pops,
-                                  temporalSampler slist,
+                                  TemporalSampler slist,
                                   unsigned[:] nlist,
                                   double mu_neutral,
                                   double mu_selected,
@@ -91,7 +91,7 @@ def evolve_regions_qtrait_sampler(GSLrng rng,
                                   double optimum = 0.0,
                                   double f = 0,
                                   double VS = 1.0):
-    fitness = singlepopAdditive()
+    fitness = SinglepopAdditive()
     evolve_regions_qtrait_sampler_fitness(rng,pops,slist,fitness,nlist,
                                           mu_neutral,mu_selected,recrate,
                                           nregions,sregions,recregions,
@@ -100,8 +100,8 @@ def evolve_regions_qtrait_sampler(GSLrng rng,
 @cython.boundscheck(False)
 def evolve_regions_qtrait_sampler_fitness(GSLrng rng,
                                           popvec pops,
-                                          temporalSampler slist,
-                                          singlepopFitness fitness_function,
+                                          TemporalSampler slist,
+                                          SinglepopFitness fitness_function,
                                           unsigned[:] nlist,
                                           double mu_neutral,
                                           double mu_selected,
