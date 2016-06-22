@@ -10,26 +10,32 @@
 
 namespace fwdpy
 {
+  //Single-region fitness function signatures
   /*! 
     Function pointer representing policy signature for site-dependent fitness models.
     The first argument is a non-const reference to the current "fitness".  The function
-    must update this value appropriately given the data in the second argument.
+    must update this value appropriately given the data in the second argument. This is 
+    for a single-region simulation
   */
   using genotype_fitness_updater = void(*)(double &, const mcont_t::value_type &);
-  //! "Finalizer" for site-based fitness schemes
+  //! "Finalizer" for site-based fitness schemes for single region
   using fitness_function_finalizer = double(*)(double);
-  //! "Finalizer" for haplotype-based fitness schemes
+  //! "Finalizer" for haplotype-based fitness schemes for single region
   using haplotype_fitness_fxn_finalizer = double(*)(double,double);
-  //! Policy signature for haplotype-dependent models
+  //! Policy signature for haplotype-dependent models for single region
   using haplotype_fitness_fxn = double(*)(const gamete_t &, const mcont_t &);
 
-  //! C++11 signature for a fitness function. Not exposed to Python (yet).
+  //! C++11 signature for a fitness function for a single regions. Not exposed to Python (yet).
   using single_region_fitness_fxn = std::function<double(const diploid_t &,
 							 const gcont_t &,
 							 const mcont_t &)>;
+
+  //Multi-locus fitness functions signatures
   
   //! C++11 signature for a multi-locus fitness function. Not exposed to Python (yet).
   using multi_locus_fitness_fxn = std::function<double(const std::vector<diploid_t> &,const gcont_t &, const mcont_t &)>;
+  //! Function pointer representing policy for fitness functions for multi-locus simulations
+  using mlocus_fitness_fxn = double(*)(const std::vector<diploid_t> &,const gcont_t &, const mcont_t &);
   
   struct site_dependent_fitness_wrapper
   /*!
@@ -249,6 +255,11 @@ namespace fwdpy
 				  }
 				return w;
 			      });
+  }
+
+  inline multilocus_fitness make_mloc_custom_fitness(mlocus_fitness_fxn f)
+  {
+    return multilocus_fitness(f);
   }
 }
 
