@@ -257,6 +257,37 @@ namespace fwdpy
 			      });
   }
 
+  inline multilocus_fitness make_mloc_power_mean_fitness(const double SLp,const double MLp,
+							 const std::vector<double> & SLd,
+							 const std::vector<double> & MLd)
+  {
+    return multilocus_fitness([&](const std::vector<diploid_t> & diploid,
+				  const gcont_t & gametes,
+				  const mcont_t & mutations)
+			      {
+				double w = 0.0;
+				std::size_t j = 0;
+				for(const auto & locus : diploid)
+				  {
+				    auto h1 = std::accumulate(gametes[locus.first].smutations.cbegin(),
+							      gametes[locus.first].smutations.cend(),0.0,
+							      [&mutations](const double & d,const std::size_t & i) noexcept
+							      {
+								return d + mutations[i].s;
+							      } );
+				    auto h2 = std::accumulate(gametes[locus.second].smutations.cbegin(),
+							      gametes[locus.second].smutations.cend(),0.0,
+							      [&mutations](const double & d,const std::size_t & i) noexcept
+							      {
+								return d + mutations[i].s;
+							      } );
+				    w += MLd[j]*( std::pow( std::pow( (SLd[0]*std::pow(h1,SLp) + SLd[1]*std::pow(h2,SLp)),1./SLp), MLp ) );
+				    j++;
+				  }
+				return std::pow(w,1./MLp);
+			      });
+  }
+
   inline multilocus_fitness make_mloc_custom_fitness(mlocus_fitness_fxn f)
   {
     return multilocus_fitness(f);
