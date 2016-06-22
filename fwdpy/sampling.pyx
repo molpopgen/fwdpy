@@ -36,12 +36,12 @@ import pandas as pd
 #                    vector[uint16_t] * l):
 #    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
 
-def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
+def ms_sample(GSLrng rng, PopType pop, int nsam, bint removeFixed = True):
     """
     Take a sample from a set of simulated populations.
 
     :param rng: a :class:`GSLrng`
-    :param pops: An object inheriting from :class:`poptype`
+    :param pops: An object inheriting from :class:`PopType`
     :param nsam: List of sample sizes (no. chromosomes) to sample.
     :param removeFixed: if True, only polymorphic sites are retained
 
@@ -60,12 +60,12 @@ def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):
+def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme = None):
     """
     Take a sample from a set of simulated populations.
 
     :param rng: a :class:`GSLrng`
-    :param pop: An object inheriting from :class:`poptype`
+    :param pop: An object inheriting from :class:`PopType`
     :param nsam: The sample size to take.
     :param removeFixed: if True, only polymorphic sites are retained
     :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.
@@ -100,12 +100,12 @@ def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_sample_details( sample_t ms_sample, poptype pop ):
+def get_sample_details( sample_t ms_sample, PopType pop ):
     """
     Get additional details for population samples
 
     :param ms_samples: A list returned by :func:`ms_sample`
-    :param pops: A :class:`poptype`
+    :param pops: A :class:`PopType`
 
     :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.
 

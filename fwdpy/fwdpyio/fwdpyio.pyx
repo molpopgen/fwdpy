@@ -8,11 +8,11 @@ def serialize_single(singlepop pop):
 def serialize_meta(metapop mpop):
     return serialize_metapop(mpop.mpop.get())
 
-def serialize(poptype pop):
+def serialize(PopType pop):
     """
     Return a binary representation of an evolved population
 
-    :param pop: A list of :class:`fwdpy.fwdpy.poptype`
+    :param pop: A list of :class:`fwdpy.fwdpy.PopType`
     
     Example:
 
@@ -33,7 +33,7 @@ def serialize(poptype pop):
     elif isinstance(pop,metapop):
         return serialize_meta(pop)
     else:
-        raise RuntimeError("fwdpyio.serialize: unsupported poptype "+str(type(pop)))
+        raise RuntimeError("fwdpyio.serialize: unsupported PopType "+str(type(pop)))
 
 def deserialize_singlepops(list strings):
     """

@@ -1,7 +1,7 @@
 ##Create the python classes
 from cython.operator import dereference as deref
 
-cdef class singlepop(poptype):
+cdef class singlepop(PopType):
     """
     Object representing data structures for single-deme simulations
     based on a mutation type having a single 's' and 'h' term.
@@ -33,7 +33,7 @@ cdef class singlepop(poptype):
         """
         return self.pop.get().sane()
 
-cdef class singlepop_gm_vec(poptype):
+cdef class singlepop_gm_vec(PopType):
     """
     Object representing data structures for single-deme simulations
     based on a mutation type having a vector of properties.
@@ -67,7 +67,7 @@ cdef class singlepop_gm_vec(poptype):
         """
         return self.pop.get().sane()
 
-cdef class singlepop_mloc(poptype):
+cdef class singlepop_mloc(PopType):
     """
     Object representing data structures for single-deme, multi-locus/region simulations
     based on a mutation type having a single 's' and 'h' term.
@@ -99,7 +99,7 @@ cdef class singlepop_mloc(poptype):
         """
         return self.pop.get().sane()  
 
-cdef class popvec(popcont):
+cdef class popvec(PopVec):
     """
     Vector of single-deme objects
 
@@ -159,7 +159,7 @@ cdef class popvec(popcont):
         """
         return self.pops.size()
 
-cdef class popvec_mloc(popcont):
+cdef class popvec_mloc(PopVec):
     """
     Vector of single-deme objects representing multiple partially-linked regions.
 
@@ -220,7 +220,7 @@ cdef class popvec_mloc(popcont):
         """
         return self.pops.size()
     
-cdef class popvec_gmv(popcont):
+cdef class popvec_gmv(PopVec):
     def __cinit__(self,unsigned npops,unsigned N):
         """
         Constructor:
@@ -258,7 +258,7 @@ cdef class popvec_gmv(popcont):
         """
         return self.pops.size()
     
-cdef class metapop(poptype):
+cdef class metapop(PopType):
     """
     Object representing data structures for single-deme simulations.
 
@@ -293,7 +293,7 @@ cdef class metapop(poptype):
     cpdef from_singlepop(self,singlepop p):
          self.mpop.reset(new metapop_t(deref(p.pop.get())))
          
-cdef class mpopvec(popcont):
+cdef class mpopvec(PopVec):
     """
     Vector of metapopulation objects
     """

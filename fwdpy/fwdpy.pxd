@@ -93,7 +93,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         const gsl_rng * get()
 
 #Now, provide definitions for classes in classes.pyx
-cdef class poptype(object):
+cdef class PopType(object):
     """
     Empty base class for a population object.
 
@@ -101,32 +101,32 @@ cdef class poptype(object):
     """
     pass
 
-cdef class singlepop(poptype):
+cdef class singlepop(PopType):
     cdef shared_ptr[singlepop_t] pop
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
 
-cdef class metapop(poptype):
+cdef class metapop(PopType):
     cdef shared_ptr[metapop_t] mpop
     cpdef gen(self)
     cpdef popsizes(self)
     cpdef sane(self)
     cpdef from_singlepop(self,singlepop p)
 
-cdef class singlepop_mloc(poptype):
+cdef class singlepop_mloc(PopType):
     cdef shared_ptr[multilocus_t] pop
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
 
-cdef class singlepop_gm_vec(poptype):
+cdef class singlepop_gm_vec(PopType):
     cdef shared_ptr[singlepop_gm_vec_t] pop
     cpdef gen(self)
     cpdef popsize(self)
     cpdef sane(self)
 
-cdef class popcont(object):
+cdef class PopVec(object):
     """
     Empty base class for containers of population objects.
 
@@ -134,27 +134,27 @@ cdef class popcont(object):
     """
     pass
 
-cdef class popvec(popcont):
+cdef class popvec(PopVec):
     cdef vector[shared_ptr[singlepop_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
     cpdef append(self,popvec p)
 
-cdef class popvec_gmv(popcont):
+cdef class popvec_gmv(PopVec):
     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
 
-cdef class mpopvec(popcont):
+cdef class mpopvec(PopVec):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     cpdef append(self,mpopvec p)
 
-cdef class popvec_mloc(popcont):
+cdef class popvec_mloc(PopVec):
     cdef vector[shared_ptr[multilocus_t]] pops
     cdef public object pypops
     cpdef size(self)
