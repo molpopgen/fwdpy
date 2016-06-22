@@ -13,7 +13,7 @@ def copypop(PopType pop):
     s = fpio.serialize(pop)
     if isinstance(pop,Spop):
         return fpio.deserialize_singlepops(list(s))
-    elif isinstance(pop,metapop):
+    elif isinstance(pop,MetaPop):
         return fpio.deserialize_metapops(list(s))
     else:
         raise RuntimeError("fwdpy.copypop: PopType "+str(type(pop))+" is not supported")

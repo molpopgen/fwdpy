@@ -68,11 +68,11 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
     :param pop: An object inheriting from :class:`PopType`
     :param nsam: The sample size to take.
     :param removeFixed: if True, only polymorphic sites are retained
-    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.
+    :param deme: Optional.  If 'pop' is a :class:`MetaPop`, deme is required and represents the sub-population to sample.
 
     :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.
 
-    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`
+    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.MetaPop`
 
     Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.
 
@@ -87,12 +87,12 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
     if isinstance(pop,Spop):
         return sample_sep_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
         #return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
-    elif isinstance(pop,metapop):
+    elif isinstance(pop,MetaPop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
         if deme >= len(pop):
             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
-        return sample_separate[metapop_t](rng.thisptr.get(),deref((<metapop>pop).mpop.get()),deme,nsam,removeFixed)
+        return sample_separate[metapop_t](rng.thisptr.get(),deref((<MetaPop>pop).mpop.get()),deme,nsam,removeFixed)
         #return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
     elif isinstance(pop,singlepop_mloc):
         return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<singlepop_mloc>pop).pop.get()),nsam,removeFixed)
@@ -139,12 +139,12 @@ def get_sample_details( sample_t ms_sample, PopType pop ):
                (<singlepop_mloc>pop).pop.get().N,
                (<singlepop_mloc>pop).pop.get().generation,
                &s,&h,&p,&a,&l)
-    elif isinstance(pop,metapop):
+    elif isinstance(pop,MetaPop):
         get_sh(ms_sample,
-               (<metapop>pop).mpop.get().mutations,
-               (<metapop>pop).mpop.get().mcounts,
-               sum((<metapop>pop).mpop.get().mcounts.Ns),
-               (<metapop>pop).mpop.get().generation,
+               (<MetaPop>pop).mpop.get().mutations,
+               (<MetaPop>pop).mpop.get().mcounts,
+               sum((<MetaPop>pop).mpop.get().mcounts.Ns),
+               (<MetaPop>pop).mpop.get().generation,
                &s,&h,&p,&a,&l)
     return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})
 
@@ -289,14 +289,14 @@ def hapmatrix(p,const vector[size_t] & diploids, deme = None):
         return [make_haplotype_matrix((<Spop>i).pop.get(),diploids) for i in <popvec>p]
     elif isinstance(p,popvec_mloc):
         return [make_haplotype_matrix((<singlepop_mloc>i).pop.get(),diploids) for i in <popvec_mloc>p]
-    elif isinstance(p,metapop):
+    elif isinstance(p,MetaPop):
         if deme is None:
             raise RuntimeError("deme cannot be None")
-        return make_haplotype_matrix((<metapop>p).mpop.get(),diploids,deme)
+        return make_haplotype_matrix((<MetaPop>p).mpop.get(),diploids,deme)
     elif isinstance(p,mpopvec):
         if deme is None:
             raise RuntimeError("deme cannot be None")
-        return [make_haplotype_matrix((<metapop>i).mpop.get(),diploids,deme) for i in <mpopvec>p]
+        return [make_haplotype_matrix((<MetaPop>i).mpop.get(),diploids,deme) for i in <mpopvec>p]
     else:
         raise RuntimeError("object type not understood")
 

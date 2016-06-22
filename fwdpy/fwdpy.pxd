@@ -107,7 +107,7 @@ cdef class Spop(PopType):
     cpdef popsize(self)
     cpdef sane(self)
 
-cdef class metapop(PopType):
+cdef class MetaPop(PopType):
     cdef shared_ptr[metapop_t] mpop
     cpdef gen(self)
     cpdef popsizes(self)

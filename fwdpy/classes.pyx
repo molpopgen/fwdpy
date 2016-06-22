@@ -258,7 +258,7 @@ cdef class popvec_gmv(PopVec):
         """
         return self.pops.size()
     
-cdef class metapop(PopType):
+cdef class MetaPop(PopType):
     """
     Object representing data structures for single-deme simulations.
 
@@ -310,7 +310,7 @@ cdef class mpopvec(PopVec):
                 raise ValueError("mpopvec: deme size < 0 encountered")
         for i in range(nmpops):
             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
-            pi = metapop()
+            pi = MetaPop()
             pi.mpop = self.mpops[i]
             self.pympops.append(pi)
     def __iter__(self):
@@ -333,7 +333,7 @@ cdef class mpopvec(PopVec):
         self.mpops = mpops
         self.pympops = []
         for i in range(self.mpops.size()):
-            pi = metapop()
+            pi = MetaPop()
             pi.mpop = self.mpops[i]
             self.pympops.append(pi)
     def __append_details__(self,mpopvec p):

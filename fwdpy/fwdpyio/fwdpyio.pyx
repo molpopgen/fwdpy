@@ -5,7 +5,7 @@
 def serialize_single(Spop pop):
     return serialize_singlepop(pop.pop.get())
 
-def serialize_meta(metapop mpop):
+def serialize_meta(MetaPop mpop):
     return serialize_metapop(mpop.mpop.get())
 
 def serialize(PopType pop):
@@ -30,7 +30,7 @@ def serialize(PopType pop):
     """
     if isinstance(pop,Spop):
         return serialize_single(pop)
-    elif isinstance(pop,metapop):
+    elif isinstance(pop,MetaPop):
         return serialize_meta(pop)
     else:
         raise RuntimeError("fwdpyio.serialize: unsupported PopType "+str(type(pop)))

@@ -3,7 +3,7 @@ def check_popdata_singlepop(Spop p):
     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
     return {'check_sum':csum,'popdata_sane':pds}
 
-def check_popdata_metapop(metapop p):
+def check_popdata_metapop(MetaPop p):
     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
     lpds=[]
     cdef bint pds
@@ -35,7 +35,7 @@ def check_popdata(object p):
         return check_popdata_mpopvec(p)
     elif isinstance(p,Spop):
         return check_popdata_singlepop(p)
-    elif isinstance(p,metapop):
-        return check_popdata-metapop(p)
+    elif isinstance(p,MetaPop):
+        return check_popdata_metapop(p)
     else:
         raise RuntimeError("object type not understood")

@@ -45,8 +45,8 @@ def view_fixations(object p):
     #Streamline using casts:
     if isinstance(p,Spop):
         return view_fixations_details((<Spop>p).pop.get().fixations,(<Spop>p).pop.get().fixation_times,(<Spop>p).pop.get().N)
-    if isinstance(p,metapop):
-        return view_fixations_details((<metapop>p).mpop.get().fixations,(<metapop>p).mpop.get().fixation_times,sum((<metapop>p).mpop.get().Ns))
+    if isinstance(p,MetaPop):
+        return view_fixations_details((<MetaPop>p).mpop.get().fixations,(<MetaPop>p).mpop.get().fixation_times,sum((<MetaPop>p).mpop.get().Ns))
     
     elif isinstance(p,popvec):
         return view_fixations_popvec(p)

@@ -1,23 +1,23 @@
-from fwdpy.fwdpy cimport Spop,metapop,popvec,mpopvec,GSLrng
+from fwdpy.fwdpy cimport Spop,MetaPop,popvec,mpopvec,GSLrng
 
 ##cdef function act directly on C++ types
 
-cdef copy_pop_details(metapop mpop,size_t deme):
+cdef copy_pop_details(MetaPop mpop,size_t deme):
     copy_deme(mpop.mpop.get(),deme)
 
-cdef remove_pop_details(metapop mpop,size_t deme):
+cdef remove_pop_details(MetaPop mpop,size_t deme):
     remove_deme(mpop.mpop.get(),deme)
 
-cdef merge_pops_details(metapop mpop,size_t i,size_t j):
+cdef merge_pops_details(MetaPop mpop,size_t i,size_t j):
     merge_demes(mpop.mpop.get(),i,j)
 
-cdef split_deme_details(GSLrng r,metapop mpop,size_t i, unsigned N_new, bint replacement):
+cdef split_deme_details(GSLrng r,MetaPop mpop,size_t i, unsigned N_new, bint replacement):
     split_deme(r.thisptr.get(),mpop.mpop.get(),i,N_new,replacement)
 
-cdef admix_demes_details(GSLrng r,metapop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):
+cdef admix_demes_details(GSLrng r,MetaPop mpop,size_t i,size_t j,double p,unsigned N_new, bint replacement):
     admix_demes(r.thisptr.get(),mpop.mpop.get(),i,j,p,N_new,replacement)
 
-cdef swap_demes_details(metapop mpop, size_t i, size_t j):
+cdef swap_demes_details(MetaPop mpop, size_t i, size_t j):
     swap_demes(mpop.mpop.get(),i,j)
     
 ##def function are callable from Python:
