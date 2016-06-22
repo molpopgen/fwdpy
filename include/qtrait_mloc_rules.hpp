@@ -135,31 +135,31 @@ namespace fwdpy
       mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
       //! \brief Constructor
       qtrait_mloc_pm_rules(const double & __sigE,
-			const double & __optimum,
-			const double & __VS,
-			const std::vector<double> & __SLd,
-			const double & __SLp,
-			const std::vector<double> & __MLd,
-			const double & __MLp,
-			const unsigned __maxN = 100000) :wbar(0.),
-							 sigE(__sigE),
-							 optimum(__optimum),
-							 VS(__VS),
-							 SLd(__SLd),
-							 SLp(__SLp),
-							 MLd(__MLd),
-							 MLp(__MLp),
-							 fitnesses(std::vector<double>(__maxN)),
-							 lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
+			   const double & __optimum,
+			   const double & __VS,
+			   const std::vector<double> & __SLd,
+			   const double & __SLp,
+			   const std::vector<double> & __MLd,
+			   const double & __MLp,
+			   const unsigned __maxN = 100000) :wbar(0.),
+							    sigE(__sigE),
+							    optimum(__optimum),
+							    VS(__VS),
+							    SLd(__SLd),
+							    SLp(__SLp),
+							    MLd(__MLd),
+							    MLp(__MLp),
+							    fitnesses(std::vector<double>(__maxN)),
+							    lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
       {
       }
 
       qtrait_mloc_pm_rules(qtrait_mloc_pm_rules &&) = default;
       
       qtrait_mloc_pm_rules(const qtrait_mloc_pm_rules & rhs) : wbar(rhs.wbar),sigE(rhs.sigE),optimum(rhs.optimum),
-							 VS(rhs.VS),SLd(rhs.SLd), SLp(rhs.SLp), MLd(rhs.MLd),MLp(rhs.MLp),
-							 fitnesses(rhs.fitnesses),
-							 lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
+							       VS(rhs.VS),SLd(rhs.SLd), SLp(rhs.SLp), MLd(rhs.MLd),MLp(rhs.MLp),
+							       fitnesses(rhs.fitnesses),
+							       lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
       {
 	if(!fitnesses.empty())
 	  lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(fitnesses.size(),&fitnesses[0]));
@@ -234,18 +234,17 @@ namespace fwdpy
 	size_t j=0;
 	for( const auto & locus : offspring )
 	  {
-
-	  	double a=0;
-	  	double b=0;
-        for ( const auto & i : gametes[locus.first].smutations ){
-          a += mutations[i].s;
-        }
-        for ( const auto & i : gametes[locus.second].smutations ){
-          b += mutations[i].s;
-        }
-        //nested power mean = (sum ( weight e^p))^(1/p)
-	  	SL_G+= MLd[j]*( pow( pow( (SLd[0]*pow(a,SLp) + SLd[1]*pow(b,SLp)),1./SLp), MLp ) );
-	  	j+=1;
+	    double a=0;
+	    double b=0;
+	    for ( const auto & i : gametes[locus.first].smutations ){
+	      a += mutations[i].s;
+	    }
+	    for ( const auto & i : gametes[locus.second].smutations ){
+	      b += mutations[i].s;
+	    }
+	    //nested power mean = (sum ( weight e^p))^(1/p)
+	    SL_G+= MLd[j]*( pow( pow( (SLd[0]*pow(a,SLp) + SLd[1]*pow(b,SLp)),1./SLp), MLp ) );
+	    j+=1;
 	  }
 	offspring[0].g = pow(SL_G,1./MLp);
 	offspring[0].e = gsl_ran_gaussian_ziggurat(r,sigE);
