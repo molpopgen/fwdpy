@@ -101,7 +101,7 @@ cdef class PopType(object):
     """
     pass
 
-cdef class singlepop(PopType):
+cdef class Spop(PopType):
     cdef shared_ptr[singlepop_t] pop
     cpdef gen(self)
     cpdef popsize(self)
@@ -112,7 +112,7 @@ cdef class metapop(PopType):
     cpdef gen(self)
     cpdef popsizes(self)
     cpdef sane(self)
-    cpdef from_singlepop(self,singlepop p)
+    cpdef from_Spop(self,Spop p)
 
 cdef class singlepop_mloc(PopType):
     cdef shared_ptr[multilocus_t] pop

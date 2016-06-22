@@ -11,7 +11,7 @@ def copypop(PopType pop):
     .. note:: The function is implemented in terms of the serialization routines in the fwdpy.fwdpyio module.  The return value can be evolved and not affect the input value.
     """
     s = fpio.serialize(pop)
-    if isinstance(pop,singlepop):
+    if isinstance(pop,Spop):
         return fpio.deserialize_singlepops(list(s))
     elif isinstance(pop,metapop):
         return fpio.deserialize_metapops(list(s))

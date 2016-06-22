@@ -55,8 +55,8 @@ def ms_sample(GSLrng rng, PopType pop, int nsam, bint removeFixed = True):
     >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     """
-    if isinstance(pop,singlepop):
-        return sample_single[singlepop_t](rng.thisptr.get(),deref((<singlepop>pop).pop.get()),nsam, int(removeFixed))
+    if isinstance(pop,Spop):
+        return sample_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
@@ -84,8 +84,8 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
     >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
     """
-    if isinstance(pop,singlepop):
-        return sample_sep_single[singlepop_t](rng.thisptr.get(),deref((<singlepop>pop).pop.get()),nsam, int(removeFixed))
+    if isinstance(pop,Spop):
+        return sample_sep_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
         #return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
     elif isinstance(pop,metapop):
         if deme is None:
@@ -125,12 +125,12 @@ def get_sample_details( sample_t ms_sample, PopType pop ):
     cdef vector[double] p
     cdef vector[double] a
     cdef vector[uint16_t] l
-    if isinstance(pop,singlepop):
+    if isinstance(pop,Spop):
         get_sh(ms_sample,
-               (<singlepop>pop).pop.get().mutations,
-               (<singlepop>pop).pop.get().mcounts,
-               (<singlepop>pop).pop.get().N,
-               (<singlepop>pop).pop.get().generation,
+               (<Spop>pop).pop.get().mutations,
+               (<Spop>pop).pop.get().mcounts,
+               (<Spop>pop).pop.get().N,
+               (<Spop>pop).pop.get().generation,
                &s,&h,&p,&a,&l)
     elif isinstance(pop,singlepop_mloc):
         get_sh(ms_sample,
@@ -281,12 +281,12 @@ def hapmatrix(p,const vector[size_t] & diploids, deme = None):
 
     .. note:: Examples will be provided elsewhere.
     """
-    if isinstance(p,singlepop):
-        return make_haplotype_matrix((<singlepop>p).pop.get(),diploids)
+    if isinstance(p,Spop):
+        return make_haplotype_matrix((<Spop>p).pop.get(),diploids)
     elif isinstance(p,singlepop_mloc):
         return make_haplotype_matrix((<singlepop_mloc>p).pop.get(),diploids)
     elif isinstance(p,popvec):
-        return [make_haplotype_matrix((<singlepop>i).pop.get(),diploids) for i in <popvec>p]
+        return [make_haplotype_matrix((<Spop>i).pop.get(),diploids) for i in <popvec>p]
     elif isinstance(p,popvec_mloc):
         return [make_haplotype_matrix((<singlepop_mloc>i).pop.get(),diploids) for i in <popvec_mloc>p]
     elif isinstance(p,metapop):

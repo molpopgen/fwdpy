@@ -1,4 +1,4 @@
-from fwdpy.fwdpy cimport singlepop,metapop,popvec,mpopvec,GSLrng
+from fwdpy.fwdpy cimport Spop,metapop,popvec,mpopvec,GSLrng
 
 ##cdef function act directly on C++ types
 
@@ -35,7 +35,7 @@ def make_mpopvec(popvec pops):
     """
     rv=mpopvec(len(pops),[0])
     for i in range(len(pops)):
-        rv[i].from_singlepop(pops[i])
+        rv[i].from_Spop(pops[i])
     return rv
     
 def copy_pop(mpopvec mpops, size_t deme_index):

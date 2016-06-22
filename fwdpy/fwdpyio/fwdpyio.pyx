@@ -2,7 +2,7 @@
 # distutils: sources = fwdpy/fwdpyio/serialize.cc
     
 ##Undocumented fxns are implementation details
-def serialize_single(singlepop pop):
+def serialize_single(Spop pop):
     return serialize_singlepop(pop.pop.get())
 
 def serialize_meta(metapop mpop):
@@ -28,7 +28,7 @@ def serialize(PopType pop):
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> strings = [fpio.serialize(i) for i in pops]
     """
-    if isinstance(pop,singlepop):
+    if isinstance(pop,Spop):
         return serialize_single(pop)
     elif isinstance(pop,metapop):
         return serialize_meta(pop)

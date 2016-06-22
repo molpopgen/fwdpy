@@ -1,4 +1,4 @@
-def check_popdata_singlepop(singlepop p):
+def check_popdata_singlepop(Spop p):
     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
     return {'check_sum':csum,'popdata_sane':pds}
@@ -33,7 +33,7 @@ def check_popdata(object p):
         return check_popdata_popvec(p)
     elif isinstance(p,mpopvec):
         return check_popdata_mpopvec(p)
-    elif isinstance(p,singlepop):
+    elif isinstance(p,Spop):
         return check_popdata_singlepop(p)
     elif isinstance(p,metapop):
         return check_popdata-metapop(p)

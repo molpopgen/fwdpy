@@ -1,7 +1,7 @@
 ##Create the python classes
 from cython.operator import dereference as deref
 
-cdef class singlepop(PopType):
+cdef class Spop(PopType):
     """
     Object representing data structures for single-deme simulations
     based on a mutation type having a single 's' and 'h' term.
@@ -42,7 +42,7 @@ cdef class singlepop_gm_vec(PopType):
     they should be working with :class:`popvec`.  This type exists as
     the output of iterating through a :class:`popvec`.
 
-    ..note:: Currently, there are no functions in fwdpy using this type!  See :class:`fwdpy.fwdpy.singlepop` instead.
+    ..note:: Currently, there are no functions in fwdpy using this type!  See :class:`fwdpy.fwdpy.Spop` instead.
     """
     def __del__(self):
         self.pop.reset()
@@ -119,7 +119,7 @@ cdef class popvec(PopVec):
         self.pypops=list()
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_t](new singlepop_t(N)))
-            pi = singlepop()
+            pi = Spop()
             pi.pop = self.pops[i]
             self.pypops.append(pi)
     def __iter__(self):
@@ -137,7 +137,7 @@ cdef class popvec(PopVec):
         self.pops=newpops
         self.pypops=list()
         for i in range(self.pops.size()):
-            pi = singlepop()
+            pi = Spop()
             pi.pop=self.pops[i]
             self.pypops.append(pi)
     def __append_details__(self,popvec p):
@@ -290,7 +290,7 @@ cdef class metapop(PopType):
 
         """
         return self.mpop.get().sane()
-    cpdef from_singlepop(self,singlepop p):
+    cpdef from_Spop(self,Spop p):
          self.mpop.reset(new metapop_t(deref(p.pop.get())))
          
 cdef class mpopvec(PopVec):
