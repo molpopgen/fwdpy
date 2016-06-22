@@ -52,7 +52,8 @@ namespace fwdpy
 				 const size_t Nvector_length,
 				 const std::vector<double> & neutral_mutation_rates,
 				 const std::vector<double> & selected_mutation_rates,
-				 const std::vector<double> & sigma_mus,
+				 //const std::vector<double> & sigma_mus,
+				 const std::vector<KTfwd::extensions::shmodel> & shmodels,
 				 const std::vector<double> & within_region_rec_rates,
 				 const std::vector<double> & between_region_rec_rates,
 				 const double f,
@@ -64,7 +65,7 @@ namespace fwdpy
     {
       std::set<std::size_t> vec_sizes{neutral_mutation_rates.size(),
 	  selected_mutation_rates.size(),
-	  sigma_mus.size(),
+	  shmodels.size(),
 	  within_region_rec_rates.size()};
       
       if( vec_sizes.size() > 1 ) throw std::runtime_error("vectors of properties for each region must be same length");
@@ -88,7 +89,8 @@ namespace fwdpy
 					    Nvector_length,
 					    neutral_mutation_rates,
 					    selected_mutation_rates,
-					    make_GaussianDFE(sigma_mus),
+					    shmodels,
+					    //make_GaussianDFE(sigma_mus),
 					    within_region_rec_rates,
 					    between_region_rec_rates,
 					    f,

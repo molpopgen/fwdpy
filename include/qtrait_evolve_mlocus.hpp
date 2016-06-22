@@ -133,7 +133,7 @@ namespace fwdpy
 				 const size_t Nvector_length,
 				 const std::vector<double> & neutral_mutation_rates,
 				 const std::vector<double> & selected_mutation_rates,
-				 const std::vector<double> & sigma_mus,
+				 const std::vector<KTfwd::extensions::shmodel> & shmodels,
 				 const std::vector<double> & within_region_rec_rates,
 				 const std::vector<double> & between_region_rec_rates,
 				 const double f,
