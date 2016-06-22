@@ -67,7 +67,7 @@ cdef class singlepop_gm_vec(PopType):
         """
         return self.pop.get().sane()
 
-cdef class singlepop_mloc(PopType):
+cdef class MlocPop(PopType):
     """
     Object representing data structures for single-deme, multi-locus/region simulations
     based on a mutation type having a single 's' and 'h' term.
@@ -180,7 +180,7 @@ cdef class popvec_mloc(PopVec):
         self.pypops=list()
         for i in range(npops):
             self.pops.push_back(shared_ptr[multilocus_t](new multilocus_t(N,nloci)))
-            pi = singlepop_mloc()
+            pi = MlocPop()
             pi.pop = self.pops[i]
             self.pypops.append(pi)
     def __iter__(self):
@@ -198,7 +198,7 @@ cdef class popvec_mloc(PopVec):
         self.pops=newpops
         self.pypops=list()
         for i in range(self.pops.size()):
-            pi = singlepop_mloc()
+            pi = MlocPop()
             pi.pop=self.pops[i]
             self.pypops.append(pi)
     def __append_details__(self,popvec_mloc p):

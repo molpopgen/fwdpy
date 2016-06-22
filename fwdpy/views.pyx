@@ -142,7 +142,7 @@ def view_mutations_singlepop(Spop p):
         rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
     return rv
 
-def view_mutations_singlepop_mloc(singlepop_mloc p):
+def view_mutations_singlepop_mloc(MlocPop p):
     cdef mcont_t_itr beg = p.pop.get().mutations.begin()
     cdef mcont_t_itr end = p.pop.get().mutations.end()
     cdef vector[popgen_mut_data] rv
@@ -226,7 +226,7 @@ def view_mutations( object p, deme = None ):
     """
     if isinstance(p,Spop):
         return view_mutations_singlepop(p)
-    elif isinstance(p,singlepop_mloc):
+    elif isinstance(p,MlocPop):
         return view_mutations_singlepop_mloc(p)
     elif isinstance(p,popvec):
         return view_mutations_popvec(p)
@@ -244,7 +244,7 @@ def view_gametes_singlepop( Spop p ):
     #cdef gcont_t_itr end = p.pop.get().gametes.end()
     return view_gametes_details(p.pop.get())
 
-def view_gametes_singlepop_mloc( singlepop_mloc p ):
+def view_gametes_singlepop_mloc( MlocPop p ):
     #cdef gcont_t_itr beg = p.pop.get().gametes.begin()
     #cdef gcont_t_itr end = p.pop.get().gametes.end()
     return view_gametes_details_mloc(p.pop.get())
@@ -322,7 +322,7 @@ def view_gametes( object p ,deme = None):
     """
     if isinstance(p,Spop):
         return view_gametes_singlepop(p)
-    elif isinstance(p,singlepop_mloc):
+    elif isinstance(p,MlocPop):
         return view_gametes_singlepop_mloc(p)
     elif isinstance(p,popvec):
         return view_gametes_popvec(p)
@@ -341,7 +341,7 @@ def view_diploids_singlepop( Spop p, list indlist ):
             raise IndexError("index greater than population size")
     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
 
-def view_diploids_singlepop_mloc( singlepop_mloc p, list indlist ):
+def view_diploids_singlepop_mloc( MlocPop p, list indlist ):
     for i in indlist:
         if i >= p.popsize():
             raise IndexError("index greater than population size")
@@ -414,7 +414,7 @@ def view_diploids( object p, list indlist, deme = None ):
     """
     if isinstance(p,Spop):
         return view_diploids_singlepop(p,indlist)
-    elif isinstance(p,singlepop_mloc):
+    elif isinstance(p,MlocPop):
         return view_diploids_singlepop_mloc(p, indlist)
     elif isinstance(p,MetaPop):
         if deme is None:
@@ -715,7 +715,7 @@ cdef diploid_traits_singlepop(Spop p):
 cdef diploid_traits_popvec(popvec p):
     return [diploid_traits_singlepop(i) for i in p]
 
-cdef diploid_traits_singlepop_mloc(singlepop_mloc p):
+cdef diploid_traits_singlepop_mloc(MlocPop p):
     rv=[]
     for i in range(p.pop.get().diploids.size()):
         rv.append( {'g':p.pop.get().diploids[i][0].g,
@@ -748,7 +748,7 @@ def diploid_traits( object p, deme = None ):
     """
     if isinstance(p,Spop):
         return diploid_traits_singlepop(p)
-    elif isinstance(p,singlepop_mloc):
+    elif isinstance(p,MlocPop):
         return diploid_traits_singlepop_mloc(p)
     elif isinstance(p,MetaPop):
         if deme is None:
