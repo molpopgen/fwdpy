@@ -114,7 +114,7 @@ cdef class MetaPop(PopType):
     cpdef sane(self)
     cpdef from_Spop(self,Spop p)
 
-cdef class MlocPop(PopType):
+cdef class MlocusPop(PopType):
     cdef shared_ptr[multilocus_t] pop
     cpdef gen(self)
     cpdef popsize(self)
@@ -130,36 +130,36 @@ cdef class PopVec(object):
     """
     Empty base class for containers of population objects.
 
-    Example derived types include :class:`fwdpy.fwdpy.popvec` and :class:`fwdpy.fwdpy.mpopvec`
+    Example derived types include :class:`fwdpy.fwdpy.SpopVec` and :class:`fwdpy.fwdpy.MetaPopVec`
     """
     pass
 
-cdef class popvec(PopVec):
+cdef class SpopVec(PopVec):
     cdef vector[shared_ptr[singlepop_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
-    cpdef append(self,popvec p)
+    cpdef append(self,SpopVec p)
 
-cdef class popvec_gmv(PopVec):
+cdef class SpopGenMutVec(PopVec):
     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
 
-cdef class mpopvec(PopVec):
+cdef class MetaPopVec(PopVec):
     cdef vector[shared_ptr[metapop_t]] mpops
     cdef public object pympops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
-    cpdef append(self,mpopvec p)
+    cpdef append(self,MetaPopVec p)
 
-cdef class popvec_mloc(PopVec):
+cdef class MlocusPopVec(PopVec):
     cdef vector[shared_ptr[multilocus_t]] pops
     cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[multilocus_t]] newpops)
-    cpdef append(self,popvec_mloc p)
+    cpdef append(self,MlocusPopVec p)
 
 
 cdef class GSLrng:

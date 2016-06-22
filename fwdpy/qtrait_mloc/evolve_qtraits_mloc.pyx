@@ -2,7 +2,7 @@ cimport cython
 
 def evolve_qtraits_mloc_sample(GSLrng rng_evolve,
                                GSLrng rng_sample,
-                               popvec_mloc pops,
+                               MlocusPopVec pops,
                                unsigned[:] nlist,
                                const vector[double] & mu_neutral,
                                const vector[double] & mu_selected,
@@ -23,7 +23,7 @@ def evolve_qtraits_mloc_sample(GSLrng rng_evolve,
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
     :param rng_sample: a :class:`fwdpy.fwdpy.GSLrng` used for sampling from populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -56,7 +56,7 @@ def evolve_qtraits_mloc_sample(GSLrng rng_evolve,
 
 
 def evolve_qtraits_mloc_track(GSLrng rng_evolve,
-                              popvec_mloc pops,
+                              MlocusPopVec pops,
                               unsigned[:] nlist,
                               const vector[double] & mu_neutral,
                               const vector[double] & mu_selected,
@@ -76,7 +76,7 @@ def evolve_qtraits_mloc_track(GSLrng rng_evolve,
     at regular intervals.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -105,7 +105,7 @@ def evolve_qtraits_mloc_track(GSLrng rng_evolve,
                                           f,sigmaE,optimum,VS,sample)
 
 def evolve_qtraits_mloc_VA(GSLrng rng_evolve,
-                           popvec_mloc pops,
+                           MlocusPopVec pops,
                            unsigned[:] nlist,
                            const vector[double] & mu_neutral,
                            const vector[double] & mu_selected,
@@ -124,7 +124,7 @@ def evolve_qtraits_mloc_VA(GSLrng rng_evolve,
     This version tracks the contribution of mutations to additive genetic variance.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -153,7 +153,7 @@ def evolve_qtraits_mloc_VA(GSLrng rng_evolve,
                                        f,sigmaE,optimum,VS,sample)
 
 def evolve_qtraits_mloc_popstats(GSLrng rng_evolve,
-                                 popvec_mloc pops,
+                                 MlocusPopVec pops,
                                  unsigned[:] nlist,
                                  const vector[double] & mu_neutral,
                                  const vector[double] & mu_selected,
@@ -173,7 +173,7 @@ def evolve_qtraits_mloc_popstats(GSLrng rng_evolve,
     at regular intervals.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -224,7 +224,7 @@ def evolve_qtraits_mloc(GSLrng rng_evolve,
     at regular intervals.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -245,7 +245,7 @@ def evolve_qtraits_mloc(GSLrng rng_evolve,
     If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.
     """
     cdef size_t listlen = len(nlist)
-    pops = popvec_mloc(npops,N,nloci)
+    pops = MlocusPopVec(npops,N,nloci)
     with nogil:
         evolve_qtrait_mloc_no_sampling_async(rng_evolve.thisptr,
                                              &pops.pops,
@@ -259,7 +259,7 @@ def evolve_qtraits_mloc(GSLrng rng_evolve,
 
 def evolve_qtraits_mloc_pm_sample(GSLrng rng_evolve,
                                   GSLrng rng_sample,
-                                  popvec_mloc pops,
+                                  MlocusPopVec pops,
                                   unsigned[:] nlist,
                                   const vector[double] & mu_neutral,
                                   const vector[double] & mu_selected,
@@ -285,7 +285,7 @@ def evolve_qtraits_mloc_pm_sample(GSLrng rng_evolve,
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
     :param rng_sample: a :class:`fwdpy.fwdpy.GSLrng` used for sampling from populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -322,7 +322,7 @@ def evolve_qtraits_mloc_pm_sample(GSLrng rng_evolve,
 
 
 def evolve_qtraits_mloc_pm_track(GSLrng rng_evolve,
-                                 popvec_mloc pops,
+                                 MlocusPopVec pops,
                                  unsigned[:] nlist,
                                  const vector[double] & mu_neutral,
                                  const vector[double] & mu_selected,
@@ -348,7 +348,7 @@ def evolve_qtraits_mloc_pm_track(GSLrng rng_evolve,
     at regular intervals.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -380,7 +380,7 @@ def evolve_qtraits_mloc_pm_track(GSLrng rng_evolve,
                                           f,sigmaE,optimum,VS,SLd,SLp,MLd,MLp,sample)
 
 def evolve_qtraits_mloc_pm_VA(GSLrng rng_evolve,
-                           popvec_mloc pops,
+                           MlocusPopVec pops,
                            unsigned[:] nlist,
                            const vector[double] & mu_neutral,
                            const vector[double] & mu_selected,
@@ -404,7 +404,7 @@ def evolve_qtraits_mloc_pm_VA(GSLrng rng_evolve,
     This version tracks the contribution of mutations to additive genetic variance.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -436,7 +436,7 @@ def evolve_qtraits_mloc_pm_VA(GSLrng rng_evolve,
                                        f,sigmaE,optimum,VS,SLd,SLp,MLd,MLp,sample)
 
 def evolve_qtraits_mloc_pm_popstats(GSLrng rng_evolve,
-                                 popvec_mloc pops,
+                                 MlocusPopVec pops,
                                  unsigned[:] nlist,
                                  const vector[double] & mu_neutral,
                                  const vector[double] & mu_selected,
@@ -461,7 +461,7 @@ def evolve_qtraits_mloc_pm_popstats(GSLrng rng_evolve,
     at regular intervals.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -519,7 +519,7 @@ def evolve_qtraits_mloc_pm(GSLrng rng_evolve,
     at regular intervals.
 
     :param rng_evolve: a :class:`fwdpy.fwdpy.GSLrng` used for evolving populations
-    :param pops: a :class:`fwdpy.fwdpy.popvec_mloc`
+    :param pops: a :class:`fwdpy.fwdpy.MlocusPopVec`
     :param nlist: Population sizes over time (array of 32 bit unsigned integers)
     :param mu_neutral: Mutation rates to neutral variants at each locus. Per gamete, per generation
     :param mu_selected: Mutation rates to non-neutral variants at each locus. Per gamete, per generation
@@ -543,7 +543,7 @@ def evolve_qtraits_mloc_pm(GSLrng rng_evolve,
     If :math:`P` is a diploid's phenotype, fitness is :math:`w=e^-\\frac{(P-Opt)^2}{2VS}`.
     """
     cdef size_t listlen = len(nlist)
-    pops = popvec_mloc(npops,N,nloci)
+    pops = MlocusPopVec(npops,N,nloci)
     with nogil:
         evolve_qtrait_mloc_pm_no_sampling_async(rng_evolve.thisptr,
                                              &pops.pops,

@@ -94,8 +94,8 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
         return sample_separate[metapop_t](rng.thisptr.get(),deref((<MetaPop>pop).mpop.get()),deme,nsam,removeFixed)
         #return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
-    elif isinstance(pop,MlocPop):
-        return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<MlocPop>pop).pop.get()),nsam,removeFixed)
+    elif isinstance(pop,MlocusPop):
+        return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<MlocusPop>pop).pop.get()),nsam,removeFixed)
         #return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
@@ -132,12 +132,12 @@ def get_sample_details( sample_t ms_sample, PopType pop ):
                (<Spop>pop).pop.get().N,
                (<Spop>pop).pop.get().generation,
                &s,&h,&p,&a,&l)
-    elif isinstance(pop,MlocPop):
+    elif isinstance(pop,MlocusPop):
         get_sh(ms_sample,
-               (<MlocPop>pop).pop.get().mutations,
-               (<MlocPop>pop).pop.get().mcounts,
-               (<MlocPop>pop).pop.get().N,
-               (<MlocPop>pop).pop.get().generation,
+               (<MlocusPop>pop).pop.get().mutations,
+               (<MlocusPop>pop).pop.get().mcounts,
+               (<MlocusPop>pop).pop.get().N,
+               (<MlocusPop>pop).pop.get().generation,
                &s,&h,&p,&a,&l)
     elif isinstance(pop,MetaPop):
         get_sh(ms_sample,
@@ -283,20 +283,20 @@ def hapmatrix(p,const vector[size_t] & diploids, deme = None):
     """
     if isinstance(p,Spop):
         return make_haplotype_matrix((<Spop>p).pop.get(),diploids)
-    elif isinstance(p,MlocPop):
-        return make_haplotype_matrix((<MlocPop>p).pop.get(),diploids)
-    elif isinstance(p,popvec):
-        return [make_haplotype_matrix((<Spop>i).pop.get(),diploids) for i in <popvec>p]
-    elif isinstance(p,popvec_mloc):
-        return [make_haplotype_matrix((<MlocPop>i).pop.get(),diploids) for i in <popvec_mloc>p]
+    elif isinstance(p,MlocusPop):
+        return make_haplotype_matrix((<MlocusPop>p).pop.get(),diploids)
+    elif isinstance(p,SpopVec):
+        return [make_haplotype_matrix((<Spop>i).pop.get(),diploids) for i in <SpopVec>p]
+    elif isinstance(p,MlocusPopVec):
+        return [make_haplotype_matrix((<MlocusPop>i).pop.get(),diploids) for i in <MlocusPopVec>p]
     elif isinstance(p,MetaPop):
         if deme is None:
             raise RuntimeError("deme cannot be None")
         return make_haplotype_matrix((<MetaPop>p).mpop.get(),diploids,deme)
-    elif isinstance(p,mpopvec):
+    elif isinstance(p,MetaPopVec):
         if deme is None:
             raise RuntimeError("deme cannot be None")
-        return [make_haplotype_matrix((<MetaPop>i).mpop.get(),diploids,deme) for i in <mpopvec>p]
+        return [make_haplotype_matrix((<MetaPop>i).mpop.get(),diploids,deme) for i in <MetaPopVec>p]
     else:
         raise RuntimeError("object type not understood")
 

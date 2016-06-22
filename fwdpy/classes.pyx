@@ -7,8 +7,8 @@ cdef class Spop(PopType):
     based on a mutation type having a single 's' and 'h' term.
 
     Users are not expected to construct these on their own.  Rather,
-    they should be working with :class:`popvec`.  This type exists as
-    the output of iterating through a :class:`popvec`.
+    they should be working with :class:`SpopVec`.  This type exists as
+    the output of iterating through a :class:`SpopVec`.
     """
     def __del__(self):
        self.pop.reset()
@@ -39,8 +39,8 @@ cdef class SpopGenMut(PopType):
     based on a mutation type having a vector of properties.
 
     Users are not expected to construct these on their own.  Rather,
-    they should be working with :class:`popvec`.  This type exists as
-    the output of iterating through a :class:`popvec`.
+    they should be working with :class:`SpopGenMutVec`.  This type exists as
+    the output of iterating through a :class:`SpopGenMut`.
 
     ..note:: Currently, there are no functions in fwdpy using this type!  See :class:`fwdpy.fwdpy.Spop` instead.
     """
@@ -67,14 +67,14 @@ cdef class SpopGenMut(PopType):
         """
         return self.pop.get().sane()
 
-cdef class MlocPop(PopType):
+cdef class MlocusPop(PopType):
     """
     Object representing data structures for single-deme, multi-locus/region simulations
     based on a mutation type having a single 's' and 'h' term.
 
     Users are not expected to construct these on their own.  Rather,
-    they should be working with :class:`popvec_mloc`.  This type exists as
-    the output of iterating through a :class:`popvec_mloc`.
+    they should be working with :class:`MlocusPopVec`.  This type exists as
+    the output of iterating through a :class:`MlocusPopVec`.
     """
     def __del__(self):
         self.pop.reset()
@@ -99,12 +99,12 @@ cdef class MlocPop(PopType):
         """
         return self.pop.get().sane()  
 
-cdef class popvec(PopVec):
+cdef class SpopVec(PopVec):
     """
     Vector of single-deme objects
 
     Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
-    have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the "usual"
+    have pointers to the same objects.  This organization adds little overhead and makes a SpopVec iterable in the "usual"
     Python way.
 
     See :func:`evolve_regions` for use cases.
@@ -131,7 +131,7 @@ cdef class popvec(PopVec):
     def __len__(self):
         cdef size_t size_ = len(self.pypops)
         if self.pops.size() != size_:
-            raise RuntimeError("fwdpy.popvec internal data structures out of sync")
+            raise RuntimeError("fwdpy.SpopVec internal data structures out of sync")
         return self.pops.size()
     cdef reset(self,const vector[shared_ptr[singlepop_t]] & newpops):
         self.pops=newpops
@@ -140,11 +140,11 @@ cdef class popvec(PopVec):
             pi = Spop()
             pi.pop=self.pops[i]
             self.pypops.append(pi)
-    def __append_details__(self,popvec p):
+    def __append_details__(self,SpopVec p):
         for i in range(len(p)):
             self.pops.push_back(p.pops[i])
             self.pypops.append(p[i])        
-    cpdef append(self,popvec p):
+    cpdef append(self,SpopVec p):
         """
         Append 'p' into this object.
 
@@ -159,7 +159,7 @@ cdef class popvec(PopVec):
         """
         return self.pops.size()
 
-cdef class popvec_mloc(PopVec):
+cdef class MlocusPopVec(PopVec):
     """
     Vector of single-deme objects representing multiple partially-linked regions.
 
@@ -180,7 +180,7 @@ cdef class popvec_mloc(PopVec):
         self.pypops=list()
         for i in range(npops):
             self.pops.push_back(shared_ptr[multilocus_t](new multilocus_t(N,nloci)))
-            pi = MlocPop()
+            pi = MlocusPop()
             pi.pop = self.pops[i]
             self.pypops.append(pi)
     def __iter__(self):
@@ -192,20 +192,20 @@ cdef class popvec_mloc(PopVec):
     def __len__(self):
         cdef size_t size_ = len(self.pypops)
         if self.pops.size() != size_:
-            raise RuntimeError("fwdpy.popvec_mloc internal data structures out of sync")
+            raise RuntimeError("fwdpy.MlocusPopVec internal data structures out of sync")
         return self.pops.size()
     cdef reset(self,const vector[shared_ptr[multilocus_t]] & newpops):
         self.pops=newpops
         self.pypops=list()
         for i in range(self.pops.size()):
-            pi = MlocPop()
+            pi = MlocusPop()
             pi.pop=self.pops[i]
             self.pypops.append(pi)
-    def __append_details__(self,popvec_mloc p):
+    def __append_details__(self,MlocusPopVec p):
         for i in range(len(p)):
             self.pops.push_back(p.pops[i])
             self.pypops.append(p[i])        
-    cpdef append(self,popvec_mloc p):
+    cpdef append(self,MlocusPopVec p):
         """
         Append 'p' into this object.
 
@@ -220,7 +220,7 @@ cdef class popvec_mloc(PopVec):
         """
         return self.pops.size()
     
-cdef class popvec_gmv(PopVec):
+cdef class SpopGenMutVec(PopVec):
     def __cinit__(self,unsigned npops,unsigned N):
         """
         Constructor:
@@ -263,8 +263,8 @@ cdef class MetaPop(PopType):
     Object representing data structures for single-deme simulations.
 
     Users are not expected to construct these on their own.  Rather,
-    they should be working with :class:`mpopvec`.  This type exists as
-    the output of iterating through a :class:`mpopvec`.
+    they should be working with :class:`MetaPopVec`.  This type exists as
+    the output of iterating through a :class:`MetaPopVec`.
     """
     def __del__(self):
        self.mpop.reset()
@@ -293,7 +293,7 @@ cdef class MetaPop(PopType):
     cpdef from_Spop(self,Spop p):
          self.mpop.reset(new metapop_t(deref(p.pop.get())))
          
-cdef class mpopvec(PopVec):
+cdef class MetaPopVec(PopVec):
     """
     Vector of metapopulation objects
     """
@@ -307,7 +307,7 @@ cdef class mpopvec(PopVec):
         self.pympops=[]
         for i in range(len(Ns)):
             if Ns[i] < 0:
-                raise ValueError("mpopvec: deme size < 0 encountered")
+                raise ValueError("MetaPopVec: deme size < 0 encountered")
         for i in range(nmpops):
             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
             pi = MetaPop()
@@ -322,7 +322,7 @@ cdef class mpopvec(PopVec):
     def __len__(self):
         cdef size_t size_ = len(self.pympops)
         if self.mpops.size() != size_:
-            raise RuntimeError("fwdpy.mpopvec internal data structures out of sync")
+            raise RuntimeError("fwdpy.MetaPopVec internal data structures out of sync")
         return self.mpops.size()
     cpdef size(self):
         """
@@ -336,11 +336,11 @@ cdef class mpopvec(PopVec):
             pi = MetaPop()
             pi.mpop = self.mpops[i]
             self.pympops.append(pi)
-    def __append_details__(self,mpopvec p):
+    def __append_details__(self,MetaPopVec p):
         for i in range(len(p)):
             self.mpops.push_back(p.mpops[i])
             self.pympops.append(p[i])        
-    cpdef append(self,mpopvec p):
+    cpdef append(self,MetaPopVec p):
         """
         Append 'p' into this object.
 

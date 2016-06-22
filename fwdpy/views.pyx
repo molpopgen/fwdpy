@@ -142,7 +142,7 @@ def view_mutations_singlepop(Spop p):
         rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
     return rv
 
-def view_mutations_singlepop_mloc(MlocPop p):
+def view_mutations_singlepop_mloc(MlocusPop p):
     cdef mcont_t_itr beg = p.pop.get().mutations.begin()
     cdef mcont_t_itr end = p.pop.get().mutations.end()
     cdef vector[popgen_mut_data] rv
@@ -150,7 +150,7 @@ def view_mutations_singlepop_mloc(MlocPop p):
         rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
     return rv
 
-def view_mutations_popvec(popvec p):
+def view_mutations_popvec(SpopVec p):
     cdef mcont_t_itr beg,end
     cdef vector[vector[popgen_mut_data]] rv
     cdef size_t npops = p.pops.size()
@@ -162,7 +162,7 @@ def view_mutations_popvec(popvec p):
 
     return rv
 
-def view_mutations_popvec_mloc(popvec_mloc p):
+def view_mutations_popvec_mloc(MlocusPopVec p):
     cdef mcont_t_itr beg,end
     cdef vector[vector[popgen_mut_data]] rv
     cdef size_t npops = p.pops.size()
@@ -204,7 +204,7 @@ def view_mutations( object p, deme = None ):
     """
     Get detailed list of all mutations in the population
 
-    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
+    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
 
     :rtype: a list of dictionaries.  See Note.
 
@@ -222,15 +222,15 @@ def view_mutations( object p, deme = None ):
     >>> #muts[0] will be a list and muts[0][0] will be a dict
     >>> muts = [fwdpy.view_mutations(i) for i in pops]
 
-    .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
+    .. note:: :class:`fwdpy.fwdpy.MetaPopVec` currently not supported
     """
     if isinstance(p,Spop):
         return view_mutations_singlepop(p)
-    elif isinstance(p,MlocPop):
+    elif isinstance(p,MlocusPop):
         return view_mutations_singlepop_mloc(p)
-    elif isinstance(p,popvec):
+    elif isinstance(p,SpopVec):
         return view_mutations_popvec(p)
-    elif isinstance(p,popvec_mloc):
+    elif isinstance(p,MlocusPopVec):
         return view_mutations_popvec_mloc(p)
     elif isinstance(p,MetaPop):
         if deme is None:
@@ -244,12 +244,12 @@ def view_gametes_singlepop( Spop p ):
     #cdef gcont_t_itr end = p.pop.get().gametes.end()
     return view_gametes_details(p.pop.get())
 
-def view_gametes_singlepop_mloc( MlocPop p ):
+def view_gametes_singlepop_mloc( MlocusPop p ):
     #cdef gcont_t_itr beg = p.pop.get().gametes.begin()
     #cdef gcont_t_itr end = p.pop.get().gametes.end()
     return view_gametes_details_mloc(p.pop.get())
 
-def view_gametes_popvec(popvec p):
+def view_gametes_popvec(SpopVec p):
     cdef:
         gcont_t_itr beg,end
         size_t npops = p.pops.size()
@@ -261,7 +261,7 @@ def view_gametes_popvec(popvec p):
         rv[i]=view_gametes_details(p.pops[i].get())
     return rv
 
-def view_gametes_popvec_mloc(popvec_mloc p):
+def view_gametes_popvec_mloc(MlocusPopVec p):
     cdef:
         gcont_t_itr beg,end
         size_t npops = p.pops.size()
@@ -300,7 +300,7 @@ def view_gametes( object p ,deme = None):
     """
     Get detailed list of all gametes in the population
 
-    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
+    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
     :param deme: If p is a :class:`fwdpy.fwdpy.MetaPop`, deme is the index of the deme to view
 
     :rtype: a list of dictionaries.  See note.
@@ -318,15 +318,15 @@ def view_gametes( object p ,deme = None):
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_gametes(i) for i in pops]
 
-    .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
+    .. note:: :class:`fwdpy.fwdpy.MetaPopVec` currently not supported
     """
     if isinstance(p,Spop):
         return view_gametes_singlepop(p)
-    elif isinstance(p,MlocPop):
+    elif isinstance(p,MlocusPop):
         return view_gametes_singlepop_mloc(p)
-    elif isinstance(p,popvec):
+    elif isinstance(p,SpopVec):
         return view_gametes_popvec(p)
-    elif isinstance(p,popvec_mloc):
+    elif isinstance(p,MlocusPopVec):
         return view_gametes_popvec_mloc(p)
     elif isinstance(p,MetaPop):
         if deme is None:
@@ -341,14 +341,14 @@ def view_diploids_singlepop( Spop p, list indlist ):
             raise IndexError("index greater than population size")
     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
 
-def view_diploids_singlepop_mloc( MlocPop p, list indlist ):
+def view_diploids_singlepop_mloc( MlocusPop p, list indlist ):
     for i in indlist:
         if i >= p.popsize():
             raise IndexError("index greater than population size")
     return view_diploids_details_mloc(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
 
 
-def view_diploids_popvec( popvec p, list indlist ):
+def view_diploids_popvec( SpopVec p, list indlist ):
     cdef size_t npops = len(p),i
     cdef vector[vector[diploid_data]] rv
     rv.resize(npops)
@@ -363,7 +363,7 @@ def view_diploids_popvec( popvec p, list indlist ):
                                       p.pops[i].get().mcounts,il)
     return rv
         
-def view_diploids_popvec_mloc( popvec_mloc p, list indlist ):
+def view_diploids_popvec_mloc( MlocusPopVec p, list indlist ):
     cdef size_t npops = len(p),i
     cdef vector[vector[diploid_mloc_data]] rv
     rv.resize(npops)
@@ -392,7 +392,7 @@ def view_diploids( object p, list indlist, deme = None ):
     """
     Get detailed list of a set of diploids in the population
 
-    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
+    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
     :param deme: if p is a :class`fwdpy.fwdpy.MetaPop`, deme is the index of the deme to sample
     
     :rtype: a list of dictionaries.  See Note.
@@ -410,19 +410,19 @@ def view_diploids( object p, list indlist, deme = None ):
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     >>> dips = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
 
-    .. note:: :class:`fwdpy.fwdpy.mpopvec` currently not supported
+    .. note:: :class:`fwdpy.fwdpy.MetaPopVec` currently not supported
     """
     if isinstance(p,Spop):
         return view_diploids_singlepop(p,indlist)
-    elif isinstance(p,MlocPop):
+    elif isinstance(p,MlocusPop):
         return view_diploids_singlepop_mloc(p, indlist)
     elif isinstance(p,MetaPop):
         if deme is None:
             raise RuntimeError("view_diploids: deme index required for metapopulation")
         return view_diploids_metapop(p,indlist,deme)
-    elif isinstance(p,popvec):
+    elif isinstance(p,SpopVec):
         return view_diploids_popvec(p,indlist)
-    elif isinstance(p,popvec_mloc):
+    elif isinstance(p,MlocusPopVec):
         return view_diploids_popvec_mloc(p,indlist)
     else:
         raise RuntimeError("view_diploids: unsupported object type")
@@ -675,7 +675,7 @@ cdef diploid_view_data view_diploids_pd_details(const singlepop_t * pop,
         IND+=1
         inc(beg)
 
-def view_diploids_pd_popvec( popvec p, vector[unsigned] & indlist, bint selectedOnly ):
+def view_diploids_pd_popvec( SpopVec p, vector[unsigned] & indlist, bint selectedOnly ):
     cdef size_t npops = p.pops.size()
     cdef int i
     cdef vector[diploid_view_data] rv
@@ -691,14 +691,14 @@ def view_diploids_pd( object p, list indlist, bint selectedOnly = True ):
     """
     Get detailed list of a set of diploids in the population
 
-    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
+    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
     :param deme: if p is a :class`fwdpy.fwdpy.MetaPop`, deme is the index of the deme to sample
     
     :rtype: pandas.DataFrame or a list of such objects
 
-    .. note:: :class:`fwdpy.fwdpy.mpopvec` is not yet supported
+    .. note:: :class:`fwdpy.fwdpy.MetaPopVec` is not yet supported
     """
-    if isinstance(p,popvec):
+    if isinstance(p,SpopVec):
         return [pd.DataFrame(i) for i in view_diploids_pd_popvec(p,indlist,selectedOnly)]
     elif isinstance(p,Spop):
         return pd.DataFrame( view_diploids_pd_singlepop(p,indlist,selectedOnly) )
@@ -712,10 +712,10 @@ cdef diploid_traits_singlepop(Spop p):
         
     return rv
 
-cdef diploid_traits_popvec(popvec p):
+cdef diploid_traits_popvec(SpopVec p):
     return [diploid_traits_singlepop(i) for i in p]
 
-cdef diploid_traits_singlepop_mloc(MlocPop p):
+cdef diploid_traits_singlepop_mloc(MlocusPop p):
     rv=[]
     for i in range(p.pop.get().diploids.size()):
         rv.append( {'g':p.pop.get().diploids[i][0].g,
@@ -724,7 +724,7 @@ cdef diploid_traits_singlepop_mloc(MlocPop p):
         
     return rv
 
-cdef diploid_traits_popvec_mloc(popvec_mloc p):
+cdef diploid_traits_popvec_mloc(MlocusPopVec p):
     return [diploid_traits_singlepop_mloc(i) for i in p]
 
 
@@ -737,7 +737,7 @@ cdef diploid_traits_mpop(MetaPop m, deme):
                     'e':m.mpop.get().diploids[deme][i].e,
                     'w':m.mpop.get().diploids[deme][i].w} )
 
-cdef diploid_traits_mpopvec(mpopvec p,deme):
+cdef diploid_traits_mpopvec(MetaPopVec p,deme):
     return [diploid_traits_mpop(i,deme) for i in p]
 
 def diploid_traits( object p, deme = None ):
@@ -748,17 +748,17 @@ def diploid_traits( object p, deme = None ):
     """
     if isinstance(p,Spop):
         return diploid_traits_singlepop(p)
-    elif isinstance(p,MlocPop):
+    elif isinstance(p,MlocusPop):
         return diploid_traits_singlepop_mloc(p)
     elif isinstance(p,MetaPop):
         if deme is None:
             raise RuntimeError("deme cannot be None")
         return diploid_traits_mpop(p,deme)
-    if isinstance(p,popvec):
+    if isinstance(p,SpopVec):
         return diploid_traits_popvec(p)
-    if isinstance(p,popvec_mloc):
+    if isinstance(p,MlocusPopVec):
         return diploid_traits_popvec_mloc(p)
-    elif isinstance(p,mpopvec):
+    elif isinstance(p,MetaPopVec):
         if deme is None:
             raise RuntimeError("deme cannot be None")
         return diploid_traits_mpopvec(p,deme)

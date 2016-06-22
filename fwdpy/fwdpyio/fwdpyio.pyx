@@ -37,11 +37,11 @@ def serialize(PopType pop):
 
 def deserialize_singlepops(list strings):
     """
-    Convert binary representation back to a :class:`fwdpy.fwdpy.popvec`
+    Convert binary representation back to a :class:`fwdpy.fwdpy.PopVec`
 
     :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`
 
-    :returns: :func:`fwdpy.fwdpy.popvec`
+    :returns: :func:`fwdpy.fwdpy.PopVec`
 
     .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.
         
@@ -63,7 +63,7 @@ def deserialize_singlepops(list strings):
     >>> pops2 = fpio.deserialize_singlepops(strings)
     """
     cdef vector[shared_ptr[singlepop_t]] temp = deserialize_singlepop(strings)
-    pops=popvec(0,0)
+    pops=SpopVec(0,0)
     pops.reset(temp)
     return pops
 
@@ -82,6 +82,6 @@ def deserialize_metapops(list strings):
     TODO
     """
     cdef vector[shared_ptr[metapop_t]] temp = deserialize_metapop(strings)
-    mpops = mpopvec(0,[0]*1)
+    mpops = MetaPopVec(0,[0]*1)
     mpops.reset(temp)
     return mpops

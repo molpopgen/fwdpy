@@ -29,9 +29,9 @@ def copypops(PopVec pops):
     .. note:: The function is implemented in terms of the serialization routines in the fwdpy.fwdpyio module.  The return value can be evolved and not affect the input value.
     """
     s = [fpio.serialize(pop) for pop in pops]
-    if isinstance(pops,popvec):
+    if isinstance(pops,SpopVec):
         return fpio.deserialize_singlepops(s)
-    elif isinstance(pops,mpopvec):
+    elif isinstance(pops,MetaPopVec):
         return fpio.deserialize_metapops(s)
     else:
         raise RuntimeError("fwdpy.copypopvec: popvec type "+str(type(pops))+" is not supported")

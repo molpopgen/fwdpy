@@ -15,10 +15,10 @@ def check_popdata_metapop(MetaPop p):
         i+=1
     return {'check_sum':csum,'popdata_sane':lpds}
 
-def check_popdata_popvec(popvec p):
+def check_popdata_popvec(SpopVec p):
     return [check_popdata_singlepop(i) for i in p]
 
-def check_popdata_mpopvec(mpopvec p):
+def check_popdata_mpopvec(MetaPopVec p):
     return [check_popdata_metapop(i) for i in p]
 
 def check_popdata(object p):
@@ -29,9 +29,9 @@ def check_popdata(object p):
 
     :rtype: Dictionary with return values (True or False). Any false values reflect a critical data inconsistency, and mean an exception should be raised.
     """
-    if isinstance(p,popvec):
+    if isinstance(p,SpopVec):
         return check_popdata_popvec(p)
-    elif isinstance(p,mpopvec):
+    elif isinstance(p,MetaPopVec):
         return check_popdata_mpopvec(p)
     elif isinstance(p,Spop):
         return check_popdata_singlepop(p)

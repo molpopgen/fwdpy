@@ -11,7 +11,7 @@ cdef vector[pair[uint,popgen_mut_data]] view_fixations_details( const mcont_t & 
         i+=1
     return rv
 
-def view_fixations_popvec(popvec p):
+def view_fixations_popvec(SpopVec p):
     cdef vector[vector[pair[uint,popgen_mut_data]]] rv
     cdef size_t npops=p.pops.size()
     cdef int i
@@ -19,7 +19,7 @@ def view_fixations_popvec(popvec p):
         rv[i]=view_fixations_details(p.pops[i].get().fixations,p.pops[i].get().fixation_times,p.pops[i].get().N)
     return rv
 
-def view_fixations_mpopvec(mpopvec p):
+def view_fixations_mpopvec(MetaPopVec p):
     cdef vector[vector[pair[uint,popgen_mut_data]]] rv
     cdef size_t npops=p.mpops.size()
     cdef int i
@@ -35,7 +35,7 @@ def view_fixations(object p):
     """
     Return information on fixed variants
 
-    :param p: a :class:`fwdpy.fwdpy.poptype` or a :class:`fwdpy.fwdpy.popvec`
+    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
 
     :return: A list of tuples. The first element is fixation time, and the second is a dict containing data about the mutation.
 
@@ -48,9 +48,10 @@ def view_fixations(object p):
     if isinstance(p,MetaPop):
         return view_fixations_details((<MetaPop>p).mpop.get().fixations,(<MetaPop>p).mpop.get().fixation_times,sum((<MetaPop>p).mpop.get().Ns))
     
-    elif isinstance(p,popvec):
+    elif isinstance(p,SpopVec):
         return view_fixations_popvec(p)
-    elif isinstance(p,mpopvec):
+    elif isinstance(p,MlocusPopVec):
         return view_fixations_mpopvec(p)
     else:
         raise ValueError("unsupported type")    
+    

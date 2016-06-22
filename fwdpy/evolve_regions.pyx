@@ -90,7 +90,7 @@ def evolve_regions(GSLrng rng,
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
     """
     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
-    pops = popvec(npops,N)
+    pops = SpopVec(npops,N)
     donothing = NothingSampler(npops)
     evolve_regions_sampler(rng,pops,donothing,nlist,
                            mu_neutral,mu_selected,recrate,
@@ -100,7 +100,7 @@ def evolve_regions(GSLrng rng,
 
 @cython.boundscheck(False)
 def evolve_regions_more(GSLrng rng,
-                        popvec pops,
+                        SpopVec pops,
                         unsigned[:] nlist,
                         double mu_neutral,
                         double mu_selected,
@@ -115,7 +115,7 @@ def evolve_regions_more(GSLrng rng,
     Continue to evolve a region with variable mutation, fitness effects, and recombination rates.
 
     :param rng: a :class:`GSLrng`
-    :param pops: a :class:`popvec`
+    :param pops: a :class:`SpopVec`
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
     :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
     :param mu_selected: The mutation rate to variants affecting fitness ("selected" mutations).  The unit is per gamete, per generation.
@@ -153,7 +153,7 @@ def evolve_regions_more(GSLrng rng,
 
 @cython.boundscheck(False)
 def evolve_regions_sampler(GSLrng rng,
-                           popvec pops,
+                           SpopVec pops,
                            TemporalSampler slist,
                            unsigned[:] nlist,
                            double mu_neutral,
@@ -170,7 +170,7 @@ def evolve_regions_sampler(GSLrng rng,
     Evolve a single population under standard population genetic fitness models and apply a "sampler" at regular intervals.
     
     :param rng: a :class:`GSLrng`
-    :param pops: A :class:`popvec`
+    :param pops: A :class:`SpopVec`
     :param slist: A :class:`TemporalSampler`.
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).
     :param mu_neutral: The mutation rate to variants not affecting fitness ("neutral" mutations).  The unit is per gamete, per generation.
@@ -203,7 +203,7 @@ def evolve_regions_sampler(GSLrng rng,
 
 @cython.boundscheck(False)
 def evolve_regions_sampler_fitness(GSLrng rng,
-                                   popvec pops,
+                                   SpopVec pops,
                                    TemporalSampler slist,
                                    SpopFitness fitness_function,
                                    unsigned[:] nlist,
@@ -219,7 +219,7 @@ def evolve_regions_sampler_fitness(GSLrng rng,
     Evolve a single population under arbitrary fitness models and apply a "sampler" at regular intervals.
     
     :param rng: a :class:`GSLrng`
-    :param pops: A :class:`popvec`
+    :param pops: A :class:`SpopVec`
     :param slist: A :class:`TemporalSampler`.
     :param fitness_function: A :class:`fwdpy.fitness.SpopFitness`
     :param nlist: An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).

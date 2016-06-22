@@ -45,7 +45,7 @@ def evolve_regions_qtrait(GSLrng rng,
 
     :raises: RuntimeError if parameters do not pass checks
     """
-    pops = popvec(npops,N)
+    pops = SpopVec(npops,N)
     donothing = NothingSampler(npops)
     fitness = SpopAdditive()
     evolve_regions_qtrait_sampler_fitness(rng,pops,donothing,fitness,
@@ -56,7 +56,7 @@ def evolve_regions_qtrait(GSLrng rng,
     return pops
 
 def evolve_regions_qtrait_more(GSLrng rng,
-                               popvec pops,
+                               SpopVec pops,
                                unsigned[:] nlist,
                                double mu_neutral,
                                double mu_selected,
@@ -77,7 +77,7 @@ def evolve_regions_qtrait_more(GSLrng rng,
 
 @cython.boundscheck(False)
 def evolve_regions_qtrait_sampler(GSLrng rng,
-                                  popvec pops,
+                                  SpopVec pops,
                                   TemporalSampler slist,
                                   unsigned[:] nlist,
                                   double mu_neutral,
@@ -99,7 +99,7 @@ def evolve_regions_qtrait_sampler(GSLrng rng,
     
 @cython.boundscheck(False)
 def evolve_regions_qtrait_sampler_fitness(GSLrng rng,
-                                          popvec pops,
+                                          SpopVec pops,
                                           TemporalSampler slist,
                                           SpopFitness fitness_function,
                                           unsigned[:] nlist,
