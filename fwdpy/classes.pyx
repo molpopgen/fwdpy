@@ -33,7 +33,7 @@ cdef class Spop(PopType):
         """
         return self.pop.get().sane()
 
-cdef class singlepop_gm_vec(PopType):
+cdef class SpopGenMut(PopType):
     """
     Object representing data structures for single-deme simulations
     based on a mutation type having a vector of properties.
@@ -231,7 +231,7 @@ cdef class popvec_gmv(PopVec):
         self.pypops=list()
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))
-            pi = singlepop_gm_vec()
+            pi = SpopGenMut()
             pi.pop = self.pops[i]
             self.pypops.append(pi)
     def __iter__(self):
@@ -249,7 +249,7 @@ cdef class popvec_gmv(PopVec):
         self.pops=newpops
         self.pypops=list()
         for i in range(self.pops.size()):
-            pi = singlepop_gm_vec()
+            pi = SpopGenMut()
             pi.pop=self.pops[i]
             self.pypops.append(pi)
     cpdef size(self):

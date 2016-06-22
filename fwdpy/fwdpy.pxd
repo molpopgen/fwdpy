@@ -120,7 +120,7 @@ cdef class MlocPop(PopType):
     cpdef popsize(self)
     cpdef sane(self)
 
-cdef class singlepop_gm_vec(PopType):
+cdef class SpopGenMut(PopType):
     cdef shared_ptr[singlepop_gm_vec_t] pop
     cpdef gen(self)
     cpdef popsize(self)
