@@ -30,7 +30,6 @@ Changelog (rough)
 Changes to the Python side:
 
 * Class names now more "Pythonic".  This will break existing scripts.
-* Massive reduction in code base
 * Add fwdpy.demography module.
 * Add :class:`fwdpy.fwdpy.singlepop_mloc`
 * Add :class:`fwdpy.fwdpy.popvec_mloc`
@@ -43,6 +42,7 @@ Changes to the Python side:
 
 Changes to the Cython/C++ back end:
 
+* Massive reduction in code base
 * Update to Cython_ 0.24.0
 * Sampler API changed for better reproducibility and consistency
 * Expose more fwdpp types for multi-locus/region simulations
