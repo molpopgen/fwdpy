@@ -1,5 +1,5 @@
 #Note: Cython cannot cimport typedefs, which is a bummer
-from fwdpy.fwdpy cimport singlepop_t,multilocus_t#,gamete_t,mcont_t
+from fwdpy.fwdpy cimport singlepop_t,multilocus_t,diploid_t
 from fwdpy.fwdpp cimport popgenmut,gamete_base
 from libcpp.vector cimport vector
 
@@ -35,6 +35,8 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     multilocus_fitness make_mloc_additive_fitness(double scaling)
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)
     multilocus_fitness make_mloc_gbr_fitness()
+
+    cdef double(*mlocus_fitness_fxn)(const vector[diploid_t] &, const gcont_t &, const mcont_t)
 
 #Helper functions for making custom fitness functions
 cdef inline double return_w(const double w):
