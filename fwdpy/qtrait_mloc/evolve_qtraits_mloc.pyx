@@ -1,6 +1,4 @@
-cimport cython
 from fwdpy.fitness cimport MlocusFitness
-from fwdpy.internal.internal cimport shwrappervec
 from fwdpy.internal import process_sregion_callbacks
 
 def evolve_qtraits_mloc_sample_fitness(GSLrng rng,
