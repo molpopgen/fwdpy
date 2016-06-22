@@ -3,13 +3,25 @@ from cython.view cimport array as cvarray
 from cpython cimport array
 cimport cython
 from fwdpy.fitness cimport SpopFitness
-from fwdpy.fitness import SpopAdditive
+from fwdpy.fitness cimport SpopAdditive,SpopGBR
+
 def check_input_params(double sigmaE, double VS):
     if sigmaE < 0.:
         raise RuntimeError("sigmaE must be >= 0.")
     if VS < 0.:
         raise RuntimeError("VS must be >= 0.")
 
+def check_gbr_sdist(sregions):
+    for i in sregions:
+        if isinstance(i,fwdpy.GaussianS):
+            raise RuntimeError("Gaussian effects not allowed for this model")
+        elif (isinstance(i,fwdpy.GammaS) and i.mean < 0) or (isinstance(i,fwdpy.ExpS) and i.mean<0):
+            raise RuntimeError("mean effect size must be >= 0")
+        elif isinstance(i,fwdpy.ConstantS) and i.s < 0:
+            raise RuntimeError("effect size must be >= 0")
+        elif isinstance(i,fwdpy.UniformS) and (i.lo<0 or i.hi<0):
+            raise RuntimeError("min and max effect size must be >= 0")
+        
 @cython.boundscheck(False)
 def evolve_regions_qtrait(GSLrng rng,
                           int npops,
@@ -115,6 +127,8 @@ def evolve_regions_qtrait_sampler_fitness(GSLrng rng,
                                           double f = 0,
                                           double VS = 1.0):
     fwdpy.check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
+    if isinstance(fitness_function,SpopGBR):
+        check_gbr_sdist(sregions)
     if sample <= 0:
         raise RuntimeError("sample must be > 0")
     if f < 0.:
