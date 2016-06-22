@@ -20,7 +20,7 @@ namespace fwdpy
   using fitness_function_finalizer = double(*)(double);
   //! "Finalizer" for haplotype-based fitness schemes
   using haplotype_fitness_fxn_finalizer = double(*)(double,double);
-  //! Polycy signature for haplotype-dependent models
+  //! Policy signature for haplotype-dependent models
   using haplotype_fitness_fxn = double(*)(const gamete_t &, const mcont_t &);
 
   //! C++11 signature for a fitness function. Not exposed to Python (yet).
