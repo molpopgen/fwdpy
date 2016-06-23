@@ -60,7 +60,7 @@ def evolve_regions_qtrait(GSLrng rng,
     pops = SpopVec(npops,N)
     donothing = NothingSampler(npops)
     fitness = SpopAdditive()
-    evolve_regions_qtrait_sampler_fitness(rng,pops,donothing,fitness,
+    evolve_regions_qtrait_sampler_fitness(rng,pops,donothing,fitness,nlist,
                                           mu_neutral,mu_selected,recrate,
                                           nregions,sregions,recregions,
                                           len(nlist),sigmaE,optimum,f,VS)
@@ -82,7 +82,7 @@ def evolve_regions_qtrait_more(GSLrng rng,
                                double VS=1,):
     donothing = NothingSampler(len(pops))
     fitness = SpopAdditive()
-    evolve_regions_qtrait_sampler_fitness(rng,pops,donothing,fitness,
+    evolve_regions_qtrait_sampler_fitness(rng,pops,donothing,fitness,nlist,
                                           mu_neutral,mu_selected,recrate,
                                           nregions,sregions,recregions,
                                           len(nlist),sigmaE,optimum,f,VS)
