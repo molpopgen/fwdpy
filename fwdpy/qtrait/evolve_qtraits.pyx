@@ -107,7 +107,7 @@ def evolve_regions_qtrait_sampler(GSLrng rng,
     evolve_regions_qtrait_sampler_fitness(rng,pops,slist,fitness,nlist,
                                           mu_neutral,mu_selected,recrate,
                                           nregions,sregions,recregions,
-                                          len(nlist),sigmaE,optimum,f,VS)
+                                          sample,sigmaE,optimum,f,VS)
     
 @cython.boundscheck(False)
 def evolve_regions_qtrait_sampler_fitness(GSLrng rng,
