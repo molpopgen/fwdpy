@@ -50,10 +50,10 @@ cdef class FreqSampler(TemporalSampler):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[selected_mut_tracker](new selected_mut_tracker()))
     def get(self,unsigned minsojourn = 0, double minfreq = 0.0):
-        cdef vector[vector[selected_mut_data_tidy]] rv
+        cdef vector[vector[pair[selected_mut_data, vector[double]]]] rv
         cdef size_t i=0
         cdef size_t n=self.vec.size()
         while i<n:
-            rv.push_back(tidy_trajectory_info((<selected_mut_tracker*>(self.vec[i].get())).final(),minsojourn,minfreq))
+            rv.push_back((<selected_mut_tracker*>self.vec[i].get()).final())
             i+=1
         return rv
