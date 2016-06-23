@@ -4,7 +4,6 @@
 #include <vector>
 #include <array>
 #include <string>
-#include <iostream>
 #include <sampler_base.hpp>
 #include "types.hpp"
 
@@ -94,7 +93,6 @@ namespace fwdpy {
     inline void call_operator_details(const pop_t * pop,
 				      const unsigned generation)
     {
-      std::cerr << "here\n";
       std::vector<double> VG,VE,wbar,trait;
       VG.reserve(pop->diploids.size());
       VE.reserve(pop->diploids.size());
