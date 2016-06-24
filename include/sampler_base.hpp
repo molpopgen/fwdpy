@@ -21,6 +21,17 @@ namespace fwdpy
     };
     virtual ~sampler_base(){}
   };
+
+  template<typename T>
+  inline void apply_sampler_cpp( const std::vector<std::shared_ptr<T> > & popvec,
+				 const std::vector<std::unique_ptr<sampler_base> > & samplers )
+  {
+    if(popvec.size()!=samplers.size()) throw std::runtime_error("Containers of populations and samplers must be equal in length");
+    for(std::size_t i=0;i<popvec.size();++i)
+      {
+	samplers[i]->operator()(popvec[i].get(),popvec[i]->generation);
+      }
+  }
 }
 
 #endif
