@@ -127,7 +127,7 @@ This package *minimally* depends on:
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
 
-..note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 installed on your system.
+.. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 installed on your system.
 
 .. note:: fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
 
