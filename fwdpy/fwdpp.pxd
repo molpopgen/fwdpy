@@ -75,12 +75,7 @@ cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
     cdef cppclass gamma:
         gamma(double,double)
 
-cdef extern from "<memory>" namespace "std" nogil:
-    #Cython's (circa 0.23.4) unique_ptr doesn't allow custom deleters,
-    #so we re-define the basic type here.
-    cdef cppclass unique_ptr[T,DELETER]:
-        pass
-
+from libcpp.memory cimport unique_ptr
 #These are "internal" fwdpp types
 
 cdef extern from "fwdpp/internal/gsl_discrete.hpp" namespace "fwdpp::internal" nogil:

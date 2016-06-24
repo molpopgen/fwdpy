@@ -1,7 +1,7 @@
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
-from libcpp.memory cimport shared_ptr
+from libcpp.memory cimport shared_ptr,unique_ptr
 
 from libcpp.map cimport map
 
@@ -200,8 +200,6 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
         vector[pair[selected_mut_data, vector[double]]] final() const
         
 #Extension classes for temporal sampling
-from libcpp.memory cimport unique_ptr
-
 cdef class TemporalSampler:
     """
     Base class representing containers of functions
