@@ -25,7 +25,7 @@ namespace fwdpy {
     We could use a std::map, or a vector of final_t (see below),
     but that gets slow and RAM-intensive.
   */
-  using qtrait_stats_t = std::vector<std::array<double,11>>;
+  using qtrait_stats_t = std::vector<std::array<double,13>>;
 
   class pop_properties : public sampler_base
   /*!
@@ -65,6 +65,8 @@ namespace fwdpy {
 	  rv.emplace_back( "varw", q[static_cast<size_t>(qtrait_stat_list::WVAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "tbar", q[static_cast<size_t>(qtrait_stat_list::TBAR)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	  rv.emplace_back( "Vst", q[static_cast<size_t>(qtrait_stat_list::VST)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "mload",q[static_cast<size_t>(qtrait_stat_list::MLOAD)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
+	  rv.emplace_back( "f0",q[static_cast<size_t>(qtrait_stat_list::UNLOADED)], unsigned(q[static_cast<size_t>(qtrait_stat_list::GEN)]) );
 	}
       return rv;
     }
@@ -78,7 +80,8 @@ namespace fwdpy {
 		 std::vector<double> & VG,
 		 std::vector<double> & VE,
 		 std::vector<double> & trait,
-		 std::vector<double> & wbar)
+		 std::vector<double> & wbar,
+		 std::vector<double> & ndel)
     {
       for(const auto & dip : pop->diploids)
 	{
@@ -86,6 +89,17 @@ namespace fwdpy {
 	  VE.push_back(dip.e);
 	  trait.push_back(dip.g+dip.e);
 	  wbar.push_back(dip.w);
+	  //Count up # deleterious mutations per individual
+	  unsigned nd=0;
+	  for(auto && m : pop->gametes[dip.first].smutations)
+	    {
+	      if(pop->mcounts[m] < 2*pop->N) nd++;
+	    }
+	  for(auto && m : pop->gametes[dip.second].smutations)
+	    {
+	      if(pop->mcounts[m] < 2*pop->N) nd++;
+	    }
+	  ndel.push_back(double(nd));
 	}
     }
 
@@ -93,13 +107,14 @@ namespace fwdpy {
     inline void call_operator_details(const pop_t * pop,
 				      const unsigned generation)
     {
-      std::vector<double> VG,VE,wbar,trait;
+      std::vector<double> VG,VE,wbar,trait,ndel;
       VG.reserve(pop->diploids.size());
       VE.reserve(pop->diploids.size());
       trait.reserve(pop->diploids.size());
       wbar.reserve(pop->diploids.size());
-
-      fill_vectors(pop,VG,VE,trait,wbar);
+      ndel.reserve(pop->diploids.size());
+      
+      fill_vectors(pop,VG,VE,trait,wbar,ndel);
 
       double twoN=2.*double(pop->diploids.size());
       double mvexpl = 0.,
@@ -143,6 +158,8 @@ namespace fwdpy {
       //This is the apparent strenght of selection on the trait,
       //which is a regression of fitness onto trait value.
       double vst = -gsl_stats_variance(VG.data(),1,VG.size())/(2.0*gsl_stats_covariance(wbar.data(),1,trait.data(),1,wbar.size()));
+      double mload = gsl_stats_mean(ndel.data(),1,ndel.size());
+      double unloaded = std::count(ndel.begin(),ndel.end(),0.0);
       qstats.emplace_back(qtrait_stats_t::value_type{{double(generation),
 	      VG_,
 	      gsl_stats_variance(VE.data(),1,VE.size()),
@@ -153,13 +170,15 @@ namespace fwdpy {
 	      gsl_stats_mean(wbar.data(),1,wbar.size()),
 	      gsl_stats_variance(wbar.data(),1,wbar.size()),
 	      meanTrait,
-	      vst}});
+	      vst,
+	      mload,
+	      unloaded/double(ndel.size())}});
     }
 
 
     qtrait_stats_t qstats;
     double optimum;
-    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,WVAR,TBAR,VST };
+    enum class qtrait_stat_list : std::size_t { GEN,VG,VE,PLF,LE,MAXEXP,EBAR,WBAR,WVAR,TBAR,VST,MLOAD,UNLOADED };
   };
 
   template<>
@@ -168,7 +187,8 @@ namespace fwdpy {
 						  std::vector<double> & VG,
 						  std::vector<double> & VE,
 						  std::vector<double> & trait,
-						  std::vector<double> & wbar)
+						  std::vector<double> & wbar,
+						  std::vector<double> & ndel)
   /*!
     Specialization for fwdpy::multilocus_t
   */
@@ -179,6 +199,20 @@ namespace fwdpy {
 	VE.push_back(dip[0].e);
 	trait.push_back(dip[0].g+dip[0].e);
 	wbar.push_back(dip[0].w);
+	//Count up # deleterious per locus
+	unsigned nd=0;
+	for( auto && locus : dip )
+	  {
+	    for(auto && m : pop->gametes[locus.first].smutations)
+	      {
+		if(pop->mcounts[m] <= 2*pop->N) nd++;
+	      }
+	    for(auto && m : pop->gametes[locus.second].smutations)
+	      {
+		if(pop->mcounts[m] <= 2*pop->N) nd++;
+	      }
+	    ndel.push_back(double(nd));
+	  }
       }
   }
 }
