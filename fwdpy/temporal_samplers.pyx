@@ -57,3 +57,21 @@ cdef class FreqSampler(TemporalSampler):
             rv.push_back((<selected_mut_tracker*>self.vec[i].get()).final())
             i+=1
         return rv
+
+def apply_sampler(PopVec pops,TemporalSampler sampler):
+    """
+    Apply a temporal sampler to a container of populations.
+
+    :param pops: A :class:`fwdpy.fwdpy.PopVec`
+    :param sampler: A :class:`fwdpy.fwdpy.TemporalSampler`
+
+    :return: Nothing
+    """
+    if isinstance(pops,SpopVec):
+        apply_sampler_cpp[singlepop_t]((<SpopVec>pops).pops,sampler.vec)
+    elif isinstance(pops,MetaPopVec):
+        apply_sampler_cpp[metapop_t]((<MetaPopVec>pops).mpops,sampler.vec)
+    elif isinstance(pops,MlocusPopVec):
+        apply_sampler_cpp[multilocus_t]((<MlocusPopVec>pops).pops,sampler.vec)
+    else:
+        raise RuntimeError("PopVec type not supported")
