@@ -23,7 +23,6 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     
     singlepop_fitness make_additive_fitness(double scaling)
     singlepop_fitness make_multiplicative_fitness(double scaling)
-    singlepop_fitness make_gbr_trait()
     singlepop_fitness make_custom_fitness(genotype_fitness_updater Aa,
 					  genotype_fitness_updater aa,
 					  fitness_function_finalizer wfinal,
@@ -38,8 +37,8 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     multilocus_fitness make_mloc_multiplicative_trait(double scaling)
     multilocus_fitness make_mloc_gbr_trait()
     multilocus_fitness make_mloc_power_mean_trait(const double SLd,const double MLd,
-						    const vector[double] SLp,
-						    const vector[double] MLp)
+						  const vector[double] SLp,
+						  const vector[double] MLp)
     cdef double(*mlocus_fitness_fxn)(const vector[diploid_t] &, const gcont_t &, const mcont_t)
 
 #Helper functions for making custom fitness functions

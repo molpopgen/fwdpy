@@ -125,31 +125,6 @@ namespace fwdpy
 				       std::placeholders::_3,
 				       scaling));
   }
-
-  inline singlepop_fitness make_gbr_trait()
-  /*!
-    "GBR" model of Thornton et al., 2013, for a single region
-  */
-  {
-    return singlepop_fitness([](const diploid_t & diploid,
-				const gcont_t & gametes,
-				const mcont_t & mutations)
-			     {
-			       auto h1 = std::accumulate( gametes[diploid.first].smutations.cbegin(),
-							  gametes[diploid.first].smutations.cend(),0.0,
-							  [&mutations](const double & d,const std::size_t & i) noexcept
-							  {
-							    return d + mutations[i].s;
-							  } );
-			       auto h2 = std::accumulate( gametes[diploid.second].smutations.cbegin(),
-							  gametes[diploid.second].smutations.cend(),0.0,
-							  [&mutations](const double & d,const std::size_t & i) noexcept
-							  {
-							    return d + mutations[i].s;
-							  } );
-			       return std::sqrt(h1*h2);
-			     });
-  }
   
   inline singlepop_fitness make_multiplicative_fitness(double scaling = 2.0)
   /*!
