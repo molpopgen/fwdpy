@@ -14,7 +14,6 @@ from fwdpy.fitness cimport make_gbr_trait
 from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_trait_value_minus1,return_trait_value
 from fwdpy.fitness cimport het_additive_update,hom_additive_update,het_mult_update,hom_mult_update
 import fwdpy.internal as internal
-import pandas
 
 cdef class SpopGBRTrait(SpopFitness):
     """
