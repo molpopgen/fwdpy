@@ -1,4 +1,3 @@
-
 #include <future>
 #include <thread>
 #include <algorithm>
@@ -23,28 +22,6 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    std::vector<KTfwd::extensions::shmodel> make_GaussianDFE(const std::vector<double> & sigma_mus)
-    //! Convenience function for what is below: makes additive Gaussian DFE for all elements in sigma_mus
-    {
-      std::vector<KTfwd::extensions::shmodel> rv;
-      for(  auto & s : sigma_mus )
-	{
-	  rv.emplace_back(KTfwd::extensions::gaussian(s),KTfwd::extensions::constant(1.0));
-	}
-      return rv;
-    }
-    
-    std::vector<KTfwd::extensions::shmodel> make_ExponentialDFE(const std::vector<double> & sigma_mus)
-    //! Convenience function for what is below: makes additive Gaussian DFE for all elements in sigma_mus
-    {
-      std::vector<KTfwd::extensions::shmodel> rv;
-      for(  auto & s : sigma_mus )
-	{
-	  rv.emplace_back(KTfwd::extensions::exponential(s),KTfwd::extensions::constant(1.0));
-	}
-      return rv;
-    }
-
     void evolve_qtrait_mloc_cpp( GSLrng_t * rng,
 				 std::vector<std::shared_ptr<multilocus_t> > * pops,
 				 std::vector<std::unique_ptr<sampler_base> > & samplers,
@@ -52,7 +29,6 @@ namespace fwdpy
 				 const size_t Nvector_length,
 				 const std::vector<double> & neutral_mutation_rates,
 				 const std::vector<double> & selected_mutation_rates,
-				 //const std::vector<double> & sigma_mus,
 				 const std::vector<KTfwd::extensions::shmodel> & shmodels,
 				 const std::vector<double> & within_region_rec_rates,
 				 const std::vector<double> & between_region_rec_rates,
@@ -93,7 +69,6 @@ namespace fwdpy
 					    neutral_mutation_rates,
 					    selected_mutation_rates,
 					    shmodels,
-					    //make_GaussianDFE(sigma_mus),
 					    within_region_rec_rates,
 					    between_region_rec_rates,
 					    f,
