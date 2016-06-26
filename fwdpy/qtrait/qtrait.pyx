@@ -10,10 +10,14 @@ from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
 from fwdpy.fwdpp cimport sep_sample_t
 from fwdpy.structs cimport VAcum
-from fwdpy.fitness cimport make_gbr_trait
+from fwdpy.fitness cimport make_custom_haplotype_fitness,sum_haplotype_effects,haplotype_fitness_fxn,haplotype_fitness_fxn_finalizer
 from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_trait_value_minus1,return_trait_value
 from fwdpy.fitness cimport het_additive_update,hom_additive_update,het_mult_update,hom_mult_update
+from libc.math cimport sqrt
 import fwdpy.internal as internal
+
+cdef inline double geomean(double a,double b):
+    return sqrt(a*b)
 
 cdef class SpopGBRTrait(SpopFitness):
     """
@@ -26,7 +30,8 @@ cdef class SpopGBRTrait(SpopFitness):
     a trait value under models with effect sizes :math:`>0`.
     """ 
     def __cinit__(self):
-        self.wfxn = make_gbr_trait()
+        self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>sum_haplotype_effects,
+                                                  <haplotype_fitness_fxn_finalizer>geomean)
 
 cdef class SpopAdditiveTrait(SpopFitness):
     def __cinit__(self):
