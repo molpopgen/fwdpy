@@ -39,7 +39,7 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     multilocus_fitness make_mloc_power_mean_trait(const double SLd,const double MLd,
 						  const vector[double] SLp,
 						  const vector[double] MLp)
-    ctypedef double(*mlocus_fitness_fxn)(const vector[diploid_t] &, const gcont_t &, const mcont_t)
+    ctypedef double(*mlocus_fitness_fxn)(const vector[diploid_t] &, const gcont_t &, const mcont_t &)
 
 #Helper functions for making custom fitness functions
 cdef inline double return_w(const double w):
