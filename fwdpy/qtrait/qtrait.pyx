@@ -10,9 +10,38 @@ from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
 from fwdpy.fwdpp cimport sep_sample_t
 from fwdpy.structs cimport VAcum
-
+from fwdpy.fitness cimport make_gbr_trait
+from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_trait_value_minus1,return_trait_value
+from fwdpy.fitness cimport het_additive_update,hom_additive_update,het_mult_update,hom_mult_update
 import fwdpy.internal as internal
 import pandas
+
+cdef class SpopGBRTrait(SpopFitness):
+    """
+    The "gene-based recessive" (GBR) model of Thornton et al (2013) PLoS Genetics.
+
+    The genetic value is the geometric mean of haplotype effect sizes.
+
+    .. note:: Be really careful with this one!  Fitnesses are undefined if the sum
+    of effect sizes on a haplotype is :math:`< 0:`.  The intended use case is to calculate
+    a trait value under models with effect sizes :math:`>0`.
+    """ 
+    def __cinit__(self):
+        self.wfxn = make_gbr_trait()
+
+cdef class SpopAdditiveTrait(SpopFitness):
+    def __cinit__(self):
+        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_additive_update,
+                                        <genotype_fitness_updater>hom_additive_update,
+                                        <fitness_function_finalizer>return_trait_value,
+                                        0.0)
+
+cdef class SpopMultTrait(SpopFitness):
+    def __cinit__(self):
+        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_mult_update,
+                                        <genotype_fitness_updater>hom_mult_update,
+                                        <fitness_function_finalizer>return_trait_value_minus1,
+                                        1.0)
 
 cdef extern from "qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
     cdef cppclass qtrait_model_rules:

@@ -126,7 +126,7 @@ namespace fwdpy
 				       scaling));
   }
 
-  inline singlepop_fitness make_gbr_fitness()
+  inline singlepop_fitness make_gbr_trait()
   /*!
     "GBR" model of Thornton et al., 2013, for a single region
   */
@@ -207,9 +207,38 @@ namespace fwdpy
 			      });
   }
 
+  inline multilocus_fitness make_mloc_additive_trait(double scaling = 2.0)
+  /*!
+    Additive within loci w/dominance, and then additive across loci
+  */
+  {
+    return multilocus_fitness([scaling](const std::vector<diploid_t> & diploid,
+					const gcont_t & gametes,
+					const mcont_t & mutations)
+			      {
+				double w = 0.0;
+				for(const auto & locus : diploid)
+				  {
+				    w+= KTfwd::site_dependent_fitness()(gametes[locus.first],
+									gametes[locus.second],
+									mutations,
+									[&](double & fitness,const KTfwd::popgenmut & mut) noexcept
+									{
+									  fitness += (1. + scaling*mut.s);
+									},
+									[](double & fitness,const KTfwd::popgenmut & mut) noexcept
+									{
+									  fitness += (1. + mut.h*mut.s);
+									},
+									0.);
+				  }
+				return w;
+			      });
+  }
+
   inline multilocus_fitness make_mloc_multiplicative_fitness(double scaling = 2.0)
   /*!
-    Multiplicative within loci w/dominance, and then additive across loci
+    Additive within loci w/dominance, and then additive across loci
   */
   {
     return multilocus_fitness([scaling](const std::vector<diploid_t> & diploid,
@@ -227,7 +256,36 @@ namespace fwdpy
 			      });
   }
 
-  inline multilocus_fitness make_mloc_gbr_fitness()
+  inline multilocus_fitness make_mloc_multiplicative_trait(double scaling = 2.0)
+  /*!
+    Multiplicative within loci w/dominance, and then additive across loci
+  */
+  {
+    return multilocus_fitness([scaling](const std::vector<diploid_t> & diploid,
+					const gcont_t & gametes,
+					const mcont_t & mutations)
+			      {
+				double w = 0.0;
+				for(const auto & locus : diploid)
+				  {
+				    w+= KTfwd::site_dependent_fitness()(gametes[locus.first],
+									gametes[locus.second],
+									mutations,
+									[&](double & fitness,const KTfwd::popgenmut & mut) noexcept
+									{
+									  fitness *= (1. + scaling*mut.s);
+									},
+									[&mutations](double & fitness,const KTfwd::popgenmut & mut) noexcept
+									{
+									  fitness *= (1. + mut.h*mut.s);
+									},
+									1.);
+				  }
+				return w-1.0;
+			      });
+  }
+
+  inline multilocus_fitness make_mloc_gbr_trait()
   /*!
     "GBR" model within loci, additive across loci
   */
@@ -257,9 +315,9 @@ namespace fwdpy
 			      });
   }
 
-  inline multilocus_fitness make_mloc_power_mean_fitness(const double SLp,const double MLp,
-							 const std::vector<double> & SLd,
-							 const std::vector<double> & MLd)
+  inline multilocus_fitness make_mloc_power_mean_trait(const double SLp,const double MLp,
+						       const std::vector<double> & SLd,
+						       const std::vector<double> & MLd)
   {
     return multilocus_fitness([&](const std::vector<diploid_t> & diploid,
 				  const gcont_t & gametes,

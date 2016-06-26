@@ -21,21 +21,6 @@ cdef class SpopMult(SpopFitness):
         :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively
         """
         self.wfxn = make_multiplicative_fitness(scaling)
-
-cdef class SpopGBR(SpopFitness):
-    """
-    The "gene-based recessive" (GBR) model of Thornton et al (2013) PLoS Genetics.
-
-    The fitness (or genetic value as it was used in that paper) is the geometric mean 
-    of haplotype effect sizes.
-
-    .. note:: Be really careful with this one!  Fitnesses are undefined if the sum
-    of effect sizes on a haplotype is :math:`< 0:`.  The intended use case is to calculate
-    a trait value under models with effect sizes :math:`>0`.
-    """ 
-    def __cinit__(self):
-        self.wfxn = make_gbr_fitness()
-
 cdef class MlocusAdditive(MlocusFitness):
     """
     Additive fitness for a multi-region model.
@@ -50,22 +35,6 @@ cdef class MlocusAdditive(MlocusFitness):
         :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively
         """
         self.wfxn=make_mloc_additive_fitness(scaling)
-
-cdef class MlocusGBR(MlocusFitness):
-    """
-    The "gene-based recessive" (GBR) model of Thornton et al (2013) PLoS Genetics.
-
-    The GBR model is applied to each region, and then the final value is the sum over regions.
-
-    The fitness (or genetic value as it was used in that paper) is the geometric mean 
-    of haplotype effect sizes.
-
-    .. note:: Be really careful with this one!  Fitnesses are undefined if the sum
-    of effect sizes on a haplotype is :math:`< 0:`.  The intended use case is to calculate
-    a trait value under models with effect sizes :math:`>0`.
-    """ 
-    def __cinit__(self):
-        self.wfxn=make_mloc_gbr_fitness()
 
 cdef class MlocusMult(MlocusFitness):
     """
@@ -82,12 +51,3 @@ cdef class MlocusMult(MlocusFitness):
         """
         self.wfxn=make_mloc_multiplicative_fitness(scaling)
 
-cdef class MlocusPowerMean(MlocusFitness):
-    def __cinit__(self,double slp,double mlp,vector[double] & sld, vector[double] & mld):
-        if sld.size() != 2:
-            raise RuntimeError("sld must be of length 2")
-        self.SLp = slp
-        self.MLp = mlp
-        self.SLd = sld
-        self.MLd = mld
-        self.wfxn = make_mloc_power_mean_fitness(self.SLp,self.MLp,self.SLd,self.MLd)
