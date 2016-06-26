@@ -8,7 +8,6 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from fwdpy.fwdpy cimport *
 from fwdpy.internal.internal cimport shwrappervec
-from fwdpy.fwdpp cimport sep_sample_t
 from fwdpy.fitness cimport make_custom_haplotype_fitness,sum_haplotype_effects,haplotype_fitness_fxn,haplotype_fitness_fxn_finalizer
 from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_trait_value_minus1,return_trait_value
 from fwdpy.fitness cimport het_additive_update,hom_additive_update,het_mult_update,hom_mult_update
