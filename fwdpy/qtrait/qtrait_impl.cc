@@ -55,6 +55,10 @@ namespace fwdpy
 	{
 	  throw std::runtime_error("mutation and recombination rates must all be non-negative.");
 	}
+      if(samplers.size()!=pops->size())
+	{
+	  throw std::runtime_error("length of samplers != length of population container");
+	}
       if(f<0.||f>1.) throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
       if(interval<0) throw std::runtime_error("sampling interval must be non-negative");
       std::vector<std::thread> threads;
