@@ -67,7 +67,10 @@ namespace fwdpy
 	  selected_mutation_rates.size(),
 	  shmodels.size(),
 	  within_region_rec_rates.size()};
-      
+      if(samplers.size()!=pops->size())
+	{
+	  throw std::runtime_error("length of samplers != length of population container");
+	}
       if( vec_sizes.size() > 1 ) throw std::runtime_error("vectors of properties for each region must be same length");
       
       if( std::any_of(neutral_mutation_rates.begin(),neutral_mutation_rates.end(),
