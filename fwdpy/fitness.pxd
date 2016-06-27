@@ -61,10 +61,10 @@ cdef inline double hom_additive_update(double & w, const popgenmut & m):
     (&w)[0] += 2.0*m.s
 
 cdef inline double het_mult_update(double & w, const popgenmut & m):
-    (&w)[0] *= m.s*m.h
+    (&w)[0] *= (1.0+m.s*m.h)
 
 cdef inline double hom_mult_update(double & w, const popgenmut & m):
-    (&w)[0] *= 2.0*m.s
+    (&w)[0] *= (1.0+2.0*m.s)
 
 cdef inline double sum_haplotype_effects(const gamete_t & g, const mcont_t & m):
     cdef size_t i=0,n=g.smutations.size()
