@@ -2,10 +2,8 @@
 #define __FWDPY_HOCRULES_HPP__
 
 #include <cmath>
-#include <exception>
-#include <fwdpp/diploid.hh>
-#include "types.hpp"
-#include "fwdpy_fitness.hpp"
+#include <gsl/gsl_sf_pow_int.h>
+#include "rules_base.hpp"
 /*
   Custom "rules" policy for single-region House-of-Cards simulations.
 
@@ -21,22 +19,19 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    struct qtrait_model_rules
+    struct qtrait_model_rules : public fwdpy::single_region_rules_base
     {
-      mutable double wbar;
+      using base_t = fwdpy::single_region_rules_base;
       const double sigE,optimum,VS;
-      mutable std::vector<double> fitnesses;
-      mutable KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
-      qtrait_model_rules(const double & __sigE,
-			 const double & __optimum,
-			 const double & __VS,
-			 const unsigned __maxN = 100000) noexcept(false) :
-							  wbar(0.),
-							  sigE(__sigE),
-							  optimum(__optimum),
-							  VS(__VS),
-							  fitnesses(std::vector<double>(__maxN)),
-							  lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
+      qtrait_model_rules(const double & sigE_,
+			 const double & optimum_,
+			 const double & VS_,
+			 const unsigned maxN_ = 100000,
+			 const int power_ = 2) noexcept(false) :
+							  base_t(),
+							  sigE(sigE_),
+							  optimum(optimum_),
+							  VS(VS_)
 							  /*!
 							    Constructor throws std::runtime_error if params are not valid.
 							  */
@@ -47,19 +42,15 @@ namespace fwdpy
 
       qtrait_model_rules(qtrait_model_rules &&) = default;
       
-      qtrait_model_rules(const qtrait_model_rules & rhs) : wbar(rhs.wbar),sigE(rhs.sigE),optimum(rhs.optimum),
-							   VS(rhs.VS),fitnesses(rhs.fitnesses),
-							   lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr))
+      qtrait_model_rules(const qtrait_model_rules & rhs) : base_t(rhs),
+							   sigE(rhs.sigE),optimum(rhs.optimum),
+      							   VS(rhs.VS)
       {
-	if(!fitnesses.empty())
-	  lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(fitnesses.size(),&fitnesses[0]));
       }
-      template<typename T,
-	       typename gcont_t,
-	       typename mcont_t>
-      void w( const T & diploids,
+
+      virtual void w( const dipvector_t & diploids,
 	      gcont_t & gametes,
-	      const mcont_t & mutations ) const
+	      const mcont_t & mutations )
       {
 	auto N_curr = diploids.size();
 	if(fitnesses.size() < N_curr) fitnesses.resize(N_curr);
@@ -73,26 +64,11 @@ namespace fwdpy
 	wbar/=double(N_curr);
 	lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(N_curr,&fitnesses[0]));
       }
-
-      //! \brief Pick parent one
-      inline size_t pick1(const gsl_rng * r) const
-      {
-	return gsl_ran_discrete(r,lookup.get());
-      }
-  
-      //! \brief Pick parent 2.  Parent 1's data are passed along for models where that is relevant
-      template<typename diploid_t,typename gcont_t,typename mcont_t>
-      inline size_t pick2(const gsl_rng * r, const size_t & p1, const double & f,
-			  const diploid_t &, const gcont_t &, const mcont_t &) const
-      {
-	return (f==1.||(f>0.&&gsl_rng_uniform(r) < f)) ? p1 : gsl_ran_discrete(r,lookup.get());
-      }
       
       //! \brief Update some property of the offspring based on properties of the parents
-      template<typename diploid_t,typename gcont_t,typename mcont_t>
-      void update(const gsl_rng * r,diploid_t & offspring, const diploid_t &, const diploid_t &,
-		  const gcont_t & gametes, const mcont_t & mutations,
-		  const single_region_fitness_fxn &ff) const noexcept
+      virtual void update(const gsl_rng * r,diploid_t & offspring, const diploid_t &, const diploid_t &,
+			  const gcont_t & gametes, const mcont_t & mutations,
+			  const single_region_fitness_fxn &ff) noexcept
       {
 	offspring.g = ff(offspring,gametes,mutations);
 	offspring.e = gsl_ran_gaussian_ziggurat(r,sigE);
