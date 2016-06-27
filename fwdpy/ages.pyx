@@ -1,6 +1,6 @@
 from cython.parallel import parallel, prange
 
-def allele_ages( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, double minfreq = 0.0, unsigned minsojourn = 1 ):
+def allele_ages( const vector[vector[pair[selected_mut_data,vector[pair[uint,double]]]]] & trajectories, double minfreq = 0.0, unsigned minsojourn = 1 ):
     """
     Calculate allele age information from mutation frequency trajectories.
 
@@ -16,8 +16,8 @@ def allele_ages( const vector[vector[pair[selected_mut_data,vector[double]]]] & 
 
     return rv
 
-def merge_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories1,
-                        const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories2 ):
+def merge_trajectories( const vector[vector[pair[selected_mut_data,vector[pair[uint,double]]]]] & trajectories1,
+                        const vector[vector[pair[selected_mut_data,vector[pair[uint,double]]]]] & trajectories2 ):
     """
     Take two sets of mutation trajectories and merge them.
 
@@ -30,7 +30,7 @@ def merge_trajectories( const vector[vector[pair[selected_mut_data,vector[double
         raise RuntimeError("the two input lists must be the same length")
 
     cdef size_t nt = trajectories1.size()
-    cdef vector[vector[pair[selected_mut_data,vector[double]]]] rv
+    cdef vector[vector[pair[selected_mut_data,vector[pair[uint,double]]]]] rv
     rv.resize(nt)
     cdef int i
     
@@ -39,7 +39,7 @@ def merge_trajectories( const vector[vector[pair[selected_mut_data,vector[double
 
     return rv
 
-def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[double]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
+def tidy_trajectories( const vector[vector[pair[selected_mut_data,vector[pair[uint,double]]]]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
     """
     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
     a pandas.DataFrame.

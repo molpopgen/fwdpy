@@ -52,7 +52,7 @@ namespace fwdpy
   };
 
   //non-inline!  This is part of fwdpy's main module.
-  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<double>>> & trajectories,
+  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<std::pair<unsigned,double>>>> & trajectories,
 							    const unsigned min_sojourn ,
 							    const double min_freq);
   
@@ -72,7 +72,7 @@ namespace fwdpy
 
     \note Used in fwdpy::selected_mut_tracker
   */
-  using trajectories_t = std::map< trajectories_key_t , std::vector<double> >;
+  using trajectories_t = std::map< trajectories_key_t , std::vector<std::pair<unsigned,double> >>;
 
   class selected_mut_tracker : public sampler_base
   /*!
@@ -81,7 +81,7 @@ namespace fwdpy
   */
   {
   public:
-    using final_t = std::vector< std::pair<selected_mut_data, std::vector<double> > >;
+    using final_t = std::vector< std::pair<selected_mut_data, std::vector<std::pair<unsigned,double> > > >;
 
     virtual void operator()(const singlepop_t * pop, const unsigned generation)
     {
@@ -112,7 +112,7 @@ namespace fwdpy
   private:
     trajectories_t trajectories;
     template<typename pop_t>
-    inline void call_operator_details(const pop_t * pop, const unsigned)
+    inline void call_operator_details(const pop_t * pop, const unsigned generation)
     {
       for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i )
       	{
@@ -126,14 +126,14 @@ namespace fwdpy
 		  auto __itr = trajectories.find(__p);
 		  if(__itr == trajectories.end())
 		    {
-		      trajectories[__p] = std::vector<double>(1,freq);
+		      trajectories[__p] = std::vector<std::pair<unsigned,double> >(1,std::make_pair(generation,freq));
 		    }
 		  else
 		    {
 		      //Don't keep updating for fixed variants
-		      if( __itr->second.back() < 1.)
+		      if( __itr->second.back().second < 1.)
 			{
-			  __itr->second.push_back(freq);
+			  __itr->second.emplace_back(generation,freq);
 			}
 		    }
 		}

@@ -197,7 +197,7 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
         selected_mut_tracker()
-        vector[pair[selected_mut_data, vector[double]]] final() const
+        vector[pair[selected_mut_data, vector[pair[uint,double]]]] final() const
         
 #Extension classes for temporal sampling
 cdef class TemporalSampler:
@@ -280,15 +280,15 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     void fwdpy_citation()
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
-    vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
+    vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[pair[selected_mut_data,vector[pair[uint,double]]]] & trajectories,
                                                          const unsigned min_sojourn, const double min_freq);
 
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
-    vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[double]]] & trajectories,
+    vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[pair[uint,double]]]] & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +
 
-    vector[pair[selected_mut_data,vector[double]]] merge_trajectories_details( vector[pair[selected_mut_data,vector[double]]] traj1,
-                                                                               const vector[pair[selected_mut_data,vector[double]]] & traj2 )
+    vector[pair[selected_mut_data,vector[pair[uint,double]]]] merge_trajectories_details( vector[pair[selected_mut_data,vector[pair[uint,double]]]] traj1,
+                                                                                          const vector[pair[selected_mut_data,vector[pair[uint,double]]]] & traj2 )
 
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
