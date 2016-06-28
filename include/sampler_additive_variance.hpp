@@ -308,6 +308,26 @@ namespace fwdpy
       return rv;
     }
 
+    template<typename pop_t>
+    void update_row_details(gsl_matrix_ptr_t & m,
+			    const typename pop_t::gamete_t & g,
+			    const pop_t * pop,
+			    const std::vector<std::size_t> & mut_keys,
+			    const size_t row)
+    {
+      for( auto && k : g.smutations )
+	{
+	  if( pop->mcounts[k] < 2*pop->N ) //skip fixations!!!
+	    {
+	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
+	      if(i==mut_keys.end()) throw std::runtime_error("fatal error: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
+	      std::size_t col = std::distance(mut_keys.begin(),i);
+	      if( col + 1 >= m->size2 ) throw std::runtime_error("second dimension out of range: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
+	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
+	      *mp += 1.0; //update counts
+	    }
+	}
+    }
     template<typename pop_t, typename diploid_t>
     void update_matrix_counts_details(gsl_matrix_ptr_t & m,
 				      const pop_t * pop,
@@ -315,28 +335,8 @@ namespace fwdpy
 				      const diploid_t & dip,
 				      const size_t row)
     {
-      for( const auto k : pop->gametes[dip.first].smutations )
-	{
-	  if( pop->mcounts[k] < 2*pop->N ) //skip fixations!!!
-	    {
-	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
-	      std::size_t col = std::distance(mut_keys.begin(),i);
-	      if( col + 1 >= m->size2 ) throw std::runtime_error("second dimension out of range: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
-	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
-	      *mp += 1.0; //update counts
-	    }
-	}
-      for( const auto k : pop->gametes[dip.second].smutations )
-	{
-	  if( pop->mcounts[k] < 2*pop->N ) //skip fixations!!!
-	    {
-	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
-	      std::size_t col = std::distance(mut_keys.begin(),i);
-	      if( col + 1 >= m->size2 ) throw std::runtime_error("second dimension out of range: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
-	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
-	      *mp += 1.0; //update counts
-	    }
-	}
+      update_row_details(m,pop->gametes[dip.first],pop,mut_keys,row);
+      update_row_details(m,pop->gametes[dip.second],pop,mut_keys,row);
     }
 
     template<typename pop_t>
