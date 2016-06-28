@@ -301,7 +301,11 @@ namespace fwdpy
     template<typename pop_t>
     gsl_matrix_ptr_t make_variant_matrix(const pop_t * pop, const std::vector<std::size_t> & mut_keys)
     {
-      return make_variant_matrix_details(pop,mut_keys);
+      gsl_matrix_ptr_t rv(gsl_matrix_alloc(pop->diploids.size(),1+mut_keys.size()));
+      gsl_matrix_set_zero(rv.get()); //set all values to 0.
+
+      update_matrix_counts(pop,mut_keys,rv);
+      return rv;
     }
 
     template<typename pop_t, typename diploid_t>
@@ -311,13 +315,13 @@ namespace fwdpy
 				      const diploid_t & dip,
 				      const size_t row)
     {
-      //auto x = pop->gametes[dip.first].smutations.size() + pop->gametes[dip.second].smutations.size();
       for( const auto k : pop->gametes[dip.first].smutations )
 	{
 	  if( pop->mcounts[k] < 2*pop->N ) //skip fixations!!!
 	    {
 	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
 	      std::size_t col = std::distance(mut_keys.begin(),i);
+	      if( col + 1 >= m->size2 ) throw std::runtime_error("second dimension out of range: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
 	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
 	      *mp += 1.0; //update counts
 	    }
@@ -328,6 +332,7 @@ namespace fwdpy
 	    {
 	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
 	      std::size_t col = std::distance(mut_keys.begin(),i);
+	      if( col + 1 >= m->size2 ) throw std::runtime_error("second dimension out of range: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
 	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
 	      *mp += 1.0; //update counts
 	    }
@@ -348,19 +353,6 @@ namespace fwdpy
 	  row++;
 	}
     }
-
-    template<typename pop_t>
-    gsl_matrix_ptr_t make_variant_matrix_details(const pop_t * pop, const std::vector<std::size_t> & mut_keys) //single pop -- specialized for multilocus pop
-    /*!
-      Return a 0,1,2 matrix of counts of causative alleles in each diploid.
-    */
-    {
-      gsl_matrix_ptr_t rv(gsl_matrix_alloc(pop->diploids.size(),1+mut_keys.size()));
-      gsl_matrix_set_zero(rv.get()); //set all values to 0.
-
-      update_matrix_counts(pop,mut_keys,rv);
-      return rv;
-    };
 
     template<typename pop_t>
     gsl_vector_ptr_t fillG(const pop_t * pop, double  * VG) //single-pop...
