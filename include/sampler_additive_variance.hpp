@@ -112,11 +112,13 @@ namespace fwdpy
       //Genetic values for each diploid
       double VG;
       auto G = fillG(pop,&VG);
-      //0,1,2 count of mutations affecting fitness
-      auto genotypes = make_variant_matrix(pop,mut_keys);
+
       //Get a vector of the mcounts corresponding to mut_kets
       std::vector<KTfwd::uint_t> mut_key_counts;
       for( const auto i : mut_keys ) mut_key_counts.emplace_back(pop->mcounts[i]);
+
+      //0,1,2 count of mutations affecting fitness
+      auto genotypes = make_variant_matrix(pop,mut_keys);
 
       auto results = regression_details(G,genotypes,mut_keys,mut_key_counts,generation);
       auto DF = std::count(results.ucol_labels.begin(),results.ucol_labels.end(),1);
