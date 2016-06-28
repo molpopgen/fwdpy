@@ -42,31 +42,31 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     ctypedef double(*mlocus_fitness_fxn)(const vector[diploid_t] &, const gcont_t &, const mcont_t &)
 
 #Helper functions for making custom fitness functions
-cdef inline double return_w(const double w):
+cdef inline double return_w(const double w) nogil:
     return max(0.0,w)
 
-cdef inline double return_w_plus1(const double w):
+cdef inline double return_w_plus1(const double w) nogil:
     return max(0.0,1.0+w)
 
-cdef inline double return_trait_value(const double w):
+cdef inline double return_trait_value(const double w) nogil:
     return w
 
-cdef inline double return_trait_value_minus1(const double w):
+cdef inline double return_trait_value_minus1(const double w) nogil:
     return w-1.0
 
-cdef inline double het_additive_update(double & w, const popgenmut & m):
+cdef inline double het_additive_update(double & w, const popgenmut & m) nogil:
     (&w)[0] += m.s*m.h
 
-cdef inline double hom_additive_update(double & w, const popgenmut & m):
+cdef inline double hom_additive_update(double & w, const popgenmut & m) nogil:
     (&w)[0] += 2.0*m.s
 
-cdef inline double het_mult_update(double & w, const popgenmut & m):
+cdef inline double het_mult_update(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+m.s*m.h)
 
-cdef inline double hom_mult_update(double & w, const popgenmut & m):
+cdef inline double hom_mult_update(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+2.0*m.s)
 
-cdef inline double sum_haplotype_effects(const gamete_t & g, const mcont_t & m):
+cdef inline double sum_haplotype_effects(const gamete_t & g, const mcont_t & m) nogil:
     cdef size_t i=0,n=g.smutations.size()
     cdef double rv = 0.0
     while i<n:
