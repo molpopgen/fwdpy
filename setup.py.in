@@ -53,7 +53,7 @@ if '--qtrait' in sys.argv:
     sys.argv.remove('--qtrait')
 else:
     QTRAIT=False
-    
+
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
 #MEMLIBS=None
@@ -114,7 +114,8 @@ long_desc = open("README.rst").read()
 #EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
-                     str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"'
+                     str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"',
+                     '-DHAVE_INLINE'
 ]
 LINK_ARGS=["-std=c++11",'-fopenmp']
 GLOBAL_INCLUDES=['.','..','include']
@@ -132,7 +133,7 @@ extensions = [
     Extension("fwdpy.fwdpy",
               sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
               language="c++",                        # generate and compile C++ code
-              include_dirs=GLOBAL_INCLUDES, 
+              include_dirs=GLOBAL_INCLUDES,
               extra_compile_args=GLOBAL_COMPILE_ARGS,
               extra_link_args=LINK_ARGS,
               libraries=LIBS),
@@ -163,7 +164,7 @@ extensions.extend(
     [Extension("fwdpy.fitness",
                sources=["fwdpy/fitness"+EXTENSION],
                language="c++",
-               include_dirs=GLOBAL_INCLUDES, 
+               include_dirs=GLOBAL_INCLUDES,
                extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
 
@@ -175,7 +176,7 @@ if QTRAIT is True:
         Extension("fwdpy.qtrait.qtrait",
                   sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
                   language="c++",                        # generate and compile C++ code
-                  include_dirs=GLOBAL_INCLUDES, 
+                  include_dirs=GLOBAL_INCLUDES,
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
                   extra_link_args=LINK_ARGS,
                   libraries=LIBS)
@@ -185,7 +186,7 @@ if QTRAIT is True:
         Extension("fwdpy.qtrait_mloc.qtrait_mloc",
                   sources=["fwdpy/qtrait_mloc/qtrait_mloc"+EXTENSION]+glob.glob("fwdpy/qtrait_mloc/*.cc"),
                   language="c++",
-                  include_dirs=GLOBAL_INCLUDES, 
+                  include_dirs=GLOBAL_INCLUDES,
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
                   extra_link_args=LINK_ARGS,
                   libraries=LIBS)
@@ -201,7 +202,7 @@ if QTRAIT is True:
                   extra_link_args=LINK_ARGS,
                   libraries=LIBS)
     ])
-                  
+
 
 #If using Cython, edit extensions here:
 if USE_CYTHON:
