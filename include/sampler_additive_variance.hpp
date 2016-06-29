@@ -196,29 +196,30 @@ namespace fwdpy
       \note The indexing in this code is tricky, and could be improved via a GSL matrix view skipping 1st column of genotypes.
      */
     {
+      if(mut_keys.size()!=mut_key_counts.size()) throw std::runtime_error("key sizes unequal")
       std::vector<size_t> column_labels(mut_keys.size(),1);
       unsigned identical = 0;
       for( std::size_t col = 1 ; col < genotypes->size2-1 ; ++col ) //skip column 0...
 	{
-	  //gsl_vector_view col_i = gsl_matrix_column(genotypes,col);
 	  if(column_labels[col-1])
 	    {
+	      auto c1 = gsl_matrix_const_column(genotypes.get(),col);
 	      for( std::size_t col2 = col+1 ; col2 < genotypes->size2 ; ++col2 )
 		{
 		  //columns can only be identical if mutations have same frequency!
-		  //The -1 is b/c genotypes has 1 extra columns
+		  //The -1 is b/c genotypes has 1 extra column
 		  if(column_labels[col2-1] && mut_key_counts[col-1]==mut_key_counts[col2-1])
 		    {
-		      unsigned ndiff=0;
-		      for( std::size_t row = 0 ; row < genotypes->size1 ; ++row )
+		      bool ndiff=false;
+		      auto c2 = gsl_matrix_const_column(genotypes.get(),col2);
+		      for(std::size_t i=0;!ndiff&&i<c1.vector.size;++i)
 			{
-			  if(gsl_matrix_get(genotypes.get(),row,col) != gsl_matrix_get(genotypes.get(),row,col2))
-			    ++ndiff;
+			  if(gsl_vector_get(&c1.vector,i)!=gsl_vector_get(&c2.vector,i))
+			    ndiff=true;
 			}
 		      if(!ndiff)
 			{
 			  ++identical;
-			  //column_labels[col2-1]=col-1; //This marks col2 as non-unique.
 			  column_labels[col2-1]=0;
 			}
 		    }
@@ -242,11 +243,13 @@ namespace fwdpy
 	      //The -1 is b/c of the different lengths, as above...
 	      if(i==0 ||(column_labels[i-1])) //Column is either column 0 or the column is unique
 		{
-		  for(std::size_t k = 0 ; k < genotypes->size1 ; ++k )
-		    {
-		      gsl_matrix_set(ugeno.get(),k,j,gsl_matrix_get(genotypes.get(),k,i));
-		    }
-		  ++j;
+		  auto c1 = gsl_matrix_const_column(genotypes.get(),i);
+		  gsl_matrix_set_col(ugeno.get(),j++,&c1.vector);
+		  // for(std::size_t k = 0 ; k < genotypes->size1 ; ++k )
+		  //   {
+		  //     gsl_matrix_set(ugeno.get(),k,j,gsl_matrix_get(genotypes.get(),k,i));
+		  //   }
+		  //++j;
 		}
 	    }
 	  //QR decomposition...
