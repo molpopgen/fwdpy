@@ -1,7 +1,7 @@
 /*!
   \file sampler_additive_variance.hpp
-  
-  Estimates cumulative contribution of mutations to 
+
+  Estimates cumulative contribution of mutations to
   V(A).
 
   Big thanks to Jaleal Sanjak for help with the QR
@@ -87,7 +87,7 @@ namespace fwdpy
     {
       call_operator_details(pop,generation);
     }
-    
+
     final_t final() const
     {
       return VGcollection;
@@ -122,74 +122,75 @@ namespace fwdpy
 
       //0,1,2 count of mutations affecting fitness
       auto genotypes = make_variant_matrix(pop,mut_keys);
-
-      auto results = regression_details(G,genotypes,mut_keys,mut_key_counts,generation);
+      auto results = regression_details(G,genotypes,mut_keys,mut_key_counts);
       auto DF = std::count(results.ucol_labels.begin(),results.ucol_labels.end(),1);
+
+      //Now, remove elements corresponding to columns not used in regression
+      for( auto i = results.ucol_labels.rbegin() ; i != results.ucol_labels.rend() ; ++i )
+	{
+	  if(!*i)
+	    {
+	      auto d = std::distance(results.ucol_labels.begin(),i.base())-1;
+	      mut_keys.erase(mut_keys.begin()+d);
+	      mut_key_counts.erase(mut_key_counts.begin()+d);
+	    }
+	}
+      if(mut_keys.size() != std::size_t(DF)) throw std::runtime_error("removal error: " +
+								      std::string(__FILE__) +
+								      ", " +
+								      std::to_string(__LINE__));
       double SumOfSquares=0.0;
       std::vector<double> vSumOfSquares;
-      std::size_t DUMMY = 1;
-      //for(std::size_t i = 1; i <= DF+1 ; i++)
-      for( auto i : results.ucol_labels )
-      	{
-	  if(i)
+      /*
+	j=1 b/c first value in sums is for the origin,
+	not the first column.  GSL inside baseball.
+       */
+      for(std::size_t i=0,j=1;i<results.ucol_labels.size();++i)
+	{
+	  if(results.ucol_labels[i])
 	    {
-	      auto s = gsl_vector_get(results.sums.get(),DUMMY++);
+	      auto s = gsl_vector_get(results.sums.get(),j++);
 	      auto p = gsl_sf_pow_int(s,2);
 	      vSumOfSquares.push_back(p);
 	      SumOfSquares+=p;
 	    }
-	  else
-	    {
-	      vSumOfSquares.push_back(0.);
-	    }
-      	}
+	}
       //residual sum of squares
       double RSS = std::accumulate(results.sums->data+DF+1,results.sums->data+results.sums->size,
 				   0.,[](double a,double b) { return a + gsl_sf_pow_int(b,2); });
-
       SumOfSquares += RSS; //add in the RSS.
-      //Assign VA to each frequency bin.
-      std::set<size_t> ucounts;
-      for(std::size_t i=0;i<results.ucol_labels.size();++i)
+      std::set<std::size_t> ucounts({mut_key_counts.begin(),mut_key_counts.end()});
+      double ttl_rsq=0.0,ttl_adj_rsq=0.0;
+      double DFsum = double(genotypes->size1-1);
+      double DFn=double(genotypes->size1-1-DF);
+      for(auto uc : ucounts)
 	{
-	  if(results.ucol_labels[i]) ucounts.insert(mut_key_counts[i]);
-	}
-
-      for( const auto ui : ucounts ) //this starts w/rares
-	{
-	  //Have to count up the number of markers at this count that were used in the regression
-	  unsigned cui=0;
-	  std::vector<std::size_t> uindexes;
-	  for(std::size_t i=0;i<results.ucol_labels.size();++i) //Filling this is the problem!!!!
-	    {
-	      if(results.ucol_labels[i] && mut_key_counts[i] == ui)
-		{
-		  ++cui;
-		  uindexes.push_back(i);
-		}
-	    }
-	  //Get SS for mutations at this count and those not at this count
-	  double SSui=0.0,SSnotui=0.0;
-	  unsigned found = 0;
-	  for(std::size_t i=0;i<vSumOfSquares.size();++i)
-	    {
-	      if( std::binary_search(uindexes.begin(),uindexes.end(),i) )
-		{
-		  SSui += vSumOfSquares[i];
-		  ++found;
-		}
-	      else SSnotui += vSumOfSquares[i];
-	    }
-	  double rsq = SSui/SumOfSquares;
-	  VGcollection.emplace_back(VAcum(double(ui)/(2.0*double(pop->diploids.size())),rsq,generation,pop->diploids.size()));
+	  //Get all mutations in regression with this frequency
+	  auto er = std::equal_range(mut_key_counts.begin(),mut_key_counts.end(),uc,
+				     [](const std::size_t a,const std::size_t b)
+				     {
+				       return a>b;
+				     });
+	  //Get the sum of squares for this frequency bin
+	  auto d1 = std::distance(mut_key_counts.begin(),er.first);
+	  auto d2 = std::distance(mut_key_counts.begin(),er.second);
+	  double ssuc = std::accumulate(vSumOfSquares.begin() + d1,
+					vSumOfSquares.begin() + d2,
+					0.0);
+	  //This is r^2 for this frequency bin
+	  double rsq = ssuc/SumOfSquares;
+	  //This is adjusted r^2 for this bin
+	  double a = (RSS+SumOfSquares-ssuc)/SumOfSquares;
+	  double b = DFsum/(DFn + double(mut_key_counts.size()-std::distance(er.first,er.second)));
+	  double adj_rsq = 1.0 - a*b;
+	  VGcollection.emplace_back(VAcum(double(uc)/(2.0*double(pop->diploids.size())),rsq,generation,pop->diploids.size()));
 	}
     }
-    
+
     regression_results regression_details(const gsl_vector_ptr_t & G,
 					  const gsl_matrix_ptr_t & genotypes,
 					  const std::vector<size_t> & mut_keys,
-					  const std::vector<KTfwd::uint_t> & mut_key_counts,
-					  unsigned generation)
+					  const std::vector<KTfwd::uint_t> & mut_key_counts)
     /*!
       Handles ugly details of the regression:
       1. Reduces genotypes just to the set of unique columns
@@ -239,7 +240,7 @@ namespace fwdpy
 				   std::to_string(std::count(column_labels.begin(),column_labels.end(),0)) + " " +
 				   std::to_string(genotypes->size2));
 	}
-				   
+
       //Allocate placeholder variables
       gsl_vector_ptr_t tau(gsl_vector_alloc(NCOL));
       gsl_vector_ptr_t sums(gsl_vector_alloc(NROW));
