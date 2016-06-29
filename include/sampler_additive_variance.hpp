@@ -196,7 +196,7 @@ namespace fwdpy
       \note The indexing in this code is tricky, and could be improved via a GSL matrix view skipping 1st column of genotypes.
      */
     {
-      if(mut_keys.size()!=mut_key_counts.size()) throw std::runtime_error("key sizes unequal")
+      if(mut_keys.size()!=mut_key_counts.size()) throw std::runtime_error("key sizes unequal");
       std::vector<size_t> column_labels(mut_keys.size(),1);
       unsigned identical = 0;
       for( std::size_t col = 1 ; col < genotypes->size2-1 ; ++col ) //skip column 0...
@@ -228,6 +228,15 @@ namespace fwdpy
 	}
       std::size_t NROW = genotypes->size1;
       std::size_t NCOL = genotypes->size2-identical;
+      if(NCOL-1 != std::count(column_labels.begin(),column_labels.end(),1))
+	{
+	  throw std::runtime_error("NCOL incorrect "+
+				   std::to_string(NCOL) + " " +
+				   std::to_string(std::count(column_labels.begin(),column_labels.end(),1)) + " " +
+				   std::to_string(std::count(column_labels.begin(),column_labels.end(),0)) + " " +
+				   std::to_string(genotypes->size2));
+	}
+				   
       //Allocate placeholder variables
       gsl_vector_ptr_t tau(gsl_vector_alloc(NCOL));
       gsl_vector_ptr_t sums(gsl_vector_alloc(NROW));
@@ -240,16 +249,19 @@ namespace fwdpy
 	  gsl_matrix_ptr_t ugeno(gsl_matrix_alloc(NROW,NCOL));
 	  for(std::size_t i=0,j=0;i<genotypes->size2;++i)
 	    {
+	      if(j >= genotypes->size2)
+		{
+		  throw std::runtime_error("j>= genotypes->size2");
+		}
 	      //The -1 is b/c of the different lengths, as above...
 	      if(i==0 ||(column_labels[i-1])) //Column is either column 0 or the column is unique
 		{
+		  if(j >= ugeno->size2)
+		    {
+		      throw std::runtime_error("j>= ugeno->size2");
+		    }
 		  auto c1 = gsl_matrix_const_column(genotypes.get(),i);
 		  gsl_matrix_set_col(ugeno.get(),j++,&c1.vector);
-		  // for(std::size_t k = 0 ; k < genotypes->size1 ; ++k )
-		  //   {
-		  //     gsl_matrix_set(ugeno.get(),k,j,gsl_matrix_get(genotypes.get(),k,i));
-		  //   }
-		  //++j;
 		}
 	    }
 	  //QR decomposition...
@@ -371,7 +383,7 @@ namespace fwdpy
 	{
 	  gsl_vector_set(g.get(),i++,dip.g);
 	}
-      *VG = gsl_stats_variance(g->data,1,pop->diploids.size());
+      //*VG = gsl_stats_variance(g->data,1,pop->diploids.size());
       return g;
     }
   };
@@ -386,7 +398,7 @@ namespace fwdpy
       {
 	gsl_vector_set(g.get(),i++,dip[0].g);
       }
-    *VG = gsl_stats_variance(g->data,1,pop->diploids.size());
+    //*VG = gsl_stats_variance(g->data,1,pop->diploids.size());
     return g;
   }
 
