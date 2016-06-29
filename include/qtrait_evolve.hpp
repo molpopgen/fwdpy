@@ -74,6 +74,7 @@ namespace fwdpy
 					      KTfwd::remove_neutral());
 	  KTfwd::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
+	  pop->N = nextN;
 	}
       if (interval && pop->generation &&pop->generation%interval==0.)
 	{
@@ -81,7 +82,6 @@ namespace fwdpy
 	}
       gsl_rng_free(rng);
       //Update population's size variable to be the current pop size
-      pop->N = KTfwd::uint_t(pop->diploids.size());
     }
     
     void evolve_regions_qtrait_cpp(GSLrng_t * rng,
