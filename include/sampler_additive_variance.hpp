@@ -103,6 +103,9 @@ namespace fwdpy
     inline void call_operator_details(const pop_t * pop,
 				      unsigned generation)
     {
+      if(pop->N != pop->diploids.size()) throw std::runtime_error("pop->N != pop->diploids.size(), " +
+								  std::string(__FILE__) + ", line " +
+								  std::to_string(__LINE__));
       auto mut_keys = get_mut_keys(pop);
       if(mut_keys.empty())
 	{
@@ -336,8 +339,12 @@ namespace fwdpy
 	{
 	  if( pop->mcounts[k] < 2*pop->N ) //skip fixations!!!
 	    {
+	      if(!pop->mcounts[k]) throw std::runtime_error("extinct mutation encountered: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
 	      auto i = std::find(mut_keys.begin(),mut_keys.end(),k);
-	      if(i==mut_keys.end()) throw std::runtime_error("fatal error: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
+	      if(i==mut_keys.end()) throw std::runtime_error("mutation key not found: " +
+							     std::string(__FILE__) + ", "
+							     + std::to_string(__LINE__) +", "
+							     + "mcount = " + std::to_string(pop->mcounts[k]));
 	      std::size_t col = std::distance(mut_keys.begin(),i);
 	      if( col + 1 >= m->size2 ) throw std::runtime_error("second dimension out of range: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
 	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
