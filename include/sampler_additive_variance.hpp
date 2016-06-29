@@ -237,7 +237,7 @@ namespace fwdpy
       if (identical)
 	{
 	  //Make new matrix of unique columns.
-	  gsl_matrix_ptr_t ugeno(gsl_matrix_alloc(genotypes->size1,genotypes->size2-identical));
+	  gsl_matrix_ptr_t ugeno(gsl_matrix_alloc(NROW,NCOL));
 	  for(std::size_t i=0,j=0;i<genotypes->size2;++i)
 	    {
 	      //The -1 is b/c of the different lengths, as above...
