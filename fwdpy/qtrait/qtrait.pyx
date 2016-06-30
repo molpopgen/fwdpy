@@ -31,33 +31,17 @@ cdef class SpopGBRTrait(SpopFitness):
 
 cdef class SpopAdditiveTrait(SpopFitness):
     def __cinit__(self,int scaling = 2):
-        if scaling == 1:
-            self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_additive_update,
-                                            <genotype_fitness_updater>hom_additive_update_1,
-                                            <fitness_function_finalizer>return_trait_value,
-                                            0.0)
-        elif scaling == 2:
-            self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_additive_update,
-                                            <genotype_fitness_updater>hom_additive_update_2,
-                                            <fitness_function_finalizer>return_trait_value,
-                                            0.0)
-        else:
-            raise RuntimeError("scaling must be 1 or 2")
+        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_additive_update,
+                                        choose_additive_hom_updater(scaling),
+                                        <fitness_function_finalizer>return_trait_value,
+                                        0.0)
 
 cdef class SpopMultTrait(SpopFitness):
     def __cinit__(self,int scaling = 2):
-        if scaling==1:
-            self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_mult_update,
-                                            <genotype_fitness_updater>hom_mult_update_1,
-                                            <fitness_function_finalizer>return_trait_value_minus1,
-                                            1.0)
-        elif scaling==2:
-            self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_mult_update,
-                                            <genotype_fitness_updater>hom_mult_update_2,
-                                            <fitness_function_finalizer>return_trait_value_minus1,
-                                            1.0)
-        else:
-            raise RuntimeError("scaling must be 1 or 2")   
+        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_mult_update,
+                                        choose_mult_hom_updater(scaling),
+                                        <fitness_function_finalizer>return_trait_value_minus1,
+                                        1.0)
 
 cdef extern from "qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
     cdef cppclass qtrait_model_rules:

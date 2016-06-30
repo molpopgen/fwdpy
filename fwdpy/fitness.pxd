@@ -74,6 +74,12 @@ cdef inline double hom_additive_update_2(double & w, const popgenmut & m) nogil:
 cdef inline double hom_additive_update_1(double & w, const popgenmut & m) nogil:
     (&w)[0] += m.s
 
+cdef inline genotype_fitness_updater choose_additive_hom_updater(int scaling) nogil:
+    #Defaults to using a scaling of 2
+    if scaling==1:
+        return <genotype_fitness_updater>hom_additive_update_1
+    return <genotype_fitness_updater>hom_additive_update_2
+    
 cdef inline double het_mult_update(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+m.s*m.h)
 
@@ -82,6 +88,12 @@ cdef inline double hom_mult_update_2(double & w, const popgenmut & m) nogil:
 
 cdef inline double hom_mult_update_1(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+m.s)
+
+cdef inline genotype_fitness_updater choose_mult_hom_updater(int scaling) nogil:
+    #Defaults to using a scaling of 2
+    if scaling==1:
+        return <genotype_fitness_updater>hom_additive_update_1
+    return <genotype_fitness_updater>hom_additive_update_2
 
 cdef inline double sum_haplotype_effects(const gamete_t & g, const mcont_t & m) nogil:
     cdef size_t i=0,n=g.smutations.size()
