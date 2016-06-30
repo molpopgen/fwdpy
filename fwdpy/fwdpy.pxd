@@ -170,10 +170,10 @@ cdef class GSLrng:
 cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
     cdef cppclass sampler_base:
         pass
-    
+
     void apply_sampler_cpp[T]( const vector[shared_ptr[T]] & popvec,
 			       const vector[unique_ptr[sampler_base]] & samplers )
-    
+
 cdef extern from "sampler_no_sampling.hpp" namespace "fwdpy" nogil:
     cdef cppclass no_sampling(sampler_base):
         no_sampling()
@@ -184,7 +184,6 @@ cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
         vector[qtrait_stats_cython] final() const
 
 cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
-    vector[VAcum] additive_variance_wrapper[POPTYPE](const POPTYPE * p)
     cdef cppclass additive_variance(sampler_base):
         additive_variance()
         vector[VAcum] final() const
@@ -198,7 +197,7 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
         selected_mut_tracker()
         vector[pair[selected_mut_data, vector[pair[uint,double]]]] final() const
-        
+
 #Extension classes for temporal sampling
 cdef class TemporalSampler:
     """
