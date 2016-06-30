@@ -31,8 +31,15 @@ Changes to the Python side:
 
 * Class names now more "Pythonic".  This will break existing scripts.
 * Add fwdpy.demography module.
-* Add :class:`fwdpy.fwdpy.singlepop_mloc`
-* Add :class:`fwdpy.fwdpy.popvec_mloc`
+* Add :class:`fwdpy.fwdpy.MlocusSpop`
+* Add :class:`fwdpy.fwdpy.MlocusSpopVec`
+* Add concept of a temporal sampler via
+  :class:`fwdpy.fwdpy.TemporalSampler`.
+* Add temporal sampler objects :class:`fwdpy.fwdpy.NothingSampler`,
+  :class:`fwdpy.fwdpy.QtraitStatsSampler`,
+  :class:`fwdpy.fwdpy.PopSampler`,
+  :class:`fwdpy.fwdpy.VASampler`
+* Add function :func:`fwdpy.fwdpy.apply_sampler`
 * Add :func:`fwdpy.fwdpy.tidy_trajectories`, which really speeds up
   coercion of mutation frequency trajectories to a pandas DataFrame.
 * Add :func:`fwdpy.fwdpy.hapmatrix` and :func:`fwdpy.fwdpy.genomatrix`
@@ -46,6 +53,9 @@ Changes to the Cython/C++ back end:
 * Update to Cython_ 0.24.0
 * Sampler API changed for better reproducibility and consistency
 * Expose more fwdpp types for multi-locus/region simulations
+* Expose fwdpp's fitness function objects site_dependent_fitness,
+  additive_diploid, and multiplicative_diploid.  Call operators
+  (e.g. operator()) are only exposed for custom diploids.
 * More unit tests of sampling and "views"
 * Update how samples are taken from populations, reflecting a bug fix
   in fwdpp 0.4.9 that made the Cython wrappers in this package
