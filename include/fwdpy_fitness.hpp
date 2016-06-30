@@ -192,20 +192,21 @@ namespace fwdpy
 					const mcont_t & mutations)
 			      {
 				double w = 0.0;
+				auto ff=KTfwd::site_dependent_fitness();
 				for(const auto & locus : diploid)
 				  {
-				    w+= KTfwd::site_dependent_fitness()(gametes[locus.first],
-									gametes[locus.second],
-									mutations,
-									[&](double & fitness,const KTfwd::popgenmut & mut) noexcept
-									{
-									  fitness += (1. + scaling*mut.s);
-									},
-									[](double & fitness,const KTfwd::popgenmut & mut) noexcept
-									{
-									  fitness += (1. + mut.h*mut.s);
-									},
-									0.);
+				    w+= ff(gametes[locus.first],
+					   gametes[locus.second],
+					   mutations,
+					   [&](double & fitness,const KTfwd::popgenmut & mut) noexcept
+					   {
+					     fitness += (scaling*mut.s);
+					   },
+					   [](double & fitness,const KTfwd::popgenmut & mut) noexcept
+					   {
+					     fitness += ( mut.h*mut.s);
+					   },
+					   0.);
 				  }
 				return w;
 			      });
