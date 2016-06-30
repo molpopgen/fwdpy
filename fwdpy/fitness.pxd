@@ -8,6 +8,16 @@ ctypedef vector[gamete_t] gcont_t
 ctypedef vector[popgenmut] mcont_t
 
 cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
+    cdef cppclass site_dependent_fitness_wrapper:
+        double operator()[DIPLOID,GAMETE_CONTAINER,
+                          MUTATION_CONTAINER,
+                          AA,Aa,FINAL](const DIPLOID &,
+                                       const GAMETE_CONTAINER &,
+                                       const MUTATION_CONTAINER &,
+                                       const AA &, const Aa &,
+                                       const FINAL &,
+                                       const double &) const
+        
     cdef cppclass singlepop_fitness:
         singlepop_fitness()
         void update(const singlepop_t *)
