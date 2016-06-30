@@ -63,11 +63,6 @@ Changes to the Cython/C++ back end:
 * Update how samples are taken from populations, reflecting a bug fix
   in fwdpp 0.4.9 that made the Cython wrappers in this package
   incorrect.
-* The C++ functions for sampling from populations at regular intervals
-  are now capable of properly checking input and throwing exceptions
-  before entering into multi-threaded execution.  This change allows a
-  "single point of failure" at run-time, simplifying the Cython/Python
-  layer. The corresponding Cython wrappers were marked "except +" accordingly.
   
 0.0.3
 -----------------
