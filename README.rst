@@ -54,7 +54,7 @@ Changes to the Cython/C++ back end:
 
 * Massive reduction in code base
 * Update to Cython_ 0.24.0
-* Sampler API changed for better reproducibility and consistency
+* Generic temporal samplers and fitness functions are now supported.
 * Expose more fwdpp types for multi-locus/region simulations
 * Expose fwdpp's fitness function objects site_dependent_fitness,
   additive_diploid, and multiplicative_diploid.  Call operators
