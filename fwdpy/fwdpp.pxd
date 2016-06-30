@@ -35,6 +35,34 @@ cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
         double s
         double h
 
+#Wrappers for fwdpp fitness models.  Call operators for custom diploids are exposed
+cdef extern from "fwdpp/fitness_models.hpp" namespace "KTfwd" nogil:
+    cdef cppclass site_dependent_fitness:
+        #Hint: The final double is a starting fitness value.
+        double operator()[DIPLOID,GAMETE_CONTAINER,
+                          MUTATION_CONTAINER,AA,Aa](const DIPLOID &,
+                                                    const GAMETE_CONTAINER &,
+                                                    const MUTATION_CONTAINER &,
+                                                    const AA &, const Aa &,
+                                                    const double &) const
+
+    cdef cppclass additive_diploid:
+        #Wrapper around site_depenent fitness for simple additive model w = 1+sum(effects over loc).
+        #The final double is the "scaling" term (see fwdpp docs)
+        double operator()[DIPLOID,GAMETE_CONTAINER,
+                          MUTATION_CONTAINER](const DIPLOID &,
+                                              const GAMETE_CONTAINER &,
+                                              const MUTATION_CONTAINER &,
+                                              const double &) const
+
+    cdef cppclass additive_diploid:
+        #Wrapper around site_depenent fitness for simple additive model w = 1+sum(effects over loc).
+        #The final double is the "scaling" term (see fwdpp docs)
+        double operator()[DIPLOID,GAMETE_CONTAINER,
+                          MUTATION_CONTAINER](const DIPLOID &,
+                                              const GAMETE_CONTAINER &,
+                                              const MUTATION_CONTAINER &,
+                                              const double &) const
 #fwdpp's debug functions
 cdef extern from "fwdpp/debug.hpp" namespace "KTfwd" nogil:
     bool check_sum[GAMETE_CONTAINER](const GAMETE_CONTAINER gc, const unsigned twoN)
