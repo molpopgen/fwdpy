@@ -50,7 +50,8 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 						  const vector[double] SLp,
 						  const vector[double] MLp)
     ctypedef double(*mlocus_fitness_fxn)(const vector[diploid_t] &, const gcont_t &, const mcont_t &)
-
+    multilocus_fitness make_mloc_custom_fitness(mlocus_fitness_fxn f)
+    
 #Helper functions for making custom fitness functions
 cdef inline double return_w(const double w) nogil:
     return max(0.0,w)
