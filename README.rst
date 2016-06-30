@@ -29,6 +29,10 @@ Changelog (rough)
 
 Changes to the Python side:
 
+* "Evolve" functions are now much more generic due to fitness function
+  objects and temporal sampler objects (see below)
+* Added ability to use custom fitness functions!!! On the Python side,
+  these work via :class:`fwdpy.fwdpy.SpopFitness` and :class:`fwdpy.fwdpy.MlocusFitness`
 * Class names now more "Pythonic".  This will break existing scripts.
 * Add fwdpy.demography module.
 * Add :class:`fwdpy.fwdpy.MlocusSpop`
@@ -43,7 +47,6 @@ Changes to the Python side:
 * Add :func:`fwdpy.fwdpy.tidy_trajectories`, which really speeds up
   coercion of mutation frequency trajectories to a pandas DataFrame.
 * Add :func:`fwdpy.fwdpy.hapmatrix` and :func:`fwdpy.fwdpy.genomatrix`
-* Changed interface to :func:`fwdpy.fwdpy.evolve_regions_sample` to require to RNG objects.  This is done for reproducibility/consistency across different types of temporal sampling schemes.
 * Added views of fixed mutations via :func:`fwdpy.fwdpy.view_fixations`
 * Better Python3 compatibility
 
