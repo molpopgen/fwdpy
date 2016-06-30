@@ -5,7 +5,6 @@ import warnings,math
 cimport cython
 import internal
 from fitness cimport SpopAdditive,SpopMult,SpopFitness
-from fitness cimport make_additive_fitness
 
 def check_input_params(double mu_neutral, double mu_selected, double recrate,
                        list nregions, list sregions, list recregions) :

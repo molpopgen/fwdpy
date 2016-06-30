@@ -111,34 +111,6 @@ namespace fwdpy
     //! Constructor is a sink for a fitness_fxn_t 
     multilocus_fitness(fitness_fxn_t ff) : fitness_function(std::move(ff)) {}
   };
-    
-  inline singlepop_fitness make_additive_fitness(double scaling = 2.0)
-  /*!
-    Standard additive model w/dominance for a single region
-    
-    Fitnesses are  1, 1+h*s, 1+scaling*s for AA,Aa, and aa
-  */
-  {
-    return singlepop_fitness(std::bind(KTfwd::additive_diploid(),
-				       std::placeholders::_1,
-				       std::placeholders::_2,
-				       std::placeholders::_3,
-				       scaling));
-  }
-  
-  inline singlepop_fitness make_multiplicative_fitness(double scaling = 2.0)
-  /*!
-    Standard multiplicative model w/dominance for a single region
-
-    Fitnesses are  1, 1+h*s, 1+scaling*s for AA,Aa, and aa
-  */
-  {
-    return singlepop_fitness(std::bind(KTfwd::multiplicative_diploid(),
-				       std::placeholders::_1,
-				       std::placeholders::_2,
-				       std::placeholders::_3,
-				       scaling));
-  }
   
   inline singlepop_fitness make_custom_fitness(genotype_fitness_updater Aa,
 					       genotype_fitness_updater aa,
