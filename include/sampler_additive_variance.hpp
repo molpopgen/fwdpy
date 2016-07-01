@@ -144,15 +144,24 @@ namespace fwdpy
       auto DF = std::count(ucol_labels.begin(),ucol_labels.end(),1);
 
       //Now, do the regression
-      taubuffer.resize(std::min(genotypes->size1,genotypes->size2));
-      sumsbuffer.resize(genotypes->size1);
-      Qbuffer.resize(genotypes->size1*genotypes->size1);
-      Rbuffer.resize(genotypes->size1*genotypes->size2);
 
-      auto tau = gsl_vector_view_array(taubuffer.data(),taubuffer.size());
+      //Step 1: make sure our buffer sizes are cool.
+      //Only increase size when needed.  Never decrease.
+      if(std::min(genotypes->size1,genotypes->size2)>taubuffer.size())
+	taubuffer.resize(std::min(genotypes->size1,genotypes->size2));
+      if(genotypes->size1>sumsbuffer.size())
+	sumsbuffer.resize(genotypes->size1);
+      if(genotypes->size1*genotypes->size1 > Qbuffer.size())
+	Qbuffer.resize(genotypes->size1*genotypes->size1);
+      if(genotypes->size1*genotypes->size2>Rbuffer.size())
+	Rbuffer.resize(genotypes->size1*genotypes->size2);
+
+      //Coerce matrix/vector views using our buffers.
+      auto tau = gsl_vector_view_array(taubuffer.data(),std::min(genotypes->size1,genotypes->size2));
       auto sums = gsl_vector_view_array(sumsbuffer.data(),genotypes->size1);
       auto Q = gsl_matrix_view_array_with_tda(Qbuffer.data(),genotypes->size1,genotypes->size1,genotypes->size1);
       auto R = gsl_matrix_view_array_with_tda(Rbuffer.data(),genotypes->size1,genotypes->size2,genotypes->size2);
+      
       //QR decomposition...
       gsl_linalg_QR_decomp(genotypes, &tau.vector);
       //Get the Q and R matrix separately
