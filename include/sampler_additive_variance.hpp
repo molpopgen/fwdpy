@@ -93,10 +93,13 @@ namespace fwdpy
       return VGcollection;
     }
 
-    additive_variance() : VGcollection(final_t())
+    additive_variance() : buffer(std::vector<double>()),
+			  VGcollection(final_t())
     {
+      buffer.reserve(10000);
     }
   private:
+    std::vector<double> buffer;
     final_t VGcollection;
 
     template<typename pop_t>
@@ -120,8 +123,18 @@ namespace fwdpy
       std::vector<KTfwd::uint_t> mut_key_counts;
       for( const auto i : mut_keys ) mut_key_counts.emplace_back(pop->mcounts[i]);
 
+      //Check if we need to reallocate
+      if( std::size_t(pop->N)*(mut_keys.size()+1) > buffer.size() )
+	{
+	  buffer.resize(std::size_t(pop->N)*(mut_keys.size()+1));
+	}
+      std::size_t tda = buffer.size()/pop->N;
+      auto genotypes_view = gsl_matrix_view_array_with_tda(buffer.data(),pop->N,mut_keys.size()+1,tda);
+      auto genotypes = &genotypes_view.matrix;
+      gsl_matrix_set_zero(genotypes);
+      update_matrix_counts(pop,mut_keys,genotypes);
       //0,1,2 count of mutations affecting fitness
-      auto genotypes = make_variant_matrix(pop,mut_keys);
+      //auto genotypes = make_variant_matrix(pop,mut_keys);
       auto results = regression_details(G,genotypes,mut_keys,mut_key_counts);
       auto DF = std::count(results.ucol_labels.begin(),results.ucol_labels.end(),1);
 
@@ -188,7 +201,7 @@ namespace fwdpy
     }
 
     regression_results regression_details(const gsl_vector_ptr_t & G,
-					  const gsl_matrix_ptr_t & genotypes,
+					  gsl_matrix * genotypes,
 					  const std::vector<size_t> & mut_keys,
 					  const std::vector<KTfwd::uint_t> & mut_key_counts)
     /*!
@@ -207,7 +220,7 @@ namespace fwdpy
 	{
 	  if(column_labels[col-1])
 	    {
-	      auto c1 = gsl_matrix_const_column(genotypes.get(),col);
+	      auto c1 = gsl_matrix_const_column(genotypes,col);
 	      for( std::size_t col2 = col+1 ; col2 < genotypes->size2 ; ++col2 )
 		{
 		  //columns can only be identical if mutations have same frequency!
@@ -215,7 +228,7 @@ namespace fwdpy
 		  if(column_labels[col2-1] && mut_key_counts[col-1]==mut_key_counts[col2-1])
 		    {
 		      bool ndiff=false;
-		      auto c2 = gsl_matrix_const_column(genotypes.get(),col2);
+		      auto c2 = gsl_matrix_const_column(genotypes,col2);
 		      for(std::size_t i=0;!ndiff&&i<c1.vector.size;++i)
 			{
 			  if(gsl_vector_get(&c1.vector,i)!=gsl_vector_get(&c2.vector,i))
@@ -264,7 +277,7 @@ namespace fwdpy
 		    {
 		      throw std::runtime_error("j>= ugeno->size2");
 		    }
-		  auto c1 = gsl_matrix_const_column(genotypes.get(),i);
+		  auto c1 = gsl_matrix_const_column(genotypes,i);
 		  gsl_matrix_set_col(ugeno.get(),j++,&c1.vector);
 		}
 	    }
@@ -278,9 +291,9 @@ namespace fwdpy
 				    std::move(column_labels));
 	}
       //QR decomposition...
-      gsl_linalg_QR_decomp(genotypes.get(), tau.get());
+      gsl_linalg_QR_decomp(genotypes, tau.get());
       //Get the Q and R matrix separately
-      gsl_linalg_QR_unpack(genotypes.get(), tau.get(), Q.get(), R.get());
+      gsl_linalg_QR_unpack(genotypes, tau.get(), Q.get(), R.get());
       //Multiply t(Q) %*% b and store in sums
       gsl_blas_dgemv(CblasTrans, 1.0, Q.get(), G.get(), 0.0, sums.get());
       return regression_results(std::move(sums),
@@ -325,12 +338,12 @@ namespace fwdpy
       gsl_matrix_ptr_t rv(gsl_matrix_alloc(pop->diploids.size(),1+mut_keys.size()));
       gsl_matrix_set_zero(rv.get()); //set all values to 0.
 
-      update_matrix_counts(pop,mut_keys,rv);
+      update_matrix_counts(pop,mut_keys,rv.get());
       return rv;
     }
 
     template<typename pop_t>
-    void update_row_details(gsl_matrix_ptr_t & m,
+    void update_row_details(gsl_matrix * m,
 			    const typename pop_t::gamete_t & g,
 			    const pop_t * pop,
 			    const std::vector<std::size_t> & mut_keys,
@@ -348,13 +361,13 @@ namespace fwdpy
 							     + "mcount = " + std::to_string(pop->mcounts[k]));
 	      std::size_t col = std::distance(mut_keys.begin(),i);
 	      if( col + 1 >= m->size2 ) throw std::runtime_error("second dimension out of range: " + std::string(__FILE__) + ", " + std::to_string(__LINE__));
-	      auto mp = gsl_matrix_ptr(m.get(),row,col+1);
+	      auto mp = gsl_matrix_ptr(m,row,col+1);
 	      *mp += 1.0; //update counts
 	    }
 	}
     }
     template<typename pop_t, typename diploid_t>
-    void update_matrix_counts_details(gsl_matrix_ptr_t & m,
+    void update_matrix_counts_details(gsl_matrix * m,
 				      const pop_t * pop,
 				      const std::vector<std::size_t> & mut_keys,
 				      const diploid_t & dip,
@@ -367,13 +380,13 @@ namespace fwdpy
     template<typename pop_t>
     void update_matrix_counts(const pop_t * pop,
 			      const std::vector<std::size_t> & mut_keys,
-			      gsl_matrix_ptr_t & rv)
+			      gsl_matrix * rv)
     {
       //Fill the matrix
       std::size_t row=0;
       for( const auto & dip : pop->diploids )
 	{
-	  gsl_matrix_set(rv.get(),row,0,1.0); //set column 0 to a value of 1.0
+	  gsl_matrix_set(rv,row,0,1.0); //set column 0 to a value of 1.0
 	  update_matrix_counts_details(rv,pop,mut_keys,dip,row);
 	  row++;
 	}
@@ -412,8 +425,9 @@ namespace fwdpy
 
   template<>
   inline void
-  additive_variance::update_matrix_counts<multilocus_t>(const multilocus_t * pop, const std::vector<std::size_t> & mut_keys,
-							gsl_matrix_ptr_t & rv)
+  additive_variance::update_matrix_counts<multilocus_t>(const multilocus_t * pop,
+							const std::vector<std::size_t> & mut_keys,
+							gsl_matrix * rv)
   /*!
     Return a 0,1,2 matrix of counts of causative alleles in each diploid.
 
@@ -424,7 +438,7 @@ namespace fwdpy
     std::size_t row=0;
     for( const auto & dip : pop->diploids )
       {
-	gsl_matrix_set(rv.get(),row,0,1.0); //set column 0 to a value of 1.0
+	gsl_matrix_set(rv,row,0,1.0); //set column 0 to a value of 1.0
 	for( const auto & locus : dip)
 	  {
 	    update_matrix_counts_details(rv,pop,mut_keys,locus,row);
