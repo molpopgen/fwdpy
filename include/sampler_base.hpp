@@ -3,6 +3,9 @@
 
 #include "types.hpp"
 #include <stdexcept>
+#include <thread>
+#include <vector>
+
 namespace fwdpy
 {
   struct sampler_base
@@ -22,15 +25,32 @@ namespace fwdpy
     virtual ~sampler_base(){}
   };
 
+  template<typename pop_t>
+  inline void apply_sampler_wrapper( sampler_base * s, const pop_t * pop )
+  /*!
+    Thin wrapper function for apply_sampler_cpp.  This funcion is needed to 
+    avoid slicing the pointer to a sampler down to a pointer to the base class.
+   */
+  {
+    s->operator()(pop,pop->generation);
+  }
+  
   template<typename T>
   inline void apply_sampler_cpp( const std::vector<std::shared_ptr<T> > & popvec,
 				 const std::vector<std::unique_ptr<sampler_base> > & samplers )
+  /*!
+    Apply the i-th ampler to the i-th pop using std::thread.
+
+    Throws runtime_error if popvec.size()!=samplers.size().
+   */
   {
     if(popvec.size()!=samplers.size()) throw std::runtime_error("Containers of populations and samplers must be equal in length");
+    std::vector<std::thread> threads;
     for(std::size_t i=0;i<popvec.size();++i)
       {
-	samplers[i]->operator()(popvec[i].get(),popvec[i]->generation);
+	threads.emplace_back(apply_sampler_wrapper<T>,samplers[i].get(),popvec[i].get());
       }
+    for(auto & t : threads) t.join();
   }
 }
 
