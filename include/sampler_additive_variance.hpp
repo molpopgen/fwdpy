@@ -262,34 +262,57 @@ namespace fwdpy
 
       if (identical)
 	{
-	  //Make new matrix of unique columns.
-	  gsl_matrix_ptr_t ugeno(gsl_matrix_alloc(NROW,NCOL));
-	  for(std::size_t i=0,j=0;i<genotypes->size2;++i)
+	  std::size_t n = 0;
+	  std::vector<std::size_t> offsets;
+	  for(std::size_t i=0;i<column_labels.size();++i)
 	    {
-	      if(j >= genotypes->size2)
+	      if(column_labels[i])
 		{
-		  throw std::runtime_error("j>= genotypes->size2");
+		  offsets.push_back(n);
 		}
-	      //The -1 is b/c of the different lengths, as above...
-	      if(i==0 ||(column_labels[i-1])) //Column is either column 0 or the column is unique
+	      else
 		{
-		  if(j >= ugeno->size2)
-		    {
-		      throw std::runtime_error("j>= ugeno->size2");
-		    }
-		  auto c1 = gsl_matrix_const_column(genotypes,i);
-		  gsl_matrix_set_col(ugeno.get(),j++,&c1.vector);
+		  offsets.push_back(0);
+		  ++n;
 		}
 	    }
-	  //QR decomposition...
-	  gsl_linalg_QR_decomp(ugeno.get(), tau.get());
-	  //Get the Q and R matrix separately
-	  gsl_linalg_QR_unpack(ugeno.get(), tau.get(), Q.get(), R.get());
-	  //Multiply t(Q) %*% b and store in sums
-	  gsl_blas_dgemv(CblasTrans, 1.0, Q.get(), G.get(), 0.0, sums.get());
-	  return regression_results(std::move(sums),
-				    std::move(column_labels));
-	}
+	  for(std::size_t i=0;i<offsets.size();++i)
+	    {
+	      if(offsets[i])
+		{
+		  auto c = gsl_matrix_const_column(genotypes,i+1);
+		  gsl_matrix_set_col(genotypes,i+1-offsets[i],&c.vector);
+		}
+	    }
+	  genotypes->size2 -= identical;
+      // 	  //Make new matrix of unique columns.
+      // 	  gsl_matrix_ptr_t ugeno(gsl_matrix_alloc(NROW,NCOL));
+      // 	  for(std::size_t i=0,j=0;i<genotypes->size2;++i)
+      // 	    {
+      // 	      if(j >= genotypes->size2)
+      // 		{
+      // 		  throw std::runtime_error("j>= genotypes->size2");
+      // 		}
+      // 	      //The -1 is b/c of the different lengths, as above...
+      // 	      if(i==0 ||(column_labels[i-1])) //Column is either column 0 or the column is unique
+      // 		{
+      // 		  if(j >= ugeno->size2)
+      // 		    {
+      // 		      throw std::runtime_error("j>= ugeno->size2");
+      // 		    }
+      // 		  auto c1 = gsl_matrix_const_column(genotypes,i);
+      // 		  gsl_matrix_set_col(ugeno.get(),j++,&c1.vector);
+      // 		}
+      // 	    }
+      // 	  //QR decomposition...
+      // 	  gsl_linalg_QR_decomp(ugeno.get(), tau.get());
+      // 	  //Get the Q and R matrix separately
+      // 	  gsl_linalg_QR_unpack(ugeno.get(), tau.get(), Q.get(), R.get());
+      // 	  //Multiply t(Q) %*% b and store in sums
+      // 	  gsl_blas_dgemv(CblasTrans, 1.0, Q.get(), G.get(), 0.0, sums.get());
+      // 	  return regression_results(std::move(sums),
+      // 				    std::move(column_labels));
+      	}
       //QR decomposition...
       gsl_linalg_QR_decomp(genotypes, tau.get());
       //Get the Q and R matrix separately
@@ -297,39 +320,39 @@ namespace fwdpy
       //Multiply t(Q) %*% b and store in sums
       gsl_blas_dgemv(CblasTrans, 1.0, Q.get(), G.get(), 0.0, sums.get());
       return regression_results(std::move(sums),
-				std::move(column_labels));
+      				std::move(column_labels));
     }
-
-    template<typename pop_t>
-    std::vector<std::size_t> get_mut_keys(const pop_t * pop)
-    {
-      std::vector<std::size_t> mut_keys; //array of keys for each segregating, non-neutral variant
-      std::set<KTfwd::uint_t> ucounts; //the number of unique frequency bins...
-      for(std::size_t i=0;i<pop->mutations.size();++i)
-	{
-	  //first check is to avoid extinct variants that fwdpp will recycle later.
-	  //The second avoids fixed variants
-	  if(pop->mcounts[i] && (pop->mcounts[i] < 2*pop->diploids.size()) && !pop->mutations[i].neutral)
-	    {
-	      mut_keys.push_back(i);
-	      ucounts.insert(pop->mcounts[i]);
-	    }
-	}
-
-      //Now, I need to sort based on frequency, descending order
-      std::sort(mut_keys.begin(),mut_keys.end(),
-		[&pop](std::size_t a, std::size_t b) { return pop->mcounts[a] > pop->mcounts[b]; });
-      //Within each frequency class, sort in descending order via |effect size|...
-      for(auto uc : ucounts)
-	{
-	  auto itr_b = std::find_if(mut_keys.begin(),mut_keys.end(),
-				    [&pop,uc](std::size_t a) { return pop->mcounts[a]==uc; });
-	  auto itr_e = std::find_if(itr_b+1,mut_keys.end(),
-				    [&pop,uc](std::size_t a) { return pop->mcounts[a]!=uc; });
-	  std::sort(itr_b,itr_e,[&pop](std::size_t a, std::size_t b){ return std::fabs(pop->mutations[a].s) > std::fabs(pop->mutations[b].s); });
-	}
-      return mut_keys;
-    }
+      
+      template<typename pop_t>
+	std::vector<std::size_t> get_mut_keys(const pop_t * pop)
+      {
+	std::vector<std::size_t> mut_keys; //array of keys for each segregating, non-neutral variant
+	std::set<KTfwd::uint_t> ucounts; //the number of unique frequency bins...
+	for(std::size_t i=0;i<pop->mutations.size();++i)
+	  {
+	    //first check is to avoid extinct variants that fwdpp will recycle later.
+	    //The second avoids fixed variants
+	    if(pop->mcounts[i] && (pop->mcounts[i] < 2*pop->diploids.size()) && !pop->mutations[i].neutral)
+	      {
+		mut_keys.push_back(i);
+		ucounts.insert(pop->mcounts[i]);
+	      }
+	  }
+	
+	//Now, I need to sort based on frequency, descending order
+	std::sort(mut_keys.begin(),mut_keys.end(),
+		  [&pop](std::size_t a, std::size_t b) { return pop->mcounts[a] > pop->mcounts[b]; });
+	//Within each frequency class, sort in descending order via |effect size|...
+	for(auto uc : ucounts)
+	  {
+	    auto itr_b = std::find_if(mut_keys.begin(),mut_keys.end(),
+				      [&pop,uc](std::size_t a) { return pop->mcounts[a]==uc; });
+	    auto itr_e = std::find_if(itr_b+1,mut_keys.end(),
+				      [&pop,uc](std::size_t a) { return pop->mcounts[a]!=uc; });
+	    std::sort(itr_b,itr_e,[&pop](std::size_t a, std::size_t b){ return std::fabs(pop->mutations[a].s) > std::fabs(pop->mutations[b].s); });
+	  }
+	return mut_keys;
+      }
 
 
     template<typename pop_t>
@@ -409,7 +432,7 @@ namespace fwdpy
     }
   };
 
-  template<>
+    template<>
   inline
   gsl_vector_ptr_t additive_variance::fillG<multilocus_t>(const multilocus_t * pop,double *VG)
   {
