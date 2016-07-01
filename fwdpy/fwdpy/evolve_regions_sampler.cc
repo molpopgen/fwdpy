@@ -119,8 +119,8 @@ namespace fwdpy
 	threads.emplace_back( std::thread(evolve_regions_sampler_cpp_details,
 					  pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_length,
 					  mu_neutral,mu_selected,littler,f,fitness,sample,
-					  std::move(KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks)),
-					  std::move(KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw)),
+					  KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks),
+					  KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw),
 					  std::ref(*samplers[i])
 					)
 			      );	
