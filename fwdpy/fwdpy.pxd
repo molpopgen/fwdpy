@@ -186,7 +186,7 @@ cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
 cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
     cdef cppclass additive_variance(sampler_base):
         additive_variance()
-        vector[VAcum] final() const
+        vector[VAcum] final()
 
 cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef cppclass sample_n(sampler_base):
