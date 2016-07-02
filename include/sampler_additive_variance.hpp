@@ -88,6 +88,26 @@ namespace fwdpy
       call_operator_details(pop,generation);
     }
 
+    virtual void cleanup()
+    /*!
+      This sampler is really RAM intensive,
+      so cleanup is useful.
+     */
+    {
+      buffer.clear();
+      buffer.shrink_to_fit();
+      Gbuffer.clear();
+      Gbuffer.shrink_to_fit();
+      taubuffer.clear();
+      taubuffer.shrink_to_fit();
+      Qbuffer.clear();
+      Qbuffer.shrink_to_fit();
+      Rbuffer.clear();
+      Rbuffer.shrink_to_fit();
+      sumsbuffer.clear();
+      sumsbuffer.shrink_to_fit();
+    }
+    
     final_t final() const
     {
       return VGcollection;
