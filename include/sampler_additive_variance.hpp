@@ -108,8 +108,9 @@ namespace fwdpy
       sumsbuffer.shrink_to_fit();
     }
     
-    final_t final() const
+    final_t final()
     {
+      this->cleanup();
       return VGcollection;
     }
 
