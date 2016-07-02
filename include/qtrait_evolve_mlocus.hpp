@@ -124,6 +124,8 @@ namespace fwdpy
 	  s(pop,pop->generation);
 	}
       gsl_rng_free(rng);
+      //Allow a sampler to clean up after itself
+      s.cleanup();
     }
     
     void evolve_qtrait_mloc_cpp( GSLrng_t * rng,

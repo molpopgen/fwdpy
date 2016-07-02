@@ -22,6 +22,17 @@ namespace fwdpy
     {
       throw std::runtime_error("sampler type not implemented for metapopulation simulations");
     };
+    virtual void cleanup()
+    /*!
+      Evolve functions will call this before returning.
+      This function gives samplers a chance to do things like clean
+      up any RAM that they may have allocated during the course of 
+      a simulation. 
+
+      \note: the stuff to return to Python should not be cleaned up by this function!
+     */
+    {
+    }
     virtual ~sampler_base(){}
   };
 

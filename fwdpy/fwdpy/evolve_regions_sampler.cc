@@ -90,6 +90,8 @@ namespace fwdpy
     pop->N = unsigned(pop->diploids.size());
     //cleanup
     gsl_rng_free(rng);
+    //Let the sampler clean up after itself
+    s.cleanup();
   }
   
   

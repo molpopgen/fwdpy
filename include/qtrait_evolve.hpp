@@ -81,7 +81,8 @@ namespace fwdpy
 	  s(pop,pop->generation);
 	}
       gsl_rng_free(rng);
-      //Update population's size variable to be the current pop size
+      //Allow a sampler to clean up after itself
+      s.cleanup();
     }
     
     void evolve_regions_qtrait_cpp(GSLrng_t * rng,
