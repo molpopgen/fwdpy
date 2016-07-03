@@ -1,5 +1,5 @@
 """
-This file exposes the fwdpp libray to Cython.
+This file exposes the fwdpp library to Cython.
 
 It is currently not possible (and not necessarily even desirable) to expose all of fwdpp.
 
