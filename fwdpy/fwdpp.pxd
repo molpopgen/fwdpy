@@ -65,7 +65,7 @@ cdef extern from "fwdpp/fitness_models.hpp" namespace "KTfwd" nogil:
                                               const double &) const
 #fwdpp's debug functions
 cdef extern from "fwdpp/debug.hpp" namespace "KTfwd" nogil:
-    bool check_sum[GAMETE_CONTAINER](const GAMETE_CONTAINER gc, const unsigned twoN)
+    bool check_sum[GAMETE_CONTAINER](const GAMETE_CONTAINER & gc, const unsigned twoN)
     bool gamete_is_sorted_n[GAMETE,MUTATION_CONTAINER](const GAMETE & g, const MUTATION_CONTAINER & mc)
     bool gamete_is_sorted_s[GAMETE,MUTATION_CONTAINER](const GAMETE & g, const MUTATION_CONTAINER & mc)
     bool gamete_data_sane[GAMETE_CONTAINER,MUTATION_CONTAINER](const GAMETE_CONTAINER & gc, const MUTATION_CONTAINER & mc, const vector[unsigned] & mcounts)
