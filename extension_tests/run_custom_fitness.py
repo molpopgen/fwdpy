@@ -1,10 +1,12 @@
+import pyximport
+pyximport.install()
 import fwdpy as fp
-import extension_tests.test_fwdpy_extensions.test_custom_fitness as tfp
+import test_fwdpy_extensions.test_custom_fitness as tfp
 import numpy as np
 
 rng = fp.GSLrng(101)
 rngs=fp.GSLrng(202)
-p = fp.popvec(3,1000)
+p = fp.SpopVec(3,1000)
 s = fp.NothingSampler(len(p))
 
 n=np.array([1000]*1000,dtype=np.uint32)
