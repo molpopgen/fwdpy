@@ -52,6 +52,7 @@ Changes to the Python side:
 
 Changes to the Cython/C++ back end:
 
+* cythonGSL_ is now required. We expect to use more GSL in this package, and so it makes sense to not reinvent the wheel.
 * Massive reduction in code base
 * Update to Cython_ 0.24.0
 * Generic temporal samplers and fitness functions are now supported.
@@ -135,7 +136,7 @@ This package *minimally* depends on:
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
 
-.. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 installed on your system.
+.. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 and cythonGSL_ installed on your system.
 
 .. note:: fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
 
@@ -424,3 +425,4 @@ Then, load html/index.html in your browser.
 .. _PyPi: https://pypi.python.org
 .. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
 .. _doxygen: http://doxygen.org
+.. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
