@@ -1,8 +1,10 @@
+#Import the types needed from fwdpp
 from fwdpy.fwdpp cimport popgenmut,gamete_base
-from fwdpy.fitness cimport SpopFitness
-from libcpp.vector cimport vector
+#Bring all of fwdpy.fitness into scope for convenience:
+from fwdpy.fitness cimport *
+#We'll need C's sqrt function for the 'GBR' model:
 from libc.math cimport sqrt
-from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_w_plus1
+
 
 cdef inline void additive_het_testing(double & w, const popgenmut & m):
     (&w)[0]+=m.s*m.h
@@ -15,9 +17,6 @@ cdef inline void Aa_only_het_testing(double & w, const popgenmut & m):
 
 cdef inline void Aa_only_hom_testing(double & w, const popgenmut & m):
     return
-
-ctypedef gamete_base[void] gamete_t
-ctypedef vector[popgenmut] mcont_t;
 
 cdef inline double addEsizes(const gamete_t & g, const mcont_t & m):
     cdef size_t i=0,n=g.smutations.size()
@@ -44,8 +43,6 @@ cdef class AaOnlyTesting(SpopFitness):
                                         <fitness_function_finalizer>return_w_plus1,
                                         0.0)
 
-from fwdpy.fitness cimport make_custom_haplotype_fitness,haplotype_fitness_fxn,haplotype_fitness_fxn_finalizer
-        
 cdef class GBRFitness(SpopFitness):
     def __cinit__(self):
         self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>addEsizes,
