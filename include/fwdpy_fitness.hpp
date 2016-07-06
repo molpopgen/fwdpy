@@ -85,8 +85,30 @@ namespace fwdpy
 
     //! Allows us to allocate on stack in Cython
     singlepop_fitness() : fitness_function(fitness_fxn_t()) {}
-    //! Constructor is a sink for a fitness_fxn_t 
+    //! Constructor is a sink for a fitness_fxn_t.
     singlepop_fitness(fitness_fxn_t ff) : fitness_function(std::move(ff)) {}
+    //! Constructor for "site-based" situations
+    singlepop_fitness(genotype_fitness_updater Aa,
+		      genotype_fitness_updater aa,
+		      fitness_function_finalizer wfinal,
+		      double starting_fitness) :
+      fitness_function(std::bind(site_dependent_fitness_wrapper(),
+				 std::placeholders::_1,
+				 std::placeholders::_2,
+				 std::placeholders::_3,
+				 aa,Aa,wfinal,starting_fitness))
+    {
+    }
+    //! Constructor for haplotype-based situation
+    singlepop_fitness(haplotype_fitness_fxn h,
+		      haplotype_fitness_fxn_finalizer f) :
+      fitness_function(std::bind(KTfwd::haplotype_dependent_fitness(),
+				 std::placeholders::_1,
+				 std::placeholders::_2,
+				 std::placeholders::_3,
+				 h,f))				 
+    {
+    }
   };
 
   struct multilocus_fitness
@@ -111,28 +133,6 @@ namespace fwdpy
     //! Constructor is a sink for a fitness_fxn_t 
     multilocus_fitness(fitness_fxn_t ff) : fitness_function(std::move(ff)) {}
   };
-  
-  inline singlepop_fitness make_custom_fitness(genotype_fitness_updater Aa,
-					       genotype_fitness_updater aa,
-					       fitness_function_finalizer wfinal,
-					       double starting_fitness)
-  {
-    return singlepop_fitness( std::bind(site_dependent_fitness_wrapper(),
-					std::placeholders::_1,
-					std::placeholders::_2,
-					std::placeholders::_3,
-					aa,Aa,wfinal,starting_fitness));
-  }
-  
-  inline singlepop_fitness make_custom_haplotype_fitness(haplotype_fitness_fxn h,
-							 haplotype_fitness_fxn_finalizer f)
-  {
-    return singlepop_fitness(std::bind(KTfwd::haplotype_dependent_fitness(),
-				       std::placeholders::_1,
-				       std::placeholders::_2,
-				       std::placeholders::_3,
-				       h,f));
-  }
   
   inline multilocus_fitness make_mloc_additive_fitness(double scaling = 2.0)
   /*!

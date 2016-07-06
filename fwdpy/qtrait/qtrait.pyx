@@ -26,22 +26,22 @@ cdef class SpopGBRTrait(SpopFitness):
     a trait value under models with effect sizes :math:`>0`.
     """ 
     def __cinit__(self):
-        self.wfxn = make_custom_haplotype_fitness(<haplotype_fitness_fxn>sum_haplotype_effects,
-                                                  <haplotype_fitness_fxn_finalizer>geomean)
+        self.wfxn = singlepop_fitness(<haplotype_fitness_fxn>sum_haplotype_effects,
+                                      <haplotype_fitness_fxn_finalizer>geomean)
 
 cdef class SpopAdditiveTrait(SpopFitness):
     def __cinit__(self,int scaling = 2):
-        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_additive_update,
-                                        choose_additive_hom_updater(scaling),
-                                        <fitness_function_finalizer>return_trait_value,
-                                        0.0)
+        self.wfxn = singlepop_fitness(<genotype_fitness_updater>het_additive_update,
+                                      choose_additive_hom_updater(scaling),
+                                      <fitness_function_finalizer>return_trait_value,
+                                      0.0)
 
 cdef class SpopMultTrait(SpopFitness):
     def __cinit__(self,int scaling = 2):
-        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_mult_update,
-                                        choose_mult_hom_updater(scaling),
-                                        <fitness_function_finalizer>return_trait_value_minus1,
-                                        1.0)
+        self.wfxn = singlepop_fitness(<genotype_fitness_updater>het_mult_update,
+                                      choose_mult_hom_updater(scaling),
+                                      <fitness_function_finalizer>return_trait_value_minus1,
+                                      1.0)
 
 cdef extern from "qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
     cdef cppclass qtrait_model_rules:

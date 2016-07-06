@@ -8,6 +8,11 @@ ctypedef vector[gamete_t] gcont_t
 ctypedef vector[popgenmut] mcont_t
 
 cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
+    ctypedef void(*genotype_fitness_updater)(double &, const popgenmut &)
+    ctypedef double(*fitness_function_finalizer)(double)
+    ctypedef double(*haplotype_fitness_fxn_finalizer)(double,double)
+    ctypedef double(*haplotype_fitness_fxn)(const gamete_t &, const mcont_t &)
+    
     cdef cppclass site_dependent_fitness_wrapper:
         double operator()[DIPLOID,GAMETE_CONTAINER,
                           MUTATION_CONTAINER,
@@ -20,25 +25,18 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
         
     cdef cppclass singlepop_fitness:
         singlepop_fitness()
+        singlepop_fitness(genotype_fitness_updater Aa,
+		          genotype_fitness_updater aa,
+		          fitness_function_finalizer wfinal,
+		          double starting_fitness)
+        singlepop_fitness(haplotype_fitness_fxn h,
+		          haplotype_fitness_fxn_finalizer f)
         void update(const singlepop_t *)
 
     cdef cppclass multilocus_fitness:
         multilocus_fitness()
         void update(const multilocus_t *)
 
-    ctypedef void(*genotype_fitness_updater)(double &, const popgenmut &)
-    ctypedef double(*fitness_function_finalizer)(double)
-    ctypedef double(*haplotype_fitness_fxn_finalizer)(double,double)
-    ctypedef double(*haplotype_fitness_fxn)(const gamete_t &, const mcont_t &)
-    
-    singlepop_fitness make_custom_fitness(genotype_fitness_updater Aa,
-					  genotype_fitness_updater aa,
-					  fitness_function_finalizer wfinal,
-					  double starting_fitness)
-    singlepop_fitness make_custom_haplotype_fitness(haplotype_fitness_fxn h,
-                                                    haplotype_fitness_fxn_finalizer f)
-                                                    
-    
     multilocus_fitness make_mloc_additive_fitness(double scaling)
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)
     multilocus_fitness make_mloc_additive_trait(double scaling)

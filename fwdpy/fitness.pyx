@@ -8,10 +8,10 @@ cdef class SpopAdditive(SpopFitness):
 
         :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively
         """
-        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_additive_update,
-                                        choose_additive_hom_updater(scaling),
-                                        <fitness_function_finalizer>return_w_plus1,
-                                        0.0)
+        self.wfxn = singlepop_fitness(<genotype_fitness_updater>het_additive_update,
+                                      choose_additive_hom_updater(scaling),
+                                      <fitness_function_finalizer>return_w_plus1,
+                                      0.0)
         
 cdef class SpopMult(SpopFitness):
     """
@@ -23,10 +23,10 @@ cdef class SpopMult(SpopFitness):
 
         :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively
         """
-        self.wfxn = make_custom_fitness(<genotype_fitness_updater>het_mult_update,
-                                        choose_mult_hom_updater(scaling),
-                                        <fitness_function_finalizer>return_w,
-                                        1.0)
+        self.wfxn = singlepop_fitness(<genotype_fitness_updater>het_mult_update,
+                                      choose_mult_hom_updater(scaling),
+                                      <fitness_function_finalizer>return_w,
+                                      1.0)
         
 cdef class MlocusAdditive(MlocusFitness):
     """
