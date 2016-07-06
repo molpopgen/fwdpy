@@ -9,6 +9,7 @@ This package is implemented in terms of:
 
 1. Cython_, which is a package allowing C++ and Python to work together
 2. fwdpp_, which is a C++11 template library for implementing efficient population genetic simulations
+3. gsl_, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.
 
 Please note that this package is likely to be quite unstable/actively developed.
 
@@ -23,6 +24,47 @@ See the project home page for details
 Changelog (rough)
 =====================
 
+0.0.4
+----------------
+
+Changes to the Python side:
+
+* "Evolve" functions are now much more generic due to fitness function
+  objects and temporal sampler objects (see below)
+* Added ability to use custom fitness functions!!! On the Python side,
+  these work via :class:`fwdpy.fwdpy.SpopFitness` and :class:`fwdpy.fwdpy.MlocusFitness`
+* Class names now more "Pythonic".  This will break existing scripts.
+* Add fwdpy.demography module.
+* Add :class:`fwdpy.fwdpy.MlocusSpop`
+* Add :class:`fwdpy.fwdpy.MlocusSpopVec`
+* Add concept of a temporal sampler via
+  :class:`fwdpy.fwdpy.TemporalSampler`.
+* Add temporal sampler objects :class:`fwdpy.fwdpy.NothingSampler`,
+  :class:`fwdpy.fwdpy.QtraitStatsSampler`,
+  :class:`fwdpy.fwdpy.PopSampler`,
+  :class:`fwdpy.fwdpy.VASampler`
+* Add function :func:`fwdpy.fwdpy.apply_sampler`
+* Add :func:`fwdpy.fwdpy.tidy_trajectories`, which really speeds up
+  coercion of mutation frequency trajectories to a pandas DataFrame.
+* Add :func:`fwdpy.fwdpy.hapmatrix` and :func:`fwdpy.fwdpy.genomatrix`
+* Added views of fixed mutations via :func:`fwdpy.fwdpy.view_fixations`
+* Better Python3 compatibility
+
+Changes to the Cython/C++ back end:
+
+* cythonGSL_ is now required. We expect to use more GSL in this package, and so it makes sense to not reinvent the wheel.
+* Massive reduction in code base
+* Update to Cython_ 0.24.0
+* Generic temporal samplers and fitness functions are now supported.
+* Expose more fwdpp types for multi-locus/region simulations
+* Expose fwdpp's fitness function objects site_dependent_fitness,
+  additive_diploid, and multiplicative_diploid.  Call operators
+  (e.g. operator()) are only exposed for custom diploids.
+* More unit tests of sampling and "views"
+* Update how samples are taken from populations, reflecting a bug fix
+  in fwdpp 0.4.9 that made the Cython wrappers in this package
+  incorrect.
+  
 0.0.3
 -----------------
 * Change from std::thread to std::async for concurrency.
@@ -94,7 +136,9 @@ This package *minimally* depends on:
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
 
-**Note:** fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
+.. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 and cythonGSL_ installed on your system.
+
+.. note:: fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
 
 You also need a C++11-compliant compiler.  For linux users, GCC 4.8 or
 newer should suffice.  OS X users must use the clang-omp package from brew_.
@@ -114,14 +158,13 @@ OS X users are recommended to use brew_ to install the various dependencies:
    $ brew install gsl
    $ ##Risky:
    $ brew install fwdpp
-   $ brew install google-perftools
 
 **Important**: you need to install clang-omp on OS X!  This package
 uses openmp for parallelizing some tasks.  Sadly, OS X's compiler does
 not come with openmp support, and so you need a third-party compiler
 that does.
 
-For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
+For brew users, you may or may not have luck with their version of fwdpp_.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
 
 The required Python package dependencies are in the requirements.txt file that comes with the source.
 
@@ -134,9 +177,7 @@ Users have run into issues getting fwdpy working with Anaconda-based Python inst
 What Python version?
 ==================================
 
-I'm developing the package using Python 2.7.6 on an Ubuntu machine.
-
-Currently, the package is not 100% compatible with Python 3.  The goal is to make it work, though.
+I'm developing the package using Python 2.7.6 on an Ubuntu machine.  However, I do occasionally run the tests using Python 3, and all appears to work!  Reports of problems using python3 are appreciated!
 
 Installation
 ==============
@@ -154,10 +195,25 @@ following command:
 
    $ CC=clang-omp CXX=clang-omp++ pip install fwdpy
 
-Installation from source
+Installation from GitHub
 ----------------------------------------
 
-This section describes "vanilla" installation using the minimal dependencies.
+You may also use pip to install from GitHub.  However, doing so requires that Cython_ be installed.
+
+.. code-block:: bash
+
+   $ pip install git+git://github.com/molpopgen/fwdpy --install-option="--use-cython"
+
+The above command installs the latest version of the 'master' branch.  Users wanting latest and buggiest may find this useful.  OS X users should follow the instructions for using clang-omp shown above.
+
+Do this at your own risk. While the version number of the master branch may be the same as the version on PyPi_, there may be bugs, API changes, etc.
+
+To install a specific branch:
+
+   $ pip install git+git://github.com/molpopgen/fwdpy@branchname --install-option="--use-cython"
+
+Installation from source
+----------------------------------------
 
 First, install the dependencies (see above).
 
@@ -192,7 +248,7 @@ To uninstall:
    $ #use 'sudo' here if it is installed system-wide...
    $ pip uninstall fwdpy
 
-To build the package in place and run the unit tets:
+To build the package in place and run the unit tests:
 
 .. code-block:: bash
 
@@ -225,6 +281,22 @@ CPPFLAGS and LDFLAGS:
 
    $ CPPFLAGS="-I$HOME/include" LDFLAGS="-L$HOME/lib" pip install fwdpy
 
+Testing
+======================================
+
+Testing occurs via docstring tests and unit tests.  Here is how to test using both methods:
+
+.. code-block:: bash
+
+   $ #build the package
+   $ python setup.py build_ext -i
+   $ #build the manual--requires Sphinx
+   $ make -f Makefile.sphinx html
+   $ #run the tests
+   $ make -f Makefile.sphinx doctest
+   $ #run the unit tests
+   # python -m unittest discover fwdpy/tests
+   
 
 Note for developers
 =================================
@@ -237,7 +309,7 @@ In order to modify the package, you will need Cython installed:
 
    $ pip install Cython
 
-You need Cython >= 0.22.2, so upgrade if you need to:
+You need Cython >= 0.24.0, so upgrade if you need to:
 
 .. code-block:: bash
 
@@ -297,7 +369,7 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.4.7, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.4.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
@@ -329,7 +401,7 @@ Doing so will allow $HOME/software/include, etc., to be populated as they were i
 Documentation
 ===================
 
-The manual_ is available online in html format at the project web page.
+The manual_ is available online in html format at the project web page.  The manual always corresponds to the version of *fwdpy* found on PyPi_.
 
 The API documentation may also be build using doxygen_:
 
@@ -353,3 +425,4 @@ Then, load html/index.html in your browser.
 .. _PyPi: https://pypi.python.org
 .. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
 .. _doxygen: http://doxygen.org
+.. _cythonGSL: https://pypi.python.org/pypi/CythonGSL

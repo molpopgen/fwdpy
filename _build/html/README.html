@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>fwdpy: forward simulation in Python using fwdpp &mdash; fwdpy 0.0.3 documentation</title>
+    <title>fwdpy: forward simulation in Python using fwdpp &mdash; fwdpy 0.0.4 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.3 documentation" href="index.html" />
+    <link rel="top" title="fwdpy 0.0.4 documentation" href="index.html" />
     <link rel="next" title="Modules in this package" href="docs/notes.html" />
     <link rel="prev" title="Welcome to fwdpy’s documentation!" href="index.html" /> 
   </head>
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -61,6 +61,7 @@
 <ol class="arabic simple">
 <li><a class="reference external" href="http://www.cython.org/">Cython</a>, which is a package allowing C++ and Python to work together</li>
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a>, which is a C++11 template library for implementing efficient population genetic simulations</li>
+<li><a class="reference external" href="http://gnu.org/software/gsl">gsl</a>, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.</li>
 </ol>
 <p>Please note that this package is likely to be quite unstable/actively developed.</p>
 <p>The package is usable now (in fact, we are currently using it for research), but the API, etc., could change without warning.</p>
@@ -72,7 +73,48 @@
 <div class="section" id="changelog-rough">
 <h2>Changelog (rough)<a class="headerlink" href="#changelog-rough" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>0.0.3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>0.0.4<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Changes to the Python side:</p>
+<ul class="simple">
+<li>&#8220;Evolve&#8221; functions are now much more generic due to fitness function
+objects and temporal sampler objects (see below)</li>
+<li>Added ability to use custom fitness functions!!! On the Python side,
+these work via <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.SpopFitness</span></code> and <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusFitness</span></code></li>
+<li>Class names now more &#8220;Pythonic&#8221;.  This will break existing scripts.</li>
+<li>Add fwdpy.demography module.</li>
+<li>Add <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusSpop</span></code></li>
+<li>Add <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusSpopVec</span></code></li>
+<li>Add concept of a temporal sampler via
+<a class="reference internal" href="index.html#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a>.</li>
+<li>Add temporal sampler objects <a class="reference internal" href="index.html#fwdpy.fwdpy.NothingSampler" title="fwdpy.fwdpy.NothingSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.NothingSampler</span></code></a>,
+<a class="reference internal" href="index.html#fwdpy.fwdpy.QtraitStatsSampler" title="fwdpy.fwdpy.QtraitStatsSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.QtraitStatsSampler</span></code></a>,
+<a class="reference internal" href="index.html#fwdpy.fwdpy.PopSampler" title="fwdpy.fwdpy.PopSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopSampler</span></code></a>,
+<a class="reference internal" href="index.html#fwdpy.fwdpy.VASampler" title="fwdpy.fwdpy.VASampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.VASampler</span></code></a></li>
+<li>Add function <a class="reference internal" href="index.html#fwdpy.fwdpy.apply_sampler" title="fwdpy.fwdpy.apply_sampler"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.apply_sampler()</span></code></a></li>
+<li>Add <a class="reference internal" href="index.html#fwdpy.fwdpy.tidy_trajectories" title="fwdpy.fwdpy.tidy_trajectories"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.tidy_trajectories()</span></code></a>, which really speeds up
+coercion of mutation frequency trajectories to a pandas DataFrame.</li>
+<li>Add <a class="reference internal" href="index.html#fwdpy.fwdpy.hapmatrix" title="fwdpy.fwdpy.hapmatrix"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.hapmatrix()</span></code></a> and <a class="reference internal" href="index.html#fwdpy.fwdpy.genomatrix" title="fwdpy.fwdpy.genomatrix"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.genomatrix()</span></code></a></li>
+<li>Added views of fixed mutations via <a class="reference internal" href="index.html#fwdpy.fwdpy.view_fixations" title="fwdpy.fwdpy.view_fixations"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.view_fixations()</span></code></a></li>
+<li>Better Python3 compatibility</li>
+</ul>
+<p>Changes to the Cython/C++ back end:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pypi.python.org/pypi/CythonGSL">cythonGSL</a> is now required. We expect to use more GSL in this package, and so it makes sense to not reinvent the wheel.</li>
+<li>Massive reduction in code base</li>
+<li>Update to <a class="reference external" href="http://www.cython.org/">Cython</a> 0.24.0</li>
+<li>Generic temporal samplers and fitness functions are now supported.</li>
+<li>Expose more fwdpp types for multi-locus/region simulations</li>
+<li>Expose fwdpp&#8217;s fitness function objects site_dependent_fitness,
+additive_diploid, and multiplicative_diploid.  Call operators
+(e.g. operator()) are only exposed for custom diploids.</li>
+<li>More unit tests of sampling and &#8220;views&#8221;</li>
+<li>Update how samples are taken from populations, reflecting a bug fix
+in fwdpp 0.4.9 that made the Cython wrappers in this package
+incorrect.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>0.0.3<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Change from std::thread to std::async for concurrency.</li>
 <li>The asynchronous futures allow for the same &#8220;evolve&#8221; function to be
@@ -140,7 +182,14 @@ minimal set of API requirements.</li>
 <li><a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a></li>
 </ul>
 <p>The configure script will enforce minimum version numbers of these dependencies, if necessary.</p>
-<p><strong>Note:</strong> fwdpy may require the &#8216;dev&#8217; branch of fwdpp.  The configure script checks for <em>both</em> the correct dependency version number <em>and</em> specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If installing from GitHub, then you also must have <a class="reference external" href="http://www.cython.org/">Cython</a> &gt;= 0.24.0 and <a class="reference external" href="https://pypi.python.org/pypi/CythonGSL">cythonGSL</a> installed on your system.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">fwdpy may require the &#8216;dev&#8217; branch of fwdpp.  The configure script checks for <em>both</em> the correct dependency version number <em>and</em> specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.</p>
+</div>
 <p>You also need a C++11-compliant compiler.  For linux users, GCC 4.8 or
 newer should suffice.  OS X users must use the clang-omp package from <a class="reference external" href="http://brew.sh">brew</a>.</p>
 <p>You may use one or the other of these libraries, but not both.  See the Performance subsection of the Installation section below for how to use these libraries.</p>
@@ -152,14 +201,13 @@ newer should suffice.  OS X users must use the clang-omp package from <a class="
 <span class="nv">$ </span>brew install gsl
 <span class="nv">$ </span><span class="c">##Risky:</span>
 <span class="nv">$ </span>brew install fwdpp
-<span class="nv">$ </span>brew install google-perftools
 </pre></div>
 </div>
 <p><strong>Important</strong>: you need to install clang-omp on OS X!  This package
 uses openmp for parallelizing some tasks.  Sadly, OS X&#8217;s compiler does
 not come with openmp support, and so you need a third-party compiler
 that does.</p>
-<p>For brew users, you may or may not have luck with their version of fwdpp.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.</p>
+<p>For brew users, you may or may not have luck with their version of <a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a>.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.</p>
 <p>The required Python package dependencies are in the requirements.txt file that comes with the source.</p>
 </div>
 <div class="section" id="anaconda-and-os-x-again">
@@ -169,8 +217,7 @@ that does.</p>
 </div>
 <div class="section" id="what-python-version">
 <h2>What Python version?<a class="headerlink" href="#what-python-version" title="Permalink to this headline">¶</a></h2>
-<p>I&#8217;m developing the package using Python 2.7.6 on an Ubuntu machine.</p>
-<p>Currently, the package is not 100% compatible with Python 3.  The goal is to make it work, though.</p>
+<p>I&#8217;m developing the package using Python 2.7.6 on an Ubuntu machine.  However, I do occasionally run the tests using Python 3, and all appears to work!  Reports of problems using python3 are appreciated!</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -183,9 +230,20 @@ following command:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ CC</span><span class="o">=</span>clang-omp <span class="nv">CXX</span><span class="o">=</span>clang-omp++ pip install fwdpy
 </pre></div>
 </div>
+<div class="section" id="installation-from-github">
+<h3>Installation from GitHub<a class="headerlink" href="#installation-from-github" title="Permalink to this headline">¶</a></h3>
+<p>You may also use pip to install from GitHub.  However, doing so requires that <a class="reference external" href="http://www.cython.org/">Cython</a> be installed.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install git+git://github.com/molpopgen/fwdpy --install-option<span class="o">=</span><span class="s2">&quot;--use-cython&quot;</span>
+</pre></div>
+</div>
+<p>The above command installs the latest version of the &#8216;master&#8217; branch.  Users wanting latest and buggiest may find this useful.  OS X users should follow the instructions for using clang-omp shown above.</p>
+<p>Do this at your own risk. While the version number of the master branch may be the same as the version on <a class="reference external" href="https://pypi.python.org">PyPi</a>, there may be bugs, API changes, etc.</p>
+<p>To install a specific branch:</p>
+<blockquote>
+<div>$ pip install git+git://github.com/molpopgen/fwdpy&#64;branchname &#8211;install-option=&#8221;&#8211;use-cython&#8221;</div></blockquote>
+</div>
 <div class="section" id="installation-from-source">
 <h3>Installation from source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline">¶</a></h3>
-<p>This section describes &#8220;vanilla&#8221; installation using the minimal dependencies.</p>
 <p>First, install the dependencies (see above).</p>
 <p><strong>Special instructions for OS X users</strong></p>
 <p>All compiler commands below must be prefixed with:</p>
@@ -207,7 +265,7 @@ following command:</p>
 <span class="nv">$ </span>pip uninstall fwdpy
 </pre></div>
 </div>
-<p>To build the package in place and run the unit tets:</p>
+<p>To build the package in place and run the unit tests:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="c">#build package locally:</span>
 <span class="nv">$ </span>python setup.py build_ext -i
 <span class="nv">$ </span><span class="c">#run the unit tests:</span>
@@ -235,6 +293,20 @@ CPPFLAGS and LDFLAGS:</p>
 </div>
 </div>
 </div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Testing occurs via docstring tests and unit tests.  Here is how to test using both methods:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="c">#build the package</span>
+<span class="nv">$ </span>python setup.py build_ext -i
+<span class="nv">$ </span><span class="c">#build the manual--requires Sphinx</span>
+<span class="nv">$ </span>make -f Makefile.sphinx html
+<span class="nv">$ </span><span class="c">#run the tests</span>
+<span class="nv">$ </span>make -f Makefile.sphinx doctest
+<span class="nv">$ </span><span class="c">#run the unit tests</span>
+<span class="c"># python -m unittest discover fwdpy/tests</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="note-for-developers">
 <h2>Note for developers<a class="headerlink" href="#note-for-developers" title="Permalink to this headline">¶</a></h2>
 <p>Cython is a static compiler.  Code written in Cython is compiled into C or, in the case of this package, C++.  Finally, the system&#8217;s C/C++ compiler is used to compile the final Python module.</p>
@@ -242,7 +314,7 @@ CPPFLAGS and LDFLAGS:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install Cython
 </pre></div>
 </div>
-<p>You need Cython &gt;= 0.22.2, so upgrade if you need to:</p>
+<p>You need Cython &gt;= 0.24.0, so upgrade if you need to:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>pip install --upgrade Cython
 </pre></div>
 </div>
@@ -283,14 +355,14 @@ slowly:</p>
 <h3>Troubleshooting the installation<a class="headerlink" href="#troubleshooting-the-installation" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="incorrect-fwdpp-version">
 <h4>Incorrect fwdpp version<a class="headerlink" href="#incorrect-fwdpp-version" title="Permalink to this headline">¶</a></h4>
-<p>This package is compatible with fwdpp &gt;= 0.4.7, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:</p>
+<p>This package is compatible with fwdpp &gt;= 0.4.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>which fwdppConfig
 </pre></div>
 </div>
 <p>If the above command returns nothing, then it is very likely that fwdpp is either too old, missing entirely from your system, or it is installed somewhere non-standard.  For example, if you installed fwdpp locally for your user, and did not edit PATH to include ~/bin, then fwdppConfig cannot be called without referring to its complete path.</p>
 </div>
-<div class="section" id="id2">
-<h4>Dependencies in non-standard locations<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id3">
+<h4>Dependencies in non-standard locations<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>Your system&#8217;s compiler has a default set of paths where it will look for header files, libraries, etc.  Typically, these paths will include /usr and /usr/local.  If you have installed the dependencies somewhere else (your home directory, for example), then the ./configure script may not be able to find them automatically.</p>
 <p><strong>NOTE:</strong> I sometimes get requests for installation help from users who have installed every dependency in a separate folder in their $HOME.  In other words, they have some setup that looks like this:</p>
 <ul class="simple">
@@ -307,7 +379,7 @@ slowly:</p>
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference external" href="http://molpopgen.github.io/fwdpy">manual</a> is available online in html format at the project web page.</p>
+<p>The <a class="reference external" href="http://molpopgen.github.io/fwdpy">manual</a> is available online in html format at the project web page.  The manual always corresponds to the version of <em>fwdpy</em> found on <a class="reference external" href="https://pypi.python.org">PyPi</a>.</p>
 <p>The API documentation may also be build using <a class="reference external" href="http://doxygen.org">doxygen</a>:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>./configure
 <span class="nv">$ </span>doxygen fwdpy.doxygen
@@ -328,7 +400,8 @@ slowly:</p>
 <li><a class="reference internal" href="#">fwdpy: forward simulation in Python using fwdpp</a><ul>
 <li><a class="reference internal" href="#citation">Citation</a></li>
 <li><a class="reference internal" href="#changelog-rough">Changelog (rough)</a><ul>
-<li><a class="reference internal" href="#id1">0.0.3</a></li>
+<li><a class="reference internal" href="#id1">0.0.4</a></li>
+<li><a class="reference internal" href="#id2">0.0.3</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#features">Features:</a></li>
@@ -342,16 +415,18 @@ slowly:</p>
 </li>
 <li><a class="reference internal" href="#what-python-version">What Python version?</a></li>
 <li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#installation-from-github">Installation from GitHub</a></li>
 <li><a class="reference internal" href="#installation-from-source">Installation from source</a></li>
 <li><a class="reference internal" href="#dependencies-in-non-standard-locations">Dependencies in non-standard locations</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#testing">Testing</a></li>
 <li><a class="reference internal" href="#note-for-developers">Note for developers</a><ul>
 <li><a class="reference internal" href="#compiling-in-an-aggressive-debug-mode">Compiling in an aggressive debug mode</a></li>
 <li><a class="reference internal" href="#rough-guide-to-installation-on-uci-hpc">Rough guide to installation on UCI HPC</a></li>
 <li><a class="reference internal" href="#troubleshooting-the-installation">Troubleshooting the installation</a><ul>
 <li><a class="reference internal" href="#incorrect-fwdpp-version">Incorrect fwdpp version</a></li>
-<li><a class="reference internal" href="#id2">Dependencies in non-standard locations</a></li>
+<li><a class="reference internal" href="#id3">Dependencies in non-standard locations</a></li>
 </ul>
 </li>
 </ul>
@@ -403,7 +478,7 @@ slowly:</p>
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to fwdpy’s documentation! &mdash; fwdpy 0.0.3 documentation</title>
+    <title>Welcome to fwdpy’s documentation! &mdash; fwdpy 0.0.4 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.3',
+        VERSION:     '0.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.3 documentation" href="#" />
+    <link rel="top" title="fwdpy 0.0.4 documentation" href="#" />
     <link rel="next" title="fwdpy: forward simulation in Python using fwdpp" href="README.html" /> 
   </head>
   <body role="document">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -64,6 +64,7 @@
 <li class="toctree-l2"><a class="reference internal" href="README.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#what-python-version">What Python version?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README.html#testing">Testing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#note-for-developers">Note for developers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#documentation">Documentation</a></li>
 </ul>
@@ -100,10 +101,17 @@
 <li class="toctree-l2"><a class="reference internal" href="docs/popsizes.html#rationale">Rationale</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docs/demography.html">Complex demographic operations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs/regions.html">Example: Modeling regional variation in mutation and recombination</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#specific-examples">Specific examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#how-to-set-up-a-model">How to set up a model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/temporalSampling.html">Temporal sampling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/temporalSampling.html#sampling-nothing">Sampling nothing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/temporalSampling.html#take-samples-from-population">Take samples from population</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/temporalSampling.html#tracking-mutation-frequencies">Tracking mutation frequencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/summstats.html">Calculating summary statistics</a></li>
@@ -114,6 +122,21 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/threads.html">How many threads to use?</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="custom-fitness-models">
+<h2>Custom fitness models<a class="headerlink" href="#custom-fitness-models" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/customAnalyses.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/customAnalyses.html#basic-protocol">Basic protocol</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docs/customFitness.html">Implementing custom fitness functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/customFitness.html#concepts">Concepts</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -154,6 +177,18 @@
 </ul>
 </div>
 </div>
+<div class="section" id="special-topics">
+<h2>Special topics<a class="headerlink" href="#special-topics" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="docs/vareg.html">Estimating cumulative <span class="math">\(V(A)\)</span> in simulations of quantitative traits.</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/vareg.html#technical-notes">Technical Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/vareg.html#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="module-fwdpy.fwdpy">
 <span id="functions-and-classes"></span><h2>Functions and classes<a class="headerlink" href="#module-fwdpy.fwdpy" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -169,6 +204,7 @@
 <li>w: the &#8220;weight&#8221; assigned to the region</li>
 <li>s: the selection coefficient</li>
 <li>h: the dominance term</li>
+<li>l: A label assigned to the region.  Labels must be integers, and can be used to &#8216;tag&#8217; mutations arising in different regions.</li>
 </ul>
 </dd>
 </dl>
@@ -185,6 +221,7 @@
 <li><strong>s</strong> &#8211; the selection coefficient</li>
 <li><strong>h</strong> &#8211; the dominance</li>
 <li><strong>coupled</strong> &#8211; if True, the weight is converted to (end-beg)*weight</li>
+<li><strong>label</strong> &#8211; Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.</li>
 </ul>
 </td>
 </tr>
@@ -214,6 +251,7 @@
 <li>w: the &#8220;weight&#8221; assigned to the region</li>
 <li>mean: the mean selection coefficient</li>
 <li>h: the dominance term</li>
+<li>l: A label assigned to the region.  Labels must be integers, and can be used to &#8216;tag&#8217; mutations arising in different regions.</li>
 </ul>
 </dd>
 </dl>
@@ -230,6 +268,7 @@
 <li><strong>mean</strong> &#8211; the mean selection coefficient</li>
 <li><strong>h</strong> &#8211; the dominance</li>
 <li><strong>coupled</strong> &#8211; if True, the weight is converted to (end-beg)*weight</li>
+<li><strong>label</strong> &#8211; Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.</li>
 </ul>
 </td>
 </tr>
@@ -244,6 +283,19 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">constantS</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.FreqSampler">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">FreqSampler</code><a class="headerlink" href="#fwdpy.fwdpy.FreqSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a></p>
+<p>A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a> to track the frequencies of selected mutations over time.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.FreqSampler.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.FreqSampler.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the data from the sampler.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -274,6 +326,7 @@ from the GNU Scientific Library (GSL).</p>
 <li>mean: mean of the Gamma</li>
 <li>shape: shape of the Gamma</li>
 <li>h: the dominance term</li>
+<li>l: A label assigned to the region.  Labels must be integers, and can be used to &#8216;tag&#8217; mutations arising in different regions.</li>
 </ul>
 </dd>
 </dl>
@@ -291,6 +344,7 @@ from the GNU Scientific Library (GSL).</p>
 <li><strong>shape</strong> &#8211; the shape parameter of the distribution</li>
 <li><strong>h</strong> &#8211; the dominance</li>
 <li><strong>coupled</strong> &#8211; if True, the weight is converted to (end-beg)*weight</li>
+<li><strong>label</strong> &#8211; Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.</li>
 </ul>
 </td>
 </tr>
@@ -318,7 +372,8 @@ from the GNU Scientific Library (GSL).</p>
 <li>e: the end of the region</li>
 <li>w: the &#8220;weight&#8221; assigned to the region</li>
 <li>sd: the standard deviation</li>
-<li>h: the dominance term</li>
+<li>h: the dominance ter</li>
+<li>l: A label assigned to the region.  Labels must be integers, and can be used to &#8216;tag&#8217; mutations arising in different regions.</li>
 </ul>
 </dd>
 </dl>
@@ -336,6 +391,7 @@ from the GNU Scientific Library (GSL).</p>
 <li><strong>mean</strong> &#8211; the mean selection coefficient</li>
 <li><strong>h</strong> &#8211; the dominance</li>
 <li><strong>coupled</strong> &#8211; if True, the weight is converted to (end-beg)*weight</li>
+<li><strong>label</strong> &#8211; Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.</li>
 </ul>
 </td>
 </tr>
@@ -353,16 +409,199 @@ from the GNU Scientific Library (GSL).</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="fwdpy.fwdpy.MetaPop">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">MetaPop</code><a class="headerlink" href="#fwdpy.fwdpy.MetaPop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a></p>
+<p>Object representing data structures for single-deme simulations.</p>
+<p>Users are not expected to construct these on their own.  Rather,
+they should be working with <a class="reference internal" href="#fwdpy.fwdpy.MetaPopVec" title="fwdpy.fwdpy.MetaPopVec"><code class="xref py py-class docutils literal"><span class="pre">MetaPopVec</span></code></a>.  This type exists as
+the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.MetaPopVec" title="fwdpy.fwdpy.MetaPopVec"><code class="xref py py-class docutils literal"><span class="pre">MetaPopVec</span></code></a>.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.MetaPop.gen">
+<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MetaPop.gen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the generation that the population is currently evolved to</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.MetaPop.popsizes">
+<code class="descname">popsizes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MetaPop.popsizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size of the population</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.MetaPop.sane">
+<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MetaPop.sane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes sure that the population is in a sane state.</p>
+<p>Internally, this checks that pop.N == pop.diploids.size(),
+which it should be if the C++ code behind this all is properly updating
+the data structures!</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.MetaPopVec">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">MetaPopVec</code><a class="headerlink" href="#fwdpy.fwdpy.MetaPopVec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></p>
+<p>Vector of metapopulation objects</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.MetaPopVec.append">
+<code class="descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MetaPopVec.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append &#8216;p&#8217; into this object.</p>
+<p>This is done via a serialized copy, meaning that 
+this object and p will not share any pointers</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fwdpy.fwdpy.MetaPopVec.next">
+<code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.MetaPopVec.next" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.MetaPopVec.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MetaPopVec.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of populations (size of underlying C++ vector)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.MlocusPop">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">MlocusPop</code><a class="headerlink" href="#fwdpy.fwdpy.MlocusPop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a></p>
+<p>Object representing data structures for single-deme, multi-locus/region simulations
+based on a mutation type having a single &#8216;s&#8217; and &#8216;h&#8217; term.</p>
+<p>Users are not expected to construct these on their own.  Rather,
+they should be working with <a class="reference internal" href="#fwdpy.fwdpy.MlocusPopVec" title="fwdpy.fwdpy.MlocusPopVec"><code class="xref py py-class docutils literal"><span class="pre">MlocusPopVec</span></code></a>.  This type exists as
+the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.MlocusPopVec" title="fwdpy.fwdpy.MlocusPopVec"><code class="xref py py-class docutils literal"><span class="pre">MlocusPopVec</span></code></a>.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.MlocusPop.gen">
+<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MlocusPop.gen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the generation that the population is currently evolved to</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.MlocusPop.popsize">
+<code class="descname">popsize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MlocusPop.popsize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size of the population</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.MlocusPop.sane">
+<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MlocusPop.sane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes sure that the population is in a sane state.</p>
+<p>Internally, this checks that pop.N == pop.diploids.size(),
+which it should be if the C++ code behind this all is properly updating
+the data structures!</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.MlocusPopVec">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">MlocusPopVec</code><a class="headerlink" href="#fwdpy.fwdpy.MlocusPopVec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></p>
+<p>Vector of single-deme objects representing multiple partially-linked regions.</p>
+<p>Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
+have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the &#8220;usual&#8221;
+Python way.</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for use cases.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.MlocusPopVec.append">
+<code class="descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MlocusPopVec.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append &#8216;p&#8217; into this object.</p>
+<p>This is done via a serialized copy, meaning that 
+this object and p will not share any pointers</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fwdpy.fwdpy.MlocusPopVec.next">
+<code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.MlocusPopVec.next" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.MlocusPopVec.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.MlocusPopVec.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of populations (size of underlying C++ vector)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.NothingSampler">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">NothingSampler</code><a class="headerlink" href="#fwdpy.fwdpy.NothingSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a></p>
+<p>A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a> that does nothing.</p>
+<p>This is useful during evolution to equilibrium or in other situations
+where you are not interested in recording.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.NothingSampler.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.NothingSampler.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the data from the sampler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.PopSampler">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">PopSampler</code><a class="headerlink" href="#fwdpy.fwdpy.PopSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a></p>
+<p>A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a> that takes a sample of size <span class="math">\(n \leq N\)</span> from the population.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.PopType">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">PopType</code><a class="headerlink" href="#fwdpy.fwdpy.PopType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Empty base class for a population object.</p>
+<p>Example derived types include <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></code> and <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.PopVec">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">PopVec</code><a class="headerlink" href="#fwdpy.fwdpy.PopVec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Empty base class for containers of population objects.</p>
+<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.SpopVec" title="fwdpy.fwdpy.SpopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.SpopVec</span></code></a> and <a class="reference internal" href="#fwdpy.fwdpy.MetaPopVec" title="fwdpy.fwdpy.MetaPopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MetaPopVec</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.QtraitStatsSampler">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">QtraitStatsSampler</code><a class="headerlink" href="#fwdpy.fwdpy.QtraitStatsSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a></p>
+<p>A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a> that records various statistics about the population.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is not useful for the standard fwdpy population.  It only actually records anything</p>
+</div>
+<p>meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.QtraitStatsSampler.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.QtraitStatsSampler.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the data from the sampler.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="fwdpy.fwdpy.Region">
 <em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">Region</code><a class="headerlink" href="#fwdpy.fwdpy.Region" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Representation of a &#8220;region&#8221; in a simulation.</p>
 <dl class="docutils">
 <dt>Attributes:</dt>
-<dd><p class="first">b: the beginning of the region</p>
-<p>e: the end of the region</p>
-<p class="last">w: the &#8220;weight&#8221; assigned to the region</p>
-</dd>
+<dd>b: the beginning of the region
+e: the end of the region
+w: the &#8220;weight&#8221; assigned to the region
+l: A label assigned to the region.  Labels must be integers, and can be used to &#8216;tag&#8217; mutations arising in different regions.</dd>
 </dl>
 <p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for how this class may be used to parameterize a simulation.</p>
 <dl class="docutils">
@@ -382,6 +621,7 @@ from the GNU Scientific Library (GSL).</p>
 <li><strong>end</strong> &#8211; the end of the region</li>
 <li><strong>weight</strong> &#8211; the weight to assign</li>
 <li><strong>coupled</strong> &#8211; if True, the weight is converted to (end-beg)*weight</li>
+<li><strong>label</strong> &#8211; Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.</li>
 </ul>
 </td>
 </tr>
@@ -402,6 +642,101 @@ from the GNU Scientific Library (GSL).</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="fwdpy.fwdpy.Spop">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">Spop</code><a class="headerlink" href="#fwdpy.fwdpy.Spop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a></p>
+<p>Object representing data structures for single-deme simulations
+based on a mutation type having a single &#8216;s&#8217; and &#8216;h&#8217; term.</p>
+<p>Users are not expected to construct these on their own.  Rather,
+they should be working with <a class="reference internal" href="#fwdpy.fwdpy.SpopVec" title="fwdpy.fwdpy.SpopVec"><code class="xref py py-class docutils literal"><span class="pre">SpopVec</span></code></a>.  This type exists as
+the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.SpopVec" title="fwdpy.fwdpy.SpopVec"><code class="xref py py-class docutils literal"><span class="pre">SpopVec</span></code></a>.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.Spop.gen">
+<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.Spop.gen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the generation that the population is currently evolved to</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.Spop.popsize">
+<code class="descname">popsize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.Spop.popsize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size of the population</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.Spop.sane">
+<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.Spop.sane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes sure that the population is in a sane state.</p>
+<p>Internally, this checks that pop.N == pop.diploids.size(),
+which it should be if the C++ code behind this all is properly updating
+the data structures!</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.SpopGenMut">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">SpopGenMut</code><a class="headerlink" href="#fwdpy.fwdpy.SpopGenMut" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a></p>
+<p>Object representing data structures for single-deme simulations
+based on a mutation type having a vector of properties.</p>
+<p>Users are not expected to construct these on their own.  Rather,
+they should be working with <code class="xref py py-class docutils literal"><span class="pre">SpopGenMutVec</span></code>.  This type exists as
+the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.SpopGenMut" title="fwdpy.fwdpy.SpopGenMut"><code class="xref py py-class docutils literal"><span class="pre">SpopGenMut</span></code></a>.</p>
+<p>..note:: Currently, there are no functions in fwdpy using this type!  See <a class="reference internal" href="#fwdpy.fwdpy.Spop" title="fwdpy.fwdpy.Spop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Spop</span></code></a> instead.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.SpopGenMut.gen">
+<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.SpopGenMut.gen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the generation that the population is currently evolved to</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.SpopGenMut.popsize">
+<code class="descname">popsize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.SpopGenMut.popsize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size of the population</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.SpopGenMut.sane">
+<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.SpopGenMut.sane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes sure that the population is in a sane state.</p>
+<p>Internally, this checks that pop.N == pop.diploids.size(),
+which it should be if the C++ code behind this all is properly updating
+the data structures!</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.SpopVec">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">SpopVec</code><a class="headerlink" href="#fwdpy.fwdpy.SpopVec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></p>
+<p>Vector of single-deme objects</p>
+<p>Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
+have pointers to the same objects.  This organization adds little overhead and makes a SpopVec iterable in the &#8220;usual&#8221;
+Python way.</p>
+<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for use cases.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.SpopVec.append">
+<code class="descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.SpopVec.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append &#8216;p&#8217; into this object.</p>
+<p>This is done via a serialized copy, meaning that 
+this object and p will not share any pointers</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fwdpy.fwdpy.SpopVec.next">
+<code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.SpopVec.next" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.SpopVec.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.SpopVec.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns number of populations (size of underlying C++ vector)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="fwdpy.fwdpy.Sregion">
 <em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">Sregion</code><a class="headerlink" href="#fwdpy.fwdpy.Sregion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Region" title="fwdpy.fwdpy.Region"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Region</span></code></a></p>
@@ -414,6 +749,7 @@ from the GNU Scientific Library (GSL).</p>
 <li>e: the end of the region</li>
 <li>w: the &#8220;weight&#8221; assigned to the region</li>
 <li>h: the dominance term</li>
+<li>l: A label assigned to the region.  Labels must be integers, and can be used to &#8216;tag&#8217; mutations arising in different regions.</li>
 </ul>
 </dd>
 </dl>
@@ -439,6 +775,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 <li><strong>weight</strong> &#8211; the weight to assign</li>
 <li><strong>h</strong> &#8211; the dominance</li>
 <li><strong>coupled</strong> &#8211; if True, the weight is converted to (end-beg)*weight</li>
+<li><strong>label</strong> &#8211; Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.</li>
 </ul>
 </td>
 </tr>
@@ -459,6 +796,14 @@ a derived type that specifies a distribution of fitness effects.  These types in
 </dd></dl>
 
 <dl class="class">
+<dt id="fwdpy.fwdpy.TemporalSampler">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">TemporalSampler</code><a class="headerlink" href="#fwdpy.fwdpy.TemporalSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base class representing containers of functions
+to be applied to simluated populations at regular intervals.</p>
+</dd></dl>
+
+<dl class="class">
 <dt id="fwdpy.fwdpy.UniformS">
 <em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">UniformS</code><a class="headerlink" href="#fwdpy.fwdpy.UniformS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></p>
@@ -472,6 +817,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 <li>lo: the lower bound on s</li>
 <li>hi: the upper bound on s</li>
 <li>h: the dominance term</li>
+<li>l: A label assigned to the region.  Labels must be integers, and can be used to &#8216;tag&#8217; mutations arising in different regions.</li>
 </ul>
 </dd>
 </dl>
@@ -489,6 +835,7 @@ a derived type that specifies a distribution of fitness effects.  These types in
 <li><strong>hi</strong> &#8211; upper bound on s</li>
 <li><strong>h</strong> &#8211; the dominance</li>
 <li><strong>coupled</strong> &#8211; if True, the weight is converted to (end-beg)*weight</li>
+<li><strong>label</strong> &#8211; Not relevant to recombining regions.  Otherwise, this value will be used to take mutations from this region.</li>
 </ul>
 </td>
 </tr>
@@ -505,12 +852,52 @@ a derived type that specifies a distribution of fitness effects.  These types in
 </div>
 </dd></dl>
 
+<dl class="class">
+<dt id="fwdpy.fwdpy.VASampler">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">VASampler</code><a class="headerlink" href="#fwdpy.fwdpy.VASampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a></p>
+<p>A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a> that estimates the relationship between mutation frequency and total additive
+genetic variance.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is not useful for the standard fwdpy population.  It only actually records anything</p>
+</div>
+<p>meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.VASampler.get">
+<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.VASampler.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the data from the sampler.</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="fwdpy.fwdpy.allele_ages">
 <code class="descclassname">fwdpy.fwdpy.</code><code class="descname">allele_ages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.allele_ages" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate allele age information from mutation frequency trajectories.</p>
 <p>The return value is a list of dicts that include the generation when the mutation arose, its effect size, 
 maximum frequency, and the number of times a frequency was recorded for that mutation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.apply_sampler">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">apply_sampler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.apply_sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a temporal sampler to a container of populations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></li>
+<li><strong>sampler</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -521,7 +908,7 @@ maximum frequency, and the number of times a frequency was recorded for that mut
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; A object of type <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; A object of type <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code> or <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Dictionary with return values (True or False). Any false values reflect a critical data inconsistency, and mean an exception should be raised.</td>
 </tr>
@@ -545,7 +932,7 @@ maximum frequency, and the number of times a frequency was recorded for that mut
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; the population to copy.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> of the same (derived) type as pop</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> of the same (derived) type as pop</td>
 </tr>
 </tbody>
 </table>
@@ -565,13 +952,37 @@ maximum frequency, and the number of times a frequency was recorded for that mut
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pops</strong> &#8211; the list of population to copy.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a> of the same (derived) type as pop</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">A <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a> of the same (derived) type as pop</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The function is implemented in terms of the serialization routines in the fwdpy.fwdpyio module.  The return value can be evolved and not affect the input value.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.diploid_mloc_view_to_sample">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">diploid_mloc_view_to_sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.diploid_mloc_view_to_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a &#8220;view&#8221; of diploids into the data types returned from <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>view</strong> &#8211; An object returned by <a class="reference internal" href="#fwdpy.fwdpy.view_diploids" title="fwdpy.fwdpy.view_diploids"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.view_diploids()</span></code></a> from a multilocus population.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dict.  See Note</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The return value is a dict containing two lists of tuples (&#8216;neutral&#8217;, and &#8216;selected&#8217;)  These lists are the same format 
+as objects returned by <a class="reference internal" href="#fwdpy.fwdpy.get_samples" title="fwdpy.fwdpy.get_samples"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_samples()</span></code></a>.  The dict also contains &#8216;neutral_info&#8217; and &#8216;selected_info&#8217;, which are
+pandas.DataFrame objects with the information about the mutations present in the other two lists.</p>
 </div>
 </dd></dl>
 
@@ -629,6 +1040,7 @@ pandas.DataFrame objects with the information about the mutations present in the
 <li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
 <li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
 <li><strong>f</strong> &#8211; The selfing probabilty</li>
+<li><strong>scaling</strong> &#8211; For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively.</li>
 <li><strong>fitness</strong> &#8211; The fitness model.  Must be either &#8220;multiplicative&#8221; or &#8220;additive&#8221;.</li>
 </ul>
 </td>
@@ -681,8 +1093,7 @@ pandas.DataFrame objects with the information about the mutations present in the
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
-<li><strong>pops</strong> &#8211; A list of populations simulated by <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a></li>
-<li><strong>N</strong> &#8211; The diploid population size to simulate</li>
+<li><strong>pops</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.SpopVec" title="fwdpy.fwdpy.SpopVec"><code class="xref py py-class docutils literal"><span class="pre">SpopVec</span></code></a></li>
 <li><strong>nlist</strong> &#8211; An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).</li>
 <li><strong>mu_neutral</strong> &#8211; The mutation rate to variants not affecting fitness (&#8220;neutral&#8221; mutations).  The unit is per gamete, per generation.</li>
 <li><strong>mu_selected</strong> &#8211; The mutation rate to variants affecting fitness (&#8220;selected&#8221; mutations).  The unit is per gamete, per generation.</li>
@@ -691,6 +1102,7 @@ pandas.DataFrame objects with the information about the mutations present in the
 <li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
 <li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
 <li><strong>f</strong> &#8211; The selfing probabilty</li>
+<li><strong>scaling</strong> &#8211; For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively.</li>
 <li><strong>fitness</strong> &#8211; The fitness model.  Must be either &#8220;multiplicative&#8221; or &#8220;additive&#8221;.</li>
 </ul>
 </td>
@@ -719,17 +1131,17 @@ pandas.DataFrame objects with the information about the mutations present in the
 </dd></dl>
 
 <dl class="function">
-<dt id="fwdpy.fwdpy.evolve_regions_sample">
-<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions_sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evolve a set of populations, taking a random sample of size &#8220;nsam&#8221; every &#8220;sample&#8221; generations.</p>
+<dt id="fwdpy.fwdpy.evolve_regions_sampler">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions_sampler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evolve a single population under standard population genetic fitness models and apply a &#8220;sampler&#8221; at regular intervals.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
-<li><strong>pops</strong> &#8211; A list of populations simulated by <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a></li>
-<li><strong>N</strong> &#8211; The diploid population size to simulate</li>
+<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.SpopVec" title="fwdpy.fwdpy.SpopVec"><code class="xref py py-class docutils literal"><span class="pre">SpopVec</span></code></a></li>
+<li><strong>slist</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">TemporalSampler</span></code></a>.</li>
 <li><strong>nlist</strong> &#8211; An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).</li>
 <li><strong>mu_neutral</strong> &#8211; The mutation rate to variants not affecting fitness (&#8220;neutral&#8221; mutations).  The unit is per gamete, per generation.</li>
 <li><strong>mu_selected</strong> &#8211; The mutation rate to variants affecting fitness (&#8220;selected&#8221; mutations).  The unit is per gamete, per generation.</li>
@@ -737,65 +1149,30 @@ pandas.DataFrame objects with the information about the mutations present in the
 <li><strong>nregions</strong> &#8211; A list specifying where neutral mutations occur</li>
 <li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
 <li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
-<li><strong>sample</strong> &#8211; How often to record data about non-neutral mutations</li>
-<li><strong>nsam</strong> &#8211; The sample size</li>
+<li><strong>sample</strong> &#8211; Apply the temporal sample every &#8216;sample&#8217; generations during the simulation.</li>
 <li><strong>f</strong> &#8211; The selfing probabilty</li>
+<li><strong>scaling</strong> &#8211; For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively.</li>
 <li><strong>fitness</strong> &#8211; The fitness model.  Must be either &#8220;multiplicative&#8221; or &#8220;additive&#8221;.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">One list per population in &#8220;pops&#8221;.  Each list contains a sample of genotypes + the generation from which it was taken.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if parameters do not pass checks</p>
-</td>
-</tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="fwdpy.fwdpy.evolve_regions_split">
-<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions_split</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_split" title="Permalink to this definition">¶</a></dt>
-<dd><p>Take the output of a single-deme simulation, split into two demes, and evolve.</p>
+<dt id="fwdpy.fwdpy.evolve_regions_sampler_fitness">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions_sampler_fitness</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_sampler_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evolve a single population under arbitrary fitness models and apply a &#8220;sampler&#8221; at regular intervals.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">RuntimeError if parameters do not pass checks</td>
-</tr>
-</tbody>
-</table>
-<p>Example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#The first part is the same as the example for fwdpy.evolve_regions</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c"># Evolve for 5N generations initially</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="fwdpy.fwdpy.evolve_regions_track">
-<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">evolve_regions_track</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.evolve_regions_track" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evolve a set of populations, recording data on non-neutral every &#8220;sample&#8221; generations.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
-<li><strong>pops</strong> &#8211; A list of populations simulated by <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a></li>
-<li><strong>N</strong> &#8211; The diploid population size to simulate</li>
+<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.SpopVec" title="fwdpy.fwdpy.SpopVec"><code class="xref py py-class docutils literal"><span class="pre">SpopVec</span></code></a></li>
+<li><strong>slist</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">TemporalSampler</span></code></a>.</li>
+<li><strong>fitness_function</strong> &#8211; A <a class="reference internal" href="#fwdpy.fitness.SpopFitness" title="fwdpy.fitness.SpopFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.SpopFitness</span></code></a></li>
 <li><strong>nlist</strong> &#8211; An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).</li>
 <li><strong>mu_neutral</strong> &#8211; The mutation rate to variants not affecting fitness (&#8220;neutral&#8221; mutations).  The unit is per gamete, per generation.</li>
 <li><strong>mu_selected</strong> &#8211; The mutation rate to variants affecting fitness (&#8220;selected&#8221; mutations).  The unit is per gamete, per generation.</li>
@@ -803,16 +1180,9 @@ pandas.DataFrame objects with the information about the mutations present in the
 <li><strong>nregions</strong> &#8211; A list specifying where neutral mutations occur</li>
 <li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
 <li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
-<li><strong>sample</strong> &#8211; How often to record data about non-neutral mutations</li>
+<li><strong>sample</strong> &#8211; Apply the temporal sample every &#8216;sample&#8217; generations during the simulation.</li>
 <li><strong>f</strong> &#8211; The selfing probabilty</li>
-<li><strong>fitness</strong> &#8211; The fitness model.  Must be either &#8220;multiplicative&#8221; or &#8220;additive&#8221;.</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">One list per population in &#8220;pops&#8221;.  Each list contains information on mutation frequency, effect size, etc., over time.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if parameters do not pass checks</p>
 </td>
 </tr>
 </tbody>
@@ -848,6 +1218,25 @@ pandas.DataFrame objects with the information about the mutations present in the
 </dd></dl>
 
 <dl class="function">
+<dt id="fwdpy.fwdpy.genomatrix">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">genomatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.genomatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a &#8220;genotype matrix&#8221; from a haplotype matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> &#8211; The return value from <a class="reference internal" href="#fwdpy.fwdpy.hapmatrix" title="fwdpy.fwdpy.hapmatrix"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.hapmatrix()</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dict containing the indexes of Aa and aa genotypes</td>
+</tr>
+</tbody>
+</table>
+<p>for neutral (n) and selected (s) markers in a 1d array of length m[&#8216;nrow&#8217;]*m[&#8216;ncol_n&#8217;]/2</p>
+<p>..note :: The return value is most useful when used to create a 2d numpy array representing 
+genotypes.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="fwdpy.fwdpy.get_sample_details">
 <code class="descclassname">fwdpy.fwdpy.</code><code class="descname">get_sample_details</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.get_sample_details" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get additional details for population samples</p>
@@ -857,7 +1246,7 @@ pandas.DataFrame objects with the information about the mutations present in the
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>ms_samples</strong> &#8211; A list returned by <a class="reference internal" href="#fwdpy.fwdpy.ms_sample" title="fwdpy.fwdpy.ms_sample"><code class="xref py py-func docutils literal"><span class="pre">ms_sample()</span></code></a></li>
-<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">poptype</span></code></a></li>
+<li><strong>pops</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">PopType</span></code></a></li>
 </ul>
 </td>
 </tr>
@@ -890,17 +1279,17 @@ pandas.DataFrame objects with the information about the mutations present in the
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
-<li><strong>pop</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">poptype</span></code></a></li>
+<li><strong>pop</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">PopType</span></code></a></li>
 <li><strong>nsam</strong> &#8211; The sample size to take.</li>
 <li><strong>removeFixed</strong> &#8211; if True, only polymorphic sites are retained</li>
-<li><strong>deme</strong> &#8211; Optional.  If &#8216;pop&#8217; is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">metapop</span></code></a>, deme is required and represents the sub-population to sample.</li>
+<li><strong>deme</strong> &#8211; Optional.  If &#8216;pop&#8217; is a <a class="reference internal" href="#fwdpy.fwdpy.MetaPop" title="fwdpy.fwdpy.MetaPop"><code class="xref py py-class docutils literal"><span class="pre">MetaPop</span></code></a>, deme is required and represents the sub-population to sample.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the &#8216;nsam&#8217; chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body"><p class="first last">IndexError if &#8216;deme&#8217; is out of range and pop is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body"><p class="first last">IndexError if &#8216;deme&#8217; is out of range and pop is a <a class="reference internal" href="#fwdpy.fwdpy.MetaPop" title="fwdpy.fwdpy.MetaPop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MetaPop</span></code></a></p>
 </td>
 </tr>
 </tbody>
@@ -935,7 +1324,7 @@ pandas.DataFrame objects with the information about the mutations present in the
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Do <strong>not</strong> use this function to calculate <span class="math">\(\pi\)</span> (a.k.a. <span class="math">\(\hat\theta_\pi\)</span>, a.k.a. &#8220;sum of site heterozygosity&#8221;).
-<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.  
+<span class="math">\(\pi\)</span> for a <strong>sample</strong> is not <span class="math">\(2\sum_ip_iq_i\)</span>. because the sample is <em>finite</em>.
 In general, it will be more convenient to call <a class="reference internal" href="#fwdpy.fwdpy.getfreqs" title="fwdpy.fwdpy.getfreqs"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.getfreqs()</span></code></a> on a list of tuples.</p>
 </div>
 <p>Example:</p>
@@ -984,6 +1373,33 @@ In general, it will be more convenient to call <a class="reference internal" hre
 </dd></dl>
 
 <dl class="function">
+<dt id="fwdpy.fwdpy.hapmatrix">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">hapmatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.hapmatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain compact representations of a &#8220;haplotype matrix&#8221; from a population object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>p</strong> &#8211; A population object or vector of such objects</li>
+<li><strong>diploids</strong> &#8211; Indexes of individuals to include in matrix</li>
+<li><strong>deme</strong> &#8211; Deme index (only needed if p represents a meta-population)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A dict that will allow construction of a 0/1 matrix represting ancestral and derived genotypes,</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>respectively, corresponding the the individuals in &#8216;diploids&#8217;.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Examples will be provided elsewhere.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="fwdpy.fwdpy.merge_trajectories">
 <code class="descclassname">fwdpy.fwdpy.</code><code class="descname">merge_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.merge_trajectories" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take two sets of mutation trajectories and merge them.</p>
@@ -991,63 +1407,6 @@ In general, it will be more convenient to call <a class="reference internal" hre
 simulations used to generate trajectories 1.  For example, trajectories 1 may represent 
 mutations arising during evolutoin to equilibtrium, and trajectories2 represent what happend
 during a bottleneck.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="fwdpy.fwdpy.metapop">
-<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">metapop</code><a class="headerlink" href="#fwdpy.fwdpy.metapop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></p>
-<p>Object representing data structures for single-deme simulations.</p>
-<p>Users are not expected to construct these on their own.  Rather,
-they should be working with <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">mpopvec</span></code></a>.  This type exists as
-the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">mpopvec</span></code></a>.</p>
-<dl class="method">
-<dt id="fwdpy.fwdpy.metapop.gen">
-<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.metapop.gen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the generation that the population is currently evolved to</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="fwdpy.fwdpy.metapop.popsizes">
-<code class="descname">popsizes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.metapop.popsizes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the size of the population</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="fwdpy.fwdpy.metapop.sane">
-<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.metapop.sane" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes sure that the population is in a sane state.</p>
-<p>Internally, this checks that pop.N == pop.diploids.size(),
-which it should be if the C++ code behind this all is properly updating
-the data structures!</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="fwdpy.fwdpy.mpopvec">
-<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">mpopvec</code><a class="headerlink" href="#fwdpy.fwdpy.mpopvec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></code></a></p>
-<p>Vector of metapopulation objects</p>
-<dl class="method">
-<dt id="fwdpy.fwdpy.mpopvec.append">
-<code class="descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.append" title="Permalink to this definition">¶</a></dt>
-<dd><p>Append &#8216;p&#8217; into this object.</p>
-<p>This is done via a serialized copy, meaning that 
-this object and p will not share any pointers</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="fwdpy.fwdpy.mpopvec.next">
-<code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.next" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="fwdpy.fwdpy.mpopvec.size">
-<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.mpopvec.size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns number of populations (size of underlying C++ vector)</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="function">
@@ -1060,7 +1419,7 @@ this object and p will not share any pointers</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>rng</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.GSLrng" title="fwdpy.fwdpy.GSLrng"><code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></a></li>
-<li><strong>pops</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">poptype</span></code></a></li>
+<li><strong>pops</strong> &#8211; An object inheriting from <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">PopType</span></code></a></li>
 <li><strong>nsam</strong> &#8211; List of sample sizes (no. chromosomes) to sample.</li>
 <li><strong>removeFixed</strong> &#8211; if True, only polymorphic sites are retained</li>
 </ul>
@@ -1150,81 +1509,29 @@ this object and p will not share any pointers</p>
 </table>
 </dd></dl>
 
-<dl class="class">
-<dt id="fwdpy.fwdpy.popcont">
-<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">popcont</code><a class="headerlink" href="#fwdpy.fwdpy.popcont" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Empty base class for containers of population objects.</p>
-<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a> and <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="fwdpy.fwdpy.poptype">
-<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">poptype</code><a class="headerlink" href="#fwdpy.fwdpy.poptype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Empty base class for a population object.</p>
-<p>Example derived types include <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></code></a> and <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></a></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="fwdpy.fwdpy.popvec">
-<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">popvec</code><a class="headerlink" href="#fwdpy.fwdpy.popvec" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.popcont" title="fwdpy.fwdpy.popcont"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popcont</span></code></a></p>
-<p>Vector of single-deme objects</p>
-<p>Internally, the class contains both a C++ vector of populations and a list of populations.  These two containers
-have pointers to the same objects.  This organization adds little overhead and makes a popvec iterable in the &#8220;usual&#8221;
-Python way.</p>
-<p>See <a class="reference internal" href="#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">evolve_regions()</span></code></a> for use cases.</p>
-<dl class="method">
-<dt id="fwdpy.fwdpy.popvec.append">
-<code class="descname">append</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.popvec.append" title="Permalink to this definition">¶</a></dt>
-<dd><p>Append &#8216;p&#8217; into this object.</p>
-<p>This is done via a serialized copy, meaning that 
-this object and p will not share any pointers</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="fwdpy.fwdpy.popvec.next">
-<code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.popvec.next" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="fwdpy.fwdpy.popvec.size">
-<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.popvec.size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns number of populations (size of underlying C++ vector)</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="fwdpy.fwdpy.singlepop">
-<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">singlepop</code><a class="headerlink" href="#fwdpy.fwdpy.singlepop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></p>
-<p>Object representing data structures for single-deme simulations.</p>
-<p>Users are not expected to construct these on their own.  Rather,
-they should be working with <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">popvec</span></code></a>.  This type exists as
-the output of iterating through a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">popvec</span></code></a>.</p>
-<dl class="method">
-<dt id="fwdpy.fwdpy.singlepop.gen">
-<code class="descname">gen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.singlepop.gen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the generation that the population is currently evolved to</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="fwdpy.fwdpy.singlepop.popsize">
-<code class="descname">popsize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.singlepop.popsize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the size of the population</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="fwdpy.fwdpy.singlepop.sane">
-<code class="descname">sane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.singlepop.sane" title="Permalink to this definition">¶</a></dt>
-<dd><p>Makes sure that the population is in a sane state.</p>
-<p>Internally, this checks that pop.N == pop.diploids.size(),
-which it should be if the C++ code behind this all is properly updating
-the data structures!</p>
-</dd></dl>
-
+<dl class="function">
+<dt id="fwdpy.fwdpy.tidy_trajectories">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">tidy_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.tidy_trajectories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take a set of allele frequency trajectories and &#8216;tidy&#8217; them for easier coercion into
+a pandas.DataFrame.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>trajectories</strong> &#8211; A container of mutation frequency trajectories from a simulation.</li>
+<li><strong>min_sojourn</strong> &#8211; Exclude mutations that segregate for fewer generations than this value.</li>
+<li><strong>min_freq</strong> &#8211; Exclude mutations that never reach a frequency <span class="math">\(\geq\)</span> this value.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The sojourn time filter is not applied to fixations.  I&#8217;m assuming you are always</p>
+</div>
+<p>interested in those.</p>
 </dd></dl>
 
 <dl class="function">
@@ -1236,8 +1543,8 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></li>
-<li><strong>deme</strong> &#8211; if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample</li>
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></li>
+<li><strong>deme</strong> &#8211; if p is a :class`fwdpy.fwdpy.MetaPop`, deme is the index of the deme to sample</li>
 </ul>
 </td>
 </tr>
@@ -1259,16 +1566,9 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dips</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_diploids</span><span class="p">(</span><span class="n">i</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">201</span><span class="p">,</span><span class="mi">301</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>And now viewing from a metapop:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dips</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_diploids</span><span class="p">(</span><span class="n">i</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">201</span><span class="p">,</span><span class="mi">301</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
-</pre></div>
-</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> currently not supported</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.MetaPopVec" title="fwdpy.fwdpy.MetaPopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MetaPopVec</span></code></a> currently not supported</p>
 </div>
 </dd></dl>
 
@@ -1281,8 +1581,8 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></li>
-<li><strong>deme</strong> &#8211; if p is a :class`fwdpy.fwdpy.metapop`, deme is the index of the deme to sample</li>
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></li>
+<li><strong>deme</strong> &#8211; if p is a :class`fwdpy.fwdpy.MetaPop`, deme is the index of the deme to sample</li>
 </ul>
 </td>
 </tr>
@@ -1293,7 +1593,27 @@ the data structures!</p>
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> is not yet supported</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.MetaPopVec" title="fwdpy.fwdpy.MetaPopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MetaPopVec</span></code></a> is not yet supported</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.fwdpy.view_fixations">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">view_fixations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.view_fixations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return information on fixed variants</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of tuples. The first element is fixation time, and the second is a dict containing data about the mutation.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may need to call <a class="reference internal" href="#fwdpy.fwdpy.view_mutations" title="fwdpy.fwdpy.view_mutations"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.view_mutations()</span></code></a> to view all types of fixations, depending on the type of simulation you are running.</p>
 </div>
 </dd></dl>
 
@@ -1306,8 +1626,8 @@ the data structures!</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></li>
-<li><strong>deme</strong> &#8211; If p is a <a class="reference internal" href="#fwdpy.fwdpy.metapop" title="fwdpy.fwdpy.metapop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.metapop</span></code></a>, deme is the index of the deme to view</li>
+<li><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></li>
+<li><strong>deme</strong> &#8211; If p is a <a class="reference internal" href="#fwdpy.fwdpy.MetaPop" title="fwdpy.fwdpy.MetaPop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MetaPop</span></code></a>, deme is the index of the deme to view</li>
 </ul>
 </td>
 </tr>
@@ -1329,14 +1649,9 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dips</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_gametes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Example for a metapopulation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gams</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_gametes</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
-</pre></div>
-</div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> currently not supported</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.MetaPopVec" title="fwdpy.fwdpy.MetaPopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MetaPopVec</span></code></a> currently not supported</p>
 </div>
 </dd></dl>
 
@@ -1348,7 +1663,7 @@ the data structures!</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>p</strong> &#8211; a <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> or a <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">a list of dictionaries.  See Note.</td>
 </tr>
@@ -1364,26 +1679,63 @@ the data structures!</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c">#muts[0] will be a list and muts[0][0] will be a dict</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">muts</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">muts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="go">&lt;type &#39;list&#39;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">muts</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-<span class="go">&lt;type &#39;dict&#39;&gt;</span>
-</pre></div>
-</div>
-<p>Metapopulation example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">muts_deme_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">muts_deme_1</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">view_mutations</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a> currently not supported</p>
+<p class="last"><a class="reference internal" href="#fwdpy.fwdpy.MetaPopVec" title="fwdpy.fwdpy.MetaPopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MetaPopVec</span></code></a> currently not supported</p>
 </div>
 </dd></dl>
 
-<span class="target" id="module-fwdpy.slim"></span><dl class="function">
+<span class="target" id="module-fwdpy.fitness"></span><dl class="class">
+<dt id="fwdpy.fitness.MlocusAdditive">
+<em class="property">class </em><code class="descclassname">fwdpy.fitness.</code><code class="descname">MlocusAdditive</code><a class="headerlink" href="#fwdpy.fitness.MlocusAdditive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.MlocusFitness" title="fwdpy.fitness.MlocusFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.MlocusFitness</span></code></a></p>
+<p>Additive fitness for a multi-region model.</p>
+<p>Fitness is additive with dominance within regions,
+then strictly additive across regions.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fitness.MlocusFitness">
+<em class="property">class </em><code class="descclassname">fwdpy.fitness.</code><code class="descname">MlocusFitness</code><a class="headerlink" href="#fwdpy.fitness.MlocusFitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base object for multi-locus fitness functions</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fitness.MlocusMult">
+<em class="property">class </em><code class="descclassname">fwdpy.fitness.</code><code class="descname">MlocusMult</code><a class="headerlink" href="#fwdpy.fitness.MlocusMult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.MlocusFitness" title="fwdpy.fitness.MlocusFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.MlocusFitness</span></code></a></p>
+<p>Multiplicative fitness for a multi-region model.</p>
+<p>Fitness is multiplicative with dominance within regions,
+then strictly additive across regions.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fitness.SpopAdditive">
+<em class="property">class </em><code class="descclassname">fwdpy.fitness.</code><code class="descname">SpopAdditive</code><a class="headerlink" href="#fwdpy.fitness.SpopAdditive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.SpopFitness" title="fwdpy.fitness.SpopFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.SpopFitness</span></code></a></p>
+<p>Additive fitness model for a single deme.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fitness.SpopFitness">
+<em class="property">class </em><code class="descclassname">fwdpy.fitness.</code><code class="descname">SpopFitness</code><a class="headerlink" href="#fwdpy.fitness.SpopFitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base object for single-deme fitness functions</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fitness.SpopMult">
+<em class="property">class </em><code class="descclassname">fwdpy.fitness.</code><code class="descname">SpopMult</code><a class="headerlink" href="#fwdpy.fitness.SpopMult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.SpopFitness" title="fwdpy.fitness.SpopFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.SpopFitness</span></code></a></p>
+<p>Multiplicative fitness model for a single deme.</p>
+</dd></dl>
+
+<span class="target" id="module-fwdpy.demography"></span><span class="target" id="module-fwdpy.slim"></span><dl class="function">
 <dt id="fwdpy.slim.readslim">
 <code class="descclassname">fwdpy.slim.</code><code class="descname">readslim</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.slim.readslim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process a &#8220;SLiM&#8221; input file.</p>
@@ -1475,14 +1827,14 @@ by other module functions to process user inputs.</p>
 <span class="target" id="module-fwdpy.fwdpyio.fwdpyio"></span><dl class="function">
 <dt id="fwdpy.fwdpyio.fwdpyio.deserialize_metapops">
 <code class="descclassname">fwdpy.fwdpyio.fwdpyio.</code><code class="descname">deserialize_metapops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_metapops" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert binary representation of populations back to a <a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></a></p>
+<dd><p>Convert binary representation of populations back to a <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.mpopvec" title="fwdpy.fwdpy.mpopvec"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec()</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.mpopvec()</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -1491,41 +1843,20 @@ by other module functions to process user inputs.</p>
 <p class="last">len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.</p>
 </div>
 <p>Example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c">#The first part is the same as the example for :func:`fwdpy.fwdpy.evolve_regions_split`</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy.fwdpyio</span> <span class="k">as</span> <span class="nn">fpio</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1000</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c"># Evolve for 5N generations initially</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">popsizes</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">popsizes</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Now, &quot;bud&quot; off a daughter population of same size, and evolve both for another 100 generations</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops</span> <span class="o">=</span> <span class="n">fwdpy</span><span class="o">.</span><span class="n">evolve_regions_split</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">pops</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">100</span><span class="p">],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">,[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Serialize</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">bstrings</span> <span class="o">=</span> <span class="p">[</span><span class="n">fpio</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mpops</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">bstrings</span><span class="p">)</span>
-<span class="go">4</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c">#Deserialize</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mpops2</span> <span class="o">=</span> <span class="n">fpio</span><span class="o">.</span><span class="n">deserialize_metapops</span><span class="p">(</span><span class="n">bstrings</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>TODO</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="fwdpy.fwdpyio.fwdpyio.deserialize_singlepops">
 <code class="descclassname">fwdpy.fwdpyio.fwdpyio.</code><code class="descname">deserialize_singlepops</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpyio.fwdpyio.deserialize_singlepops" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert binary representation back to a <a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.popvec</span></code></a></p>
+<dd><p>Convert binary representation back to a <a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strings</strong> &#8211; A list of populations in binary format.  This should be the value returned by <a class="reference internal" href="#fwdpy.fwdpyio.fwdpyio.serialize" title="fwdpy.fwdpyio.fwdpyio.serialize"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpyio.fwdpyio.serialize()</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.popvec" title="fwdpy.fwdpy.popvec"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.popvec()</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.PopVec()</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1560,7 +1891,7 @@ by other module functions to process user inputs.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; A list of <a class="reference internal" href="#fwdpy.fwdpy.poptype" title="fwdpy.fwdpy.poptype"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.poptype</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pop</strong> &#8211; A list of <a class="reference internal" href="#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -1580,9 +1911,23 @@ by other module functions to process user inputs.</p>
 </div>
 </dd></dl>
 
-<span class="target" id="module-fwdpy.qtrait.qtrait"></span><dl class="function">
-<dt id="fwdpy.qtrait.qtrait.evolve_qtrait">
-<code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">evolve_qtrait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.qtrait.qtrait.evolve_qtrait" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-fwdpy.qtrait.qtrait"></span><dl class="class">
+<dt id="fwdpy.qtrait.qtrait.SpopGBRTrait">
+<em class="property">class </em><code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">SpopGBRTrait</code><a class="headerlink" href="#fwdpy.qtrait.qtrait.SpopGBRTrait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.SpopFitness" title="fwdpy.fitness.SpopFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.SpopFitness</span></code></a></p>
+<p>The &#8220;gene-based recessive&#8221; (GBR) model of Thornton et al (2013) PLoS Genetics.</p>
+<p>The genetic value is the geometric mean of haplotype effect sizes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be really careful with this one!  Fitnesses are undefined if the sum</p>
+</div>
+<p>of effect sizes on a haplotype is <span class="math">\(&lt; 0:\)</span>.  The intended use case is to calculate
+a trait value under models with effect sizes <span class="math">\(&gt;0\)</span>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.qtrait.qtrait.evolve_regions_qtrait">
+<code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">evolve_regions_qtrait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.qtrait.qtrait.evolve_regions_qtrait" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1600,42 +1945,9 @@ by other module functions to process user inputs.</p>
 <li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
 <li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
 <li><strong>sigmaE</strong> &#8211; The standard deviation in random variation to add to trait value</li>
-<li><strong>optimum</strong> &#8211; The optimum trait value.</li>
-<li><strong>f</strong> &#8211; The selfing probabilty</li>
-<li><strong>VS</strong> &#8211; The total variance in selection intensity</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if parameters do not pass checks</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="fwdpy.qtrait.qtrait.evolve_qtrait_more">
-<code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">evolve_qtrait_more</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.qtrait.qtrait.evolve_qtrait_more" title="Permalink to this definition">¶</a></dt>
-<dd><p>Continue to evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>rng</strong> &#8211; a <code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></li>
-<li><strong>pops</strong> &#8211; A list of populations simulated by <a class="reference internal" href="#fwdpy.qtrait.qtrait.evolve_qtrait" title="fwdpy.qtrait.qtrait.evolve_qtrait"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.qtrait.qtrait.evolve_qtrait()</span></code></a></li>
-<li><strong>N</strong> &#8211; The diploid population size to simulate</li>
-<li><strong>nlist</strong> &#8211; An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).</li>
-<li><strong>mu_neutral</strong> &#8211; The mutation rate to variants not affecting fitness (&#8220;neutral&#8221; mutations).  The unit is per gamete, per generation.</li>
-<li><strong>mu_selected</strong> &#8211; The mutation rate to variants affecting fitness (&#8220;selected&#8221; mutations).  The unit is per gamete, per generation.</li>
-<li><strong>recrate</strong> &#8211; The recombination rate in the regions (per diploid, per generation)</li>
-<li><strong>nregions</strong> &#8211; A list specifying where neutral mutations occur</li>
-<li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
-<li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
-<li><strong>sigmaE</strong> &#8211; The standard deviation in random variation to add to trait value</li>
-<li><strong>optimum</strong> &#8211; The optimum trait value.</li>
-<li><strong>f</strong> &#8211; The selfing probabilty</li>
-<li><strong>VS</strong> &#8211; The variance in the Gaussian fitness function.  Under certaing strong assumtions, <span class="math">\(V(G) pprox 4   imes\mu imesV(S)\)</span>, where <span class="math">\(\mu\)</span> is mu_selected.</li>
+<li><strong>optimum</strong> &#8211; The optimum trait value. <strong>Default = 0.0</strong></li>
+<li><strong>f</strong> &#8211; The selfing probabilty. <strong>Default = 0.0</strong></li>
+<li><strong>VS</strong> &#8211; The total variance in selection intensity. <strong>Default = 1.0</strong></li>
 </ul>
 </td>
 </tr>
@@ -1654,7 +1966,7 @@ by other module functions to process user inputs.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.singlepop" title="fwdpy.fwdpy.singlepop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.singlepop</span></code></a> simulated using <a class="reference internal" href="#fwdpy.qtrait.qtrait.evolve_qtrait" title="fwdpy.qtrait.qtrait.evolve_qtrait"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.qtrait.qtrait.evolve_qtrait()</span></code></a> and/or <code class="xref py py-func docutils literal"><span class="pre">fwdp.qtrait.qtrait.evolve_qtrait_more()</span></code></li>
+<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.Spop" title="fwdpy.fwdpy.Spop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Spop</span></code></a> simulated using <code class="xref py py-func docutils literal"><span class="pre">fwdpy.qtrait.qtrait.evolve_qtrait()</span></code> and/or <code class="xref py py-func docutils literal"><span class="pre">fwdp.qtrait.qtrait.evolve_qtrait_more()</span></code></li>
 <li><strong>tau</strong> &#8211; The coupling of trait value to fitness effect of mutation</li>
 <li><strong>sigma</strong> &#8211; The standard deviation for Gaussian noise applied to trait value.  Generates the <span class="math">\(\epsilon\)</span> term in E-W&#8217;s paper</li>
 </ul>
@@ -1673,6 +1985,22 @@ by other module functions to process user inputs.</p>
 <p class="last">The citation is www.pnas.org/cgi/doi/10.1073/pnas.0906182107.
 We implement the simple additive case here.</p>
 </div>
+</dd></dl>
+
+<span class="target" id="module-fwdpy.qtrait_mloc.qtrait_mloc"></span><dl class="class">
+<dt id="fwdpy.qtrait_mloc.qtrait_mloc.MlocusGBRTrait">
+<em class="property">class </em><code class="descclassname">fwdpy.qtrait_mloc.qtrait_mloc.</code><code class="descname">MlocusGBRTrait</code><a class="headerlink" href="#fwdpy.qtrait_mloc.qtrait_mloc.MlocusGBRTrait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.MlocusFitness" title="fwdpy.fitness.MlocusFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.MlocusFitness</span></code></a></p>
+<p>The &#8220;gene-based recessive&#8221; (GBR) trait model of Thornton et al (2013) PLoS Genetics.</p>
+<p>The GBR model is applied to each region, and then the final value is the sum over regions.</p>
+<p>The fitness (or genetic value as it was used in that paper) is the geometric mean 
+of haplotype effect sizes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be really careful with this one!  Fitnesses are undefined if the sum</p>
+</div>
+<p>of effect sizes on a haplotype is <span class="math">\(&lt; 0:\)</span>.  The intended use case is to calculate
+a trait value under models with effect sizes <span class="math">\(&gt;0\)</span>.</p>
 </dd></dl>
 
 </div>
@@ -1697,8 +2025,10 @@ We implement the simple additive case here.</p>
 <li><a class="reference internal" href="#">Welcome to fwdpy&#8217;s documentation!</a><ul>
 <li><a class="reference internal" href="#theoretical-concepts">Theoretical concepts</a></li>
 <li><a class="reference internal" href="#important-concepts-for-setting-up-simulations">Important concepts for setting up simulations</a></li>
+<li><a class="reference internal" href="#custom-fitness-models">Custom fitness models</a></li>
 <li><a class="reference internal" href="#notes-for-people-wanting-to-work-with-the-code">Notes for people wanting to work with the code</a></li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#special-topics">Special topics</a></li>
 <li><a class="reference internal" href="#module-fwdpy.fwdpy">Functions and classes</a></li>
 </ul>
 </li>
@@ -1741,7 +2071,7 @@ We implement the simple additive case here.</p>
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.3 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

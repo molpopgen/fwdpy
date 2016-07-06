@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; fwdpy 0.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="fwdpy 0.0.4 documentation" href="../index.html" />
+    <link rel="next" title="Implementing custom fitness functions" href="customFitness.html" />
+    <link rel="prev" title="How many threads to use?" href="threads.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="customFitness.html" title="Implementing custom fitness functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="How many threads to use?"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>There are places where you can change the behavior of <em>fwdpy</em>.  Doing this involves writing some <a class="reference external" href="http://cython.org">Cython</a> code yourself.</p>
+<p>In order to do this, you&#8217;ll have to make your own Python package using <a class="reference external" href="http://cython.org">Cython</a>.  This is not that difficult, although it may seem daunting at first.  The Cython <a class="reference external" href="http://docs.cython.org">manual</a> is a very thorough reference, but we&#8217;ll try in these sections to give you most of the tools you need.</p>
+<div class="section" id="basic-protocol">
+<h2>Basic protocol<a class="headerlink" href="#basic-protocol" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we&#8217;ll refer to custom extensions to fwdpy as &#8220;widgets&#8221;.  A custom fitness function would be an example of such a &#8220;widget&#8221;.</p>
+<p>The generic recipe is:</p>
+<ul class="simple">
+<li>Generate a &#8220;pyx&#8221; file that <em>defines</em> your widgets.  A &#8220;pyx&#8221; file is a Cython source file&#8211;the &#8220;py&#8221; means Python and the &#8220;x&#8221; means extension. Again C/C++ users can view this as a source file that contains the code that actually makes these types and functions work.</li>
+<li>Generate a &#8220;pyxbld&#8221; file that will help to compile your custom module.</li>
+</ul>
+<p>The next sections of the manual cover the following topics:</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="customFitness.html#customfitness"><span class="std std-ref">Implementing custom fitness functions</span></a></p>
+<p>Compiling a custom module</p>
+</li>
+</ul>
+<hr class="docutils" />
+<p>Simply put, there&#8217;s a fast/easy way, and a more involved way.  This document covers the former.  The latter involves writing a &#8220;setup.py&#8221; script for your custom module.  Documenting that is beyond the scope of this document, and the easy way will suffice in most cases.  The easy way involved using the pyximport module that comes with <a class="reference external" href="http://cython.org">Cython</a>.</p>
+<p>The generic recipe is:</p>
+<ul class="simple">
+<li>Have fwdpy installed!</li>
+<li>Have <a class="reference external" href="http://cython.org">Cython</a> installed!</li>
+<li>Your module code is in the file mymod.pyx. (This is just an example, of course&#8211;you can use any valid file name with the .pyx suffix.)</li>
+<li>You create a &#8220;build&#8221; file called mymod.pyx.  You do not have to write this!  Simply copy one that comes with the fwdpy source code (<em>e.g.</em> extension_tests/test_custom_fitness/test_custom_fitness.pyxbld).</li>
+<li>Write a Python file called &#8220;compile.py&#8221; with the following code in it:</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyximport</span>
+<span class="n">pyximport</span><span class="o">.</span><span class="n">install</span>
+<span class="kn">import</span> <span class="nn">mymod</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Figure out where the fwdpy headers are.  This is often the limiting step.  Here&#8217;s a trick:</li>
+</ul>
+<p>The result on my system is:</p>
+<div class="highlight-bash"><div class="highlight"><pre>/home/kevin/.local/lib/python2.7/site-packages/fwdpy/__init__.pyc
+</pre></div>
+</div>
+<p>Replace lib with include, delete site-packaged, and get rid of /__init__.pyc to get:</p>
+<div class="highlight-bash"><div class="highlight"><pre>/home/kevin/.local/include/python2.7/fwdpy
+</pre></div>
+</div>
+<p>That is where the fwdpy headers are.</p>
+<p>With that out of our way, this will compile our custom module:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">CPPFLAGS</span><span class="o">=</span>-I/home/kevin/.local/include/python2.7/fwdpy python compile.py
+</pre></div>
+</div>
+<p>To see a fully-worked out example, see extension_tests/run_custom_fitness.py in the fwdpy source repository.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#basic-protocol">Basic protocol</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="threads.html"
+                        title="previous chapter">How many threads to use?</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="customFitness.html"
+                        title="next chapter">Implementing custom fitness functions</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/docs/customAnalyses.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="customFitness.html" title="Implementing custom fitness functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="How many threads to use?"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>
