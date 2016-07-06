@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <fwdpp/extensions/callbacks.hpp>
-
+#include <fwdpp/forward_types.hpp>
 namespace fwdpy
 {
   namespace internal
@@ -37,8 +37,11 @@ namespace fwdpy
 	*b = beginning of region
 	*e = end of region
 	*w = weight assigned to region
+	*l = labels assigned to region
        */
       std::vector<double> nb,ne,nw,sb,se,sw,rb,re,rw;
+      using label_cont_t = std::vector<decltype(KTfwd::mutation_base::xtra)>;
+      label_cont_t nl,sl;
       region_manager() : callbacks(std::vector<KTfwd::extensions::shmodel>()),
 			 nb(std::vector<double>()),
 			 ne(std::vector<double>()),
@@ -48,7 +51,9 @@ namespace fwdpy
 			 sw(std::vector<double>()),
 			 rb(std::vector<double>()),
 			 re(std::vector<double>()),
-			 rw(std::vector<double>())
+			 rw(std::vector<double>()),
+			 nl(label_cont_t()),
+			 sl(label_cont_t())
       {
       }
     };

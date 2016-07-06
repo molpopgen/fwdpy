@@ -47,6 +47,7 @@ for i in mutations2:
 # * neutral = a boolean
 # * pos = the position of the mutation
 # * s = selection coefficient/effect size
+# * label = The label assigned to a mutation.  These labels can be associated with Regions and Sregions.  Here, 1 is a mutation from the neutral region, 2 a selected mutation from the 'left' region and 3 a selected mutation from the 'right' regin.
 # 
 # We can do all the usual subsetting, etc., using regular pandas tricks.  For example, let's get the neutral mutations for each population:
 
@@ -125,5 +126,7 @@ for key in dips[0][0]:
 # * g = genetic component of phenotype
 # * e = random component of phenotype
 # * w = fitness
+# * n0 and n1 are the number of selected variants on chrom0 and chrom1, respectively.
+# * sh0 and sh1 are the sum of $s \times h$ for all selected mutations on chrom0 and chrom1, respectively
 # 
 # Please note that g, e, and w, may or may not be set by a particular simulation.  Their use is optional.

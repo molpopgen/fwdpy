@@ -29,3 +29,5 @@ def make_region_manager(region_manager_wrapper rv,
     rv.thisptr.rb = recreg['beg'].tolist()
     rv.thisptr.re = recreg['end'].tolist()
     rv.thisptr.rw = recreg['weight'].tolist()
+    rv.thisptr.nl = nreg['labels'].tolist()
+    rv.thisptr.sl = sreg['labels'].tolist()

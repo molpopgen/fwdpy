@@ -22,10 +22,10 @@ GSL_V=""
 try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
-    version = str(out).rstrip()
+    version = out.decode('utf-8').rstrip()
     print ("fwdpp version",version," found.")
     FWDPP_V=version
-    if version <= '@MINFWDPP@':
+    if version < '@MINFWDPP@':
         sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
 except:
     sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
@@ -34,7 +34,7 @@ except:
 try:
     proc = subprocess.Popen(['gsl-config','--version'],stdout=subprocess.PIPE)
     (out,err) = proc.communicate()
-    version = str(out).rstrip()
+    version = out.decode('utf-8').rstrip()
     GSL_V=version
     print ("GSL version ",version," found.")
 except:
@@ -53,7 +53,7 @@ if '--qtrait' in sys.argv:
     sys.argv.remove('--qtrait')
 else:
     QTRAIT=False
-    
+
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
 #MEMLIBS=None
@@ -114,48 +114,95 @@ long_desc = open("README.rst").read()
 #EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
-                     str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"'
+                     str('-DPACKAGE_VERSION=')+'"@PACKAGE_VERSION@"',
+                     '-DHAVE_INLINE'
 ]
 LINK_ARGS=["-std=c++11",'-fopenmp']
+GLOBAL_INCLUDES=['.','..','include']
 
+#Cython generates .cpp files from the .pyx files
+#In general, we wisht to complies the .cpp files
+#that are already here.  But, if we are modifying
+#the package, we need to re-generate them, and thus
+#re-process the .pyx files.
+#This variable handes that choice, based on
+#use of --use-cython or not (see above).
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
 extensions = [
     Extension("fwdpy.fwdpy",
-        sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
-        language="c++",                        # generate and compile C++ code
-        include_dirs=['.','..','include'], 
-        extra_compile_args=GLOBAL_COMPILE_ARGS,
-        extra_link_args=LINK_ARGS,
-        libraries=LIBS),
-        Extension("fwdpy.internal.internal",
-        sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
-        language="c++",
-        include_dirs=['.','..','include'],
-        extra_compile_args=GLOBAL_COMPILE_ARGS,
-        extra_link_args=LINK_ARGS,
-        libraries=LIBS),
-        Extension("fwdpy.fwdpyio.fwdpyio",
-        sources=["fwdpy/fwdpyio/fwdpyio"+EXTENSION]+glob.glob("fwdpy/fwdpyio/*.cc"),
-        language="c++",
-        include_dirs=['.','..','include'],
-        extra_compile_args=GLOBAL_COMPILE_ARGS,
-        extra_link_args=LINK_ARGS,
-        libraries=LIBS)
-        ]
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio']
+              sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
+              language="c++",                        # generate and compile C++ code
+              include_dirs=GLOBAL_INCLUDES,
+              extra_compile_args=GLOBAL_COMPILE_ARGS,
+              extra_link_args=LINK_ARGS,
+              libraries=LIBS),
+    Extension("fwdpy.internal.internal",
+              sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
+              language="c++",
+              include_dirs=GLOBAL_INCLUDES,
+              extra_compile_args=GLOBAL_COMPILE_ARGS,
+              extra_link_args=LINK_ARGS,
+              libraries=LIBS),
+    Extension("fwdpy.fwdpyio.fwdpyio",
+              sources=["fwdpy/fwdpyio/fwdpyio"+EXTENSION]+glob.glob("fwdpy/fwdpyio/*.cc"),
+              language="c++",
+              include_dirs=GLOBAL_INCLUDES,
+              extra_compile_args=GLOBAL_COMPILE_ARGS,
+              extra_link_args=LINK_ARGS,
+              libraries=[]),
+    Extension("fwdpy.demography.demography",
+              sources=["fwdpy/demography/demography"+EXTENSION]+glob.glob("fwdpy/demography/*.cc"),
+              language="c++",
+              include_dirs=GLOBAL_INCLUDES,
+              extra_compile_args=GLOBAL_COMPILE_ARGS,
+              extra_link_args=LINK_ARGS,
+              libraries=LIBS),
+]
+
+extensions.extend(
+    [Extension("fwdpy.fitness",
+               sources=["fwdpy/fitness"+EXTENSION],
+               language="c++",
+               include_dirs=GLOBAL_INCLUDES,
+               extra_compile_args=GLOBAL_COMPILE_ARGS,)]
+    )
+
+##This is the list of extension modules
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
 if QTRAIT is True:
     extensions.extend([
         Extension("fwdpy.qtrait.qtrait",
                   sources=["fwdpy/qtrait/qtrait"+EXTENSION]+glob.glob("fwdpy/qtrait/*.cc"), # the Cython source and additional C++ source files
                   language="c++",                        # generate and compile C++ code
-                  include_dirs=['.','..','include'], 
+                  include_dirs=GLOBAL_INCLUDES,
                   extra_compile_args=GLOBAL_COMPILE_ARGS,
                   extra_link_args=LINK_ARGS,
                   libraries=LIBS)
     ])
     PKGS.append('fwdpy.qtrait')
+    extensions.extend([
+        Extension("fwdpy.qtrait_mloc.qtrait_mloc",
+                  sources=["fwdpy/qtrait_mloc/qtrait_mloc"+EXTENSION]+glob.glob("fwdpy/qtrait_mloc/*.cc"),
+                  language="c++",
+                  include_dirs=GLOBAL_INCLUDES,
+                  extra_compile_args=GLOBAL_COMPILE_ARGS,
+                  extra_link_args=LINK_ARGS,
+                  libraries=LIBS)
+    ])
+    PKGS.append('fwdpy.qtrait_mloc')
+    PKGS.append('fwdpy.gwas')
+    extensions.extend([
+        Extension("fwdpy.gwas.gwas",
+                  sources=["fwdpy/gwas/gwas"+EXTENSION]+glob.glob("fwdpy/gwas/*.cc"),
+                  language="c++",
+                  include_dirs=GLOBAL_INCLUDES,
+                  extra_compile_args=GLOBAL_COMPILE_ARGS,
+                  extra_link_args=LINK_ARGS,
+                  libraries=LIBS)
+    ])
+
 
 #If using Cython, edit extensions here:
 if USE_CYTHON:

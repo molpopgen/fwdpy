@@ -1,9 +1,9 @@
-def check_popdata_singlepop(singlepop p):
+def check_popdata_singlepop(Spop p):
     cdef bint csum = check_sum[gcont_t](p.pop.get().gametes,2*(<unsigned>p.pop.get().diploids.size()))
     cdef bint pds = popdata_sane[dipvector_t,gcont_t,mcont_t](p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts)
     return {'check_sum':csum,'popdata_sane':pds}
 
-def check_popdata_metapop(metapop p):
+def check_popdata_metapop(MetaPop p):
     cdef bint csum = check_sum[gcont_t](p.mpop.get().gametes,2*(<unsigned>p.mpop.get().diploids.size()))
     lpds=[]
     cdef bint pds
@@ -15,10 +15,10 @@ def check_popdata_metapop(metapop p):
         i+=1
     return {'check_sum':csum,'popdata_sane':lpds}
 
-def check_popdata_popvec(popvec p):
+def check_popdata_popvec(SpopVec p):
     return [check_popdata_singlepop(i) for i in p]
 
-def check_popdata_mpopvec(mpopvec p):
+def check_popdata_mpopvec(MetaPopVec p):
     return [check_popdata_metapop(i) for i in p]
 
 def check_popdata(object p):
@@ -29,13 +29,13 @@ def check_popdata(object p):
 
     :rtype: Dictionary with return values (True or False). Any false values reflect a critical data inconsistency, and mean an exception should be raised.
     """
-    if isinstance(p,popvec):
+    if isinstance(p,SpopVec):
         return check_popdata_popvec(p)
-    elif isinstance(p,mpopvec):
+    elif isinstance(p,MetaPopVec):
         return check_popdata_mpopvec(p)
-    elif isinstance(p,singlepop):
+    elif isinstance(p,Spop):
         return check_popdata_singlepop(p)
-    elif isinstance(p,metapop):
-        return check_popdata-metapop(p)
+    elif isinstance(p,MetaPop):
+        return check_popdata_metapop(p)
     else:
         raise RuntimeError("object type not understood")

@@ -12,7 +12,8 @@ namespace fwdpy {
 		       std::vector<double> * s,
 		       std::vector<double> * h,
 		       std::vector<double> * p,
-		       std::vector<double> * a)
+		       std::vector<double> * a,
+		       std::vector<decltype(KTfwd::mutation_base::xtra)> * l)
   {
     for( const auto & site : sample )
       {
@@ -21,44 +22,29 @@ namespace fwdpy {
 	  });
 	s->push_back(mitr->s);
 	h->push_back(mitr->h);
-	p->push_back(double(mcounts[std::distance(mutations.begin(),mutations.end())])/double(twoN));
+	p->push_back(double(mcounts[std::distance(mutations.begin(),mitr)])/(2.0*double(twoN)));
 	a->push_back(double(gen-mitr->g)); //mutation age--this is correct b/c of def'n of 'gen' in the pop objects!
+	l->push_back(mitr->xtra); //This is the 'label' assigned to a mutation -- See Regions.pyx for details.
       }
   }
   
   void get_sh( const std::vector<std::pair<double,std::string> > & samples,
-	       const singlepop_t * pop,
+	       const std::vector<KTfwd::popgenmut> & mutations,
+	       const std::vector<KTfwd::uint_t> & mcounts,
+	       const KTfwd::uint_t & ttlN,
+	       const unsigned & generation,
 	       std::vector<double> * s,
 	       std::vector<double> * h,
 	       std::vector<double> * p,
-	       std::vector<double> * a)
+	       std::vector<double> * a,
+	       std::vector<decltype(KTfwd::mutation_base::xtra)> * l)
   {
     get_sh_details(samples,
-		   pop->mutations,
-		   pop->mcounts,
-		   2*pop->diploids.size(),
-		   pop->generation,
-		   s,h,p,a);
-  }
-
-  void get_sh( const std::vector<std::pair<double,std::string> > & samples,
-	       const metapop_t * pop,
-	       std::vector<double> * s,
-	       std::vector<double> * h,
-	       std::vector<double> * p,
-	       std::vector<double> * a)
-  {
-    unsigned ttlN=0;
-    for(auto itr = pop->diploids.begin();itr!=pop->diploids.end();++itr)
-      {
-	ttlN+=itr->size();
-      }
-    get_sh_details(samples,
-		   pop->mutations,
-		   pop->mcounts,
+		   mutations,
+		   mcounts,
 		   ttlN,
-		   pop->generation,
-		   s,h,p,a);
+		   generation,
+		   s,h,p,a,l);
   }
 }
 

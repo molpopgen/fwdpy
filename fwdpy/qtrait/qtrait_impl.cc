@@ -25,7 +25,7 @@
 #include "qtrait_details.hpp"
 #include "qtrait_evolve.hpp"
 #include "sampler_no_sampling.hpp"
-
+#include "sampler_additive_variance.hpp"
 
 using namespace std;
 
@@ -35,178 +35,58 @@ namespace fwdpy
 {
   namespace qtrait
   {
-    void evolve_qtrait_no_sampling_async( GSLrng_t * rng,
-					  std::vector<std::shared_ptr<singlepop_t> > * pops,
-					  const unsigned * Nvector,
-					  const size_t Nvector_length,
-					  const double mu_neutral,
-					  const double mu_selected,
-					  const double littler,
-					  const double f,
-					  const double sigmaE,
-					  const double optimum,
-					  const double VS,
-					  const internal::region_manager * rm)
+    void evolve_regions_qtrait_cpp( GSLrng_t * rng,
+				    std::vector<std::shared_ptr<singlepop_t> > * pops,
+				    std::vector<std::unique_ptr<sampler_base> > & samplers,
+				    const unsigned * Nvector,
+				    const size_t Nvector_length,
+				    const double neutral,
+				    const double selected,
+				    const double recrate,
+				    const double f,
+				    const double sigmaE,
+				    const double optimum,
+				    const double VS,
+				    const int interval,
+				    const internal::region_manager * rm,
+				    const singlepop_fitness & fitness)
     {
+      if(neutral < 0. || selected < 0. || recrate < 0.)
+	{
+	  throw std::runtime_error("mutation and recombination rates must all be non-negative.");
+	}
+      if(samplers.size()!=pops->size())
+	{
+	  throw std::runtime_error("length of samplers != length of population container");
+	}
+      if(f<0.||f>1.) throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
+      if(interval<0) throw std::runtime_error("sampling interval must be non-negative");
+      std::vector<std::thread> threads;
       qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      evolve_qtrait_async_wrapper<no_sampling,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
-								  mu_neutral,mu_selected,littler,f,
-								  sigmaE,optimum,rm,rules);
-    }
-    std::vector<sample_n::final_t>
-    evolve_qtrait_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-				const unsigned * Nvector,
-				const size_t Nvector_length,
-				const double mu_neutral,
-				const double mu_selected,
-				const double littler,
-				const double f,
-				const double sigmaE,
-				const double optimum,
-				const double VS,
-				const int sample,
-				const unsigned nsam,
-				const internal::region_manager * rm)
-    {
-      qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<sample_n,qtrait_model_rules,decltype(nsam)>(rng,pops,Nvector,Nvector_length,
-										     mu_neutral,mu_selected,littler,
-										     f,sigmaE,optimum,sample,rm,rules,
-										     std::forward<decltype(nsam)>(nsam));
-    }
-
-    std::vector<pop_properties::final_t>
-    evolve_qtrait_popstats_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-				  const unsigned * Nvector,
-				  const size_t Nvector_length,
-				  const double mu_neutral,
-				  const double mu_selected,
-				  const double littler,
-				  const double f,
-				  const double sigmaE,
-				  const double optimum,
-				  const double VS,
-				  const int sample,
-				  const internal::region_manager * rm)
-    {
-      qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<pop_properties,
-					 qtrait_model_rules,
-					 decltype(optimum)>(rng,pops,Nvector,Nvector_length,
-							    mu_neutral,mu_selected,littler,
-							    f,sigmaE,optimum,sample,rm,rules,
-							    /*
-							      Optimum gets passed again,
-							      as a constructor argument to the
-							      sampler's API.
-							    */
-							    std::forward<decltype(optimum)>(optimum));
-								
-    }
-
-    std::vector<selected_mut_tracker::final_t>
-    evolve_qtrait_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			       const unsigned * Nvector,
-			       const size_t Nvector_length,
-			       const double mu_neutral,
-			       const double mu_selected,
-			       const double littler,
-			       const double f,
-			       const double sigmaE,
-			       const double optimum,
-			       const double VS,
-			       const int track,
-			       const internal::region_manager * rm)
-    {
-      qtrait_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<selected_mut_tracker,qtrait_model_rules>(rng,pops,Nvector,Nvector_length,
-										   mu_neutral,mu_selected,littler,
-										   f,sigmaE,optimum,track,rm,rules);
-    }
-    
-    void evolve_gbr_no_sampling_async( GSLrng_t * rng,
-				       std::vector<std::shared_ptr<singlepop_t> > * pops,
-				       const unsigned * Nvector,
-				       const size_t Nvector_length,
-				       const double mu_neutral,
-				       const double mu_selected,
-				       const double littler,
-				       const double f,
-				       const double sigmaE,
-				       const double optimum,
-				       const double VS,
-				       const internal::region_manager * rm)
-    {
-      gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      evolve_qtrait_async_wrapper<no_sampling,gbr_model_rules>(rng,pops,Nvector,Nvector_length,
-							       mu_neutral,mu_selected,littler,f,
-							       sigmaE,optimum,rm,rules);
-    }
-    std::vector<sample_n::final_t>
-    evolve_gbr_sample_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			     const unsigned * Nvector,
-			     const size_t Nvector_length,
-			     const double mu_neutral,
-			     const double mu_selected,
-			     const double littler,
-			     const double f,
-			     const double sigmaE,
-			     const double optimum,
-			     const double VS,
-			     const int sample,
-			     const unsigned nsam,
-			     const internal::region_manager * rm)
-    {
-      gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<sample_n,gbr_model_rules,decltype(nsam)>(rng,pops,Nvector,Nvector_length,
-										  mu_neutral,mu_selected,littler,
-										  f,sigmaE,optimum,sample,rm,rules,
-										  std::forward<decltype(nsam)>(nsam));
-    }
-
-    std::vector<pop_properties::final_t>
-    evolve_gbr_popstats_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			       const unsigned * Nvector,
-			       const size_t Nvector_length,
-			       const double mu_neutral,
-			       const double mu_selected,
-			       const double littler,
-			       const double f,
-			       const double sigmaE,
-			       const double optimum,
-			       const double VS,
-			       const int sample,
-			       const internal::region_manager * rm)
-    {
-      gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<pop_properties,
-					 gbr_model_rules,
-					 decltype(optimum)>(rng,pops,Nvector,Nvector_length,
-							    mu_neutral,mu_selected,littler,
-							    f,sigmaE,optimum,sample,rm,rules,
-							    std::forward<decltype(optimum)>(optimum));
-									
-    }
-
-    std::vector<selected_mut_tracker::final_t>
-    evolve_gbr_track_async( GSLrng_t * rng, std::vector<std::shared_ptr<singlepop_t> > * pops,
-			    const unsigned * Nvector,
-			    const size_t Nvector_length,
-			    const double mu_neutral,
-			    const double mu_selected,
-			    const double littler,
-			    const double f,
-			    const double sigmaE,
-			    const double optimum,
-			    const double VS,
-			    const int track,
-			    const internal::region_manager * rm)
-    {
-      gbr_model_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
-      return evolve_qtrait_async_wrapper<selected_mut_tracker,gbr_model_rules>(rng,pops,Nvector,Nvector_length,
-										mu_neutral,mu_selected,littler,
-										f,sigmaE,optimum,track,rm,rules);
-									
+      for(std::size_t i=0;i<pops->size();++i)
+	{
+	  threads.emplace_back( std::thread(evolve_regions_qtrait_sampler_cpp_details<qtrait_model_rules>,
+					    pops->operator[](i).get(),
+					    gsl_rng_get(rng->get()),
+					    Nvector,
+					    Nvector_length,
+					    neutral,
+					    selected,
+					    recrate,
+					    f,
+					    sigmaE,
+					    optimum,
+					    VS,
+					    fitness,
+					    interval,
+					    KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks),
+					    KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw),
+					    std::ref(*samplers[i]),
+					    rules
+					    )
+				);	
+	}
+      for(auto & t : threads) t.join();
     }
   } //ns qtrait
 } //ns fwdpy

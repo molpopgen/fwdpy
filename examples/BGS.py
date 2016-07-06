@@ -9,9 +9,9 @@
 # * Strongly-deleterious mutations will occur on the intervals $[-1,0)$ and $[1,2)$.
 # * Recombination will be uniform throughout the region.
 
-# In[20]:
+# In[1]:
 
-#Use Pyhon 3's print a a function.
+#Use Python 3's print a a function.
 #This future-proofs the code in the notebook
 from __future__ import print_function
 #Import fwdpy.  Give it a shorter name
@@ -25,20 +25,20 @@ import math
 # ### Establishing 'regions' for mutation and recombination
 # 
 
-# In[3]:
+# In[2]:
 
 # Where neutral mutations occur:
 nregions = [fp.Region(beg=0,end=1,weight=1)]
 
 
-# In[4]:
+# In[3]:
 
 # Where selected mutations occur:
 sregions = [fp.ConstantS(beg=-1,end=0,weight=1,s=-0.05,h=1),
             fp.ConstantS(beg=1,end=2,weight=1,s=-0.05,h=1)]
 
 
-# In[5]:
+# In[4]:
 
 # Recombination:
 recregions = [fp.Region(beg=-1,end=2,weight=1)]
@@ -46,7 +46,7 @@ recregions = [fp.Region(beg=-1,end=2,weight=1)]
 
 # ### Population size and simulation length
 
-# In[6]:
+# In[5]:
 
 #Population size
 N=1000
@@ -60,18 +60,18 @@ N=1000
 nlist = np.array([N]*10*N,dtype=np.uint32)
 
 
-# In[7]:
+# In[6]:
 
 #Initalize a random number generator with seed value of 101
 rng = fp.GSLrng(101)
 
 
-# In[8]:
+# In[7]:
 
-#Simulate 4 replicate populations.  This uses C++11 threads behind the scenes:
+#Simulate 40 replicate populations.  This uses C++11 threads behind the scenes:
 pops = fp.evolve_regions(rng,       #The random number generator 
-                         4,         #The number of pops to simulate = number of threads to use.
-                         N,         #Initial population size for each of the 4 demes
+                         40,         #The number of pops to simulate = number of threads to use.
+                         N,         #Initial population size for each of the 40 demes
                          nlist[0:], #List of population sizes over time.
                          0.005,     #Neutral mutation rate (per gamete, per generation)
                          0.01,      #Deleterious mutation rate (per gamete, per generation)
@@ -81,19 +81,18 @@ pops = fp.evolve_regions(rng,       #The random number generator
                          recregions)#Defined above
 
 
-# In[9]:
+# In[8]:
 
-#Now, pops is a Python list with len(pops) = 4
+#Now, pops is a Python list with len(pops) = 40
 #Each element's type is fwdpy.singlepop
 print(len(pops))
-for i in range(len(pops)):
-    print(type(pops[i]))
+print(type(pops[0]))
                 
 
 
 # ## Taking samples from simulated populations
 
-# In[10]:
+# In[9]:
 
 #Use a list comprehension to get a random sample of size
 #n = 20 from each replicate
@@ -105,7 +104,7 @@ samples = [fp.get_samples(rng,i,20) for i in pops]
 #The second list represents variants affecting fitness ('selected' variants)
 #We will manipulate/analyze these genotypes, etc.,
 #in a later example
-for i in samples:
+for i in samples[:4]:
     print ("A sample from a population is a ",type(i))
     
 print(len(samples))
@@ -113,7 +112,7 @@ print(len(samples))
 
 # ### Getting additional information about samples
 
-# In[11]:
+# In[10]:
 
 #Again, use list comprehension to get the 'details' of each sample
 #Given that each object in samples is a tuple, and that the second
@@ -123,7 +122,7 @@ print(len(samples))
 details = [fp.get_sample_details(i[1],j) for i,j in zip(samples,pops)]
 
 
-# In[12]:
+# In[11]:
 
 #details is now a list of pandas DataFrame objects
 #Each DataFrame has the following columns:
@@ -131,21 +130,22 @@ details = [fp.get_sample_details(i[1],j) for i,j in zip(samples,pops)]
 #  h: dominance of the mutation
 #  p: frequency of the mutation in the population
 #  s: selection coefficient of the mutation
-for i in details:
+#  label: A label applied for mutations for each region.  Here, I use 0 for all regions
+for i in details[:4]:
     print(i)
 
 
-# In[13]:
+# In[12]:
 
 #The order of the rows in each DataFrame is the
 #same as the order as the objects in 'samples':
-for i in range(len(samples)):
+for i in range(4):
     print("Number of sites in samples[",i,"] = ",
           len(samples[i][1]),". Number of rows in DataFrame ",i,
           " = ",len(details[i].index),sep="")
 
 
-# In[14]:
+# In[13]:
 
 #Pandas DataFrames are cool.
 #Let's add a column to each DataFrame
@@ -160,7 +160,7 @@ for i in range(len(details)):
     details[i]['id']=[i]*len(details[i].index)                    #Replicate id
 
 
-# In[15]:
+# In[14]:
 
 ##Merge into 1 big DataFrame:
 BigTable = pandas.concat(details)
@@ -173,7 +173,7 @@ print(BigTable)
 # 
 # We will use the [pylibseq](http://molpopgen.github.io/pylibseq/) package to calculate summary statistics.  pylibseq is a Python wrapper around [libsequence](http://molpopgen.github.io/libsequence/).
 
-# In[16]:
+# In[15]:
 
 import libsequence.polytable as polyt
 import libsequence.summstats as sstats
@@ -200,18 +200,18 @@ NeutralMutStats
 # 
 # For our parameters, we have $E[\pi] = 20e^{-\frac{0.02}{0.1+0.005}},$ which equals:
 
-# In[17]:
+# In[16]:
 
 print(20*math.exp(-0.02/(0.1+0.005)))
 
-Now, let's get the average $\pi$ from 500 simulated replicates.  We already have four replicates that we did above, so we'll run another 124 sets of four populations.  
+Now, let's get the average $\pi$ from 1000 simulated replicates.  We already have 40 replicates that we did above, so we'll run another 24 sets of four populations.  
 
 We will use standard Python to grow our collection of summary statistics.
-# In[18]:
+# In[17]:
 
-for i in range(0,124,1):
+for i in range(0,24,1):
     pops = fp.evolve_regions(rng,  
-                         4,        
+                         40,        
                          N,        
                          nlist[0:],
                          0.005,    
@@ -235,7 +235,7 @@ for i in range(0,124,1):
 # 
 # For users happier in R, you could write this DataFrame to a text file and process it using R's [dplyr](http://cran.r-project.org/web/packages/dplyr/index.html) package, which is a really excellent tool for this sort of thing.
 
-# In[19]:
+# In[18]:
 
 #Get means for each column:
 NeutralMutStats.mean(0)

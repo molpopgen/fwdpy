@@ -30,10 +30,21 @@ Important concepts for setting up simulations
    :maxdepth: 2
 
    docs/popsizes
+   docs/demography
    docs/regions
+   examples/temporalSampling
    docs/summstats
    docs/slim
    docs/threads
+
+Custom fitness models
+########################################################################################
+
+.. toctree::
+   :maxdepth: 2
+	      
+   docs/customAnalyses
+   docs/customFitness
 
 Notes for people wanting to work with the code
 ####################################################################################
@@ -56,11 +67,27 @@ Examples
    examples/trajectories
    examples/copypops
 
+Special topics
+##########################################
+
+.. toctree::
+   :maxdepth: 2
+
+   docs/vareg
+
 
 Functions and classes
 ##########################################
       
 .. automodule:: fwdpy.fwdpy
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.fitness
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.demography
    :members:
    :show-inheritance:
 
@@ -77,6 +104,10 @@ Functions and classes
    :show-inheritance:
 
 .. automodule:: fwdpy.qtrait.qtrait
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.qtrait_mloc.qtrait_mloc
    :members:
    :show-inheritance:
 

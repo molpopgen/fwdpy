@@ -1,5 +1,5 @@
 from libcpp.vector cimport vector
-
+from libc.stdint cimport uint16_t
 from fwdpy.fwdpp cimport *
 from fwdpy.fwdpy cimport singlepop_t,metapop_t
 
@@ -38,4 +38,6 @@ cdef extern from "internal_region_manager.hpp" namespace "fwdpy::internal":
         vector[double] rb
         vector[double] re
         vector[double] rw
+        vector[uint16_t] nl
+        vector[uint16_t] sl
 

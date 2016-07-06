@@ -1,108 +1,118 @@
 from cython.operator cimport dereference as deref
-from fwdpy.fwdpp cimport sample,sample_separate,gsl_rng
+from fwdpy.fwdpp cimport sep_sample_t,sample_t,gsl_rng
 import numpy as np
 import pandas as pd
 
 ##Undocumented fxns are wrappers to enable run-time polymorphism within the Py environs.
 ##These fxns make calls to the C++ layer
 
-cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-    return sample[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
+#cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
+#    return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
 
-cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-    return sample_separate[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
+#cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
+#    return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
-cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
-    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
+#cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
+#    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
 
-cdef get_sh_single(const sample_t & ms_sample,
-                    singlepop pop,
-                    vector[double] * s,
-                    vector[double] * h,
-                    vector[double] * p,
-                    vector[double] * a):
-    get_sh(ms_sample,pop.pop.get(),s,h,p,a)
+#cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:
+#    return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
 
-cdef get_sh_metapop(const sample_t & ms_sample,
-                    metapop pop,
-                    vector[double] * s,
-                    vector[double] * h,
-                    vector[double] * p,
-                    vector[double] * a):
-    get_sh(ms_sample,pop.mpop.get(),s,h,p,a)  
+#cdef get_sh_single(const sample_t & ms_sample,
+#                    singlepop pop,
+#                    vector[double] * s,
+#                    vector[double] * h,
+#                    vector[double] * p,
+#                    vector[double] * a,
+#                    vector[uint16_t] * l):
+#    get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)
 
-def ms_sample(GSLrng rng, poptype pop, int nsam, bint removeFixed = True):
+#cdef get_sh_metapop(const sample_t & ms_sample,
+#                    metapop pop,
+#                    vector[double] * s,
+#                    vector[double] * h,
+#                    vector[double] * p,
+#                    vector[double] * a,
+#                    vector[uint16_t] * l):
+#    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
+
+def ms_sample(GSLrng rng, PopType pop, int nsam, bint removeFixed = True):
     """
     Take a sample from a set of simulated populations.
 
     :param rng: a :class:`GSLrng`
-    :param pops: An object inheriting from :class:`poptype`
+    :param pops: An object inheriting from :class:`PopType`
     :param nsam: List of sample sizes (no. chromosomes) to sample.
     :param removeFixed: if True, only polymorphic sites are retained
 
     Note: nsam will likely be changed to a list soon, to accomodate multi-deme simulations
-    
+
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
     >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     """
-    if isinstance(pop,singlepop):
-        return ms_sample_single_deme(rng,pop,nsam,removeFixed)
+    if isinstance(pop,Spop):
+        return sample_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_samples(GSLrng rng, poptype pop, int nsam, bint removeFixed = True, deme = None):
+def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme = None):
     """
     Take a sample from a set of simulated populations.
 
     :param rng: a :class:`GSLrng`
-    :param pop: An object inheriting from :class:`poptype`
+    :param pop: An object inheriting from :class:`PopType`
     :param nsam: The sample size to take.
     :param removeFixed: if True, only polymorphic sites are retained
-    :param deme: Optional.  If 'pop' is a :class:`metapop`, deme is required and represents the sub-population to sample.
-    
+    :param deme: Optional.  If 'pop' is a :class:`MetaPop`, deme is required and represents the sub-population to sample.
+
     :return: A list. Element 0 is neutral mutations, and element 1 is selected mutations.  Within each list is a tuple of size 2.  The first element is the mutation position.  The second element is the genotype for each of the 'nsam' chromosomes.  Genotypes are coded as 0 = the ancestral state and 1 = the derived state.  For each site, each pair of genotypes constitutes a single diploid.  In other words, for nsam = 50, the data will represent the complete haplotypes of 25 diploids.
 
-    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.metapop`
+    :raise: IndexError if 'deme' is out of range and pop is a :class:`fwdpy.fwdpy.MetaPop`
 
     Please note that if you desire an odd 'nsam', you should input nsam+2 and randomly remove one haplotype to obtain your desired sample size.  This is due to an issue with how we are sampling chromosomes from the population.
 
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
     >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
     """
-    if isinstance(pop,singlepop):
-        return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
-    elif isinstance(pop,metapop):
+    if isinstance(pop,Spop):
+        return sample_sep_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
+        #return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
+    elif isinstance(pop,MetaPop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
         if deme >= len(pop):
             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
-        return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+        return sample_separate[metapop_t](rng.thisptr.get(),deref((<MetaPop>pop).mpop.get()),deme,nsam,removeFixed)
+        #return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
+    elif isinstance(pop,MlocusPop):
+        return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<MlocusPop>pop).pop.get()),nsam,removeFixed)
+        #return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_sample_details( sample_t ms_sample, poptype pop ):
+def get_sample_details( sample_t ms_sample, PopType pop ):
     """
     Get additional details for population samples
 
     :param ms_samples: A list returned by :func:`ms_sample`
-    :param pops: A :class:`poptype`
+    :param pops: A :class:`PopType`
 
     :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.
 
     :rtype: pandas.DataFrame
 
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
@@ -114,11 +124,29 @@ def get_sample_details( sample_t ms_sample, poptype pop ):
     cdef vector[double] s
     cdef vector[double] p
     cdef vector[double] a
-    if isinstance(pop,singlepop):
-        get_sh_single(ms_sample,pop,&s,&h,&p,&a)
-    elif isinstance(pop,metapop):
-        get_sh_metapop(ms_sample,pop,&s,&h,&p,&a)
-    return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a})
+    cdef vector[uint16_t] l
+    if isinstance(pop,Spop):
+        get_sh(ms_sample,
+               (<Spop>pop).pop.get().mutations,
+               (<Spop>pop).pop.get().mcounts,
+               (<Spop>pop).pop.get().N,
+               (<Spop>pop).pop.get().generation,
+               &s,&h,&p,&a,&l)
+    elif isinstance(pop,MlocusPop):
+        get_sh(ms_sample,
+               (<MlocusPop>pop).pop.get().mutations,
+               (<MlocusPop>pop).pop.get().mcounts,
+               (<MlocusPop>pop).pop.get().N,
+               (<MlocusPop>pop).pop.get().generation,
+               &s,&h,&p,&a,&l)
+    elif isinstance(pop,MetaPop):
+        get_sh(ms_sample,
+               (<MetaPop>pop).mpop.get().mutations,
+               (<MetaPop>pop).mpop.get().mcounts,
+               sum((<MetaPop>pop).mpop.get().mcounts.Ns),
+               (<MetaPop>pop).mpop.get().generation,
+               &s,&h,&p,&a,&l)
+    return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})
 
 
 ###### Functions for manipulating samples.
@@ -129,7 +157,7 @@ def nderived_site(tuple site):
     :param site: A tuple.  See example
 
     .. note:: In general, it will be more convenient to call :func:`fwdpy.fwdpy.nderived` on a list of tuples.
-    
+
     Example:
 
     >>> import fwdpy
@@ -172,9 +200,9 @@ def getfreq(tuple site,bint derived = True):
     :param derived:  If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF)
 
     .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\pi`, a.k.a. "sum of site heterozygosity").
-       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.
        In general, it will be more convenient to call :func:`fwdpy.fwdpy.getfreqs` on a list of tuples.
-       
+
     Example:
 
     >>> import fwdpy
@@ -200,8 +228,8 @@ def getfreqs(list sample,bint derived = True):
     :param derived: If True, report derived allele frequency (DAF).  If False, return minor allele freqency (MAF).
 
     .. note:: Do **not** use this function to calculate :math:`\pi` (a.k.a. :math:`\\hat\\theta_\\pi`, a.k.a. "sum of site heterozygosity").
-       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.  
-    
+       :math:`\pi` for a **sample** is not :math:`2\sum_ip_iq_i`. because the sample is *finite*.
+
     Example:
 
     >>> import fwdpy,array
@@ -222,9 +250,9 @@ def freqfilter( list sample,
     :param sample: a sample from a population.  For example, the return value of :func:`fwdpy.fwdpy.ms_sample` or :func:`fwdpy.fwdpy.get_samples`
     :param minfreq: Remove all sites with frequency < minfreq
     :param derived: if True, filter on derived allele frequency.  If False, filter on minor allele frequency.
-       
+
     Example:
-    
+
     >>> import fwdpy,array
     >>> rng = fwdpy.GSLrng(100)
     >>> popsizes=array.array('I',[1000]*1000)
@@ -239,3 +267,49 @@ def freqfilter( list sample,
         if getfreq(i,derived)>=minfreq:
             rv.append(i)
     return rv
+
+def hapmatrix(p,const vector[size_t] & diploids, deme = None):
+    """
+    Obtain compact representations of a "haplotype matrix" from a population object
+
+    :param p: A population object or vector of such objects
+    :param diploids: Indexes of individuals to include in matrix
+    :param deme: Deme index (only needed if p represents a meta-population)
+
+    :return: A dict that will allow construction of a 0/1 matrix represting ancestral and derived genotypes,
+    respectively, corresponding the the individuals in 'diploids'.
+
+    .. note:: Examples will be provided elsewhere.
+    """
+    if isinstance(p,Spop):
+        return make_haplotype_matrix((<Spop>p).pop.get(),diploids)
+    elif isinstance(p,MlocusPop):
+        return make_haplotype_matrix((<MlocusPop>p).pop.get(),diploids)
+    elif isinstance(p,SpopVec):
+        return [make_haplotype_matrix((<Spop>i).pop.get(),diploids) for i in <SpopVec>p]
+    elif isinstance(p,MlocusPopVec):
+        return [make_haplotype_matrix((<MlocusPop>i).pop.get(),diploids) for i in <MlocusPopVec>p]
+    elif isinstance(p,MetaPop):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return make_haplotype_matrix((<MetaPop>p).mpop.get(),diploids,deme)
+    elif isinstance(p,MetaPopVec):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return [make_haplotype_matrix((<MetaPop>i).mpop.get(),diploids,deme) for i in <MetaPopVec>p]
+    else:
+        raise RuntimeError("object type not understood")
+
+def genomatrix(const haplotype_matrix & m):
+    """
+    Generate a "genotype matrix" from a haplotype matrix
+
+    :param m: The return value from :func:`fwdpy.fwdpy.hapmatrix`
+
+    :return: A dict containing the indexes of Aa and aa genotypes
+    for neutral (n) and selected (s) markers in a 1d array of length m['nrow']*m['ncol_n']/2
+
+    ..note :: The return value is most useful when used to create a 2d numpy array representing 
+    genotypes.
+    """
+    return make_genotype_matrix(m);

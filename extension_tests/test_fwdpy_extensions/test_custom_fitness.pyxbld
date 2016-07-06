@@ -1,0 +1,8 @@
+#This file should not need modification.  A copy/paste
+#to yourmodname.pyxbld should suffice
+def make_ext(modname, pyxfilename):
+    from distutils.extension import Extension
+    return Extension(name=modname,
+                     sources=[pyxfilename],
+                     language='c++',
+		     extra_compile_args=['-std=c++11'])

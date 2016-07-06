@@ -1,9 +1,8 @@
 # distutils: language = c++
-# distutils: sources = fwdpy/fwdpy/sample.cc fwdpy/fwdpy/deps.cc fwdpy/fwdpy/evolve_regions.cc 
+# distutils: sources = fwdpy/fwdpy/sample.cc fwdpy/fwdpy/deps.cc 
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
-
 ## for DataFrame
 import pandas
 
@@ -13,8 +12,10 @@ include "evolve_regions.pyx"
 include "regions.pyx"
 include "copy.pyx"
 include "views.pyx"
+include "view_fixations.pyx"
 include "debug.pyx"
 include "ages.pyx"
+include "temporal_samplers.pyx"
 
 def pkg_version():
     """

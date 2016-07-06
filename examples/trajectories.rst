@@ -15,6 +15,12 @@ Tracking mutation frequencies
 
 .. parsed-literal::
 
+    /usr/local/lib/python2.7/dist-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
+      warnings.warn('Matplotlib is building the font cache using fc-list. This may take a moment.')
+
+
+.. parsed-literal::
+
     Populating the interactive namespace from numpy and matplotlib
 
 
@@ -26,28 +32,56 @@ Run a simulation
     nregions = [fp.Region(0,1,1),fp.Region(2,3,1)]
     sregions = [fp.ExpS(1,2,1,-0.1),fp.ExpS(1,2,0.01,0.001)]
     rregions = [fp.Region(0,3,1)]
-    rng = fp.GSLrng(201)
+    rng = fp.GSLrng(101)
     popsizes = np.array([1000],dtype=np.uint32)
     popsizes=np.tile(popsizes,10000)
     #Initialize a vector with 1 population of size N = 1,000
-    pops=fp.popvec(1,1000)
+    pops=fp.SpopVec(1,1000)
+    #This sampler object will record selected mutation
+    #frequencies over time.  A sampler gets the length
+    #of pops as a constructor argument because you 
+    #need a different sampler object in memory for
+    #each population.
+    sampler=fp.FreqSampler(len(pops))
     #Record mutation frequencies every generation
-    rawTraj=fp.evolve_regions_track(rng,pops,popsizes[0:],0.001,0.001,0.001,nregions,sregions,rregions,1)
+    #The function evolve_regions sampler takes any
+    #of fwdpy's temporal samplers and applies them.
+    #For users familiar with C++, custom samplers will be written,
+    #and we plan to allow for custom samplers to be written primarily 
+    #using Cython, but we are still experimenting with how best to do so.
+    rawTraj=fp.evolve_regions_sampler(rng,pops,sampler,
+                                      popsizes[0:],0.001,0.001,0.001,
+                                      nregions,sregions,rregions,
+                                      #The one means we sample every generation.
+                                      1)
 
 .. code:: python
 
-    ##Convert the raw trajectort data into a nicer pd.DataFrame
-    LD=[]
-    for i in rawTraj[0]:
-        I=int(0)
-        for j in i[1]:
-            x=copy.deepcopy(i[0])
-            x['freq']=j
-            x['generation']=i[0]['origin']+I
-            I+=1
-            LD.append(x)
-                   
-    traj=pd.DataFrame(LD)
+    rawTraj = [pd.DataFrame(i) for i in fp.tidy_trajectories(sampler.get())]
+    #This example has only 1 set of trajectories, so let's make a variable for thet
+    #single replicate
+    traj=rawTraj[0]
+    print traj.head()
+    print traj.tail()
+    print traj.freq.max()
+
+
+.. parsed-literal::
+
+          esize    freq  generation  origin       pos
+    0 -0.066601  0.0005           2       0  1.125086
+    1 -0.066601  0.0010           3       0  1.125086
+    2 -0.066601  0.0010           4       0  1.125086
+    3 -0.066601  0.0010           5       0  1.125086
+    4 -0.066601  0.0015           6       0  1.125086
+               esize    freq  generation  origin       pos
+    104416 -0.155373  0.0005       10000    9998  1.912775
+    104417 -0.035017  0.0005        9999    9998  1.949638
+    104418 -0.035017  0.0010       10000    9998  1.949638
+    104419 -0.042471  0.0005       10000    9999  1.738310
+    104420 -0.030944  0.0005       10000    9999  1.805271
+    1.0
+
 
 Group mutation trajectories by position and effect size
 -------------------------------------------------------
@@ -66,7 +100,7 @@ Max mutation frequencies
 
 .. raw:: html
 
-    <div style="max-height:1000px;max-width:1500px;overflow:auto;">
+    <div>
     <table border="1" class="dataframe">
       <thead>
         <tr style="text-align: right;">
@@ -80,12 +114,12 @@ Max mutation frequencies
       </thead>
       <tbody>
         <tr>
-          <th>16467</th>
-          <td> 1.817526</td>
-          <td> 0.001171</td>
-          <td> 1</td>
-          <td> 4587</td>
-          <td> 1547</td>
+          <th>2701</th>
+          <td>1.134096</td>
+          <td>0.001812</td>
+          <td>1.0</td>
+          <td>2612</td>
+          <td>43</td>
         </tr>
       </tbody>
     </table>
@@ -134,7 +168,7 @@ Frequency trajectory of fixations
 
 .. parsed-literal::
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7f3125f0ef50>
+    <matplotlib.axes._subplots.AxesSubplot at 0x7fa2e45f1790>
 
 
 

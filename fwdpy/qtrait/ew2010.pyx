@@ -54,9 +54,9 @@
 #                     recreg['beg'].tolist(),recreg['end'].tolist(),recreg['weight'].tolist())
 #     return pops
 
-def ew2010_effects(GSLrng rng, singlepop pop, double tau, double sigma):
+def ew2010_effects(GSLrng rng, Spop pop, double tau, double sigma):
     """
-    :param pop: A :class:`fwdpy.fwdpy.singlepop` simulated using :func:`fwdpy.qtrait.qtrait.evolve_qtrait` and/or :func:`fwdp.qtrait.qtrait.evolve_qtrait_more`
+    :param pop: A :class:`fwdpy.fwdpy.Spop` simulated using :func:`fwdpy.qtrait.qtrait.evolve_qtrait` and/or :func:`fwdp.qtrait.qtrait.evolve_qtrait_more`
     :param tau: The coupling of trait value to fitness effect of mutation
     :param sigma: The standard deviation for Gaussian noise applied to trait value.  Generates the :math:`\epsilon` term in E-W's paper
     """
@@ -73,7 +73,7 @@ def ew2010_effects(GSLrng rng, singlepop pop, double tau, double sigma):
         inc(itr)
     return rv
     
-def ew2010_traits(singlepop pop,list effects):
+def ew2010_traits(Spop pop,list effects):
     """
     Implement model of Eyre-Walker 2010
     
