@@ -32,6 +32,7 @@ Important concepts for setting up simulations
    docs/popsizes
    docs/demography
    docs/regions
+   examples/temporalSampling
    docs/summstats
    docs/slim
    docs/threads
