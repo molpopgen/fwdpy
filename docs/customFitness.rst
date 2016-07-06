@@ -135,12 +135,12 @@ The multiplicative model would also be easy to implement: :math:`w = \prod_i (1+
    from fwdpy.fitness cimport genotype_fitness_updater,fitness_function_finalizer,make_custom_fitness,return_w_plus1
    
    cdef inline void wAa( double & w, const popgenmut & m):
-	#*= instead of += !!!
-       (&w)[0] *= m.s*m.h
+	#Note difference from additive model:
+       (&w)[0] *= (1.0+m.s*m.h)
 
    cdef inline void waa(double & w, const popgenmut & m):
-   	#*= instead of += !!!
-       (&w)[0] *= 2.0*m.s
+   	#Note difference from additive model:
+       (&w)[0] *= (1.0+2.0*m.s)
 
    cdef class myMultiplicativeFitness(singlepopFitness):
 		def __cinit__(self):
