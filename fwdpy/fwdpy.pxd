@@ -255,9 +255,6 @@ cdef struct diploid_mloc_data:
     vector[double] sh0,sh1
     vector[int] n0,n1
 
-#cdef popgen_mut_data get_mutation( const vector[popgenmut].iterator & ) nogil
-#cdef gamete_data get_gamete( const vector[gamete_t].iterator & ) nogil
-#cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
 cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil
 cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
 cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
