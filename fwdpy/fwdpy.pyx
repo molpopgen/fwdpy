@@ -16,6 +16,7 @@ include "view_fixations.pyx"
 include "debug.pyx"
 include "ages.pyx"
 include "temporal_samplers.pyx"
+include "add_mutations.pyx"
 
 def pkg_version():
     """

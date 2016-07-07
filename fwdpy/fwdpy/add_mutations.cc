@@ -20,6 +20,8 @@ namespace fwdpy
       This function is a variadic template, 
     */
     auto key = KTfwd::add_mutation(*pop,indlist,clist,pos,s,h,pop->generation);
+    //update the lookup
+    pop->mut_lookup.insert(pop->mutations[key].pos);
     return key;
   }
 }
