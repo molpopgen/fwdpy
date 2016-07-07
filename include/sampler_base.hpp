@@ -79,6 +79,14 @@ namespace fwdpy
     {
     }
 
+    custom_sampler( multilocus_call_operator s ) : scall(nullptr),mcall(s),metacall(nullptr)
+    {
+    }
+
+    custom_sampler( metapop_call_operator s) : scall(nullptr),mcall(nullptr),metacall(s)
+    {
+    }
+
     void operator()(const singlepop_t * pop ,const unsigned generation)
     {
       if(scall != nullptr)
