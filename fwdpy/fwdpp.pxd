@@ -85,7 +85,10 @@ cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
     ctypedef pair[sample_t,sample_t] sep_sample_t
     #For metapopulations...
     sep_sample_t sample_separate[POPTYPE](const gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed) except+
-    
+
+cdef extern from "fwdpp/sugar/change_neutral.hpp" namespace "KTfwd" nogil:
+    void change_neutral[POPTYPE](POPTYPE & p, const size_t mut_index)
+
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
     cdef cppclass shmodel:
