@@ -63,6 +63,52 @@ namespace fwdpy
       }
     for(auto & t : threads) t.join();
   }
+
+  template<typename final_t>
+  struct custom_sampler : public sampler_base
+  {
+    using singlepop_call_operator = void(*)(const singlepop_t *, const unsigned, final_t & );
+    using multilocus_call_operator = void(*)(const multilocus_t *, const unsigned, final_t & );
+    using metapop_call_operator = void(*)(const metapop_t *, const unsigned, final_t & );    
+    final_t f;
+    singlepop_call_operator scall;
+    multilocus_call_operator mcall;
+    metapop_call_operator metacall;
+
+    custom_sampler( singlepop_call_operator s ) : scall(s),mcall(nullptr),metacall(nullptr)
+    {
+    }
+
+    void operator()(const singlepop_t * pop ,const unsigned generation)
+    {
+      if(scall != nullptr)
+	{
+	  scall(pop,generation,f);
+	}
+      else sampler_base::operator()(pop,generation);
+    };
+    void operator()(const multilocus_t * pop ,const unsigned generation)
+    {
+      if(mcall != nullptr)
+	{
+	  mcall(pop,generation,f);
+	}
+      else sampler_base::operator()(pop,generation);
+    };
+    void operator()(const metapop_t * pop,const unsigned generation)
+    {
+      if(metacall != nullptr)
+	{
+	  metacall(pop,generation,f);
+	}
+      else sampler_base::operator()(pop,generation);
+    };    
+
+    final_t final()
+    {
+      return f;
+    }
+  };
 }
 
 #endif

@@ -143,3 +143,4 @@ def apply_sampler(PopVec pops,TemporalSampler sampler):
         apply_sampler_cpp[multilocus_t]((<MlocusPopVec>pops).pops,sampler.vec)
     else:
         raise RuntimeError("PopVec type not supported")
+        
