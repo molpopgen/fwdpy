@@ -291,42 +291,6 @@ cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
 
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
-    # void evolve_regions_no_sampling_async(GSLrng_t * rng,
-    #                                       vector[shared_ptr[singlepop_t]] * pops,
-    #                                       const unsigned * Nvector,
-    #                                       const size_t Nvector_len,
-    #                                       const double mu_neutral,
-    #                                       const double mu_selected,
-    #                                       const double littler,
-    #                                       const double f,
-    #                                       const region_manager * rm,
-    #                                       const char * fitness) except +
-
-    # vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng_evolve,GSLrng_t * rng_sample,
-    #                                                                     vector[shared_ptr[singlepop_t]] * pops,
-    #                                                                     const unsigned * Nvector,
-    #                                                                     const size_t Nvector_len,
-    #                                                                     const double mu_neutral,
-    #                                                                     const double mu_selected,
-    #                                                                     const double littler,
-    #                                                                     const double f,
-    #                                                                     const int sample,
-    #                                                                     const unsigned nsam,
-    #                                                                     const region_manager * rm,
-    #                                                                     const char * fitness) except +
-
-    # vector[vector[pair[selected_mut_data,vector[double]]]] evolve_regions_track_async(GSLrng_t * rng,
-    #                                                                                   vector[shared_ptr[singlepop_t]] * pops,
-    #                                                                                   const unsigned * Nvector,
-    #                                                                                   const size_t Nvector_len,
-    #                                                                                   const double mu_neutral,
-    #                                                                                   const double mu_selected,
-    #                                                                                   const double littler,
-    #                                                                                   const double f,
-    #                                                                                   const int sample,
-    #                                                                                   const region_manager * rm,
-    #                                                                                   const char * fitness) except +
-
     void evolve_regions_sampler_cpp( GSLrng_t * rng,
 				     vector[shared_ptr[singlepop_t]] * pops,
 				     vector[unique_ptr[sampler_base]] & samplers,
@@ -338,7 +302,7 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
 				     const double f,
 				     const int sample,
 				     const region_manager * rm,
-				     const singlepop_fitness & fitness)
+				     const singlepop_fitness & fitness) except +
 
 
 cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
