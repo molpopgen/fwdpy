@@ -55,8 +55,8 @@ cdef extern from "fwdpp/fitness_models.hpp" namespace "KTfwd" nogil:
                                               const MUTATION_CONTAINER &,
                                               const double &) const
 
-    cdef cppclass additive_diploid:
-        #Wrapper around site_depenent fitness for simple additive model w = 1+sum(effects over loc).
+    cdef cppclass multiplicative_diploid:
+        #Wrapper around site_depenent fitness for simple multiplicative model.
         #The final double is the "scaling" term (see fwdpp docs)
         double operator()[DIPLOID,GAMETE_CONTAINER,
                           MUTATION_CONTAINER](const DIPLOID &,
