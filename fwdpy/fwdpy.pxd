@@ -12,6 +12,7 @@ from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_d
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
+ctypedef vector[unsigned] ucont_t
 
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
@@ -31,27 +32,27 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned N
         unsigned generation
         mcont_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         dipvector_t diploids
-        vector[popgenmut] fixations
-        vector[unsigned] fixation_times
+        mcont_t fixations
+        ucont_t fixation_times
         unsigned gen()
         unsigned popsize()
         int sane()
 
     cdef cppclass metapop_t:
-        metapop_t(vector[unsigned])
+        metapop_t(ucont_t)
         metapop_t(const singlepop_t &)
         unsigned generation
-        vector[unsigned] Ns
+        ucont_t Ns
         mcont_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         vector[dipvector_t] diploids
-        vector[popgenmut] fixations
-        vector[unsigned] fixation_times
-        vector[unsigned] popsizes()
+        mcont_t fixations
+        ucont_t fixation_times
+        ucont_t popsizes()
         int sane()
         int size()
 
@@ -61,12 +62,12 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned generation
         unsigned N
         mcont_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         #This has different interpretation than for a metapop--see fwdpp dox
         vector[dipvector_t] diploids
-        vector[popgenmut] fixations
-        vector[unsigned] fixation_times
+        mcont_t fixations
+        ucont_t fixation_times
         int gen()
         int sane()
         int popsize()
@@ -79,11 +80,11 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         const unsigned N
         const unsigned generation
         mlist_gm_vec_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         vector[diploid_t] diploids
         vector[generalmut_vec] fixations
-        vector[unsigned] fixation_times
+        ucont_t fixation_times
         unsigned gen()
         unsigned popsize()
         int sane()
@@ -238,7 +239,7 @@ ctypedef vector[mcont_t_itr] mut_container_t
 ctypedef vector[gamete_t].iterator gcont_t_itr
 ctypedef vector[diploid_t].iterator dipvector_t_itr
 #vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
-ctypedef vector[unsigned] mcounts_cont_t
+ctypedef ucont_t mcounts_cont_t
 
 ##Define some low-level functions that may be useful for others
 cdef struct popgen_mut_data:
@@ -272,8 +273,8 @@ cdef diploid_mloc_data get_diploid_mloc( const dipvector_t & dip, const gcont_t 
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & ms_sample,
-                 const vector[popgenmut] & mutations,
-                 const vector[unsigned] & mcounts,
+                 const mcont_t & mutations,
+                 const ucont_t & mcounts,
                  const unsigned & ttlN,
                  const unsigned & generation,
                  vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a, vector[uint16_t] * l)
