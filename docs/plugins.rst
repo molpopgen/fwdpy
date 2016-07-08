@@ -31,7 +31,7 @@ A full overview of coding in Cython_ is beyond the scope of this manual--please 
 * A "cdef" function that works on some of the underlying C++ types
 * A "def" function that will take objects from *fwdpy* and apply the "cdef" function to those objects.
 
-The former is the "back end" of your pluging, and the latter is the Python interface that makes it useful.
+The former is the "back end" of your plugin, and the latter is the Python interface that makes it useful.
 
 The C++ types used in *fwdpy*
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
