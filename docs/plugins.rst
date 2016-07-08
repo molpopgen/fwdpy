@@ -63,7 +63,8 @@ This is the C++ name of the type of mutation used in *fwdpy*.  It is a mutation 
 2. **s**: the "selection coefficient" or "effect size". This is a double-precision floating point number.
 3. **h**: The dominance term. This is a double-precision floating point number.
 4. **neutral**: A boolean (C++ type bool) that flags the mutation as "neutral" or "selected" (true and false, respectively).
-5. **label**: this is a 16 bit unsigned integer.  In practice, not much is done with it, but you can use it for adding 16 bits of extra info to a mutation type.  It was given a name in order to make use of wasted storage in the C++ type.
+5. **g**: an unsigned (non-negative) 32-bit integer recording the generation when the mutation first appeared.
+6. **label**: this is a 16 bit unsigned integer.  In practice, not much is done with it, but you can use it for adding 16 bits of extra info to a mutation type.  It was given a name in order to make use of wasted storage in the C++ type.
 
 This type is defined in the fwdpp_ header file fwdpp/sugar/popgenmut.hpp.  It is exposed to Cython_ via fwdpy/fwdpp.pxd.
 
@@ -115,6 +116,8 @@ And, here is why the "&" matters:
 Mutation containers and mutation counts.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
+Defined in the fwdpy header "types.hpp".
+
 A population consists of a C++ vector of mutations.  Functionally, this is very similar to the "list" type in Python.
 
 In *fwdpy*, a vector of mutations goes by the name mcont_t (mutation container type), which refers to a **vector** of **popgenmut** objects.
@@ -135,6 +138,8 @@ We will save examples of processing these objects until the section on dealing w
 
 Gametes and gamete containers
 '''''''''''''''''''''''''''''
+
+Defined in the fwdpy header "types.hpp", which refers to the fwdpp_ type defined in fwdpp/forward_types.hpp.
 
 A gamete is a simple object.  It contains the following data members:
 
@@ -160,8 +165,66 @@ Gametes are stored in a C++ vector.  The alias for this type is gcont_t:
 
    from fwdpy.fwdpy cimport gcont_t
 
+Again, we will save examples of processing these objects until the section on dealing with whole-population objects.
+
+Diploids
+''''''''''''''''''''''''''''''
+
+Defined in the *fdwpy* header "types.hpp".  In fwdpp_ lingo, this is a custom_ diploid.
+
+A diploid is a very simple C++ type with the following data members:
+
+* **first** is a size_t (unsigned 64-bit integer) with is the location in a gamete container of the first gamete
+* **second** is a size_t (unsigned 64-bit integer) with is the location in a gamete container of the second gamete
+* **g** is a double-precision floating point value representing a "genetic" value
+* **e** is a double-precision floating point value representing a "non-genetic" value.  For example, random noise applied to a trait
+* **w** is a double-precision floating point value representing fitness.
+
+.. note:: **g**, **e**, and **w** are *not* currently set or used by the following functions: :func:`fwdpy.fwdpy.evolve_regions`, :func:`fwdpy.fwdpy.evolve_regions_more`, :func:`fwdpy.fwdpy.evolve_regions_sampler`, and :func:`fwdpy.fwdpy.evolve_regions_sampler_fitness`.  Currently, they are used by simulations of quantitative traits.  This behavior will change in future releases, as it'll obviously be handy to have this info!
+
+We have the following types:
+
+.. code-block:: cython
+
+   #This is a diploid
+   from fwdpy.fwdpy cimport diplod_t
+   #This is a C++ vector of diploids
+   from fwdpy.fwdpy cimport dipvector_t
+	 
+Population types
+'''''''''''''''''''''''''''''''''''''''
+
+This is where the action is.  A population is a C++ object containing the above data types.
+
+singlepop_t
+++++++++++++++++++++++
+
+Defined in *fwdpy* header "types.hpp".  This class inherits from the fwdpp_ tempate type singlepop (fwdpp/sugar/singlepop.hpp).
+
+This type is used to model the following situation:
+
+* A single deme
+* A contiguous genomic region. Mutation rates, recombination rates, etc., may vary along this region via the use of :class:`fwdpy.fwdpy.Region` objects.
+
+.. code-block:: cython
+
+   from fwdpy.fwdpy cimport singlepop_t
+
+It has the following data members:
+
+* **generation**, an unsigned 32-bit integer representing the current generation. 0 is the starting value.
+* **N**, an unsigned 32-bit integer representing current population size
+* **mutations**, an mcont_t containing the mutations
+* **mcounts**, a ucont_t containg the number of occurrences of each mutation
+* **fixations**, an mcont_t containing fixations
+* **fixation_times**, a cont_t containing the fixation times.
+* **gametes**, a gcont_t containing the gametes
+* **diploids**, a dipvector_t containing the diploids.
+  
+
 .. _Cython: http://www.cython.org
 .. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _GSL:  http://gnu.org/software/gsl
 .. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
 .. _manual: http://molpopgen.github.io/fwdpp/doc/html/index.html
+.. _custom: http://molpopgen.github.io/fwdpp/doc/html/d2/dcd/md_md_customdip.html

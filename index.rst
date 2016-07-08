@@ -42,7 +42,8 @@ Plugins
 
 .. toctree::
    :maxdepth: 2
-	      
+
+   docs/plugins
    docs/customAnalyses
    docs/customFitness
 
