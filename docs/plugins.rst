@@ -153,11 +153,11 @@ In C/C++, the unsigned 64-bit integer type is size_t.
 
 .. note:: The integers in **mutations** and **smutations** are *sorted with respect to mutation position, in ascending order*.  Behind the scenes, fwdpp_ makes sure that this sorting order is maintained.  It allows cool things like log-time lookup of mutations based on position, etc.
 
-*fwdpy* exposes the name gamete:
+*fwdpy* exposes the name gamete_t to refer to this type:
 
 .. code-block:: cython
 
-   from fwdpy.fwdpy cimport gamete
+   from fwdpy.fwdpy cimport gamete_t
 
 Gametes are stored in a C++ vector.  The alias for this type is gcont_t:
 
