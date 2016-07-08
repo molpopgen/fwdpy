@@ -305,7 +305,7 @@ Count the number of segregating *neutral* mutations in the entire population:
        #return our count
        return extant
 
-Counting the number of *selected* mutations would be the same, but checking for "neutral is False".
+.. note:: Counting the number of *selected* mutations would be the same, but checking for "neutral is False".
 
 Count the number of neutral and selected mutations per gamete, return a list of tuples to Python with that info.
 
@@ -347,12 +347,34 @@ Count the number of neutral and selected mutations per gamete, return a list of 
        #   fwdpp ensures that an extant gamete contains extant mutations.
        for i in range(n):
            if pop.gametes[i].n > 0: #gamete is not extinct
+	       #"mutations" = container of indexes to neutral mutations
                neutral = count_mutations(pop.gametes[i].mutations,pop.mcounts,twoN)
-               selected = count_mutations(pop.gametes[i].mutations,pop.mcounts,twoN)
+	       #"smutations" = container of indexes to selected mutations
+               selected = count_mutations(pop.gametes[i].smutations,pop.mcounts,twoN)
                rv.push_back(pair[int,int](neutral,selected))
        return rv
 
-        
+Count the number of neutral and deleterious mutations per diploid, and return a list of tuples:
+
+.. code-block:: cython
+
+   cdef pair[int,int] count_mutations_diploid(const diploid_t & dip, const gcont_t & gametes, const ucont_t & mcounts, const unsigned twoN) nogil:
+       #Neat: we can re-use the function defined above:
+       cdef int neutral = count_mutations(gametes[dip.first].mutations,mcounts,twoN)
+       cdef int selected = count_mutations(gametes[dip.first].smutations,mcounts,twoN)
+       return pair[int,int](neutral,selected)
+
+   cdef vector[pair[int,int]] mutations_per_diploid(const singlepop_t * pop) nogil:
+       cdef vector[pair[int,int]] rv
+       cdef size_t i=0
+       cdef size_t n=pop.diploids.size()
+       cdef unsigned twoN = 2*n
+       cdef pair[int,int] temp
+       #Now, go through every diploid:
+       for i in range(n):
+           temp = count_mutations_diploid(pop.diploids[i],pop.gametes,pop.mcounts,twoN)
+           rv.push_back(temp)
+       return rv
 
 .. _Cython: http://www.cython.org
 .. _fwdpp: http://molpopgen.github.io/fwdpp
