@@ -270,6 +270,8 @@ Count the number of segregating mutations in the entire population:
 
 Count the number of segregating *neutral* mutations in the entire population:
 
+.. code-block:: cython
+
    cdef unsigned count_neutral_muts(const singlepop_t * pop) nogil:
        cdef size_t i=0
        cdef size_t n = pop.mcounts.size()
