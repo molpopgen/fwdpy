@@ -265,7 +265,7 @@ Count the number of segregating mutations in the entire population:
 	   #Check that mutation is not extinct and not fixed	
            if pop.mcounts[i] > 0 and pop.mcounts[i] < twoN:
 		extant+=1
-       #return out count
+       #return our count
        return extant
 
 Count the number of segregating *neutral* mutations in the entire population:
@@ -281,7 +281,7 @@ Count the number of segregating *neutral* mutations in the entire population:
 	   #Check that mutation is not extinct and not fixed	
            if pop.mcounts[i] > 0 and pop.mcounts[i] < twoN and pop.mutations[i].neutral is True:
 		extant+=1
-       #return out count
+       #return our count
        return extant
 
 Counting the number of *selected* mutations would be the same, but checking for "neutral is False".
