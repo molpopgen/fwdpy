@@ -278,7 +278,7 @@ Count the number of segregating *neutral* mutations in the entire population:
        cdef unsigned twoN = 2*pop.popsize() #This is a member function that returns pop.N
        cdef unsigned extant=0
        for i in range(n):
-	   #Check that mutation is not extinct and not fixed	
+	   #Check that mutation is not extinct and not fixed and is neutral	
            if pop.mcounts[i] > 0 and pop.mcounts[i] < twoN and pop.mutations[i].neutral is True:
 		extant+=1
        #return our count
