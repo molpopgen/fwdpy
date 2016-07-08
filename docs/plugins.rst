@@ -41,7 +41,7 @@ The C++ types used in *fwdpy*
 
 *fwdpy* is implemented in terms of the following:
 
-1. fdwpp_, which is a C++11 library for forward simulation.  It is the "guts" of fwdpy and does most of the harder work that needs to be fast.
+1. fwdpp_, which is a C++11 library for forward simulation.  It is the "guts" of fwdpy and does most of the harder work that needs to be fast.
 2. GSL_, which is a C library for numeric computation.  *fwdpy* and fwdpp_ use GSL_ for random number generation, fast lookup tables, etc.
 3. Cython_ is the glue between fwdpp_, GSL_, and Python.
 4. cythonGSL_ exposes the GSL_ to Cython_ so that we don't have to reinvent all of those wrappers.
