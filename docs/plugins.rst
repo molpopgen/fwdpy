@@ -376,6 +376,51 @@ Count the number of neutral and deleterious mutations per diploid, and return a 
            rv.push_back(temp)
        return rv
 
+Time to up the complexity level with the next examples.
+
+Population mean fitness under a multiplicative model.  We will calculate the mean fitness of the population by *explicitly calculating the fitness of each diploid*.  We will make this calculation under a multiplicative model, :math:`w = \prod_i(1+I(i))`, where :math:`I(i)` is :math:`sh` or :math:`scaling*s` for hetero- and homo- zygous mutation positions, respectively.
+
+Some comments:
+
+1. We will use fwdpp's multiplicative_diploid class to do this calculation.
+2. We will use a numpy_ array to store the fitness of every diploid and retuirn the mean of the array as the calculation of mean fitness.
+
+Thus, this example shows us how to:
+
+1. Use more fwdpp
+2. Integrate numpy_ with Cython_ code via "typed array views"
+
+.. code-block:: cython
+
+   import numpy as np;
+   from cython.view cimport array as cvarray
+   from fwdpy.fwdpp cimport multiplicative_diploid
+
+   cdef void wbar_multiplicative_details(const singlepop_t * pop, double[:] w, const double scaling) nogil:
+       cdef multiplicative_diploid wfxn
+       cdef size_t i=0, n=pop.diploids.size()
+       for i in range(n):
+           #Here is the trick.  wfxn is a C++ class, but it is also a function!
+           #Further, it is a template function.  Cython is not willing to just let
+           #the C++ compiler figure out the types here, so we have to explicitly use typecasts,
+           #which is what the <foo>bar is: type cast a bar to a foo.  This has NO RUNTIME PENALTY!!!
+           #Yes, we also have to cast the scaling parameter, even though it is not a template parameter.
+           w[i] = wfxn(<diploid_t>pop.diploids[i],<gcont_t>pop.gametes,<mcont_t>pop.mutations,<double>scaling)
+
+   def wbar_mutiplicative(Spop p, const double scaling):
+       """
+       This is our Python function.
+       """
+       #Create the numpy array
+       w=np.array(p.popsize(),dtype=np.float64)
+       #Call our Cython function:
+       wbar_multiplicative_details(p.pop.get(),w[:],scaling)
+       #return mean fitness:
+       return w.mean()
+
+.. note:: The above function is only useful if you run it on a population using the same "scaling" that you used to simulate!!!
+
+       
 .. _Cython: http://www.cython.org
 .. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _GSL:  http://gnu.org/software/gsl
@@ -383,3 +428,4 @@ Count the number of neutral and deleterious mutations per diploid, and return a 
 .. _manual: http://molpopgen.github.io/fwdpp/doc/html/index.html
 .. _custom: http://molpopgen.github.io/fwdpp/doc/html/d2/dcd/md_md_customdip.html
 .. _C: https://en.wikipedia.org/wiki/C_data_types
+.. _numpy: http://www.numpy.org
