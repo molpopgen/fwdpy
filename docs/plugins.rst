@@ -36,6 +36,25 @@ A full overview of coding in Cython_ is beyond the scope of this manual--please 
 
 The former is the "back end" of your plugin, and the latter is the Python interface that makes it useful.
 
+Glossary
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+In one sense Cython_ is a "dialect" of Python, in that it augments Python with C and C++ data types. You may need to familiarize yourself with the basics:
+
+* C_ data types defined
+* A "return value" is the name of a type that is returned by a function.  void = noting.  Otherwise, something is returned.
+* "const" is a keyword meaning "cannot be modified", or constant. C++ code attempting to modify a const variable will fail to compile.
+* "class" is a complex type.  These are often composed of the fundamental types, such as C_ types.  Alternately, they may be entirely new types defined by a library, such as those descbied below.
+* "object" is an instance of type or class. In the following example, vector[int] is a class type, and x is an object whose type is vector[int]:
+
+.. code-block:: cython
+
+   from libcpp.vector cimport vector
+   cdef vector[int] x
+
+PS, you just learned how to bring C++'s vector class into scope using Cython_.
+
+
 The C++ types used in *fwdpy*
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -292,3 +311,4 @@ Counting the number of *selected* mutations would be the same, but checking for 
 .. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
 .. _manual: http://molpopgen.github.io/fwdpp/doc/html/index.html
 .. _custom: http://molpopgen.github.io/fwdpp/doc/html/d2/dcd/md_md_customdip.html
+.. _C: https://en.wikipedia.org/wiki/C_data_types
