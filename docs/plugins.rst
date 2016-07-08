@@ -253,6 +253,8 @@ We have to get a gory detail out of the way.  A :class:`fwdpy.fwdpy.Spop` contai
 Recipes
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+..note:: These recipes will start simply and quickly get advanced.  They'll show you what stuff from fwdpp_ is exposed to Cython and you'll also see some that *fwdpy* defines that may be of use for your own plugins.
+
 First things first: how to go from a :class:`fwdpy.fwdpy.Spop` to a singlepopt_t in a plugin:
 
 .. code-block:: cython
