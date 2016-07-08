@@ -223,7 +223,66 @@ It has the following data members:
 * **fixation_times**, a cont_t containing the fixation times.
 * **gametes**, a gcont_t containing the gametes
 * **diploids**, a dipvector_t containing the diploids.
-  
+
+singlepop_t and Python
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+"Under the hood", a :class:`fwdpy.fwdpy.Spop` is a wrapper around a singlepop_t.  This type is a "Cython extension type", and is a fundamental type in *fwdpy*.  One uses containers of these types in the form of :class:`fwdpy.fwdpy.SpopVec`.
+
+We have to get a gory detail out of the way.  A :class:`fwdpy.fwdpy.Spop` contains a C++11 "shared pointer" to a singlepop_t.  We'll see the implications of this in the recipes below.
+
+Recipes
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+First things first: how to go from a :class:`fwdpy.fwdpy.Spop` to a singlepopt_t in a plugin:
+
+.. code-block:: cython
+
+   from fwdpy.fwdpy cimport singlepop_t
+
+   #A very boring plugin indeed!
+   cdef void my_plugin_function(const singlepop_t * pop) nogil:
+       pass
+
+   #This will be the function that your plugin exposes
+   #to Python:
+   def foo(Spop p):
+      #p is your Spop, pop is the shared pointer,
+      #and pop.get() returns the raw pointer
+      #to the singlepop_t
+      my_plugin_function(p.pop.get())
+
+Count the number of segregating mutations in the entire population:
+
+.. code-block:: cython
+
+   cdef unsigned count_muts(const singlepop_t * pop) nogil:
+       cdef size_t i=0
+       cdef size_t n = pop.mcounts.size()
+       cdef unsigned twoN = 2*pop.popsize() #This is a member function that returns pop.N
+       cdef unsigned extant=0
+       for i in range(n):
+	   #Check that mutation is not extinct and not fixed	
+           if pop.mcounts[i] > 0 and pop.mcounts[i] < twoN:
+		extant+=1
+       #return out count
+       return extant
+
+Count the number of segregating *neutral* mutations in the entire population:
+
+   cdef unsigned count_neutral_muts(const singlepop_t * pop) nogil:
+       cdef size_t i=0
+       cdef size_t n = pop.mcounts.size()
+       cdef unsigned twoN = 2*pop.popsize() #This is a member function that returns pop.N
+       cdef unsigned extant=0
+       for i in range(n):
+	   #Check that mutation is not extinct and not fixed	
+           if pop.mcounts[i] > 0 and pop.mcounts[i] < twoN and pop.mutations[i].neutral is True:
+		extant+=1
+       #return out count
+       return extant
+
+Counting the number of *selected* mutations would be the same, but checking for "neutral is False".
 
 .. _Cython: http://www.cython.org
 .. _fwdpp: http://molpopgen.github.io/fwdpp
