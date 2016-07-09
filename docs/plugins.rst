@@ -1,8 +1,8 @@
 Overview
 ---------------
 
-.. note:: This section assumes that you are familiar with running simulations using *fwdpy*.  If not, this section will make no sense at all.  This section is intended for those who want to build their own tools on top of *fwdpy*.
-	  
+.. note:: This section assumes that you are familiar with running simulations using *fwdpy*.  If not, this section will make no sense at all.  This section is intended for those who want to build their own tools on top of *fwdpy*.  This document should also be read top to bottom, as later material builds on earlier stuff.
+
 One of the more important features of *fwdpy* is that you may extend it by writing your own plugins.  By "plugin" I mean more than just some custom Python code to deal with output from the simulations.  Rather, a plugin means some combination of Cython_ or new C++11 code that adds a feature that you need for your research.
 
 Most plugins will only need to be written using Cython_.  I will take care to mention when a plugin would require new C++11 code.  The goal is to make the latter case a very rare occurrence.  As a programming language, Cython_ may be viewed as "Python with types".  In other words, consider the following Python funtion to add two numbers:
@@ -54,6 +54,10 @@ In one sense Cython_ is a "dialect" of Python, in that it augments Python with C
 
 PS, you just learned how to bring C++'s vector class into scope using Cython_.
 
+File types
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+The Cython_ code for a plugin will go into a ".pyx" file.
 
 The C++ types used in *fwdpy*
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
