@@ -108,7 +108,7 @@ Finally, compile_foo.py contains *at least* the following:
 
 .. note:: Your Python source file can do more than just compile the module.  It could run simuations and apply your custom plugin code.  Or, you could just have one script that imports a lot of modules to compile them.
    
-Finally, you need to figure out where the fwdpy headers are.  This is often the limiting step.  Here's a trick:
+Finally, you need to figure out where the fwdpy headers are.  This is often the limiting step.  We are working on automating this, but for right now, here's a trick:
 
 .. code-block:: bash
 
