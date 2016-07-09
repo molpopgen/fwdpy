@@ -44,7 +44,6 @@ Plugins
    :maxdepth: 2
 
    docs/plugins
-   docs/customAnalyses
    docs/customFitness
 
 Notes for people wanting to work with the code
