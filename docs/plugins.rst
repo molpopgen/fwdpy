@@ -61,7 +61,7 @@ File extensions
 
 The Cython_ code for a plugin will go into a ".pyx" file.  This is known as a "Pyrex_" file type, and Pyrex_ is the precuror to Cython_.
 
-..note:: You will want to make sure that your text editor supports the .pyx and .pxd file extensions.  Cython_ provides a plugin_ for Emacs.  Casual Google searches find several options for the vi/vim family of editors.  I have no idea what, if anything, is avaiable for OS X editors like BBEdit, TextWrangler, or Xcode.  If you use them, you need to sort that out on your own.  I use Emacs and vim because they work the same way on all systems and I can edit files remotely via SSH.
+.. note:: You will want to make sure that your text editor supports the .pyx and .pxd file extensions.  Cython_ provides a plugin_ for Emacs.  Casual Google searches find several options for the vi/vim family of editors.  I have no idea what, if anything, is avaiable for OS X editors like BBEdit, TextWrangler, or Xcode.  If you use them, you need to sort that out on your own.  I use Emacs and vim because they work the same way on all systems and I can edit files remotely via SSH.
 
 For plugins that require extra C++ code, header files should have the .h or .hpp extension, and source files should have the .cc extension.  You should avoid .cpp for the following reason: Cython_ will process a pyx file into a .cpp file.  This behavior can have side-effects.  IF you have Cython_ code in foo.pyx and some additional C++ code in foo.cpp, the latter file will be over-written when Cython_ compiles foo.pyx into a C++ file (which will be called foo.cpp)!  Use .cc to avoid that.
 
@@ -340,7 +340,7 @@ We have to get a gory detail out of the way.  A :class:`fwdpy.fwdpy.Spop` contai
 Recipes
 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-..note:: These recipes will start simply and quickly get advanced.  They'll show you what stuff from fwdpp_ is exposed to Cython and you'll also see some that *fwdpy* defines that may be of use for your own plugins.
+.. note:: These recipes will start simply and quickly get advanced.  They'll show you what stuff from fwdpp_ is exposed to Cython and you'll also see some that *fwdpy* defines that may be of use for your own plugins.
 
 First things first: how to go from a :class:`fwdpy.fwdpy.Spop` to a singlepopt_t in a plugin:
 
