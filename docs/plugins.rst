@@ -84,11 +84,19 @@ foo.pyxbld contains the following:
 
 .. code-block:: cython
 
+   import fwdpy as fp
+   #This is the best guess as to the location of fwdpy headers on a POSIX system.
+   #Windows users are out of luck.
+   fwdpp_includes=fp.__file__.replace('lib','include').replace('site-packages/','').replace('/__init__.pyc','')
    def make_ext(modname, pyxfilename):
        from distutils.extension import Extension
        return Extension(name=modname,
 		sources=[pyxfilename],
+		#Tell Cython that this is a C++ module
                 language='c++',
+		#Tell Cython that there are headers to include in these locations:
+		include_dirs=[fwdpp_includes],
+		#Tell Cython that compiling requires this flag to the C++ compiler:
 		extra_compile_args=['-std=c++11'])
 
 .. note:: The "pyxbld" file will contain the same code for **all** custom modules that only depend on Cython_ code.  You just need to copy/paste that and rename it to match the prefix of your .pyx files
@@ -108,34 +116,6 @@ Finally, compile_foo.py contains *at least* the following:
 
 .. note:: Your Python source file can do more than just compile the module.  It could run simuations and apply your custom plugin code.  Or, you could just have one script that imports a lot of modules to compile them.
    
-Finally, you need to figure out where the fwdpy headers are.  This is often the limiting step.  We are working on automating this, but for right now, here's a trick:
-
-.. code-block:: bash
-
-   #This will print the location of where the module is installed
-   python -c "import fwdpy; print fwdpy.__path__"
-
-The result on my system is:
-
-.. code-block:: bash
-		
-   /home/kevin/.local/lib/python2.7/site-packages/fwdpy/__init__.pyc
-
-Replace lib with include, delete site-packaged, and get rid of /__init__.pyc to get:
-
-.. code-block:: bash
-		
-   /home/kevin/.local/include/python2.7/fwdpy
-
-That is where the fwdpy headers are.
-
-With that out of our way, this will compile our custom module:
-
-.. code-block:: bash
-
-   CPPFLAGS=-I/home/kevin/.local/include/python2.7/fwdpy python compile_foo.py
-
-To see a fully-worked out example, see extension_tests/run_custom_fitness.py in the fwdpy source repository.
 
 Compiling a plugin that contains extra C++ code
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
