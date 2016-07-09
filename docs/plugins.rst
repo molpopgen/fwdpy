@@ -65,6 +65,83 @@ The Cython_ code for a plugin will go into a ".pyx" file.  This is known as a "P
 
 For plugins that require extra C++ code, header files should have the .h or .hpp extension, and source files should have the .cc extension.  You should avoid .cpp for the following reason: Cython_ will process a pyx file into a .cpp file.  This behavior can have side-effects.  IF you have Cython_ code in foo.pyx and some additional C++ code in foo.cpp, the latter file will be over-written when Cython_ compiles foo.pyx into a C++ file (which will be called foo.cpp)!  Use .cc to avoid that.
 
+Compiling a Cython-only plugin 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+This section describes the "easy way" to compile a plugin.  This method only applies to plugins consisting only of Cython_ code (.pyx files).
+
+I will assume that your module will be called "foo".
+
+You will need three files:
+
+* foo.pyx contains your Cython_ code
+* foo.pyxbuild contains extra info to tell the system that this plugin the C++11 language
+* compile_foo.py is a Python script that will handle the compilation.
+
+The contents of foo.pyx contain whatever code you need to write for your module.
+
+foo.pyxbld contains the following:
+
+.. code-block:: cython
+
+   def make_ext(modname, pyxfilename):
+       from distutils.extension import Extension
+       return Extension(name=modname,
+		sources=[pyxfilename],
+                language='c++',
+		extra_compile_args=['-std=c++11'])
+
+.. note:: The "pyxbld" file will contain the same code for **all** custom modules that only depend on Cython_ code.  You just need to copy/paste that and rename it to match the prefix of your .pyx files
+
+Finally, compile_foo.py contains *at least* the following:
+
+.. code-block:: python
+
+   import pyximport
+   pyximport.install()
+   #This import command will process foo.pyx,
+   #generate a C++ source file based on it,
+   #and compile it!  This only needs to happen once,
+   #and recompilation will only happen if you make
+   #changes to foo.pyx
+   import foo
+
+.. note:: Your Python source file can do more than just compile the module.  It could run simuations and apply your custom plugin code.  Or, you could just have one script that imports a lot of modules to compile them.
+   
+Finally, you need to figure out where the fwdpy headers are.  This is often the limiting step.  Here's a trick:
+
+.. code-block:: bash
+
+   #This will print the location of where the module is installed
+   python -c "import fwdpy; print fwdpy.__path__"
+
+The result on my system is:
+
+.. code-block:: bash
+		
+   /home/kevin/.local/lib/python2.7/site-packages/fwdpy/__init__.pyc
+
+Replace lib with include, delete site-packaged, and get rid of /__init__.pyc to get:
+
+.. code-block:: bash
+		
+   /home/kevin/.local/include/python2.7/fwdpy
+
+That is where the fwdpy headers are.
+
+With that out of our way, this will compile our custom module:
+
+.. code-block:: bash
+
+   CPPFLAGS=-I/home/kevin/.local/include/python2.7/fwdpy python compile_foo.py
+
+To see a fully-worked out example, see extension_tests/run_custom_fitness.py in the fwdpy source repository.
+
+Compiling a plugin that contains extra C++ code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+**TBD**
+
 The C++ types used in *fwdpy*
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
