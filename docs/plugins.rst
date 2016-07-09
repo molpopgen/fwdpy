@@ -138,7 +138,7 @@ With that out of our way, this will compile our custom module:
 To see a fully-worked out example, see extension_tests/run_custom_fitness.py in the fwdpy source repository.
 
 Compiling a plugin that contains extra C++ code
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 **TBD**
 
