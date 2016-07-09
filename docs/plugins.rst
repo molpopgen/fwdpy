@@ -29,7 +29,9 @@ Using Cython_, such a function could take one of a few forms:
    cpdef double add_em_up_C_CPP_PY(double y,double y):
       return x+y
 
-A full overview of coding in Cython_ is beyond the scope of this manual--please see their documentation for more details.  For most purposes, a plugin will consist of:
+A full overview of coding in Cython_ is beyond the scope of this manual--please see their documentation for more details.  A quick overview is found `here <http://docs.cython.org/src/reference/language_basics.html>`_.
+
+For most purposes, a plugin will consist of:
 
 * A "cdef" function that works on some of the underlying C++ types
 * A "def" function that will take objects from *fwdpy* and apply the "cdef" function to those objects.
