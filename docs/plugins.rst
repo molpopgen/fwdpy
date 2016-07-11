@@ -512,7 +512,7 @@ Thus, this example shows us how to:
 
 *fwdpy* also provides an interface to the additive fitness calculation object from fwdpp_.  It has the same interface:
 
-.. code_block:: cython
+.. code-block:: cython
 
    from fwdpy.fwdpp cimport additive_diploid
 
