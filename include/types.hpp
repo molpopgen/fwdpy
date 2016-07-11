@@ -51,9 +51,9 @@ namespace fwdpy {
     //! Fitness.  This is not necessarily written to by a simulation.
     double w;
     //! Constructor
-    diploid_t() noexcept : first(first_type()),second(second_type()),g(0.),e(0.),w(0.) {}
+    diploid_t() noexcept : first(first_type()),second(second_type()),g(0.),e(0.),w(1.) {}
     //! Construct from two indexes to gametes
-    diploid_t(first_type g1, first_type g2) noexcept : first(g1),second(g2),g(0.),e(0.),w(0.) {}
+    diploid_t(first_type g1, first_type g2) noexcept : first(g1),second(g2),g(0.),e(0.),w(1.) {}
   };
 
   //! Typedef for container of diploids
