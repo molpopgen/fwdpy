@@ -243,7 +243,7 @@ Simulations also use a lookup table to quickly ask if a new mutation position al
 
 The alias for this type provided by *fwdpy* is lookup_t.
 
-.. note:: It is very unlikely that you will ever need to access/manipulate a lookup_t directly.  If you ever have the desire to add/remove from one, think carefully, and then think again.
+.. note:: It is very unlikely that you will ever need to access/manipulate a lookup_t directly.  If you ever have the desire to add/remove from one, think carefully, and then think again.  A lookup_t is modified when adding/removing mutations from the population.  As a rule, this should not be done manually.  Rather, you should use use functions like :func:`fwdpy.fwdpy.add_mutation`.
 
 We will save examples of processing these objects until the section on dealing with whole-population objects.
 
