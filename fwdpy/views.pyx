@@ -29,13 +29,13 @@ cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, cons
     cdef gamete_data rv
     cdef size_t i=0,j=g.mutations.size()
     while i<j:
-        rv.neutral.push_back(get_mutation(mutations[i],mcounts[i]))
+        rv.neutral.push_back(get_mutation(mutations[g.mutations[i]],mcounts[i]))
         i+=1
 
     i=0
     j=g.smutations.size()
     while i<j:
-        rv.selected.push_back(get_mutation(mutations[i],mcounts[i]))
+        rv.selected.push_back(get_mutation(mutations[g.smutations[i]],mcounts[i]))
         i+=1
     rv.n=g.n
     return rv
