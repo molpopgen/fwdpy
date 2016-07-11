@@ -6,6 +6,7 @@
   moved over to fwdpp.
 */
 #include <fwdpp/util.hpp>
+#include <algorithm>
 
 namespace fwdpy
 {
@@ -16,7 +17,16 @@ namespace fwdpy
     Fixed, non-neutral variants get copied into fixations and fixation times, so that fixation times
     can get records.
 
-    This function is identical in name and interface to the current fwdpp function in fwdpp/util.hpp
+    This function is identical in name and interface to the current fwdpp function in fwdpp/util.hpp.
+
+    It differs from the current fwdpp version in that:
+    1. It uses std::lower_bound to make sure that fixations/fixation times are sorted by position
+    2. It uses binary searches (again, lower_bound) to guard against re-inserting the same
+    non-neutral fixation over and over.
+
+    The reason for these changes is that the use case is sims of phenotypes.  We keep fixations 
+    in the pop so that they contribute to trait values.  Thus, w/o the searches, we'd keep re-inserting
+    a fixation each generation.
 
     \note: lookup must be compatible with lookup->erase(lookup->find(double))
   */
@@ -40,17 +50,28 @@ namespace fwdpy
 	assert(mcounts[i] <= twoN);
 	if(mcounts[i]==twoN)
 	  {
+	    auto loc = std::lower_bound(fixations.begin(),
+					fixations.end(),
+					mutations[i].pos,
+					[](const typename fixation_container_t::value_type & __mut,
+					   const double & __value) noexcept {
+					  return __mut.pos< __value;});
+	    auto d = std::distance(fixations.begin(),loc);
 	    if(mutations[i].neutral)
 	      {
-		fixations.push_back(mutations[i]);
-		fixation_times.push_back(generation);
+		fixations.insert(loc,mutations[i]);
+		fixation_times.insert(fixation_times.begin()+d,generation);
 		mcounts[i]=0; //set count to zero to mark mutation as "recyclable"
 		lookup.erase(mutations[i].pos);
 	      }
-	    else
+	    else	      
 	      {
-		fixations.push_back(mutations[i]);
-		fixation_times.push_back(generation);
+		if( loc == fixations.end() ||
+		    loc->pos != mutations[i].pos )
+		  {
+		    fixations.insert(loc,mutations[i]);
+		    fixation_times.insert(fixation_times.begin()+d,generation);
+		  }
 	      }
 	  }
 	if(!mcounts[i]) lookup.erase(mutations[i].pos);
