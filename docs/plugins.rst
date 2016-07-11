@@ -497,7 +497,20 @@ Thus, this example shows us how to:
        #return mean fitness:
        return w.mean()
 
-.. note:: The above function is only useful if you run it on a population using the same "scaling" that you used to simulate!!!
+.. note:: The above function is only useful if you run it on a population using the same "scaling" that you used to simulate!!!  Otherwise, the values returned will differ from those used to evolve the populations.
+
+*fwdpy* also provides an interface to the additive fitness calculation object from fwdpp_.  It has the same interface:
+
+.. code_block:: cython
+
+   from fwdpy.fwdpp cimport additive_diploid
+
+Some comments are needed:
+
+1. multiplicative_diploid and additive_diploid return non-negative doubles representing fitness.
+2. Thus, they are not suitable as object for calculating *phenotypes*.
+
+We will return to phenotypes vs fitness later on, in the section on plugins providing custom fitness models.
 
        
 .. _Cython: http://www.cython.org
