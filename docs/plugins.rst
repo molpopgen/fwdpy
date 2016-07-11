@@ -327,6 +327,7 @@ It has the following data members:
 * **N**, an unsigned 32-bit integer representing current population size
 * **mutations**, an mcont_t containing the mutations
 * **mcounts**, a ucont_t containg the number of occurrences of each mutation
+* **mut_lookup**, a lookup_t (see above).
 * **fixations**, an mcont_t containing fixations
 * **fixation_times**, a cont_t containing the fixation times.
 * **gametes**, a gcont_t containing the gametes
