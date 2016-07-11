@@ -9,6 +9,7 @@
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 
+#include "fwdpp_features.hpp"
 #include "types.hpp"
 #include "reserve.hpp"
 #include "internal_region_manager.hpp"
@@ -72,7 +73,7 @@ namespace fwdpy
 					      f,
 					      model_rules,
 					      KTfwd::remove_neutral());
-	  KTfwd::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
+	  fwdpy::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	  pop->N = nextN;
 	}

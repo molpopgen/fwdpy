@@ -18,6 +18,7 @@
 #include "sampler_base.hpp"
 #include "fwdpy_fitness.hpp"
 #include "sampler_base.hpp"
+#include "fwdpp_features.hpp"
 
 namespace fwdpy
 {
@@ -117,6 +118,7 @@ namespace fwdpy
 					      f,
 					      rules_local,
 					      KTfwd::remove_neutral());
+	  fwdpy::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  pop->N=nextN;
 	}
       if (interval && pop->generation &&pop->generation%interval==0.)
