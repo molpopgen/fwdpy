@@ -521,6 +521,21 @@ Some comments are needed:
 
 We will return to phenotypes vs fitness later on, in the section on plugins providing custom fitness models.
 
+Additional material
+-----------------------------------------------------
+
+Between fwdpp_ and *fwdpy*, a lot of stuff is already implemented.
+
+The following pxd files make various C++ functions available to plugins:
+
+* fwdpy/fwdpp.pxd exposes a lot of fwdpp_.  Those functions are documented in that library's manual_.
+* fwdpy/fwdpy.pxd defines a lot of the Cython_ extension classes and exposes types like singlepop_t, etc. This is the "main" pxd file for the package.
+* fwdpy/fitness.pxd is the basis for fitness models and contains many cdef functions to aid writing custom fitness functions.
+
+These pxd file will be viewed most easily at *fwdpy*'s `repo <http://github.com/molpopgen/fwdpy>`_.
+
+The Git repo `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_ contains working plugin examples, including all of the above "recipes".
+
        
 .. _Cython: http://www.cython.org
 .. _fwdpp: http://molpopgen.github.io/fwdpp
