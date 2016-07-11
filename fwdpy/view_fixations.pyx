@@ -14,21 +14,19 @@ cdef vector[pair[uint,popgen_mut_data]] view_fixations_details( const mcont_t & 
 def view_fixations_popvec(SpopVec p):
     cdef vector[vector[pair[uint,popgen_mut_data]]] rv
     cdef size_t npops=p.pops.size()
+    rv.resize(npops)
     cdef int i
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i]=view_fixations_details(p.pops[i].get().fixations,p.pops[i].get().fixation_times,p.pops[i].get().N)
     return rv
 
-def view_fixations_mpopvec(MetaPopVec p):
+def view_fixations_mlocuspopvec(MlocusPopVec p):
     cdef vector[vector[pair[uint,popgen_mut_data]]] rv
-    cdef size_t npops=p.mpops.size()
+    cdef size_t npops=p.pops.size()
+    rv.resize(npops)
     cdef int i
-    ##HACK ALERT
-    cdef vector[unsigned] Ns
-    for i in range(npops):
-        Ns.push_back(sum(p.mpops[i].get().Ns))
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i]=view_fixations_details(p.mpops[i].get().fixations,p.mpops[i].get().fixation_times,Ns[i])
+        rv[i]=view_fixations_details(p.pops[i].get().fixations,p.pops[i].get().fixation_times,p.pops[i].get().N)
     return rv
 
 def view_fixations(object p):
@@ -47,11 +45,10 @@ def view_fixations(object p):
         return view_fixations_details((<Spop>p).pop.get().fixations,(<Spop>p).pop.get().fixation_times,(<Spop>p).pop.get().N)
     if isinstance(p,MetaPop):
         return view_fixations_details((<MetaPop>p).mpop.get().fixations,(<MetaPop>p).mpop.get().fixation_times,sum((<MetaPop>p).mpop.get().Ns))
-    
     elif isinstance(p,SpopVec):
         return view_fixations_popvec(p)
     elif isinstance(p,MlocusPopVec):
-        return view_fixations_mpopvec(p)
+        return view_fixations_mlocuspopvec(p)
     else:
         raise ValueError("unsupported type")    
     
