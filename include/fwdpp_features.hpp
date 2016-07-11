@@ -5,6 +5,7 @@
   is missing a feature.  Those features may first appear here before getting
   moved over to fwdpp.
 */
+#include <fwdpp/util.hpp>
 
 namespace fwdpy
 {
@@ -27,9 +28,10 @@ namespace fwdpy
 			   fixation_container_t & fixations,
 			   fixation_time_container_t & fixation_times,
 			   mutation_lookup_table & lookup,
-			   std::vector<uint_t> & mcounts,
+			   std::vector<KTfwd::uint_t> & mcounts,
 			   const unsigned & generation,const unsigned & twoN )
   {
+    using namespace KTfwd;
     static_assert( typename traits::is_mutation_t<typename mcont_t::value_type>::type(),
 		   "mutation_type must be derived from KTfwd::mutation_base" );
     assert(mcounts.size()==mutations.size());
