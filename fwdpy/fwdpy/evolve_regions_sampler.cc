@@ -49,23 +49,6 @@ namespace fwdpy
     const auto recpos = KTfwd::extensions::bind_drm(recmap,pop->gametes,pop->mutations,
 						    rng,recrate);
 
-    /*
-      The fitness model.
-
-      Normally, we'd declare dipfit as "auto", but that won't work here b/c there is the chance
-      that we have to re-assign it using an additive model based on input from calling environment.
-
-      The std::bind signature has a different type for the two models, and thus we must coerce it to
-      the proper function signature, which is a member typedef provided by the fwdpp sugar type
-      from which fwdpy::singlepop_t inherits
-    */
-    // auto dipfit = make_multiplicative_fitness(2.0);
-
-    // if( std::string(fitness) == "additive" )
-    //    {
-    // 	 dipfit = make_additive_fitness(2.0);
-    //    }
-
     wf_rules local_rules(std::move(rules));
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
