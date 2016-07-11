@@ -52,6 +52,7 @@ Changes to the Python side:
 
 Changes to the Cython/C++ back end:
 
+* diploid fitness now defaults to 1 instead of 0
 * Bug fixed in get_gamete in views.pyx.  This affected the output of almost all "views" functions except those viewing just mutations.
 * cythonGSL_ is now required. We expect to use more GSL in this package, and so it makes sense to not reinvent the wheel.
 * Massive reduction in code base
