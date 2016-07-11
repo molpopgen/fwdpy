@@ -291,8 +291,6 @@ A diploid is a very simple C++ type with the following data members:
 * **e** is a double-precision floating point value representing a "non-genetic" value.  For example, random noise applied to a trait
 * **w** is a double-precision floating point value representing fitness.
 
-.. note:: **g**, **e**, and **w** are *not* currently set or used by the following functions: :func:`fwdpy.fwdpy.evolve_regions`, :func:`fwdpy.fwdpy.evolve_regions_more`, :func:`fwdpy.fwdpy.evolve_regions_sampler`, and :func:`fwdpy.fwdpy.evolve_regions_sampler_fitness`.  Currently, they are used by simulations of quantitative traits.  This behavior will change in future releases, as it'll obviously be handy to have this info!
-
 We have the following types:
 
 .. code-block:: cython
