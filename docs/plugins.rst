@@ -235,7 +235,17 @@ Key points:
 
 Fixations are stored in an mcont_t and the corresponding fixation_times are stored in a ucont_t.
 
-We will save examples of processing these objects until the section on dealing with whole-population objects
+Simulations also use a lookup table to quickly ask if a new mutation position already exists in the population or not.  This lookup table vastly speeds up the implementation of infinitely-many sites mutation schemes.  The C++11 type is:
+
+.. code-block:: cpp
+
+   std::unordered_set<double,KTfwd::equal_eps>
+
+The alias for this type provided by *fwdpy* is lookup_t.
+
+.. note:: It is very unlikely that you will ever need to access/manipulate a lookup_t directly.  If you ever have the desire to add/remove from one, think carefully, and then think again.
+
+We will save examples of processing these objects until the section on dealing with whole-population objects.
 
 Gametes and gamete containers
 '''''''''''''''''''''''''''''
