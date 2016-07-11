@@ -3,39 +3,6 @@ from fwdpy.fwdpp cimport sep_sample_t,sample_t,gsl_rng
 import numpy as np
 import pandas as pd
 
-##Undocumented fxns are wrappers to enable run-time polymorphism within the Py environs.
-##These fxns make calls to the C++ layer
-
-#cdef sample_t ms_sample_single_deme(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-#    return sample_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam, int(removeFixed))
-
-#cdef sep_sample_t ms_sample_single_deme_sep(GSLrng rng, singlepop pop, int nsam, bint removeFixed) nogil:
-#    return sample_sep_single[singlepop_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
-
-#cdef sep_sample_t ms_sample_metapop_sep(GSLrng rng, metapop pop, int nsam, bint removeFixed,int deme) nogil:
-#    return sample_separate[metapop_t](rng.thisptr.get(),deref(pop.mpop.get()),deme,nsam,removeFixed)
-
-#cdef vector[sep_sample_t] ms_sample_singlepop_mloc(GSLrng rng, singlepop_mloc pop, int nsam, bint removeFixed) nogil:
-#    return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref(pop.pop.get()),nsam,removeFixed)
-
-#cdef get_sh_single(const sample_t & ms_sample,
-#                    singlepop pop,
-#                    vector[double] * s,
-#                    vector[double] * h,
-#                    vector[double] * p,
-#                    vector[double] * a,
-#                    vector[uint16_t] * l):
-#    get_sh(ms_sample,pop.pop.get(),s,h,p,a,l)
-
-#cdef get_sh_metapop(const sample_t & ms_sample,
-#                    metapop pop,
-#                    vector[double] * s,
-#                    vector[double] * h,
-#                    vector[double] * p,
-#                    vector[double] * a,
-#                    vector[uint16_t] * l):
-#    get_sh(ms_sample,pop.mpop.get(),s,h,p,a,l)
-
 def ms_sample(GSLrng rng, PopType pop, int nsam, bint removeFixed = True):
     """
     Take a sample from a set of simulated populations.
