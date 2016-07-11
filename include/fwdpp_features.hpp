@@ -55,19 +55,20 @@ namespace fwdpy
 					mutations[i].pos,
 					[](const typename fixation_container_t::value_type & __mut,
 					   const double & __value) noexcept {
-					  return __mut.pos< __value;});
+					  return  __mut.pos<__value;
+					});
 	    auto d = std::distance(fixations.begin(),loc);
 	    if(mutations[i].neutral)
 	      {
 		fixations.insert(loc,mutations[i]);
 		fixation_times.insert(fixation_times.begin()+d,generation);
 		mcounts[i]=0; //set count to zero to mark mutation as "recyclable"
-		lookup.erase(mutations[i].pos);
+		lookup.erase(mutations[i].pos); //remove mutation position from lookup
 	      }
 	    else	      
 	      {
-		if( loc == fixations.end() ||
-		    loc->pos != mutations[i].pos )
+		if(loc == fixations.end() ||
+		   (loc->pos != mutations[i].pos && log->g != mutations[i].g))
 		  {
 		    fixations.insert(loc,mutations[i]);
 		    fixation_times.insert(fixation_times.begin()+d,generation);
