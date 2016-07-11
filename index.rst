@@ -37,24 +37,6 @@ Important concepts for setting up simulations
    docs/slim
    docs/threads
 
-Plugins
-########################################################################################
-
-.. toctree::
-   :maxdepth: 2
-
-   docs/plugins
-   docs/customFitness
-
-Notes for people wanting to work with the code
-####################################################################################
-
-.. toctree::
-   :maxdepth: 2
-	      
-   docs/code
-   docs/extending
-   
 Examples
 ##########################################
 
@@ -75,6 +57,24 @@ Special topics
 
    docs/vareg
 
+Plugins
+########################################################################################
+
+.. toctree::
+   :maxdepth: 2
+
+   docs/plugins
+   docs/customFitness
+
+Notes for people wanting to work with the code
+####################################################################################
+
+.. toctree::
+   :maxdepth: 2
+	      
+   docs/code
+   docs/extending
+   
 
 Functions and classes
 ##########################################
