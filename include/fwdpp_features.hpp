@@ -68,7 +68,7 @@ namespace fwdpy
 	    else	      
 	      {
 		if(loc == fixations.end() ||
-		   (loc->pos != mutations[i].pos && log->g != mutations[i].g))
+		   (loc->pos != mutations[i].pos && loc->g != mutations[i].g))
 		  {
 		    fixations.insert(loc,mutations[i]);
 		    fixation_times.insert(fixation_times.begin()+d,generation);
