@@ -1,5 +1,6 @@
 from cython.operator import dereference as deref,postincrement as inc
 from cython.parallel import parallel, prange
+from libcpp.limits cimport numeric_limits
 import pandas as pd
 
 cdef extern from "<algorithm>" namespace "std":
@@ -17,9 +18,11 @@ cdef extern from "<iterator>" namespace "std":
 cdef popgen_mut_data get_mutation(const popgenmut & m,
                                   size_t n) nogil:
     cdef popgen_mut_data rv
+    cdef numeric_limits[unsigned] ul
     rv.pos=m.pos
     rv.n=<unsigned>n
     rv.g=m.g
+    rv.ftime=ul.max()
     rv.s=m.s
     rv.h=m.h
     rv.neutral=m.neutral

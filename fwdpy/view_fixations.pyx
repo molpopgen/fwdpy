@@ -1,18 +1,31 @@
 from libcpp.vector cimport vector
-from libcpp.utility cimport pair
 
-cdef vector[pair[uint,popgen_mut_data]] view_fixations_details( const mcont_t & fixations,
-                                                                const vector[uint] & fixation_times,
-                                                                const unsigned N) nogil:
-    cdef vector[pair[uint,popgen_mut_data]] rv
+cdef popgen_mut_data get_fixed_mutation(const popgenmut & m,
+                                        const unsigned ftime,
+                                        size_t n) nogil:
+    cdef popgen_mut_data rv
+    rv.pos=m.pos
+    rv.n=<unsigned>n
+    rv.g=m.g
+    rv.ftime=ftime
+    rv.s=m.s
+    rv.h=m.h
+    rv.neutral=m.neutral
+    rv.label=m.xtra
+    return rv
+
+cdef vector[popgen_mut_data] view_fixations_details( const mcont_t & fixations,
+                                                     const vector[uint] & fixation_times,
+                                                     const unsigned N) nogil:
+    cdef vector[popgen_mut_data] rv
     cdef size_t i=0,j=fixations.size()
     while i!=j:
-        rv.push_back(pair[uint,popgen_mut_data](fixation_times[i],get_mutation(fixations[i],N)))
+        rv.push_back(get_fixed_mutation(fixations[i],fixation_times[i],N))
         i+=1
     return rv
 
 def view_fixations_popvec(SpopVec p):
-    cdef vector[vector[pair[uint,popgen_mut_data]]] rv
+    cdef vector[vector[popgen_mut_data]] rv
     cdef size_t npops=p.pops.size()
     rv.resize(npops)
     cdef int i
@@ -21,7 +34,7 @@ def view_fixations_popvec(SpopVec p):
     return rv
 
 def view_fixations_mlocuspopvec(MlocusPopVec p):
-    cdef vector[vector[pair[uint,popgen_mut_data]]] rv
+    cdef vector[vector[popgen_mut_data]] rv
     cdef size_t npops=p.pops.size()
     rv.resize(npops)
     cdef int i

@@ -251,7 +251,7 @@ ctypedef ucont_t mcounts_cont_t
 ##Define some low-level functions that may be useful for others
 cdef struct popgen_mut_data:
     double pos,s,h
-    unsigned n,g
+    unsigned n,g,ftime
     bint neutral
     uint16_t label
 
