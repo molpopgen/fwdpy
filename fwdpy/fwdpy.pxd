@@ -7,6 +7,8 @@ from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
+from fwdpy.cpp cimport hash
+from libcpp.unordered_set cimport unordered_set
 from cython_gsl cimport gsl_rng
 from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum
 from fwdpy.fitness cimport singlepop_fitness
@@ -20,7 +22,8 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
     ctypedef gamete_base[void] gamete_t
     ctypedef vector[gamete_t] gcont_t
     ctypedef vector[popgenmut] mcont_t
-
+    ctypedef unordered_set[double,equal_eps] lookup_t
+    
     cdef cppclass diploid_t:
         size_t first,second;
         double g,e,w
@@ -37,6 +40,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         dipvector_t diploids
         mcont_t fixations
         ucont_t fixation_times
+        lookup_t mut_lookup
         unsigned gen()
         unsigned popsize()
         int sane()
@@ -52,6 +56,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         vector[dipvector_t] diploids
         mcont_t fixations
         ucont_t fixation_times
+        lookup_t mut_lookup
         ucont_t popsizes()
         int sane()
         int size()
@@ -68,6 +73,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         vector[dipvector_t] diploids
         mcont_t fixations
         ucont_t fixation_times
+        lookup_t mut_lookup
         int gen()
         int sane()
         int popsize()
@@ -85,6 +91,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         vector[diploid_t] diploids
         vector[generalmut_vec] fixations
         ucont_t fixation_times
+        lookup_t mut_lookup
         unsigned gen()
         unsigned popsize()
         int sane()

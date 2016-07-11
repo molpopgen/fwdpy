@@ -26,14 +26,12 @@ cdef class QtraitStatsSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` that records various statistics about the population.
 
-    .. note:: This is not useful for the standard fwdpy population.  It only actually records anything
-    meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.
-
+    .. note:: This is not useful for the standard fwdpy population.  It only actually records anything meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.
     """
     def __cinit__(self, unsigned n, double optimum):
         """
         Constructor
-
+        
         :param n: A length.  Must correspond to number of simulations that will be run simultaneously.
         :param optimum: The value of the optimum trait/fitness value.
         """
@@ -79,8 +77,7 @@ cdef class VASampler(TemporalSampler):
     A :class:`fwdpy.fwdpy.TemporalSampler` that estimates the relationship between mutation frequency and total additive
     genetic variance.
 
-    .. note:: This is not useful for the standard fwdpy population.  It only actually records anything
-    meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.
+    .. note:: This is not useful for the standard fwdpy population.  It only actually records anything meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.
     """
     def __cinit__(self,unsigned n):
         """

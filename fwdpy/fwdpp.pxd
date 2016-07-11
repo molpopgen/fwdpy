@@ -63,6 +63,11 @@ cdef extern from "fwdpp/fitness_models.hpp" namespace "KTfwd" nogil:
                                               const GAMETE_CONTAINER &,
                                               const MUTATION_CONTAINER &,
                                               const double &) const
+#For hashing/lookup tables:
+cdef extern from "fwdpp/fwd_functional.hpp" namespace "KTfwd" nogil:
+    cdef cppclass equal_eps:
+        bool operator()[T](const T & lhs, const T & rhs) const
+
 #fwdpp's debug functions
 cdef extern from "fwdpp/debug.hpp" namespace "KTfwd" nogil:
     bool check_sum[GAMETE_CONTAINER](const GAMETE_CONTAINER & gc, const unsigned twoN)

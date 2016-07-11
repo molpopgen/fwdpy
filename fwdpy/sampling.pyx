@@ -276,8 +276,7 @@ def hapmatrix(p,const vector[size_t] & diploids, deme = None):
     :param diploids: Indexes of individuals to include in matrix
     :param deme: Deme index (only needed if p represents a meta-population)
 
-    :return: A dict that will allow construction of a 0/1 matrix represting ancestral and derived genotypes,
-    respectively, corresponding the the individuals in 'diploids'.
+    :return: A dict that will allow construction of a 0/1 matrix represting ancestral and derived genotypes, respectively, corresponding the the individuals in 'diploids'.
 
     .. note:: Examples will be provided elsewhere.
     """
@@ -306,10 +305,8 @@ def genomatrix(const haplotype_matrix & m):
 
     :param m: The return value from :func:`fwdpy.fwdpy.hapmatrix`
 
-    :return: A dict containing the indexes of Aa and aa genotypes
-    for neutral (n) and selected (s) markers in a 1d array of length m['nrow']*m['ncol_n']/2
+    :return: A dict containing the indexes of Aa and aa genotypes for neutral (n) and selected (s) markers in a 1d array of length m['nrow']*m['ncol_n']/2
 
-    ..note :: The return value is most useful when used to create a 2d numpy array representing 
-    genotypes.
+    ..note :: The return value is most useful when used to create a 2d numpy array representing genotypes.
     """
     return make_genotype_matrix(m);
