@@ -463,7 +463,7 @@ cdef diploid_view_to_sample_fill_containers(list view, map[double,string] * neut
     if <size_t>I != len(view):
         raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")
 
-cdef diploid_mloc_view_to_sample_fill_containers(ist view, map[double,string] * neutral, map[double,string] * selected): 
+cdef diploid_mloc_view_to_sample_fill_containers(list view, map[double,string] * neutral, map[double,string] * selected): 
     cdef unsigned I = 0
     cdef size_t ttl_nsam = 2*len(view)
     for dip in view:
@@ -677,9 +677,9 @@ cdef diploid_view_data view_diploids_pd_details(const singlepop_t * pop,
         IND+=1
         inc(beg)
 
-def view_diploids_pd_popvece(SpopVec p,
-                             vector[unsigned] & indlist,
-                             bint selectedOnly):
+def view_diploids_pd_popvec(SpopVec p,
+                            vector[unsigned] & indlist,
+                            bint selectedOnly):
     cdef size_t npops = p.pops.size()
     cdef int i
     cdef vector[diploid_view_data] rv
