@@ -8,12 +8,15 @@
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 #include <fwdpp/sugar/sampling.hpp>
+#include <fwdpp/experimental/sample_diploid.hpp>
 
 #include "evolve_regions_sampler.hpp"
 #include "types.hpp"
 #include "reserve.hpp"
 #include "sampler_base.hpp"
 #include "fwdpy_fitness.hpp"
+#include "wf_rules.hpp"
+
 using namespace std;
 
 namespace fwdpy
@@ -30,7 +33,8 @@ namespace fwdpy
 					  const int interval,
 					  KTfwd::extensions::discrete_mut_model && __m,
 					  KTfwd::extensions::discrete_rec_model && __recmap,
-					  sampler_base & s)
+					  sampler_base & s,
+					  wf_rules rules)
   {
     const size_t simlen = Nvector_len;
     auto x = std::max_element(Nvector,Nvector+Nvector_len);
@@ -61,23 +65,24 @@ namespace fwdpy
     //    {
     // 	 dipfit = make_additive_fitness(2.0);
     //    }
-    
+
+    wf_rules local_rules(std::move(rules));
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
-	KTfwd::sample_diploid(rng,
-			      pop->gametes,
-			      pop->diploids,
-			      pop->mutations,
-			      pop->mcounts,
-			      pop->N,
-			      nextN,
-			      mu_tot,
-			      KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
-			      recpos,
-			      fitness.fitness_function,
-			      pop->neutral,pop->selected,
-			      f);
+	KTfwd::experimental::sample_diploid(rng,
+					    pop->gametes,
+					    pop->diploids,
+					    pop->mutations,
+					    pop->mcounts,
+					    pop->N,
+					    nextN,
+					    mu_tot,
+					    KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
+					    recpos,
+					    fitness.fitness_function,
+					    pop->neutral,pop->selected,
+					    f,local_rules);
 	pop->N=nextN;
 	if (interval && pop->generation &&(pop->generation+1)%interval==0.)
 	  {
@@ -116,6 +121,7 @@ namespace fwdpy
     if(f<0.||f>1.) throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
     if(sample<0) throw std::runtime_error("sampling interval must be non-negative");
     std::vector<std::thread> threads;
+    wf_rules rules;
     for(std::size_t i=0;i<pops->size();++i)
       {
 	threads.emplace_back( std::thread(evolve_regions_sampler_cpp_details,
@@ -123,7 +129,7 @@ namespace fwdpy
 					  mu_neutral,mu_selected,littler,f,fitness,sample,
 					  KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks),
 					  KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw),
-					  std::ref(*samplers[i])
+					  std::ref(*samplers[i]),rules
 					)
 			      );	
       }
