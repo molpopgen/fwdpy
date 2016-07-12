@@ -179,27 +179,47 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
     cdef cppclass sampler_base:
         pass
 
+    #This is a template for a custom temporal sampler
+    #Each generation, a "generation_t" is recorded, and
+    #are kept in a container alled FINALT, which is returned,
+    #and represents a time series of observations.
+    #The best policy is to keep FINALT as something coercible
+    #to Python via Cython directly.
     cdef cppclass custom_sampler[FINALT](sampler_base):
-        pass
         FINALT final()
+        #To make a valid sampler, you must construct and object with a callback.
+        #Below are the constructors for singlepop_t, multilocus_t, and metapop_t,
+        #respectively.
         custom_sampler(void(*)(const singlepop_t *, const unsigned, FINALT &))
         custom_sampler(void(*)(const multilocus_t *, const unsigned, FINALT &))
         custom_sampler(void(*)(const metapop_t *, const unsigned, FINALT &))
+        #You may register additional callbacks as needed
         register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &) )
         register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &))
         register_callback(void(*)(const metapop_t *, const unsigned, FINALT &))
+        #Typically, you won't need to register a cleanup callback,
+        #but the interface is provided anyways
         register_callback(void(*)(FINALT &))
-                          
+
+    #Template for custom temporal sampler that need additional data
+    #The DATAT may be arbitrary--it could contain parameters used
+    #for each call when sampling, or reusable buffers for intermediate
+    #compuations, etc.
     cdef cppclass custom_sampler_data[FINALT,DATAT](sampler_base):
-        pass
         DATAT data
         FINALT final()
+        #To make a valid sampler, you must construct and object with a callback.
+        #Below are the constructors for singlepop_t, multilocus_t, and metapop_t,
+        #respectively.  Each constructor also requires a DATAT, and DATAT must be copyable.
         custom_sampler_data(void(*)(const singlepop_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
         custom_sampler_data(void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
         custom_sampler_data(void(*)(const metapop_t *, const unsigned, FINALT &, DATAT & ), const DATAT &)
+        #You may register additional callbacks as needed
         register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
         register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
         register_callback(void(*)(const metapop_t *, const unsigned, FINALT &, DATAT & ), const DATAT &)
+        #if DATAT can get large, you may register a callback to clean it up
+        #when evolution functions exit
         register_callback(void(*)(FINALT &,DATAT &))
                           
     void apply_sampler_cpp[T](const vector[shared_ptr[T]] & popvec,
