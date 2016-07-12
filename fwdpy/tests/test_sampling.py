@@ -83,7 +83,7 @@ class test_Fixations(unittest.TestCase):
             FOUND=0
             for f in fixations[i]:
                 #...find it in the sample object for the correct replicate...
-                mm=[X for X in samples[i] if X[0] == f[1]['pos']]
+                mm=[X for X in samples[i] if X[0] == f['pos']]
                 FOUND+=len(mm)
             self.assertEqual(FOUND,len(fixations[i]))
     def test_CountFixationsInSample2(self):
@@ -94,11 +94,11 @@ class test_Fixations(unittest.TestCase):
             FOUNDN=0
             FOUNDS=0
             for f in fixations[i]:
-                if f[1]['neutral'] is True:
-                    mm=[X for X in samples[i][0] if X[0]==f[1]['pos']]
+                if f['neutral'] is True:
+                    mm=[X for X in samples[i][0] if X[0]==f['pos']]
                     FOUNDN+=len(mm)
                 else:
-                    mm=[X for X in samples[i][1] if X[0]==f[1]['pos']]
+                    mm=[X for X in samples[i][1] if X[0]==f['pos']]
                     FOUNDS+=len(mm)
                     self.assertEqual(FOUNDN+FOUNDS,len(fixations[i]))
     def test_CountFixationsInSample3(self):
@@ -111,11 +111,11 @@ class test_Fixations(unittest.TestCase):
             FOUNDN=0
             FOUNDS=0
             for f in fixations[i]:
-                if f[1]['neutral'] is True:
-                    mm=[X for X in samples[i][0] if X[0]==f[1]['pos']]
+                if f['neutral'] is True:
+                    mm=[X for X in samples[i][0] if X[0]==f['pos']]
                     FOUNDN+=len(mm)
                 else:
-                    mm=[X for X in samples[i][1] if X[0]==f[1]['pos']]
+                    mm=[X for X in samples[i][1] if X[0]==f['pos']]
                     FOUNDS+=len(mm)
                     self.assertEqual(FOUNDN+FOUNDS,0)
         ##Checks that no polymorphisms are present as fixations in sample
@@ -132,7 +132,7 @@ class test_Fixations(unittest.TestCase):
         for i in range(len(fixations)):
             FOUND=0
             for f in fixations[i]:
-                mm=[X for X in samples[i] if X[0] == f[1]['pos']]
+                mm=[X for X in samples[i] if X[0] == f['pos']]
                 FOUND+=len(mm)
                 self.assertEqual(FOUND,0)
         ##Checks that no polymorphisms are present as fixations in sample
