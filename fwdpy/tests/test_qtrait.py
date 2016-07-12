@@ -6,7 +6,7 @@ try:
     #Some basic setup
     rng = fwdpy.GSLrng(101)
     nlist = array.array('I',[1000]*10)
-    f = fwdpy.fitness.SpopGBR()
+    f = fwdpy.qtrait.SpopGBRTrait()
     pops=fwdpy.SpopVec(10,1000)
     n = fwdpy.NothingSampler(len(pops))
 
