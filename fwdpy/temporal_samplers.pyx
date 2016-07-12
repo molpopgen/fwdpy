@@ -43,10 +43,8 @@ cdef class QtraitStatsSampler(TemporalSampler):
         """
         cdef vector[vector[qtrait_stats_cython]] rv
         cdef size_t i=0
-        cdef size_t n=self.vec.size()
-        while i<n:
+        for i in range(self.vec.size()):
             rv.push_back((<pop_properties*>(self.vec[i].get())).final())
-            i+=1
         return rv
 
 cdef class PopSampler(TemporalSampler):
@@ -66,10 +64,8 @@ cdef class PopSampler(TemporalSampler):
     def get(self):
         cdef vector[vector[pair[uint,detailed_deme_sample]]] rv
         cdef size_t i=0
-        cdef size_t n=self.vec.size()
-        while i<n:
+        for i in range(self.vec.size()):
             rv.push_back((<sample_n*>(self.vec[i].get())).final())
-            i+=1
         return rv
 
 cdef class VASampler(TemporalSampler):
@@ -93,10 +89,8 @@ cdef class VASampler(TemporalSampler):
         """
         cdef vector[vector[VAcum]] rv
         cdef size_t i=0
-        cdef size_t n=self.vec.size()
-        while i<n:
+        for i in range(self.vec.size()):
             rv.push_back((<additive_variance*>(self.vec[i].get())).final())
-            i+=1
         return rv
 
 cdef class FreqSampler(TemporalSampler):
@@ -117,10 +111,10 @@ cdef class FreqSampler(TemporalSampler):
         """
         cdef vector[vector[pair[selected_mut_data, vector[pair[uint,double]]]]] rv
         cdef size_t i=0
-        cdef size_t n=self.vec.size()
-        while i<n:
+        
+        for i in range(self.vec.size()):
             rv.push_back((<selected_mut_tracker*>self.vec[i].get()).final())
-            i+=1
+
         return rv
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
