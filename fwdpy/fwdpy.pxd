@@ -185,6 +185,14 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
         custom_sampler( void(*)(const singlepop_t *, const unsigned, FINALT &) )
         custom_sampler( void(*)(const multilocus_t *, const unsigned, FINALT &) )
         custom_sampler( void(*)(const metapop_t *, const unsigned, FINALT &) )
+
+    cdef cppclass custom_sampler_data[FINALT,DATAT](sampler_base):
+        pass
+        DATAT data
+        FINALT final()
+        custom_sampler_data( void(*)(const singlepop_t *, const unsigned, FINALT &, DATAT &), const DATAT & )
+        custom_sampler_data( void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &), const DATAT & )
+        custom_sampler_data( void(*)(const metapop_t *, const unsigned, FINALT &, DATAT & ), const DATAT & )
         
     void apply_sampler_cpp[T]( const vector[shared_ptr[T]] & popvec,
 			       const vector[unique_ptr[sampler_base]] & samplers )
