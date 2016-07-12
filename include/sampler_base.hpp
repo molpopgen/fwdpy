@@ -75,15 +75,15 @@ namespace fwdpy
     multilocus_call_operator mcall;
     metapop_call_operator metacall;
 
-    custom_sampler( singlepop_call_operator s ) : scall(s),mcall(nullptr),metacall(nullptr)
+    custom_sampler( singlepop_call_operator s ) : f(final_t()),scall(s),mcall(nullptr),metacall(nullptr)
     {
     }
 
-    custom_sampler( multilocus_call_operator s ) : scall(nullptr),mcall(s),metacall(nullptr)
+    custom_sampler( multilocus_call_operator s ) : f(final_t()),scall(nullptr),mcall(s),metacall(nullptr)
     {
     }
 
-    custom_sampler( metapop_call_operator s) : scall(nullptr),mcall(nullptr),metacall(s)
+    custom_sampler( metapop_call_operator s) : f(final_t()),scall(nullptr),mcall(nullptr),metacall(s)
     {
     }
 
@@ -108,6 +108,62 @@ namespace fwdpy
       if(metacall != nullptr)
 	{
 	  metacall(pop,generation,f);
+	}
+      else sampler_base::operator()(pop,generation);
+    };    
+
+    final_t final()
+    {
+      return f;
+    }
+  };
+
+  template<typename final_t, typename data_t>
+  struct custom_sampler_data : public sampler_base
+  {
+    using singlepop_call_operator = void(*)(const singlepop_t *, const unsigned, final_t &, data_t & );
+    using multilocus_call_operator = void(*)(const multilocus_t *, const unsigned, final_t &, data_t & );
+    using metapop_call_operator = void(*)(const metapop_t *, const unsigned, final_t &, data_t & );
+    final_t f;
+    data_t data;
+
+    singlepop_call_operator scall;
+    multilocus_call_operator mcall;
+    metapop_call_operator metacall;
+
+    custom_sampler_data( singlepop_call_operator s, const data_t & d) : f(final_t()),data(d),scall(s),mcall(nullptr),metacall(nullptr)
+    {
+    }
+
+    custom_sampler_data( multilocus_call_operator s, const data_t & d) : f(final_t()),data(d),scall(nullptr),mcall(s),metacall(nullptr)
+    {
+    }
+
+    custom_sampler_data( metapop_call_operator s, const data_t & d) : f(final_t()),data(d),scall(nullptr),mcall(nullptr),metacall(s)
+    {
+    }
+
+    void operator()(const singlepop_t * pop ,const unsigned generation)
+    {
+      if(scall != nullptr)
+	{
+	  scall(pop,generation,f,data);
+	}
+      else sampler_base::operator()(pop,generation);
+    };
+    void operator()(const multilocus_t * pop ,const unsigned generation)
+    {
+      if(mcall != nullptr)
+	{
+	  mcall(pop,generation,f,data);
+	}
+      else sampler_base::operator()(pop,generation);
+    };
+    void operator()(const metapop_t * pop,const unsigned generation)
+    {
+      if(metacall != nullptr)
+	{
+	  metacall(pop,generation,f,data);
 	}
       else sampler_base::operator()(pop,generation);
     };    
