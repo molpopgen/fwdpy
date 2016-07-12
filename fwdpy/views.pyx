@@ -58,6 +58,8 @@ cdef diploid_data get_diploid(const diploid_t & dip,
    rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)
    rv.n0 = <unsigned>rv.chrom0.selected.size()
    rv.n1 = <unsigned>rv.chrom1.selected.size()
+   rv.sh0=0.0
+   rv.sh1=0.0
    cdef size_t i = 0
    while i < rv.chrom0.selected.size():
        rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)
