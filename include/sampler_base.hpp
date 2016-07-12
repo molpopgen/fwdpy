@@ -69,21 +69,37 @@ namespace fwdpy
   {
     using singlepop_call_operator = void(*)(const singlepop_t *, const unsigned, final_t & );
     using multilocus_call_operator = void(*)(const multilocus_t *, const unsigned, final_t & );
-    using metapop_call_operator = void(*)(const metapop_t *, const unsigned, final_t & );    
+    using metapop_call_operator = void(*)(const metapop_t *, const unsigned, final_t & );
+    using cleanup_fxn = void(*)(final_t &);
+    
     final_t f;
     singlepop_call_operator scall;
     multilocus_call_operator mcall;
     metapop_call_operator metacall;
-
-    custom_sampler( singlepop_call_operator s ) : f(final_t()),scall(s),mcall(nullptr),metacall(nullptr)
+    cleanup_fxn cleanupcall;
+    
+    custom_sampler( singlepop_call_operator s ) : f(final_t()),
+						  scall(s),
+						  mcall(nullptr),
+						  metacall(nullptr),
+						  cleanupcall(nullptr)
+						  
     {
     }
 
-    custom_sampler( multilocus_call_operator s ) : f(final_t()),scall(nullptr),mcall(s),metacall(nullptr)
+    custom_sampler( multilocus_call_operator s ) : f(final_t()),
+						   scall(nullptr),
+						   mcall(s),
+						   metacall(nullptr),
+						   cleanupcall(nullptr)
     {
     }
 
-    custom_sampler( metapop_call_operator s) : f(final_t()),scall(nullptr),mcall(nullptr),metacall(s)
+    custom_sampler( metapop_call_operator s) : f(final_t()),
+					       scall(nullptr),
+					       mcall(nullptr),
+					       metacall(s),
+					       cleanupcall(nullptr)
     {
     }
 
@@ -94,7 +110,8 @@ namespace fwdpy
 	  scall(pop,generation,f);
 	}
       else sampler_base::operator()(pop,generation);
-    };
+    }
+    
     void operator()(const multilocus_t * pop ,const unsigned generation)
     {
       if(mcall != nullptr)
@@ -102,7 +119,8 @@ namespace fwdpy
 	  mcall(pop,generation,f);
 	}
       else sampler_base::operator()(pop,generation);
-    };
+    }
+    
     void operator()(const metapop_t * pop,const unsigned generation)
     {
       if(metacall != nullptr)
@@ -110,8 +128,37 @@ namespace fwdpy
 	  metacall(pop,generation,f);
 	}
       else sampler_base::operator()(pop,generation);
-    };    
+    }
 
+    void register_callback(singlepop_call_operator c)
+    {
+      scall=c;
+    }
+
+    void register_callback(multilocus_call_operator c)
+    {
+      mcall=c;
+    }
+    
+    void register_callback(metapop_call_operator c)
+    {
+      metacall=c;
+    }
+
+    void register_callback(cleanup_fxn c)
+    {
+      cleanupcall=c;
+    }
+    
+    void cleanup()
+    {
+      if(cleanupcall != nullptr)
+	{
+	  cleanupcall(f);
+	}
+      else sampler_base::cleanup();
+    }
+    
     final_t final()
     {
       return f;
@@ -124,22 +171,39 @@ namespace fwdpy
     using singlepop_call_operator = void(*)(const singlepop_t *, const unsigned, final_t &, data_t & );
     using multilocus_call_operator = void(*)(const multilocus_t *, const unsigned, final_t &, data_t & );
     using metapop_call_operator = void(*)(const metapop_t *, const unsigned, final_t &, data_t & );
+    using cleanup_fxn = void(*)(final_t &,data_t &);
     final_t f;
     data_t data;
 
     singlepop_call_operator scall;
     multilocus_call_operator mcall;
     metapop_call_operator metacall;
-
-    custom_sampler_data( singlepop_call_operator s, const data_t & d) : f(final_t()),data(d),scall(s),mcall(nullptr),metacall(nullptr)
+    cleanup_fxn cleanupcall;
+    
+    custom_sampler_data( singlepop_call_operator s, const data_t & d) : f(final_t()),
+									data(d),
+									scall(s),
+									mcall(nullptr),
+									metacall(nullptr),
+									cleanupcall(nullptr)
     {
     }
 
-    custom_sampler_data( multilocus_call_operator s, const data_t & d) : f(final_t()),data(d),scall(nullptr),mcall(s),metacall(nullptr)
+    custom_sampler_data( multilocus_call_operator s, const data_t & d) : f(final_t()),
+									 data(d),
+									 scall(nullptr),
+									 mcall(s),
+									 metacall(nullptr),
+									 cleanupcall(nullptr)
     {
     }
 
-    custom_sampler_data( metapop_call_operator s, const data_t & d) : f(final_t()),data(d),scall(nullptr),mcall(nullptr),metacall(s)
+    custom_sampler_data( metapop_call_operator s, const data_t & d) : f(final_t()),
+								      data(d),
+								      scall(nullptr),
+								      mcall(nullptr),
+								      metacall(s),
+								      cleanupcall(nullptr)
     {
     }
 
@@ -150,7 +214,8 @@ namespace fwdpy
 	  scall(pop,generation,f,data);
 	}
       else sampler_base::operator()(pop,generation);
-    };
+    }
+    
     void operator()(const multilocus_t * pop ,const unsigned generation)
     {
       if(mcall != nullptr)
@@ -158,7 +223,8 @@ namespace fwdpy
 	  mcall(pop,generation,f,data);
 	}
       else sampler_base::operator()(pop,generation);
-    };
+    }
+    
     void operator()(const metapop_t * pop,const unsigned generation)
     {
       if(metacall != nullptr)
@@ -166,7 +232,36 @@ namespace fwdpy
 	  metacall(pop,generation,f,data);
 	}
       else sampler_base::operator()(pop,generation);
-    };    
+    }
+
+    void register_callback(singlepop_call_operator c)
+    {
+      scall=c;
+    }
+
+    void register_callback(multilocus_call_operator c)
+    {
+      mcall=c;
+    }
+    
+    void register_callback(metapop_call_operator c)
+    {
+      metacall=c;
+    }
+
+    void register_callback(cleanup_fxn c)
+    {
+      cleanupcall=c;
+    }
+    
+    void cleanup()
+    {
+      if(cleanupcall != nullptr)
+	{
+	  cleanupcall(f);
+	}
+      else sampler_base::cleanup();
+    }
 
     final_t final()
     {
