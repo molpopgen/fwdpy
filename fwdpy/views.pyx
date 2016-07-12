@@ -756,8 +756,6 @@ cdef diploid_traits_mpopvec(MetaPopVec p,deme):
 def diploid_traits(object p, deme = None):
     """
     Return genetic value (g), environmental value (e), and fitness (w) for all diploids.
-
-    .. note:: "Standard population genetic" models do not update these values during simulation.
     """
     if isinstance(p,Spop):
         return diploid_traits_singlepop(p)
