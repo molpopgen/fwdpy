@@ -29,7 +29,7 @@ namespace fwdpy
 					  const double selected,
 					  const double recrate,
 					  const double f,
-					  const singlepop_fitness & fitness,
+					  singlepop_fitness fitness,
 					  const int interval,
 					  KTfwd::extensions::discrete_mut_model && __m,
 					  KTfwd::extensions::discrete_rec_model && __recmap,
@@ -72,6 +72,8 @@ namespace fwdpy
 	    s(pop,pop->generation+1);
 	  }
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
+	//Allow fitness model to update any data that it may need
+	fitness.update(pop);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size

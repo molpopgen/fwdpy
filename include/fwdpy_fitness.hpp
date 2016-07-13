@@ -30,6 +30,9 @@ namespace fwdpy
 							 const gcont_t &,
 							 const mcont_t &)>;
 
+  //! Template alias for update function used in singepop_fitness_data
+  template<typename T> using single_region_fitness_data_updater = void(*)(const singlepop_t *, T &);
+
   //Multi-locus fitness functions signatures
   
   //! C++11 signature for a multi-locus fitness function. Not exposed to Python (yet).
@@ -109,6 +112,40 @@ namespace fwdpy
 				 h,f))				 
     {
     }
+  };
+
+  template<typename data_t>
+  struct singlepop_fitness_data : public singlepop_fitness
+  {
+    using base_t = singlepop_fitness;
+    using update_fxn = single_region_fitness_data_updater<data_t>;
+    data_t d;
+    update_fxn updater;
+
+    singlepop_fitness_data(const singlepop_fitness_data &) = default;
+    
+    singlepop_fitness_data(fitness_fxn_t ff,
+			   update_fxn u) : base_t(ff),updater(u)
+    {
+    }
+
+    singlepop_fitness_data(genotype_fitness_updater Aa,
+			   genotype_fitness_updater aa,
+			   fitness_function_finalizer wfinal,
+			   double starting_fitness,
+			   update_fxn u
+			   ) : base_t(Aa,aa,wfinal,starting_fitness), updater(u)
+    {
+    }
+
+    singlepop_fitness_data(haplotype_fitness_fxn h,
+			   haplotype_fitness_fxn_finalizer f,
+			   update_fxn u) : base_t(h,f),updater(u)
+    {
+    }
+
+    //! dispatch to callback
+    void update(const singlepop_t * pop) { updater(pop,d); }
   };
 
   struct multilocus_fitness

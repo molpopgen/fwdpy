@@ -52,7 +52,6 @@ namespace fwdpy
 			const single_region_fitness_fxn &ff) noexcept
     {
       offspring.g=ff(offspring,gametes,mutations);
-      auto g2=KTfwd::additive_diploid()(offspring,gametes,mutations,2);
       offspring.e = 0.0;
       offspring.w = offspring.g;
       assert( std::isfinite(offspring.w) );
