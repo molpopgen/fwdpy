@@ -57,4 +57,3 @@ cdef class MlocusMult(MlocusFitness):
         :param scaling: For a single mutation, fitness is calculated as 1, 1+sh, and 1+scaling*s for genotypes AA, Aa, and aa, respectively
         """
         self.wfxn=make_mloc_multiplicative_fitness(scaling)
-
