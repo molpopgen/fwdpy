@@ -129,8 +129,8 @@ def evolve_regions_qtrait_sampler_fitness(GSLrng rng,
     fwdpy.check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if isinstance(fitness_function,SpopGBRTrait):
         check_gbr_sdist(sregions)
-    if sample <= 0:
-        raise RuntimeError("sample must be > 0")
+    if sample < 0:
+        raise RuntimeError("sample must be >= 0")
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
