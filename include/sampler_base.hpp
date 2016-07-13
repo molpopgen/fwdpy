@@ -9,6 +9,13 @@
 namespace fwdpy
 {
   struct sampler_base
+  /*!
+    Base class for a temporal sampler.
+
+    This class cannot be used as a sampler. Attempting to build a sampler
+    around this will result in std::runtime_error being thrown from operator()
+    during simulations.
+   */
   {
     virtual void operator()(const singlepop_t *,const unsigned)
     {
