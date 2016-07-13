@@ -66,6 +66,10 @@ namespace fwdpy
 
   template<typename final_t>
   struct custom_sampler : public sampler_base
+  /*!
+    The basis of a custom sampler that requires no extra data 
+    in order to implement its call operator.
+  */
   {
     using singlepop_call_operator = void(*)(const singlepop_t *, const unsigned, final_t & );
     using multilocus_call_operator = void(*)(const multilocus_t *, const unsigned, final_t & );
@@ -167,6 +171,10 @@ namespace fwdpy
 
   template<typename final_t, typename data_t>
   struct custom_sampler_data : public sampler_base
+  /*!
+    The basis of a custom sampler requires extra data 
+    in order to implement its call operator.
+  */
   {
     using singlepop_call_operator = void(*)(const singlepop_t *, const unsigned, final_t &, data_t & );
     using multilocus_call_operator = void(*)(const multilocus_t *, const unsigned, final_t &, data_t & );
