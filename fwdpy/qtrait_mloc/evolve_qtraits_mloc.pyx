@@ -16,6 +16,8 @@ def evolve_qtraits_mloc_sample_fitness(GSLrng rng,
                                        double sigmaE = 0.0,
                                        double f = 0.0,
                                        double VS = 1.0):
+    if sample<0:
+        raise RuntimeError("sample must be >= 0")
     cdef size_t nlen=len(nlist)
     sh = shwrappervec()
     process_sregion_callbacks(sh,sregions)
