@@ -35,14 +35,10 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 
     cdef cppclass singlepop_fitness_data[DATAT](singlepop_fitness):
         singlepop_fitness()
-        singlepop_fitness_data(genotype_fitness_updater Aa,
-		               genotype_fitness_updater aa,
-		               fitness_function_finalizer wfinal,
-		               double starting_fitness,
-                               void(*)(const singlepop_t *,DATAT &))
-        singlepop_fitness_data(haplotype_fitness_fxn h,
-		               haplotype_fitness_fxn_finalizer f,
-                               void(*)(const singlepop_t *,DATAT &))
+        singlepop_fitness_data(double(*)(const diploid_t &,
+                                         const gcont_t &,
+                                         const mcont_t &,
+                                         DATAT &))
 
     cdef cppclass multilocus_fitness:
         multilocus_fitness()

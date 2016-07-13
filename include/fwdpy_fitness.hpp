@@ -118,6 +118,10 @@ namespace fwdpy
   struct singlepop_fitness_data : public singlepop_fitness
   {
     using base_t = singlepop_fitness;
+    using fitness_fxn_data_t = double(*)(const diploid_t &,
+					 const gcont_t &,
+					 const mcont_t &,
+					 data_t &);
     using update_fxn = single_region_fitness_data_updater<data_t>;
     data_t d;
     update_fxn updater;
@@ -129,21 +133,14 @@ namespace fwdpy
     {
     }
 
-    singlepop_fitness_data(genotype_fitness_updater Aa,
-			   genotype_fitness_updater aa,
-			   fitness_function_finalizer wfinal,
-			   double starting_fitness,
-			   update_fxn u
-			   ) : base_t(Aa,aa,wfinal,starting_fitness), updater(u)
+    singlepop_fitness_data(fitness_fxn_data_t f) : base_t(std::bind(f,
+								    std::placeholders::_1,
+								    std::placeholders::_2,
+								    std::placeholders::_3,
+								    std::ref(d)),
+							  d(data_t()))
     {
     }
-
-    singlepop_fitness_data(haplotype_fitness_fxn h,
-			   haplotype_fitness_fxn_finalizer f,
-			   update_fxn u) : base_t(h,f),updater(u)
-    {
-    }
-
     //! dispatch to callback
     void update(const singlepop_t * pop) { updater(pop,d); }
   };
