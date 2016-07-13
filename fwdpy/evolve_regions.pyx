@@ -228,12 +228,12 @@ def evolve_regions_sampler_fitness(GSLrng rng,
     :param nregions: A list specifying where neutral mutations occur
     :param sregions: A list specifying where selected mutations occur
     :param recregions: A list specifying how the genetic map varies along the region
-    :param sample: Apply the temporal sample every 'sample' generations during the simulation.
+    :param sample: Apply the temporal sampler every 'sample' generations during the simulation. 0 means it will never get applied, which may or may not be what you want.
     :param f: The selfing probabilty
     """
     check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
-    if sample <= 0:
-        raise RuntimeError("sample must be > 0")
+    if sample < 0:
+        raise RuntimeError("sample must be >= 0")
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
