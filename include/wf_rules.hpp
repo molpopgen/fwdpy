@@ -33,6 +33,7 @@ namespace fwdpy
 		    gcont_t & gametes,
 		    const mcont_t & mutations )
     {
+      index=0; //reset this variable
       auto N_curr = diploids.size();
       if(fitnesses.size() < N_curr) fitnesses.resize(N_curr);
       wbar = 0.;
@@ -54,6 +55,7 @@ namespace fwdpy
       offspring.g=ff(offspring,gametes,mutations);
       offspring.e = 0.0;
       offspring.w = offspring.g;
+      offspring.label = index++;
       assert( std::isfinite(offspring.w) );
       return;
     }

@@ -14,9 +14,10 @@ namespace fwdpy
     std::vector<double> fitnesses;
     KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr lookup;
     double wbar;
+    std::size_t index;
     single_region_rules_base() : fitnesses(std::vector<double>()),
 				 lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr)),
-				 wbar(0.0)
+				 wbar(0.0),index(0)
     {
     }
 
@@ -24,7 +25,7 @@ namespace fwdpy
 
     single_region_rules_base(const single_region_rules_base & rhs) :fitnesses(rhs.fitnesses),
 								    lookup(KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(nullptr)),
-								    wbar(rhs.wbar)
+								    wbar(rhs.wbar),index(rhs.index)
     {
        	if(!fitnesses.empty())
        	  lookup = KTfwd::fwdpp_internal::gsl_ran_discrete_t_ptr(gsl_ran_discrete_preproc(fitnesses.size(),&fitnesses[0]));
