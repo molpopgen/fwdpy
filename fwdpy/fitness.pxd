@@ -39,7 +39,7 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
                                          const gcont_t &,
                                          const mcont_t &,
                                          DATAT &),
-                               void(*)(singlepop_t *, DATAT &))
+                               void(*)(const singlepop_t *, DATAT &))
 
     cdef cppclass multilocus_fitness:
         multilocus_fitness()

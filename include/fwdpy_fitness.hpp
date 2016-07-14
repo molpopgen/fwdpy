@@ -31,7 +31,7 @@ namespace fwdpy
 							 const mcont_t &)>;
 
   //! Template alias for update function used in singepop_fitness_data
-  template<typename T> using single_region_fitness_data_updater = void(*)(singlepop_t *, T &);
+  template<typename T> using single_region_fitness_data_updater = void(*)(const singlepop_t *, T &);
 
   //Multi-locus fitness functions signatures
   
@@ -84,7 +84,7 @@ namespace fwdpy
     /*!
       Placeholder for future functionality
     */
-    virtual void update(singlepop_t *) {}
+    virtual void update(const singlepop_t *) {}
 
     //! Allows us to allocate on stack in Cython
     singlepop_fitness() : fitness_function(fitness_fxn_t()) {}
@@ -144,7 +144,7 @@ namespace fwdpy
     {
     }
     //! dispatch to callback
-    void update(singlepop_t * pop) { updater(pop,d); }
+    void update(const singlepop_t * pop) { updater(pop,d); }
   };
 
   struct multilocus_fitness
