@@ -25,7 +25,7 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
     ctypedef unordered_set[double,equal_eps] lookup_t
     
     cdef cppclass diploid_t:
-        size_t first,second;
+        size_t first,second,label;
         double g,e,w
 
     ctypedef vector[diploid_t] dipvector_t
