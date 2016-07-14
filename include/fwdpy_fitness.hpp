@@ -84,8 +84,12 @@ namespace fwdpy
     /*!
       Placeholder for future functionality
     */
-    virtual void update(const singlepop_t *) {}
+    virtual void update(const singlepop_t *)
+    {
+    }
 
+    virtual singlepop_fitness * clone() const { return new singlepop_fitness(*this); }
+      
     //! Allows us to allocate on stack in Cython
     singlepop_fitness() : fitness_function(fitness_fxn_t()) {}
     //! Constructor is a sink for a fitness_fxn_t.
@@ -143,8 +147,13 @@ namespace fwdpy
 					   updater(u)
     {
     }
+    
+    virtual singlepop_fitness * clone() const { return new singlepop_fitness_data<data_t>(*this); }
+    
     //! dispatch to callback
-    void update(const singlepop_t * pop) { updater(pop,d); }
+    void update(const singlepop_t * pop) {
+      updater(pop,d);
+    }
   };
 
   struct multilocus_fitness

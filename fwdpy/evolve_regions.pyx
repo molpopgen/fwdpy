@@ -1,6 +1,7 @@
 #See http://docs.cython.org/src/userguide/memoryviews.html
 from cython.view cimport array as cvarray
 from cpython cimport array
+from cython.operator cimport dereference as deref
 import warnings,math
 cimport cython
 import internal
@@ -241,4 +242,4 @@ def evolve_regions_sampler_fitness(GSLrng rng,
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
     evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
-                               slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,fitness_function.wfxn)
+                               slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,deref(fitness_function.wfxn.get()))

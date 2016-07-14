@@ -2,6 +2,7 @@
 from fwdpy.fwdpy cimport singlepop_t,multilocus_t,diploid_t
 from fwdpy.fwdpp cimport popgenmut,gamete_base
 from libcpp.vector cimport vector
+from libcpp.memory cimport unique_ptr
 
 ctypedef gamete_base[void] gamete_t
 ctypedef vector[gamete_t] gcont_t
@@ -116,7 +117,7 @@ cdef class SpopFitness(object):
     """
     Base object for single-deme fitness functions
     """
-    cdef singlepop_fitness wfxn
+    cdef unique_ptr[singlepop_fitness] wfxn
     
 cdef class SpopAdditive(SpopFitness):
     pass

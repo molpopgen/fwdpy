@@ -4,6 +4,7 @@
 #include <future>
 #include <vector>
 #include <algorithm>
+#include <memory>
 #include <type_traits>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
@@ -29,7 +30,7 @@ namespace fwdpy
 					  const double selected,
 					  const double recrate,
 					  const double f,
-					  singlepop_fitness fitness,
+					  singlepop_fitness & fitness,
 					  const int interval,
 					  KTfwd::extensions::discrete_mut_model && __m,
 					  KTfwd::extensions::discrete_rec_model && __recmap,
@@ -107,11 +108,13 @@ namespace fwdpy
     if(sample<0) throw std::runtime_error("sampling interval must be non-negative");
     std::vector<std::thread> threads;
     wf_rules rules;
+    std::vector<std::unique_ptr<singlepop_fitness> > fitnesses;
     for(std::size_t i=0;i<pops->size();++i)
       {
+	fitnesses.emplace_back(std::unique_ptr<singlepop_fitness>(fitness.clone()));
 	threads.emplace_back( std::thread(evolve_regions_sampler_cpp_details,
 					  pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_length,
-					  mu_neutral,mu_selected,littler,f,fitness,sample,
+					  mu_neutral,mu_selected,littler,f,std::ref(*fitnesses[i]),sample,
 					  KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks),
 					  KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw),
 					  std::ref(*samplers[i]),rules
