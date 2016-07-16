@@ -30,7 +30,7 @@ namespace fwdpy
 					  const double selected,
 					  const double recrate,
 					  const double f,
-					  singlepop_fitness & fitness,
+					  std::unique_ptr<singlepop_fitness> & fitness,
 					  const int interval,
 					  KTfwd::extensions::discrete_mut_model && __m,
 					  KTfwd::extensions::discrete_rec_model && __recmap,
@@ -51,22 +51,29 @@ namespace fwdpy
 						    rng,recrate);
 
     wf_rules local_rules(std::move(rules));
+    /*
+      Update fitness model data.
+      Needed for stateful fitness models and 
+      situtations where we evolve, stop, then
+      evolve again.
+    */
+    fitness->update(pop);
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
-	KTfwd::experimental::sample_diploid(rng,
-					    pop->gametes,
-					    pop->diploids,
-					    pop->mutations,
-					    pop->mcounts,
-					    pop->N,
-					    nextN,
-					    mu_tot,
-					    KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
-					    recpos,
-					    fitness.fitness_function,
-					    pop->neutral,pop->selected,
-					    f,local_rules);
+	double wbar = KTfwd::experimental::sample_diploid(rng,
+							  pop->gametes,
+							  pop->diploids,
+							  pop->mutations,
+							  pop->mcounts,
+							  pop->N,
+							  nextN,
+							  mu_tot,
+							  KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
+							  recpos,
+							  fitness->fitness_function,
+							  pop->neutral,pop->selected,
+							  f,local_rules);
 	pop->N=nextN;
 	if (interval && pop->generation &&(pop->generation+1)%interval==0.)
 	  {
@@ -74,11 +81,11 @@ namespace fwdpy
 	  }
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	//Allow fitness model to update any data that it may need
-	fitness.update(pop);
+	fitness->update(pop);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size
-    pop->N = unsigned(pop->diploids.size());
+    pops->N = unsigned(pop->diploids.size());
     //cleanup
     gsl_rng_free(rng);
     //Let the sampler clean up after itself
@@ -112,9 +119,12 @@ namespace fwdpy
     for(std::size_t i=0;i<pops->size();++i)
       {
 	fitnesses.emplace_back(std::unique_ptr<singlepop_fitness>(fitness.clone()));
+      }
+    for(std::size_t i=0;i<pops->size();++i)
+      {
 	threads.emplace_back( std::thread(evolve_regions_sampler_cpp_details,
 					  pops->operator[](i).get(),gsl_rng_get(rng->get()),Nvector,Nvector_length,
-					  mu_neutral,mu_selected,littler,f,std::ref(*fitnesses[i]),sample,
+					  mu_neutral,mu_selected,littler,f,std::ref(fitnesses[i]),sample,
 					  KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks),
 					  KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw),
 					  std::ref(*samplers[i]),rules

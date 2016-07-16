@@ -28,7 +28,7 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
                                        const AA &, const Aa &,
                                        const FINAL &,
                                        const double &) const
-        
+    #stateless fitness object:
     cdef cppclass singlepop_fitness:
         singlepop_fitness()
         singlepop_fitness(genotype_fitness_updater Aa,
@@ -39,8 +39,14 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 		          haplotype_fitness_fxn_finalizer f)
         void update(const singlepop_t *)
 
+    #stateful fitness object:
     cdef cppclass singlepop_fitness_data[DATAT](singlepop_fitness):
-        singlepop_fitness()
+        singlepop_fitness_data(double(*)(const diploid_t &,
+                                         const gcont_t &,
+                                         const mcont_t &,
+                                         DATAT &),
+                               void(*)(const singlepop_t *, DATAT &),
+                               const DATAT &)
         singlepop_fitness_data(double(*)(const diploid_t &,
                                          const gcont_t &,
                                          const mcont_t &,

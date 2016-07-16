@@ -30,11 +30,15 @@ namespace fwdpy
 							 const gcont_t &,
 							 const mcont_t &)>;
 
+  template<typename T> using fitness_fxn_data_t = double(*)(const diploid_t &,
+							    const gcont_t &,
+							    const mcont_t &,
+							    T &);
   //! Template alias for update function used in singepop_fitness_data
   template<typename T> using single_region_fitness_data_updater = void(*)(const singlepop_t *, T &);
 
   //Multi-locus fitness functions signatures
-  
+ 
   //! C++11 signature for a multi-locus fitness function. Not exposed to Python (yet).
   using multi_locus_fitness_fxn = std::function<double(const std::vector<diploid_t> &,const gcont_t &, const mcont_t &)>;
   //! Function pointer representing policy for fitness functions for multi-locus simulations
@@ -122,37 +126,56 @@ namespace fwdpy
   struct singlepop_fitness_data : public singlepop_fitness
   {
     using base_t = singlepop_fitness;
-    using fitness_fxn_data_t = double(*)(const diploid_t &,
-					 const gcont_t &,
-					 const mcont_t &,
-					 data_t &);
+
     using update_fxn = single_region_fitness_data_updater<data_t>;
     data_t d;
+    fitness_fxn_data_t<data_t> ff;
     update_fxn updater;
 
-    singlepop_fitness_data(const singlepop_fitness_data &) = default;
-    
-    singlepop_fitness_data(fitness_fxn_t ff,
-			   update_fxn u) : base_t(ff),updater(u)
+    //singlepop_fitness_data() : base_t(),d(data_t()),ff(nullptr),updater(nullptr) {}
+    void update_ff()
     {
+      this->fitness_function=std::bind(this->ff,
+				       std::placeholders::_1,
+				       std::placeholders::_2,
+				       std::placeholders::_3,
+				       std::ref(this->d)); 
+    }
+    
+    singlepop_fitness_data(const singlepop_fitness_data & rhs) : base_t(),
+								 d(rhs.d),
+								 ff(rhs.ff),
+								 updater(rhs.updater)
+    {
+      update_ff();
     }
 
-    singlepop_fitness_data(fitness_fxn_data_t f,
-			   update_fxn u) : base_t(std::bind(f,
-							    std::placeholders::_1,
-							    std::placeholders::_2,
-							    std::placeholders::_3,
-							    std::ref(d))),
+    singlepop_fitness_data(fitness_fxn_data_t<data_t> f,
+			   update_fxn u) : base_t(nullptr),
 					   d(data_t()),
+					   ff(f),
 					   updater(u)
     {
+      update_ff();
     }
     
-    virtual singlepop_fitness * clone() const { return new singlepop_fitness_data<data_t>(*this); }
+    singlepop_fitness_data(fitness_fxn_data_t<data_t> f,
+			   update_fxn u, const data_t & dinit) : base_t(nullptr),
+								 d(dinit),
+								 ff(f),
+								 updater(u)
+    {
+      update_ff();
+    }
+    
+    virtual singlepop_fitness_data<data_t> * clone() const
+    {
+      return new singlepop_fitness_data<data_t>(this->ff,this->updater,this->d);
+    }
     
     //! dispatch to callback
     void update(const singlepop_t * pop) {
-      updater(pop,d);
+      updater(pop,std::ref(d));
     }
   };
 
