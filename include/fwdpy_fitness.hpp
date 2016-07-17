@@ -168,7 +168,7 @@ namespace fwdpy
       update_ff();
     }
     
-    virtual singlepop_fitness_data<data_t> * clone() const
+    virtual singlepop_fitness * clone() const
     {
       return new singlepop_fitness_data<data_t>(this->ff,this->updater,this->d);
     }
@@ -197,6 +197,9 @@ namespace fwdpy
       Placeholder for future functionality
     */
     virtual void update(const multilocus_t *) {}
+
+    //! Clone idiom
+    virtual void multilocus_fitness * clone() { return new multilocus_fitness(*this); }
 
     //! Allows us to allocate on stack in Cython
     multilocus_fitness() : fitness_function(fitness_fxn_t()) {}
