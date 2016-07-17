@@ -61,19 +61,19 @@ namespace fwdpy
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
-	double wbar = KTfwd::experimental::sample_diploid(rng,
-							  pop->gametes,
-							  pop->diploids,
-							  pop->mutations,
-							  pop->mcounts,
-							  pop->N,
-							  nextN,
-							  mu_tot,
-							  KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
-							  recpos,
-							  fitness->fitness_function,
-							  pop->neutral,pop->selected,
-							  f,local_rules);
+	KTfwd::experimental::sample_diploid(rng,
+					    pop->gametes,
+					    pop->diploids,
+					    pop->mutations,
+					    pop->mcounts,
+					    pop->N,
+					    nextN,
+					    mu_tot,
+					    KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
+					    recpos,
+					    fitness->fitness_function,
+					    pop->neutral,pop->selected,
+					    f,local_rules);
 	pop->N=nextN;
 	if (interval && pop->generation &&(pop->generation+1)%interval==0.)
 	  {
@@ -85,7 +85,7 @@ namespace fwdpy
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size
-    pops->N = unsigned(pop->diploids.size());
+    pop->N = unsigned(pop->diploids.size());
     //cleanup
     gsl_rng_free(rng);
     //Let the sampler clean up after itself
@@ -128,7 +128,7 @@ namespace fwdpy
 					  KTfwd::extensions::discrete_mut_model(rm->nb,rm->ne,rm->nw,rm->sb,rm->se,rm->sw,rm->callbacks),
 					  KTfwd::extensions::discrete_rec_model(rm->rb,rm->rw,rm->rw),
 					  std::ref(*samplers[i]),rules
-					)
+					  )
 			      );	
       }
     for(auto & t : threads) t.join();
