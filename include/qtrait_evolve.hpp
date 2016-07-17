@@ -37,6 +37,9 @@ namespace fwdpy
 						   KTfwd::extensions::discrete_rec_model && __recmap,
 						   sampler_base & s,
 						   rules_t && rules)
+    /*
+      \note the gist of this implementation is from fwdpy/fwdpy/evolve_regions_sampler.cc
+    */
     {
       gsl_rng * rng = gsl_rng_alloc(gsl_rng_mt19937);
       gsl_rng_set(rng,seed);
