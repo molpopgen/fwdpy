@@ -199,12 +199,78 @@ namespace fwdpy
     virtual void update(const multilocus_t *) {}
 
     //! Clone idiom
-    virtual void multilocus_fitness * clone() { return new multilocus_fitness(*this); }
+    virtual multilocus_fitness * clone() { return new multilocus_fitness(*this); }
 
     //! Allows us to allocate on stack in Cython
     multilocus_fitness() : fitness_function(fitness_fxn_t()) {}
     //! Constructor is a sink for a fitness_fxn_t 
     multilocus_fitness(fitness_fxn_t ff) : fitness_function(std::move(ff)) {}
+  };
+
+  template<typename data_t>
+  struct multilocus_fitness_data : public multilocus_fitness
+  /*!
+    Base class for fitness schemes for single-deme simulations 
+    of multiple, partially-linked regions.
+
+    \note stateful
+  */
+  {
+    using base_t = multilocus_fitness;
+    using updater_fxn = void(*)(const multilocus_t * pop, data_t &);
+    using fitness_fxn_t = double(*)(const std::vector<diploid_t> &,
+				    const gcont_t &,
+				    const mcont_t &,
+				    data_t &);
+				    
+    data_t d;
+    fitness_fxn_t ff;
+    updater_fxn updater;
+
+    void update_ff()
+    {
+      this->fitness_function=std::bind(this->ff,
+				       std::placeholders::_1,
+				       std::placeholders::_2,
+				       std::placeholders::_3,
+				       std::ref(this->d)); 
+    }
+
+    virtual void update(const multilocus_t * pop) {updater(pop,d);}
+
+    //! Clone idiom
+    virtual multilocus_fitness * clone()
+    {
+      return new multilocus_fitness_data(ff,updater,d);
+    }
+
+    multilocus_fitness_data(const multilocus_fitness_data & rhs) : base_t(),
+								   d(rhs.d),
+								   ff(rhs.ff),
+								   updater(rhs.updater)
+    {
+      update_ff();
+    }
+
+    multilocus_fitness_data(fitness_fxn_t f,
+			    updater_fxn u) : base_t(nullptr),
+					     d(data_t()),
+					     ff(f),updater(u)
+    {
+      update_ff();
+    }
+
+    multilocus_fitness_data(fitness_fxn_t f,
+			    updater_fxn u,
+			    const data_t & dinit) : base_t(nullptr),
+						    d(dinit),
+						    ff(f),updater(u)
+    {
+      update_ff();
+    }
+
+    void register_callback(fitness_fxn_t f) { ff=f; }
+    void register_callback(updater_fxn u) { updater=u; }
   };
   
   inline multilocus_fitness make_mloc_additive_fitness(double scaling = 2.0)
