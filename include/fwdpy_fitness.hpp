@@ -199,7 +199,7 @@ namespace fwdpy
     virtual void update(const multilocus_t *) {}
 
     //! Clone idiom
-    virtual multilocus_fitness * clone() { return new multilocus_fitness(*this); }
+    virtual multilocus_fitness * clone() const { return new multilocus_fitness(*this); }
 
     //! Allows us to allocate on stack in Cython
     multilocus_fitness() : fitness_function(fitness_fxn_t()) {}
@@ -239,7 +239,7 @@ namespace fwdpy
     virtual void update(const multilocus_t * pop) {updater(pop,d);}
 
     //! Clone idiom
-    virtual multilocus_fitness * clone()
+    virtual multilocus_fitness * clone() const
     {
       return new multilocus_fitness_data(ff,updater,d);
     }

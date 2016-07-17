@@ -57,11 +57,16 @@ namespace fwdpy
       if(interval<0) throw std::runtime_error("sampling interval must be non-negative");
       std::vector<std::thread> threads;
       qtrait_mloc_rules rules(sigmaE,optimum,VS,*std::max_element(Nvector,Nvector+Nvector_length));
+      std::vector<std::unique_ptr<multilocus_fitness> > fitnesses;
+      for(std::size_t i=0;i<pops->size();++i)
+	{
+	  fitnesses.emplace_back(std::unique_ptr<multilocus_fitness>(fitness.clone()));
+	}
       for(std::size_t i=0;i<pops->size();++i)
 	{
 	  threads.emplace_back( std::thread(evolve_qtrait_mloc_cpp_details<qtrait_mloc_rules>,
 					    pops->operator[](i).get(),
-					    fitness,
+					    std::ref(fitnesses[i]),
 					    std::ref(*samplers[i]),
 					    gsl_rng_get(rng->get()),
 					    Nvector,

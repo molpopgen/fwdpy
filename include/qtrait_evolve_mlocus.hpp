@@ -27,7 +27,7 @@ namespace fwdpy
     template<typename rules_type>
     inline void
     evolve_qtrait_mloc_cpp_details(fwdpy::multilocus_t * pop,
-				   const multilocus_fitness & fitness,
+				   std::unique_ptr<multilocus_fitness> & fitness,
 				   sampler_base & s,
 				   const unsigned long seed,
 				   const unsigned * Nvector,
@@ -93,6 +93,7 @@ namespace fwdpy
       auto rules_local(std::forward<rules_type>(rules));
       //evolve...
       const unsigned simlen = unsigned(Nvector_len);
+      fitness->update(pop);
       for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
 	{
 	  const unsigned nextN = *(Nvector+g);
@@ -112,7 +113,7 @@ namespace fwdpy
 					      between_region_rec_rates.data(),
 					      //rec b/w loci is interpreted as cM!!!!!
 					      [](const gsl_rng * __r, const double __d){return gsl_ran_bernoulli(__r,__d);},
-					      fitness.fitness_function,
+					      fitness->fitness_function,
 					      pop->neutral,
 					      pop->selected,
 					      f,
@@ -120,6 +121,7 @@ namespace fwdpy
 					      KTfwd::remove_neutral());
 	  fwdpy::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  pop->N=nextN;
+	  fitness->update(pop);
 	}
       if (interval && pop->generation &&pop->generation%interval==0.)
 	{
