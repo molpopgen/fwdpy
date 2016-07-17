@@ -177,6 +177,8 @@ namespace fwdpy
     void update(const singlepop_t * pop) {
       updater(pop,std::ref(d));
     }
+    void register_callback(fitness_fxn_data_t<data_t> f) {ff = f;}
+    void register_callback(update_fxn u) {updater = u;}
   };
 
   struct multilocus_fitness
