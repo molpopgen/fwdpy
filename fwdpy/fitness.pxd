@@ -62,6 +62,25 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
         multilocus_fitness()
         void update(const multilocus_t *)
 
+    cdef cppclass multilocus_fitness_data[DATAT](multilocus_fitness):
+        multilocus_fitness_data(double(*)(const vector[diploid_t] &,
+                                          const gcont_t &,
+                                          const mcont_t &,
+                                          DATAT &),
+                                void(*)(const multilocus_t *, DATAT &),
+                                const DATAT &)
+        multilocus_fitness_data(double(*)(const vector[diploid_t] &,
+                                          const gcont_t &,
+                                          const mcont_t &,
+                                          DATAT &),
+                                void(*)(const multilocus_t *, DATAT &))
+        void register_callback(double(*)(const vector[diploid_t] &,
+                                         const gcont_t &,
+                                         const mcont_t &,
+                                         DATAT &))
+        void register_callback(void(*)(const singlepop_t *, DATAT &))
+                                          
+
     multilocus_fitness make_mloc_additive_fitness(double scaling)
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)
     multilocus_fitness make_mloc_additive_trait(double scaling)
