@@ -31,7 +31,7 @@ namespace fwdpy
 						   const double sigmaE,
 						   const double optimum,
 						   const double VS,
-						   const singlepop_fitness & fitness,
+						   std::unique_ptr<singlepop_fitness> & fitness,
 						   const int interval,
 						   KTfwd::extensions::discrete_mut_model && __m,
 						   KTfwd::extensions::discrete_rec_model && __recmap,
@@ -50,7 +50,7 @@ namespace fwdpy
       rules_t model_rules(std::forward<rules_t>(rules));
       const auto recpos = KTfwd::extensions::bind_drm(recmap,pop->gametes,pop->mutations,
 						      rng,recrate);
-
+      fitness->update(pop);
       for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
 	{
 	  const unsigned nextN = *(Nvector+g);
@@ -68,7 +68,7 @@ namespace fwdpy
 					      mu_tot,
 					      KTfwd::extensions::bind_dmm(m,pop->mutations,pop->mut_lookup,rng,neutral,selected,pop->generation),
 					      recpos,
-					      fitness.fitness_function,
+					      fitness->fitness_function,
 					      pop->neutral,pop->selected,
 					      f,
 					      model_rules,
@@ -76,6 +76,7 @@ namespace fwdpy
 	  fwdpy::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	  pop->N = nextN;
+	  fitness->update(pop);
 	}
       if (interval && pop->generation &&pop->generation%interval==0.)
 	{
