@@ -105,13 +105,13 @@ cdef inline double return_trait_value(const double w) nogil:
 cdef inline double return_trait_value_minus1(const double w) nogil:
     return w-1.0
 
-cdef inline double het_additive_update(double & w, const popgenmut & m) nogil:
+cdef inline void het_additive_update(double & w, const popgenmut & m) nogil:
     (&w)[0] += m.s*m.h
 
-cdef inline double hom_additive_update_2(double & w, const popgenmut & m) nogil:
+cdef inline void hom_additive_update_2(double & w, const popgenmut & m) nogil:
     (&w)[0] += 2.0*m.s
 
-cdef inline double hom_additive_update_1(double & w, const popgenmut & m) nogil:
+cdef inline void hom_additive_update_1(double & w, const popgenmut & m) nogil:
     (&w)[0] += m.s
 
 cdef inline genotype_fitness_updater choose_additive_hom_updater(int scaling) nogil:
@@ -120,13 +120,13 @@ cdef inline genotype_fitness_updater choose_additive_hom_updater(int scaling) no
         return <genotype_fitness_updater>hom_additive_update_1
     return <genotype_fitness_updater>hom_additive_update_2
     
-cdef inline double het_mult_update(double & w, const popgenmut & m) nogil:
+cdef inline void het_mult_update(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+m.s*m.h)
 
-cdef inline double hom_mult_update_2(double & w, const popgenmut & m) nogil:
+cdef inline void hom_mult_update_2(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+2.0*m.s)
 
-cdef inline double hom_mult_update_1(double & w, const popgenmut & m) nogil:
+cdef inline void hom_mult_update_1(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+m.s)
 
 cdef inline genotype_fitness_updater choose_mult_hom_updater(int scaling) nogil:
