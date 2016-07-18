@@ -61,7 +61,7 @@ File extensions
 
 The Cython_ code for a plugin will go into a ".pyx" file.  This is known as a "Pyrex_" file type, and Pyrex_ is the precuror to Cython_.
 
-.. note:: You will want to make sure that your text editor supports the .pyx and .pxd file extensions.  Cython_ provides a plugin_ for Emacs.  Casual Google searches find several options for the vi/vim family of editors.  I have no idea what, if anything, is avaiable for OS X editors like BBEdit, TextWrangler, or Xcode.  If you use them, you need to sort that out on your own.  I use Emacs and vim because they work the same way on all systems and I can edit files remotely via SSH.
+.. note:: You will want to make sure that your text editor supports the .pyx and .pxd file extensions.  Cython_ provides a plugin_ for Emacs.  Casual Google searches find several options for the vi/vim family of editors.  I have no idea what, if anything, is avaiable for OS X editors like BBEdit, TextWrangler, or Xcode.  If you use them, you need to sort that out on your own.  I use Emacs and vim because they work the same way on all systems and I can edit files remotely via SSH. For vim/neovim users, YouCompleteMe_ (with code completion enabled) is a truely spetacular way to edit Cython_ code--the code completion is quite cool.  However, you are on your own installing it, as it is a bit tricky to get up and running.
 
 For plugins that require extra C++ code, header files should have the .h or .hpp extension, and source files should have the .cc extension.  You should avoid .cpp for the following reason: Cython_ will process a pyx file into a .cpp file.  This behavior can have side-effects.  IF you have Cython_ code in foo.pyx and some additional C++ code in foo.cpp, the latter file will be over-written when Cython_ compiles foo.pyx into a C++ file (which will be called foo.cpp)!  Use .cc to avoid that.
 
@@ -547,3 +547,4 @@ The Git repo `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_ contai
 .. _numpy: http://www.numpy.org
 .. _Pyrex: https://www.cosc.canterbury.ac.nz/greg.ewing/python/Pyrex/
 .. _plugin: https://github.com/cython/cython/blob/master/Tools/cython-mode.el
+.. _YouCompleteMe: https://github.com/Valloric/YouCompleteMe#python-semantic-completion
