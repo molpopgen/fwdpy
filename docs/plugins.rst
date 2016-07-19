@@ -590,7 +590,60 @@ In general, you'll probably just want to import everything from the fitness modu
    from fwdpy.fitness cimport *
 
 To see how these functions are used, take a look at fwdpy/fitness.pyx, which is where the built-in fitness models are implemented.  The built-in models are implemented using the machinery for implementing custom fitness models.
-		 
+	
+Stateless fitness objects
+''''''''''''''''''''''''''''''''''''''''
+
+In C++, a fitness function for a single-deme simulation returns a float64 and takes a diploid_t, gcont_t, and mcont_t as arguments:
+
+.. code-block:: cpp
+  
+   //This is the function pointer type representing a valid fitness function
+   double(*)(const diploid_t &, const gcont_t &, const mcont_t &)
+
+Often, it is tedious to write such a full-blown fitness function.  Also, fwdpp_ already has fast routines for "site-based" models.  For this reason, *fwdpy* allows you to provide three simpler functions:
+
+1. A function that updates fitness when a mutation is Aa.
+2. A function that updates fitness when a mutation is aa.
+3. A function that returns the final fitness value.
+
+The signature of the first two are:
+
+.. code-block:: cpp
+
+   void(*)(double &, const popgenmut &)
+
+And the final function type is:
+
+.. code-block:: cpp  
+
+  double(*)(double)
+
+For "haplotype-based" fitness schemes, you need two functions:
+
+.. code-block:: cpp  
+
+   //Take a haplotype, process it, and return some value
+   double(*)(const gamete_t &, const mcont_t &)
+   //Take the two haplotype values, and return a final value:
+   double(*)(double,double)
+
+Stateless models are implemented in terms of the C++ class singlepop_fitness, exposed to Cython_ in fwdpy/fitness.pxd.
+
+The file stateless_fitness_models.pyx that comes with `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_ shows working examples of implementing the standard additive fitness model several different ways.
+
+Stateful fitness objects
+''''''''''''''''''''''''''''''''''''''''
+
+A stateful model requires extra data that must be passed to the fitness function.  Let's call the type of the extra data data_t.  A fitness function is therefore
+
+.. code-block:: cpp
+
+   //The data_t is passed is as a non-const reference.
+   double(*)(const diploid_t &, const gcont_t &, const mcont_t &, data_t &)
+
+Stateful models are more complex to work with.
+
 Examples
 '''''''''''''''''''''''''
 
