@@ -30,6 +30,8 @@ namespace fwdpy
 							 const gcont_t &,
 							 const mcont_t &)>;
 
+  using single_region_fitness_callback = double(*)(const diploid_t &, const gcont_t &, const mcont_t &);
+
   template<typename T> using fitness_fxn_data_t = double(*)(const diploid_t &,
 							    const gcont_t &,
 							    const mcont_t &,
@@ -98,6 +100,9 @@ namespace fwdpy
     singlepop_fitness() : fitness_function(fitness_fxn_t()) {}
     //! Constructor is a sink for a fitness_fxn_t.
     singlepop_fitness(fitness_fxn_t ff) : fitness_function(std::move(ff)) {}
+    singlepop_fitness(single_region_fitness_callback c) : fitness_function(std::bind(c,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3))
+    {
+    }
     //! Constructor for "site-based" situations
     singlepop_fitness(genotype_fitness_updater Aa,
 		      genotype_fitness_updater aa,

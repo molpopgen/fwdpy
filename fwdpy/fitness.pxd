@@ -8,16 +8,12 @@ ctypedef gamete_base[void] gamete_t
 ctypedef vector[gamete_t] gcont_t
 ctypedef vector[popgenmut] mcont_t
 
-#Expose some of the gnarlier c++11 types
-cdef extern from "<functional>" namespace "std" nogil:
-    cdef cppclass single_region_fitness_fxn "std::function<double(const diploid_t &,const gcont_t &,const mcont_t &)>":
-        pass
-
 cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     ctypedef void(*genotype_fitness_updater)(double &, const popgenmut &)
     ctypedef double(*fitness_function_finalizer)(double)
     ctypedef double(*haplotype_fitness_fxn_finalizer)(double,double)
     ctypedef double(*haplotype_fitness_fxn)(const gamete_t &, const mcont_t &)
+    ctypedef double(*single_region_fitness_callback)(const diploid_t &, const gcont_t &, const mcont_t &)
     
     cdef cppclass site_dependent_fitness_wrapper:
         double operator()[DIPLOID,GAMETE_CONTAINER,
@@ -31,6 +27,7 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     #stateless fitness object:
     cdef cppclass singlepop_fitness:
         singlepop_fitness()
+        singlepop_fitness(single_region_fitness_callback)
         singlepop_fitness(genotype_fitness_updater Aa,
 		          genotype_fitness_updater aa,
 		          fitness_function_finalizer wfinal,
