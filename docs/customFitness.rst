@@ -15,33 +15,17 @@ Types of fitness models
 
 Fundamentally, there are two ways that these types of functions work:
 
-1. As a function of the genotypes of each variable position in the diploid.  In other words, fitness depends on whether or not a diploid is heterozyguous (Aa) or homozygous (aa) for a specific mutation
-2. As a function of the two haplotypes in each diploid.
+1. Fitness depends on whether or not a mutation is found in heterozyzous (Aa) or homozygous (aa) state in a diploid.  We'll call this a "site-based" fitness model.
+2. Fitness depends on properties of separate haplotypes, which are then combined into a single value for fitness.  We'll call these "haplotype-based" fitness models.
 
-The standard additive and multiplicative models with dominance are an example of the first type.   Let's call these models "site-based" fitness models.  We'll call the latter "haplotype-based" fitness models.
+Types of fitness model *objects*
+''''''''''''''''''''''''''''''''''''''''''''''
 
-To implement a site-based model, we need three different functions:
+Further, if all we need to know about a diploid in order to calculate its fitness is what gametes (and therefore what mutations) a diploid contains, then our fitness model requires *no extra data*.  Such a situation can be represented via a "stateless" object, one requiring no extra information about the population or its history.
 
-1. A function to adjust fitness/trait values based on Aa genotypes.
-2. A function to adjust fitness/trait values based on aa genotypes.
-3. A function to return the final fitness/trait value.  Below, we'll see why this is necessary.
+If however, fitness depends on comparing a diploid to all other diploids, then our code for calculating fitness must keep track information about the entire population.  Such situations require "stateful" fitness objects.
 
-For haplotype-based models, we need the following:
-
-1. A function to process a haplotype.  This function must return a single number.
-2. A function to combined the values for each haplotype into a single, final value.
-
-The relevant C++ types
-'''''''''''''''''''''''''''''''''''''
-
-The following C++ types are relevant for implementing custom fitness models:
-
-1. popgenmut is the name of the type of mutation.  It has a position (pos), selection coefficient/effect size (s), and a dominance term (h).  All of these are floating point types (double in C/C++).
-2. mcont_t is the type representing a container of popgenmuts.
-3. gamete is a gamete.  A gamete contains two containers called mutations and smutations.  These are containers of unsigned integers (*e.g.* strictly non-negative integers).  The integers represent the locations in an mcont_t where mutations are found.  These integers are sorted according to their mutation position (in ascending order).  The mutations container is for "neutral" mutations, and smutations is for "selected" mutations.
-4. gcont_t is a container of gametes.
-
-Under the hood, these types are all aliases ("typedefs") to objects that fwdpp_ knows how to work with.  From a Cython/Python, popgenmut and gamete are classes, and mcont_t and gcont_t play the role of lists.
+*fwdpy* supports both stateful and stateless fitness objects.  Further, stateful objects can be implemented in terms of any valid C++ type.
 
 The relevant Cython extension types
 '''''''''''''''''''''''''''''''''''''''
@@ -51,7 +35,12 @@ These are defined in the source file fwdpy/fitness.pxd.  The types are:
 * :class:`fwdpy.fitness.SpopFitness`
 * :class:`fwdpy.fitness.MlocusFitness`
 
-Custom types will be extensions of these base types.
+Custom types will be extensions of these base types. For example:
+
+.. code-block:: cython
+
+   cdef class MyFitness(SpopFitness):
+       pass
 
 Helper functions
 '''''''''''''''''''''''''''''''''''''''
@@ -66,5 +55,9 @@ In general, you'll probably just want to import everything from the fitness modu
 
 To see how these functions are used, take a look at fwdpy/fitness.pyx, which is where the built-in fitness models are implemented.  The built-in models are implemented using the machinery for implementing custom fitness models.
 		 
+Examples
+'''''''''''''''''''''''''
+
+More examples of both stateless and stateful custom fitness functions are found in the repo `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_.  The examples are kept in a different source repo for a few reasons.  First, it is easiest to have a repo that we can test instead of static documentation that may drift from reality.  Second, compiling plugins required that *fwdpy* be installed and that the plugin code is not in the *fwdpy* repo.
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp/
