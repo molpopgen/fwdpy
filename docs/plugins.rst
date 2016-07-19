@@ -642,7 +642,9 @@ A stateful model requires extra data that must be passed to the fitness function
    //The data_t is passed is as a non-const reference.
    double(*)(const diploid_t &, const gcont_t &, const mcont_t &, data_t &)
 
-Stateful models are more complex to work with.
+Stateful models are more complex to work with, and are implemented in terms of the C++ **template** class singlepop_fitness_data.
+
+The file snodrift.pyx that comes with `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_ shows an example of implementing a stateful fitness scheme.
 
 Examples
 '''''''''''''''''''''''''
