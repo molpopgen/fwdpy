@@ -4,6 +4,9 @@ from fwdpy.fwdpp cimport popgenmut,gamete_base
 from libcpp.vector cimport vector
 from libcpp.memory cimport unique_ptr
 
+cdef extern from "<algorithm>" namespace "std" nogil:
+    T max[T](T,T)
+
 ctypedef gamete_base[void] gamete_t
 ctypedef vector[gamete_t] gcont_t
 ctypedef vector[popgenmut] mcont_t
@@ -90,16 +93,16 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     multilocus_fitness make_mloc_custom_fitness(mlocus_fitness_fxn f)
     
 #Helper functions for making custom fitness functions
-cdef inline double return_w(const double w) nogil:
-    return max(0.0,w)
+cdef inline double return_w(double w) nogil:
+    return max[double](0.0,w)
 
-cdef inline double return_w_plus1(const double w) nogil:
-    return max(0.0,1.0+w)
+cdef inline double return_w_plus1(double w) nogil:
+    return max[double](0.0,1.0+w)
 
-cdef inline double return_trait_value(const double w) nogil:
+cdef inline double return_trait_value(double w) nogil:
     return w
 
-cdef inline double return_trait_value_minus1(const double w) nogil:
+cdef inline double return_trait_value_minus1(double w) nogil:
     return w-1.0
 
 cdef inline void het_additive_update(double & w, const popgenmut & m) nogil:
