@@ -724,6 +724,8 @@ The file stateless_fitness_models.pyx that comes with `fwdpy_plugins <http://git
 Stateful fitness objects
 ''''''''''''''''''''''''''''''''''''''''
 
+.. note:: Currently, stateful models are buggy/not working.  This is under investigation.
+
 A stateful model requires extra data that must be passed to the fitness function.  Let's call the type of the extra data data_t.  A fitness function is therefore
 
 .. code-block:: cpp
