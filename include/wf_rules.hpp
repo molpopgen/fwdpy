@@ -52,9 +52,9 @@ namespace fwdpy
 			const gcont_t & gametes, const mcont_t & mutations,
 			const single_region_fitness_fxn &ff) noexcept
     {
-      offspring.g=ff(offspring,gametes,mutations);
+      offspring.w=ff(offspring,gametes,mutations);
       offspring.e = 0.0;
-      offspring.w = offspring.g;
+      offspring.g = 0.0;
       offspring.label = index++;
       assert( std::isfinite(offspring.w) );
       return;
