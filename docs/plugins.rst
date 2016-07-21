@@ -559,9 +559,7 @@ Types of fitness model *objects*
 
 Further, if all we need to know about a diploid in order to calculate its fitness is what gametes (and therefore what mutations) a diploid contains, then our fitness model requires *no extra data*.  Such a situation can be represented via a "stateless" object, one requiring no extra information about the population or its history.
 
-If however, fitness depends on comparing a diploid to all other diploids, then our code for calculating fitness must keep track information about the entire population.  Such situations require "stateful" fitness objects.
-
-*fwdpy* supports both stateful and stateless fitness objects.  Further, stateful objects can be implemented in terms of any valid C++ type.
+*fwdpy* supports stateless fitness objects.  
 
 The relevant Cython extension types
 '''''''''''''''''''''''''''''''''''''''
@@ -721,26 +719,10 @@ The file stateless_fitness_models.pyx that comes with `fwdpy_plugins <http://git
             def __cinit__(self):
                 self.wfxn=unique_ptr[singlepop_fitness](new singlepop_fitness(sum_haplotype_effects,add_hap_effects))
 
-Stateful fitness objects
-''''''''''''''''''''''''''''''''''''''''
-
-.. note:: Currently, stateful models are buggy/not working.  This is under investigation.
-
-A stateful model requires extra data that must be passed to the fitness function.  Let's call the type of the extra data data_t.  A fitness function is therefore
-
-.. code-block:: cpp
-
-   //The data_t is passed is as a non-const reference.
-   double(*)(const diploid_t &, const gcont_t &, const mcont_t &, data_t &)
-
-Stateful models are more complex to work with, and are implemented in terms of the C++ **template** class singlepop_fitness_data.
-
-The file snodrift.pyx that comes with `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_ shows an example of implementing a stateful fitness scheme.
-
 Examples
 '''''''''''''''''''''''''
 
-More examples of both stateless and stateful custom fitness functions are found in the repo `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_.  The examples are kept in a different source repo for a few reasons.  First, it is easiest to have a repo that we can test instead of static documentation that may drift from reality.  Second, compiling plugins required that *fwdpy* be installed and that the plugin code is not in the *fwdpy* repo.
+More examples of stateless custom fitness functions are found in the repo `fwdpy_plugins <http://github.com/molpopgen/fwdpy_plugins>`_.  The examples are kept in a different source repo for a few reasons.  First, it is easiest to have a repo that we can test instead of static documentation that may drift from reality.  Second, compiling plugins required that *fwdpy* be installed and that the plugin code is not in the *fwdpy* repo.
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp/
 .. _GSL: http://gnu.org/software/gsl
