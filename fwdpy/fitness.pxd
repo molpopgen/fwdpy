@@ -39,47 +39,9 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
 		          haplotype_fitness_fxn_finalizer f)
         void update(const singlepop_t *)
 
-    #stateful fitness object:
-    cdef cppclass singlepop_fitness_data[DATAT](singlepop_fitness):
-        singlepop_fitness_data(double(*)(const diploid_t &,
-                                         const gcont_t &,
-                                         const mcont_t &,
-                                         DATAT &),
-                               void(*)(const singlepop_t *, DATAT &),
-                               const DATAT &)
-        singlepop_fitness_data(double(*)(const diploid_t &,
-                                         const gcont_t &,
-                                         const mcont_t &,
-                                         DATAT &),
-                               void(*)(const singlepop_t *, DATAT &))
-        void register_callback(double(*)(const diploid_t &,
-                                         const gcont_t &,
-                                         const mcont_t &,
-                                         DATAT &))
-        void register_callback(void(*)(const singlepop_t *, DATAT &))
-
     cdef cppclass multilocus_fitness:
         multilocus_fitness()
         void update(const multilocus_t *)
-
-    cdef cppclass multilocus_fitness_data[DATAT](multilocus_fitness):
-        multilocus_fitness_data(double(*)(const vector[diploid_t] &,
-                                          const gcont_t &,
-                                          const mcont_t &,
-                                          DATAT &),
-                                void(*)(const multilocus_t *, DATAT &),
-                                const DATAT &)
-        multilocus_fitness_data(double(*)(const vector[diploid_t] &,
-                                          const gcont_t &,
-                                          const mcont_t &,
-                                          DATAT &),
-                                void(*)(const multilocus_t *, DATAT &))
-        void register_callback(double(*)(const vector[diploid_t] &,
-                                         const gcont_t &,
-                                         const mcont_t &,
-                                         DATAT &))
-        void register_callback(void(*)(const singlepop_t *, DATAT &))
-                                          
 
     multilocus_fitness make_mloc_additive_fitness(double scaling)
     multilocus_fitness make_mloc_multiplicative_fitness(double scaling)

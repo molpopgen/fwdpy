@@ -53,7 +53,7 @@ namespace fwdpy
       rules_t model_rules(std::forward<rules_t>(rules));
       const auto recpos = KTfwd::extensions::bind_drm(recmap,pop->gametes,pop->mutations,
 						      rng,recrate);
-      fitness->update(pop);
+      //fitness->update(pop);
       for( unsigned g = 0 ; g < simlen ; ++g, ++pop->generation )
 	{
 	  const unsigned nextN = *(Nvector+g);
@@ -79,7 +79,7 @@ namespace fwdpy
 	  fwdpy::update_mutations_n(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	  assert(KTfwd::check_sum(pop->gametes,2*nextN));
 	  pop->N = nextN;
-	  fitness->update(pop);
+	  //fitness->update(pop);
 	}
       if (interval && pop->generation &&pop->generation%interval==0.)
 	{

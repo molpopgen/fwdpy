@@ -57,7 +57,7 @@ namespace fwdpy
       situtations where we evolve, stop, then
       evolve again.
     */
-    fitness->update(pop);
+    //fitness->update(pop);
     for( size_t g = 0 ; g < simlen ; ++g, ++pop->generation )
       {
 	const unsigned nextN = 	*(Nvector+g);
@@ -81,7 +81,7 @@ namespace fwdpy
 	  }
 	KTfwd::update_mutations(pop->mutations,pop->fixations,pop->fixation_times,pop->mut_lookup,pop->mcounts,pop->generation,2*nextN);
 	//Allow fitness model to update any data that it may need
-	fitness->update(pop);
+	//fitness->update(pop);
 	assert(KTfwd::check_sum(pop->gametes,2*nextN));
       }
     //Update population's size variable to be the current pop size
