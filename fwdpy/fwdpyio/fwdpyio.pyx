@@ -74,11 +74,11 @@ def deserialize_singlepops(list strings):
 
 def deserialize_metapops(list strings):
     """
-    Convert binary representation of populations back to a :class:`fwdpy.fwdpy.mpopvec`
+    Convert binary representation of populations back to a :class:`fwdpy.fwdpy.MetaPopVec`
 
     :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`
 
-    :returns: :func:`fwdpy.fwdpy.mpopvec`
+    :returns: :func:`fwdpy.fwdpy.MetaPopVec`
 
     .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.
 
@@ -90,3 +90,23 @@ def deserialize_metapops(list strings):
     mpops = MetaPopVec(0,[0]*1)
     mpops.reset(temp)
     return mpops
+
+def deserialize_mlocus(list strings):
+    """
+    Convert binary representation of populations back to a :class:`fwdpy.fwdpy.MlocusPopVec`
+
+    :param strings: A list of populations in binary format.  This should be the value returned by :func:`fwdpy.fwdpyio.fwdpyio.serialize`
+
+    :returns: :func:`fwdpy.fwdpy.MlocusPopVec`
+
+    .. note:: len(strings) determines the length of the return value, and therefore the number of threads to use if the population is evolved further.
+
+    Example:
+
+    TODO
+    """
+    cdef vector[shared_ptr[multilocus_t]] temp = deserialize_multilocus(strings)
+    rv = MlocusPopVec(0,0,0)
+    rv.reset(temp)
+    return rv
+
