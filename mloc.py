@@ -73,12 +73,3 @@ for i in range(1):
         d=fpio.serialize(i)
         pickle.dump(d,pfile)
 pfile.close()
-pfile = gzip.open("pickle_out.p","rb")
-for i in range(20):
-    s=pickle.load(pfile)
-    x=fpio.deserialize_mlocus(s)
-    print (fp.view_mutations(x[len(x)-1]))
-#for i,h in zip(s,details):
-#    print(i)
-#    print(h)
-#
