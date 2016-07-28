@@ -35,8 +35,8 @@ Changes to the Python side:
   these work via :class:`fwdpy.fwdpy.SpopFitness` and :class:`fwdpy.fwdpy.MlocusFitness`
 * Class names now more "Pythonic".  This will break existing scripts.
 * Add fwdpy.demography module.
-* Add :class:`fwdpy.fwdpy.MlocusSpop`
-* Add :class:`fwdpy.fwdpy.MlocusSpopVec`
+* Add :class:`fwdpy.fwdpy.MlocusPop`
+* Add :class:`fwdpy.fwdpy.MlocusPopVec`
 * Add concept of a temporal sampler via
   :class:`fwdpy.fwdpy.TemporalSampler`.
 * Add temporal sampler objects :class:`fwdpy.fwdpy.NothingSampler`,
@@ -49,6 +49,7 @@ Changes to the Python side:
 * Add :func:`fwdpy.fwdpy.hapmatrix` and :func:`fwdpy.fwdpy.genomatrix`
 * Added views of fixed mutations via :func:`fwdpy.fwdpy.view_fixations`
 * Better Python3 compatibility
+* Add support to serialize/deserialize :class:`fwdpy.fwdpy.MlocusPop`
 
 Changes to the Cython/C++ back end:
 
