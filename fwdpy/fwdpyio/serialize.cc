@@ -39,7 +39,7 @@ struct deserialize_details {
             st.buffer.read(reinterpret_cast<char*>(&pop.generation),sizeof(unsigned));
             KTfwd::deserialize d;
             d(pop,st,KTfwd::mutation_reader<KTfwd::popgenmut>(),fwdpy::diploid_reader());
-            rv.emplace_back( shared_ptr<poptype>(new poptype(move(pop))) );
+            rv.emplace_back(shared_ptr<poptype>(new poptype(move(pop))));
         }
         return rv;
     }
