@@ -8,6 +8,9 @@ def serialize_single(Spop pop):
 def serialize_meta(MetaPop mpop):
     return serialize_metapop(mpop.mpop.get())
 
+def serialize_mlocus(MlocusPop pop):
+    return serialize_multilocus(pop.pop.get())
+
 def serialize(PopType pop):
     """
     Return a binary representation of an evolved population
@@ -32,6 +35,8 @@ def serialize(PopType pop):
         return serialize_single(pop)
     elif isinstance(pop,MetaPop):
         return serialize_meta(pop)
+    elif isinstance(pop,MlocusPop):
+        return serialize_mlocus(pop)
     else:
         raise RuntimeError("fwdpyio.serialize: unsupported PopType "+str(type(pop)))
 

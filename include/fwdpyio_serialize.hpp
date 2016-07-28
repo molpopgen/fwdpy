@@ -15,6 +15,8 @@ namespace fwdpy
     std::vector<std::shared_ptr<singlepop_t> > deserialize_singlepop(const std::vector<std::string> & strings);
     std::string serialize_metapop(const fwdpy::metapop_t * pop);
     std::vector<std::shared_ptr<metapop_t> > deserialize_metapop(const std::vector<std::string> & strings);
+    std::string serialize_multilocus(const fwdpy::multilocus_t * pop);
+    std::vector<std::shared_ptr<multilocus_t> > deserialize_multilocus(const std::vector<std::string> & strings);
   }
 }
   
