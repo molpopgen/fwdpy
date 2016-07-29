@@ -156,8 +156,9 @@ struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
     }
 
     std::string serialize() const {
-        return serialize_objects::serialize_details(*this,KTfwd::mutation_writer(),
-                                            fwdpy::diploid_writer());
+        return serialize_objects::serialize_details(*this,
+                KTfwd::mutation_writer(),
+                fwdpy::diploid_writer());
     }
 
     void deserialize(const std::string & s) {
@@ -167,13 +168,15 @@ struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
     }
 
     int tofile(const char * filename, bool append = false) const {
-        return fwdpy::serialize_objects::gzserialize_details(*this,KTfwd::mutation_writer(),
+        return fwdpy::serialize_objects::gzserialize_details(*this,
+                KTfwd::mutation_writer(),
                 fwdpy::diploid_writer(),filename,append);
     }
 
     void fromfile(const char * filename, std::size_t offset) {
-        *this = serialize_objects::gzdeserialize_details<singlepop_t>()(KTfwd::mutation_reader<singlepop_t::mutation_t>(),
-                fwdpy::diploid_reader(),filename,offset,0u);
+        *this = serialize_objects::gzdeserialize_details<singlepop_t>()(
+                    KTfwd::mutation_reader<singlepop_t::mutation_t>(),
+                    fwdpy::diploid_reader(),filename,offset,0u);
     }
 };
 
