@@ -55,7 +55,9 @@ for i in range(0,100,2):
 mmodels=[fp.GaussianS(0,1,1,0.25)]*len(delmuts)
 nmuts=[i/(4.0*float(nlist[0])) for i in thetas]
 recrates=[i/(4.0*float(nlist[0])) for i in rhos]
-
+print(sum(nmuts))
+print(sum(recrates))
+sys.exit(1)
 pfile = gzip.open("pickle_out.p","wb")
 for i in range(1):
     x = fp.MlocusPopVec(NREPS,nlist[0],len(thetas))
