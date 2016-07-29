@@ -6,26 +6,80 @@
 #include <fwdpp/sugar/serialization.hpp>
 
 namespace fwdpy {
-namespace serialize {
+namespace serialize_objects {
 
 template<typename poptype,typename mwriter_t,typename dipwriter_t>
-int gzserialize_details(const poptype & pop,
-                        const mwriter_t & mwriter,
-                        const dipwriter_t & dipwriter,
-                        const char * filename, bool append) {
+inline std::string serialize_details(const poptype & pop,
+                                     const mwriter_t & mwriter,
+                                     const dipwriter_t & dipwriter) {
+    KTfwd::serialize rv;
+    rv.buffer.write(reinterpret_cast<const char *>(&(pop.generation)),sizeof(unsigned));
+    rv(pop,mwriter,dipwriter);
+    return rv.buffer.str();
+}
+
+template<typename poptype>
+struct deserialize_details {
+    template<typename mreader_t,
+             typename dipreader_t,
+             typename ...constructor_data>
+    inline poptype operator()(const std::string & s,
+                              const mreader_t & mreader,
+                              const dipreader_t & dipreader,
+                              constructor_data... cdata) {
+        KTfwd::serialize st;
+        st.buffer.str(s);
+        st.buffer.seekg(0);
+        poptype pop(cdata...);
+        st.buffer.read(reinterpret_cast<char*>(&pop.generation),sizeof(unsigned));
+        KTfwd::deserialize d;
+        d(pop,st,mreader,dipreader);
+        return pop;
+    }
+};
+
+template<typename poptype,typename mwriter_t,typename dipwriter_t>
+inline int gzserialize_details(const poptype & pop,
+                               const mwriter_t & mwriter,
+                               const dipwriter_t & dipwriter,
+                               const char * filename, bool append) {
     gzFile f;
     if(append) {
         f=gzopen(filename,"ab");
     } else {
         f=gzopen(filename,"wb");
     }
-    auto rv = gzwrite(f,reinterpret_cast<const char*>(&pop.generation),
+    auto rv = gzwrite(f,reinterpret_cast<const char*>(pop.generation),
                       sizeof(decltype(pop.generation)));
     KTfwd::gzserialize s;
     rv += s(f,pop,mwriter,dipwriter);
     gzclose(f);
     return rv;
 }
+
+template<typename poptype>
+struct gzdeserialize_details {
+    template<typename mreader_t,
+             typename dipreader_t,
+             typename ... constructor_data>
+    inline poptype operator()(const mreader_t & mreader,
+                              const dipreader_t & dipreader,
+                              const char * filename,
+                              std::size_t offset,
+                              constructor_data... cdata)  const {
+        gzFile f = gzopen(filename,"rb");
+        if(offset) {
+            gzseek(f,offset,SEEK_SET);
+        }
+        poptype temp(cdata...);
+        gzread(f,reinterpret_cast<char*>(&temp.generation),sizeof(decltype(temp.generation)));
+        KTfwd::gzdeserialize s;
+        s(f,temp,mreader,dipreader);
+        gzclose(f);
+        return temp;
+    };
+};
+
 }
 }
 #endif

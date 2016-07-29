@@ -15,30 +15,9 @@
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
 #include <gsl/gsl_statistics_double.h>
-
+#include "fwdpy_serialization.hpp"
 namespace fwdpy {
 
-namespace serialize {
-
-template<typename poptype,typename mwriter_t,typename dipwriter_t>
-int gzserialize_details(const poptype & pop,
-                        const mwriter_t & mwriter,
-                        const dipwriter_t & dipwriter,
-                        const char * filename, bool append) {
-    gzFile f;
-    if(append) {
-        f=gzopen(filename,"ab");
-    } else {
-        f=gzopen(filename,"wb");
-    }
-    auto rv = gzwrite(f,reinterpret_cast<const char*>(&pop.generation),
-                      sizeof(decltype(pop.generation)));
-    KTfwd::gzserialize s;
-    rv += s(f,pop,mwriter,dipwriter);
-    gzclose(f);
-    return rv;
-}
-}
 /*!
   Random number generator.
 
@@ -177,28 +156,24 @@ struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
     }
 
     std::string serialize() const {
-        KTfwd::serialize rv;
-        rv.buffer.write(reinterpret_cast<const char *>(&(this->generation)),sizeof(unsigned));
-        rv(*this,KTfwd::mutation_writer(),fwdpy::diploid_writer());
-        return rv.buffer.str();
+        return serialize_objects::serialize_details(*this,KTfwd::mutation_writer(),
+                                            fwdpy::diploid_writer());
+    }
+
+    void deserialize(const std::string & s) {
+        *this = serialize_objects::deserialize_details<singlepop_t>()(s,
+                KTfwd::mutation_reader<singlepop_t::mutation_t>(),
+                fwdpy::diploid_reader(),0u);
     }
 
     int tofile(const char * filename, bool append = false) const {
-        return fwdpy::serialize::gzserialize_details(*this,KTfwd::mutation_writer(),
+        return fwdpy::serialize_objects::gzserialize_details(*this,KTfwd::mutation_writer(),
                 fwdpy::diploid_writer(),filename,append);
     }
 
     void fromfile(const char * filename, std::size_t offset) {
-        gzFile f = gzopen(filename,"rb");
-        if(offset) {
-            gzseek(f,offset,SEEK_SET);
-        }
-        singlepop_t temp(0);
-        gzread(f,reinterpret_cast<char*>(&temp.generation),sizeof(decltype(temp.generation)));
-        KTfwd::gzdeserialize s;
-        s(f,temp,KTfwd::mutation_reader<KTfwd::popgenmut>(),fwdpy::diploid_reader());
-        *this=std::move(temp);
-        gzclose(f);
+        *this = serialize_objects::gzdeserialize_details<singlepop_t>()(KTfwd::mutation_reader<singlepop_t::mutation_t>(),
+                fwdpy::diploid_reader(),filename,offset,0u);
     }
 };
 
