@@ -81,6 +81,12 @@ struct diploid_reader {
         i.read( reinterpret_cast<char *>(&dip.e),sizeof(double));
         i.read( reinterpret_cast<char *>(&dip.w),sizeof(double));
     }
+    template<typename diploid_t>
+    inline result_type operator()(diploid_t & dip, gzFile f) const {
+        gzread(f,reinterpret_cast<char *>(&dip.g),sizeof(double));
+        gzread(f,reinterpret_cast<char *>(&dip.e),sizeof(double));
+        gzread(f,reinterpret_cast<char *>(&dip.w),sizeof(double));
+    }
 };
 
 struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
@@ -147,6 +153,42 @@ struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
     */
     {
         return int(N == diploids.size());
+    }
+
+    std::string serialize() const {
+        KTfwd::serialize rv;
+        rv.buffer.write(reinterpret_cast<const char *>(&(this->generation)),sizeof(unsigned));
+        rv(*this,KTfwd::mutation_writer(),fwdpy::diploid_writer());
+        return rv.buffer.str();
+    }
+
+    int tofile(const char * filename, bool append = false) const {
+        gzFile f;
+        if(append) {
+            f=gzopen(filename,"ab");
+        } else {
+            f=gzopen(filename,"wb");
+        }
+        auto rv = gzwrite(f,reinterpret_cast<const char*>(&this->generation),
+                          sizeof(decltype(this->generation)));
+        KTfwd::gzserialize s;
+        rv += s(f,*this,KTfwd::mutation_writer(),fwdpy::diploid_writer());
+        gzclose(f);
+        return rv;
+    }
+
+    void fromfile(const char * filename, std::size_t offset)
+    {
+        gzFile f = gzopen(filename,"rb");
+        if(offset) {
+            gzseek(f,offset,SEEK_SET);
+        }
+        singlepop_t temp(0);
+        gzread(f,reinterpret_cast<char*>(&temp.generation),sizeof(decltype(temp.generation)));
+        KTfwd::gzdeserialize s;
+        s(f,temp,KTfwd::mutation_reader<KTfwd::popgenmut>(),fwdpy::diploid_reader());
+        *this=std::move(temp);
+        gzclose(f);
     }
 };
 
