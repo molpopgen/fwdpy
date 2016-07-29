@@ -79,7 +79,8 @@ Changes to the Cython/C++ back end:
 * Update how samples are taken from populations, reflecting a bug fix
   in fwdpp 0.4.9 that made the Cython wrappers in this package
   incorrect.
-  
+* Population objects in types.hpp now have serialization/deserialization functions.
+
 0.0.3
 -----------------
 * Change from std::thread to std::async for concurrency.
