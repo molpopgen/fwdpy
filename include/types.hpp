@@ -18,6 +18,27 @@
 
 namespace fwdpy {
 
+namespace serialize {
+
+template<typename poptype,typename mwriter_t,typename dipwriter_t>
+int gzserialize_details(const poptype & pop,
+                        const mwriter_t & mwriter,
+                        const dipwriter_t & dipwriter,
+                        const char * filename, bool append) {
+    gzFile f;
+    if(append) {
+        f=gzopen(filename,"ab");
+    } else {
+        f=gzopen(filename,"wb");
+    }
+    auto rv = gzwrite(f,reinterpret_cast<const char*>(&pop.generation),
+                      sizeof(decltype(pop.generation)));
+    KTfwd::gzserialize s;
+    rv += s(f,pop,mwriter,dipwriter);
+    gzclose(f);
+    return rv;
+}
+}
 /*!
   Random number generator.
 
@@ -163,22 +184,11 @@ struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
     }
 
     int tofile(const char * filename, bool append = false) const {
-        gzFile f;
-        if(append) {
-            f=gzopen(filename,"ab");
-        } else {
-            f=gzopen(filename,"wb");
-        }
-        auto rv = gzwrite(f,reinterpret_cast<const char*>(&this->generation),
-                          sizeof(decltype(this->generation)));
-        KTfwd::gzserialize s;
-        rv += s(f,*this,KTfwd::mutation_writer(),fwdpy::diploid_writer());
-        gzclose(f);
-        return rv;
+        return fwdpy::serialize::gzserialize_details(*this,KTfwd::mutation_writer(),
+                fwdpy::diploid_writer(),filename,append);
     }
 
-    void fromfile(const char * filename, std::size_t offset)
-    {
+    void fromfile(const char * filename, std::size_t offset) {
         gzFile f = gzopen(filename,"rb");
         if(offset) {
             gzseek(f,offset,SEEK_SET);
