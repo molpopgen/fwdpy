@@ -261,6 +261,29 @@ struct metapop_t : public KTfwd::metapop<KTfwd::popgenmut,diploid_t>
     {
         return int(diploids.size());
     }
+    std::string serialize() const {
+        return serialize_objects::serialize_details(*this,
+                KTfwd::mutation_writer(),
+                fwdpy::diploid_writer());
+    }
+
+    void deserialize(const std::string & s) {
+        *this = serialize_objects::deserialize_details<metapop_t>()(s,
+                KTfwd::mutation_reader<metapop_t::mutation_t>(),
+                fwdpy::diploid_reader(),0u);
+    }
+
+    int tofile(const char * filename, bool append = false) const {
+        return fwdpy::serialize_objects::gzserialize_details(*this,
+                KTfwd::mutation_writer(),
+                fwdpy::diploid_writer(),filename,append);
+    }
+
+    void fromfile(const char * filename, std::size_t offset) {
+        *this = serialize_objects::gzdeserialize_details<metapop_t>()(
+                    KTfwd::mutation_reader<metapop_t::mutation_t>(),
+                    fwdpy::diploid_reader(),filename,offset,0u);
+    }
 };
 
 //Types based on KTfwd::generalmut_vec  //! Typedef for gamete type
@@ -271,7 +294,7 @@ using gcont_gm_vec_t = std::vector<gamete_t>;
 struct singlepop_gm_vec_t :  public KTfwd::singlepop<KTfwd::generalmut_vec,diploid_t>
 /*!
   \brief Single-deme object where mutations contain vector<double> for internal data.
-
+,
   See fwdpy::singlepop_t documentation for details, which are the same as for this type.
 */
 {
@@ -287,6 +310,29 @@ struct singlepop_gm_vec_t :  public KTfwd::singlepop<KTfwd::generalmut_vec,diplo
     }
     int sane() const {
         return int(N == diploids.size());
+    }
+    std::string serialize() const {
+        return serialize_objects::serialize_details(*this,
+                KTfwd::mutation_writer(),
+                fwdpy::diploid_writer());
+    }
+
+    void deserialize(const std::string & s) {
+        *this = serialize_objects::deserialize_details<singlepop_gm_vec_t>()(s,
+                KTfwd::mutation_reader<singlepop_gm_vec_t::mutation_t>(),
+                fwdpy::diploid_reader(),0u);
+    }
+
+    int tofile(const char * filename, bool append = false) const {
+        return fwdpy::serialize_objects::gzserialize_details(*this,
+                KTfwd::mutation_writer(),
+                fwdpy::diploid_writer(),filename,append);
+    }
+
+    void fromfile(const char * filename, std::size_t offset) {
+        *this = serialize_objects::gzdeserialize_details<singlepop_gm_vec_t>()(
+                    KTfwd::mutation_reader<singlepop_gm_vec_t::mutation_t>(),
+                    fwdpy::diploid_reader(),filename,offset,0u);
     }
 };
 
@@ -307,6 +353,29 @@ struct multilocus_t : public KTfwd::multiloc<KTfwd::popgenmut,fwdpy::diploid_t> 
     }
     int sane() const {
         return int(N==diploids.size());
+    }
+    std::string serialize() const {
+        return serialize_objects::serialize_details(*this,
+                KTfwd::mutation_writer(),
+                fwdpy::diploid_writer());
+    }
+
+    void deserialize(const std::string & s) {
+        *this = serialize_objects::deserialize_details<multilocus_t>()(s,
+                KTfwd::mutation_reader<multilocus_t::mutation_t>(),
+                fwdpy::diploid_reader(),0u,0u);
+    }
+
+    int tofile(const char * filename, bool append = false) const {
+        return fwdpy::serialize_objects::gzserialize_details(*this,
+                KTfwd::mutation_writer(),
+                fwdpy::diploid_writer(),filename,append);
+    }
+
+    void fromfile(const char * filename, std::size_t offset) {
+        *this = serialize_objects::gzdeserialize_details<multilocus_t>()(
+                    KTfwd::mutation_reader<multilocus_t::mutation_t>(),
+                    fwdpy::diploid_reader(),filename,offset,0u,0u);
     }
 };
 }
