@@ -273,7 +273,7 @@ namespace fwdpy
     {
       if(cleanupcall != nullptr)
 	{
-	  cleanupcall(f);
+	  cleanupcall(f,data);
 	}
       else sampler_base::cleanup();
     }
