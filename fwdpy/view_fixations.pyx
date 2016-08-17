@@ -2,10 +2,10 @@ from libcpp.vector cimport vector
 
 cdef popgen_mut_data get_fixed_mutation(const popgenmut & m,
                                         const unsigned ftime,
-                                        size_t n) nogil:
+                                        const unsigned N) nogil:
     cdef popgen_mut_data rv
     rv.pos=m.pos
-    rv.n=<unsigned>n
+    rv.n=2*N
     rv.g=m.g
     rv.ftime=ftime
     rv.s=m.s
