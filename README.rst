@@ -55,7 +55,7 @@ Changes to the Python side:
   :class:`fwdpy.fwdpy.QtraitStatsSampler`,
   :class:`fwdpy.fwdpy.PopSampler`,
   :class:`fwdpy.fwdpy.VASampler`,
-  :flass:`fwdpy.fwdpy.FreqSampler`
+  :class:`fwdpy.fwdpy.FreqSampler`
 * Add function :func:`fwdpy.fwdpy.apply_sampler`
 * Add :func:`fwdpy.fwdpy.tidy_trajectories`, which really speeds up
   coercion of mutation frequency trajectories to a pandas DataFrame.
