@@ -1,4 +1,9 @@
 # distutils: language = c++
+cdef class TemporalSampler:
+    cpdef size_t size(self):
+        return self.vec.size()
+
+
 cdef class NothingSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` that does nothing.
@@ -105,16 +110,21 @@ cdef class FreqSampler(TemporalSampler):
         """
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[selected_mut_tracker](new selected_mut_tracker()))
-    def get(self,unsigned minsojourn = 0, double minfreq = 0.0):
+    def get(self,rep=None):
         """
         Retrieve the data from the sampler.
         """
-        cdef size_t i=0
-        rv=[]
-        for i in range(self.vec.size()):
-            rv.append((<selected_mut_tracker*>self.vec[i].get()).final())
+        if rep is not None:
+            if int(rep) > self.vec.size():
+                raise RuntimeError("index out of range")
+            return (<selected_mut_tracker*>self.vec[rep].get()).final()
+        else:
+            i=0
+            rv=[]
+            for i in range(self.vec.size()):
+                rv.append((<selected_mut_tracker*>self.vec[i].get()).final())
 
-        return rv
+            return rv
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
     """

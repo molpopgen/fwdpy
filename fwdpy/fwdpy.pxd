@@ -256,6 +256,7 @@ cdef class TemporalSampler:
     to be applied to simluated populations at regular intervals.
     """
     cdef vector[unique_ptr[sampler_base]] vec
+    cpdef size_t size(self)
 
 cdef class NothingSampler(TemporalSampler):
     pass
