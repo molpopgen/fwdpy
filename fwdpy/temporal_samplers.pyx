@@ -109,11 +109,10 @@ cdef class FreqSampler(TemporalSampler):
         """
         Retrieve the data from the sampler.
         """
-        cdef vector[vector[pair[selected_mut_data, vector[pair[uint,double]]]]] rv
         cdef size_t i=0
-        
+        rv=[]
         for i in range(self.vec.size()):
-            rv.push_back((<selected_mut_tracker*>self.vec[i].get()).final())
+            rv.append((<selected_mut_tracker*>self.vec[i].get()).final())
 
         return rv
 
