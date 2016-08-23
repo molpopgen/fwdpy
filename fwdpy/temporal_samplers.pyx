@@ -118,6 +118,9 @@ cdef class FreqSampler(TemporalSampler):
         of a replicate, and that replicate's data are returned.
 
         :raises: RuntimeError if rep is out of range.
+
+        ..note:: This sampler can be *very* RAM-intensive.  For big simulations, we recommend using the 'rep' parameter
+        instead of returning everything in a big list.
         """
         if rep is not None:
             if int(rep) > self.vec.size() or int(rep)<0:
