@@ -244,10 +244,15 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
         sample_n(unsigned, const gsl_rng *)
         vector[pair[uint,detailed_deme_sample]] final() const
 
+#The following typedefs help us with the
+#frequency tracker API.
+ctypedef pair[uint,double] genfreqPair
+ctypedef pair[selected_mut_data,vector[genfreqPair]] freqTraj
+
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
         selected_mut_tracker()
-        vector[pair[selected_mut_data, vector[pair[uint,double]]]] final() const
+        vector[freqTraj] final() const
 
 #Extension classes for temporal sampling
 cdef class TemporalSampler:
@@ -327,10 +332,6 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
 
-#The following typedefs help us with the
-#frequency tracker API.
-ctypedef pair[uint,double] genfreqPair
-ctypedef pair[selected_mut_data,vector[genfreqPair]] freqTraj
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[freqTraj] & trajectories,
