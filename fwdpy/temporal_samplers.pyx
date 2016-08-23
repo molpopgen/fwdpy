@@ -113,9 +113,14 @@ cdef class FreqSampler(TemporalSampler):
     def get(self,rep=None):
         """
         Retrieve the data from the sampler.
+
+        :param rep: If None (the default), then data are returned for all replicates.  Otherwise, rep is the index
+        of a replicate, and that replicate's data are returned.
+
+        :raises: RuntimeError if rep is out of range.
         """
         if rep is not None:
-            if int(rep) > self.vec.size():
+            if int(rep) > self.vec.size() or int(rep)<0:
                 raise RuntimeError("index out of range")
             return (<selected_mut_tracker*>self.vec[rep].get()).final()
         else:
