@@ -1,6 +1,6 @@
 from cython.parallel import parallel, prange
 
-def allele_ages( const vector[vector[freqTraj]] & trajectories, double minfreq = 0.0, unsigned minsojourn = 1 ):
+def allele_ages( const vector[freqTraj] & trajectories, double minfreq = 0.0, unsigned minsojourn = 1 ):
     """
     Calculate allele age information from mutation frequency trajectories.
 
@@ -16,8 +16,8 @@ def allele_ages( const vector[vector[freqTraj]] & trajectories, double minfreq =
 
     return rv
 
-def merge_trajectories( const vector[vector[freqTraj]] & trajectories1,
-                        const vector[vector[freqTraj]] & trajectories2 ):
+def merge_trajectories( const vector[freqTraj] & trajectories1,
+                        const vector[freqTraj] & trajectories2 ):
     """
     Take two sets of mutation trajectories and merge them.
 
@@ -30,7 +30,7 @@ def merge_trajectories( const vector[vector[freqTraj]] & trajectories1,
         raise RuntimeError("the two input lists must be the same length")
 
     cdef size_t nt = trajectories1.size()
-    cdef vector[vector[freqTraj]] rv
+    cdef vector[freqTraj] rv
     rv.resize(nt)
     cdef int i
     
@@ -39,7 +39,7 @@ def merge_trajectories( const vector[vector[freqTraj]] & trajectories1,
 
     return rv
 
-def tidy_trajectories( const vector[vector[freqTraj]] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
+def tidy_trajectories( const vector[freqTraj] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
     """
     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
     a pandas.DataFrame.
