@@ -61,7 +61,7 @@ namespace fwdpy
   }
 
   
-  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<std::pair<unsigned,double>>>> & trajectories,
+  std::vector<selected_mut_data_tidy> tidy_trajectory_info( const selected_mut_tracker::final_t & trajectories,
 							    const unsigned min_sojourn,
 							    const double min_freq)
   {
