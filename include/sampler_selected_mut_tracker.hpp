@@ -1,6 +1,7 @@
 #ifndef FWDPY_GET_SELECTED_MUT_DATA_HPP
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
 
+#include <tuple>
 #include <limits>
 #include "types.hpp"
 #include "sampler_base.hpp"

@@ -8,7 +8,6 @@
 #define __FWDPY_TYPES__
 
 #include <map>
-#include <tuple>
 #include <memory>
 #include <vector>
 #include <fwdpp/tags/diploid_tags.hpp>
