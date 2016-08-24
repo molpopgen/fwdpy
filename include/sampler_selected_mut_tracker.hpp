@@ -1,7 +1,6 @@
 #ifndef FWDPY_GET_SELECTED_MUT_DATA_HPP
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
 
-#include <tuple>
 #include <limits>
 #include "types.hpp"
 #include "sampler_base.hpp"
@@ -31,6 +30,17 @@ struct selected_mut_data {
                && this->label == rhs.label;
 
     }
+	inline bool operator<(const selected_mut_data & rhs) const noexcept {
+		if(this->origin < rhs.origin) return true;
+		if(rhs.origin < this->origin) return false;
+		if(this->pos < rhs.pos) return true;
+		if(rhs.pos < this->pos) return false;
+		if(this->esize < rhs.esize) return true;
+		if(rhs.esize < this->esize) return false;
+		if(this->label < rhs.label) return true;
+		if(rhs.label < this->label) return false;
+		return false;
+	}
 };
 
 struct selected_mut_data_tidy
@@ -56,19 +66,11 @@ std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std:
 enum class traj_key_values : std::size_t { deme,origin,pos,esize,label };
 
 /*!
-  \brief Unique key for a mutation.  Used when tracking mutation frequencies.
-
-  Values are: deme, generation of mutation origin, position, effect size.
-
-  \note Used in fwdpy::selected_mut_tracker
-*/
-using trajectories_key_t = std::tuple<unsigned,unsigned,double,double,decltype(KTfwd::mutation_base::xtra)>;
-/*!
   \brief Internal representation of mutation frequencies during a simulation
 
   \note Used in fwdpy::selected_mut_tracker
 */
-using trajectories_t = std::map< trajectories_key_t , std::vector<std::pair<unsigned,double> >>;
+using trajectories_t = std::map<selected_mut_data,std::vector<std::pair<unsigned,double> >>;
 
 class selected_mut_tracker : public sampler_base
 /*!
@@ -87,15 +89,7 @@ class selected_mut_tracker : public sampler_base
     }
 
     final_t final() const {
-        final_t rv;
-        for( const auto & i : trajectories ) {
-            rv.emplace_back( std::make_pair( selected_mut_data(std::get<static_cast<std::size_t>(traj_key_values::origin)>(i.first),
-                                             std::get<static_cast<std::size_t>(traj_key_values::pos)>(i.first),
-                                             std::get<static_cast<std::size_t>(traj_key_values::esize)>(i.first),
-                                             std::get<static_cast<std::size_t>(traj_key_values::label)>(i.first)),
-                                             i.second) );
-        }
-        return rv;
+        return final_t(trajectories.begin(),trajectories.end());
     }
 
     explicit selected_mut_tracker() noexcept : trajectories(trajectories_t()) {
@@ -109,7 +103,7 @@ class selected_mut_tracker : public sampler_base
                 const auto & __m = pop->mutations[i];
                 if( !__m.neutral ) {
                     const auto freq = double(pop->mcounts[i])/double(2*pop->diploids.size());
-                    auto __p = std::make_tuple(0u,__m.g,__m.pos,__m.s,__m.xtra);
+					selected_mut_data __p(__m.g,__m.pos,__m.s,__m.xtra);
                     auto __itr = trajectories.find(__p);
                     if(__itr == trajectories.end()) {
                         trajectories[__p] = std::vector<std::pair<unsigned,double> >(1,std::make_pair(generation,freq));
