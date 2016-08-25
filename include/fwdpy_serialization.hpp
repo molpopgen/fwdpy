@@ -39,7 +39,7 @@ inline int gzserialize_details(const poptype & pop,
     } else {
         f=gzopen(filename,"wb");
     }
-    auto rv = gzwrite(f,reinterpret_cast<const char*>(pop.generation),
+    auto rv = gzwrite(f,reinterpret_cast<const char*>(&pop.generation),
                       sizeof(decltype(pop.generation)));
     KTfwd::gzserialize s;
     rv += s(f,pop,mwriter,dipwriter);
