@@ -6,11 +6,36 @@ from libcpp.string cimport string
 from libc.stdint cimport int64_t
 from libcpp.vector cimport vector
 
+#The code below implements gzSerializer as a custom temporal 
+#sampler using custom data.  The relevant C++ template class
+#is exposed to Cython in fwdpy/fwdpy.pxd (custom_sampler_data).
+#
+#Here, we create a temporal sampler that does the following:
+#1. When called during a simulation, the state of the population
+#is written (in binary format) to a gzipped file.
+#
+#2. When done, the sampler returns a list of tuples representing
+#the generation and the offset of that generation in the output file.
+#
+#Implementation details:
+#When tracking n replicates, each replicate's data is written
+#to a separate file.  In other words, each time series is written out 
+#to a different file.  The user provides a prefix for these file names.
+
+#This typedef will represent the generation and size of output for 
+#each generation:
 ctypedef pair[uint,int64_t] data_t 
+#A vector of the above is the return value:
 ctypedef vector[data_t] gzfinal_t
 
+#This is the C++ representation of our custom temporal sampler.
+#The template parameters are the data being recorded and a string,
+#which represents the file name.
 ctypedef custom_sampler_data[gzfinal_t,string] gzserializer_t
 
+#The following three functions will allow our sampler to work with
+#Spop,MetaPop,MlocusPop.  These are callback functions that will
+#be applied when the sampler is called.
 cdef void gzwrite_singlepop(const singlepop_t * pop, const unsigned generation, gzfinal_t & data, string & s) nogil:
     rv=pop.tofile(s.c_str(),True)
     data.push_back(data_t(generation,rv))
@@ -23,6 +48,10 @@ cdef void gzwrite_multilocus(const multilocus_t * pop, const unsigned generation
     rv=pop.tofile(s.c_str(),True)
     data.push_back(data_t(generation,rv))
 
+#This is our cython extension class.
+#The __cinit__ function is the important one,
+#as it must set up the file names, and initialize 
+#the vector of C++ types.
 cdef class gzSerializer(TemporalSampler):
     """
     This class is a :class:`fwdpy.fwdpy.TemporalSampler`, allowing the state of the 
@@ -43,10 +72,15 @@ cdef class gzSerializer(TemporalSampler):
         for i in range(n):
             bni=str(basename)+'.'+str(i)+'.gz'
             temp_string = bni
+            #We open and close the output file...
             gz=gzopen(temp_string.c_str(),"wb")
             gzclose(gz)
+            #Push back an object with gwrite_singlepop registered
+            #as a callback
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[gzserializer_t](new
                 gzserializer_t(&gzwrite_singlepop,temp_string)))
+            #Register the other two callbacks, otherwise an exception will
+            #be thrown if you try to serialize these population types:
             (<gzserializer_t*>self.vec[i].get()).register_callback(&gzwrite_metapop)
             (<gzserializer_t*>self.vec[i].get()).register_callback(&gzwrite_multilocus)
     def get(self):
