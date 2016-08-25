@@ -4,20 +4,9 @@
 #ifndef FWDPY_SERIALIZATION_HPP
 #define FWDPY_SERIALIZATION_HPP
 #include <fwdpp/sugar/serialization.hpp>
-
+#include "serialization_common.hpp"
 namespace fwdpy {
 namespace serialize_objects {
-
-template<typename poptype,typename mwriter_t,typename dipwriter_t>
-inline std::string serialize_details(const poptype & pop,
-                                     const mwriter_t & mwriter,
-                                     const dipwriter_t & dipwriter) {
-    KTfwd::serialize rv;
-	std::ostringstream buffer;
-    buffer.write(reinterpret_cast<const char *>(&(pop.generation)),sizeof(unsigned));
-    rv(buffer,pop,mwriter,dipwriter);
-    return buffer.str();
-}
 
 template<typename poptype>
 struct deserialize_details {

@@ -7,18 +7,11 @@
 #include <sstream>
 #include <fwdpp/sugar/serialization.hpp>
 #include "types.hpp"
+#include "serialization_common.hpp"
 
 namespace fwdpy {
 namespace serialize {
 
-template<typename poptype>
-std::string serialize_details(const poptype * pop) {
-    KTfwd::serialize rv;
-	std::ostringstream buffer;
-    buffer.write(reinterpret_cast<const char *>(&(pop->generation)),sizeof(unsigned));
-    rv(buffer,*pop,KTfwd::mutation_writer(),fwdpy::diploid_writer());
-    return buffer.str();
-}
 
 template<typename poptype>
 struct deserialize_details {

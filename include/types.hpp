@@ -149,7 +149,7 @@ struct singlepop_t :  public KTfwd::singlepop<KTfwd::popgenmut,diploid_t>
     }
 
     std::string serialize() const {
-        return serialize_objects::serialize_details(*this,
+        return serialization::serialize_details(this,
                 KTfwd::mutation_writer(),
                 fwdpy::diploid_writer());
     }
@@ -255,7 +255,7 @@ struct metapop_t : public KTfwd::metapop<KTfwd::popgenmut,diploid_t>
         return int(diploids.size());
     }
     std::string serialize() const {
-        return serialize_objects::serialize_details(*this,
+        return serialization::serialize_details(this,
                 KTfwd::mutation_writer(),
                 fwdpy::diploid_writer());
     }
@@ -305,7 +305,7 @@ struct singlepop_gm_vec_t :  public KTfwd::singlepop<KTfwd::generalmut_vec,diplo
         return int(N == diploids.size());
     }
     std::string serialize() const {
-        return serialize_objects::serialize_details(*this,
+        return serialization::serialize_details(this,
                 KTfwd::mutation_writer(),
                 fwdpy::diploid_writer());
     }
@@ -348,7 +348,7 @@ struct multilocus_t : public KTfwd::multiloc<KTfwd::popgenmut,fwdpy::diploid_t> 
         return int(N==diploids.size());
     }
     std::string serialize() const {
-        return serialize_objects::serialize_details(*this,
+        return serialization::serialize_details(this,
                 KTfwd::mutation_writer(),
                 fwdpy::diploid_writer());
     }
