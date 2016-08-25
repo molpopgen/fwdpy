@@ -44,6 +44,10 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned gen()
         unsigned popsize()
         int sane()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
 
     cdef cppclass metapop_t:
         metapop_t(ucont_t)
@@ -60,6 +64,10 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         ucont_t popsizes()
         int sane()
         int size()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
 
     cdef cppclass multilocus_t:
         multilocus_t(unsigned,unsigned)
@@ -77,6 +85,10 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         int gen()
         int sane()
         int popsize()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
 
     # Types based around KTfwd::generalmut_vec
     ctypedef vector[generalmut_vec] mlist_gm_vec_t
@@ -95,6 +107,10 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned gen()
         unsigned popsize()
         int sane()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
 
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
