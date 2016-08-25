@@ -13,9 +13,10 @@ inline std::string serialize_details(const poptype & pop,
                                      const mwriter_t & mwriter,
                                      const dipwriter_t & dipwriter) {
     KTfwd::serialize rv;
-    rv.buffer.write(reinterpret_cast<const char *>(&(pop.generation)),sizeof(unsigned));
-    rv(pop,mwriter,dipwriter);
-    return rv.buffer.str();
+	std::ostringstream buffer;
+    buffer.write(reinterpret_cast<const char *>(&(pop.generation)),sizeof(unsigned));
+    rv(buffer,pop,mwriter,dipwriter);
+    return buffer.str();
 }
 
 template<typename poptype>
@@ -27,13 +28,13 @@ struct deserialize_details {
                               const mreader_t & mreader,
                               const dipreader_t & dipreader,
                               constructor_data... cdata) {
-        KTfwd::serialize st;
-        st.buffer.str(s);
-        st.buffer.seekg(0);
+		std::istringstream buffer;
+		buffer.str(s);
+        buffer.seekg(0);
         poptype pop(cdata...);
-        st.buffer.read(reinterpret_cast<char*>(&pop.generation),sizeof(unsigned));
+        buffer.read(reinterpret_cast<char*>(&pop.generation),sizeof(unsigned));
         KTfwd::deserialize d;
-        d(pop,st,mreader,dipreader);
+        d(pop,buffer,mreader,dipreader);
         return pop;
     }
 };
@@ -74,7 +75,7 @@ struct gzdeserialize_details {
         poptype temp(cdata...);
         gzread(f,reinterpret_cast<char*>(&temp.generation),sizeof(decltype(temp.generation)));
         KTfwd::gzdeserialize s;
-        s(f,temp,mreader,dipreader);
+        s(temp,f,mreader,dipreader);
         gzclose(f);
         return temp;
     };

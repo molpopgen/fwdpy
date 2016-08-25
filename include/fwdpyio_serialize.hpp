@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <sstream>
 #include <fwdpp/sugar/serialization.hpp>
 #include "types.hpp"
 
@@ -13,9 +14,10 @@ namespace serialize {
 template<typename poptype>
 std::string serialize_details(const poptype * pop) {
     KTfwd::serialize rv;
-    rv.buffer.write(reinterpret_cast<const char *>(&(pop->generation)),sizeof(unsigned));
-    rv(*pop,KTfwd::mutation_writer(),fwdpy::diploid_writer());
-    return rv.buffer.str();
+	std::ostringstream buffer;
+    buffer.write(reinterpret_cast<const char *>(&(pop->generation)),sizeof(unsigned));
+    rv(buffer,*pop,KTfwd::mutation_writer(),fwdpy::diploid_writer());
+    return buffer.str();
 }
 
 template<typename poptype>
@@ -25,13 +27,13 @@ struct deserialize_details {
             constructor_data... cdata) {
         std::vector<std::shared_ptr<poptype> > rv;
         for(unsigned i=0; i<strings.size(); ++i) {
-            KTfwd::serialize st;
-            st.buffer.str(strings[i]);
-            st.buffer.seekg(0);
+			std::istringstream buffer;
+			buffer.str(strings[i]);
+            buffer.seekg(0);
             poptype pop(cdata...);
-            st.buffer.read(reinterpret_cast<char*>(&pop.generation),sizeof(unsigned));
+            buffer.read(reinterpret_cast<char*>(&pop.generation),sizeof(unsigned));
             KTfwd::deserialize d;
-            d(pop,st,KTfwd::mutation_reader<KTfwd::popgenmut>(),fwdpy::diploid_reader());
+            d(pop,buffer,KTfwd::mutation_reader<KTfwd::popgenmut>(),fwdpy::diploid_reader());
             rv.emplace_back(std::shared_ptr<poptype>(new poptype(std::move(pop))));
         }
         return rv;
