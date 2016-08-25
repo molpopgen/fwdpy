@@ -1,6 +1,48 @@
 # distutils: language = c++
 # distutils: sources = fwdpy/fwdpyio/serialize.cc
-    
+
+from fwdpy.zlib cimport *
+from libcpp.string cimport string 
+from libc.stdint cimport int64_t
+from libcpp.vector cimport vector
+
+ctypedef pair[uint,int64_t] data_t 
+ctypedef vector[data_t] gzfinal_t
+
+ctypedef custom_sampler_data[gzfinal_t,string] gzserializer_t
+
+cdef void gzwrite_singlepop(const singlepop_t * pop, const unsigned generation, gzfinal_t & data, string & s) nogil:
+    rv=pop.tofile(s.c_str(),True)
+    data.push_back(data_t(generation,rv))
+
+cdef void gzwrite_metapop(const metapop_t * pop, const unsigned generation, gzfinal_t & data, string & s) nogil:
+    rv=pop.tofile(s.c_str(),True)
+    data.push_back(data_t(generation,rv))
+
+cdef void gzwrite_multilocus(const multilocus_t * pop, const unsigned generation, gzfinal_t & data, string & s) nogil:
+    rv=pop.tofile(s.c_str(),True)
+    data.push_back(data_t(generation,rv))
+
+cdef class gzSerializer(TemporalSampler):
+    def __cinit__(self,unsigned n,string basename):
+        bn=basename
+        cdef string temp_string
+        cdef gzFile gz
+        for i in range(n):
+            bni=str(basename)+'.'+str(i)+'.gz'
+            temp_string = bni
+            gz=gzopen(temp_string.c_str(),"wb")
+            gzclose(gz)
+            self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[gzserializer_t](new
+                gzserializer_t(&gzwrite_singlepop,temp_string)))
+            (<gzserializer_t*>self.vec[i].get()).register_callback(&gzwrite_metapop)
+            (<gzserializer_t*>self.vec[i].get()).register_callback(&gzwrite_multilocus)
+    def get(self):
+        rv=[]
+        for i in range(self.vec.size()):
+            rv.append((<gzserializer_t*>self.vec[i].get()).final())
+        return rv
+
 ##Undocumented fxns are implementation details
 def serialize_single(Spop pop):
     return serialize_singlepop(pop.pop.get())
