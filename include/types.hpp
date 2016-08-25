@@ -63,28 +63,22 @@ using dipvector_t = std::vector<diploid_t>;
 //! Allows serialization of diploids.
 struct diploid_writer {
     using result_type = void;
-    template<typename diploid_t>
-    inline result_type operator()( const diploid_t & dip, std::ostream & o ) const {
-        o.write( reinterpret_cast<const char *>(&dip.g),sizeof(double));
-        o.write( reinterpret_cast<const char *>(&dip.e),sizeof(double));
-        o.write( reinterpret_cast<const char *>(&dip.w),sizeof(double));
+    template<typename diploid_t,typename streamtype>
+    inline result_type operator()( const diploid_t & dip, streamtype & o ) const {
+		KTfwd::fwdpp_internal::scalar_writer()(o,&dip.g);
+		KTfwd::fwdpp_internal::scalar_writer()(o,&dip.e);
+		KTfwd::fwdpp_internal::scalar_writer()(o,&dip.w);
     }
 };
 
 //! Allows de-serialization of diploids.
 struct diploid_reader {
     using result_type = void;
-    template<typename diploid_t>
-    inline result_type operator()( diploid_t & dip, std::istream & i ) const {
-        i.read( reinterpret_cast<char *>(&dip.g),sizeof(double));
-        i.read( reinterpret_cast<char *>(&dip.e),sizeof(double));
-        i.read( reinterpret_cast<char *>(&dip.w),sizeof(double));
-    }
-    template<typename diploid_t>
-    inline result_type operator()(diploid_t & dip, gzFile f) const {
-        gzread(f,reinterpret_cast<char *>(&dip.g),sizeof(double));
-        gzread(f,reinterpret_cast<char *>(&dip.e),sizeof(double));
-        gzread(f,reinterpret_cast<char *>(&dip.w),sizeof(double));
+    template<typename diploid_t,typename streamtype>
+    inline result_type operator()( diploid_t & dip, streamtype & i ) const {
+		KTfwd::fwdpp_internal::scalar_reader()(i,&dip.g);
+		KTfwd::fwdpp_internal::scalar_reader()(i,&dip.e);
+		KTfwd::fwdpp_internal::scalar_reader()(i,&dip.w);
     }
 };
 
