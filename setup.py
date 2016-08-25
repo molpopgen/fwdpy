@@ -25,8 +25,8 @@ try:
     version = out.decode('utf-8').rstrip()
     print ("fwdpp version",version," found.")
     FWDPP_V=version
-    if version < '0.5.1':
-        sys.exit("fwdpp >= ,'0.5.1' required, but ",version, "found.")
+    if version < '0.5.2':
+        sys.exit("fwdpp >= ,'0.5.2' required, but ",version, "found.")
 except:
     sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
