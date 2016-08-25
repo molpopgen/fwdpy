@@ -24,7 +24,19 @@ cdef void gzwrite_multilocus(const multilocus_t * pop, const unsigned generation
     data.push_back(data_t(generation,rv))
 
 cdef class gzSerializer(TemporalSampler):
+    """
+    This class is a :class:`fwdpy.fwdpy.TemporalSampler`, allowing the state of the 
+    population to be written to a gzipped file at regular time points.
+
+    ..note:: This is a good way to fill up a hard drive.  Use with caution.
+    """
     def __cinit__(self,unsigned n,string basename):
+        """
+        Constructor.
+
+        :param n: A length.  Must correspond to number of simulations that will be run simultaneously.
+        :param basename: A prefix for file names.  For a length n, output file names will be basename.i.gz where 0<=i<n.
+        """
         bn=basename
         cdef string temp_string
         cdef gzFile gz
@@ -38,9 +50,20 @@ cdef class gzSerializer(TemporalSampler):
             (<gzserializer_t*>self.vec[i].get()).register_callback(&gzwrite_metapop)
             (<gzserializer_t*>self.vec[i].get()).register_callback(&gzwrite_multilocus)
     def get(self):
+        """
+        Returns a list for each replicate.  For each replicate, the list consists of the generation and the location of
+        that generation in the output file.  The latter value may be used as an offset for later reading the population
+        back in.
+        """
         rv=[]
         for i in range(self.vec.size()):
-            rv.append((<gzserializer_t*>self.vec[i].get()).final())
+            temp=(<gzserializer_t*>self.vec[i].get()).final()
+            rvi=[]
+            offset=0
+            for j in temp:
+                rvi.append((j.first,offset))
+                offset+=j.second
+            rv.append(rvi)
         return rv
 
 ##Undocumented fxns are implementation details
