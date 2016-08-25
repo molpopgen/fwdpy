@@ -210,12 +210,12 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
         custom_sampler(void(*)(const multilocus_t *, const unsigned, FINALT &))
         custom_sampler(void(*)(const metapop_t *, const unsigned, FINALT &))
         #You may register additional callbacks as needed
-        register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &) )
-        register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &))
-        register_callback(void(*)(const metapop_t *, const unsigned, FINALT &))
+        void register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &) )
+        void register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &))
+        void register_callback(void(*)(const metapop_t *, const unsigned, FINALT &))
         #Typically, you won't need to register a cleanup callback,
         #but the interface is provided anyways
-        register_callback(void(*)(FINALT &))
+        void register_callback(void(*)(FINALT &))
 
     #Template for custom temporal sampler that need additional data
     #The DATAT may be arbitrary--it could contain parameters used
@@ -231,12 +231,12 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
         custom_sampler_data(void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
         custom_sampler_data(void(*)(const metapop_t *, const unsigned, FINALT &, DATAT & ), const DATAT &)
         #You may register additional callbacks as needed
-        register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
-        register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
-        register_callback(void(*)(const metapop_t *, const unsigned, FINALT &, DATAT & ), const DATAT &)
+        void register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &, DATAT &))
+        void register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &))
+        void register_callback(void(*)(const metapop_t *, const unsigned, FINALT &, DATAT &))
         #if DATAT can get large, you may register a callback to clean it up
         #when evolution functions exit
-        register_callback(void(*)(FINALT &,DATAT &))
+        void register_callback(void(*)(FINALT &,DATAT &))
                           
     void apply_sampler_cpp[T](const vector[shared_ptr[T]] & popvec,
 			      const vector[unique_ptr[sampler_base]] & samplers)
