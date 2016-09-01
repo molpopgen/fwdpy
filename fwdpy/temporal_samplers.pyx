@@ -65,6 +65,13 @@ cdef class PopSampler(TemporalSampler):
         :param n: A length.  Must correspond to number of simulations that will be run simultaneously.
         :param nsam: The sample size to take
         :param rng: A :class:`fwdpy.fwdpy.GSLrng`
+        :param removeFixed: (False) Whether or not to include fixations in the output.
+        :param neutral_file: (None) File name prefix where neutral data will be written in "ms" format.
+        :param selected_file: (None) File name prefix where selected data will be written in "ms" format.
+        :param boundaries: (None) For a multi-locus simulation, this must be a list of tuples specifying the positional boundaries of each locus
+        :param append: (False) Whether or not to append to output files, or over-write them.
+
+        ..note:: For each of the i threads, the ouput file names will be selected_file.i.gz, etc.
         """
         cdef cppstring sfile,nfile
         cdef vector[pair[double,double]] locus_boundaries
