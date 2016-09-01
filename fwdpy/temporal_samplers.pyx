@@ -67,10 +67,10 @@ cdef class PopSampler(TemporalSampler):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new sample_n(nsam,rng.thisptr.get())))
     def get(self):
-        cdef vector[vector[pair[uint,detailed_deme_sample]]] rv
+        rv=[]
         cdef size_t i=0
         for i in range(self.vec.size()):
-            rv.push_back((<sample_n*>(self.vec[i].get())).final())
+            rv.append((<sample_n*>(self.vec[i].get())).final())
         return rv
 
 cdef class VASampler(TemporalSampler):

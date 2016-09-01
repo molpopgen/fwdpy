@@ -258,7 +258,7 @@ cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
 cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef cppclass sample_n(sampler_base):
         sample_n(unsigned, const gsl_rng *)
-        vector[pair[uint,detailed_deme_sample]] final() const
+        vector[pair[sep_sample_t,popsample_details]] final() const
 
 #The following typedefs help us with the
 #frequency tracker API.

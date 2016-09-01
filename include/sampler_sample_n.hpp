@@ -1,6 +1,7 @@
 #ifndef FWDPY_SAMPLE_N_HPP
 #define FWDPY_SAMPLE_N_HPP
 
+#include "sample.hpp"
 #include "sampler_base.hpp"
 #include "types.hpp"
 #include <Sequence/SimData.hpp>
@@ -34,7 +35,8 @@ namespace fwdpy
                               */
     {
       public:
-        using final_t = std::vector<std::pair<unsigned, detailed_deme_sample>>;
+        using final_t
+            = std::vector<std::pair<KTfwd::sep_sample_t, popsample_details>>;
         virtual void
         operator()(const singlepop_t *pop, const unsigned generation)
         {
@@ -83,8 +85,10 @@ namespace fwdpy
                                 }
                         }
                 }
-            rv.emplace_back(generation,
-                            detailed_deme_sample(std::move(s), std::move(sh)));
+            auto details = get_sh_details(
+                s.second, pop->mutations, pop->fixations, pop->mcounts,
+                2 * pop->diploids.size(), generation);
+            rv.emplace_back(std::move(s), std::move(details));
         }
 
         virtual void
@@ -134,9 +138,10 @@ namespace fwdpy
                                 });
                             sh.emplace_back(itr->s, itr->h);
                         }
-                    rv.emplace_back(
-                        generation,
-                        detailed_deme_sample(std::move(s[i]), std::move(sh)));
+                    auto details = get_sh_details(
+                        s[i].second, pop->mutations, pop->fixations,
+                        pop->mcounts, 2 * pop->diploids.size(), generation);
+                    rv.emplace_back(std::move(s[i]), std::move(details));
                 }
         }
 
