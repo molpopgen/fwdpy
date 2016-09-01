@@ -57,7 +57,7 @@ else:
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
 #MEMLIBS=None
-LIBS=["gsl","gslcblas"]
+LIBS=["sequence","gsl","gslcblas"]
 
 #USETCMALLOC=False
 

@@ -39,7 +39,7 @@ namespace fwdpy
                     gzwrite(gz, o.str().c_str(), o.str().size());
                     gzclose(gz);
                 }
-            if (sfile.empty())
+            if (!sfile.empty())
                 {
                     gzFile gz = gzopen(sfile.c_str(), "ab");
                     std::stringstream o;
@@ -85,7 +85,7 @@ namespace fwdpy
         {
             auto s = KTfwd::sample_separate(r.get(), *pop, nsam, removeFixed,
                                             locus_boundaries);
-            if (nfile.empty())
+            if (!nfile.empty())
                 {
                     gzFile gz = gzopen(nfile.c_str(), "ab");
                     std::stringstream o;
@@ -99,7 +99,7 @@ namespace fwdpy
                         }
                     gzclose(gz);
                 }
-            if (sfile.empty())
+            if (!sfile.empty())
                 {
                     gzFile gz = gzopen(sfile.c_str(), "ab");
                     std::stringstream o;
