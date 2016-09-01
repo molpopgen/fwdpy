@@ -27,7 +27,7 @@ def ms_sample(GSLrng rng, PopType pop, int nsam, bint removeFixed = True):
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme = None):
+def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme = None, locusBoundaries = None):
     """
     Take a sample from a set of simulated populations.
 
@@ -62,7 +62,7 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
         return sample_separate[metapop_t](rng.thisptr.get(),deref((<MetaPop>pop).mpop.get()),deme,nsam,removeFixed)
         #return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
     elif isinstance(pop,MlocusPop):
-        return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<MlocusPop>pop).pop.get()),nsam,removeFixed)
+        return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<MlocusPop>pop).pop.get()),nsam,removeFixed,locusBoundaries)
         #return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")

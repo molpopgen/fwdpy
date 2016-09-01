@@ -385,8 +385,10 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
 cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
     sample_t sample_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
     sep_sample_t sample_sep_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
-    vector[sample_t] sample_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
-    vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
+    vector[sample_t] sample_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
+            removeFixed, const vector[pair[double,double]] &)  except +
+    vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
+            removeFixed, const vector[pair[double,double]] &)  except +
 
 cdef extern from "haplotype_matrix.hpp" namespace "fwdpy" nogil:
     haplotype_matrix make_haplotype_matrix(const singlepop_t * pop, const vector[size_t] & diploids) except +
