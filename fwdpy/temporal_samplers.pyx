@@ -1,3 +1,4 @@
+from libcpp.string cimport string as cppstring
 # distutils: language = c++
 cdef class TemporalSampler:
     cpdef size_t size(self):
@@ -56,7 +57,8 @@ cdef class PopSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` that takes a sample of size :math:`n \leq N` from the population.
     """
-    def __cinit__(self, unsigned n, unsigned nsam,GSLrng rng):
+    def __cinit__(self, unsigned n, unsigned nsam,GSLrng
+            rng,removeFixed=True,neutral_file=None,selected_file=None,boundaries=None,append=False):
         """
         Constructor
         
@@ -64,8 +66,21 @@ cdef class PopSampler(TemporalSampler):
         :param nsam: The sample size to take
         :param rng: A :class:`fwdpy.fwdpy.GSLrng`
         """
+        cdef cppstring sfile,nfile
+        cdef vector[pair[double,double]] locus_boundaries
+        if boundaries is not None:
+            locus_boundaries=boundaries
         for i in range(n):
-            self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new sample_n(nsam,rng.thisptr.get())))
+            sfile.clear()
+            nfile.clear()
+            if selected_file is not None:
+                temp=selected_file+'.'+str(i)+'.gz'
+                sfile=temp
+            if neutral_file is not None:
+                temp=neutral_file+'.'+str(i)+'.gz'
+                nfile=temp
+            self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
+                sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,locus_boundaries,append)))
     def get(self):
         rv=[]
         cdef size_t i=0

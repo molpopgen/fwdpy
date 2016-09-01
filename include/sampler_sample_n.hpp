@@ -41,19 +41,19 @@ namespace fwdpy
         operator()(const singlepop_t *pop, const unsigned generation)
         {
             auto s = KTfwd::sample_separate(r.get(), *pop, nsam, removeFixed);
-            if (nfile != NULL)
+            if (!nfile.empty())
                 {
-                    gzFile gz = gzopen(nfile, "ab");
-                    std::ostringstream o;
+                    gzFile gz = gzopen(nfile.c_str(), "ab");
+                    std::stringstream o;
                     o << Sequence::SimData(s.first.begin(), s.first.end())
                       << '\n';
                     gzwrite(gz, o.str().c_str(), o.str().size());
                     gzclose(gz);
                 }
-            if (sfile != NULL)
+            if (sfile.empty())
                 {
-                    gzFile gz = gzopen(sfile, "ab");
-                    std::ostringstream o;
+                    gzFile gz = gzopen(sfile.c_str(), "ab");
+                    std::stringstream o;
                     o << Sequence::SimData(s.second.begin(), s.second.end())
                       << '\n';
                     gzwrite(gz, o.str().c_str(), o.str().size());
@@ -96,10 +96,10 @@ namespace fwdpy
         {
             auto s = KTfwd::sample_separate(r.get(), *pop, nsam, removeFixed,
                                             locus_boundaries);
-            if (nfile != NULL)
+            if (nfile.empty())
                 {
-                    gzFile gz = gzopen(nfile, "ab");
-                    std::ostringstream o;
+                    gzFile gz = gzopen(nfile.c_str(), "ab");
+                    std::stringstream o;
                     for (auto &&i : s)
                         {
                             o.str(std::string());
@@ -110,10 +110,10 @@ namespace fwdpy
                         }
                     gzclose(gz);
                 }
-            if (sfile != NULL)
+            if (sfile.empty())
                 {
-                    gzFile gz = gzopen(sfile, "ab");
-                    std::ostringstream o;
+                    gzFile gz = gzopen(sfile.c_str(), "ab");
+                    std::stringstream o;
                     for (auto &&i : s)
                         {
                             o.str(std::string());
@@ -151,8 +151,8 @@ namespace fwdpy
             return rv;
         }
         explicit sample_n(
-            unsigned nsam_, const gsl_rng *r_, const bool rfixed = true,
-            const char *neutral_file = NULL, const char *selected_file = NULL,
+            unsigned nsam_, const gsl_rng *r_, const std::string &neutral_file,
+            const std::string &selected_file, const bool rfixed = true,
             const std::vector<std::pair<double, double>> &boundaries
             = std::vector<std::pair<double, double>>(),
             const bool append = true)
@@ -169,22 +169,28 @@ namespace fwdpy
         {
             if (!append)
                 {
-                    gzFile gz = gzopen(neutral_file, "wb");
-                    if (gz == NULL)
+                    if (!neutral_file.empty())
                         {
-                            throw std::runtime_error("could not open "
-                                                     + std::string(nfile)
-                                                     + " in 'wb' mode");
+                            gzFile gz = gzopen(neutral_file.c_str(), "wb");
+                            if (gz == NULL)
+                                {
+                                    throw std::runtime_error(
+                                        "could not open " + std::string(nfile)
+                                        + " in 'wb' mode");
+                                }
+                            gzclose(gz);
                         }
-                    gzclose(gz);
-                    gz = gzopen(selected_file, "wb");
-                    if (gz == NULL)
+                    if (!selected_file.empty())
                         {
-                            throw std::runtime_error("could not open "
-                                                     + std::string(sfile)
-                                                     + " in 'wb' mode");
+                            gzFile gz = gzopen(selected_file.c_str(), "wb");
+                            if (gz == NULL)
+                                {
+                                    throw std::runtime_error(
+                                        "could not open " + std::string(sfile)
+                                        + " in 'wb' mode");
+                                }
+                            gzclose(gz);
                         }
-                    gzclose(gz);
                 }
         }
 
@@ -192,7 +198,7 @@ namespace fwdpy
         final_t rv;
         const unsigned nsam;
         GSLrng_t r;
-        const char *nfile, *sfile;
+        const std::string nfile, sfile;
         const std::vector<std::pair<double, double>> locus_boundaries;
         const bool removeFixed;
     };
