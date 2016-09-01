@@ -9,7 +9,10 @@ This package is implemented in terms of:
 
 1. Cython_, which is a package allowing C++ and Python to work together
 2. fwdpp_, which is a C++11 template library for implementing efficient population genetic simulations
-3. gsl_, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.
+3. libsequence_, which is a C++11 library for population genetic calculations.
+4. gsl_, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.
+
+..note:: libsequence_ is only used internally for some format conversions and other operations.
 
 Please note that this package is likely to be quite unstable/actively developed.
 
@@ -443,3 +446,4 @@ Then, load html/index.html in your browser.
 .. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
 .. _doxygen: http://doxygen.org
 .. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
+.. _libsequence: http://molpopgen.github.io/libsequence
