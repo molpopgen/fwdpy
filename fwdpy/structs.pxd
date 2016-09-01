@@ -7,8 +7,15 @@
 from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libcpp.utility cimport pair
+from libc.stdint cimport uint16_t
 from fwdpy.fwdpp cimport sep_sample_t
 
+cdef extern from "sample.hpp" namespace "fwdpy" nogil:
+    cdef struct popsample_details:
+        vector[double] s, h, p
+        vector[unsigned] age, dcount
+        vector[uint16_t] labels
+    
 cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef struct detailed_deme_sample:
         sep_sample_t genotypes

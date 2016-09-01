@@ -10,7 +10,7 @@ from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.cpp cimport hash
 from libcpp.unordered_set cimport unordered_set
 from cython_gsl cimport gsl_rng
-from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum
+from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum,popsample_details
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
@@ -338,18 +338,12 @@ cdef diploid_mloc_data get_diploid_mloc( const dipvector_t & dip, const gcont_t 
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
-    void get_sh( const vector[pair[double,string]] & ms_sample,
+    popsample_details get_sh( const vector[pair[double,string]] & ms_sample,
                  const mcont_t & mutations,
                  const mcont_t & fixations,
                  const ucont_t & mcounts,
                  const unsigned & ttlN,
-                 const unsigned & generation,
-                 vector[double] * s,
-                 vector[double] * h,
-                 vector[double] * p,
-                 vector[double] * a,
-                 vector[unsigned] * c,
-                 vector[uint16_t] * l)
+                 const unsigned & generation)
 
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
