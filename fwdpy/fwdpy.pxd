@@ -10,7 +10,7 @@ from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.cpp cimport hash
 from libcpp.unordered_set cimport unordered_set
 from cython_gsl cimport gsl_rng
-from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum,popsample_details
+from fwdpy.structs cimport selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum,popsample_details
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types

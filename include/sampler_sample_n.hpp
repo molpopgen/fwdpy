@@ -16,17 +16,6 @@
 #include <vector>
 namespace fwdpy
 {
-    struct detailed_deme_sample
-    {
-        KTfwd::sep_sample_t genotypes;
-        std::vector<std::pair<double, double>> sh;
-        template <typename T1, typename T2>
-        detailed_deme_sample(T1 &&t1, T2 &&t2)
-            : genotypes(std::forward<T1>(t1)), sh(std::forward<T2>(t2))
-        {
-        }
-    };
-
     class sample_n
         : public sampler_base // take a sample of size n from a population
                               /*
@@ -124,7 +113,6 @@ namespace fwdpy
                         }
                     gzclose(gz);
                 }
-            std::vector<detailed_deme_sample> vds;
             for (unsigned i = 0; i < s.size(); ++i)
                 {
                     std::vector<std::pair<double, double>> sh;
