@@ -345,7 +345,8 @@ cdef extern from "sample.hpp" namespace "fwdpy" nogil:
                  const mcont_t & fixations,
                  const ucont_t & mcounts,
                  const unsigned & ttlN,
-                 const unsigned & generation)
+                 const unsigned & generation,
+                 const unsigned & locusID)
 
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()

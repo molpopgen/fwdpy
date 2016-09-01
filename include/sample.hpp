@@ -12,17 +12,19 @@ namespace fwdpy
     struct popsample_details
     {
         std::vector<double> s, h, p;
-        std::vector<unsigned> age, dcount, generation;
+        std::vector<unsigned> age, dcount, generation, locus;
         std::vector<decltype(KTfwd::mutation_base::xtra)> labels;
         popsample_details(
             std::vector<double> &&s_, std::vector<double> &&h_,
             std::vector<double> &&p_, std::vector<unsigned> &&age_,
             std::vector<unsigned> &&dcount_,
             std::vector<unsigned> &&generation_,
+            std::vector<unsigned> &&locus_,
             std::vector<decltype(KTfwd::mutation_base::xtra)> &&labels_)
             : s(std::move(s_)), h(std::move(h_)), p(std::move(p_)),
               age(std::move(age_)), dcount(std::move(dcount_)),
-              generation(std::move(generation_)), labels(std::move(labels_))
+              generation(std::move(generation_)), locus(std::move(locus_)),
+              labels(std::move(labels_))
         {
         }
     };
@@ -32,10 +34,10 @@ namespace fwdpy
                    const singlepop_t::mcont_t &mutations,
                    const std::vector<KTfwd::popgenmut> &fixations,
                    const singlepop_t::mcount_t &mcounts, const size_t &twoN,
-                   const unsigned &gen)
+                   const unsigned &gen, const unsigned &locus_num)
     {
         std::vector<double> s, h, p;
-        std::vector<unsigned> age, dcount, generation;
+        std::vector<unsigned> age, dcount, generation, locus;
         std::vector<std::uint16_t> label;
         for (const auto &site : sample)
             {
@@ -90,14 +92,17 @@ namespace fwdpy
                 dcount = age;
                 label.push_back(std::numeric_limits<std::uint16_t>::max());
                 generation.push_back(gen);
+                locus.push_back(locus_num);
             }
         else
             {
                 generation.resize(s.size(), gen);
+                locus.resize(s.size(), gen);
             }
         return popsample_details(std::move(s), std::move(h), std::move(p),
                                  std::move(age), std::move(dcount),
-                                 std::move(generation), std::move(label));
+                                 std::move(generation), std::move(locus),
+                                 std::move(label));
     }
     /*!
       \brief Get detailed info about mutations in a sample.
@@ -108,7 +113,7 @@ namespace fwdpy
            const std::vector<KTfwd::popgenmut> &mutations,
            const std::vector<KTfwd::popgenmut> &fixations,
            const std::vector<KTfwd::uint_t> &mcounts, const unsigned &ttlN,
-           const unsigned &generation);
+           const unsigned &generation, const unsigned &locus);
 }
 
 #endif

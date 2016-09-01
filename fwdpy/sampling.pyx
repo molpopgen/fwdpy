@@ -67,17 +67,17 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_sample_details( sample_t ms_sample, PopType pop ):
+def get_sample_details( sample_t ms_sample, PopType pop, locusID = None ):
     """
     Get additional details for population samples
 
     :param ms_samples: A list returned by :func:`ms_sample`
-    :param pops: A :class:`PopType`
+    :param pops: A :class:`PopType` 
+    :params locusID: (None) A numerical label for a locus.  Only used/relevant if pop is :class:`fwdpy.fwdpy.MlocusPop`
 
-    :return: A pandas.DataFrame containing the selection coefficient (s), dominance (h), populations frequency (p), and age (a) for each mutation.
+    :return: A dictionary of data for each mutation in the sample.
 
-    :rtype: pandas.DataFrame
-
+    :rtype: dict
     Example:
 
     >>> import fwdpy,array
@@ -93,21 +93,21 @@ def get_sample_details( sample_t ms_sample, PopType pop ):
                (<Spop>pop).pop.get().fixations,
                (<Spop>pop).pop.get().mcounts,
                (<Spop>pop).pop.get().N,
-               (<Spop>pop).pop.get().generation)
+               (<Spop>pop).pop.get().generation,0)
     elif isinstance(pop,MlocusPop):
         return get_sh(ms_sample,
                (<MlocusPop>pop).pop.get().mutations,
                (<MlocusPop>pop).pop.get().fixations,
                (<MlocusPop>pop).pop.get().mcounts,
                (<MlocusPop>pop).pop.get().N,
-               (<MlocusPop>pop).pop.get().generation)
+               (<MlocusPop>pop).pop.get().generation,locusID)
     elif isinstance(pop,MetaPop):
         return get_sh(ms_sample,
                (<MetaPop>pop).mpop.get().mutations,
                (<MetaPop>pop).mpop.get().fixations,
                (<MetaPop>pop).mpop.get().mcounts,
                sum((<MetaPop>pop).mpop.get().mcounts.Ns),
-               (<MetaPop>pop).mpop.get().generation)
+               (<MetaPop>pop).mpop.get().generation,0)
     else:
         raise RuntimeError("unupported PopType")
     #return pandas.DataFrame({'s':s,'h':h,'popfreq':p,'age':a,'dcount':c,'label':l})
