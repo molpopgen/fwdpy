@@ -76,7 +76,7 @@ namespace fwdpy
                 }
             auto details = get_sh_details(
                 s.second, pop->mutations, pop->fixations, pop->mcounts,
-                2 * pop->diploids.size(), generation);
+ pop->diploids.size(), generation);
             rv.emplace_back(std::move(s), std::move(details));
         }
 
@@ -128,7 +128,7 @@ namespace fwdpy
                         }
                     auto details = get_sh_details(
                         s[i].second, pop->mutations, pop->fixations,
-                        pop->mcounts, 2 * pop->diploids.size(), generation);
+                        pop->mcounts, pop->diploids.size(), generation);
                     rv.emplace_back(std::move(s[i]), std::move(details));
                 }
         }
