@@ -340,10 +340,16 @@ cdef diploid_mloc_data get_diploid_mloc( const dipvector_t & dip, const gcont_t 
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     void get_sh( const vector[pair[double,string]] & ms_sample,
                  const mcont_t & mutations,
+                 const mcont_t & fixations,
                  const ucont_t & mcounts,
                  const unsigned & ttlN,
                  const unsigned & generation,
-                 vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a, vector[uint16_t] * l)
+                 vector[double] * s,
+                 vector[double] * h,
+                 vector[double] * p,
+                 vector[double] * a,
+                 vector[unsigned] * c,
+                 vector[uint16_t] * l)
 
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()

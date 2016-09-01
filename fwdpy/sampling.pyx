@@ -91,29 +91,33 @@ def get_sample_details( sample_t ms_sample, PopType pop ):
     cdef vector[double] s
     cdef vector[double] p
     cdef vector[double] a
+    cdef vector[unsigned] c
     cdef vector[uint16_t] l
     if isinstance(pop,Spop):
         get_sh(ms_sample,
                (<Spop>pop).pop.get().mutations,
+               (<Spop>pop).pop.get().fixations,
                (<Spop>pop).pop.get().mcounts,
                (<Spop>pop).pop.get().N,
                (<Spop>pop).pop.get().generation,
-               &s,&h,&p,&a,&l)
+               &s,&h,&p,&a,&c,&l)
     elif isinstance(pop,MlocusPop):
         get_sh(ms_sample,
                (<MlocusPop>pop).pop.get().mutations,
+               (<MlocusPop>pop).pop.get().fixations,
                (<MlocusPop>pop).pop.get().mcounts,
                (<MlocusPop>pop).pop.get().N,
                (<MlocusPop>pop).pop.get().generation,
-               &s,&h,&p,&a,&l)
+               &s,&h,&p,&a,&c,&l)
     elif isinstance(pop,MetaPop):
         get_sh(ms_sample,
                (<MetaPop>pop).mpop.get().mutations,
+               (<MetaPop>pop).mpop.get().fixations,
                (<MetaPop>pop).mpop.get().mcounts,
                sum((<MetaPop>pop).mpop.get().mcounts.Ns),
                (<MetaPop>pop).mpop.get().generation,
-               &s,&h,&p,&a,&l)
-    return pandas.DataFrame({'s':s,'h':h,'p':p,'a':a,'label':l})
+               &s,&h,&p,&a,&c,&l)
+    return pandas.DataFrame({'s':s,'h':h,'popfreq':p,'age':a,'dcount':c,'label':l})
 
 
 ###### Functions for manipulating samples.
