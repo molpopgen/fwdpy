@@ -3235,6 +3235,15 @@ else
 	echo "fwdpp version $FWDPPVERSION detected"
 fi
 
+LIBSEQVERSION=`libsequenceConfig --version`
+MINLIBSEQ=1.8.0
+if test "$LIBSEQVERSION" \< $MINLIBSEQ
+then
+    as_fn_error $? "fwdpp > $MINLIBSEQ required.  Please install recent version from
+                  http://github.com/molpopgen/libsequence" "$LINENO" 5
+else
+    echo "libsequence version $LIBSEQVERSION detected"
+fi
 echo "GSL version $GSLVERSION detected"
 
 
@@ -4307,6 +4316,15 @@ if test "x$ac_cv_header_fwdpp_diploid_hh" = xyes; then :
 else
   as_fn_error meaning fwdppConfig was found "fwdpp/diploid.hh not found.  Please install the library.  Something is likely amiss with your system.  We got this far" "$LINENO" 5
 fi
+
+
+ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SimData.hpp" "ac_cv_header_Sequence_SimData_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_Sequence_SimData_hpp" = xyes; then :
+
+else
+  as_fn_error meaning libsequenceConfig was found "Sequence/SimData.hpp not found.  Please install the library.  Something is likely amiss with your system.  We got this far" "$LINENO" 5
+fi
+
 
 
 ac_fn_cxx_check_header_mongrel "$LINENO" "fwdpp/sugar/sampling.hpp" "ac_cv_header_fwdpp_sugar_sampling_hpp" "$ac_includes_default"

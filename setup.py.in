@@ -18,6 +18,7 @@ import platform, glob, sys, subprocess, os
 ##Check C/C++ dependencies
 FWDPP_V=""
 GSL_V=""
+LIBSEQ_V=""
 ##fwdpp
 try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
@@ -29,6 +30,16 @@ try:
         sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
 except:
     sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
+
+##libseqeuence
+try:
+    proc = subprocess.Popen(['libsequenceConfig','--version'],stdout=subprocess.PIPE)
+    (out,err) = proc.communicate()
+    version = out.decode('utf-8').rstrip()
+    print ("libsequence version",version," found.")
+    LIBSEQ_V=version
+except:
+    sys.exit("libsequenceConfig not found.  Please install libsequence (http://github.com/molpopgen/libsequence)")
 
 ##GSL
 try:
