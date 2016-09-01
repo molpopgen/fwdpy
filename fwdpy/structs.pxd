@@ -13,7 +13,7 @@ from fwdpy.fwdpp cimport sep_sample_t
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     cdef struct popsample_details:
         vector[double] s, h, p
-        vector[unsigned] age, dcount
+        vector[unsigned] age, dcount, generation
         vector[uint16_t] labels
     
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
