@@ -97,7 +97,7 @@ namespace fwdpy
         else
             {
                 generation.resize(s.size(), gen);
-                locus.resize(s.size(), gen);
+                locus.resize(s.size(), locus_num);
             }
         return popsample_details(std::move(s), std::move(h), std::move(p),
                                  std::move(age), std::move(dcount),
