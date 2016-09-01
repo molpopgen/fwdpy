@@ -31,16 +31,6 @@ namespace fwdpy
     */
     {
       public:
-        // using singlepop_type_return_t =
-        // std::vector<std::pair<unsigned,detailed_deme_sample> >;
-        // using multilocus_type_return_t =
-        // std::vector<std::pair<unsigned,std::vector<detailed_deme_sample> >
-        // >;
-        // using final_t = typename std::conditional < std::is_same<typename
-        // pop_t::popmodel_t,KTfwd::sugar::SINGLEPOP_TAG>::value,
-        // 						singlepop_type_return_t,
-        // 						multilocus_type_return_t
-        // >::type;
 
         using final_t = std::vector<std::pair<unsigned, detailed_deme_sample>>;
         virtual void
