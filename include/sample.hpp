@@ -13,18 +13,18 @@ namespace fwdpy
     {
         std::vector<double> s, h, p;
         std::vector<unsigned> age, dcount, generation, locus;
-        std::vector<decltype(KTfwd::mutation_base::xtra)> labels;
+        std::vector<decltype(KTfwd::mutation_base::xtra)> label;
         popsample_details(
             std::vector<double> &&s_, std::vector<double> &&h_,
             std::vector<double> &&p_, std::vector<unsigned> &&age_,
             std::vector<unsigned> &&dcount_,
             std::vector<unsigned> &&generation_,
             std::vector<unsigned> &&locus_,
-            std::vector<decltype(KTfwd::mutation_base::xtra)> &&labels_)
+            std::vector<decltype(KTfwd::mutation_base::xtra)> &&label_)
             : s(std::move(s_)), h(std::move(h_)), p(std::move(p_)),
               age(std::move(age_)), dcount(std::move(dcount_)),
               generation(std::move(generation_)), locus(std::move(locus_)),
-              labels(std::move(labels_))
+              label(std::move(label_))
         {
         }
     };
