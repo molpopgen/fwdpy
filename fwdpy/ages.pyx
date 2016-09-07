@@ -1,45 +1,39 @@
 from cython.parallel import parallel, prange
-
-def allele_ages( const vector[freqTraj] & trajectories, double minfreq = 0.0, unsigned minsojourn = 1 ):
+from cython.operator cimport dereference as deref
+def allele_ages( freqTrajectories trajectories, double minfreq = 0.0, unsigned minsojourn = 1 ):
     """
     Calculate allele age information from mutation frequency trajectories.
 
     The return value is a list of dicts that include the generation when the mutation arose, its effect size, 
     maximum frequency, and the number of times a frequency was recorded for that mutation.
     """
-    cdef size_t nt = trajectories.size()
-    cdef vector[vector[allele_age_data_t]] rv
-    rv.resize(nt)
-    cdef int i
-    for i in prange(nt,schedule='static',nogil=True,chunksize=1):
-        rv[i] = allele_ages_details(trajectories[i],minfreq,minsojourn)
+    return  allele_ages_details(trajectories.thisptr,minfreq,minsojourn)
 
-    return rv
-
-def merge_trajectories( const vector[freqTraj] & trajectories1,
-                        const vector[freqTraj] & trajectories2 ):
+def merge_trajectories(list trajectories1, list trajectories2):
+                       
     """
     Take two sets of mutation trajectories and merge them.
 
     The intended use case is that trajectories2 are from a later time point of the same
     simulations used to generate trajectories 1.  For example, trajectories 1 may represent 
-    mutations arising during evolutoin to equilibtrium, and trajectories2 represent what happend
+    mutations arising during evolution to equilibrium, and trajectories2 represent what happend
     during a bottleneck.
     """
-    if trajectories1.size() != trajectories2.size():
+    if len(trajectories1) != len(trajectories2):
         raise RuntimeError("the two input lists must be the same length")
 
-    cdef size_t nt = trajectories1.size()
-    cdef vector[freqTraj] rv
-    rv.resize(nt)
-    cdef int i
-    
-    for i in prange(nt,schedule='static',nogil=True,chunksize=1):
-        rv[i] = merge_trajectories_details(trajectories1[i],trajectories2[i])
-
+    rv = []
+    cdef freqTraj temp,temp2,temp3
+    for i in range(len(trajectories1)):
+        temp2=(<freqTrajectories>trajectories1[i]).thisptr
+        temp = merge_trajectories_details((<freqTrajectories>trajectories1[i]).thisptr,
+                (<freqTrajectories>trajectories2[i]).thisptr)
+        t = freqTrajectories()
+        t.assign(temp)
+        rv.append(t)
     return rv
 
-def tidy_trajectories( const vector[freqTraj] & trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
+def tidy_trajectories( freqTrajectories trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
     """
     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
     a pandas.DataFrame.
@@ -50,12 +44,4 @@ def tidy_trajectories( const vector[freqTraj] & trajectories, unsigned min_sojou
 
     .. note:: The sojourn time filter is not applied to fixations.  I'm assuming you are always interested in those.
     """
-    cdef vector[vector[selected_mut_data_tidy]] rv;
-    rv.resize(trajectories.size())
-    cdef size_t nt = trajectories.size()
-    cdef int i
-
-    for i in prange(nt,schedule='static',nogil=True,chunksize=1):
-        rv[i]=tidy_trajectory_info(trajectories[i],min_sojourn,min_freq)
-
-    return rv
+    return tidy_trajectory_info(trajectories.thisptr,min_sojourn,min_freq)

@@ -1,6 +1,6 @@
 #ifndef FWDPY_GET_SELECTED_MUT_DATA_HPP
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
-
+#include <memory>
 #include <limits>
 #include "types.hpp"
 #include "sampler_base.hpp"
@@ -57,21 +57,6 @@ struct selected_mut_data_tidy
     }
 };
 
-//non-inline!  This is part of fwdpy's main module.
-std::vector<selected_mut_data_tidy> tidy_trajectory_info( const std::vector<std::pair<selected_mut_data,std::vector<std::pair<unsigned,double>>>> & trajectories,
-        const unsigned min_sojourn ,
-        const double min_freq);
-
-//! Used internally to convert C++11 types to something Cython will understand
-enum class traj_key_values : std::size_t { deme,origin,pos,esize,label };
-
-/*!
-  \brief Internal representation of mutation frequencies during a simulation
-
-  \note Used in fwdpy::selected_mut_tracker
-*/
-using trajectories_t = std::map<selected_mut_data,std::vector<std::pair<unsigned,double> >>;
-
 class selected_mut_tracker : public sampler_base
 /*!
   \brief A "sampler" for recording frequency trajectories of selected mutations.
@@ -79,7 +64,13 @@ class selected_mut_tracker : public sampler_base
 */
 {
   public:
-    using final_t = std::vector< std::pair<selected_mut_data, std::vector<std::pair<unsigned,double> > > >;
+/*!
+  \brief Internal representation of mutation frequencies during a simulation
+
+  \note Used in fwdpy::selected_mut_tracker
+*/
+using trajectories_t = std::map<selected_mut_data,std::size_t>;
+    using final_t = std::shared_ptr<std::vector< std::pair<selected_mut_data, std::vector<std::pair<unsigned,double> > > >>;
 
     virtual void operator()(const singlepop_t * pop, const unsigned generation) {
         call_operator_details(pop,generation);
@@ -89,13 +80,16 @@ class selected_mut_tracker : public sampler_base
     }
 
     final_t final() const {
-        return final_t(trajectories.begin(),trajectories.end());
+        return data;
     }
 
-    explicit selected_mut_tracker() noexcept : trajectories(trajectories_t()) {
+    explicit selected_mut_tracker() noexcept : trajectories(trajectories_t()),
+			 data(std::make_shared<final_t::element_type>(final_t::element_type()))
+						 {
     }
   private:
     trajectories_t trajectories;
+	final_t data;
     template<typename pop_t>
     inline void call_operator_details(const pop_t * pop, const unsigned generation) {
         for(std::size_t i = 0 ; i < pop->mcounts.size() ; ++i ) {
@@ -106,11 +100,13 @@ class selected_mut_tracker : public sampler_base
 					selected_mut_data __p(__m.g,__m.pos,__m.s,__m.xtra);
                     auto __itr = trajectories.find(__p);
                     if(__itr == trajectories.end()) {
-                        trajectories[__p] = std::vector<std::pair<unsigned,double> >(1,std::make_pair(generation,freq));
+						data->emplace_back(__p,std::vector<std::pair<unsigned,double> >(1,std::make_pair(generation,freq)));
+                        trajectories[__p] = data->size()-1; //update the index tree
                     } else {
                         //Don't keep updating for fixed variants
-                        if( __itr->second.back().second < 1.) {
-                            __itr->second.emplace_back(generation,freq);
+						auto data_itr = data->begin()+__itr->second;
+                        if( data_itr->second.back().second < 1.) {
+                            data_itr->second.emplace_back(generation,freq);
                         }
                     }
                 }
@@ -118,6 +114,12 @@ class selected_mut_tracker : public sampler_base
         }
     }
 };
+
+//non-inline!  This is part of fwdpy's main module.
+std::vector<selected_mut_data_tidy> tidy_trajectory_info( const selected_mut_tracker::final_t & trajectories,
+        const unsigned min_sojourn ,
+        const double min_freq);
+
 }
 
 #endif

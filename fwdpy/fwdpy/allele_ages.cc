@@ -14,7 +14,7 @@ namespace fwdpy
     if(minfreq<0.0) throw runtime_error("minfreq must be >= 0.0");
     vector< allele_age_data_t > rv;
     using element_t = std::pair<unsigned,double>;
-    for ( const auto & t : trajectories )
+    for ( const auto & t : *trajectories )
       {
 	//decltype(t.first) is selected_mut_data
 	//decltype(t.second) is vector<double>, and is the vec of recorded frequencies
@@ -38,19 +38,19 @@ namespace fwdpy
     return rv;
   }
 
-  selected_mut_tracker::final_t merge_trajectories_details( selected_mut_tracker::final_t traj1,
+  selected_mut_tracker::final_t merge_trajectories_details(const selected_mut_tracker::final_t & traj1,
 							    const selected_mut_tracker::final_t & traj2 )
   {
-    auto rv(move(traj1));
-    for( const auto & t : traj2 )
+	  selected_mut_tracker::final_t rv(new selected_mut_tracker::final_t::element_type(traj1->begin(),traj1->end()));
+	  for( auto && t : *traj2 )
       {
-	auto x = std::find_if(rv.begin(),rv.end(),[&t](const selected_mut_tracker::final_t::value_type & xi)
+	auto x = std::find_if(rv->begin(),rv->end(),[&t](const selected_mut_tracker::final_t::element_type::value_type & xi)
 			      {
 				return xi.first==t.first;
 			      });
-	if(x == rv.end())
+	if(x == rv->end())
 	  {
-	    rv.push_back(t);
+	    rv->push_back(t);
 	  }
 	else
 	  {
@@ -66,7 +66,7 @@ namespace fwdpy
 							    const double min_freq)
   {
     std::vector<selected_mut_data_tidy> rv;
-    for( const auto & ti : trajectories )
+    for( const auto & ti : *trajectories )
       {
 	//Make sure that sojourn time filter is not applied to fixations, as
 	//those are usually of particular interest.

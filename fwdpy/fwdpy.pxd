@@ -266,7 +266,12 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
 #frequency tracker API.
 ctypedef pair[uint,double] genfreqPair
 #ctypedef map[selected_mut_data,vector[genfreqPair]] freqTraj
-ctypedef vector[pair[selected_mut_data,vector[genfreqPair]]] freqTraj
+ctypedef vector[pair[selected_mut_data,vector[genfreqPair]]] freqTrajData
+ctypedef shared_ptr[freqTrajData] freqTraj
+
+cdef class freqTrajectories:
+    cdef freqTraj thisptr
+    cdef assign(self,freqTraj t)
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
@@ -361,7 +366,7 @@ cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const freqTraj & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +
 
-    freqTraj merge_trajectories_details( freqTraj traj1, const freqTraj & traj2 )
+    freqTraj merge_trajectories_details( const freqTraj & traj1, const freqTraj & traj2 )
 
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:

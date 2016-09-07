@@ -120,6 +120,12 @@ cdef class VASampler(TemporalSampler):
             rv.push_back((<additive_variance*>(self.vec[i].get())).final())
         return rv
 
+cdef class freqTrajectories:
+    def __cinit__(self):
+        self.thisptr=freqTraj(NULL)
+    cdef assign(self,freqTraj t):
+        self.thisptr = t
+
 cdef class FreqSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` to track the frequencies of selected mutations over time.
@@ -144,16 +150,22 @@ cdef class FreqSampler(TemporalSampler):
         ..note:: This sampler can be *very* RAM-intensive.  For big simulations, we recommend using the 'rep' parameter
         instead of returning everything in a big list.
         """
+        cdef freqTraj temp
         if rep is not None:
             if int(rep) > self.vec.size() or int(rep)<0:
                 raise RuntimeError("index out of range")
-            return (<selected_mut_tracker*>self.vec[rep].get()).final()
+            temp=(<selected_mut_tracker*>self.vec[rep].get()).final()
+            t = freqTrajectories() 
+            t.assign(temp)
+            return t
         else:
             i=0
             rv=[]
             for i in range(self.vec.size()):
-                rv.append((<selected_mut_tracker*>self.vec[i].get()).final())
-
+                temp=(<selected_mut_tracker*>self.vec[i].get()).final()
+                t = freqTrajectories()
+                t.assign(temp)
+                rv.append(t)
             return rv
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
