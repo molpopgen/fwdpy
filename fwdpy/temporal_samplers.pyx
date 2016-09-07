@@ -121,10 +121,29 @@ cdef class VASampler(TemporalSampler):
         return rv
 
 cdef class freqTrajectories:
+    """
+    A holder for data returned by :class:`fwdpy.fwdpy.FreqSampler`.
+
+    Internally, this type holds a C++ shared_ptr to "raw" frequency trajectory data. The smart pointer type is freqTraj,
+    which is defined in fwdpy/fwdpy.pxd.
+
+    ..note:: You won't make these yourself from within Python.  Let the "get" function of
+    :class:`fwdpy.fwdpy.FreqSampler` make them for you.
+    """
     def __cinit__(self):
         self.thisptr=freqTraj(NULL)
     cdef assign(self,freqTraj t):
+        """
+        Assign the smart pointer.
+        """
         self.thisptr = t
+    def data(self):
+        """
+        Returns a copy of the raw data to Python.
+        
+        ..note:: This can be very RAM-intensive.
+        """
+        return deref(self.thisptr.get())
 
 cdef class FreqSampler(TemporalSampler):
     """
@@ -142,13 +161,14 @@ cdef class FreqSampler(TemporalSampler):
         """
         Retrieve the data from the sampler.
 
-        :param rep: If None (the default), then data are returned for all replicates.  Otherwise, rep is the index
+        :param rep: (None) If None (the default), then data are returned for all replicates.  Otherwise, rep is the index
         of a replicate, and that replicate's data are returned.
 
         :raises: RuntimeError if rep is out of range.
+        
+        :rtype: :class:`fwdpy.fwdpy.freqTrajectories` or a list of such types, depending on value of 'rep'
 
-        ..note:: This sampler can be *very* RAM-intensive.  For big simulations, we recommend using the 'rep' parameter
-        instead of returning everything in a big list.
+        ..note:: This sampler can be *very* RAM-intensive.  
         """
         cdef freqTraj temp
         if rep is not None:
