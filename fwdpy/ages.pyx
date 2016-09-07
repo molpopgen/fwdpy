@@ -1,5 +1,7 @@
 from cython.parallel import parallel, prange
 from cython.operator cimport dereference as deref
+from libcpp.limits cimport numeric_limits
+
 def allele_ages( freqTrajectories trajectories, double minfreq = 0.0, unsigned minsojourn = 1 ):
     """
     Calculate allele age information from mutation frequency trajectories.
@@ -33,7 +35,8 @@ def merge_trajectories(list trajectories1, list trajectories2):
         rv.append(t)
     return rv
 
-def tidy_trajectories( freqTrajectories trajectories, unsigned min_sojourn = 0, double min_freq = 0.0):
+def tidy_trajectories(freqTrajectories trajectories, unsigned min_sojourn = 0, double min_freq = 0.0,
+        remove_arose_after = None,remove_gone_before = None):
     """
     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
     a pandas.DataFrame.
@@ -44,4 +47,11 @@ def tidy_trajectories( freqTrajectories trajectories, unsigned min_sojourn = 0, 
 
     .. note:: The sojourn time filter is not applied to fixations.  I'm assuming you are always interested in those.
     """
-    return tidy_trajectory_info(trajectories.thisptr,min_sojourn,min_freq)
+    cdef numeric_limits[unsigned] ul
+    cdef unsigned raf = ul.max()
+    cdef unsigned rgb = 0
+    if remove_arose_after is not None:
+        raf=remove_arose_after
+    if remove_gone_before is not None:
+        rgb=remove_gone_before
+    return tidy_trajectory_info(trajectories.thisptr,min_sojourn,min_freq,rgb,raf)

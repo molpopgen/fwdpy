@@ -138,15 +138,15 @@ namespace fwdpy
                                     auto __itr = trajectories.find(__p);
                                     if (__itr == trajectories.end())
                                         {
+                                            // update the data
                                             data->emplace_back(
                                                 __p,
                                                 std::vector<std::pair<unsigned,
                                                                       double>>(
                                                     1, std::make_pair(
                                                            generation, freq)));
-                                            trajectories[__p]
-                                                = data->size()
-                                                  - 1; // update the index tree
+                                            // update index tree
+                                            trajectories[__p] = data->size()-1;
                                         }
                                     else
                                         {
@@ -171,7 +171,9 @@ namespace fwdpy
     // non-inline!  This is part of fwdpy's main module.
     std::vector<selected_mut_data_tidy>
     tidy_trajectory_info(const selected_mut_tracker::final_t &trajectories,
-                         const unsigned min_sojourn, const double min_freq);
+                         const unsigned min_sojourn, const double min_freq,
+                         const unsigned remove_gone_before,
+                         const unsigned remove_arose_after);
 }
 
 #endif

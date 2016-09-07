@@ -360,8 +360,9 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     vector[selected_mut_data_tidy] tidy_trajectory_info( const freqTraj & trajectories,
-                                                         const unsigned min_sojourn, const double min_freq);
-
+                                                         const unsigned min_sojourn, const double min_freq,
+                                                         const unsigned remove_gone_before,
+                                                         const unsigned remove_arose_after)
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const freqTraj & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +

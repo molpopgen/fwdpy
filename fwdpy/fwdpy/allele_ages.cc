@@ -3,7 +3,7 @@
 
 #include "allele_ages.hpp"
 #include <algorithm>
-
+#include <iostream>
 using namespace std;
 
 namespace fwdpy
@@ -73,7 +73,12 @@ namespace fwdpy
 
     std::vector<selected_mut_data_tidy>
     tidy_trajectory_info(const selected_mut_tracker::final_t &trajectories,
-                         const unsigned min_sojourn, const double min_freq)
+                         const unsigned min_sojourn, const double min_freq,
+                         // Warning: these next two are only accurate
+                         // to the extent that frequencies were sampled
+                         // each generation!
+                         const unsigned remove_gone_before,
+                         const unsigned remove_arose_after)
     {
         std::vector<selected_mut_data_tidy> rv;
         for (const auto &ti : *trajectories)
@@ -84,20 +89,32 @@ namespace fwdpy
                 if (!ti.second.empty() && (ti.second.size() >= min_sojourn
                                            || ti.second.back().second == 1.0))
                     {
-                        using element_t = std::pair<unsigned, double>;
-                        auto mx = max_element(
-                            ti.second.begin(), ti.second.end(),
-                            [](const element_t &a, const element_t &b) {
-                                return a.second <= b.second;
-                            });
-                        if (mx->second >= min_freq)
+                        if (ti.first.origin <= remove_arose_after)
                             {
-                                for (const auto &f : ti.second)
+                                if (ti.second.back().first
+                                    > remove_gone_before)
                                     {
-                                        rv.emplace_back(
-                                            ti.first.origin, f.first,
-                                            ti.first.pos, f.second,
-                                            ti.first.esize, ti.first.label);
+                                        using element_t
+                                            = std::pair<unsigned, double>;
+                                        auto mx = max_element(
+                                            ti.second.begin(), ti.second.end(),
+                                            [](const element_t &a,
+                                               const element_t &b) {
+                                                return a.second <= b.second;
+                                            });
+                                        if (mx->second >= min_freq)
+                                            {
+                                                for (const auto &f : ti.second)
+                                                    {
+                                                        rv.emplace_back(
+                                                            ti.first.origin,
+                                                            f.first,
+                                                            ti.first.pos,
+                                                            f.second,
+                                                            ti.first.esize,
+                                                            ti.first.label);
+                                                    }
+                                            }
                                     }
                             }
                     }
