@@ -68,7 +68,7 @@ else:
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
 #MEMLIBS=None
-LIBS=["sequence","gsl","gslcblas"]
+LIBS=["sequence","gsl","gslcblas","z"]
 
 #USETCMALLOC=False
 
@@ -161,7 +161,7 @@ extensions = [
               include_dirs=GLOBAL_INCLUDES,
               extra_compile_args=GLOBAL_COMPILE_ARGS,
               extra_link_args=LINK_ARGS,
-              libraries=[]),
+              libraries=LIBS),
     Extension("fwdpy.demography.demography",
               sources=["fwdpy/demography/demography"+EXTENSION]+glob.glob("fwdpy/demography/*.cc"),
               language="c++",
