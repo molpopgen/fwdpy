@@ -2,18 +2,18 @@
 #ifndef FWDP_QTRAIT_EVOLVE_QTRAIT_SAMPLER_HPP
 #define FWDP_QTRAIT_EVOLVE_QTRAIT_SAMPLER_HPP
 
+#include "fwdpp_features.hpp"
+#include "fwdpy_fitness.hpp"
+#include "internal_region_manager.hpp"
+#include "reserve.hpp"
+#include "sampler_base.hpp"
+#include "types.hpp"
 #include <algorithm>
 #include <future>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
 #include <type_traits>
 #include <vector>
-
-#include "fwdpp_features.hpp"
-#include "internal_region_manager.hpp"
-#include "reserve.hpp"
-#include "sampler_base.hpp"
-#include "types.hpp"
 
 namespace fwdpy
 {
