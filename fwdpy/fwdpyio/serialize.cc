@@ -2,33 +2,48 @@
 
 using namespace std;
 
-namespace fwdpy {
-namespace serialize {
+namespace fwdpy
+{
+    namespace serialize
+    {
 
+        string
+        serialize_singlepop(const fwdpy::singlepop_t *pop)
+        {
+            return serialization::serialize_details(
+                pop, KTfwd::mutation_writer(), fwdpy::diploid_writer());
+        }
 
-string serialize_singlepop(const fwdpy::singlepop_t * pop) {
-    return serialization::serialize_details(pop,KTfwd::mutation_writer(),fwdpy::diploid_writer());
-}
+        string
+        serialize_metapop(const fwdpy::metapop_t *pop)
+        {
+            return serialization::serialize_details(
+                pop, KTfwd::mutation_writer(), fwdpy::diploid_writer());
+        }
 
-string serialize_metapop(const fwdpy::metapop_t * pop) {
-    return serialization::serialize_details(pop,KTfwd::mutation_writer(),fwdpy::diploid_writer());
-}
+        string
+        serialize_multilocus(const fwdpy::multilocus_t *pop)
+        {
+            return serialization::serialize_details(
+                pop, KTfwd::mutation_writer(), fwdpy::diploid_writer());
+        }
 
-string serialize_multilocus(const fwdpy::multilocus_t * pop) {
-    return serialization::serialize_details(pop,KTfwd::mutation_writer(),fwdpy::diploid_writer());
-}
+        vector<shared_ptr<singlepop_t>>
+        deserialize_singlepop(const vector<string> &strings)
+        {
+            return deserialize_details<singlepop_t>()(strings, 0u);
+        }
 
+        vector<shared_ptr<metapop_t>>
+        deserialize_metapop(const vector<string> &strings)
+        {
+            return deserialize_details<metapop_t>()(strings, 0u);
+        }
 
-vector<shared_ptr<singlepop_t> > deserialize_singlepop(const vector<string> & strings) {
-    return deserialize_details<singlepop_t>()(strings,0u);
-}
-
-vector<shared_ptr<metapop_t> > deserialize_metapop(const vector<string> & strings) {
-    return deserialize_details<metapop_t>()(strings,0u);
-}
-
-vector<shared_ptr<multilocus_t> > deserialize_multilocus(const vector<string> & strings) {
-    return deserialize_details<multilocus_t>()(strings,0u,0u);
-}
-}
+        vector<shared_ptr<multilocus_t>>
+        deserialize_multilocus(const vector<string> &strings)
+        {
+            return deserialize_details<multilocus_t>()(strings, 0u, 0u);
+        }
+    }
 }

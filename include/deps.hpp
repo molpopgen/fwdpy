@@ -1,13 +1,14 @@
 /*!
   \file deps.hpp
-  \brief Declare functions to return version numbers and citation info for Python package.
+  \brief Declare functions to return version numbers and citation info for
+  Python package.
 */
 
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace fwdpy
 {
-  std::vector<std::string> fwdpy_version();
-  void fwdpy_citation();
+    std::vector<std::string> fwdpy_version();
+    void fwdpy_citation();
 }

@@ -1,7 +1,7 @@
 /*!
   \file fwdpy_add_mutations.hpp
 
-  Wrappers for the variadic template functions 
+  Wrappers for the variadic template functions
   in fwdpp/sugar/add_mutation.hpp
 */
 
@@ -12,12 +12,11 @@
 
 namespace fwdpy
 {
-  std::size_t add_mutation_cpp(singlepop_t * pop,
-			       const std::vector<std::size_t> & indlist,
-			       const std::vector<short> & clist,
-			       const double pos,
-			       const double s,
-			       const double h);
+    std::size_t add_mutation_cpp(singlepop_t *pop,
+                                 const std::vector<std::size_t> &indlist,
+                                 const std::vector<short> &clist,
+                                 const double pos, const double s,
+                                 const double h);
 }
 
 #endif
