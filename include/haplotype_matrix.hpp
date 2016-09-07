@@ -4,7 +4,6 @@
 #include "types.hpp"
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <map>
 #include <stdexcept>
 #include <string>
