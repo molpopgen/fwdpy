@@ -39,19 +39,12 @@ def tidy_trajectories_details(freqTrajectories trajectories,unsigned min_sojourn
         unsigned remove_arose_after,unsigned remove_gone_before):
     return tidy_trajectory_info(trajectories.thisptr,min_sojourn,min_freq,remove_gone_before,remove_arose_after)
 
-def tidy_trajectories_details(list trajectories,unsigned min_sojourn, double min_freq,
+def tidy_trajectories_details_list(list trajectories,unsigned min_sojourn, double min_freq,
         unsigned remove_arose_after,unsigned remove_gone_before):
-    cdef vector[freqTraj] vft
-    cdef size_t i
-    for i in range(len(trajectories)):
-        vft.push_back((<freqTrajectories>trajectories[i]).thisptr)
-    cdef vector[vector[selected_mut_data_tidy]] rv
-    rv.resize(vft.size())
-    for i in prange(vft.size(),schedule='dynamic',nogil=True):
-        rv[i]=tidy_trajectory_info(vft[i],min_sojourn,min_freq,remove_gone_before,remove_arose_after)
-    return rv
+    for i in trajectories:
+        yield tidy_trajectory_info((<freqTrajectories>i).thisptr,min_sojourn,min_freq,remove_gone_before,remove_arose_after)
 
-def tidy_trajectories(object trajectories, unsigned min_sojourn = 0, double min_freq = 0.0,
+def tidy_trajectories(trajectories, unsigned min_sojourn = 0, double min_freq = 0.0,
         remove_arose_after = None,remove_gone_before = None):
     """
     Take a set of allele frequency trajectories and 'tidy' them for easier coercion into
@@ -65,9 +58,8 @@ def tidy_trajectories(object trajectories, unsigned min_sojourn = 0, double min_
 
     .. note:: The sojourn time filter is not applied to fixations.  I'm assuming you are always interested in those.
 
-    .. note:: Passing in a list results in parallel processing of the input.
-
-    .. note:: Passing in a list can result in extreme RAM consumption, and you may wish to use a for loop instead.
+    :rtype: A list of dicts describing the trajectories.  If a list is input, then a generator to the results is
+    returned.
     """
     cdef numeric_limits[unsigned] ul
     cdef unsigned raf = ul.max()
@@ -76,5 +68,8 @@ def tidy_trajectories(object trajectories, unsigned min_sojourn = 0, double min_
         raf=remove_arose_after
     if remove_gone_before is not None:
         rgb=remove_gone_before
-    return tidy_trajectories_details(trajectories,min_sojourn,min_freq,raf,rgb)
+    if isinstance(trajectories,freqTrajectories):
+        return tidy_trajectories_details(trajectories,min_sojourn,min_freq,raf,rgb)
+    else:
+        return tidy_trajectories_details_list(trajectories,min_sojourn,min_freq,raf,rgb)
 
