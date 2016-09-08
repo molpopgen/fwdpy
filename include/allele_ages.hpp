@@ -45,10 +45,6 @@ namespace fwdpy
 
     /*
       \brief Merge containers of mutation trajectories.
-
-      \note traj1 is a "source" that will "sink" into a copy via std::move,
-      hence the
-      expensive-looking prototype :)
     */
     selected_mut_tracker::final_t
     merge_trajectories_details(const selected_mut_tracker::final_t &traj1,
