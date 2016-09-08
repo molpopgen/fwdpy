@@ -85,6 +85,8 @@ namespace fwdpy
             }
         if (s.empty())
             {
+				//We add in meaningless data
+				//to indicate no selected variants for this time period
                 s.push_back(std::numeric_limits<double>::quiet_NaN());
                 h = s;
                 p = s;
