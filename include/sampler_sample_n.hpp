@@ -54,6 +54,46 @@ namespace fwdpy
                 sample.second.end());
         }
 
+        void
+        write_sample_details(gzFile gz, const Sequence::SimData &d)
+        {
+            std::stringstream o;
+            o << d << '\n';
+            gzwrite(gz, o.str().c_str(), o.str().size());
+        }
+
+        void
+        write_sample(const std::string &fn, const KTfwd::sample_t &s)
+        {
+            gzFile gz = gzopen(fn.c_str(), "ab");
+            write_sample_details(gz, Sequence::SimData(s.begin(), s.end()));
+            gzclose(gz);
+        }
+
+        void
+        write_mloc_sample(const std::string &fn,
+                          const std::vector<KTfwd::sep_sample_t> &s,
+                          const bool neutral)
+        {
+            gzFile gz = gzopen(fn.c_str(), "ab");
+            for (auto &&si : s)
+                {
+                    if (neutral)
+                        {
+                            write_sample_details(
+                                gz, Sequence::SimData(si.first.begin(),
+                                                      si.first.end()));
+                        }
+                    else
+                        {
+                            write_sample_details(
+                                gz, Sequence::SimData(si.second.begin(),
+                                                      si.second.end()));
+                        }
+                }
+			gzclose(gz);
+        }
+
       public:
         virtual void
         operator()(const singlepop_t *pop, const unsigned generation)
@@ -62,21 +102,11 @@ namespace fwdpy
             remove_redundant_selected_fixations(s);
             if (!nfile.empty())
                 {
-                    gzFile gz = gzopen(nfile.c_str(), "ab");
-                    std::stringstream o;
-                    o << Sequence::SimData(s.first.begin(), s.first.end())
-                      << '\n';
-                    gzwrite(gz, o.str().c_str(), o.str().size());
-                    gzclose(gz);
+                    write_sample(nfile, s.first);
                 }
             if (!sfile.empty())
                 {
-                    gzFile gz = gzopen(sfile.c_str(), "ab");
-                    std::stringstream o;
-                    o << Sequence::SimData(s.second.begin(), s.second.end())
-                      << '\n';
-                    gzwrite(gz, o.str().c_str(), o.str().size());
-                    gzclose(gz);
+                    write_sample(sfile, s.second);
                 }
             auto details = get_sh_details(s.second, pop->mutations,
                                           pop->fixations, pop->mcounts,
@@ -95,31 +125,11 @@ namespace fwdpy
                 }
             if (!nfile.empty())
                 {
-                    gzFile gz = gzopen(nfile.c_str(), "ab");
-                    std::stringstream o;
-                    for (auto &&i : s)
-                        {
-                            o.str(std::string());
-                            o << Sequence::SimData(i.first.begin(),
-                                                   i.first.end())
-                              << '\n';
-                            gzwrite(gz, o.str().c_str(), o.str().size());
-                        }
-                    gzclose(gz);
+                    write_mloc_sample(nfile, s, true);
                 }
             if (!sfile.empty())
                 {
-                    gzFile gz = gzopen(sfile.c_str(), "ab");
-                    std::stringstream o;
-                    for (auto &&i : s)
-                        {
-                            o.str(std::string());
-                            o << Sequence::SimData(i.second.begin(),
-                                                   i.second.end())
-                              << '\n';
-                            gzwrite(gz, o.str().c_str(), o.str().size());
-                        }
-                    gzclose(gz);
+                    write_mloc_sample(sfile, s, false);
                 }
             for (unsigned i = 0; i < s.size(); ++i)
                 {
