@@ -71,6 +71,25 @@ namespace fwdpy
         return rv;
     }
 
+    bool
+    passes_minfreq_test(double minfreq,
+                        const std::vector<std::pair<unsigned, double>> &traj)
+    {
+        if (minfreq > 0.)
+            {
+                // only do this check if possible
+                // to fail
+                using element_t = std::pair<unsigned, double>;
+                auto mx
+                    = max_element(traj.begin(), traj.end(),
+                                  [](const element_t &a, const element_t &b) {
+                                      return a.second <= b.second;
+                                  });
+                return (mx->second < minfreq);
+            }
+        return true;
+    }
+
     std::vector<selected_mut_data_tidy>
     tidy_trajectory_info(const selected_mut_tracker::final_t &trajectories,
                          const unsigned min_sojourn, const double min_freq,
@@ -87,35 +106,16 @@ namespace fwdpy
                 // fixations, as
                 // those are usually of particular interest.
                 if (!ti.second.empty() && (ti.second.size() >= min_sojourn
-                                           || ti.second.back().second == 1.0))
+                                           || ti.second.back().second == 1.0)
+                    && ti.first.origin <= remove_arose_after
+                    && ti.second.back().first > remove_arose_after
+                    && passes_minfreq_test(min_freq, ti.second))
                     {
-                        if (ti.first.origin <= remove_arose_after)
+                        for (auto &&f : ti.second)
                             {
-                                if (ti.second.back().first
-                                    > remove_gone_before)
-                                    {
-                                        using element_t
-                                            = std::pair<unsigned, double>;
-                                        auto mx = max_element(
-                                            ti.second.begin(), ti.second.end(),
-                                            [](const element_t &a,
-                                               const element_t &b) {
-                                                return a.second <= b.second;
-                                            });
-                                        if (mx->second >= min_freq)
-                                            {
-                                                for (const auto &f : ti.second)
-                                                    {
-                                                        rv.emplace_back(
-                                                            ti.first.origin,
-                                                            f.first,
-                                                            ti.first.pos,
-                                                            f.second,
-                                                            ti.first.esize,
-                                                            ti.first.label);
-                                                    }
-                                            }
-                                    }
+                                rv.emplace_back(
+                                    ti.first.origin, f.first, ti.first.pos,
+                                    f.second, ti.first.esize, ti.first.label);
                             }
                     }
             }
