@@ -132,9 +132,9 @@ namespace fwdpy
       the count (frequency, as an integer) of each mutation.
       gametes: vector<gamete>, contains a mix of extinct and extant gametes
       diploids: vector<diploid>
-      fixations: vector<popgenmut>, is filled by simulations that "prine"
+      fixations: vector<popgenmut>, is filled by simulations that "prune"
       fixations when they occur
-      fixation_times: vector<unsigned>, is filled by simulations that "prine"
+      fixation_times: vector<unsigned>, is filled by simulations that "prune"
       fixations when they occur
 
       \note Internally, fwdppy uses extinct elements in containers for "object
@@ -242,9 +242,9 @@ namespace fwdpy
       the count (frequency, as an integer) of each mutation.
       gametes: vector<gamete>, contains a mix of extinct and extant gametes
       diploids: vector<vector<diploid>>, each vector is a deme
-      fixations: vector<popgenmut>, is filled by simulations that "prine"
+      fixations: vector<popgenmut>, is filled by simulations that "prune"
       fixations when they occur
-      fixation_times: vector<unsigned>, is filled by simulations that "prine"
+      fixation_times: vector<unsigned>, is filled by simulations that "prune"
       fixations when they occur
 
       \note Internally, fwdppy uses extinct elements in containers for "object
