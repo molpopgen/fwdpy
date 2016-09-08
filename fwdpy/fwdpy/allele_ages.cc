@@ -8,6 +8,30 @@ using namespace std;
 
 namespace fwdpy
 {
+    std::vector<std::pair<unsigned, double>>::const_iterator
+    find_max_element(const std::vector<std::pair<unsigned, double>> &traj)
+    {
+        // only do this check if possible
+        // to fail
+        using element_t = std::pair<unsigned, double>;
+        return max_element(traj.begin(), traj.end(),
+                           [](const element_t &a, const element_t &b) {
+                               return a.second <= b.second;
+                           });
+    }
+
+    bool
+    passes_minfreq_test(double minfreq,
+                        const std::vector<std::pair<unsigned, double>> &traj)
+    {
+        if (minfreq > 0.)
+            {
+                auto mx = find_max_element(traj);
+                return (mx->second >= minfreq);
+            }
+        return true;
+    }
+
     vector<allele_age_data_t>
     allele_ages_details(const selected_mut_tracker::final_t &trajectories,
                         const double minfreq, const unsigned minsojourn)
@@ -15,23 +39,15 @@ namespace fwdpy
         if (minfreq < 0.0)
             throw runtime_error("minfreq must be >= 0.0");
         vector<allele_age_data_t> rv;
-        using element_t = std::pair<unsigned, double>;
         for (const auto &t : *trajectories)
             {
-                // decltype(t.first) is selected_mut_data
-                // decltype(t.second) is vector<double>, and is the vec of
-                // recorded frequencies
                 if (t.second.empty())
                     {
                         throw runtime_error("frequency vector empty");
                     }
                 if (t.second.size() >= minsojourn)
                     {
-                        auto mfi = max_element(
-                            t.second.begin(), t.second.end(),
-                            [](const element_t &a, const element_t &b) {
-                                return a.second <= b.second;
-                            });
+                        auto mfi = find_max_element(t.second);
                         if (mfi->second
                             >= minfreq) // it hit the right minimum frequency
                             {
@@ -69,25 +85,6 @@ namespace fwdpy
                     }
             }
         return rv;
-    }
-
-    bool
-    passes_minfreq_test(double minfreq,
-                        const std::vector<std::pair<unsigned, double>> &traj)
-    {
-        if (minfreq > 0.)
-            {
-                // only do this check if possible
-                // to fail
-                using element_t = std::pair<unsigned, double>;
-                auto mx
-                    = max_element(traj.begin(), traj.end(),
-                                  [](const element_t &a, const element_t &b) {
-                                      return a.second <= b.second;
-                                  });
-                return (mx->second >= minfreq);
-            }
-        return true;
     }
 
     std::vector<selected_mut_data_tidy>
