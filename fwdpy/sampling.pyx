@@ -91,6 +91,7 @@ def get_sample_details( sample_t ms_sample, PopType pop, locusID = None ):
         return get_sh(ms_sample,
                (<Spop>pop).pop.get().mutations,
                (<Spop>pop).pop.get().fixations,
+               (<Spop>pop).pop.get().fixation_times,
                (<Spop>pop).pop.get().mcounts,
                (<Spop>pop).pop.get().N,
                (<Spop>pop).pop.get().generation,0)
@@ -98,6 +99,7 @@ def get_sample_details( sample_t ms_sample, PopType pop, locusID = None ):
         return get_sh(ms_sample,
                (<MlocusPop>pop).pop.get().mutations,
                (<MlocusPop>pop).pop.get().fixations,
+               (<MlocusPop>pop).pop.get().fixation_times,
                (<MlocusPop>pop).pop.get().mcounts,
                (<MlocusPop>pop).pop.get().N,
                (<MlocusPop>pop).pop.get().generation,locusID)
@@ -105,6 +107,7 @@ def get_sample_details( sample_t ms_sample, PopType pop, locusID = None ):
         return get_sh(ms_sample,
                (<MetaPop>pop).mpop.get().mutations,
                (<MetaPop>pop).mpop.get().fixations,
+               (<MetaPop>pop).mpop.get().fixation_times,
                (<MetaPop>pop).mpop.get().mcounts,
                sum((<MetaPop>pop).mpop.get().mcounts.Ns),
                (<MetaPop>pop).mpop.get().generation,0)

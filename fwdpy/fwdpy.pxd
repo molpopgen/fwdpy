@@ -354,6 +354,7 @@ cdef extern from "sample.hpp" namespace "fwdpy" nogil:
     popsample_details get_sh( const vector[pair[double,string]] & ms_sample,
                  const mcont_t & mutations,
                  const mcont_t & fixations,
+                 const ucont_t & fixation_times,
                  const ucont_t & mcounts,
                  const unsigned & ttlN,
                  const unsigned & generation,

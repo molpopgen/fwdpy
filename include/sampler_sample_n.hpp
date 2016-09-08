@@ -91,7 +91,7 @@ namespace fwdpy
                                                       si.second.end()));
                         }
                 }
-			gzclose(gz);
+            gzclose(gz);
         }
 
       public:
@@ -108,9 +108,9 @@ namespace fwdpy
                 {
                     write_sample(sfile, s.second);
                 }
-            auto details = get_sh_details(s.second, pop->mutations,
-                                          pop->fixations, pop->mcounts,
-                                          pop->diploids.size(), generation, 0);
+            auto details = get_sh_details(
+                s.second, pop->mutations, pop->fixations, pop->fixation_times,
+                pop->mcounts, pop->diploids.size(), generation, 0);
             rv->emplace_back(std::move(s), std::move(details));
         }
 
@@ -135,7 +135,8 @@ namespace fwdpy
                 {
                     auto details = get_sh_details(
                         s[i].second, pop->mutations, pop->fixations,
-                        pop->mcounts, pop->diploids.size(), generation, i);
+                        pop->fixation_times, pop->mcounts,
+                        pop->diploids.size(), generation, i);
                     rv->emplace_back(std::move(s[i]), std::move(details));
                 }
         }
