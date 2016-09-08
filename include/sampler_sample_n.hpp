@@ -35,7 +35,7 @@ namespace fwdpy
         GSLrng_t r;
         const std::string nfile, sfile;
         const std::vector<std::pair<double, double>> locus_boundaries;
-        const bool removeFixed;
+        const bool removeFixed, recordSamples, recordDetails;
 
         void
         remove_redundant_selected_fixations(KTfwd::sep_sample_t &sample)
@@ -108,10 +108,29 @@ namespace fwdpy
                 {
                     write_sample(sfile, s.second);
                 }
-            auto details = get_sh_details(
-                s.second, pop->mutations, pop->fixations, pop->fixation_times,
-                pop->mcounts, pop->diploids.size(), generation, 0);
-            rv->emplace_back(std::move(s), std::move(details));
+            if (recordDetails)
+                {
+                    auto details = get_sh_details(
+                        s.second, pop->mutations, pop->fixations,
+                        pop->fixation_times, pop->mcounts,
+                        pop->diploids.size(), generation, 0);
+                    if (recordSamples)
+                        {
+                            rv->emplace_back(std::move(s), std::move(details));
+                        }
+                    else
+                        {
+                            rv->emplace_back(final_t::element_type::
+                                                 value_type::first_type(),
+                                             std::move(details));
+                        }
+                }
+            else if (recordSamples)
+                {
+                    rv->emplace_back(
+                        std::move(s),
+                        final_t::element_type::value_type::second_type());
+                }
         }
 
         virtual void
@@ -149,6 +168,7 @@ namespace fwdpy
         explicit sample_n(
             unsigned nsam_, const gsl_rng *r_, const std::string &neutral_file,
             const std::string &selected_file, const bool rfixed = true,
+            const bool rec_samples = true, const bool rec_sh = true,
             const std::vector<std::pair<double, double>> &boundaries
             = std::vector<std::pair<double, double>>(),
             const bool append = true)
@@ -156,7 +176,8 @@ namespace fwdpy
                   final_t::element_type()))),
               nsam(nsam_), r(GSLrng_t(gsl_rng_get(r_))), nfile(neutral_file),
               sfile(selected_file), locus_boundaries(boundaries),
-              removeFixed(rfixed)
+              removeFixed(rfixed), recordSamples(rec_samples),
+              recordDetails(rec_sh)
         /*!
           Note the implementation of this constructor!!
 

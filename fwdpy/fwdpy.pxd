@@ -265,7 +265,8 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef cppclass sample_n(sampler_base):
         sample_n(unsigned, const gsl_rng * r,
                 const string & nfile,const string & sfile,
-                bint removeFixed, const vector[pair[double,double]] & boundaries,const bint append)
+                bint removeFixed, bint recordSamples, bint recordDetails,
+                const vector[pair[double,double]] & boundaries,const bint append)
         popSampleData final() const
 
 #The following typedefs help us with the

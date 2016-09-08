@@ -78,7 +78,7 @@ cdef class PopSampler(TemporalSampler):
     A :class:`fwdpy.fwdpy.TemporalSampler` that takes a sample of size :math:`n \leq N` from the population.
     """
     def __cinit__(self, unsigned n, unsigned nsam,GSLrng
-            rng,removeFixed=True,neutral_file=None,selected_file=None,boundaries=None,append=False):
+            rng,removeFixed=True,neutral_file=None,selected_file=None,boundaries=None,append=False,recordSamples=True,recordDetails=True):
         """
         Constructor
         
@@ -107,7 +107,7 @@ cdef class PopSampler(TemporalSampler):
                 temp=neutral_file+'.'+str(i)+'.gz'
                 nfile=temp
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
-                sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,locus_boundaries,append)))
+                sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
     def get(self):
         rv=[]
         cdef size_t i=0

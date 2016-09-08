@@ -27,6 +27,15 @@ namespace fwdpy
               locus(std::move(locus_)), label(std::move(label_))
         {
         }
+        popsample_details()
+            : s(std::vector<double>()), h(std::vector<double>()),
+              p(std::vector<double>()), dcount(std::vector<unsigned>()),
+              origin(std::vector<unsigned>()),
+              generation(std::vector<unsigned>()),
+              ftime(std::vector<unsigned>()), locus(std::vector<unsigned>()),
+              label(decltype(label)())
+        {
+        }
     };
 
     inline std::pair<singlepop_t::mcont_t::const_iterator, bool>
