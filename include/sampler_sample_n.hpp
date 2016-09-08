@@ -9,6 +9,7 @@
 #include <fwdpp/diploid.hh>
 #include <fwdpp/sugar/poptypes/tags.hpp>
 #include <fwdpp/sugar/sampling.hpp>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -25,11 +26,40 @@ namespace fwdpy
     {
       public:
         using final_t
-            = std::vector<std::pair<KTfwd::sep_sample_t, popsample_details>>;
+            = std::shared_ptr<std::vector<std::pair<KTfwd::sep_sample_t,
+                                                    popsample_details>>>;
+
+      private:
+        final_t rv;
+        const unsigned nsam;
+        GSLrng_t r;
+        const std::string nfile, sfile;
+        const std::vector<std::pair<double, double>> locus_boundaries;
+        const bool removeFixed;
+
+        void
+        remove_redundant_selected_fixations(KTfwd::sep_sample_t &sample)
+        /* In fwdpy, we have a slight issue:
+         * 1. Quant-trait sims do copy selected fixations
+         *    into fixations/fixation times, while also
+         *    leaving them in the pop
+         * 2. Thus, when removeFixed = false, we can end up w/two
+         *    copies of such mutations.  Essentially, we are using
+         *    fwdpp as it was not intended to be used :).
+         * 3. This function cleans up the mess we've made
+         */
+        {
+            sample.second.erase(
+                std::unique(sample.second.begin(), sample.second.end()),
+                sample.second.end());
+        }
+
+      public:
         virtual void
         operator()(const singlepop_t *pop, const unsigned generation)
         {
             auto s = KTfwd::sample_separate(r.get(), *pop, nsam, removeFixed);
+            remove_redundant_selected_fixations(s);
             if (!nfile.empty())
                 {
                     gzFile gz = gzopen(nfile.c_str(), "ab");
@@ -48,36 +78,10 @@ namespace fwdpy
                     gzwrite(gz, o.str().c_str(), o.str().size());
                     gzclose(gz);
                 }
-            std::vector<std::pair<double, double>> sh;
-            for (const auto &i : s.second)
-                {
-                    auto itr = std::find_if(
-                        pop->mutations.begin(), pop->mutations.end(),
-                        [&i](const singlepop_t::mutation_t &m) noexcept {
-                            return m.pos == i.first;
-                        });
-                    if (itr != pop->mutations.end())
-                        {
-                            sh.emplace_back(itr->s, itr->h);
-                        }
-                    else
-                        {
-                            itr = std::find_if(
-                                pop->fixations.begin(), pop->fixations.end(),
-                                [&i](const singlepop_t::mutation_t
-                                         &m) noexcept {
-                                    return m.pos == i.first;
-                                });
-                            if (itr != pop->fixations.end())
-                                {
-                                    sh.emplace_back(itr->s, itr->h);
-                                }
-                        }
-                }
             auto details = get_sh_details(s.second, pop->mutations,
                                           pop->fixations, pop->mcounts,
                                           pop->diploids.size(), generation, 0);
-            rv.emplace_back(std::move(s), std::move(details));
+            rv->emplace_back(std::move(s), std::move(details));
         }
 
         virtual void
@@ -85,6 +89,10 @@ namespace fwdpy
         {
             auto s = KTfwd::sample_separate(r.get(), *pop, nsam, removeFixed,
                                             locus_boundaries);
+            for (auto &si : s)
+                {
+                    remove_redundant_selected_fixations(si);
+                }
             if (!nfile.empty())
                 {
                     gzFile gz = gzopen(nfile.c_str(), "ab");
@@ -115,21 +123,10 @@ namespace fwdpy
                 }
             for (unsigned i = 0; i < s.size(); ++i)
                 {
-                    std::vector<std::pair<double, double>> sh;
-                    for (const auto &si : s[i].second)
-                        {
-                            auto itr = std::find_if(
-                                pop->mutations.begin(), pop->mutations.end(),
-                                [&si](const singlepop_t::mutation_t
-                                          &m) noexcept {
-                                    return m.pos == si.first;
-                                });
-                            sh.emplace_back(itr->s, itr->h);
-                        }
                     auto details = get_sh_details(
                         s[i].second, pop->mutations, pop->fixations,
                         pop->mcounts, pop->diploids.size(), generation, i);
-                    rv.emplace_back(std::move(s[i]), std::move(details));
+                    rv->emplace_back(std::move(s[i]), std::move(details));
                 }
         }
 
@@ -144,9 +141,11 @@ namespace fwdpy
             const std::vector<std::pair<double, double>> &boundaries
             = std::vector<std::pair<double, double>>(),
             const bool append = true)
-            : rv(final_t()), nsam(nsam_), r(GSLrng_t(gsl_rng_get(r_))),
-              nfile(neutral_file), sfile(selected_file),
-              locus_boundaries(boundaries), removeFixed(rfixed)
+            : rv(final_t(std::make_shared<final_t::element_type>(
+                  final_t::element_type()))),
+              nsam(nsam_), r(GSLrng_t(gsl_rng_get(r_))), nfile(neutral_file),
+              sfile(selected_file), locus_boundaries(boundaries),
+              removeFixed(rfixed)
         /*!
           Note the implementation of this constructor!!
 
@@ -181,14 +180,6 @@ namespace fwdpy
                         }
                 }
         }
-
-      private:
-        final_t rv;
-        const unsigned nsam;
-        GSLrng_t r;
-        const std::string nfile, sfile;
-        const std::vector<std::pair<double, double>> locus_boundaries;
-        const bool removeFixed;
     };
 }
 

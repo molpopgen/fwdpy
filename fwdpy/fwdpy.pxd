@@ -255,12 +255,18 @@ cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
         additive_variance()
         vector[VAcum] final()
 
+ctypedef shared_ptr[vector[pair[sep_sample_t,popsample_details]]] popSampleData
+
+cdef class popSamples:
+    cdef popSampleData thisptr
+    cdef assign(self,popSampleData d)
+
 cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef cppclass sample_n(sampler_base):
         sample_n(unsigned, const gsl_rng * r,
                 const string & nfile,const string & sfile,
                 bint removeFixed, const vector[pair[double,double]] & boundaries,const bint append)
-        vector[pair[sep_sample_t,popsample_details]] final() const
+        popSampleData final() const
 
 #The following typedefs help us with the
 #frequency tracker API.

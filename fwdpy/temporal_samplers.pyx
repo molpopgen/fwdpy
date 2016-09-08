@@ -1,4 +1,6 @@
 from libcpp.string cimport string as cppstring
+from cython.operator cimport dereference as deref
+
 # distutils: language = c++
 cdef class TemporalSampler:
     cpdef size_t size(self):
@@ -53,6 +55,24 @@ cdef class QtraitStatsSampler(TemporalSampler):
             rv.push_back((<pop_properties*>(self.vec[i].get())).final())
         return rv
 
+cdef class popSamples:
+    def __cinit__(self):
+        self.thisptr = popSampleData(NULL)
+    cdef assign(self,popSampleData d):
+        self.thisptr=d
+    def data(self):
+        """
+        Returns a copy of the raw data to Python.
+        """
+        return deref(self.thisptr.get())
+    def yield_data(self):
+        """
+        Return a generator to the raw data
+        """
+        cdef size_t i
+        for i in range(self.thisptr.get().size()):
+            yield deref(self.thisptr.get())[i]
+
 cdef class PopSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` that takes a sample of size :math:`n \leq N` from the population.
@@ -92,7 +112,9 @@ cdef class PopSampler(TemporalSampler):
         rv=[]
         cdef size_t i=0
         for i in range(self.vec.size()):
-            rv.append((<sample_n*>(self.vec[i].get())).final())
+            p=popSamples()
+            p.assign(<popSampleData>((<sample_n*>(self.vec[i].get())).final()))
+            rv.append(p)
         return rv
 
 cdef class VASampler(TemporalSampler):
