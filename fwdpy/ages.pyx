@@ -58,8 +58,9 @@ def tidy_trajectories(trajectories, unsigned min_sojourn = 0, double min_freq = 
 
     .. note:: The sojourn time filter is not applied to fixations.  I'm assuming you are always interested in those.
 
-    :rtype: A list of dicts describing the trajectories.  If a list is input, then a generator to the results is
-    returned.
+    The frequency data for each generation for each mutation are represesnted as a dict.
+
+    :rtype: list of dicts or generator to such a list
     """
     cdef numeric_limits[unsigned] ul
     cdef unsigned raf = ul.max()
