@@ -1,9 +1,9 @@
-#include <algorithm>
-#include <stdexcept>
-
 #include "allele_ages.hpp"
 #include <algorithm>
+#include <algorithm>
 #include <iostream>
+#include <stdexcept>
+
 using namespace std;
 
 namespace fwdpy
@@ -85,7 +85,7 @@ namespace fwdpy
                                   [](const element_t &a, const element_t &b) {
                                       return a.second <= b.second;
                                   });
-                return (mx->second < minfreq);
+                return (mx->second >= minfreq);
             }
         return true;
     }
@@ -108,7 +108,7 @@ namespace fwdpy
                 if (!ti.second.empty() && (ti.second.size() >= min_sojourn
                                            || ti.second.back().second == 1.0)
                     && ti.first.origin <= remove_arose_after
-                    && ti.second.back().first > remove_arose_after
+                    && ti.second.back().first > remove_gone_before
                     && passes_minfreq_test(min_freq, ti.second))
                     {
                         for (auto &&f : ti.second)
