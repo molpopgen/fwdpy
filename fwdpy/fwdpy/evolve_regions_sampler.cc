@@ -56,6 +56,11 @@ namespace fwdpy
         for (size_t g = 0; g < simlen; ++g, ++pop->generation)
             {
                 const unsigned nextN = *(Nvector + g);
+                if (interval && pop->generation
+                    && (pop->generation) % interval == 0.)
+                    {
+                        s(pop, pop->generation);
+                    }
                 KTfwd::experimental::sample_diploid(
                     rng, pop->gametes, pop->diploids, pop->mutations,
                     pop->mcounts, pop->N, nextN, mu_tot,
@@ -65,17 +70,16 @@ namespace fwdpy
                     recpos, fitness->fitness_function, pop->neutral,
                     pop->selected, f, local_rules);
                 pop->N = nextN;
-                if (interval && pop->generation
-                    && (pop->generation + 1) % interval == 0.)
-                    {
-                        s(pop, pop->generation + 1);
-                    }
                 KTfwd::update_mutations(
                     pop->mutations, pop->fixations, pop->fixation_times,
                     pop->mut_lookup, pop->mcounts, pop->generation, 2 * nextN);
                 // Allow fitness model to update any data that it may need
                 // fitness->update(pop);
                 assert(KTfwd::check_sum(pop->gametes, 2 * nextN));
+            }
+        if (interval && pop->generation && (pop->generation) % interval == 0.)
+            {
+                s(pop, pop->generation);
             }
         // Update population's size variable to be the current pop size
         pop->N = unsigned(pop->diploids.size());
