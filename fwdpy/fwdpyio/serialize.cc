@@ -37,7 +37,7 @@ namespace fwdpy
         vector<shared_ptr<metapop_t>>
         deserialize_metapop(const vector<string> &strings)
         {
-            return deserialize_details<metapop_t>()(strings, 0u);
+            return deserialize_details<metapop_t>()(strings, std::vector<unsigned>(0u));
         }
 
         vector<shared_ptr<multilocus_t>>

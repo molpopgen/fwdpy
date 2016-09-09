@@ -152,7 +152,7 @@ namespace fwdpy
         //! The current generation.  Start counting from zero
         unsigned generation;
         //! Constructor takes number of diploids as argument
-        singlepop_t(const unsigned &N) : base(N), generation(0) {}
+	    explicit singlepop_t(const unsigned &N) : base(N), generation(0) {}
 
         unsigned
         gen() const
@@ -262,19 +262,19 @@ namespace fwdpy
         //! Current generation.  Start counting from 0
         unsigned generation;
         //! Constructor takes list of deme sizes are aregument
-        metapop_t(const std::vector<unsigned> &Ns)
+        explicit metapop_t(const std::vector<unsigned> &Ns)
             : base(&Ns[0], Ns.size()), generation(0)
         {
         }
 
         //! Constructor takes list of deme sizes are aregument
-        metapop_t(const std::initializer_list<unsigned> &Ns)
+        explicit metapop_t(const std::initializer_list<unsigned> &Ns)
             : base(Ns), generation(0)
         {
         }
 
         //! Construct from a fwdpy::singlepop_t
-        metapop_t(const singlepop_t &p) : base(p), generation(p.generation) {}
+        explicit metapop_t(const singlepop_t &p) : base(p), generation(p.generation) {}
 
         unsigned
         gen() const
@@ -330,7 +330,7 @@ namespace fwdpy
         {
             *this = serialize_objects::deserialize_details<metapop_t>()(
                 s, KTfwd::mutation_reader<metapop_t::mutation_t>(),
-                fwdpy::diploid_reader(), 0u);
+                fwdpy::diploid_reader(), std::vector<unsigned>(0u));
         }
 
         int
@@ -346,7 +346,7 @@ namespace fwdpy
         {
             *this = serialize_objects::gzdeserialize_details<metapop_t>()(
                 KTfwd::mutation_reader<metapop_t::mutation_t>(),
-                fwdpy::diploid_reader(), filename, offset, 0u);
+                fwdpy::diploid_reader(), filename, offset, std::vector<unsigned>(0u));
         }
     };
 
@@ -367,7 +367,7 @@ namespace fwdpy
     {
         using base = KTfwd::singlepop<KTfwd::generalmut_vec, diploid_t>;
         unsigned generation;
-        singlepop_gm_vec_t(const unsigned &N) : base(N), generation(0) {}
+        explicit singlepop_gm_vec_t(const unsigned &N) : base(N), generation(0) {}
         unsigned
         gen() const
         {
@@ -428,7 +428,7 @@ namespace fwdpy
     {
         using base = KTfwd::multiloc<KTfwd::popgenmut, fwdpy::diploid_t>;
         unsigned generation;
-        multilocus_t(const unsigned N, const unsigned nloci)
+        explicit multilocus_t(const unsigned N, const unsigned nloci)
             : base(N, nloci), generation(0)
         {
         }
