@@ -85,6 +85,7 @@ Changes to the Cython/C++ back end:
   in fwdpp 0.4.9 that made the Cython wrappers in this package
   incorrect.
 * Population objects in types.hpp now have serialization/deserialization functions.
+* Single-parameter constructors for population objects in types.hpp are now "explicit".
 
 0.0.3
 -----------------
