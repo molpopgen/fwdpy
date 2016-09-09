@@ -46,6 +46,7 @@ Changes to the Python side:
 
 * "Evolve" functions are now much more generic due to fitness function
   objects and temporal sampler objects (see below)
+* The application of temporal samplers is now consistent for all types of simulation ("pop-gen", "quant-trait", etc.)
 * Added ability to use custom fitness functions!!! On the Python side,
   these work via :class:`fwdpy.fwdpy.SpopFitness` and :class:`fwdpy.fwdpy.MlocusFitness`
 * Class names now more "Pythonic".  This will break existing scripts.
