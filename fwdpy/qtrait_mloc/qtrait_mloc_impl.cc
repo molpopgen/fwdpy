@@ -46,21 +46,27 @@ namespace fwdpy
                                              "population container");
                 }
             if (vec_sizes.size() > 1)
-                throw std::runtime_error("vectors of properties for each "
-                                         "region must be same length");
-
+                {
+                    throw std::runtime_error("vectors of properties for each "
+                                             "region must be same length");
+                }
             if (std::any_of(neutral_mutation_rates.begin(),
                             neutral_mutation_rates.end(),
                             [](double d) { return d < 0.; }))
-                throw std::runtime_error(
-                    "neutral mutation rates must be >= 0 for all loci");
-
+                {
+                    throw std::runtime_error(
+                        "neutral mutation rates must be >= 0 for all loci");
+                }
             if (f < 0. || f > 1.)
-                throw std::runtime_error(
-                    "selfing probabilty must be 0<=f<=1.");
+                {
+                    throw std::runtime_error(
+                        "selfing probabilty must be 0<=f<=1.");
+                }
             if (interval < 0)
-                throw std::runtime_error(
-                    "sampling interval must be non-negative");
+                {
+                    throw std::runtime_error(
+                        "sampling interval must be non-negative");
+                }
             std::vector<std::thread> threads;
             qtrait_mloc_rules rules(
                 sigmaE, optimum, VS,
@@ -83,7 +89,9 @@ namespace fwdpy
                         interval, rules));
                 }
             for (auto &t : threads)
-                t.join();
+                {
+                    t.join();
+                }
         }
     }
 }
