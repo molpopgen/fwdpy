@@ -152,67 +152,86 @@ namespace fwdpy
                 }
             for (unsigned i = 0; i < s.size(); ++i)
                 {
-                    auto details = get_sh_details(
-                        s[i].second, pop->mutations, pop->fixations,
-                        pop->fixation_times, pop->mcounts,
-                        pop->diploids.size(), generation, i);
-                    rv->emplace_back(std::move(s[i]), std::move(details));
-                }
-        }
-
-        final_t
-        final() const
-        {
-            return rv;
-        }
-        explicit sample_n(
-            unsigned nsam_, const gsl_rng *r_, const std::string &neutral_file,
-            const std::string &selected_file, const bool rfixed = true,
-            const bool rec_samples = true, const bool rec_sh = true,
-            const std::vector<std::pair<double, double>> &boundaries
-            = std::vector<std::pair<double, double>>(),
-            const bool append = true)
-            : rv(final_t(std::make_shared<final_t::element_type>(
-                  final_t::element_type()))),
-              nsam(nsam_), r(GSLrng_t(gsl_rng_get(r_))), nfile(neutral_file),
-              sfile(selected_file), locus_boundaries(boundaries),
-              removeFixed(rfixed), recordSamples(rec_samples),
-              recordDetails(rec_sh)
-        /*!
-          Note the implementation of this constructor!!
-
-          By taking a gsl_rng * from outside, we are able to guarantee
-          that this object is reproducibly seeded to the extent that
-          this constructor is called in a reproducible order.
-        */
-        {
-            if (!append)
-                {
-                    if (!neutral_file.empty())
+                    if (recordDetails)
                         {
-                            gzFile gz = gzopen(neutral_file.c_str(), "wb");
-                            if (gz == NULL)
+                            auto details = get_sh_details(
+                                s[i].second, pop->mutations, pop->fixations,
+                                pop->fixation_times, pop->mcounts,
+                                pop->diploids.size(), generation, i);
+                            if (recordSamples)
                                 {
-                                    throw std::runtime_error(
-                                        "could not open " + std::string(nfile)
-                                        + " in 'wb' mode");
+                                    rv->emplace_back(std::move(s[i]),
+                                                     std::move(details));
                                 }
-                            gzclose(gz);
+                            else
+                                {
+                                    rv->emplace_back(
+                                        final_t::element_type::value_type::
+                                            first_type(),
+                                        std::move(details));
+                                }
                         }
-                    if (!selected_file.empty())
+                    else if (recordSamples)
                         {
-                            gzFile gz = gzopen(selected_file.c_str(), "wb");
-                            if (gz == NULL)
-                                {
-                                    throw std::runtime_error(
-                                        "could not open " + std::string(sfile)
-                                        + " in 'wb' mode");
-                                }
-                            gzclose(gz);
+                            rv->emplace_back(std::move(s[i]),
+                                             final_t::element_type::
+                                                 value_type::second_type());
                         }
                 }
-        }
-    };
+		}
+            final_t final() const { return rv; }
+            explicit sample_n(
+                unsigned nsam_, const gsl_rng *r_,
+                const std::string &neutral_file,
+                const std::string &selected_file, const bool rfixed = true,
+                const bool rec_samples = true, const bool rec_sh = true,
+                const std::vector<std::pair<double, double>> &boundaries
+                = std::vector<std::pair<double, double>>(),
+                const bool append = true)
+                : rv(final_t(std::make_shared<final_t::element_type>(
+                      final_t::element_type()))),
+                  nsam(nsam_), r(GSLrng_t(gsl_rng_get(r_))),
+                  nfile(neutral_file), sfile(selected_file),
+                  locus_boundaries(boundaries), removeFixed(rfixed),
+                  recordSamples(rec_samples), recordDetails(rec_sh)
+            /*!
+              Note the implementation of this constructor!!
+
+              By taking a gsl_rng * from outside, we are able to guarantee
+              that this object is reproducibly seeded to the extent that
+              this constructor is called in a reproducible order.
+            */
+            {
+                if (!append)
+                    {
+                        if (!neutral_file.empty())
+                            {
+                                gzFile gz = gzopen(neutral_file.c_str(), "wb");
+                                if (gz == NULL)
+                                    {
+                                        throw std::runtime_error(
+                                            "could not open "
+                                            + std::string(nfile)
+                                            + " in 'wb' mode");
+                                    }
+                                gzclose(gz);
+                            }
+                        if (!selected_file.empty())
+                            {
+                                gzFile gz
+                                    = gzopen(selected_file.c_str(), "wb");
+                                if (gz == NULL)
+                                    {
+                                        throw std::runtime_error(
+                                            "could not open "
+                                            + std::string(sfile)
+                                            + " in 'wb' mode");
+                                    }
+                                gzclose(gz);
+                            }
+                    }
+            }
+        };
 }
 
 #endif
