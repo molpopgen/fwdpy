@@ -50,7 +50,8 @@ class test_sample_details(unittest.TestCase):
         ##find it in the "mutation view" for that replicate
         for i in range(len(samples)):
             ##Make sure that lengths match up
-            self.assertEqual(len(samples[i][1]),len(details[i]))
+            for key in details[i]:
+                self.assertEqual(len(samples[i][1]),len(details[i][key]))
             for j in range(len(samples[i][1])):
                 mm=[X for X in mviews[i] if X['pos'] == samples[i][1][j][0]]
                 ##Make sure each position is uniuqe
@@ -59,9 +60,9 @@ class test_sample_details(unittest.TestCase):
                     ##Make sure that the position is equal to what we expect
                     self.assertEqual(mmi['pos'],samples[i][1][j][0])
                     ##Make sure selection coefficient matches up
-                    self.assertEqual(mmi['s'],details[i].s[j])
+                    self.assertEqual(mmi['s'],details[i]['s'][j])
                     EP=mmi['n']/float(2000) #"expected" frequency
-                    self.assertEqual(EP,details[i].p[j])
+                    self.assertEqual(EP,details[i]['p'][j])
 
 class test_Fixations(unittest.TestCase):
     def test_CountFixationsInSample1(self):
