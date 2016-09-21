@@ -257,7 +257,7 @@ cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
 
 ctypedef shared_ptr[vector[pair[sep_sample_t,popsample_details]]] popSampleData
 
-cdef class popSamples:
+cdef class PopSamples:
     cdef popSampleData thisptr
     cdef assign(self,popSampleData d)
 

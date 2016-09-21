@@ -78,6 +78,7 @@ def get_sample_details( sample_t ms_sample, PopType pop, locusID = None ):
     :return: A dictionary of data for each mutation in the sample.
 
     :rtype: dict
+    
     Example:
 
     >>> import fwdpy,array

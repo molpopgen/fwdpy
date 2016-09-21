@@ -55,7 +55,7 @@ cdef class QtraitStatsSampler(TemporalSampler):
             rv.push_back((<pop_properties*>(self.vec[i].get())).final())
         return rv
 
-cdef class popSamples:
+cdef class PopSamples:
     def __cinit__(self):
         self.thisptr = popSampleData(NULL)
     cdef assign(self,popSampleData d):
@@ -112,7 +112,7 @@ cdef class PopSampler(TemporalSampler):
         rv=[]
         cdef size_t i=0
         for i in range(self.vec.size()):
-            p=popSamples()
+            p=PopSamples()
             p.assign(<popSampleData>((<sample_n*>(self.vec[i].get())).final()))
             rv.append(p)
         return rv
@@ -149,8 +149,7 @@ cdef class freqTrajectories:
     Internally, this type holds a C++ shared_ptr to "raw" frequency trajectory data. The smart pointer type is freqTraj,
     which is defined in fwdpy/fwdpy.pxd.
 
-    ..note:: You won't make these yourself from within Python.  Let the "get" function of
-    :class:`fwdpy.fwdpy.FreqSampler` make them for you.
+    ..note:: You won't make these yourself from within Python.  Let the "get" function of :class:`fwdpy.fwdpy.FreqSampler` make them for you.
     """
     def __cinit__(self):
         self.thisptr=freqTraj(NULL)
@@ -183,8 +182,7 @@ cdef class FreqSampler(TemporalSampler):
         """
         Retrieve the data from the sampler.
 
-        :param rep: (None) If None (the default), then data are returned for all replicates.  Otherwise, rep is the index
-        of a replicate, and that replicate's data are returned.
+        :param rep: (None) If None (the default), then data are returned for all replicates.  Otherwise, rep is the index of a replicate, and that replicate's data are returned.
 
         :raises: RuntimeError if rep is out of range.
         
