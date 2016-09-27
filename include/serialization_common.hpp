@@ -3,7 +3,6 @@
 #include <fwdpp/sugar/serialization.hpp>
 #include <sstream>
 #include <string>
-
 namespace fwdpy
 {
     namespace serialization
@@ -16,7 +15,7 @@ namespace fwdpy
         {
             KTfwd::serialize rv;
             std::ostringstream buffer;
-            buffer.write(reinterpret_cast<const char *>((pop->generation)),
+            buffer.write(reinterpret_cast<const char *>((&pop->generation)),
                          sizeof(unsigned));
             rv(buffer, *pop, mwriter, dipwriter);
             return buffer.str();
