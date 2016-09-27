@@ -10,22 +10,19 @@ namespace fwdpy
         string
         serialize_singlepop(const fwdpy::singlepop_t *pop)
         {
-            return serialization::serialize_details(
-                pop, KTfwd::mutation_writer(), fwdpy::diploid_writer());
+			return pop->serialize();
         }
 
         string
         serialize_metapop(const fwdpy::metapop_t *pop)
         {
-            return serialization::serialize_details(
-                pop, KTfwd::mutation_writer(), fwdpy::diploid_writer());
+			return pop->serialize();
         }
 
         string
         serialize_multilocus(const fwdpy::multilocus_t *pop)
         {
-            return serialization::serialize_details(
-                pop, KTfwd::mutation_writer(), fwdpy::diploid_writer());
+			return pop->serialize();
         }
 
         vector<shared_ptr<singlepop_t>>

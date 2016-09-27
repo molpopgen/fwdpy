@@ -28,12 +28,7 @@ namespace fwdpy
                         buffer.str(strings[i]);
                         buffer.seekg(0);
                         poptype pop(cdata...);
-                        buffer.read(reinterpret_cast<char *>(&pop.generation),
-                                    sizeof(unsigned));
-                        KTfwd::deserialize d;
-                        d(pop, buffer,
-                          KTfwd::mutation_reader<KTfwd::popgenmut>(),
-                          fwdpy::diploid_reader());
+						pop.deserialize(buffer.str());
                         rv.emplace_back(std::shared_ptr<poptype>(
                             new poptype(std::move(pop))));
                     }
