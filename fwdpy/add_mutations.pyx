@@ -30,7 +30,7 @@ def add_mutation(PopType p,
     >>> x
     0
     >>> fp.view_mutations(p[0])
-    [{'g': 0, 'h': 1.0, 'neutral': True, 'pos': 0.01, 's': 0.0, 'label': 0, 'n': 4}]
+    [{'g': 0, 'h': 1.0, 'pos': 0.01, 'n': 4, 's': 0.0, 'ftime': 4294967295, 'label': 0, 'neutral': True}]
     """
     if isinstance(p,Spop):
         return add_mutation_cpp((<Spop>p).pop.get(),indlist,clist,pos,s,h)
