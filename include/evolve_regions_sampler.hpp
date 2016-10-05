@@ -9,7 +9,7 @@
 namespace fwdpy
 {
     void evolve_regions_sampler_cpp(
-        GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> *pops,
+        GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> &pops,
         std::vector<std::unique_ptr<sampler_base>> &samplers,
         const unsigned *Nvector, const size_t Nvector_length,
         const double mu_neutral, const double mu_selected,

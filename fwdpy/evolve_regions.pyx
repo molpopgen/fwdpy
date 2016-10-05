@@ -241,5 +241,5 @@ def evolve_regions_sampler_fitness(GSLrng rng,
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
-    evolve_regions_sampler_cpp(rng.thisptr,&pops.pops,
+    evolve_regions_sampler_cpp(rng.thisptr,pops.pops,
                                slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sample,rmgr.thisptr,deref(fitness_function.wfxn.get()))

@@ -380,7 +380,7 @@ cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
     void evolve_regions_sampler_cpp( GSLrng_t * rng,
-				     vector[shared_ptr[singlepop_t]] * pops,
+				     vector[shared_ptr[singlepop_t]] & pops,
 				     vector[unique_ptr[sampler_base]] & samplers,
 				     const unsigned * Nvector,
 				     const size_t Nvector_length,

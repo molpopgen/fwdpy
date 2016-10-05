@@ -38,7 +38,7 @@ namespace fwdpy
     {
         void
         evolve_regions_qtrait_cpp(
-            GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> *pops,
+            GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> &pops,
             std::vector<std::unique_ptr<sampler_base>> &samplers,
             const unsigned *Nvector, const size_t Nvector_length,
             const double neutral, const double selected, const double recrate,
@@ -53,7 +53,7 @@ namespace fwdpy
                                              "rates must all be "
                                              "non-negative.");
                 }
-            if (samplers.size() != pops->size())
+            if (samplers.size() != pops.size())
                 {
                     throw std::runtime_error("length of samplers != length of "
                                              "population container");
@@ -69,16 +69,16 @@ namespace fwdpy
                 sigmaE, optimum, VS,
                 *std::max_element(Nvector, Nvector + Nvector_length));
             std::vector<std::unique_ptr<singlepop_fitness>> fitnesses;
-            for (std::size_t i = 0; i < pops->size(); ++i)
+            for (std::size_t i = 0; i < pops.size(); ++i)
                 {
                     fitnesses.emplace_back(
                         std::unique_ptr<singlepop_fitness>(fitness.clone()));
                 }
-            for (std::size_t i = 0; i < pops->size(); ++i)
+            for (std::size_t i = 0; i < pops.size(); ++i)
                 {
                     threads.emplace_back(std::thread(
                         evolve_regions_qtrait_sampler_cpp_details<qtrait_model_rules>,
-                        pops->operator[](i).get(), gsl_rng_get(rng->get()),
+                        pops[i].get(), gsl_rng_get(rng->get()),
                         Nvector, Nvector_length, neutral, selected, recrate, f,
                         sigmaE, optimum, VS, std::ref(fitnesses[i]), interval,
                         KTfwd::extensions::discrete_mut_model(

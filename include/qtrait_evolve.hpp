@@ -12,6 +12,7 @@
 #include <future>
 #include <fwdpp/diploid.hh>
 #include <fwdpp/extensions/regions.hpp>
+#include <fwdpp/experimental/sample_diploid.hpp>
 #include <type_traits>
 #include <vector>
 
@@ -84,7 +85,7 @@ namespace fwdpy
         }
 
         void evolve_regions_qtrait_cpp(
-            GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> *pops,
+            GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> &pops,
             std::vector<std::unique_ptr<sampler_base>> &samplers,
             const unsigned *Nvector, const size_t Nvector_length,
             const double neutral, const double selected, const double recrate,

@@ -92,7 +92,7 @@ namespace fwdpy
 
     void
     evolve_regions_sampler_cpp(
-        GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> *pops,
+        GSLrng_t *rng, std::vector<std::shared_ptr<singlepop_t>> &pops,
         std::vector<std::unique_ptr<sampler_base>> &samplers,
         const unsigned *Nvector, const size_t Nvector_length,
         const double mu_neutral, const double mu_selected,
@@ -113,16 +113,16 @@ namespace fwdpy
         std::vector<std::thread> threads;
         wf_rules rules;
         std::vector<std::unique_ptr<singlepop_fitness>> fitnesses;
-        for (std::size_t i = 0; i < pops->size(); ++i)
+        for (std::size_t i = 0; i < pops.size(); ++i)
             {
                 fitnesses.emplace_back(
                     std::unique_ptr<singlepop_fitness>(fitness.clone()));
             }
-        for (std::size_t i = 0; i < pops->size(); ++i)
+        for (std::size_t i = 0; i < pops.size(); ++i)
             {
                 threads.emplace_back(std::thread(
                     evolve_regions_sampler_cpp_details,
-                    pops->operator[](i).get(), gsl_rng_get(rng->get()),
+                    pops[i].get(), gsl_rng_get(rng->get()),
                     Nvector, Nvector_length, mu_neutral, mu_selected, littler,
                     f, std::ref(fitnesses[i]), sample,
                     KTfwd::extensions::discrete_mut_model(
