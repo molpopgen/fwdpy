@@ -93,5 +93,56 @@ namespace fwdpy
                     t.join();
                 }
         }
+
+        void
+        evolve_qtrait_mloc_regions_cpp(
+            GSLrng_t *rng, std::vector<std::shared_ptr<multilocus_t>> *pops,
+            std::vector<std::unique_ptr<sampler_base>> &samplers,
+            const unsigned *Nvector, const size_t Nvector_length,
+            const internal::region_manager *rm,
+            const std::vector<double> &between_region_rec_rates,
+            const double f, const double sigmaE, const double optimum,
+            const double VS, const int interval,
+            const multilocus_fitness &fitness)
+        {
+            if (samplers.size() != pops->size())
+                {
+                    throw std::runtime_error("length of samplers != length of "
+                                             "population container");
+                }
+            if (f < 0. || f > 1.)
+                {
+                    throw std::runtime_error(
+                        "selfing probabilty must be 0<=f<=1.");
+                }
+            if (interval < 0)
+                {
+                    throw std::runtime_error(
+                        "sampling interval must be non-negative");
+                }
+            std::vector<std::thread> threads;
+            qtrait_mloc_rules rules(
+                sigmaE, optimum, VS,
+                *std::max_element(Nvector, Nvector + Nvector_length));
+            std::vector<std::unique_ptr<multilocus_fitness>> fitnesses;
+            for (std::size_t i = 0; i < pops->size(); ++i)
+                {
+                    fitnesses.emplace_back(
+                        std::unique_ptr<multilocus_fitness>(fitness.clone()));
+                }
+            for (std::size_t i = 0; i < pops->size(); ++i)
+                {
+                    threads.emplace_back(std::thread(
+                        evolve_qtrait_mloc_regions_cpp_details<qtrait_mloc_rules>,
+                        pops->operator[](i).get(), std::ref(fitnesses[i]),
+                        std::ref(*samplers[i]), gsl_rng_get(rng->get()), 
+						Nvector,Nvector_length,rm,
+                        between_region_rec_rates, f, interval, rules));
+                }
+            for (auto &t : threads)
+                {
+                    t.join();
+                }
+        }
     }
 }

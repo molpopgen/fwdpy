@@ -37,40 +37,31 @@ rnge=fp.GSLrng(100)
 nlist=np.array(get_nlist(),dtype=np.uint32)
 theta_neutral=100.0
 rho_per_locus=100.0
-total_theta=5e4
-total_rho=total_theta
-thetas=[]
-rhos=[]
-for i in range(49):
-    thetas.append(theta_neutral)
-    thetas.append(0.9*total_theta/49)
-    rhos.append(rho_per_locus)
-    rhos.append(0.9*total_rho/49)
-thetas.append(theta_neutral)
-rhos.append(rho_per_locus)
 f=qtm.MlocusAdditiveTrait()
-delmuts=[0.0]*len(thetas)
-for i in range(0,100,2):
-    delmuts[i]=1e-3
+delmuts=[1e-3]*NLOCI
 mmodels=[fp.GaussianS(0,1,1,0.25)]*len(delmuts)
-nmuts=[i/(4.0*float(nlist[0])) for i in thetas]
-recrates=[i/(4.0*float(nlist[0])) for i in rhos]
-print(sum(nmuts))
-print(sum(recrates))
-sys.exit(1)
+for i in mmodels:
+    print i
+nmuts=[theta_neutral/float(4*nlist[0])]*NLOCI
+recrates=[theta_neutral/float(4*nlist[0])]*NLOCI
+
 pfile = gzip.open("pickle_out.p","wb")
+
 for i in range(1):
-    x = fp.MlocusPopVec(NREPS,nlist[0],len(thetas))
+    x = fp.MlocusPopVec(NREPS,nlist[0],NLOCI)
     sampler=fp.NothingSampler(len(x))
 
     qtm.evolve_qtraits_mloc_sample_fitness(rnge,x,sampler,f,
-            nlist,
+            nlist[:5000],
             nmuts,
             delmuts,
             mmodels,
             recrates,
-            [0.0]*(len(rhos)-1),sample=0,
+            [0.0]*(NLOCI-1),sample=0,
             VS=2,optimum=0.)
+    v = fp.view_mutations(x)
+    for i in v:
+        print i
     for i in x:
         d=fpio.serialize(i)
         pickle.dump(d,pfile)

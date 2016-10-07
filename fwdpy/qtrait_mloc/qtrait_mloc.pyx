@@ -58,5 +58,15 @@ cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
 			         const double VS,
                                  const int sample,
 			         const multilocus_fitness & fitness ) except +
+
+    void evolve_qtrait_mloc_regions_cpp(GSLrng_t *rng,
+            vector[shared_ptr[multilocus_t]] *pops,
+            vector[unique_ptr[sampler_base]] &samplers,
+            const unsigned *Nvector, const size_t Nvector_length,
+            const region_manager * rm,
+            const vector[double] &between_region_rec_rates,
+            const double f, const double sigmaE, const double optimum,
+            const double VS, const int interval,
+            const multilocus_fitness &fitness) except +
     
 include "evolve_qtraits_mloc.pyx"
