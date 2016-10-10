@@ -44,6 +44,9 @@ def evolve_qtraits_mloc_regions_sample_fitness(GSLrng rng,
                                        double VS = 1.0):
     if sample<0:
         raise RuntimeError("sample must be >= 0")
+    if recrates_between.size() != len(nregions)-1:
+        raise RuntimeError("There must be i-1 between-locus crossover rates for an i-locus simulation")
+
     cdef size_t nlen=len(nlist)
     rmgr = region_manager_wrapper()
     make_region_manager(rmgr,nregions,sregions,recregions)
