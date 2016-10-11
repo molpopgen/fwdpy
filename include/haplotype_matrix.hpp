@@ -279,7 +279,10 @@ namespace fwdpy
 		if(pop->mcounts[m]<2*pop->diploids.size())
 		  update_matrix(m,row,keys.second,rv.s);
 	      }
-	    ++row;
+	  }
+	  ++row;
+	for( auto & locus : pop->diploids[dip] )
+	  {
 	    for( auto & m : pop->gametes[locus.second].mutations)
 	      {
 		if(pop->mcounts[m]<2*pop->diploids.size())
@@ -290,9 +293,11 @@ namespace fwdpy
 		if(pop->mcounts[m]<2*pop->diploids.size())
 		  update_matrix(m,row,keys.second,rv.s);
 	      }
-	    ++row;
 	  }
-      }
+	  ++row;
+	  
+    }
+    if (row!=rv.nrow) throw std::runtime_error("fatal error: row != rv.nrow");
     return rv;
   }
 
