@@ -163,7 +163,7 @@ The configure script will enforce minimum version numbers of these dependencies,
 .. note:: fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
 
 You also need a C++11-compliant compiler.  For linux users, GCC 4.8 or
-newer should suffice.  OS X users must use the clang-omp package from brew_.
+newer should suffice.  OS X users must use the clang-omp package from brew_, or gcc6 from brew_ if they use Anaconda.
 
 You may use one or the other of these libraries, but not both.  See the Performance subsection of the Installation section below for how to use these libraries.
 
@@ -193,7 +193,33 @@ The required Python package dependencies are in the requirements.txt file that c
 Anaconda (and OS X, again...)
 ------------------------------------
 
-Users have run into issues getting fwdpy working with Anaconda-based Python installations.  In fact, I've been unable to get the package to compile on OS X using Anaconda.  I recommend that OS X users use Python3 installed bia Homebrew in lieu of Anaconda.
+Users have run into issues getting fwdpy working with Anaconda-based Python installations. 
+
+I have successfully installed fwdpy on Ubuntu 16.04 using Python 2.7 from Anaconda.  It "just worked" for me.
+
+On OS X, things are trickier.  For some reason that I cannot understand, clang-omp is not able to compile fwdpy when using an Anaconda installation.  Basically, this fails:
+
+.. code-block:: bash
+
+    $ CC=clang-omp CXX=clang-omp++ pip install . --install-option=--use-cython
+
+Further, the compilation errors are not sensible to me.  Something is simply wrong here, and I won't investigate it futher.
+
+However, I was able to install fwdpy on OS X using Anaconda/Python3.5 using gcc6 from brew_.  The caveat is that libsequnce_ must also be installed using the same compiler!!!!  
+
+For libsequence_,
+
+.. code-block:: bash
+
+    $ CC=gcc6 CXX=g++6 ./configure
+    $ make
+    $ make install
+
+Then, for fwdpy:
+
+.. code-block:: bash
+
+    $ CC=gcc6 CXX=g++6 pip install . --install-option=--use-cython
 
 
 What Python version?
