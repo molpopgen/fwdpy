@@ -15,7 +15,7 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 from cython_gsl cimport gsl_rng,gsl_ran_discrete_t
-from libc.stdint cimport uint16_t
+from libc.stdint cimport uint16_t,uint32_t
 
 ##We will expose some low-level types from fwdpp:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
@@ -26,8 +26,8 @@ cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
 
     cdef cppclass gamete_base[T]:
         unsigned n
-        vector[size_t] mutations
-        vector[size_t] smutations
+        vector[uint32_t] mutations
+        vector[uint32_t] smutations
 
 cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
     cdef cppclass popgenmut(mutation_base):
