@@ -285,6 +285,15 @@ The command to install fwdpy from GitHub must be told which compilers to use.  N
 
     $ CC=gcc CXX=g++ pip install git+git://github.com/molpopgen/fwdpy@dev --install-option="--use-cython"
 
+Finally, it is wise for OS X users to add the following to their .bash_profiles:
+
+.. code_block:: bash
+
+    $ LD_LIBRARY_PATH=$HOME/anaconda3/lib
+    $ export LD_LIBRARY_PATH
+
+Again, substitute anaconda2 as necessary.  For the record, no idea why this is needed on OS X but not Linux...
+
 What Python version?
 ==================================
 
