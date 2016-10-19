@@ -193,34 +193,95 @@ The required Python package dependencies are in the requirements.txt file that c
 Anaconda (and OS X, again...)
 ------------------------------------
 
-Users have run into issues getting fwdpy working with Anaconda-based Python installations. 
+Anaconda_ allows user to manage their own Python installations for themselves. It is expecially useful on systems where you don't have root access.  Anaconda_ works by installing intself into $HOME/anaconda2 (for Python2) or $HOME/anaconda3 (for Python3).  Further, it works best if all dependencies are also installed in the same location.
 
-I have successfully installed fwdpy on Ubuntu 16.04 using Python 2.7 from Anaconda.  It "just worked" for me.
+An advantage of Anaconda_ is that you can avoid some of the complications involved in managing dependencies. By using Anaconda_'s installation of the GCC compiler, you can can guarantee that dependencies are compatible with one another (*i.e.* no "ABI compatibility" issues).  However, this means you must manage the installation of the dependencies yourself.  Here, I outline how to do, based on what worked for me on my Ubuntu 16.04 system.
 
-On OS X, things are trickier.  For some reason that I cannot understand, clang-omp is not able to compile fwdpy when using an Anaconda installation.  Basically, this fails:
+.. note:: The "recipes" below were all tested on new user accounts, thus avoiding any complications due to settings in my main accounts.
 
-.. code-block:: bash
+Ubuntu
+=====================
 
-    $ CC=clang-omp CXX=clang-omp++ pip install . --install-option=--use-cython
+I am assuming that Anaconda_ for Python2 is installed. I'm further assuming that this all works for their Python3 installation, as fwdpy is compatible with both major versions of Python. Finally, I assume that $HOME/anaconda2/bin is prepended to your $PATH, meaning that Anaconda_ binaries are preferred over system binaries.
 
-Further, the compilation errors are not sensible to me.  Something is simply wrong here, and I won't investigate it futher.
-
-However, I was able to install fwdpy on OS X using Anaconda/Python3.5 using gcc6 from brew_.  The caveat is that libsequnce_ must also be installed using the same compiler!!!!  
-
-For libsequence_,
+First, install Anaconda_'s GCC, GSL_, and zlib:
 
 .. code-block:: bash
 
-    $ CC=gcc6 CXX=g++6 ./configure
-    $ make
-    $ make install
+    $ conda install gcc
+    $ conda install gsl
+    $ conda install zlib
 
-Then, for fwdpy:
+Now, we wish to install libsequence_, which depends on Intel's TBB library, which we will install as follows:
 
 .. code-block:: bash
 
-    $ CC=gcc6 CXX=g++6 pip install . --install-option=--use-cython
+    $ conda install -c dlr-sc tbb=4.3.6
 
+Get libsequence_'s dev branch and install:
+
+.. code-block:: bash
+
+    $ git clone http://github.com/molpopgen/libsequence
+    $ cd libsequence
+    $ git branch dev
+    $ ./configure --prefix=$HOME/anaconda2
+    $ #change -j to some number of threads
+    $ #appropriate for your machine
+    $ make -j 40 && make install
+
+Get fwdpp_'s dev branch and install:
+
+.. code-block:: bash
+
+    $ git clone http://github.com/molpopgen/fwdpp
+    $ cd fwdpp
+    $ git branch dev
+    $ ./configure --prefix=$HOME/anaconda2
+    $ make && make install
+
+Install cythonGSL_, which is a dependency for fwdpy:
+
+.. code-block:: bash
+
+    $ pip install cythongsl
+
+Get the dev branch of fwdpy and install:
+
+.. code-block:: bash
+
+    $ pip install git+git://github.com/molpopgen/fwdpy@dev --install-option="--use-cython"
+
+The result of all of the above is:
+
+* All dependencies are compiled with the same version of GCC, which is whatever Anaconda_ is currently using (GCC 4.8.5 at the time of this writing).
+* All dependencies get installed into $HOME/anaconda2
+* fwdpy is installed and linked against the dependencies in $HOME/anaconda2
+
+OS X
+=====================
+
+As is too often the case, the situation on OS X is more complex.  If you want to use Anaconda_ on OS X, then the following worked for me.  I did it using a Python3 installation this time, just for fun.
+
+For OS X, we will rely on installing the Anaconda_ GCC.  It is also possible to use GCC6 from brew_, but I will not document that here, and instead focus on the path of least resistance, which is an "all 'conda" approach.
+
+.. note:: Installing Anaconda_ GCC means that compiler will be preferrred over the Xcode installation of clang, which is aliased to GCC on OS X.  Thus, there may be side effects when you play outside the Anaconda world.
+
+All of the steps shown above for Ubuntu work, with the following modifications:
+
+Any steps involving a "./configure" command need to have $HOME/anaconda[2|3]/include added to CPPFLAGS:
+
+.. code-block:: bash
+
+    $ CPPFLAGS="-I$HOME/anaconda3/include" ./configure --prefix=$HOME/anaconda3
+
+(Use anaconda2 instead of anaconda3 as needed.)
+
+The command to install fwdpy from GitHub must be told which compilers to use.  No idea why, but Anaconda_ on OS X really likes to force the use of clang!
+
+.. code-block:: bash
+
+    $ CC=gcc CXX=g++ pip install git+git://github.com/molpopgen/fwdpy@dev --install-option="--use-cython"
 
 What Python version?
 ==================================
@@ -475,3 +536,4 @@ Then, load html/index.html in your browser.
 .. _doxygen: http://doxygen.org
 .. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
 .. _libsequence: http://molpopgen.github.io/libsequence
+.. _Anaconda: https://www.continuum.io/why-anaconda
