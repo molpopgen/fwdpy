@@ -193,6 +193,8 @@ The required Python package dependencies are in the requirements.txt file that c
 Anaconda (and OS X, again...)
 ------------------------------------
 
+**As things stabilize, the dependencies, etc., will be installable from Bioconda.**
+
 Anaconda_ allows user to manage their own Python installations for themselves. It is expecially useful on systems where you don't have root access.  Anaconda_ works by installing intself into $HOME/anaconda2 (for Python2) or $HOME/anaconda3 (for Python3).  Further, it works best if all dependencies are also installed in the same location.
 
 An advantage of Anaconda_ is that you can avoid some of the complications involved in managing dependencies. By using Anaconda_'s installation of the GCC compiler, you can can guarantee that dependencies are compatible with one another (*i.e.* no "ABI compatibility" issues).  However, this means you must manage the installation of the dependencies yourself.  Here, I outline how to do, based on what worked for me on my Ubuntu 16.04 system.
