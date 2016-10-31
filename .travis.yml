@@ -44,7 +44,7 @@ install:
     - conda install gcc
     # Need GSL 1.16, which is the "bioconda-approved" version
     - conda install -c r gsl
-    - conda install -c bioconda libsequence 
+    - conda install -c bioconda libsequence fwdpp
 script:
     - export LD_LIBRARY_PATH=$HOME/miniconda/lib
     - export CPPFLAGS="-I$HOME/miniconda/include $CPPFLAGS"
