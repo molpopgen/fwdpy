@@ -241,7 +241,7 @@ setup(name='fwdpy',
       packages=PKGS,
       py_modules=[],
       scripts=[],
-      data_files=[(doc_dir, ['COPYING', 'README.rst'])],
+      data_files=[('pylibseq',['COPYING', 'README.rst'])],
       ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
       headers=glob.glob("include/*.hpp"),
       package_data={'fwdpy':['*.pxd'],
