@@ -52,5 +52,6 @@ script:
     - export CPPFLAGS="-I$HOME/miniconda/include $CPPFLAGS"
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
     #- pip install --upgrade Cython  cythongsl
-    - python setup.py build_ext -i --use-cython --qtrait
+    #We must force OS X to use GCC.
+    - CC=gcc CXX=g++ python setup.py build_ext -i --use-cython --qtrait
     - python -m unittest discover fwdpy/tests
