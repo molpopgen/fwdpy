@@ -50,6 +50,6 @@ script:
     - export LD_LIBRARY_PATH=$HOME/miniconda/lib
     - export CPPFLAGS="-I$HOME/miniconda/include $CPPFLAGS"
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
-    - pip install --upgrade cython cythongsl
+    - pip install --upgrade Cython  cythongsl
     - python setup.py build_ext -i --use-cython --qtrait
     - python -m unittest discover unit_test
