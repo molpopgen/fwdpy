@@ -155,6 +155,7 @@ This package *minimally* depends on:
 
 * GSL_
 * fwdpp_
+* libsequence_
 
 The configure script will enforce minimum version numbers of these dependencies, if necessary.
 
