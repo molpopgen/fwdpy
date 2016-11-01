@@ -45,11 +45,12 @@ install:
     # Need GSL 1.16, which is the "bioconda-approved" version
     - conda install -c r gsl
     - conda install -c bioconda libsequence fwdpp
-    - conda install pandas numpy
+    - conda install pandas numpy Cython
+    - conda install -c conda-forge cythongsl=0.2.1
 script:
     - export LD_LIBRARY_PATH=$HOME/miniconda/lib
     - export CPPFLAGS="-I$HOME/miniconda/include $CPPFLAGS"
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
-    - pip install --upgrade Cython  cythongsl
+    #- pip install --upgrade Cython  cythongsl
     - python setup.py build_ext -i --use-cython --qtrait
     - python -m unittest discover unit_test
