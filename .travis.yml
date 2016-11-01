@@ -53,4 +53,4 @@ script:
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
     #- pip install --upgrade Cython  cythongsl
     - python setup.py build_ext -i --use-cython --qtrait
-    - python -m unittest discover unit_test
+    - python -m unittest discover fwdpy/tests
