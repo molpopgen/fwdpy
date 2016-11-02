@@ -243,7 +243,7 @@ namespace fwdpy
                 0.,
                 [](double a, double b) { return a + gsl_sf_pow_int(b, 2); });
             SumOfSquares += RSS; // add in the RSS.
-            std::set<std::size_t> ucounts(
+            std::set<KTfwd::uint_t> ucounts(
                 { mut_key_counts.begin(), mut_key_counts.end() });
             double ttl_rsq = 0.0, ttl_adj_rsq = 0.0;
             double DFsum = double(genotypes->size1 - 1);
@@ -253,7 +253,7 @@ namespace fwdpy
                     // Get all mutations in regression with this frequency
                     auto er = std::equal_range(
                         mut_key_counts.begin(), mut_key_counts.end(), uc,
-                        [](const std::size_t a, const std::size_t b) {
+                        [](const KTfwd::uint_t a, const KTfwd::uint_t b) {
                             return a > b;
                         });
                     // Get the sum of squares for this frequency bin
@@ -280,7 +280,7 @@ namespace fwdpy
         // regression_results regression_details(const gsl_vector_ptr_t & G,
         std::vector<std::size_t>
         prune_matrix(gsl_matrix *genotypes,
-                     const std::vector<size_t> &mut_keys,
+                     const std::vector<KTfwd::uint_t> &mut_keys,
                      const std::vector<KTfwd::uint_t> &mut_key_counts)
         /*!
           Handles ugly details of the regression:
@@ -383,10 +383,10 @@ namespace fwdpy
         }
 
         template <typename pop_t>
-        std::vector<std::size_t>
+        std::vector<KTfwd::uint_t>
         get_mut_keys(const pop_t *pop)
         {
-            std::vector<std::size_t> mut_keys; // array of keys for each
+            std::vector<KTfwd::uint_t> mut_keys; // array of keys for each
                                                // segregating, non-neutral
                                                // variant
             std::set<KTfwd::uint_t>
@@ -407,7 +407,7 @@ namespace fwdpy
 
             // Now, I need to sort based on frequency, descending order
             std::sort(mut_keys.begin(), mut_keys.end(),
-                      [&pop](std::size_t a, std::size_t b) {
+                      [&pop](KTfwd::uint_t a, KTfwd::uint_t b) {
                           return pop->mcounts[a] > pop->mcounts[b];
                       });
             // Within each frequency class, sort in descending order via
@@ -415,15 +415,15 @@ namespace fwdpy
             for (auto uc : ucounts)
                 {
                     auto itr_b = std::find_if(mut_keys.begin(), mut_keys.end(),
-                                              [&pop, uc](std::size_t a) {
+                                              [&pop, uc](KTfwd::uint_t a) {
                                                   return pop->mcounts[a] == uc;
                                               });
                     auto itr_e = std::find_if(itr_b + 1, mut_keys.end(),
-                                              [&pop, uc](std::size_t a) {
+                                              [&pop, uc](KTfwd::uint_t a) {
                                                   return pop->mcounts[a] != uc;
                                               });
                     std::sort(itr_b, itr_e,
-                              [&pop](std::size_t a, std::size_t b) {
+                              [&pop](KTfwd::uint_t a, KTfwd::uint_t b) {
                                   return std::fabs(pop->mutations[a].s)
                                          > std::fabs(pop->mutations[b].s);
                               });
@@ -434,7 +434,7 @@ namespace fwdpy
         template <typename pop_t>
         gsl_matrix_ptr_t
         make_variant_matrix(const pop_t *pop,
-                            const std::vector<std::size_t> &mut_keys)
+                            const std::vector<KTfwd::uint_t> &mut_keys)
         {
             gsl_matrix_ptr_t rv(
                 gsl_matrix_alloc(pop->diploids.size(), 1 + mut_keys.size()));
@@ -448,7 +448,7 @@ namespace fwdpy
         void
         update_row_details(gsl_matrix *m, const typename pop_t::gamete_t &g,
                            const pop_t *pop,
-                           const std::vector<std::size_t> &mut_keys,
+                           const std::vector<KTfwd::uint_t> &mut_keys,
                            const size_t row)
         {
             for (auto &&k : g.smutations)
@@ -484,7 +484,7 @@ namespace fwdpy
         template <typename pop_t, typename diploid_t>
         void
         update_matrix_counts_details(gsl_matrix *m, const pop_t *pop,
-                                     const std::vector<std::size_t> &mut_keys,
+                                     const std::vector<KTfwd::uint_t> &mut_keys,
                                      const diploid_t &dip, const size_t row)
         {
             update_row_details(m, pop->gametes[dip.first], pop, mut_keys, row);
@@ -495,7 +495,7 @@ namespace fwdpy
         template <typename pop_t>
         void
         update_matrix_counts(const pop_t *pop,
-                             const std::vector<std::size_t> &mut_keys,
+                             const std::vector<KTfwd::uint_t> &mut_keys,
                              gsl_matrix *rv)
         {
             // Fill the matrix
@@ -540,7 +540,7 @@ namespace fwdpy
     template <>
     inline void
     additive_variance::update_matrix_counts<multilocus_t>(
-        const multilocus_t *pop, const std::vector<std::size_t> &mut_keys,
+        const multilocus_t *pop, const std::vector<KTfwd::uint_t> &mut_keys,
         gsl_matrix *rv)
     /*!
       Return a 0,1,2 matrix of counts of causative alleles in each diploid.
