@@ -6,11 +6,21 @@
 #include <vector>
 #include <algorithm>
 #include <set>
+#include <cstddef>
 #include "types.hpp"
 namespace fwdpy
 {
     namespace gsl_data_matrix
     {
+		struct geno_matrix
+		{
+			std::vector<double> G,m;
+			std::size_t ncol,nrow;
+			geno_matrix() : G{},m{},ncol{0},nrow{0}
+			{
+			}
+		};
+
         template <typename pop_t>
         std::vector<KTfwd::uint_t>
         get_mut_keys(const pop_t *pop, const bool sort_freq = false,

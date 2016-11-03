@@ -1,3 +1,4 @@
+# distutils: language = c++
 #This is a custom temporal sampler
 #Currently, only singlepop and multilocus pop are supported
 
@@ -5,19 +6,16 @@ from fwdpy.gsl cimport *
 from fwdpy.gsl_data_matrix cimport  *
 from fwdpy.fwdpy cimport TemporalSampler,sampler_base,custom_sampler_data,singlepop_t,multilocus_t,uint
 from libcpp.vector cimport vector
+from libcpp.memory cimport shared_ptr
 from libcpp.utility cimport pair
 from cython_gsl cimport gsl_matrix_alloc,gsl_matrix_set_zero,gsl_matrix_get
 import numpy as np
 
-cdef struct geno_matrix:
-    vector[double] G,m
-    size_t nrow,ncol
-
-ctypedef vector[pair[uint,geno_matrix]] geno_matrix_final_t
+ctypedef vector[pair[uint,shared_ptr[geno_matrix]]] geno_matrix_final_t
 ctypedef pair[bint,bint] geno_matrix_data_t
 ctypedef custom_sampler_data[geno_matrix_final_t,geno_matrix_data_t] geno_matrix_sampler_t
 
-cdef void  fill_matrix(const gsl_matrix_ptr_t & t, geno_matrix & gm) nogil:
+cdef void  fill_matrix(const gsl_matrix_ptr_t & t, geno_matrix * gm) nogil:
     cdef size_t N=t.get().size1,ncol=t.get().size2
     if t.get().tda == t.get().size2:
         #Then physical allocation size is even
@@ -35,14 +33,14 @@ cdef void singlepop_geno_matrix(const singlepop_t * pop, const unsigned generati
     cdef size_t ncol = mut_keys.size()+1
     cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
     update_matrix_counts(pop,mut_keys,t.get())
-    gm.nrow=N
-    gm.ncol=ncol
-    cdef geno_matrix gm
+    gm.get().nrow=N
+    gm.get().ncol=ncol
+    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
-        gm.G.push_back(pop.diploids[dip].g)
-    fill_matrix(t,gm)
-    f.push_back(pair[uint,geno_matrix](generation,gm))
+        gm.get().G.push_back(pop.diploids[dip].g)
+    fill_matrix(t,gm.get())
+    f.push_back(pair[uint,shared_ptr[geno_matrix]](generation,gm))
 
 cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned generation, geno_matrix_final_t & f, geno_matrix_data_t & d) nogil:
     mut_keys = get_mut_keys(pop,d.first,d.second)
@@ -51,14 +49,14 @@ cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned genera
     cdef size_t ncol = mut_keys.size()+1
     cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
     update_matrix_counts[multilocus_t](pop,mut_keys,t.get())
-    gm.nrow=N
-    gm.ncol=ncol
-    cdef geno_matrix gm
+    gm.get().nrow=N
+    gm.get().ncol=ncol
+    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
-        gm.G.push_back(pop.diploids[dip][0].g)
-    fill_matrix(t,gm)
-    f.push_back(pair[uint,geno_matrix](generation,gm))
+        gm.get().G.push_back(pop.diploids[dip][0].g)
+    fill_matrix(t,gm.get())
+    f.push_back(pair[uint,shared_ptr[geno_matrix]](generation,gm))
 
 cdef class GenoMatrixSampler(TemporalSampler):
     """
@@ -83,9 +81,10 @@ cdef class GenoMatrixSampler(TemporalSampler):
         rv=[]
         for i in range(self.vec.size()):
             temp=(<geno_matrix_sampler_t*>self.vec[i].get()).final()
-            n=np.matrix(temp.m,temp.ncol,temp.nrow)
-            if keep_origin is False:
-                n=np.delete(n,[0],axis=1)
-            n=np.insert(n,0,temp.G)
-            rv.append(temp)
+            for j in temp:
+                n=np.matrix(j.second.get().m,j.second.get().ncol,j.second.get().nrow)
+                if keep_origin is False:
+                    n=np.delete(n,[0],axis=1)
+                n=np.insert(n,0,j.second.get().G)
+                rv.append((j.first,n))
         return rv
