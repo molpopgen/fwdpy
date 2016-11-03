@@ -2,6 +2,7 @@
 #define FWDPY_GWAS_GENOTYPE_MATRIX_HPP
 
 #include "sampler_additive_variance.hpp"
+#include "gsl.hpp"
 #include "types.hpp"
 #include <algorithm>
 #include <stdexcept>
@@ -57,7 +58,7 @@ namespace fwdpy
                         }
                 }
             // Use GSL matrixes
-            gsl_matrix_ptr_t gn(
+			gsl::gsl_matrix_ptr_t gn(
                 gsl_matrix_alloc(pop->diploids.size(), neut_indexes.size())),
                 gc(gsl_matrix_alloc(pop->diploids.size(),
                                     causative_indexes.size()));
