@@ -17,7 +17,7 @@ include "debug.pyx"
 include "ages.pyx"
 include "temporal_samplers.pyx"
 include "add_mutations.pyx"
-
+include "GenoMatrixSampler.pyx"
 def pkg_version():
     """
     Return version numbers of this package
