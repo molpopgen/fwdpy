@@ -63,13 +63,13 @@ cdef class GenoMatrixSampler(TemporalSampler):
     A :class:`fwdpy.fwdpy.TemporalSampler` to record a 0,1,2-encoded matrix of genotypes at sites 
     affecting fitness/trait values.
     """
-    def __cinit__(self,unsigned n,bint sort_freq,bint sort_esize):
+    def __cinit__(self,unsigned n,bint sort_freq=False,bint sort_esize = False):
         """
         Constructor.
 
         :param n: A length.  Must correspond to number of simulations that will be run simultaneously.
-        :param sort_freq: If True, then columns (mutations) will be sorted in descending order of allele freuqency (left to right)
-        :param sort_esize: If True, then columns (mutations) will be sorted in descending order of |esize| (left to right)
+        :param sort_freq: (False) If True, then columns (mutations) will be sorted in descending order of allele freuqency (left to right)
+        :param sort_esize: (False) If True, then columns (mutations) will be sorted in descending order of |esize| (left to right)
 
         If sort_freq is True and sort_esize is True, then mutations are first sorted by frequency, then sorted by |esize| within each 
         frequency bin.
