@@ -347,9 +347,11 @@ namespace fwdpy
         // record row/column positions of each element in hm
         std::multimap<std::size_t, std::size_t> n, s;
         auto position = [&hm](const std::size_t i, const double ncol) {
-            double t = double(i + 1) / ncol;
-            double row = std::floor(t);
-            double col = (t - row) * ncol - 1.0;
+            double row = std::floor(double(i)/ncol);
+			std::size_t col = i % std::size_t(ncol);
+			//double t = double(i + 1) / ncol;
+            //double row = std::floor(t);
+            //double col = (t - row) * ncol - 1.0;
             return std::make_pair(std::size_t(row), std::size_t(col));
         };
         for (const auto &i : hm.n)
