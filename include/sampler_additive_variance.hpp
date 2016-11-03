@@ -13,13 +13,12 @@
 #include <gsl/gsl_blas.h>
 #include <gsl/gsl_linalg.h>
 #include <gsl/gsl_math.h>
-#include <gsl/gsl_matrix.h>
 #include <gsl/gsl_sf_pow_int.h>
 #include <gsl/gsl_statistics_double.h>
-#include <gsl/gsl_vector.h>
 
 #include "sampler_base.hpp"
 #include "types.hpp"
+#include "gsl.hpp"
 #include <algorithm>
 #include <cmath>
 #include <memory>
@@ -42,33 +41,12 @@ namespace fwdpy
         }
     };
 
-    // Enable use of smart pointers for GSL types
-    struct gsl_matrix_deleter
-    {
-        void
-        operator()(gsl_matrix *l) noexcept
-        {
-            gsl_matrix_free(l);
-        }
-    };
-
-    struct gsl_vector_deleter
-    {
-        void
-        operator()(gsl_vector *l) noexcept
-        {
-            gsl_vector_free(l);
-        }
-    };
-
-    using gsl_vector_ptr_t = std::unique_ptr<gsl_vector, gsl_vector_deleter>;
-    using gsl_matrix_ptr_t = std::unique_ptr<gsl_matrix, gsl_matrix_deleter>;
 
     struct regression_results
     {
-        gsl_vector_ptr_t sums;
+        gsl::gsl_vector_ptr_t sums;
         std::vector<std::size_t> ucol_labels;
-        regression_results(gsl_vector_ptr_t &&s, std::vector<std::size_t> &&p)
+        regression_results(gsl::gsl_vector_ptr_t &&s, std::vector<std::size_t> &&p)
             : sums(std::move(s)), ucol_labels(std::move(p))
         {
         }
@@ -277,7 +255,7 @@ namespace fwdpy
                 }
         }
 
-        // regression_results regression_details(const gsl_vector_ptr_t & G,
+        // regression_results regression_details(const gsl::gsl_vector_ptr_t & G,
         std::vector<std::size_t>
         prune_matrix(gsl_matrix *genotypes,
                      const std::vector<KTfwd::uint_t> &mut_keys,
@@ -432,11 +410,11 @@ namespace fwdpy
         }
 
         template <typename pop_t>
-        gsl_matrix_ptr_t
+        gsl::gsl_matrix_ptr_t
         make_variant_matrix(const pop_t *pop,
                             const std::vector<KTfwd::uint_t> &mut_keys)
         {
-            gsl_matrix_ptr_t rv(
+            gsl::gsl_matrix_ptr_t rv(
                 gsl_matrix_alloc(pop->diploids.size(), 1 + mut_keys.size()));
             gsl_matrix_set_zero(rv.get()); // set all values to 0.
 
