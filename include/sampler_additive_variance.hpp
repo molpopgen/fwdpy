@@ -223,9 +223,9 @@ namespace fwdpy
             SumOfSquares += RSS; // add in the RSS.
             std::set<KTfwd::uint_t> ucounts(
                 { mut_key_counts.begin(), mut_key_counts.end() });
-            double ttl_rsq = 0.0, ttl_adj_rsq = 0.0;
-            double DFsum = double(genotypes->size1 - 1);
-            double DFn = double(genotypes->size1 - 1 - DF);
+            //double ttl_rsq = 0.0, ttl_adj_rsq = 0.0;
+            //double DFsum = double(genotypes->size1 - 1);
+            //double DFn = double(genotypes->size1 - 1 - DF);
             for (auto uc : ucounts)
                 {
                     // Get all mutations in regression with this frequency
@@ -243,12 +243,12 @@ namespace fwdpy
                     // This is r^2 for this frequency bin
                     double rsq = ssuc / SumOfSquares;
                     // This is adjusted r^2 for this bin
-                    double a = (RSS + SumOfSquares - ssuc) / SumOfSquares;
-                    double b
-                        = DFsum / (DFn + double(mut_key_counts.size()
-                                                - std::distance(er.first,
-                                                                er.second)));
-                    double adj_rsq = 1.0 - a * b;
+                    //double a = (RSS + SumOfSquares - ssuc) / SumOfSquares;
+                    //double b
+                    //    = DFsum / (DFn + double(mut_key_counts.size()
+                    //                            - std::distance(er.first,
+                    //                                            er.second)));
+                    //double adj_rsq = 1.0 - a * b;
                     VGcollection.emplace_back(VAcum(
                         double(uc) / (2.0 * double(pop->diploids.size())), rsq,
                         generation, pop->diploids.size()));
@@ -314,10 +314,10 @@ namespace fwdpy
                                 }
                         }
                 }
-            std::size_t NROW = genotypes->size1;
+            //std::size_t NROW = genotypes->size1;
             std::size_t NCOL = genotypes->size2 - identical;
             if (NCOL - 1
-                != std::count(column_labels.begin(), column_labels.end(), 1))
+                != static_cast<std::size_t>(std::count(column_labels.begin(), column_labels.end(), 1)))
                 {
                     throw std::runtime_error(
                         "NCOL incorrect " + std::to_string(NCOL) + " "
