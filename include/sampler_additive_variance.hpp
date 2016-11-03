@@ -360,22 +360,6 @@ namespace fwdpy
             return column_labels;
         }
 
-/*
-        template <typename pop_t>
-        gsl::gsl_matrix_ptr_t
-        make_variant_matrix(const pop_t *pop,
-                            const std::vector<KTfwd::uint_t> &mut_keys)
-        {
-            gsl::gsl_matrix_ptr_t rv(
-                gsl_matrix_alloc(pop->diploids.size(), 1 + mut_keys.size()));
-            gsl_matrix_set_zero(rv.get()); // set all values to 0.
-
-            update_matrix_counts(pop, mut_keys, rv.get());
-            return rv;
-        }
-*/
-
-
         template <typename pop_t>
         void fillG(const pop_t *pop, std::vector<double> &Gbuffer,
                    double *VG) // single-pop...
