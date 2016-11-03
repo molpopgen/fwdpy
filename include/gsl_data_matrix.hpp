@@ -134,6 +134,13 @@ namespace fwdpy
         update_matrix_counts(const pop_t *pop,
                              const std::vector<KTfwd::uint_t> &mut_keys,
                              gsl_matrix *rv)
+		/*!
+		 * Fills rv with an 0,1,2 matrix of derived mutation counts.  
+		 * Order of mutations is based on values in mut_keys, which are indexes
+		 * to pop->mutations/pop->mcounts.
+		 *
+		 * \note rv Should be zeroed out and have mut_keys.size()+1 columns.  Column 0 is set to 1.0
+		 */
         {
             // Fill the matrix
             std::size_t row = 0;
