@@ -1,3 +1,6 @@
+#ifndef FWDPY_GSL_HPP_
+#define FWDPY_GSL_HPP_
+
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
 #include <memory>
@@ -30,3 +33,5 @@ namespace fwdpy
             = std::unique_ptr<gsl_matrix, gsl_matrix_deleter>;
     }
 }
+
+#endif
