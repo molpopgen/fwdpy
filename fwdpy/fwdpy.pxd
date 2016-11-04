@@ -203,6 +203,7 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
     #to Python via Cython directly.
     cdef cppclass custom_sampler[FINALT](sampler_base):
         FINALT final()
+        FINALT f
         #To make a valid sampler, you must construct and object with a callback.
         #Below are the constructors for singlepop_t, multilocus_t, and metapop_t,
         #respectively.
@@ -223,6 +224,7 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
     #compuations, etc.
     cdef cppclass custom_sampler_data[FINALT,DATAT](sampler_base):
         DATAT data
+        FINALT f
         FINALT final()
         #To make a valid sampler, you must construct and object with a callback.
         #Below are the constructors for singlepop_t, multilocus_t, and metapop_t,
