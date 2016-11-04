@@ -34,6 +34,7 @@ cdef void singlepop_geno_matrix(const singlepop_t * pop, const unsigned generati
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
     cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
+    gsl_matrix_set_zero(t.get())
     update_matrix_counts(pop,mut_keys,t.get())
     cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     gm.get().nrow=N
@@ -50,6 +51,7 @@ cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned genera
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
     cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
+    gsl_matrix_set_zero(t.get())
     update_matrix_counts[multilocus_t](pop,mut_keys,t.get())
     cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     gm.get().nrow=N
@@ -100,18 +102,16 @@ cdef class GenoMatrixSampler(TemporalSampler):
                 rv.append((deref(beg).first,self.make_numpy_matrix(beg,keep_origin)))
                 beg+=1
         return rv
-    cdef void tofile_details_task(self,const geno_matrix_final_t & f,cppstring stub,int repstart,bint keep_origin) nogil:
+    cdef void tofile_details_task(self,const geno_matrix_final_t & f,cppstring stub,int repid,bint keep_origin) nogil:
         cdef vector[pair[uint,shared_ptr[geno_matrix]]].const_iterator beg,end
         beg=f.const_begin()
         end=f.const_end()
-        cdef int i = 0
         while beg<end:
-            write_geno_matrix(deref(beg).second.get(),deref(beg).first,stub,repstart,i,keep_origin)
-            i+=1
+            write_geno_matrix(deref(beg).second.get(),deref(beg).first,stub,repid,keep_origin)
             beg+=1
     cdef void tofile_details(self,cppstring stub,int repstart,bint keep_origin) nogil:
         cdef int task
         for task in prange(self.vec.size(),nogil=True,schedule='static'):
-            self.tofile_details_task((<geno_matrix_sampler_t*>self.vec[task].get()).f,stub,repstart,keep_origin)
+            self.tofile_details_task((<geno_matrix_sampler_t*>self.vec[task].get()).f,stub,repstart+task,keep_origin)
     def tofile(self,stub,repstart=0,keep_origin=False):
         self.tofile_details(stub,repstart,keep_origin)

@@ -24,11 +24,11 @@ namespace fwdpy
 
 		inline void
         write_geno_matrix(const geno_matrix *m, const KTfwd::uint_t generation,
-                          std::string stub, const int repstart, const int i,
+                          std::string stub, const int repid,
                           const bool keep_origin)
         {
             stub += ".generation" + std::to_string(generation) + ".rep"
-                    + std::to_string(repstart + i) + ".gz";
+                    + std::to_string(repid) + ".gz";
 			auto view = gsl_matrix_const_view_array(m->m.data(),m->nrow,m->ncol);
 			gzFile gzout = gzopen(stub.c_str(),"w");
 			std::ostringstream buffer;
@@ -36,7 +36,7 @@ namespace fwdpy
 			{
 				buffer.str(std::string());
 				auto row_view = gsl_matrix_const_row(&view.matrix,row);
-				buffer << m->G[row] << '\n';
+				buffer << m->G[row] << '\t';
 				for(std::size_t col = 0 + static_cast<size_t>(keep_origin==false) ;
 						col < m->ncol ; ++col)
 				{

@@ -11,7 +11,7 @@ cdef extern from "gsl_data_matrix.hpp" namespace "fwdpy::gsl_data_matrix" nogil:
         vector[double] G,m
         size_t nrow,ncol
     void write_geno_matrix(const geno_matrix *m, const uint generation,
-                      cppstring stub, const int repstart, const int i,
+                      cppstring stub, const int repid,
                       const bint keep_origin)
 
 
