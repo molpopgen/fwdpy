@@ -33,9 +33,9 @@ cdef void singlepop_geno_matrix(const singlepop_t * pop, const unsigned generati
     cdef size_t ncol = mut_keys.size()+1
     cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
     update_matrix_counts(pop,mut_keys,t.get())
+    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     gm.get().nrow=N
     gm.get().ncol=ncol
-    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
         gm.get().G.push_back(pop.diploids[dip].g)
@@ -49,9 +49,9 @@ cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned genera
     cdef size_t ncol = mut_keys.size()+1
     cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
     update_matrix_counts[multilocus_t](pop,mut_keys,t.get())
+    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     gm.get().nrow=N
     gm.get().ncol=ncol
-    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
         gm.get().G.push_back(pop.diploids[dip][0].g)
