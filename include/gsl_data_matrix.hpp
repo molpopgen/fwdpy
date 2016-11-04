@@ -3,23 +3,51 @@
 
 #include <fwdpp/forward_types.hpp>
 #include <gsl/gsl_matrix.h>
+#include <zlib.h>
+#include <string>
 #include <vector>
 #include <algorithm>
 #include <set>
 #include <cstddef>
+#include <sstream>
 #include "types.hpp"
 namespace fwdpy
 {
     namespace gsl_data_matrix
     {
-		struct geno_matrix
-		{
-			std::vector<double> G,m;
-			std::size_t ncol,nrow;
-			geno_matrix() : G{},m{},ncol{0},nrow{0}
+        struct geno_matrix
+        {
+            std::vector<double> G, m;
+            std::size_t ncol, nrow;
+            geno_matrix() : G{}, m{}, ncol{ 0 }, nrow{ 0 } {}
+        };
+
+		inline void
+        write_geno_matrix(const geno_matrix *m, const KTfwd::uint_t generation,
+                          std::string stub, const int repstart, const int i,
+                          const bool keep_origin)
+        {
+            stub += ".generation" + std::to_string(generation) + ".rep"
+                    + std::to_string(repstart + i) + ".gz";
+			auto view = gsl_matrix_const_view_array(m->m.data(),m->nrow,m->ncol);
+			gzFile gzout = gzopen(stub.c_str(),"w");
+			std::ostringstream buffer;
+			for(std::size_t row = 0 ; row < m->nrow ; ++row)
 			{
+				buffer.str(std::string());
+				auto row_view = gsl_matrix_const_row(&view.matrix,row);
+				buffer << m->G[row] << '\n';
+				for(std::size_t col = 0 + static_cast<size_t>(keep_origin==false) ;
+						col < m->ncol ; ++col)
+				{
+					buffer << gsl_vector_get(&row_view.vector,col);
+					if(col<m->ncol-1)buffer<<'\t';
+				}
+				buffer << '\n';
+				gzwrite(gzout,buffer.str().c_str(),buffer.str().size());
 			}
-		};
+			gzclose(gzout);
+        }
 
         template <typename pop_t>
         std::vector<KTfwd::uint_t>
@@ -144,13 +172,14 @@ namespace fwdpy
         update_matrix_counts(const pop_t *pop,
                              const std::vector<KTfwd::uint_t> &mut_keys,
                              gsl_matrix *rv)
-		/*!
-		 * Fills rv with an 0,1,2 matrix of derived mutation counts.  
-		 * Order of mutations is based on values in mut_keys, which are indexes
-		 * to pop->mutations/pop->mcounts.
-		 *
-		 * \note rv Should be zeroed out and have mut_keys.size()+1 columns.  Column 0 is set to 1.0
-		 */
+        /*!
+         * Fills rv with an 0,1,2 matrix of derived mutation counts.
+         * Order of mutations is based on values in mut_keys, which are indexes
+         * to pop->mutations/pop->mcounts.
+         *
+         * \note rv Should be zeroed out and have mut_keys.size()+1 columns.
+         * Column 0 is set to 1.0
+         */
         {
             // Fill the matrix
             std::size_t row = 0;

@@ -10,6 +10,7 @@ from libcpp.memory cimport shared_ptr
 from libcpp.utility cimport pair
 from cython_gsl cimport gsl_matrix_alloc,gsl_matrix_set_zero,gsl_matrix_get
 from cython.operator cimport dereference as deref
+from cython.parallel import parallel, prange
 import numpy as np
 
 ctypedef vector[pair[uint,shared_ptr[geno_matrix]]] geno_matrix_final_t
@@ -85,7 +86,6 @@ cdef class GenoMatrixSampler(TemporalSampler):
             #Replace column of 1. with
             #genetic values
             n[:,0]=deref(beg).second.get().G
-            #n=np.delete(n,[0],axis=1)
         else:
             #Insert genetic values as column 0
             n=np.insert(n,0,deref(beg).second.get().G)
@@ -100,14 +100,18 @@ cdef class GenoMatrixSampler(TemporalSampler):
                 rv.append((deref(beg).first,self.make_numpy_matrix(beg,keep_origin)))
                 beg+=1
         return rv
-    def tofile(self,stub,keep_origin=False):
-        cdef vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,end
-        for i in range(self.vec.size()):
-            beg = (<geno_matrix_sampler_t*>self.vec[i].get()).f.begin()
-            end = (<geno_matrix_sampler_t*>self.vec[i].get()).f.end()
-            while beg<end:
-                n=self.make_numpy_matrix(beg,keep_origin)
-                np.savetxt(stub,n,delimiter='\t')
-                beg+=1
-        
-
+    cdef void tofile_details_task(self,const geno_matrix_final_t & f,cppstring stub,int repstart,bint keep_origin) nogil:
+        cdef vector[pair[uint,shared_ptr[geno_matrix]]].const_iterator beg,end
+        beg=f.const_begin()
+        end=f.const_end()
+        cdef int i = 0
+        while beg<end:
+            write_geno_matrix(deref(beg).second.get(),deref(beg).first,stub,repstart,i,keep_origin)
+            i+=1
+            beg+=1
+    cdef void tofile_details(self,cppstring stub,int repstart,bint keep_origin) nogil:
+        cdef int task
+        for task in prange(self.vec.size(),nogil=True,schedule='static'):
+            self.tofile_details_task((<geno_matrix_sampler_t*>self.vec[task].get()).f,stub,repstart,keep_origin)
+    def tofile(self,stub,repstart=0,keep_origin=False):
+        self.tofile_details(stub,repstart,keep_origin)
