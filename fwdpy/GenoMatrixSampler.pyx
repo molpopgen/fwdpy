@@ -78,6 +78,18 @@ cdef class GenoMatrixSampler(TemporalSampler):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[geno_matrix_sampler_t](new geno_matrix_sampler_t(&singlepop_geno_matrix,geno_matrix_data_t(sort_freq,sort_esize))))
             (<geno_matrix_sampler_t*>self.vec[i].get()).register_callback(&multilocus_geno_matrix) 
+    cdef make_numpy_matrix(self,vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,bint keep_origin):
+        n=np.array(deref(beg).second.get().m)
+        n=np.reshape(n,[deref(beg).second.get().nrow,deref(beg).second.get().ncol])
+        if keep_origin is False:
+            #Replace column of 1. with
+            #genetic values
+            n[:,0]=deref(beg).second.get().G
+            #n=np.delete(n,[0],axis=1)
+        else:
+            #Insert genetic values as column 0
+            n=np.insert(n,0,deref(beg).second.get().G)
+        return n 
     def get(self,bint keep_origin = False):
         rv=[]
         cdef vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,end
@@ -85,16 +97,17 @@ cdef class GenoMatrixSampler(TemporalSampler):
             beg = (<geno_matrix_sampler_t*>self.vec[i].get()).f.begin()
             end = (<geno_matrix_sampler_t*>self.vec[i].get()).f.end()
             while beg<end:
-                #m=deref(beg).second.get().m
-                #n=np.matrix(m,deref(beg).second.get().ncol,deref(beg).second.get().nrow)
-                n=np.array(deref(beg).second.get().m)
-                n=np.reshape(n,[deref(beg).second.get().ncol,deref(beg).second.get().nrow])
+                rv.append((deref(beg).first,self.make_numpy_matrix(beg,keep_origin)))
                 beg+=1
-            #temp=(<geno_matrix_sampler_t*>self.vec[i].get()).final()
-            #for j in temp:
-            #    n=np.matrix(j.second.get().m,j.second.get().ncol,j.second.get().nrow)
-            #    if keep_origin is False:
-            #        n=np.delete(n,[0],axis=1)
-            #    n=np.insert(n,0,j.second.get().G)
-            #    rv.append((j.first,n))
         return rv
+    def tofile(self,stub,keep_origin=False):
+        cdef vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,end
+        for i in range(self.vec.size()):
+            beg = (<geno_matrix_sampler_t*>self.vec[i].get()).f.begin()
+            end = (<geno_matrix_sampler_t*>self.vec[i].get()).f.end()
+            while beg<end:
+                n=self.make_numpy_matrix(beg,keep_origin)
+                np.savetxt(stub,n,delimiter='\t')
+                beg+=1
+        
+
