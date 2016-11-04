@@ -9,6 +9,7 @@ from libcpp.vector cimport vector
 from libcpp.memory cimport shared_ptr
 from libcpp.utility cimport pair
 from cython_gsl cimport gsl_matrix_alloc,gsl_matrix_set_zero,gsl_matrix_get
+from cython.operator cimport dereference as deref
 import numpy as np
 
 ctypedef vector[pair[uint,shared_ptr[geno_matrix]]] geno_matrix_final_t
@@ -79,12 +80,21 @@ cdef class GenoMatrixSampler(TemporalSampler):
             (<geno_matrix_sampler_t*>self.vec[i].get()).register_callback(&multilocus_geno_matrix) 
     def get(self,bint keep_origin = False):
         rv=[]
+        cdef vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,end
         for i in range(self.vec.size()):
-            temp=(<geno_matrix_sampler_t*>self.vec[i].get()).final()
-            for j in temp:
-                n=np.matrix(j.second.get().m,j.second.get().ncol,j.second.get().nrow)
-                if keep_origin is False:
-                    n=np.delete(n,[0],axis=1)
-                n=np.insert(n,0,j.second.get().G)
-                rv.append((j.first,n))
+            beg = (<geno_matrix_sampler_t*>self.vec[i].get()).f.begin()
+            end = (<geno_matrix_sampler_t*>self.vec[i].get()).f.end()
+            while beg<end:
+                #m=deref(beg).second.get().m
+                #n=np.matrix(m,deref(beg).second.get().ncol,deref(beg).second.get().nrow)
+                n=np.array(deref(beg).second.get().m)
+                n=np.reshape(n,[deref(beg).second.get().ncol,deref(beg).second.get().nrow])
+                beg+=1
+            #temp=(<geno_matrix_sampler_t*>self.vec[i].get()).final()
+            #for j in temp:
+            #    n=np.matrix(j.second.get().m,j.second.get().ncol,j.second.get().nrow)
+            #    if keep_origin is False:
+            #        n=np.delete(n,[0],axis=1)
+            #    n=np.insert(n,0,j.second.get().G)
+            #    rv.append((j.first,n))
         return rv
