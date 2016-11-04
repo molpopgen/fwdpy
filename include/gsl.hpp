@@ -31,7 +31,20 @@ namespace fwdpy
             = std::unique_ptr<gsl_vector, gsl_vector_deleter>;
         using gsl_matrix_ptr_t
             = std::unique_ptr<gsl_matrix, gsl_matrix_deleter>;
+        using gsl_matrix_shared_ptr_t = std::shared_ptr<gsl_matrix>;
+        using gsl_vector_shared_ptr_t = std::shared_ptr<gsl_vector>;
+
+		inline gsl_matrix_shared_ptr_t
+        make_gsl_matrix_shared_ptr_t(const size_t size1, const size_t size2)
+        {
+                return std::shared_ptr<gsl_matrix>(gsl_matrix_alloc(size1,size2),&gsl_matrix_free);
+        }
+        
+		inline gsl_vector_shared_ptr_t
+        make_gsl_vector_shared_ptr_t(const size_t size1)
+        {
+                return std::shared_ptr<gsl_vector>(gsl_vector_alloc(size1),&gsl_vector_free);
+        }
     }
 }
-
 #endif

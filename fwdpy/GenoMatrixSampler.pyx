@@ -17,32 +17,17 @@ ctypedef vector[pair[uint,shared_ptr[geno_matrix]]] geno_matrix_final_t
 ctypedef pair[bint,bint] geno_matrix_data_t
 ctypedef custom_sampler_data[geno_matrix_final_t,geno_matrix_data_t] geno_matrix_sampler_t
 
-cdef void  fill_matrix(const gsl_matrix_ptr_t & t, geno_matrix * gm) nogil:
-    cdef size_t N=t.get().size1,ncol=t.get().size2
-    if t.get().tda == t.get().size2:
-        #Then physical allocation size is even
-        #across rows
-        gm.m.assign(<double*>t.get().data,<double*>(t.get().data+(N*ncol)))
-    else:
-        for i in range(N):
-            for j in range(ncol):
-                gm.m.push_back(gsl_matrix_get(t.get(),i,j))
-    
 cdef void singlepop_geno_matrix(const singlepop_t * pop, const unsigned generation, geno_matrix_final_t & f, geno_matrix_data_t & d) nogil:
     mut_keys = get_mut_keys(pop,d.first,d.second)
     cdef size_t i,j
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
-    cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
-    gsl_matrix_set_zero(t.get())
-    update_matrix_counts(pop,mut_keys,t.get())
-    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
-    gm.get().nrow=N
-    gm.get().ncol=ncol
+    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix(N,ncol))
+    gsl_matrix_set_zero(gm.get().m.get())
+    update_matrix_counts(pop,mut_keys,gm.get().m.get())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
         gm.get().G.push_back(pop.diploids[dip].g)
-    fill_matrix(t,gm.get())
     f.push_back(pair[uint,shared_ptr[geno_matrix]](generation,gm))
 
 cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned generation, geno_matrix_final_t & f, geno_matrix_data_t & d) nogil:
@@ -50,16 +35,12 @@ cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned genera
     cdef size_t i,j
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
-    cdef gsl_matrix_ptr_t t=gsl_matrix_ptr_t(<gsl_matrix*>gsl_matrix_alloc(N,ncol))
-    gsl_matrix_set_zero(t.get())
-    update_matrix_counts[multilocus_t](pop,mut_keys,t.get())
-    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix())
-    gm.get().nrow=N
-    gm.get().ncol=ncol
+    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix(N,ncol))
+    gsl_matrix_set_zero(gm.get().m.get())
+    update_matrix_counts[multilocus_t](pop,mut_keys,gm.get().m.get())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
         gm.get().G.push_back(pop.diploids[dip][0].g)
-    fill_matrix(t,gm.get())
     f.push_back(pair[uint,shared_ptr[geno_matrix]](generation,gm))
 
 cdef class GenoMatrixSampler(TemporalSampler):
@@ -82,16 +63,25 @@ cdef class GenoMatrixSampler(TemporalSampler):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[geno_matrix_sampler_t](new geno_matrix_sampler_t(&singlepop_geno_matrix,geno_matrix_data_t(sort_freq,sort_esize))))
             (<geno_matrix_sampler_t*>self.vec[i].get()).register_callback(&multilocus_geno_matrix) 
     cdef make_numpy_matrix(self,vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,bint keep_origin):
-        n=np.array(deref(beg).second.get().m)
-        n=np.reshape(n,[deref(beg).second.get().nrow,deref(beg).second.get().ncol])
-        if keep_origin is False:
-            #Replace column of 1. with
-            #genetic values
-            n[:,0]=deref(beg).second.get().G
-        else:
+        cdef size_t N = deref(beg).second.get().nrow
+        cdef size_t S = deref(beg).second.get().ncol
+        n=np.array([0.]*(N*S),dtype=np.float64)
+        n=np.reshape(n,[N,S])
+        cdef size_t i,j
+        for i in range(N):
+            for j in range(S):
+                n[i,j]=gsl_matrix_get(deref(beg).second.get().m.get(),i,j)
+        return n
+        #n=np.array(deref(beg).second.get().m)
+        #n=np.reshape(n,[deref(beg).second.get().nrow,deref(beg).second.get().ncol])
+        #if keep_origin is False:
+        #    #Replace column of 1. with
+        #    #genetic values
+        #    n[:,0]=deref(beg).second.get().G
+        #else:
             #Insert genetic values as column 0
-            n=np.insert(n,0,deref(beg).second.get().G)
-        return n 
+        #    n=np.insert(n,0,deref(beg).second.get().G)
+        #return n 
     def get(self,bint keep_origin = False):
         rv=[]
         cdef vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,end

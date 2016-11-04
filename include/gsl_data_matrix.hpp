@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <set>
+#include <memory>
 #include <cstddef>
 #include <sstream>
 #include "types.hpp"
@@ -17,36 +18,42 @@ namespace fwdpy
     {
         struct geno_matrix
         {
-            std::vector<double> G, m;
+            std::vector<double> G;
+            std::shared_ptr<gsl_matrix> m;
             std::size_t ncol, nrow;
-            geno_matrix() : G{}, m{}, ncol{ 0 }, nrow{ 0 } {}
+            geno_matrix(std::size_t nrow_, std::size_t ncol_)
+                : G{}, m{ gsl_matrix_alloc(nrow_, ncol_) }, ncol{ ncol_ },
+                  nrow{ nrow_ }
+            {
+            }
         };
 
-		inline void
+        inline void
         write_geno_matrix(const geno_matrix *m, const KTfwd::uint_t generation,
                           std::string stub, const int repid,
                           const bool keep_origin)
         {
             stub += ".generation" + std::to_string(generation) + ".rep"
                     + std::to_string(repid) + ".gz";
-			auto view = gsl_matrix_const_view_array(m->m.data(),m->nrow,m->ncol);
-			gzFile gzout = gzopen(stub.c_str(),"w");
-			std::ostringstream buffer;
-			for(std::size_t row = 0 ; row < m->nrow ; ++row)
-			{
-				buffer.str(std::string());
-				auto row_view = gsl_matrix_const_row(&view.matrix,row);
-				buffer << m->G[row] << '\t';
-				for(std::size_t col = 0 + static_cast<size_t>(keep_origin==false) ;
-						col < m->ncol ; ++col)
-				{
-					buffer << gsl_vector_get(&row_view.vector,col);
-					if(col<m->ncol-1)buffer<<'\t';
-				}
-				buffer << '\n';
-				gzwrite(gzout,buffer.str().c_str(),buffer.str().size());
-			}
-			gzclose(gzout);
+            gzFile gzout = gzopen(stub.c_str(), "w");
+            std::ostringstream buffer;
+            for (std::size_t row = 0; row < m->nrow; ++row)
+                {
+                    buffer.str(std::string());
+                    auto row_view = gsl_matrix_const_row(m->m.get(), row);
+                    buffer << m->G[row] << '\t';
+                    for (std::size_t col
+                         = 0 + static_cast<size_t>(keep_origin == false);
+                         col < m->ncol; ++col)
+                        {
+                            buffer << gsl_vector_get(&row_view.vector, col);
+                            if (col < m->ncol - 1)
+                                buffer << '\t';
+                        }
+                    buffer << '\n';
+                    gzwrite(gzout, buffer.str().c_str(), buffer.str().size());
+                }
+            gzclose(gzout);
         }
 
         template <typename pop_t>
