@@ -1,7 +1,7 @@
 from libcpp.vector cimport vector
 from libcpp.string cimport string as cppstring
 from fwdpy.fwdpy cimport uint
-from fwdpy.gsl cimport gsl_matrix_shared_ptr_t 
+from fwdpy.gsl cimport gsl_matrix_ptr_t 
 from cython_gsl cimport gsl_matrix 
 
 cdef extern from "gsl_data_matrix.hpp" namespace "fwdpy::gsl_data_matrix" nogil:
@@ -10,7 +10,7 @@ cdef extern from "gsl_data_matrix.hpp" namespace "fwdpy::gsl_data_matrix" nogil:
     cdef cppclass geno_matrix:
         geno_matrix(size_t nrow,size_t ncol)
         vector[double] G
-        gsl_matrix_shared_ptr_t m
+        gsl_matrix_ptr_t m
         size_t nrow,ncol
     void write_geno_matrix(const geno_matrix *m, const uint generation,
                       cppstring stub, const int repid,
