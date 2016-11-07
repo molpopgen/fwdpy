@@ -52,6 +52,13 @@ namespace fwdpy
         virtual ~sampler_base() {}
     };
 
+	inline void clear_samplers(std::vector<std::unique_ptr<sampler_base>> & v)
+	{
+		v.clear();
+		std::vector<std::unique_ptr<sampler_base>> t;
+		v=std::move(t);
+	}
+
     template <typename pop_t>
     inline void
     apply_sampler_wrapper(sampler_base *s, const pop_t *pop)

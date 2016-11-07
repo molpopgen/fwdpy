@@ -5,7 +5,10 @@ from cython.operator cimport dereference as deref
 cdef class TemporalSampler:
     cpdef size_t size(self):
         return self.vec.size()
-
+    def __dealloc__(self):
+        clear_samplers(self.vec)
+    def force_clear(self):
+        clear_samplers(self.vec)
 
 cdef class NothingSampler(TemporalSampler):
     """

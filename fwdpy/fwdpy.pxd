@@ -194,6 +194,7 @@ cdef class GSLrng:
 cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
     cdef cppclass sampler_base:
         pass
+    void clear_samplers(vector[unique_ptr[sampler_base]] & v)
 
     #This is a template for a custom temporal sampler
     #Each generation, a "generation_t" is recorded, and
