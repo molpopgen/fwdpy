@@ -109,17 +109,6 @@ try:
 except ImportError:
     sys.exit("import numpy failed.  Please install numpy")
 
-if platform.system() == 'Linux' or platform.system() == 'Darwin':
-    doc_dir = '/usr/local/share/doc/fwdpy'
-else:
-    try:
-        from win32com.shell import shellcon, shell
-        homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-        appdir = 'fwdpy'
-        doc_dir = os.path.join(homedir, appdir)
-    except:
-        pass
-
 long_desc = open("README.rst").read()
 
 #EXTENSION="@EXTENSION@"
@@ -241,7 +230,7 @@ setup(name='fwdpy',
       packages=PKGS,
       py_modules=[],
       scripts=[],
-      data_files=[('pylibseq',['COPYING', 'README.rst'])],
+      data_files=[('fwdpy',['COPYING', 'README.rst'])],
       ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
       headers=glob.glob("include/*.hpp"),
       package_data={'fwdpy':['*.pxd'],
