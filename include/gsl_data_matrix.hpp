@@ -60,7 +60,7 @@ namespace fwdpy
                                 buffer << '\t';
                         }
                     buffer << '\n';
-                    ++nrwrites;
+                    ++nwrites;
                     if (nwrites == 10)
                         {
                             gzwrite(gzout, buffer.str().c_str(),
