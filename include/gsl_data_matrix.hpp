@@ -2,7 +2,6 @@
 #define FWDPY_GSL_DATA_MATRIX_HPP_
 
 #include <fwdpp/forward_types.hpp>
-#include <gsl/gsl_matrix.h>
 #include <zlib.h>
 #include <string>
 #include <vector>
@@ -12,6 +11,7 @@
 #include <cstddef>
 #include <sstream>
 #include "types.hpp"
+#include "gsl.hpp"
 namespace fwdpy
 {
     namespace gsl_data_matrix
@@ -19,7 +19,7 @@ namespace fwdpy
         struct geno_matrix
         {
             std::vector<double> G;
-            std::shared_ptr<gsl_matrix> m;
+			gsl::gsl_matrix_ptr_t m;
             std::size_t ncol, nrow;
             geno_matrix(std::size_t nrow_, std::size_t ncol_)
                 : G{}, m{ gsl_matrix_alloc(nrow_, ncol_) }, ncol{ ncol_ },
