@@ -10,7 +10,7 @@ cdef class Spop(PopType):
     they should be working with :class:`SpopVec`.  This type exists as
     the output of iterating through a :class:`SpopVec`.
     """
-    def __del__(self):
+    def __dealloc__(self):
        self.pop.reset()
     cpdef gen(self):
         """
@@ -44,7 +44,7 @@ cdef class SpopGenMut(PopType):
 
     ..note:: Currently, there are no functions in fwdpy using this type!  See :class:`fwdpy.fwdpy.Spop` instead.
     """
-    def __del__(self):
+    def __dealloc__(self):
         self.pop.reset()
     cpdef gen(self):
         """
@@ -76,7 +76,7 @@ cdef class MlocusPop(PopType):
     they should be working with :class:`MlocusPopVec`.  This type exists as
     the output of iterating through a :class:`MlocusPopVec`.
     """
-    def __del__(self):
+    def __dealloc__(self):
         self.pop.reset()
     cpdef gen(self):
         """
@@ -266,7 +266,7 @@ cdef class MetaPop(PopType):
     they should be working with :class:`MetaPopVec`.  This type exists as
     the output of iterating through a :class:`MetaPopVec`.
     """
-    def __del__(self):
+    def __dealloc__(self):
        self.mpop.reset()
     def __len__(self):
         return self.mpop.get().size()
