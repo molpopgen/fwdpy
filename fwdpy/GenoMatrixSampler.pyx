@@ -13,7 +13,8 @@ from cython.operator cimport dereference as deref
 from cython.parallel import parallel, prange
 import numpy as np
 
-ctypedef vector[pair[uint,shared_ptr[geno_matrix]]] geno_matrix_final_t
+ctypedef shared_ptr[geno_matrix] geno_matrix_ptr
+ctypedef vector[pair[uint,geno_matrix_ptr]] geno_matrix_final_t
 ctypedef pair[bint,bint] geno_matrix_data_t
 ctypedef custom_sampler_data[geno_matrix_final_t,geno_matrix_data_t] geno_matrix_sampler_t
 
@@ -22,26 +23,26 @@ cdef void singlepop_geno_matrix(const singlepop_t * pop, const unsigned generati
     cdef size_t i,j
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
-    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix(N,ncol))
+    cdef geno_matrix_ptr gm=geno_matrix_ptr(new geno_matrix(N,ncol))
     gsl_matrix_set_zero(gm.get().m.get())
     update_matrix_counts(pop,mut_keys,gm.get().m.get())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
         gm.get().G.push_back(pop.diploids[dip].g)
-    f.push_back(pair[uint,shared_ptr[geno_matrix]](generation,gm))
+    f.push_back(pair[uint,geno_matrix_ptr](generation,gm))
 
 cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned generation, geno_matrix_final_t & f, geno_matrix_data_t & d) nogil:
     mut_keys = get_mut_keys(pop,d.first,d.second)
     cdef size_t i,j
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
-    cdef shared_ptr[geno_matrix] gm=shared_ptr[geno_matrix](new geno_matrix(N,ncol))
+    cdef geno_matrix_ptr gm=geno_matrix_ptr(new geno_matrix(N,ncol))
     gsl_matrix_set_zero(gm.get().m.get())
     update_matrix_counts[multilocus_t](pop,mut_keys,gm.get().m.get())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
         gm.get().G.push_back(pop.diploids[dip][0].g)
-    f.push_back(pair[uint,shared_ptr[geno_matrix]](generation,gm))
+    f.push_back(pair[uint,geno_matrix_ptr](generation,gm))
 
 cdef class GenoMatrixSampler(TemporalSampler):
     """
@@ -62,7 +63,7 @@ cdef class GenoMatrixSampler(TemporalSampler):
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[geno_matrix_sampler_t](new geno_matrix_sampler_t(&singlepop_geno_matrix,geno_matrix_data_t(sort_freq,sort_esize))))
             (<geno_matrix_sampler_t*>self.vec[i].get()).register_callback(&multilocus_geno_matrix) 
-    cdef make_numpy_matrix(self,vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,bint keep_origin):
+    cdef make_numpy_matrix(self,vector[pair[uint,geno_matrix_ptr]].iterator beg,bint keep_origin):
         cdef size_t N = deref(beg).second.get().nrow
         cdef size_t S = deref(beg).second.get().ncol
         n=np.array([0.]*(N*S),dtype=np.float64)
@@ -87,7 +88,7 @@ cdef class GenoMatrixSampler(TemporalSampler):
         #return n 
     def get(self,bint keep_origin = False):
         rv=[]
-        cdef vector[pair[uint,shared_ptr[geno_matrix]]].iterator beg,end
+        cdef vector[pair[uint,geno_matrix_ptr]].iterator beg,end
         for i in range(self.vec.size()):
             beg = (<geno_matrix_sampler_t*>self.vec[i].get()).f.begin()
             end = (<geno_matrix_sampler_t*>self.vec[i].get()).f.end()
@@ -96,7 +97,7 @@ cdef class GenoMatrixSampler(TemporalSampler):
                 beg+=1
         return rv
     cdef void tofile_details_task(self,const geno_matrix_final_t & f,cppstring stub,int repid,bint keep_origin) nogil:
-        cdef vector[pair[uint,shared_ptr[geno_matrix]]].const_iterator beg,end
+        cdef vector[pair[uint,geno_matrix_ptr]].const_iterator beg,end
         beg=f.const_begin()
         end=f.const_end()
         while beg<end:
