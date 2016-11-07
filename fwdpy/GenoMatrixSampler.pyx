@@ -70,7 +70,10 @@ cdef class GenoMatrixSampler(TemporalSampler):
         cdef size_t i,j
         for i in range(N):
             for j in range(S):
-                n[i,j]=gsl_matrix_get(deref(beg).second.get().m.get(),i,j)
+                if j==0 and keep_origin is False:
+                    n[i,j]=deref(beg).second.get().G
+                else:
+                    n[i,j]=gsl_matrix_get(deref(beg).second.get().m.get(),i,j)
         return n
         #n=np.array(deref(beg).second.get().m)
         #n=np.reshape(n,[deref(beg).second.get().nrow,deref(beg).second.get().ncol])
