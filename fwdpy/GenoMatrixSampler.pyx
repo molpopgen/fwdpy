@@ -6,14 +6,13 @@ from fwdpy.gsl cimport *
 from fwdpy.gsl_data_matrix cimport  *
 from fwdpy.fwdpy cimport TemporalSampler,sampler_base,custom_sampler_data,singlepop_t,multilocus_t,uint
 from libcpp.vector cimport vector
-from libcpp.memory cimport shared_ptr
 from libcpp.utility cimport pair
 from cython_gsl cimport gsl_matrix_alloc,gsl_matrix_set_zero,gsl_matrix_get
 from cython.operator cimport dereference as deref
 from cython.parallel import parallel, prange
 import numpy as np
 
-ctypedef shared_ptr[geno_matrix] geno_matrix_ptr
+ctypedef unique_ptr[geno_matrix] geno_matrix_ptr
 ctypedef vector[pair[uint,geno_matrix_ptr]] geno_matrix_final_t
 ctypedef pair[bint,bint] geno_matrix_data_t
 ctypedef custom_sampler_data[geno_matrix_final_t,geno_matrix_data_t] geno_matrix_sampler_t
@@ -23,26 +22,29 @@ cdef void singlepop_geno_matrix(const singlepop_t * pop, const unsigned generati
     cdef size_t i,j
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
-    cdef geno_matrix_ptr gm=geno_matrix_ptr(new geno_matrix(N,ncol))
-    gsl_matrix_set_zero(gm.get().m.get())
-    update_matrix_counts(pop,mut_keys,gm.get().m.get())
+    cdef pair[uint,geno_matrix_ptr] temp
+    temp.first=generation
+    temp.second.reset(new geno_matrix(N,ncol))
+    gsl_matrix_set_zero(temp.second.get().m.get())
+    update_matrix_counts(pop,mut_keys,temp.second.get().m.get())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
-        gm.get().G.push_back(pop.diploids[dip].g)
-    f.push_back(pair[uint,geno_matrix_ptr](generation,gm))
+        temp.second.get().G.push_back(pop.diploids[dip].g)
+    emplace_move(f,temp)
 
 cdef void multilocus_geno_matrix(const multilocus_t * pop, const unsigned generation, geno_matrix_final_t & f, geno_matrix_data_t & d) nogil:
     mut_keys = get_mut_keys(pop,d.first,d.second)
     cdef size_t i,j
     cdef size_t N = pop.diploids.size()
     cdef size_t ncol = mut_keys.size()+1
-    cdef geno_matrix_ptr gm=geno_matrix_ptr(new geno_matrix(N,ncol))
-    gsl_matrix_set_zero(gm.get().m.get())
-    update_matrix_counts[multilocus_t](pop,mut_keys,gm.get().m.get())
+    cdef pair[uint,geno_matrix_ptr] temp
+    temp.first=generation
+    temp.second.reset(new geno_matrix(N,ncol))
+    gsl_matrix_set_zero(temp.second.get().m.get())
     #Fill in genetic values
     for dip in range(pop.diploids.size()):
-        gm.get().G.push_back(pop.diploids[dip][0].g)
-    f.push_back(pair[uint,geno_matrix_ptr](generation,gm))
+        temp.second.get().G.push_back(pop.diploids[dip][0].g)
+    emplace_move(f,temp)
 
 cdef class GenoMatrixSampler(TemporalSampler):
     """
@@ -108,4 +110,4 @@ cdef class GenoMatrixSampler(TemporalSampler):
         for task in prange(self.vec.size(),nogil=True,schedule='static'):
             self.tofile_details_task((<geno_matrix_sampler_t*>self.vec[task].get()).f,stub,repstart+task,keep_origin)
     def tofile(self,stub,repstart=0,keep_origin=False):
-        self.tofile_details(stub,repstart,keep_origin)
+       self.tofile_details(stub,repstart,keep_origin)

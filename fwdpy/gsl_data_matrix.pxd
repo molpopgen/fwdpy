@@ -1,5 +1,7 @@
 from libcpp.vector cimport vector
 from libcpp.string cimport string as cppstring
+from libcpp.utility cimport pair
+from libcpp.memory cimport unique_ptr
 from fwdpy.fwdpy cimport uint
 from fwdpy.gsl cimport gsl_matrix_ptr_t 
 from cython_gsl cimport gsl_matrix 
@@ -15,5 +17,6 @@ cdef extern from "gsl_data_matrix.hpp" namespace "fwdpy::gsl_data_matrix" nogil:
     void write_geno_matrix(const geno_matrix *m, const uint generation,
                       cppstring stub, const int repid,
                       const bint keep_origin)
+    void emplace_move(vector[pair[uint,unique_ptr[geno_matrix]]] & v,pair[uint,unique_ptr[geno_matrix]] & p)
 
 

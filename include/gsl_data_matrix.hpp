@@ -19,7 +19,7 @@ namespace fwdpy
         struct geno_matrix
         {
             std::vector<double> G;
-			gsl::gsl_matrix_ptr_t m;
+            gsl::gsl_matrix_ptr_t m;
             std::size_t ncol, nrow;
             geno_matrix(std::size_t nrow_, std::size_t ncol_)
                 : G{}, m{ gsl_matrix_alloc(nrow_, ncol_) }, ncol{ ncol_ },
@@ -27,6 +27,15 @@ namespace fwdpy
             {
             }
         };
+
+        inline void
+        emplace_move(
+            std::vector<std::pair<KTfwd::uint_t, std::unique_ptr<geno_matrix>>>
+                &v,
+            std::pair<KTfwd::uint_t, std::unique_ptr<geno_matrix>> &p)
+        {
+            v.emplace_back(std::move(p));
+        }
 
         inline void
         write_geno_matrix(const geno_matrix *m, const KTfwd::uint_t generation,
@@ -37,9 +46,9 @@ namespace fwdpy
                     + std::to_string(repid) + ".gz";
             gzFile gzout = gzopen(stub.c_str(), "w");
             std::ostringstream buffer;
+            int nwrites = 0;
             for (std::size_t row = 0; row < m->nrow; ++row)
                 {
-                    buffer.str(std::string());
                     auto row_view = gsl_matrix_const_row(m->m.get(), row);
                     buffer << m->G[row] << '\t';
                     for (std::size_t col
@@ -51,6 +60,17 @@ namespace fwdpy
                                 buffer << '\t';
                         }
                     buffer << '\n';
+                    ++nrwrites;
+                    if (nwrites == 10)
+                        {
+                            gzwrite(gzout, buffer.str().c_str(),
+                                    buffer.str().size());
+                            buffer.str(std::string());
+                            nwrites = 0;
+                        }
+                }
+            if (nwrites)
+                {
                     gzwrite(gzout, buffer.str().c_str(), buffer.str().size());
                 }
             gzclose(gzout);
