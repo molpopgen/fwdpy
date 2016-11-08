@@ -129,4 +129,4 @@ cdef class GenoMatrixSampler(TemporalSampler):
         Output file names will be stub.generationX.repY.gz, where X is based on the sampling time, and Y is from 0
         to len(self.vec)-1.  The output file is gzipped.
         """
-       self.tofile_details(stub,repstart,keep_origin)
+        self.tofile_details(stub,repstart,keep_origin)
