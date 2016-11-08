@@ -89,6 +89,15 @@ cdef class GenoMatrixSampler(TemporalSampler):
         #    n=np.insert(n,0,deref(beg).second.get().G)
         #return n 
     def get(self,bint keep_origin = False):
+        """
+        Return each genotype matrix as a 2D Numpy array.
+
+        :param keep_origin: (False) If True, the second column will be all 1s, representing the origin in a linear model.
+       
+        The first column of each matrix is the gentic value.  If keep_origin is True, then the 
+        second column is set to 1.  All remaining columns are 0,1,2 copies of the derived allele.
+        Columns are sorted depending on the values passed to the constructor.
+        """
         rv=[]
         cdef vector[pair[uint,geno_matrix_ptr]].iterator beg,end
         for i in range(self.vec.size()):
@@ -110,4 +119,14 @@ cdef class GenoMatrixSampler(TemporalSampler):
         for task in prange(self.vec.size(),nogil=True,schedule='static'):
             self.tofile_details_task((<geno_matrix_sampler_t*>self.vec[task].get()).f,stub,repstart+task,keep_origin)
     def tofile(self,stub,repstart=0,keep_origin=False):
+        """
+        Write matrices to files.
+
+        :param stub: Base name for output files
+        :param repstart: Initial integer for output file names
+        :param keep_origin: (False) If True, the second column will be all 1s, representing the origin in a linear model.
+
+        Output file names will be stub.generationX.repY.gz, where X is based on the sampling time, and Y is from 0
+        to len(self.vec)-1.  The output file is gzipped.
+        """
        self.tofile_details(stub,repstart,keep_origin)
