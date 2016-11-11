@@ -62,6 +62,8 @@ namespace fwdpy
                 gsl_matrix_alloc(pop->diploids.size(), neut_indexes.size())),
                 gc(gsl_matrix_alloc(pop->diploids.size(),
                                     causative_indexes.size()));
+			gsl_matrix_set_zero(gn.get());
+			gsl_matrix_set_zero(gc.get());
             // Fill the matrices, etc.
             std::size_t row = 0;
             std::vector<double> G, E;
