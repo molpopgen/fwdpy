@@ -14,6 +14,9 @@ cdef extern from "gwas_genotype_matrix.hpp" namespace "fwdpy::gwas" nogil:
         size_t n_causative
 
     genotype_matrix make_geno_matrix(const singlepop_t * pop,
+                                     const vector[size_t] & individuals,
+                                     bint maf) except +
+    genotype_matrix make_geno_matrix(const singlepop_t * pop,
                                      bint maf) except +
         
         

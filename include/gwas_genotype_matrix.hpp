@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
-
+#include <unordered_set>
 namespace fwdpy
 {
     namespace gwas
@@ -34,57 +34,126 @@ namespace fwdpy
             genotype_matrix(const genotype_matrix &) = default;
         };
 
-        genotype_matrix
-        make_geno_matrix(const singlepop_t *pop, bool maf = true)
-        //! Quick and dirty for ADL & Ted.
+        struct mut_info
         {
             std::vector<std::size_t> neut_indexes, causative_indexes;
             std::vector<double> npos, cpos;
-            for (std::size_t i = 0; i < pop->mcounts.size(); ++i)
+            mut_info() : neut_indexes{}, causative_indexes{}, npos{}, cpos{} {}
+        };
+
+        inline mut_info
+        get_mutation_indexes(const singlepop_t *pop,
+                             const std::vector<std::size_t> &individuals)
+        {
+            mut_info m;
+            std::unordered_set<std::size_t> neut_indexes, causative_indexes;
+            std::unordered_set<double> npos, cpos;
+            for (auto &ind : individuals)
+                {
+                    auto &dip = pop->diploids[ind];
+                    for (auto &m : pop->gametes[dip.first].mutations)
+                        {
+                            if (pop->mcounts[m]
+                                && pop->mcounts[m] < 2 * pop->diploids.size())
+                                {
+                                    neut_indexes.insert(m);
+                                    npos.insert(pop->mutations[m].pos);
+                                }
+                        }
+                    for (auto &m : pop->gametes[dip.second].mutations)
+                        {
+                            if (pop->mcounts[m]
+                                && pop->mcounts[m] < 2 * pop->diploids.size())
+                                {
+                                    neut_indexes.insert(m);
+                                    npos.insert(pop->mutations[m].pos);
+                                }
+                        }
+                    for (auto &m : pop->gametes[dip.first].smutations)
+                        {
+                            if (pop->mcounts[m]
+                                && pop->mcounts[m] < 2 * pop->diploids.size())
+                                {
+                                    causative_indexes.insert(m);
+                                    cpos.insert(pop->mutations[m].pos);
+                                }
+                        }
+                    for (auto &m : pop->gametes[dip.second].smutations)
+                        {
+                            if (pop->mcounts[m]
+                                && pop->mcounts[m] < 2 * pop->diploids.size())
+                                {
+                                    causative_indexes.insert(m);
+                                    cpos.insert(pop->mutations[m].pos);
+                                }
+                        }
+                }
+            m.neut_indexes.insert(m.neut_indexes.end(), neut_indexes.begin(),
+                                  neut_indexes.end());
+            m.causative_indexes.insert(m.causative_indexes.end(),
+                                       causative_indexes.begin(),
+                                       causative_indexes.end());
+			m.npos.insert(m.npos.end(),npos.begin(),npos.end());
+			m.cpos.insert(m.cpos.end(),cpos.begin(),cpos.end());
+            /*for (std::size_t i = 0; i < pop->mcounts.size(); ++i)
                 {
                     if (pop->mcounts[i]
                         && pop->mcounts[i] < 2 * pop->diploids.size())
                         {
                             if (pop->mutations[i].neutral)
                                 {
-                                    neut_indexes.push_back(i);
-                                    npos.push_back(pop->mutations[i].pos);
+                                    m.neut_indexes.push_back(i);
+                                    m.npos.push_back(pop->mutations[i].pos);
                                 }
                             else
                                 {
-                                    causative_indexes.push_back(i);
-                                    cpos.push_back(pop->mutations[i].pos);
+                                    m.causative_indexes.push_back(i);
+                                    m.cpos.push_back(pop->mutations[i].pos);
                                 }
                         }
                 }
+                                */
+            return m;
+        }
+
+        genotype_matrix
+        make_geno_matrix(const singlepop_t *pop,
+                         std::vector<std::size_t> &individuals,
+                         bool maf = true)
+        //! Quick and dirty for ADL & Ted.
+        {
+            auto mi = get_mutation_indexes(pop,individuals);
             // Use GSL matrixes
-			gsl::gsl_matrix_ptr_t gn(
-                gsl_matrix_alloc(pop->diploids.size(), neut_indexes.size())),
+            gsl::gsl_matrix_ptr_t gn(gsl_matrix_alloc(pop->diploids.size(),
+                                                      mi.neut_indexes.size())),
                 gc(gsl_matrix_alloc(pop->diploids.size(),
-                                    causative_indexes.size()));
-			gsl_matrix_set_zero(gn.get());
-			gsl_matrix_set_zero(gc.get());
+                                    mi.causative_indexes.size()));
+            gsl_matrix_set_zero(gn.get());
+            gsl_matrix_set_zero(gc.get());
             // Fill the matrices, etc.
             std::size_t row = 0;
             std::vector<double> G, E;
             G.reserve(pop->diploids.size());
             E.reserve(pop->diploids.size());
-            for (const auto &dip : pop->diploids)
+            // for (const auto &dip : pop->diploids)
+            for (auto ind : individuals)
                 {
+                    auto &dip = pop->diploids[ind];
                     G.push_back(dip.g);
                     E.push_back(dip.e);
                     // Fill selected matrix
-                    if (!causative_indexes.empty())
+                    if (!mi.causative_indexes.empty())
                         {
                             for (auto k : pop->gametes[dip.first].smutations)
                                 {
                                     auto i = std::find(
-                                        causative_indexes.begin(),
-                                        causative_indexes.end(), k);
-                                    if (i != causative_indexes.end())
+                                        mi.causative_indexes.begin(),
+                                        mi.causative_indexes.end(), k);
+                                    if (i != mi.causative_indexes.end())
                                         {
                                             std::size_t col = std::distance(
-                                                causative_indexes.begin(), i);
+                                                mi.causative_indexes.begin(),
+                                                i);
                                             if (col >= gc->size2)
                                                 throw std::out_of_range(
                                                     "column index out of "
@@ -100,12 +169,13 @@ namespace fwdpy
                             for (auto k : pop->gametes[dip.second].smutations)
                                 {
                                     auto i = std::find(
-                                        causative_indexes.begin(),
-                                        causative_indexes.end(), k);
-                                    if (i != causative_indexes.end())
+                                        mi.causative_indexes.begin(),
+                                        mi.causative_indexes.end(), k);
+                                    if (i != mi.causative_indexes.end())
                                         {
                                             std::size_t col = std::distance(
-                                                causative_indexes.begin(), i);
+                                                mi.causative_indexes.begin(),
+                                                i);
                                             if (col >= gc->size2)
                                                 throw std::out_of_range(
                                                     "column index out of "
@@ -120,16 +190,17 @@ namespace fwdpy
                                 }
                         }
                     // Fill neutral matrix
-                    if (!neut_indexes.empty())
+                    if (!mi.neut_indexes.empty())
                         {
                             for (auto k : pop->gametes[dip.first].mutations)
                                 {
-                                    auto i = std::find(neut_indexes.begin(),
-                                                       neut_indexes.end(), k);
-                                    if (i != neut_indexes.end())
+                                    auto i
+                                        = std::find(mi.neut_indexes.begin(),
+                                                    mi.neut_indexes.end(), k);
+                                    if (i != mi.neut_indexes.end())
                                         {
                                             std::size_t col = std::distance(
-                                                neut_indexes.begin(), i);
+                                                mi.neut_indexes.begin(), i);
                                             if (col >= gn->size2)
                                                 throw std::out_of_range(
                                                     "column index out of "
@@ -144,12 +215,13 @@ namespace fwdpy
                                 }
                             for (auto k : pop->gametes[dip.second].mutations)
                                 {
-                                    auto i = std::find(neut_indexes.begin(),
-                                                       neut_indexes.end(), k);
-                                    if (i != neut_indexes.end())
+                                    auto i
+                                        = std::find(mi.neut_indexes.begin(),
+                                                    mi.neut_indexes.end(), k);
+                                    if (i != mi.neut_indexes.end())
                                         {
                                             std::size_t col = std::distance(
-                                                neut_indexes.begin(), i);
+                                                mi.neut_indexes.begin(), i);
                                             if (col >= gn->size2)
                                                 throw std::out_of_range(
                                                     "column index out of "
@@ -167,16 +239,26 @@ namespace fwdpy
                 }
             return genotype_matrix(
                 std::move(G), std::move(E),
-                (!neut_indexes.empty())
+                (!mi.neut_indexes.empty())
                     ? std::vector<double>(gn->data,
                                           gn->data + (gn->size1 * gn->size2))
                     : std::vector<double>(),
-                (!causative_indexes.empty())
+                (!mi.causative_indexes.empty())
                     ? std::vector<double>(gc->data,
                                           gc->data + (gc->size1 * gc->size2))
                     : std::vector<double>(),
-                std::move(npos), std::move(cpos), pop->diploids.size(),
-                neut_indexes.size(), causative_indexes.size());
+                std::move(mi.npos), std::move(mi.cpos), pop->diploids.size(),
+                mi.neut_indexes.size(), mi.causative_indexes.size());
+        }
+
+        genotype_matrix
+        make_geno_matrix(const singlepop_t *pop, bool maf = true)
+        {
+            std::vector<std::size_t> ind(pop->diploids.size());
+            std::size_t i = 0;
+            std::transform(ind.begin(), ind.end(), ind.begin(),
+                           [&i](std::size_t indi) { return i++; });
+            return make_geno_matrix(pop, ind, maf);
         }
     }
 }
