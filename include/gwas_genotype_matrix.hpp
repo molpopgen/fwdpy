@@ -124,9 +124,9 @@ namespace fwdpy
         {
             auto mi = get_mutation_indexes(pop,individuals);
             // Use GSL matrixes
-            gsl::gsl_matrix_ptr_t gn(gsl_matrix_alloc(pop->diploids.size(),
+            gsl::gsl_matrix_ptr_t gn(gsl_matrix_alloc(individuals.size(),
                                                       mi.neut_indexes.size())),
-                gc(gsl_matrix_alloc(pop->diploids.size(),
+                gc(gsl_matrix_alloc(individuals.size(),
                                     mi.causative_indexes.size()));
             gsl_matrix_set_zero(gn.get());
             gsl_matrix_set_zero(gc.get());
