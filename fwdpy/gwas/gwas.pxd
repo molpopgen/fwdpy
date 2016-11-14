@@ -9,6 +9,8 @@ cdef extern from "gwas_genotype_matrix.hpp" namespace "fwdpy::gwas" nogil:
         vector[double] causative
         vector[double] npos
         vector[double] cpos
+        vector[double] q_neutral
+        vector[double] q_causative
         size_t N
         size_t n_neutral
         size_t n_causative
