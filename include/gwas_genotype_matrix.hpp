@@ -1,8 +1,7 @@
 #ifndef FWDPY_GWAS_GENOTYPE_MATRIX_HPP
 #define FWDPY_GWAS_GENOTYPE_MATRIX_HPP
 
-#include "sampler_additive_variance.hpp"
-#include "gsl.hpp"
+//#include "sampler_additive_variance.hpp"
 #include "types.hpp"
 #include <algorithm>
 #include <stdexcept>
@@ -10,7 +9,6 @@
 #include <vector>
 #include <unordered_set>
 #include <stdexcept>
-#include <iostream>
 namespace fwdpy
 {
     namespace gwas
@@ -23,7 +21,12 @@ namespace fwdpy
             std::vector<double> G, E, neutral, causative, npos, cpos,
                 q_neutral, q_causative;
             std::size_t N, n_neutral, n_causative;
-            genotype_matrix() {}
+            genotype_matrix()
+                : G{}, E{}, neutral{}, causative{}, npos{}, cpos{},
+                  q_neutral{}, q_causative{}, N{ 0 }, n_neutral{ 0 },
+                  n_causative{ 0 }
+            {
+            }
             genotype_matrix(const genotype_matrix &) = default;
         };
 
@@ -59,21 +62,22 @@ namespace fwdpy
         {
             mut_info m;
             std::unordered_set<std::size_t> neutral, causative;
+            const double twoN = 2. * static_cast<double>(pop->diploids.size());
             for (auto &ind : individuals)
                 {
                     auto &dip = pop->diploids[ind];
-                    update_mut_key_sets(neutral, 2 * pop->diploids.size(),
-                                        pop->mcounts,
-                                        pop->gametes[dip.first].mutations);
-                    update_mut_key_sets(neutral, 2 * pop->diploids.size(),
-                                        pop->mcounts,
-                                        pop->gametes[dip.second].mutations);
-                    update_mut_key_sets(causative, 2 * pop->diploids.size(),
-                                        pop->mcounts,
-                                        pop->gametes[dip.first].smutations);
-                    update_mut_key_sets(causative, 2 * pop->diploids.size(),
-                                        pop->mcounts,
-                                        pop->gametes[dip.second].smutations);
+                    update_mut_key_sets(
+                        neutral, static_cast<KTfwd::uint_t>(twoN),
+                        pop->mcounts, pop->gametes[dip.first].mutations);
+                    update_mut_key_sets(
+                        neutral, static_cast<KTfwd::uint_t>(twoN),
+                        pop->mcounts, pop->gametes[dip.second].mutations);
+                    update_mut_key_sets(
+                        causative, static_cast<KTfwd::uint_t>(twoN),
+                        pop->mcounts, pop->gametes[dip.first].smutations);
+                    update_mut_key_sets(
+                        causative, static_cast<KTfwd::uint_t>(twoN),
+                        pop->mcounts, pop->gametes[dip.second].smutations);
                 }
             m.neut_indexes.insert(m.neut_indexes.end(), neutral.begin(),
                                   neutral.end());
@@ -87,7 +91,6 @@ namespace fwdpy
                       [&pop](std::size_t a, std::size_t b) {
                           return pop->mutations[a].pos < pop->mutations[b].pos;
                       });
-            const double twoN = 2. * static_cast<double>(pop->diploids.size());
             for (auto &mk : m.neut_indexes)
                 {
                     m.npos.push_back(pop->mutations[mk].pos);
@@ -104,37 +107,30 @@ namespace fwdpy
         }
 
         inline void
-        update_matrix(gsl_matrix *m, const std::size_t row,
-                      const std::vector<std::size_t> &indexes,
-                      const std::vector<KTfwd::uint_t> &mut_keys)
+        update_row(std::vector<double> &v,
+                   const std::vector<KTfwd::uint_t> &mut_keys,
+                   const std::vector<std::size_t> &indexes)
         {
-            for (auto &&k : mut_keys)
+            if (v.size() != indexes.size())
                 {
-                    auto i = std::find(indexes.begin(), indexes.end(), k);
-                    if (i == indexes.end())
-                        {
-                            throw std::runtime_error(
-                                "mutation key not found in indexes");
-                        }
-                    auto col = std::distance(indexes.begin(), i);
-                    auto p = gsl_matrix_ptr(m, row, col);
-                    *p += 1.0;
+                    throw std::runtime_error("vector sizes do not match");
                 }
-        }
-
-        inline std::vector<double>
-        row_major_copy(const gsl_matrix *m)
-        {
-            std::vector<double> rv;
-            for (std::size_t row = 0; row < m->size1; ++row)
+            for (auto &&mk : mut_keys)
                 {
-                    auto row_view = gsl_matrix_const_row(m, row);
-                    for (std::size_t j = 0; j < row_view.vector.size; ++j)
+                    auto i = std::find(indexes.begin(), indexes.end(),
+                                       static_cast<std::size_t>(mk));
+                    if (i != indexes.end()) // i may equal indexes.end iff mk
+                                            // refers to a fixation
                         {
-                            rv.push_back(gsl_vector_get(&row_view.vector, j));
+                            auto idx = std::distance(indexes.begin(), i);
+                            if (static_cast<std::size_t>(idx) >= v.size())
+                                {
+                                    throw std::runtime_error(
+                                        "idx >= v.size()");
+                                }
+                            v[static_cast<std::size_t>(idx)] += 1.0;
                         }
                 }
-            return rv;
         }
 
         genotype_matrix
@@ -144,69 +140,34 @@ namespace fwdpy
         //! Quick and dirty for ADL & Ted.
         {
             auto mi = get_mutation_indexes(pop, individuals);
-            // Use GSL matrixes
-            gsl::gsl_matrix_ptr_t gn(
-                gsl_matrix_alloc(individuals.size(), mi.neut_indexes.size())),
-                gc(gsl_matrix_alloc(individuals.size(),
-                                    mi.causative_indexes.size()));
-            gsl_matrix_set_zero(gn.get());
-            gsl_matrix_set_zero(gc.get());
-            // Fill the matrices, etc.
-            std::size_t row = 0;
             genotype_matrix rv;
             rv.G.reserve(individuals.size());
             rv.E.reserve(individuals.size());
+            std::vector<double> neutral_row(mi.neut_indexes.size(), 0.);
+            std::vector<double> causative_row(mi.causative_indexes.size(), 0.);
             for (auto ind : individuals)
                 {
                     auto &dip = pop->diploids[ind];
                     rv.G.push_back(dip.g);
                     rv.E.push_back(dip.e);
-                    // Fill selected matrix
-                    update_matrix(gc.get(), row, mi.causative_indexes,
-                                  pop->gametes[dip.first].smutations);
-                    update_matrix(gc.get(), row, mi.causative_indexes,
-                                  pop->gametes[dip.second].smutations);
-                    // Fill neutral matrix
-                    update_matrix(gn.get(), row, mi.neut_indexes,
-                                  pop->gametes[dip.first].mutations);
-                    update_matrix(gn.get(), row, mi.neut_indexes,
-                                  pop->gametes[dip.second].mutations);
-                    ++row;
+                    update_row(neutral_row, pop->gametes[dip.first].mutations,
+                               mi.neut_indexes);
+                    update_row(neutral_row, pop->gametes[dip.second].mutations,
+                               mi.neut_indexes);
+                    update_row(causative_row,
+                               pop->gametes[dip.first].smutations,
+                               mi.causative_indexes);
+                    update_row(causative_row,
+                               pop->gametes[dip.second].smutations,
+                               mi.causative_indexes);
+                    rv.neutral.insert(rv.neutral.end(), neutral_row.begin(),
+                                      neutral_row.end());
+                    rv.causative.insert(rv.causative.end(),
+                                        causative_row.begin(),
+                                        causative_row.end());
+                    std::fill(neutral_row.begin(), neutral_row.end(), 0.);
+                    std::fill(causative_row.begin(), causative_row.end(), 0.);
                 }
-            // sum up first 3,000 of column 0
-            auto c0 = gsl_matrix_const_column(gn.get(), 0);
-            double c0sum = 0.;
-            for (unsigned j = 0; j < c0.vector.size; ++j)
-                {
-                    c0sum += gsl_vector_get(&c0.vector, j);
-                }
-            std::cout << "c0sum = " << c0sum << '\n';
-            for (unsigned j = 0; j < gn->size2; ++j)
-                {
-                    // check that this column is sound
-                    auto c = gsl_matrix_const_column(gn.get(), j);
-                    double sum = 0.;
-                    for (unsigned k = 0; k < c.vector.size; ++k)
-                        {
-                            sum += gsl_vector_get(&c.vector, k);
-                        }
-                    unsigned ncopies = static_cast<unsigned>(sum);
-                    unsigned ncopies_pop = static_cast<unsigned>(std::round(
-                        mi.qn[j] * 2.
-                        * static_cast<double>(pop->diploids.size())));
-                    unsigned ncopies_pop2 = pop->mcounts[mi.neut_indexes[j]];
-                    if (ncopies > ncopies_pop || ncopies > ncopies_pop2)
-                        {
-                            throw std::runtime_error(
-                                std::to_string(ncopies) + ' '
-                                + std::to_string(ncopies_pop) + ' '
-                                + std::to_string(ncopies_pop2) + ' '
-                                + std::to_string(sum) + ' '
-                                + std::to_string(mi.qn[j]));
-                        }
-                }
-            rv.neutral = row_major_copy(gn.get());
-            rv.causative = row_major_copy(gc.get());
             rv.n_neutral = mi.neut_indexes.size();
             rv.n_causative = mi.causative_indexes.size();
             rv.npos = std::move(mi.npos);
@@ -214,7 +175,23 @@ namespace fwdpy
             rv.q_neutral = std::move(mi.qn);
             rv.q_causative = std::move(mi.qc);
             rv.N = individuals.size();
+            double check = 0.;
+            for (std::size_t i = 1; i < rv.neutral.size() / 2;
+                 i += rv.n_neutral)
+                {
+                    check += rv.neutral[i];
+                }
             // Final checks on rv
+            if (rv.neutral.size() != (individuals.size() * rv.n_neutral))
+                {
+                    throw std::runtime_error(
+                        "incorrect matrix size for neutral variants");
+                }
+            if (rv.causative.size() != (individuals.size() * rv.n_causative))
+                {
+                    throw std::runtime_error(
+                        "incorrect matrix size for causative variants");
+                }
             if (rv.npos.size() != rv.q_neutral.size()
                 || rv.npos.size() != rv.n_neutral
                 || rv.q_neutral.size() != rv.n_neutral)
