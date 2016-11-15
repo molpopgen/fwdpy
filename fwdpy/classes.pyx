@@ -158,6 +158,14 @@ cdef class SpopVec(PopVec):
         Returns number of populations (size of underlying C++ vector)
         """
         return self.pops.size()
+    def clear(self):
+        """
+        Frees the memory allocated by each simulated population.
+
+        Result is an empty object.
+        """
+        self.pypops = []
+        self.pops.clear()
 
 cdef class MlocusPopVec(PopVec):
     """
@@ -219,6 +227,14 @@ cdef class MlocusPopVec(PopVec):
         Returns number of populations (size of underlying C++ vector)
         """
         return self.pops.size()
+    def clear(self):
+        """
+        Frees the memory allocated by each simulated population.
+
+        Result is an empty object.
+        """
+        self.pypops = []
+        self.pops.clear()
     
 cdef class SpopGenMutVec(PopVec):
     def __cinit__(self,unsigned npops,unsigned N):
@@ -255,8 +271,18 @@ cdef class SpopGenMutVec(PopVec):
     cpdef size(self):
         """
         Returns number of populations (size of underlying C++ vector)
+
+        Result is an empty object.
         """
         return self.pops.size()
+    def clear(self):
+        """
+        Frees the memory allocated by each simulated population.
+
+        Result is an empty object.
+        """
+        self.pypops = []
+        self.pops.clear()
     
 cdef class MetaPop(PopType):
     """
@@ -348,7 +374,15 @@ cdef class MetaPopVec(PopVec):
         this object and p will not share any pointers
         """
         self.__append_details__(copypops(p))
-        
+    def clear(self):
+        """
+        Frees the memory allocated by each simulated population.
+
+        Result is an empty object.
+        """
+        self.pympops=[]
+        self.mpops.clear()
+
 cdef class GSLrng:
     """
     A wrapper around a random number generator (rng) 
