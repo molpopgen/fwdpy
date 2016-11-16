@@ -350,11 +350,6 @@ cdef struct diploid_mloc_data:
     vector[double] sh0,sh1
     vector[int] n0,n1
 
-cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil
-cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
-cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
-cdef diploid_mloc_data get_diploid_mloc( const dipvector_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
-
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment

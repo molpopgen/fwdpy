@@ -165,7 +165,14 @@ extensions.extend(
                sources=["fwdpy/fitness"+EXTENSION],
                language="c++",
                include_dirs=GLOBAL_INCLUDES,
-               extra_compile_args=GLOBAL_COMPILE_ARGS,)]
+               extra_compile_args=GLOBAL_COMPILE_ARGS,),
+    Extension("fwdpy.views",
+               sources=["fwdpy/views"+EXTENSION],
+               language="c++",
+               include_dirs=GLOBAL_INCLUDES,
+               extra_compile_args=GLOBAL_COMPILE_ARGS,)
+    ]
+    
     )
 
 ##This is the list of extension modules

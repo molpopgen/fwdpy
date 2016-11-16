@@ -82,6 +82,10 @@ Functions and classes
    :members:
    :show-inheritance:
 
+.. automodule:: fwdpy.views
+   :members:
+   :show-inheritance:
+
 .. automodule:: fwdpy.fitness
    :members:
    :show-inheritance:

@@ -14,7 +14,8 @@ cdef extern from "<iterator>" namespace "std":
         pass
     back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
 
-    
+include "view_fixations.pyx"
+
 cdef popgen_mut_data get_mutation(const popgenmut & m,
                                   size_t n) nogil:
     cdef popgen_mut_data rv
