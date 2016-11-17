@@ -30,6 +30,9 @@ def add_mutation(PopType p,
     >>> #x will have value 0 b/c it is first mutation entered into pop
     >>> x
     0
+    >>> #Note here how the position returned is not exactly
+    >>> #the position input.  This occurs because not all 
+    >>> #floating-point values are representable exactly.
     >>> fp.views.view_mutations(p[0])
     [position: 0.00999999977648, count: 4, origin time: 1, fixation time: None, s: 0.0, h: 1.0, neutral: True, label: 0.]
     """
