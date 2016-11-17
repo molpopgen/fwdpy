@@ -81,6 +81,7 @@ def view_diploids(object p, list indlist, deme = None):
     >>> popsizes = np.array([1000],dtype=np.uint32)
     >>> popsizes=np.tile(popsizes,100)
     >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
+    >>> dips = fwdpy.views.view_diploids(pops,[0,101,201,301])
     >>> dips = [fwdpy.views.view_diploids(i,[0,101,201,301]) for i in pops]
 
     .. note:: :class:`fwdpy.fwdpy.MetaPopVec` currently not supported
@@ -94,8 +95,8 @@ def view_diploids(object p, list indlist, deme = None):
             raise RuntimeError("view_diploids: deme index required for metapopulation")
         return view_diploids_metapop(p,indlist,deme)
     elif isinstance(p,SpopVec):
-        return [view_diploids_singlepop(<Spop>i) for i in <SpopVec>p]
+        return [view_diploids_singlepop(<Spop>i,indlist) for i in <SpopVec>p]
     elif isinstance(p,MlocusPopVec):
-        return [view_diploids_singlepop_mloc(<MlocusPop>i) for i in <MlocusPopVec>p]
+        return [view_diploids_singlepop_mloc(<MlocusPop>i,indlist) for i in <MlocusPopVec>p]
     else:
         raise RuntimeError("view_diploids: unsupported object type")
