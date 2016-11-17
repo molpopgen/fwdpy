@@ -328,27 +328,6 @@ ctypedef vector[diploid_t].iterator dipvector_t_itr
 #vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
 ctypedef ucont_t mcounts_cont_t
 
-##Define some low-level functions that may be useful for others
-cdef struct popgen_mut_data:
-    double pos,s,h
-    unsigned n,g,ftime
-    bint neutral
-    uint16_t label
-
-cdef struct gamete_data:
-    vector[popgen_mut_data] neutral,selected
-    unsigned n
-
-cdef struct diploid_data:
-    gamete_data chrom0,chrom1
-    double g,e,w,sh0,sh1
-    int n0,n1
-
-cdef struct diploid_mloc_data:
-    vector[gamete_data] chrom0,chrom1
-    double g,e,w
-    vector[double] sh0,sh1
-    vector[int] n0,n1
 
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.

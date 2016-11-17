@@ -1,45 +1,16 @@
 from libcpp.vector cimport vector
 
-cdef popgen_mut_data get_fixed_mutation(const popgenmut & m,
+cdef MutationView get_fixed_mutation(const popgenmut & m,
                                         const unsigned ftime,
-                                        const unsigned N) nogil:
-    cdef popgen_mut_data rv
-    rv.pos=m.pos
-    rv.n=2*N
-    rv.g=m.g
-    rv.ftime=ftime
-    rv.s=m.s
-    rv.h=m.h
-    rv.neutral=m.neutral
-    rv.label=m.xtra
-    return rv
+                                        const unsigned N):
+    return MutationView(m.pos,2*N,m.g,ftime,m.s,m.h,m.neutral,m.xtra)
 
 cdef vector[popgen_mut_data] view_fixations_details( const mcont_t & fixations,
                                                      const vector[uint] & fixation_times,
-                                                     const unsigned N) nogil:
-    cdef vector[popgen_mut_data] rv
-    cdef size_t i=0,j=fixations.size()
-    while i!=j:
-        rv.push_back(get_fixed_mutation(fixations[i],fixation_times[i],N))
-        i+=1
-    return rv
-
-def view_fixations_popvec(SpopVec p):
-    cdef vector[vector[popgen_mut_data]] rv
-    cdef size_t npops=p.pops.size()
-    rv.resize(npops)
-    cdef int i
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i]=view_fixations_details(p.pops[i].get().fixations,p.pops[i].get().fixation_times,p.pops[i].get().N)
-    return rv
-
-def view_fixations_mlocuspopvec(MlocusPopVec p):
-    cdef vector[vector[popgen_mut_data]] rv
-    cdef size_t npops=p.pops.size()
-    rv.resize(npops)
-    cdef int i
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i]=view_fixations_details(p.pops[i].get().fixations,p.pops[i].get().fixation_times,p.pops[i].get().N)
+                                                     const unsigned N):
+    rv=[]
+    for i in range(fixation_times.size()):
+        rv.append(get_fixed_mutation(fixations[i],fixation_times[i],N))
     return rv
 
 def view_fixations(object p):
@@ -50,18 +21,16 @@ def view_fixations(object p):
 
     :return: A list of tuples. The first element is fixation time, and the second is a dict containing data about the mutation.
 
-    .. note:: You may need to call :func:`fwdpy.fwdpy.view_mutations` to view all types of fixations, depending on the type of simulation you are running.
+    .. note:: You may need to call :func:`fwdpy.views.view_mutations` to view all types of fixations, depending on the type of simulation you are running.
     """
-
-    #Streamline using casts:
     if isinstance(p,Spop):
         return view_fixations_details((<Spop>p).pop.get().fixations,(<Spop>p).pop.get().fixation_times,(<Spop>p).pop.get().N)
     if isinstance(p,MetaPop):
         return view_fixations_details((<MetaPop>p).mpop.get().fixations,(<MetaPop>p).mpop.get().fixation_times,sum((<MetaPop>p).mpop.get().Ns))
     elif isinstance(p,SpopVec):
-        return view_fixations_popvec(p)
+        return [view_fixations_details((<Spop>i).pop.get().fixations,(<Spop>i).pop.get().fixation_times,(<Spop>i).pop.get().N) for i in p]
     elif isinstance(p,MlocusPopVec):
-        return view_fixations_mlocuspopvec(p)
+        return [view_fixations_details((<MlocusPop>i).pop.get().fixations,(<MlocusPop>i).pop.get().fixation_times,(<MlocusPop>i).pop.get().N) for i in p]
     else:
         raise ValueError("unsupported type")    
     

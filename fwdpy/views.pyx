@@ -1,5 +1,4 @@
 from cython.operator import dereference as deref,postincrement as inc
-from cython.parallel import parallel, prange
 from libcpp.limits cimport numeric_limits
 import pandas as pd
 
@@ -14,426 +13,55 @@ cdef extern from "<iterator>" namespace "std":
         pass
     back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
 
+cdef class MutationView(object):
+    def __cinit__(self,float pos,uint32_t n,uint32_t g,ftime, float s,
+            float h, bint neutral,uint16_t label):
+        self.pos=pos
+        self.n=n
+        self.g=g
+        self.ftime=ftime
+        self.s=s
+        self.h=h
+        self.neutral=neutral
+        self.label=label
+    def __repr__(self):
+        r = b'position: ' + format(self.pos) + b', '
+        r += b'count: ' + format(self.n) + b', '
+        r += b'origin time: ' + format(self.g) + b', '
+        r += b'fixation time: ' + format(self.ftime) + b', '
+        r += b's: ' + format(self.s) + b', '
+        r += b'h: ' + format(self.h) + b', '
+        r += b'neutral: ' + format(self.neutral) + b', '
+        r += b'label: ' + format(self.label) + b'.'
+        return r
+
+cdef class GameteView(object):
+    def __cinit__(self,list neutral_mutations,list selected_mutations, int count):
+        self.neutral=neutral_mutations
+        self.selected=selected_mutations
+        self.n=count
+
+cdef class DiploidView(object):
+    def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness):
+        self.first=a
+        self.second=b
+        self.g=genetic_value
+        self.e=env_value
+        self.w=fitness
+
+cdef class MultiLocusDiploidView(object):
+    def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness):
+        self.first=a
+        self.second=b
+        self.g=genetic_value
+        self.e=env_value
+        self.w=fitness
+
+include "view_mutations.pyx"
 include "view_fixations.pyx"
-
-cdef popgen_mut_data get_mutation(const popgenmut & m,
-                                  size_t n) nogil:
-    cdef popgen_mut_data rv
-    cdef numeric_limits[unsigned] ul
-    rv.pos=m.pos
-    rv.n=<unsigned>n
-    rv.g=m.g
-    rv.ftime=ul.max()
-    rv.s=m.s
-    rv.h=m.h
-    rv.neutral=m.neutral
-    rv.label=m.xtra
-    return rv
-
-cdef gamete_data get_gamete(const gamete_t & g,
-                            const mcont_t & mutations,
-                            const mcounts_cont_t & mcounts) nogil:
-    cdef gamete_data rv
-    cdef size_t i=0,j=g.mutations.size()
-    while i<j:
-        rv.neutral.push_back(get_mutation(mutations[g.mutations[i]],mcounts[g.mutations[i]]))
-        i+=1
-
-    i=0
-    j=g.smutations.size()
-    while i<j:
-        rv.selected.push_back(get_mutation(mutations[g.smutations[i]],mcounts[g.smutations[i]]))
-        i+=1
-    rv.n=g.n
-    return rv
-
-cdef diploid_data get_diploid(const diploid_t & dip,
-                              const gcont_t & gametes,
-                              const mcont_t & mutations,
-                              const mcounts_cont_t & mcounts) nogil:
-   cdef diploid_data rv
-   rv.g=dip.g
-   rv.e=dip.e
-   rv.w=dip.w
-   rv.chrom0=get_gamete(gametes[dip.first],mutations,mcounts)
-   rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)
-   rv.n0 = <unsigned>rv.chrom0.selected.size()
-   rv.n1 = <unsigned>rv.chrom1.selected.size()
-   rv.sh0=0.0
-   rv.sh1=0.0
-   cdef size_t i = 0
-   while i < rv.chrom0.selected.size():
-       rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)
-       i+=1
-   i=0
-   while i < rv.chrom1.selected.size():
-       rv.sh1+=(rv.chrom1.selected[i].s*rv.chrom1.selected[i].h)
-       i+=1
-   return rv
-
-cdef diploid_mloc_data get_diploid_mloc (const dipvector_t & dip,
-                                         const gcont_t & gametes,
-                                         const mcont_t & mutations,
-                                         const mcounts_cont_t & mcounts) nogil:
-    cdef diploid_mloc_data rv
-    cdef gamete_data gd
-    rv.g=dip[0].g
-    rv.e=dip[0].e
-    rv.w=dip[0].w
-    cdef size_t i = 0
-    for j in range(dip.size()):
-        rv.chrom0.push_back(get_gamete(gametes[dip[j].first],mutations,mcounts))
-        rv.chrom1.push_back(get_gamete(gametes[dip[j].second],mutations,mcounts))
-        rv.n1.push_back(<unsigned>rv.chrom0[j].selected.size())
-        rv.n0.push_back(<unsigned>rv.chrom1[j].selected.size())
-        rv.sh0.push_back(0.)
-        rv.sh1.push_back(0.)
-        while i < rv.chrom0[j].selected.size():
-            rv.sh0[j]+=(rv.chrom0[j].selected[i].s*rv.chrom0[j].selected[i].h)
-            i+=1
-        i=0      
-        while i < rv.chrom1[j].selected.size():
-            rv.sh1[j]+=(rv.chrom1[j].selected[i].s*rv.chrom1[j].selected[i].h)
-            i+=1
-    return rv
-
-
-cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations,
-                                                    const mcounts_cont_t & mcounts) nogil:
-    cdef vector[popgen_mut_data] rv
-    cdef size_t i=0,j=mutations.size()
-    while i!=j:
-        #skip extinct mutation
-        if mcounts[i]:
-            rv.push_back(get_mutation(mutations[i],mcounts[i]))
-        i+=1
-    return rv
-
-cdef vector[gamete_data] view_gametes_details(const singlepop_t * pop) nogil:
-    cdef vector[gamete_data] rv
-    cdef size_t i = 0, j = pop.gametes.size()
-    while i!=j:
-        #skip extinct gamets
-        if pop.gametes[i].n:
-            rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))
-        i+=1
-    return rv
-
-cdef vector[gamete_data] view_gametes_details_mloc(const multilocus_t * pop) nogil:
-    cdef vector[gamete_data] rv
-    cdef size_t i = 0, j = pop.gametes.size()
-    while i!=j:
-        #skip extinct gamets
-        if pop.gametes[i].n:
-            rv.push_back(get_gamete(pop.gametes[i],pop.mutations,pop.mcounts))
-        i+=1
-    return rv
-
-cdef vector[diploid_data] view_diploids_details(const dipvector_t & diploids,
-                                                const gcont_t & gametes,
-                                                const mcont_t & mutations,
-                                                const mcounts_cont_t & mcounts,
-                                                const vector[unsigned] & indlist) nogil:
-    cdef vector[diploid_data] rv
-    for i in range(indlist.size()):
-        rv.push_back(get_diploid(diploids[indlist[i]],gametes,mutations,mcounts))
-    return rv
-
-
-cdef vector[diploid_mloc_data] view_diploids_details_mloc(const vector[dipvector_t] & diploids,
-                                                          const gcont_t & gametes,
-                                                          const mcont_t & mutations,
-                                                          const mcounts_cont_t & mcounts,
-                                                          const vector[unsigned] & indlist) nogil:
-    cdef vector[diploid_mloc_data] rv
-    for i in range(indlist.size()):
-        rv.push_back(get_diploid_mloc(diploids[indlist[i]],gametes,mutations,mcounts))
-    return rv
-
-def view_mutations_singlepop(Spop p):
-    cdef mcont_t_itr beg = p.pop.get().mutations.begin()
-    cdef mcont_t_itr end = p.pop.get().mutations.end()
-    cdef vector[popgen_mut_data] rv
-    with nogil:
-        rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
-    return rv
-
-def view_mutations_singlepop_mloc(MlocusPop p):
-    cdef mcont_t_itr beg = p.pop.get().mutations.begin()
-    cdef mcont_t_itr end = p.pop.get().mutations.end()
-    cdef vector[popgen_mut_data] rv
-    with nogil:
-        rv = view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
-    return rv
-
-def view_mutations_popvec(SpopVec p):
-    cdef mcont_t_itr beg,end
-    cdef vector[vector[popgen_mut_data]] rv
-    cdef size_t npops = p.pops.size()
-    cdef int i
-    rv.resize(npops)
-    #for i in range(npops):
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i] = view_mutations_details(p.pops[i].get().mutations,p.pops[i].get().mcounts)
-
-    return rv
-
-def view_mutations_popvec_mloc(MlocusPopVec p):
-    cdef mcont_t_itr beg,end
-    cdef vector[vector[popgen_mut_data]] rv
-    cdef size_t npops = p.pops.size()
-    cdef int i
-    rv.resize(npops)
-    #for i in range(npops):
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i] = view_mutations_details(p.pops[i].get().mutations,p.pops[i].get().mcounts)
-
-    return rv
-
-def view_mutations_metapop(MetaPop p,unsigned deme):
-    if deme >= len(p.popsizes()):
-        raise IndexError("view_mutations: deme index out of range")
-    #get the gametes from this population
-    gams = view_gametes_metapop(p,deme)
-    #extract the mutations from each gamete
-    allmuts = []
-    umuts = []
-    for g in gams:
-        for m in g['neutral']:
-            allmuts.append(m)
-            if umuts.count(m) == 0:
-                umuts.append(m)
-        for m in g['selected']:
-            allmuts.append(m)
-            if umuts.count(m) == 0:
-                umuts.append(m)
-
-    rv = []
-    dummy=0
-    for i in umuts:
-        rv.append(i)
-        rv[dummy]['n'] = allmuts.count(i)
-        dummy+=1
-    return rv
-
-def view_mutations(object p, deme = None):
-    """
-    Get detailed list of all mutations in the population
-
-    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
-
-    :rtype: a list of dictionaries.  See Note.
-
-    Example:
-
-    >>> import fwdpy
-    >>> import numpy as np
-    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
-    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
-    >>> rregions = [fwdpy.Region(0,3,1)]
-    >>> rng = fwdpy.GSLrng(100)
-    >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,100)
-    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> #muts[0] will be a list and muts[0][0] will be a dict
-    >>> muts = [fwdpy.view_mutations(i) for i in pops]
-
-    .. note:: :class:`fwdpy.fwdpy.MetaPopVec` currently not supported
-    """
-    if isinstance(p,Spop):
-        return view_mutations_singlepop(p)
-    elif isinstance(p,MlocusPop):
-        return view_mutations_singlepop_mloc(p)
-    elif isinstance(p,SpopVec):
-        return view_mutations_popvec(p)
-    elif isinstance(p,MlocusPopVec):
-        return view_mutations_popvec_mloc(p)
-    elif isinstance(p,MetaPop):
-        if deme is None:
-            raise RuntimeError("view_mutations: deme cannot be none for metapops")
-        return view_mutations_metapop(p,deme)
-    else:
-        raise RuntimeError("view_mutations: unsupported object type")
-    
-def view_gametes_singlepop(Spop p):
-    return view_gametes_details(p.pop.get())
-
-def view_gametes_singlepop_mloc(MlocusPop p):
-    return view_gametes_details_mloc(p.pop.get())
-
-def view_gametes_popvec(SpopVec p):
-    cdef:
-        gcont_t_itr beg,end
-        size_t npops = p.pops.size()
-        int i
-        vector[vector[gamete_data]] rv
-    rv.resize(npops)
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i]=view_gametes_details(p.pops[i].get())
-    return rv
-
-def view_gametes_popvec_mloc(MlocusPopVec p):
-    cdef:
-        gcont_t_itr beg,end
-        size_t npops = p.pops.size()
-        int i
-        vector[vector[gamete_data]] rv
-    rv.resize(npops)
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i]=view_gametes_details_mloc(p.pops[i].get())
-    return rv
-
-def view_gametes_metapop(MetaPop p, unsigned deme):
-    if deme >= len(p.popsizes()):
-        raise IndexError("view_gametes: deme index out of range")
-    temp1 = view_diploids(p,list(range(p.mpop.get().diploids[deme].size())),deme)
-    #Get unique list of haplotypes
-    unique_gams = []
-    allgams = []
-    for i in temp1:
-        if unique_gams.count(i['chrom0'])==0:
-            unique_gams.append(i['chrom0'])
-        if unique_gams.count(i['chrom1'])==0:
-            unique_gams.append(i['chrom1'])
-        allgams.append(i['chrom0'])
-        allgams.append(i['chrom1'])
-    #clear temp1 and fill it with unique gametes + their counts in this deme
-    temp1=[]
-    dummy=0
-    for i in unique_gams:
-        temp1.append(i)
-        temp1[dummy]['n'] = allgams.count(i)
-        dummy+=1
-    return temp1
-
-def view_gametes(object p ,deme = None):
-    """
-    Get detailed list of all gametes in the population
-
-    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
-    :param deme: If p is a :class:`fwdpy.fwdpy.MetaPop`, deme is the index of the deme to view
-
-    :rtype: a list of dictionaries.  See note.
-
-    Example for a single deme:
-
-    >>> import fwdpy
-    >>> import numpy as np
-    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
-    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
-    >>> rregions = [fwdpy.Region(0,3,1)]
-    >>> rng = fwdpy.GSLrng(100)
-    >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,100)
-    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> dips = [fwdpy.view_gametes(i) for i in pops]
-
-    .. note:: :class:`fwdpy.fwdpy.MetaPopVec` currently not supported
-    """
-    if isinstance(p,Spop):
-        return view_gametes_singlepop(p)
-    elif isinstance(p,MlocusPop):
-        return view_gametes_singlepop_mloc(p)
-    elif isinstance(p,SpopVec):
-        return view_gametes_popvec(p)
-    elif isinstance(p,MlocusPopVec):
-        return view_gametes_popvec_mloc(p)
-    elif isinstance(p,MetaPop):
-        if deme is None:
-            raise RuntimeError("view_gametes: deme cannot be None when p is a MetaPop")
-        return view_gametes_metapop(p,deme)
-    else:
-        raise RuntimeError("view_gametes: unsupported object type")
-
-def view_diploids_singlepop(Spop p, list indlist):
-    for i in indlist:
-        if i >= p.popsize():
-            raise IndexError("index greater than population size")
-    return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
-
-def view_diploids_singlepop_mloc(MlocusPop p, list indlist):
-    for i in indlist:
-        if i >= p.popsize():
-            raise IndexError("index greater than population size")
-    return view_diploids_details_mloc(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
-
-
-def view_diploids_popvec(SpopVec p, list indlist):
-    cdef size_t npops = len(p),i
-    cdef vector[vector[diploid_data]] rv
-    rv.resize(npops)
-    cdef vector[unsigned] il
-    for i in indlist:
-        il.push_back(<unsigned>(i))
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i] = view_diploids_details(p.pops[i].get().diploids,
-                                      p.pops[i].get().gametes,
-                                      p.pops[i].get().mutations,
-                                      p.pops[i].get().mcounts,il)
-    return rv
-        
-def view_diploids_popvec_mloc(MlocusPopVec p, list indlist):
-    cdef size_t npops = len(p),i
-    cdef vector[vector[diploid_mloc_data]] rv
-    rv.resize(npops)
-    cdef vector[unsigned] il
-    for i in indlist:
-        il.push_back(<unsigned>(i))
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
-        rv[i] = view_diploids_details_mloc(p.pops[i].get().diploids,
-                                           p.pops[i].get().gametes,
-                                           p.pops[i].get().mutations,
-                                           p.pops[i].get().mcounts,il)
-    return rv
-
-def view_diploids_metapop(MetaPop p, list indlist, unsigned deme):
-    psizes = p.popsizes()
-    for i in indlist:
-        for ps in psizes:
-            if i >= ps:
-                raise IndexError("index greater than deme size")
-    if deme >= len(p.popsizes()):
-        raise IndexError("view_diploids: deme index out of range")
-    return view_diploids_details(p.mpop.get().diploids[deme],p.mpop.get().gametes,p.mpop.get().mutations,p.mpop.get().mcounts,indlist)
-    
-def view_diploids(object p, list indlist, deme = None):
-    """
-    Get detailed list of a set of diploids in the population
-
-    :param p: a :class:`fwdpy.fwdpy.PopType` or a :class:`fwdpy.fwdpy.PopVec`
-    :param deme: if p is a :class`fwdpy.fwdpy.MetaPop`, deme is the index of the deme to sample
-    
-    :rtype: a list of dictionaries.  See Note.
-
-    Example:
-
-    >>> import fwdpy
-    >>> import numpy as np
-    >>> nregions = [fwdpy.Region(0,1,1),fwdpy.Region(2,3,1)]
-    >>> sregions = [fwdpy.ExpS(1,2,1,-0.1),fwdpy.ExpS(1,2,0.01,0.001)]
-    >>> rregions = [fwdpy.Region(0,3,1)]
-    >>> rng = fwdpy.GSLrng(100)
-    >>> popsizes = np.array([1000],dtype=np.uint32)
-    >>> popsizes=np.tile(popsizes,100)
-    >>> pops = fwdpy.evolve_regions(rng,1,1000,popsizes[0:],0.001,0.0001,0.001,nregions,sregions,rregions)
-    >>> dips = [fwdpy.view_diploids(i,[0,101,201,301]) for i in pops]
-
-    .. note:: :class:`fwdpy.fwdpy.MetaPopVec` currently not supported
-    """
-    if isinstance(p,Spop):
-        return view_diploids_singlepop(p,indlist)
-    elif isinstance(p,MlocusPop):
-        return view_diploids_singlepop_mloc(p, indlist)
-    elif isinstance(p,MetaPop):
-        if deme is None:
-            raise RuntimeError("view_diploids: deme index required for metapopulation")
-        return view_diploids_metapop(p,indlist,deme)
-    elif isinstance(p,SpopVec):
-        return view_diploids_popvec(p,indlist)
-    elif isinstance(p,MlocusPopVec):
-        return view_diploids_popvec_mloc(p,indlist)
-    else:
-        raise RuntimeError("view_diploids: unsupported object type")
+include "view_gametes.pyx"
+include "view_diploids.pyx"
+include "view_diploid_traits.pyx"
 
 cdef diploid_view_to_sample_init_containers(list mutations, map[double,string] * rmap, list info, const size_t ttl_nsam):
     cdef map[double,string].iterator map_itr
@@ -616,7 +244,7 @@ cdef struct diploid_view_data:
     vector[double] s,h
     vector[unsigned] n,g,ind,chrom
 
-cdef void resize_dip_view_data(diploid_view_data & dv, size_t nr) nogil:
+cdef void resize_dip_view_data(diploid_view_data & dv, size_t nr) :
     dv.s.resize(nr)
     dv.h.resize(nr)
     dv.n.resize(nr)
@@ -629,7 +257,7 @@ cdef size_t fill_dip_view_data(vector[popgen_mut_data].iterator gbeg,
                                diploid_view_data & rv,
                                const size_t ROW,
                                const size_t IND,
-                               const size_t ch) nogil:
+                               const size_t ch) :
    cdef size_t R=ROW
    while gbeg != gend:
        rv.s[R] = deref(gbeg).s
@@ -644,7 +272,7 @@ cdef size_t fill_dip_view_data(vector[popgen_mut_data].iterator gbeg,
 
 cdef diploid_view_data view_diploids_pd_details(const singlepop_t * pop,
                                                 const vector[unsigned] & indlist,
-                                                bint selectedOnly) nogil:
+                                                bint selectedOnly) :
     cdef vector[diploid_data] v = view_diploids_details(pop.diploids,
                                                         pop.gametes,
                                                         pop.mutations,
@@ -690,7 +318,7 @@ def view_diploids_pd_popvec(SpopVec p,
     cdef int i
     cdef vector[diploid_view_data] rv
     rv.resize(npops)
-    for i in prange(npops,schedule='static',nogil=True,chunksize=1):
+    for i in range(npops):
         rv[i]=view_diploids_pd_details(p.pops[i].get(),indlist,selectedOnly)
     return rv
 
@@ -717,62 +345,3 @@ def view_diploids_pd(object p,
     elif isinstance(p,Spop):
         return pd.DataFrame(view_diploids_pd_singlepop(p,indlist,selectedOnly))
 
-cdef diploid_traits_singlepop(Spop p):
-    rv=[]
-    for i in range(p.pop.get().diploids.size()):
-        rv.append({'g':p.pop.get().diploids[i].g,
-                   'e':p.pop.get().diploids[i].e,
-                   'w':p.pop.get().diploids[i].w})
-        
-    return rv
-
-cdef diploid_traits_popvec(SpopVec p):
-    return [diploid_traits_singlepop(i) for i in p]
-
-cdef diploid_traits_singlepop_mloc(MlocusPop p):
-    rv=[]
-    for i in range(p.pop.get().diploids.size()):
-        rv.append({'g':p.pop.get().diploids[i][0].g,
-                   'e':p.pop.get().diploids[i][0].e,
-                   'w':p.pop.get().diploids[i][0].w})
-        
-    return rv
-
-cdef diploid_traits_popvec_mloc(MlocusPopVec p):
-    return [diploid_traits_singlepop_mloc(i) for i in p]
-
-
-cdef diploid_traits_mpop(MetaPop m, deme):
-    if deme > m.mpop.get().diploids.size():
-        raise RuntimeError("deme value out of range")
-    rv=[]
-    for i in range(m.mpop.get().diploids[deme].size()):
-        rv.append({'g':m.mpop.get().diploids[deme][i].g,
-                   'e':m.mpop.get().diploids[deme][i].e,
-                   'w':m.mpop.get().diploids[deme][i].w})
-
-cdef diploid_traits_mpopvec(MetaPopVec p,deme):
-    return [diploid_traits_mpop(i,deme) for i in p]
-
-def diploid_traits(object p, deme = None):
-    """
-    Return genetic value (g), environmental value (e), and fitness (w) for all diploids.
-    """
-    if isinstance(p,Spop):
-        return diploid_traits_singlepop(p)
-    elif isinstance(p,MlocusPop):
-        return diploid_traits_singlepop_mloc(p)
-    elif isinstance(p,MetaPop):
-        if deme is None:
-            raise RuntimeError("deme cannot be None")
-        return diploid_traits_mpop(p,deme)
-    if isinstance(p,SpopVec):
-        return diploid_traits_popvec(p)
-    if isinstance(p,MlocusPopVec):
-        return diploid_traits_popvec_mloc(p)
-    elif isinstance(p,MetaPopVec):
-        if deme is None:
-            raise RuntimeError("deme cannot be None")
-        return diploid_traits_mpopvec(p,deme)
-    else:
-        raise ValueError("unsupported type")    
