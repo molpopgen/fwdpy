@@ -1,19 +1,19 @@
 cdef GameteView get_gamete(const gamete_t & g,
                             const mcont_t & mutations,
-                            const mcounts_cont_t & mcounts) :
+                            const mcounts_cont_t & mcounts,int index) :
     n=[]
     for i in range(<int>g.mutations.size()):
-        n.append(get_mutation(mutations[g.mutations[<size_t>i]],mcounts[g.mutations[<size_t>i]]))
+        n.append(get_mutation(mutations[g.mutations[<size_t>i]],mcounts[g.mutations[<size_t>i]],i))
     s=[]
     for i in range(<int>g.smutations.size()):
-        s.append(get_mutation(mutations[g.smutations[<size_t>i]],mcounts[g.smutations[<size_t>i]]))
-    return GameteView(n,s,g.n)
+        s.append(get_mutation(mutations[g.smutations[<size_t>i]],mcounts[g.smutations[<size_t>i]],i))
+    return GameteView(n,s,g.n,index)
 
 cdef list view_gametes_details(const gcont_t & gametes,const mcont_t & mutations, const vector[uint] & mcounts):
     rv=[]
     for i in range(gametes.size()):
         if gametes[i].n:
-            rv.append(get_gamete(gametes[i],mutations,mcounts))
+            rv.append(get_gamete(gametes[i],mutations,mcounts,i))
     return rv
 
 def view_gametes_metapop(MetaPop p, unsigned deme):
@@ -70,9 +70,9 @@ def view_gametes(object p ,deme = None):
     elif isinstance(p,MlocusPop):
         return view_gametes_details((<MlocusPop>p).pop.get().gametes,(<MlocusPop>p).pop.get().mutations,(<MlocusPop>p).pop.get().mcounts)
     elif isinstance(p,SpopVec):
-        return [view_gametes_details((<Spop>i).pop.get().gametes,(<Spop>i).pop.get().mutations,(<Spop>i).pop.get().mcounts) for i in <SpopVec>i]
+        return [view_gametes_details((<Spop>i).pop.get().gametes,(<Spop>i).pop.get().mutations,(<Spop>i).pop.get().mcounts) for i in <SpopVec>p]
     elif isinstance(p,MlocusPopVec):
-        return [view_gametes_details((<MlocusPop>i).pop.get().gametes,(<MlocusPop>i).pop.get().mutations,(<MlocusPop>i).pop.get().mcounts) for i in <MlocusPopVec>i]
+        return [view_gametes_details((<MlocusPop>i).pop.get().gametes,(<MlocusPop>i).pop.get().mutations,(<MlocusPop>i).pop.get().mcounts) for i in <MlocusPopVec>p]
     elif isinstance(p,MetaPop):
         if deme is None:
             raise RuntimeError("view_gametes: deme cannot be None when p is a MetaPop")

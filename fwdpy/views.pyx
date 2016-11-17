@@ -15,7 +15,7 @@ cdef extern from "<iterator>" namespace "std":
 
 cdef class MutationView(object):
     def __cinit__(self,float pos,uint32_t n,uint32_t g,ftime, float s,
-            float h, bint neutral,uint16_t label):
+            float h, bint neutral,uint16_t label,index):
         self.pos=pos
         self.n=n
         self.g=g
@@ -24,6 +24,7 @@ cdef class MutationView(object):
         self.h=h
         self.neutral=neutral
         self.label=label
+        self.index=index
     def __repr__(self):
         r = b'position: ' + format(self.pos) + b', '
         r += b'count: ' + format(self.n) + b', '
@@ -36,27 +37,33 @@ cdef class MutationView(object):
         return r
 
 cdef class GameteView(object):
-    def __cinit__(self,list neutral_mutations,list selected_mutations, int count):
+    def __cinit__(self,list neutral_mutations,list selected_mutations, int count,index):
         self.neutral=neutral_mutations
         self.selected=selected_mutations
         self.n=count
+        self.index=index
+    def __repr__(self):
+        r = b'Neutral variants:\n' + b'\n'.join([str(i) for i in self.neutral]) + b'\n'
+        r += b'Selected variants:\n' + b'\n'.join([str(i) for i in self.selected]) + b'\n'
+        return r
 
 cdef class DiploidView(object):
-    def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness):
+    def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness,index):
         self.first=a
         self.second=b
         self.g=genetic_value
         self.e=env_value
         self.w=fitness
-
+        self.index=index
 cdef class MultiLocusDiploidView(object):
-    def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness):
+    def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness,index):
         self.first=a
         self.second=b
         self.g=genetic_value
         self.e=env_value
         self.w=fitness
-
+        self.index=index
+        
 include "view_mutations.pyx"
 include "view_fixations.pyx"
 include "view_gametes.pyx"

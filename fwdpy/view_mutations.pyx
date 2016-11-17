@@ -1,6 +1,6 @@
 #cdef popgen_mut_data get_mutation(const popgenmut & m,
-cdef MutationView get_mutation(const popgenmut & m,size_t n) :
-    return MutationView(m.pos,n,m.h,None,m.s,m.h,m.neutral,m.xtra)
+cdef MutationView get_mutation(const popgenmut & m,size_t n,int index) :
+    return MutationView(m.pos,n,m.h,None,m.s,m.h,m.neutral,m.xtra,index)
 
 cdef list view_mutations_details(const mcont_t & mutations,
                                  const mcounts_cont_t & mcounts) :
@@ -8,7 +8,7 @@ cdef list view_mutations_details(const mcont_t & mutations,
     for i in range(mcounts.size()):
         #skip extinct mutation
         if mcounts[i]:
-            rv.append(get_mutation(mutations[i],mcounts[i]))
+            rv.append(get_mutation(mutations[i],mcounts[i],i))
     return rv
 
 def view_mutations_singlepop(Spop p):

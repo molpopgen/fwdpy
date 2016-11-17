@@ -2,21 +2,21 @@
 cdef DiploidView get_diploid(const diploid_t & dip,
                               const gcont_t & gametes,
                               const mcont_t & mutations,
-                              const mcounts_cont_t & mcounts) :
-    g1=get_gamete(gametes[dip.first],mutations,mcounts)
-    g2=get_gamete(gametes[dip.second],mutations,mcounts)
-    return DiploidView(g1,g2,dip.g,dip.w,dip.w)
+                              const mcounts_cont_t & mcounts,int index) :
+    g1=get_gamete(gametes[dip.first],mutations,mcounts,dip.first)
+    g2=get_gamete(gametes[dip.second],mutations,mcounts,dip.first)
+    return DiploidView(g1,g2,dip.g,dip.w,dip.w,index)
 
 cdef MultiLocusDiploidView get_diploid_mloc (const dipvector_t & dip,
                                          const gcont_t & gametes,
                                          const mcont_t & mutations,
-                                         const mcounts_cont_t & mcounts) :
+                                         const mcounts_cont_t & mcounts,int index) :
     loci1=[]
     loci2=[]
     for j in range(<int>dip.size()):
-        loci1.append(get_gamete(gametes[dip[j].first],mutations,mcounts))
-        loci2.append(get_gamete(gametes[dip[j].second],mutations,mcounts))
-    return MultiLocusDiploidView(loci1,loci2,dip[0].g,dip[0].e,dip[0].w)
+        loci1.append(get_gamete(gametes[dip[j].first],mutations,mcounts,dip[j].first))
+        loci2.append(get_gamete(gametes[dip[j].second],mutations,mcounts,dip[j].second))
+    return MultiLocusDiploidView(loci1,loci2,dip[0].g,dip[0].e,dip[0].w,index)
 
 
 cdef list view_diploids_details(const dipvector_t & diploids,
@@ -28,7 +28,7 @@ cdef list view_diploids_details(const dipvector_t & diploids,
     for i in range(indlist.size()):
         if i >= diploids.size():
             raise IndexError("index greater than population size")
-        rv.append(get_diploid(diploids[indlist[i]],gametes,mutations,mcounts))
+        rv.append(get_diploid(diploids[indlist[i]],gametes,mutations,mcounts,i))
     return rv
 
 
@@ -41,7 +41,7 @@ cdef list view_diploids_details_mloc(const vector[dipvector_t] & diploids,
     for i in range(indlist.size()):
         if i >= diploids.size():
             raise IndexError("index greater than population size")
-        rv.append(get_diploid_mloc(diploids[indlist[i]],gametes,mutations,mcounts))
+        rv.append(get_diploid_mloc(diploids[indlist[i]],gametes,mutations,mcounts,i))
     return rv
 
 def view_diploids_singlepop(Spop p, list indlist):
