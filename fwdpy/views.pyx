@@ -50,6 +50,14 @@ cdef class GameteView(object):
         r = b'Neutral variants:\n' + b'\n'.join([str(i) for i in self.neutral]) + b'\n'
         r += b'Selected variants:\n' + b'\n'.join([str(i) for i in self.selected]) + b'\n'
         return r
+    def __iter__(self):
+        return iter(self.neutral+self.selected)
+    def __next__(self):
+        return next(self.neutral+self.selected)
+    def __getitem__(self, int i):
+        return (self.neutral+self.selected)[i] 
+    def __len__(self):
+        return len(self.neutral+self.selected)
 
 cdef class DiploidView(object):
     def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness,key):
