@@ -25,26 +25,26 @@ cdef struct diploid_mloc_data:
 
 cdef class MutationView(object):
     cdef readonly float pos,s,h
-    cdef readonly int n,g,label,key
+    cdef readonly int n,g,label,mut_key
     cdef readonly object ftime
     cdef readonly bint neutral
     cdef object __weakref__
 
 cdef class GameteView(object):
     cdef readonly list neutral,selected
-    cdef readonly int n,key 
+    cdef readonly int n,gam_key 
     cdef object __weakref__
 
 cdef class DiploidView(object):
     cdef readonly GameteView first,second
     cdef readonly float g,e,w
-    cdef readonly int key
+    cdef readonly int dip_key
     cdef object __weakref__
 
 cdef class MultiLocusDiploidView(object):
     cdef readonly list first,second
     cdef readonly float g,e,w
-    cdef readonly int key
+    cdef readonly int dip_key
     cdef object __weakref__
 
 cdef MutationView get_mutation(const popgenmut & m, size_t n,int key) 

@@ -24,7 +24,7 @@ cdef class MutationView(object):
         self.h=h
         self.neutral=neutral
         self.label=label
-        self.key=key
+        self.mut_key=key
     def __repr__(self):
         r = b'position: ' + format(self.pos) + b', '
         r += b'count: ' + format(self.n) + b', '
@@ -34,18 +34,18 @@ cdef class MutationView(object):
         r += b'h: ' + format(self.h) + b', '
         r += b'neutral: ' + format(self.neutral) + b', '
         r += b'label: ' + format(self.label) + b', '
-        r += b'key: ' + format(self.key)
+        r += b'mut_key: ' + format(self.mut_key)
         return r
     def as_dict(self):
         return {'position':self.pos,'count':self.n,'origin':self.g,
                 'fixation':self.ftime,'s':self.s,'h':self.h,'neutral':self.neutral,
-                'label':self.label,'key':self.key}
+                'label':self.label,'mut_key':self.mut_key}
 cdef class GameteView(object):
     def __cinit__(self,list neutral_mutations,list selected_mutations, int count,key):
         self.neutral=neutral_mutations
         self.selected=selected_mutations
         self.n=count
-        self.key=key
+        self.gam_key=key
     def __repr__(self):
         r = b'Neutral variants:\n' + b'\n'.join([str(i) for i in self.neutral]) + b'\n'
         r += b'Selected variants:\n' + b'\n'.join([str(i) for i in self.selected]) + b'\n'
@@ -58,7 +58,7 @@ cdef class DiploidView(object):
         self.g=genetic_value
         self.e=env_value
         self.w=fitness
-        self.key=key
+        self.dip_key=key
 cdef class MultiLocusDiploidView(object):
     def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness,key):
         self.first=a
@@ -66,7 +66,7 @@ cdef class MultiLocusDiploidView(object):
         self.g=genetic_value
         self.e=env_value
         self.w=fitness
-        self.key=key
+        self.dip_key=key
         
 include "view_mutations.pyx"
 include "view_fixations.pyx"
