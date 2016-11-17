@@ -15,7 +15,7 @@ cdef extern from "<iterator>" namespace "std":
 
 cdef class MutationView(object):
     def __cinit__(self,float pos,uint32_t n,uint32_t g,ftime, float s,
-            float h, bint neutral,uint16_t label,index):
+            float h, bint neutral,uint16_t label,key):
         self.pos=pos
         self.n=n
         self.g=g
@@ -24,7 +24,7 @@ cdef class MutationView(object):
         self.h=h
         self.neutral=neutral
         self.label=label
-        self.index=index
+        self.key=key
     def __repr__(self):
         r = b'position: ' + format(self.pos) + b', '
         r += b'count: ' + format(self.n) + b', '
@@ -33,36 +33,40 @@ cdef class MutationView(object):
         r += b's: ' + format(self.s) + b', '
         r += b'h: ' + format(self.h) + b', '
         r += b'neutral: ' + format(self.neutral) + b', '
-        r += b'label: ' + format(self.label) + b'.'
+        r += b'label: ' + format(self.label) + b', '
+        r += b'key: ' + format(self.key)
         return r
-
+    def as_dict(self):
+        return {'position':self.pos,'count':self.n,'origin':self.g,
+                'fixation':self.ftime,'s':self.s,'h':self.h,'neutral':self.neutral,
+                'label':self.label,'key':self.key}
 cdef class GameteView(object):
-    def __cinit__(self,list neutral_mutations,list selected_mutations, int count,index):
+    def __cinit__(self,list neutral_mutations,list selected_mutations, int count,key):
         self.neutral=neutral_mutations
         self.selected=selected_mutations
         self.n=count
-        self.index=index
+        self.key=key
     def __repr__(self):
         r = b'Neutral variants:\n' + b'\n'.join([str(i) for i in self.neutral]) + b'\n'
         r += b'Selected variants:\n' + b'\n'.join([str(i) for i in self.selected]) + b'\n'
         return r
 
 cdef class DiploidView(object):
-    def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness,index):
+    def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness,key):
         self.first=a
         self.second=b
         self.g=genetic_value
         self.e=env_value
         self.w=fitness
-        self.index=index
+        self.key=key
 cdef class MultiLocusDiploidView(object):
-    def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness,index):
+    def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness,key):
         self.first=a
         self.second=b
         self.g=genetic_value
         self.e=env_value
         self.w=fitness
-        self.index=index
+        self.key=key
         
 include "view_mutations.pyx"
 include "view_fixations.pyx"

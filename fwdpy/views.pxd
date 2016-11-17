@@ -25,29 +25,29 @@ cdef struct diploid_mloc_data:
 
 cdef class MutationView(object):
     cdef readonly float pos,s,h
-    cdef readonly int n,g,label,index
+    cdef readonly int n,g,label,key
     cdef readonly object ftime
     cdef readonly bint neutral
     cdef object __weakref__
 
 cdef class GameteView(object):
     cdef readonly list neutral,selected
-    cdef readonly int n,index 
+    cdef readonly int n,key 
     cdef object __weakref__
 
 cdef class DiploidView(object):
     cdef readonly GameteView first,second
     cdef readonly float g,e,w
-    cdef readonly int index
+    cdef readonly int key
     cdef object __weakref__
 
 cdef class MultiLocusDiploidView(object):
     cdef readonly list first,second
     cdef readonly float g,e,w
-    cdef readonly int index
+    cdef readonly int key
     cdef object __weakref__
 
-cdef MutationView get_mutation(const popgenmut & m, size_t n,int index) 
-cdef GameteView get_gamete(const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts,int index) 
-cdef DiploidView get_diploid(const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts,int index) 
-cdef MultiLocusDiploidView get_diploid_mloc(const dipvector_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts,int index) 
+cdef MutationView get_mutation(const popgenmut & m, size_t n,int key) 
+cdef GameteView get_gamete(const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts,int key) 
+cdef DiploidView get_diploid(const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts,int key) 
+cdef MultiLocusDiploidView get_diploid_mloc(const dipvector_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts,int key) 

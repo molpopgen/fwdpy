@@ -1,6 +1,6 @@
 #cdef popgen_mut_data get_mutation(const popgenmut & m,
-cdef MutationView get_mutation(const popgenmut & m,size_t n,int index) :
-    return MutationView(m.pos,n,m.h,None,m.s,m.h,m.neutral,m.xtra,index)
+cdef MutationView get_mutation(const popgenmut & m,size_t n,int key) :
+    return MutationView(m.pos,n,m.h,None,m.s,m.h,m.neutral,m.xtra,key)
 
 cdef list view_mutations_details(const mcont_t & mutations,
                                  const mcounts_cont_t & mcounts) :
@@ -20,7 +20,7 @@ def view_mutations_singlepop_mloc(MlocusPop p):
 def view_mutations_metapop(MetaPop p,unsigned deme):
     raise RuntimeError("needs refactoring")
     if deme >= len(p.popsizes()):
-        raise IndexError("view_mutations: deme index out of range")
+        raise IndexError("view_mutations: deme key out of range")
     #get the gametes from this population
     gams = view_gametes_metapop(p,deme)
     #extract the mutations from each gamete

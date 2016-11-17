@@ -34,7 +34,7 @@ def add_mutation(PopType p,
     >>> #the position input.  This occurs because not all 
     >>> #floating-point values are representable exactly.
     >>> fp.views.view_mutations(p[0])
-    [position: 0.00999999977648, count: 4, origin time: 1, fixation time: None, s: 0.0, h: 1.0, neutral: True, label: 0.]
+    [position: 0.00999999977648, count: 4, origin time: 1, fixation time: None, s: 0.0, h: 1.0, neutral: True, label: 0, key: 0]
     """
     if isinstance(p,Spop):
         return add_mutation_cpp((<Spop>p).pop.get(),indlist,clist,<double>pos,s,h)
