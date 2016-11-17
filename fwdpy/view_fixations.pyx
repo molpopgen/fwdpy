@@ -5,9 +5,9 @@ cdef MutationView get_fixed_mutation(const popgenmut & m,
                                         const unsigned N):
     return MutationView(m.pos,2*N,m.g,ftime,m.s,m.h,m.neutral,m.xtra)
 
-cdef vector[popgen_mut_data] view_fixations_details( const mcont_t & fixations,
-                                                     const vector[uint] & fixation_times,
-                                                     const unsigned N):
+cdef list view_fixations_details( const mcont_t & fixations,
+                                 const vector[uint] & fixation_times,
+                                 const unsigned N):
     rv=[]
     for i in range(fixation_times.size()):
         rv.append(get_fixed_mutation(fixations[i],fixation_times[i],N))

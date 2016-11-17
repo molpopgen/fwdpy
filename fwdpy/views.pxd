@@ -2,26 +2,26 @@ from fwdpy.fwdpp cimport popgenmut
 from fwdpy.fwdpy cimport *
 
 ##Define some low-level functions that may be useful for others
-cdef struct popgen_mut_data:
-    double pos,s,h
-    unsigned n,g,ftime
-    bint neutral
-    uint16_t label
-
-cdef struct gamete_data:
-    vector[popgen_mut_data] neutral,selected
-    unsigned n
-
-cdef struct diploid_data:
-    gamete_data chrom0,chrom1
-    double g,e,w,sh0,sh1
-    int n0,n1
-
-cdef struct diploid_mloc_data:
-    vector[gamete_data] chrom0,chrom1
-    double g,e,w
-    vector[double] sh0,sh1
-    vector[int] n0,n1
+#cdef struct popgen_mut_data:
+#    double pos,s,h
+#    unsigned n,g,ftime
+#    bint neutral
+#    uint16_t label
+#
+#cdef struct gamete_data:
+#    vector[popgen_mut_data] neutral,selected
+#    unsigned n
+#
+#cdef struct diploid_data:
+#    gamete_data chrom0,chrom1
+#    double g,e,w,sh0,sh1
+#    int n0,n1
+#
+#cdef struct diploid_mloc_data:
+#    vector[gamete_data] chrom0,chrom1
+#    double g,e,w
+#    vector[double] sh0,sh1
+#    vector[int] n0,n1
 
 cdef class MutationView(object):
     cdef readonly float pos,s,h
