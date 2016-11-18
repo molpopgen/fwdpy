@@ -1,17 +1,3 @@
-from cython.operator import dereference as deref,postincrement as inc
-from libcpp.limits cimport numeric_limits
-
-cdef extern from "<algorithm>" namespace "std":
-    OUTPUT move[INPUT,OUTPUT](INPUT,INPUT,OUTPUT)
-cdef extern from "<iterator>" namespace "std":
-    cdef cppclass iterator[Category,T,Distance,Pointer,Reference]:
-        pass
-    cdef cppclass output_iterator_tag:
-        pass
-    cdef cppclass back_insert_iterator[T](iterator[output_iterator_tag,void,void,void,void]):
-        pass
-    back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
-
 cdef class MutationView(object):
     """
     An immutable view of a mutation.
