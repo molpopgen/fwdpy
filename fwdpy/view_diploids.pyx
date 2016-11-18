@@ -26,7 +26,7 @@ cdef list view_diploids_details(const dipvector_t & diploids,
                                                 const vector[unsigned] & indlist) :
     rv=[]
     for i in range(indlist.size()):
-        if i >= diploids.size():
+        if indlist[i] >= diploids.size():
             raise IndexError("key greater than population size")
         rv.append(get_diploid(diploids[indlist[i]],gametes,mutations,mcounts,i))
     return rv
@@ -39,7 +39,7 @@ cdef list view_diploids_details_mloc(const vector[dipvector_t] & diploids,
                                                           const vector[unsigned] & indlist) :
     rv=[]
     for i in range(indlist.size()):
-        if i >= diploids.size():
+        if indlist[i] >= diploids.size():
             raise IndexError("key greater than population size")
         rv.append(get_diploid_mloc(diploids[indlist[i]],gametes,mutations,mcounts,i))
     return rv
