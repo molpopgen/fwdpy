@@ -1,6 +1,6 @@
 #cdef popgen_mut_data get_mutation(const popgenmut & m,
 cdef MutationView get_mutation(const popgenmut & m,size_t n,int key) :
-    return MutationView(m.pos,n,m.h,None,m.s,m.h,m.neutral,m.xtra,key)
+    return MutationView(m.pos,n,m.g,None,m.s,m.h,m.neutral,m.xtra,key)
 
 cdef list view_mutations_details(const mcont_t & mutations,
                                  const mcounts_cont_t & mcounts) :

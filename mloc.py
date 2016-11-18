@@ -1,4 +1,5 @@
 import fwdpy as fp
+import fwdpy.views as views
 import fwdpy.qtrait_mloc as qtm
 import fwdpy.demography as fpd
 import numpy as np
@@ -52,17 +53,16 @@ for i in range(1):
     sampler=fp.NothingSampler(len(x))
 
     qtm.evolve_qtraits_mloc_sample_fitness(rnge,x,sampler,f,
-            nlist[:5000],
+            nlist[:500],
             nmuts,
             delmuts,
             mmodels,
             recrates,
             [0.0]*(NLOCI-1),sample=0,
             VS=2,optimum=0.)
-    v = fp.view_mutations(x)
-    for i in v:
-        print i
-    for i in x:
-        d=fpio.serialize(i)
-        pickle.dump(d,pfile)
-pfile.close()
+    v = views.view_diploids(x[0],range(5))
+    print pd.DataFrame(v[0].as_list())
+    vm=views.view_mutations(x[0])
+    for vmi in vm:
+        print vmi
+        print vmi.as_dict()

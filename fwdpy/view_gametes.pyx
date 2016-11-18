@@ -3,10 +3,10 @@ cdef GameteView get_gamete(const gamete_t & g,
                             const mcounts_cont_t & mcounts,int index) :
     n=[]
     for i in range(<int>g.mutations.size()):
-        n.append(get_mutation(mutations[g.mutations[<size_t>i]],mcounts[g.mutations[<size_t>i]],i))
+        n.append(get_mutation(mutations[g.mutations[<size_t>i]],mcounts[g.mutations[<size_t>i]],g.mutations[<size_t>i]))
     s=[]
     for i in range(<int>g.smutations.size()):
-        s.append(get_mutation(mutations[g.smutations[<size_t>i]],mcounts[g.smutations[<size_t>i]],i))
+        s.append(get_mutation(mutations[g.smutations[<size_t>i]],mcounts[g.smutations[<size_t>i]],g.smutations[<size_t>i]))
     return GameteView(n,s,g.n,index)
 
 cdef list view_gametes_details(const gcont_t & gametes,const mcont_t & mutations, const vector[uint] & mcounts):

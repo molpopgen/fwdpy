@@ -15,7 +15,7 @@ cdef extern from "<iterator>" namespace "std":
 
 cdef class MutationView(object):
     def __cinit__(self,float pos,uint32_t n,uint32_t g,ftime, float s,
-            float h, bint neutral,uint16_t label,key):
+            float h, bint neutral,uint16_t label,int key):
         self.pos=pos
         self.n=n
         self.g=g
@@ -40,6 +40,7 @@ cdef class MutationView(object):
         return {'position':self.pos,'count':self.n,'origin':self.g,
                 'fixation':self.ftime,'s':self.s,'h':self.h,'neutral':self.neutral,
                 'label':self.label,'mut_key':self.mut_key}
+
 cdef class GameteView(object):
     def __cinit__(self,list neutral_mutations,list selected_mutations, int count,key):
         self.neutral=neutral_mutations
@@ -58,6 +59,12 @@ cdef class GameteView(object):
         return (self.neutral+self.selected)[i] 
     def __len__(self):
         return len(self.neutral+self.selected)
+    def as_list(self):
+        muts=[i.as_dict() for i in self]
+        for m in muts:
+            print "the mutation key = ",m['mut_key']
+            m['gam_key']=self.gam_key
+        return muts
 
 cdef class DiploidView(object):
     def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness,key):
@@ -67,6 +74,12 @@ cdef class DiploidView(object):
         self.e=env_value
         self.w=fitness
         self.dip_key=key
+    def as_list(self):
+        muts=self.first.as_list()+self.second.as_list()
+        for i in muts:
+            i['dip_key']=self.dip_key
+        return muts
+
 cdef class MultiLocusDiploidView(object):
     def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness,key):
         self.first=a
@@ -75,7 +88,29 @@ cdef class MultiLocusDiploidView(object):
         self.e=env_value
         self.w=fitness
         self.dip_key=key
-        
+    def __addkeys__(self,list l):
+        locus=0
+        rv=[]
+        for li in l:
+            #print type(li)
+            for lii in li.as_list():
+                lii['locus_key']=locus
+                lii['dip_key']=self.dip_key
+                rv.append(lii)
+            locus+=1
+        print "locus = ",locus
+        print "rv = ,",rv
+        return rv
+        #return [item for sublist in l for item in sublist]
+    def as_list(self):
+        print len(self.first),len(self.second)
+        loci = self.__addkeys__(self.first)
+        loci2=self.__addkeys__(self.second)
+        print type(loci),type(loci2)
+        print "total = ",loci+loci2
+        return loci+loci2
+        #return [item for sublist in loci for item in sublist]
+
 include "view_mutations.pyx"
 include "view_fixations.pyx"
 include "view_gametes.pyx"
