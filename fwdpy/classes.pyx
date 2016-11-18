@@ -215,7 +215,6 @@ cdef class MlocusPopVec(PopVec):
 
         Result is an empty object.
         """
-        self.pypops = []
         self.pops.clear()
     
 cdef class SpopGenMutVec(PopVec):
@@ -226,7 +225,6 @@ cdef class SpopGenMutVec(PopVec):
         :param npops: The number of populations
         :param N: Initial population number for each population
         """
-        self.pypops=list()
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))
     def __iter__(self):
@@ -257,7 +255,6 @@ cdef class SpopGenMutVec(PopVec):
 
         Result is an empty object.
         """
-        self.pypops = []
         self.pops.clear()
     
 cdef class MetaPop(PopType):
