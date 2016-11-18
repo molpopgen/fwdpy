@@ -92,24 +92,16 @@ cdef class MultiLocusDiploidView(object):
         locus=0
         rv=[]
         for li in l:
-            #print type(li)
             for lii in li.as_list():
                 lii['locus_key']=locus
                 lii['dip_key']=self.dip_key
                 rv.append(lii)
             locus+=1
-        print "locus = ",locus
-        print "rv = ,",rv
         return rv
-        #return [item for sublist in l for item in sublist]
     def as_list(self):
-        print len(self.first),len(self.second)
         loci = self.__addkeys__(self.first)
-        loci2=self.__addkeys__(self.second)
-        print type(loci),type(loci2)
-        print "total = ",loci+loci2
+        loci2 = self.__addkeys__(self.second)
         return loci+loci2
-        #return [item for sublist in loci for item in sublist]
 
 include "view_mutations.pyx"
 include "view_fixations.pyx"
