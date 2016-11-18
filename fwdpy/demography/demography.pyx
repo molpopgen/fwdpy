@@ -22,6 +22,7 @@ cdef swap_demes_details(MetaPop mpop, size_t i, size_t j):
     swap_demes(mpop.mpop.get(),i,j)
     
 ##def function are callable from Python:
+from cython.operator cimport dereference as deref
 
 def make_MetaPopVec(SpopVec pops):
     """
@@ -36,7 +37,7 @@ def make_MetaPopVec(SpopVec pops):
     """
     rv=MetaPopVec(len(pops),[0])
     for i in range(len(pops)):
-        rv[i].from_Spop(pops[i])
+        rv.mpops[i].reset(new metapop_t(deref(pops.pops[i].get())))
     return rv
     
 def copy_pop(MetaPopVec mpops, size_t deme_index):
