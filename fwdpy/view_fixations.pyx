@@ -9,8 +9,11 @@ cdef list view_fixations_details( const mcont_t & fixations,
                                  const vector[uint] & fixation_times,
                                  const unsigned N):
     rv=[]
-    for i in range(fixation_times.size()):
-        rv.append(get_fixed_mutation(fixations[i],fixation_times[i],N))
+    if fixation_times.empty():
+        rv.append(empty_MutationView())
+    else:
+        for i in range(fixation_times.size()):
+            rv.append(get_fixed_mutation(fixations[i],fixation_times[i],N))
     return rv
 
 def view_fixations(object p):
