@@ -1,6 +1,5 @@
 from cython.operator import dereference as deref,postincrement as inc
 from libcpp.limits cimport numeric_limits
-import pandas as pd
 
 cdef extern from "<algorithm>" namespace "std":
     OUTPUT move[INPUT,OUTPUT](INPUT,INPUT,OUTPUT)
