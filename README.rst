@@ -67,6 +67,8 @@ Changes to the Python side:
 * Added views of fixed mutations via :func:`fwdpy.fwdpy.view_fixations`
 * Better Python3 compatibility
 * Add support to serialize/deserialize :class:`fwdpy.fwdpy.MlocusPop`
+* Streamline implementation of the various :class:`fwdpy.fwdpy.PopVec` classes.  They no longer contain two containers,
+  and they yield :class:`fwdpy.fwdpy.PopType` objects upon iteration.
 
 Changes to the Cython/C++ back end:
 
