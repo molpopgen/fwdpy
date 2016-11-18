@@ -18,31 +18,41 @@ def view_mutations_singlepop_mloc(MlocusPop p):
     return view_mutations_details(p.pop.get().mutations,p.pop.get().mcounts)
 
 def view_mutations_metapop(MetaPop p,unsigned deme):
-    raise RuntimeError("needs refactoring")
     if deme >= len(p.popsizes()):
         raise IndexError("view_mutations: deme key out of range")
     #get the gametes from this population
     gams = view_gametes_metapop(p,deme)
     #extract the mutations from each gamete
-    allmuts = []
-    umuts = []
+    allmutkeys = []
+    umutkeys = []
+    umuts=[]
+    rv=[]
     for g in gams:
-        for m in g['neutral']:
-            allmuts.append(m)
-            if umuts.count(m) == 0:
-                umuts.append(m)
-        for m in g['selected']:
-            allmuts.append(m)
-            if umuts.count(m) == 0:
-                umuts.append(m)
-
-    rv = []
-    dummy=0
-    for i in umuts:
-        rv.append(i)
-        rv[dummy]['n'] = allmuts.count(i)
-        dummy+=1
+        for mv in g:
+            allmutkeys.append(mv.mut_key)
+            if umutkeys.count(mv.mut_key)==0:
+               umutkeys.append(mv.mut_key)
+               umuts.append(mv)
+        #for m in g['neutral']:
+        #    allmuts.append(m)
+        #    if umuts.count(m) == 0:
+        #        umuts.append(m)
+        #for m in g['selected']:
+        #    allmuts.append(m)
+        #    if umuts.count(m) == 0:
+        #        umuts.append(m)
+    rv=[]
+    for mv in umuts:
+        n=allmutkeys.count(mv.mut_key)
+        rv.append(MutationView(mv.pos,n,mv.v,mv.ftime,mv.s,mv.h,mv.neutral,mv.label,mv.key))
     return rv
+#    rv = []
+#    dummy=0
+#    for i in umuts:
+#        rv.append(i)
+#        rv[dummy]['n'] = allmuts.count(i)
+#        dummy+=1
+#    return rv
 
 def view_mutations(object p, deme = None):
     """
