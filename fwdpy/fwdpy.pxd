@@ -164,27 +164,23 @@ cdef class PopVec(object):
 
 cdef class SpopVec(PopVec):
     cdef vector[shared_ptr[singlepop_t]] pops
-    cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
     cpdef append(self,SpopVec p)
 
 cdef class SpopGenMutVec(PopVec):
     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
-    cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
 
 cdef class MetaPopVec(PopVec):
     cdef vector[shared_ptr[metapop_t]] mpops
-    cdef public object pympops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     cpdef append(self,MetaPopVec p)
 
 cdef class MlocusPopVec(PopVec):
     cdef vector[shared_ptr[multilocus_t]] pops
-    cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[multilocus_t]] newpops)
     cpdef append(self,MlocusPopVec p)
