@@ -13,6 +13,9 @@ cdef extern from "<iterator>" namespace "std":
     back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
 
 cdef class MutationView(object):
+    """
+    An immutable view of a mutation.
+    """
     def __cinit__(self,pos,n,g,ftime, s,
             h, neutral,label,key):
         self.pos=pos
@@ -39,6 +42,9 @@ cdef class MutationView(object):
                 except ValueError:
                     raise ValueError("incorrect value type")
     def __repr__(self):
+        """
+        Returns a "pretty" string representation
+        """
         r = b'position: ' + format(self.pos) + b', '
         r += b'count: ' + format(self.n) + b', '
         r += b'origin time: ' + format(self.g) + b', '
@@ -50,11 +56,25 @@ cdef class MutationView(object):
         r += b'mut_key: ' + format(self.mut_key)
         return r
     def as_dict(self):
+        """
+        :return: The mutation data represented as dict
+
+        :rtype: dict
+        """
         return {'position':self.pos,'count':self.n,'origin':self.g,
                 'fixation':self.ftime,'s':self.s,'h':self.h,'neutral':self.neutral,
                 'label':self.label,'mut_key':self.mut_key}
 
 cdef class GameteView(object):
+    """
+    An immutable view of a gamete.
+
+    The class is iterable, yielding :class:`fwdpy.views.MutationView`.  When iterating,
+    neutral mutations come out first, followed by selected mutations.
+
+    In many use cases, it may make more sense to manuall iterate over neutral and 
+    selected separately.
+    """
     def __cinit__(self,list neutral_mutations,list selected_mutations, int count,key):
         self.neutral=neutral_mutations
         self.selected=selected_mutations
@@ -77,12 +97,19 @@ cdef class GameteView(object):
     def num_selected(self):
         return len(self.selected)
     def as_list(self):
+        """
+        :return: All mutation data
+        :rtype: list of dict
+        """
         muts=[i.as_dict() for i in self]
         for m in muts:
             m['gam_key']=self.gam_key
         return muts
 
 cdef class DiploidView(object):
+    """
+    Immutable view of a diploid.
+    """
     def __cinit__(self,GameteView a,GameteView b,float genetic_value,float env_value,float fitness,key):
         self.first=a
         self.second=b
@@ -91,12 +118,19 @@ cdef class DiploidView(object):
         self.w=fitness
         self.dip_key=key
     def as_list(self):
+        """
+        :return: All gamete data
+        :return: list of dict
+        """
         muts=self.first.as_list()+self.second.as_list()
         for i in muts:
             i['dip_key']=self.dip_key
         return muts
 
 cdef class MultiLocusDiploidView(object):
+    """
+    Immutable view of a diploid from a multi-locus simulation.
+    """
     def __cinit__(self,list a,list b,float genetic_value, float env_value, float fitness,key):
         self.first=a
         self.second=b
@@ -116,6 +150,10 @@ cdef class MultiLocusDiploidView(object):
             locus+=1
         return rv
     def as_list(self):
+        """
+        :return: All mutation data for all loci
+        :rtype: list of dict
+        """
         loci = self.__addkeys__(self.first)
         loci2 = self.__addkeys__(self.second)
         return loci+loci2

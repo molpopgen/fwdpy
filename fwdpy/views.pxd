@@ -24,27 +24,65 @@ from fwdpy.fwdpy cimport *
 #    vector[int] n0,n1
 
 cdef class MutationView(object):
-    cdef readonly object pos,s,h
-    cdef readonly object n,g,label,mut_key
+    cdef readonly object pos
+    """Position"""
+    cdef readonly object s
+    """Effect size/selection coefficient"""
+    cdef readonly object h
+    """Dominance"""
+    cdef readonly object n
+    """Number of occurrences in the population"""
+    cdef readonly object g
+    """Origin time (generation mutation first appeared)"""
+    cdef readonly object label
+    """Mutation label"""
+    cdef readonly object mut_key
+    """Index of the mutation in the mutation container.  Value is only meaningful for the generation when view was taken"""
     cdef readonly object ftime
+    """Fixation time"""
     cdef readonly object neutral
+    """True if mutation neutral, False otherwise"""
     cdef object __weakref__
 
 cdef class GameteView(object):
-    cdef readonly list neutral,selected
-    cdef readonly int n,gam_key 
+    cdef readonly list neutral
+    """:class:`fwdpy.views.MutationView` for neutral variants"""
+    cdef readonly list selected
+    """:class:`fwdpy.views.MutationView` for selected variants"""
+    cdef readonly int n
+    """Number of occurrences of this gamete in the population"""
+    cdef readonly int gam_key 
+    """Index of gamete in gamete container. Value is only meaningful for the generation when view was taken"""  
     cdef object __weakref__
 
 cdef class DiploidView(object):
-    cdef readonly GameteView first,second
-    cdef readonly float g,e,w
+    cdef readonly GameteView first
+    """A :class:`fwdpy.views.GameteView`"""
+    cdef readonly GameteView second
+    """A :class:`fwdpy.views.GameteView`"""
+    cdef readonly float g
+    """Genetic value"""
+    cdef readonly float e
+    """Random/environmental value"""
+    cdef readonly float w
+    """Fitness"""
     cdef readonly int dip_key
+    """Index of individual in diploid container. Value is only meaningful for the generation when view was taken"""  
     cdef object __weakref__
 
 cdef class MultiLocusDiploidView(object):
-    cdef readonly list first,second
-    cdef readonly float g,e,w
+    cdef readonly GameteView first
+    """A list of :class:`fwdpy.views.GameteView`"""
+    cdef readonly GameteView second
+    """A list of A :class:`fwdpy.views.GameteView`"""
+    cdef readonly float g
+    """Genetic value"""
+    cdef readonly float e
+    """Random/environmental value"""
+    cdef readonly float w
+    """Fitness"""
     cdef readonly int dip_key
+    """Index of individual in diploid container. Value is only meaningful for the generation when view was taken"""  
     cdef object __weakref__
 
 cdef MutationView get_mutation(const popgenmut & m, size_t n,int key) 
