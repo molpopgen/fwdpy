@@ -58,6 +58,10 @@ cdef class GameteView(object):
         return (self.neutral+self.selected)[i] 
     def __len__(self):
         return len(self.neutral+self.selected)
+    def num_neutral(self):
+        return len(self.neutral)
+    def num_selected(self):
+        return len(self.selected)
     def as_list(self):
         muts=[i.as_dict() for i in self]
         for m in muts:
