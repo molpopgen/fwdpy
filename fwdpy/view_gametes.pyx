@@ -8,7 +8,7 @@ cdef GameteView get_gamete(const gamete_t & g,
         for i in range(<int>g.mutations.size()):
             n.append(get_mutation(mutations[g.mutations[<size_t>i]],mcounts[g.mutations[<size_t>i]],g.mutations[<size_t>i]))
     s=[]
-    if g.mutations.empty():
+    if g.smutations.empty():
         s.append(empty_MutationView())
     else:
         for i in range(<int>g.smutations.size()):
