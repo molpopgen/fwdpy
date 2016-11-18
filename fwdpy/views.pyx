@@ -13,8 +13,8 @@ cdef extern from "<iterator>" namespace "std":
     back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
 
 cdef class MutationView(object):
-    def __cinit__(self,float pos,uint32_t n,uint32_t g,ftime, float s,
-            float h, bint neutral,uint16_t label,int key):
+    def __cinit__(self,pos,n,g,ftime, s,
+            h, neutral,label,key):
         self.pos=pos
         self.n=n
         self.g=g
@@ -24,6 +24,20 @@ cdef class MutationView(object):
         self.neutral=neutral
         self.label=label
         self.mut_key=key
+
+        #check that types are correct
+        for i in [self.pos,self.s,self.h]:
+            if i is not None:
+                try:
+                    float(i)
+                except ValueError:
+                    raise ValueError("incorrect value type")
+        for i in [self.n,self.g,self.ftime,self.label,self.mut_key]:
+            if i is not None:
+                try:
+                    int(i)
+                except ValueError:
+                    raise ValueError("incorrect value type")
     def __repr__(self):
         r = b'position: ' + format(self.pos) + b', '
         r += b'count: ' + format(self.n) + b', '
@@ -94,6 +108,7 @@ cdef class MultiLocusDiploidView(object):
         locus=0
         rv=[]
         for li in l:
+            print type(li)
             for lii in li.as_list():
                 lii['locus_key']=locus
                 lii['dip_key']=self.dip_key
@@ -104,6 +119,9 @@ cdef class MultiLocusDiploidView(object):
         loci = self.__addkeys__(self.first)
         loci2 = self.__addkeys__(self.second)
         return loci+loci2
+
+cdef MutationView empty_MutationView():
+    return MutationView(None,None,None,None,None,None,None,None,None)
 
 include "view_mutations.pyx"
 include "view_fixations.pyx"

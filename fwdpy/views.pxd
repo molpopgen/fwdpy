@@ -24,10 +24,10 @@ from fwdpy.fwdpy cimport *
 #    vector[int] n0,n1
 
 cdef class MutationView(object):
-    cdef readonly float pos,s,h
-    cdef readonly int n,g,label,mut_key
+    cdef readonly object pos,s,h
+    cdef readonly object n,g,label,mut_key
     cdef readonly object ftime
-    cdef readonly bint neutral
+    cdef readonly object neutral
     cdef object __weakref__
 
 cdef class GameteView(object):
@@ -48,6 +48,7 @@ cdef class MultiLocusDiploidView(object):
     cdef object __weakref__
 
 cdef MutationView get_mutation(const popgenmut & m, size_t n,int key) 
+cdef MutationView empty_MutationView()
 cdef GameteView get_gamete(const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts,int key) 
 cdef DiploidView get_diploid(const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts,int key) 
 cdef MultiLocusDiploidView get_diploid_mloc(const dipvector_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts,int key) 
