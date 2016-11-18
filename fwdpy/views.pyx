@@ -65,7 +65,6 @@ cdef class GameteView(object):
     def as_list(self):
         muts=[i.as_dict() for i in self]
         for m in muts:
-            print "the mutation key = ",m['mut_key']
             m['gam_key']=self.gam_key
         return muts
 
