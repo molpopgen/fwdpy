@@ -118,6 +118,8 @@ cdef class SpopVec(PopVec):
         """
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_t](new singlepop_t(N)))
+    def __dealloc__(self):
+        self.pops.clear()
     def __iter__(self):
         for i in range(self.pops.size()):
             x = Spop()
@@ -177,6 +179,8 @@ cdef class MlocusPopVec(PopVec):
         """
         for i in range(npops):
             self.pops.push_back(shared_ptr[multilocus_t](new multilocus_t(N,nloci)))
+    def __dealloc__(self):
+        self.pops.clear()
     def __iter__(self):
         for i in range(self.pops.size()):
             pi = MlocusPop()
@@ -227,6 +231,8 @@ cdef class SpopGenMutVec(PopVec):
         """
         for i in range(npops):
             self.pops.push_back(shared_ptr[singlepop_gm_vec_t](new singlepop_gm_vec_t(N)))
+    def __dealloc__(self):
+        self.pops.clear()
     def __iter__(self):
         for i in range(self.pops.size()):
             pi = SpopGenMut()
@@ -313,6 +319,8 @@ cdef class MetaPopVec(PopVec):
                 raise ValueError("MetaPopVec: deme size < 0 encountered")
         for i in range(nmpops):
             self.mpops.push_back(shared_ptr[metapop_t](new metapop_t(Ns)))
+    def __dealloc__(self):
+        self.mpops.clear()
     def __iter__(self):
         for i in range(self.mpops.size()):
             pi = MetaPop()
