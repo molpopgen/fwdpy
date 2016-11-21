@@ -58,27 +58,12 @@ cdef class QtraitStatsSampler(TemporalSampler):
             rv.push_back((<pop_properties*>(self.vec[i].get())).final())
         return rv
 
-cdef class PopSamples:
-    def __cinit__(self):
-        self.thisptr = popSampleData(NULL)
-    cdef assign(self,popSampleData d):
-        self.thisptr=d
-    def data(self):
-        """
-        Returns a copy of the raw data to Python.
-        """
-        return deref(self.thisptr.get())
-    def yield_data(self):
-        """
-        Return a generator to the raw data
-        """
-        cdef size_t i
-        for i in range(self.thisptr.get().size()):
-            yield deref(self.thisptr.get())[i]
-
 cdef class PopSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` that takes a sample of size :math:`n \leq N` from the population.
+
+    This type is a model of an iterable container.  Return values may be either yielded
+    or accessed via [i].
     """
     def __cinit__(self, unsigned n, unsigned nsam,GSLrng
             rng,removeFixed=True,neutral_file=None,selected_file=None,boundaries=None,append=False,recordSamples=True,recordDetails=True):
@@ -111,14 +96,20 @@ cdef class PopSampler(TemporalSampler):
                 nfile=temp
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
                 sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
-    def get(self):
-        rv=[]
-        cdef size_t i=0
+    def __dealloc__(self):
+        self.vec.clear()
+        print self.vec.size()
+    def __iter__(self):
         for i in range(self.vec.size()):
-            p=PopSamples()
-            p.assign(<popSampleData>((<sample_n*>(self.vec[i].get())).final()))
-            rv.append(p)
-        return rv
+            yield (<sample_n*>self.vec[i].get()).final()
+    def __next__(self):
+        return next(self)
+    def __getitem__(self, int i):
+        if i>= self.vec.size():
+            raise IndexError("index out of range")
+        return (<sample_n*>self.vec[i].get()).final()
+    def __len__(self):
+        self.vec.size()
 
 cdef class VASampler(TemporalSampler):
     """

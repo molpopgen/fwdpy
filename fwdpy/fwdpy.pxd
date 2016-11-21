@@ -258,11 +258,7 @@ cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
         additive_variance()
         vector[VAcum] final()
 
-ctypedef shared_ptr[vector[pair[sep_sample_t,popsample_details]]] popSampleData
-
-cdef class PopSamples:
-    cdef popSampleData thisptr
-    cdef assign(self,popSampleData d)
+ctypedef vector[pair[sep_sample_t,popsample_details]] popSampleData
 
 cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef cppclass sample_n(sampler_base):
@@ -270,6 +266,7 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
                 const string & nfile,const string & sfile,
                 bint removeFixed, bint recordSamples, bint recordDetails,
                 const vector[pair[double,double]] & boundaries,const bint append)
+        popSampleData rv
         popSampleData final() const
 
 #The following typedefs help us with the
