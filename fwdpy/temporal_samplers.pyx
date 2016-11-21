@@ -96,9 +96,6 @@ cdef class PopSampler(TemporalSampler):
                 nfile=temp
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
                 sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
-    def __dealloc__(self):
-        self.vec.clear()
-        print self.vec.size()
     def __iter__(self):
         for i in range(self.vec.size()):
             yield (<sample_n*>self.vec[i].get()).final()
