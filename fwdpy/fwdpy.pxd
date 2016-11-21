@@ -272,13 +272,7 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
 #The following typedefs help us with the
 #frequency tracker API.
 ctypedef pair[uint,double] genfreqPair
-#ctypedef map[selected_mut_data,vector[genfreqPair]] freqTraj
-ctypedef vector[pair[selected_mut_data,vector[genfreqPair]]] freqTrajData
-ctypedef shared_ptr[freqTrajData] freqTraj
-
-cdef class freqTrajectories:
-    cdef freqTraj thisptr
-    cdef assign(self,freqTraj t)
+ctypedef vector[pair[selected_mut_data,vector[genfreqPair]]] freqTraj
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):

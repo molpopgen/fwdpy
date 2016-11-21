@@ -133,33 +133,12 @@ cdef class VASampler(TemporalSampler):
             rv.push_back((<additive_variance*>(self.vec[i].get())).final())
         return rv
 
-cdef class freqTrajectories:
-    """
-    A holder for data returned by :class:`fwdpy.fwdpy.FreqSampler`.
-
-    Internally, this type holds a C++ shared_ptr to "raw" frequency trajectory data. The smart pointer type is freqTraj,
-    which is defined in fwdpy/fwdpy.pxd.
-
-    ..note:: You won't make these yourself from within Python.  Let the "get" function of :class:`fwdpy.fwdpy.FreqSampler` make them for you.
-    """
-    def __cinit__(self):
-        self.thisptr=freqTraj(NULL)
-    cdef assign(self,freqTraj t):
-        """
-        Assign the smart pointer.
-        """
-        self.thisptr = t
-    def data(self):
-        """
-        Returns a copy of the raw data to Python.
-        
-        ..note:: This can be very RAM-intensive.
-        """
-        return deref(self.thisptr.get())
-
 cdef class FreqSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` to track the frequencies of selected mutations over time.
+
+    This type is a model of an iterable container.  Return values may be either yielded
+    or accessed via [i].
     """
     def __cinit__(self,unsigned n):
         """
@@ -169,35 +148,17 @@ cdef class FreqSampler(TemporalSampler):
         """
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[selected_mut_tracker](new selected_mut_tracker()))
-    def get(self,rep=None):
-        """
-        Retrieve the data from the sampler.
-
-        :param rep: (None) If None (the default), then data are returned for all replicates.  Otherwise, rep is the index of a replicate, and that replicate's data are returned.
-
-        :raises: RuntimeError if rep is out of range.
-        
-        :rtype: :class:`fwdpy.fwdpy.freqTrajectories` or a list of such types, depending on value of 'rep'
-
-        ..note:: This sampler can be *very* RAM-intensive.  
-        """
-        cdef freqTraj temp
-        if rep is not None:
-            if int(rep) > self.vec.size() or int(rep)<0:
-                raise RuntimeError("index out of range")
-            temp=(<selected_mut_tracker*>self.vec[rep].get()).final()
-            t = freqTrajectories() 
-            t.assign(temp)
-            return t
-        else:
-            i=0
-            rv=[]
-            for i in range(self.vec.size()):
-                temp=(<selected_mut_tracker*>self.vec[i].get()).final()
-                t = freqTrajectories()
-                t.assign(temp)
-                rv.append(t)
-            return rv
+    def __iter__(self):
+        for i in range(self.vec.size()):
+            yield (<selected_mut_tracker*>self.vec[i].get()).final()
+    def __next__(self):
+        return next(self)
+    def __getitem__(self,i):
+        if i>=self.vec.size():
+            raise IndexError("index out of range")
+        return (<selected_mut_tracker*>self.vec[i].get()).final()
+    def __len__(self):
+        return self.vec.size()
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
     """

@@ -3,7 +3,7 @@
 #include "sampler_base.hpp"
 #include "types.hpp"
 #include <limits>
-#include <memory>
+
 namespace fwdpy
 {
     struct selected_mut_data
@@ -87,10 +87,9 @@ namespace fwdpy
           \note Used in fwdpy::selected_mut_tracker
         */
         using trajectories_t = std::map<selected_mut_data, std::size_t>;
-        using final_t = std::
-            shared_ptr<std::vector<std::pair<selected_mut_data,
-                                             std::vector<std::pair<unsigned,
-                                                                   double>>>>>;
+        using final_t
+            = std::vector<std::pair<selected_mut_data,
+                                    std::vector<std::pair<unsigned, double>>>>;
 
         virtual void
         operator()(const singlepop_t *pop, const unsigned generation)
@@ -111,8 +110,7 @@ namespace fwdpy
 
         explicit selected_mut_tracker() noexcept
             : trajectories(trajectories_t()),
-              data(std::make_shared<final_t::element_type>(
-                  final_t::element_type()))
+              data(final_t())
         {
         }
 
@@ -139,20 +137,21 @@ namespace fwdpy
                                     if (__itr == trajectories.end())
                                         {
                                             // update the data
-                                            data->emplace_back(
+                                            data.emplace_back(
                                                 __p,
                                                 std::vector<std::pair<unsigned,
                                                                       double>>(
                                                     1, std::make_pair(
                                                            generation, freq)));
                                             // update index tree
-                                            trajectories[__p] = data->size()-1;
+                                            trajectories[__p]
+                                                = data.size() - 1;
                                         }
                                     else
                                         {
                                             // Don't keep updating for fixed
                                             // variants
-                                            auto data_itr = data->begin()
+                                            auto data_itr = data.begin()
                                                             + __itr->second;
                                             if (data_itr->second.back().second
                                                 < 1.)
