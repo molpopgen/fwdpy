@@ -39,7 +39,7 @@ namespace fwdpy
         if (minfreq < 0.0)
             throw runtime_error("minfreq must be >= 0.0");
         vector<allele_age_data_t> rv;
-        for (const auto &t : *trajectories)
+        for (const auto &t : trajectories)
             {
                 if (t.second.empty())
                     {
@@ -65,18 +65,20 @@ namespace fwdpy
     merge_trajectories_details(const selected_mut_tracker::final_t &traj1,
                                const selected_mut_tracker::final_t &traj2)
     {
-        selected_mut_tracker::final_t rv(
-            new selected_mut_tracker::final_t::element_type(traj1->begin(),
-                                                            traj1->end()));
-        for (auto &&t : *traj2)
+        // selected_mut_tracker::final_t rv(
+        //    new selected_mut_tracker::final_t::element_type(traj1->begin(),
+        //                                                    traj1->end()));
+        selected_mut_tracker::final_t rv(traj1.begin(), traj1.end());
+        for (auto &&t : traj2)
             {
                 auto x = std::find_if(
-                    rv->begin(), rv->end(),
-                    [&t](const selected_mut_tracker::final_t::element_type::
-                             value_type &xi) { return xi.first == t.first; });
-                if (x == rv->end())
+                    rv.begin(), rv.end(),
+                    [&t](const selected_mut_tracker::final_t::value_type &xi) {
+                        return xi.first == t.first;
+                    });
+                if (x == rv.end())
                     {
-                        rv->push_back(t);
+                        rv.push_back(t);
                     }
                 else
                     {
@@ -97,7 +99,7 @@ namespace fwdpy
                          const unsigned remove_arose_after)
     {
         std::vector<selected_mut_data_tidy> rv;
-        for (const auto &ti : *trajectories)
+        for (const auto &ti : trajectories)
             {
                 // Make sure that sojourn time filter is not applied to
                 // fixations, as

@@ -1,7 +1,6 @@
 #ifndef FWDPY_SAMPLE_N_HPP
 #define FWDPY_SAMPLE_N_HPP
 
-#include "sample.hpp"
 #include "sampler_base.hpp"
 #include "types.hpp"
 #include <Sequence/SimData.hpp>
@@ -9,7 +8,6 @@
 #include <fwdpp/diploid.hh>
 #include <fwdpp/sugar/poptypes/tags.hpp>
 #include <fwdpp/sugar/sampling.hpp>
-#include <memory>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -26,8 +24,7 @@ namespace fwdpy
     {
       public:
         using final_t
-            = std::shared_ptr<std::vector<std::pair<KTfwd::sep_sample_t,
-                                                    popsample_details>>>;
+            = std::vector<std::pair<KTfwd::sep_sample_t, popsample_details>>;
 
       private:
         final_t rv;
@@ -116,20 +113,18 @@ namespace fwdpy
                         pop->diploids.size(), generation, 0);
                     if (recordSamples)
                         {
-                            rv->emplace_back(std::move(s), std::move(details));
+                            rv.emplace_back(std::move(s), std::move(details));
                         }
                     else
                         {
-                            rv->emplace_back(final_t::element_type::
-                                                 value_type::first_type(),
-                                             std::move(details));
+                            rv.emplace_back(final_t::value_type::first_type(),
+                                            std::move(details));
                         }
                 }
             else if (recordSamples)
                 {
-                    rv->emplace_back(
-                        std::move(s),
-                        final_t::element_type::value_type::second_type());
+                    rv.emplace_back(std::move(s),
+                                    final_t::value_type::second_type());
                 }
         }
 
@@ -160,78 +155,76 @@ namespace fwdpy
                                 pop->diploids.size(), generation, i);
                             if (recordSamples)
                                 {
-                                    rv->emplace_back(std::move(s[i]),
-                                                     std::move(details));
+                                    rv.emplace_back(std::move(s[i]),
+                                                    std::move(details));
                                 }
                             else
                                 {
-                                    rv->emplace_back(
-                                        final_t::element_type::value_type::
+                                    rv.emplace_back(
+                                        final_t::value_type::
                                             first_type(),
                                         std::move(details));
                                 }
                         }
                     else if (recordSamples)
                         {
-                            rv->emplace_back(std::move(s[i]),
-                                             final_t::element_type::
-                                                 value_type::second_type());
+                            rv.emplace_back(std::move(s[i]),
+                                            final_t::value_type::
+                                                second_type());
                         }
                 }
-		}
-            final_t final() const { return rv; }
-            explicit sample_n(
-                unsigned nsam_, const gsl_rng *r_,
-                const std::string &neutral_file,
-                const std::string &selected_file, const bool rfixed = true,
-                const bool rec_samples = true, const bool rec_sh = true,
-                const std::vector<std::pair<double, double>> &boundaries
-                = std::vector<std::pair<double, double>>(),
-                const bool append = true)
-                : rv(final_t(std::make_shared<final_t::element_type>(
-                      final_t::element_type()))),
-                  nsam(nsam_), r(GSLrng_t(gsl_rng_get(r_))),
-                  nfile(neutral_file), sfile(selected_file),
-                  locus_boundaries(boundaries), removeFixed(rfixed),
-                  recordSamples(rec_samples), recordDetails(rec_sh)
-            /*!
-              Note the implementation of this constructor!!
+        }
+        final_t
+        final() const
+        {
+            return rv;
+        }
+        explicit sample_n(
+            unsigned nsam_, const gsl_rng *r_, const std::string &neutral_file,
+            const std::string &selected_file, const bool rfixed = true,
+            const bool rec_samples = true, const bool rec_sh = true,
+            const std::vector<std::pair<double, double>> &boundaries
+            = std::vector<std::pair<double, double>>(),
+            const bool append = true)
+            : rv(final_t()), nsam(nsam_), r(GSLrng_t(gsl_rng_get(r_))),
+              nfile(neutral_file), sfile(selected_file),
+              locus_boundaries(boundaries), removeFixed(rfixed),
+              recordSamples(rec_samples), recordDetails(rec_sh)
+        /*!
+          Note the implementation of this constructor!!
 
-              By taking a gsl_rng * from outside, we are able to guarantee
-              that this object is reproducibly seeded to the extent that
-              this constructor is called in a reproducible order.
-            */
-            {
-                if (!append)
-                    {
-                        if (!neutral_file.empty())
-                            {
-                                gzFile gz = gzopen(neutral_file.c_str(), "wb");
-                                if (gz == NULL)
-                                    {
-                                        throw std::runtime_error(
-                                            "could not open "
-                                            + std::string(nfile)
-                                            + " in 'wb' mode");
-                                    }
-                                gzclose(gz);
-                            }
-                        if (!selected_file.empty())
-                            {
-                                gzFile gz
-                                    = gzopen(selected_file.c_str(), "wb");
-                                if (gz == NULL)
-                                    {
-                                        throw std::runtime_error(
-                                            "could not open "
-                                            + std::string(sfile)
-                                            + " in 'wb' mode");
-                                    }
-                                gzclose(gz);
-                            }
-                    }
-            }
-        };
+          By taking a gsl_rng * from outside, we are able to guarantee
+          that this object is reproducibly seeded to the extent that
+          this constructor is called in a reproducible order.
+        */
+        {
+            if (!append)
+                {
+                    if (!neutral_file.empty())
+                        {
+                            gzFile gz = gzopen(neutral_file.c_str(), "wb");
+                            if (gz == NULL)
+                                {
+                                    throw std::runtime_error(
+                                        "could not open " + std::string(nfile)
+                                        + " in 'wb' mode");
+                                }
+                            gzclose(gz);
+                        }
+                    if (!selected_file.empty())
+                        {
+                            gzFile gz = gzopen(selected_file.c_str(), "wb");
+                            if (gz == NULL)
+                                {
+                                    throw std::runtime_error(
+                                        "could not open " + std::string(sfile)
+                                        + " in 'wb' mode");
+                                }
+                            gzclose(gz);
+                        }
+                }
+        }
+    };
 }
 
 #endif
