@@ -37,6 +37,9 @@ cdef class QtraitStatsSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` that records various statistics about the population.
 
+    This type is a model of an iterable container.  Return values may be either yielded
+    or accessed via [i].
+
     .. note:: This is not useful for the standard fwdpy population.  It only actually records anything meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.
     """
     def __cinit__(self, unsigned n, double optimum):
@@ -48,9 +51,22 @@ cdef class QtraitStatsSampler(TemporalSampler):
         """
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[pop_properties](new pop_properties(optimum)))
+    def __iter__(self):
+        for i in range(self.vec.size()):
+            yield (<pop_properties*>(self.vec[i].get())).final()
+    def __next__(self):
+        return next(self)
+    def __len__(self):
+        return self.vec.size()
+    def __getitem__(self,i):
+        if i>=self.vec.size():
+            raise IndexError("index out of range")
+        return (<pop_properties*>(self.vec[i].get())).final()
     def get(self):
         """
         Retrieve the data from the sampler.
+
+        .. note:: This returns all data as a list.  It is more RAM-friendly to iterate over the object.
         """
         cdef vector[vector[qtrait_stats_cython]] rv
         cdef size_t i=0
@@ -113,6 +129,9 @@ cdef class VASampler(TemporalSampler):
     A :class:`fwdpy.fwdpy.TemporalSampler` that estimates the relationship between mutation frequency and total additive
     genetic variance.
 
+    This type is a model of an iterable container.  Return values may be either yielded
+    or accessed via [i].
+
     .. note:: This is not useful for the standard fwdpy population.  It only actually records anything meaningful in the qtrait and qtrait_mloc modules.  This will change in a future release.
     """
     def __cinit__(self,unsigned n):
@@ -123,9 +142,22 @@ cdef class VASampler(TemporalSampler):
         """
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[additive_variance](new additive_variance()))
+    def __iter__(self):
+        for i in range(self.vec.size()):
+            yield (<additive_variance*>(self.vec[i].get())).final()
+    def __next__(self):
+        return next(self)
+    def __len__(self):
+        return self.vec.size()
+    def __getitem__(self,i):
+        if i>=self.vec.size():
+            raise IndexError("index out of range")
+        return (<additive_variance*>(self.vec[i].get())).final()
     def get(self):
         """
         Retrieve the data from the sampler.
+
+        .. note:: This returns all data as a list.  It is more RAM-friendly to iterate over the object.
         """
         cdef vector[vector[VAcum]] rv
         cdef size_t i=0
