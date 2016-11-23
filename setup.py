@@ -169,7 +169,7 @@ extensions.extend(
     )
 
 ##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.console']
 
 if QTRAIT is True:
     extensions.extend([
@@ -240,7 +240,7 @@ setup(name='fwdpy',
       ext_modules=extensions,
       entry_points={
           'console_scripts': [
-              'fwdpyPopgen=fwdpy.popgen_cli:popgen_cli_main'
+              'fwdpyPopgen=fwdpy.console.popgen_cli:popgen_cli_main'
         ]
         },
      )
