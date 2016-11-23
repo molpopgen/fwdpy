@@ -238,4 +238,9 @@ setup(name='fwdpy',
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
       ext_modules=extensions,
+      entry_points={
+          'console_scripts': [
+              'fwdpyPopgen=fwdpy.popgen_cli:popgen_cli_main'
+        ]
+        },
      )
