@@ -196,6 +196,9 @@ class SimRunner(object):
                     self.demography_string += b'\tExponential size change from N = ' + format(last_size)
                     self.demography_string += b' to N = ' +format(e[1]) + b' over ' + format(e[2]) + b' generations.\n'
                     last_size=int(e[1])
+                else:
+                    print("epoch type must be either 'constant' or 'growth'")
+                    sys.exit(1)
     def __str__(self):
         rep=b'Simulation details:\n'
         rep+=b'Population size: ' + str(self.popsize) + b'\n'
