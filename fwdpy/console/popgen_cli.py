@@ -74,7 +74,7 @@ def get_parser():
     group.add_argument('--recregion','-rr',type=float,nargs=3,default=None,
             action="append",
             metavar=('start','stop','4Nr/site'),help="Parameters are start, stop, rho per site")
-    group.add_argument('--sregion','-sr',type=sregion_type,nargs='*',default=None,
+    group.add_argument('--sregion','-sr',type=sregion_type,nargs='+',default=None,
             action="append",
             metavar=('type','[params]'),help=sregions_help)
 
@@ -82,9 +82,9 @@ def get_parser():
     group = parser.add_argument_group("Population size history")
     group.add_argument('--burnin','-b',type=int,default=None,
             help="Initial number of generations to simulation. Default of None will be converted to 10*popsize")
-    group.add_argument('--epoch','-e',type=epoch_type,nargs='*',default=None,
+    group.add_argument('--epoch','-e',type=epoch_type,nargs=3,default=None,
             action='append',
-            metavar=('TYPE POPSIZE NGENS'),help="Change population size.  TYPE must be either 'growth' or 'constant'. In the case of growth, the population size is adjusted to POPSIZE over NGENS generations.  In the case of 'constant', the population size is changed immediately to POPSIZE and evolved for NGENS generations.")
+            metavar=('TYPE','POPSIZE','NGENS'),help="Change population size.  TYPE must be either 'growth' or 'constant'. In the case of growth, the population size is adjusted to POPSIZE over NGENS generations.  In the case of 'constant', the population size is changed immediately to POPSIZE and evolved for NGENS generations.")
 
     #How many threads to use
     group = parser.add_argument_group("Number of threads, etc.")
