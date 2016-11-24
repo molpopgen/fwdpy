@@ -38,7 +38,8 @@ The following DFE models are allowed:
 (constant start stop 4Nv/site 4Ns h),
 (exp start stop 4Nv/site mean_4Ns h),
 (uniform start stop 4Nv/site 4Ns_lo 4Ns_hi h),
-(gamma start stop 4Nv/site mean_4Ns shape h)
+(gamma start stop 4Nv/site mean_4Ns shape h), 
+where 4Nv/site is the scaled mutation rate.
 """
 
 def sregion_type(s):
@@ -180,13 +181,20 @@ class SimRunner(object):
         self.popvec=fwdpy.SpopVec(self.nthreads,self.popsize)
         self.nlist=numpy.array([self.popsize]*self.burnin,dtype=numpy.uint32)
         last_size = self.popsize
+        self.demography_string = b'\tBurn in at N = ' + str(self.popsize)
+        self.demography_string += ' for ' + str(self.burnin) + b' generations\n';
         if args.epoch is not None:
             for e in args.epoch:
                 if e[0] == 'constant':
-                    numpy.append(self.nlist,[int(e[1])]*e[2])
+                    numpy.append(self.nlist,[int(e[1])]*int(e[2]))
+                    self.demography_string += b'\tChange N from ' + format(last_size)
+                    self.demography_string += b' to ' + format(e[1])
+                    self.demography_string += b' for ' + format(e[2]) + b' generations\n';
                     last_size=int(e[1])
-                elif e[1] == 'growth':
+                elif e[0] == 'growth':
                     numpy.append(self.nlist,fwdpy.demography.exponential_size_change(last_size,int(e[1]),int(e[2])))
+                    self.demography_string += b'\tExponential size change from N = ' + format(last_size)
+                    self.demography_string += b' to N = ' +format(e[1]) + b' over ' + format(e[2]) + b' generations.\n'
                     last_size=int(e[1])
     def __str__(self):
         rep=b'Simulation details:\n'
@@ -194,18 +202,20 @@ class SimRunner(object):
         rep+=b'Seed: ' + str(self.seed) + b'\n'
         rep+=b'Number of threads: ' + str(self.nthreads) + b'\n'
         rep+=b'Number of replicates per thread: ' + str(self.nreps) + b'\n'
-        rep+=b'Total neutral mutation rate (per gamete per generation): ' + str(self.neutral_mut_rate) + b'\n'
-        rep+=b'Total selected mutation rate (per gamete per generation): ' + str(self.selected_mut_rate) + b'\n'
-        rep+=b'Total recombination rate (per diploid per generation): ' + str(self.recrate) + b'\n'
+        rep+=b'Population size history:\n' + self.demography_string
+        rep+=b'Mutation and recombination rates:\n'
+        rep+=b'\tTotal neutral mutation rate (per gamete per generation): ' + str(self.neutral_mut_rate) + b'\n'
+        rep+=b'\tTotal selected mutation rate (per gamete per generation): ' + str(self.selected_mut_rate) + b'\n'
+        rep+=b'\tTotal recombination rate (per diploid per generation): ' + str(self.recrate) + b'\n'
         rep+=b'Neutral regions:\n'
         for i in self.nregions:
-            rep += str(i) + b'\n'
+            rep += b'\t' + str(i) + b'\n'
         rep += b'Selected regions:\n'
         for i in self.sregions:
-            rep += str(i) + b'\n'
+            rep += b'\t' + str(i) + b'\n'
         rep += b'Recombination rate variation:\n'
         for i in self.recregions:
-            rep += str(i) + b'\n'
+            rep += b'\t' + str(i) + b'\n'
         return rep
     def run(self):
         rng=fwdpy.GSLrng(self.seed)
