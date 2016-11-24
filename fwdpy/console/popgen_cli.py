@@ -5,7 +5,7 @@
 #
 # fwdpy is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
+# the Free Software Foundation, either version 2 of the License, or
 # (at your option) any later version.
 #
 # fwdpy is distributed in the hope that it will be useful,
@@ -33,8 +33,19 @@ Population Genetic Simulation of Large Populations,
 Genetics 198: 157-166; doi: 10.1534/genetics.114.165019
 """
 
+sregions_help="""
+The following DFE models are allowed:
+(constant start stop 4Nv/site 4Ns h),
+(exp start stop 4Nv/site mean_4Ns h),
+(uniform start stop 4Nv/site 4Ns_lo 4Ns_hi h),
+(gamma start stop 4Nv/site mean_4Ns shape h)
+"""
+
 def sregion_type(s):
     return s
+
+def epoch_type(e):
+    return e
 
 def get_parser():
     """
@@ -48,6 +59,8 @@ def get_parser():
     parser.add_argument(
     "-V", "--version", action='version',
     version='%(prog)s {}'.format(fwdpy.__version__))
+    parser.add_argument(
+    "-v", "--verbose", action='store_true',help="Verbose output.  Extra info printed to standard error stream.")
     # This is required to get uniform behaviour in Python2 and Python3
     #subparsers = parser.add_subparsers(dest="subcommand")
     #subparsers.required = True
@@ -62,13 +75,13 @@ def get_parser():
             metavar=('start','stop','4Nr/site'),help="Parameters are start, stop, rho per site")
     group.add_argument('--sregion','-sr',type=sregion_type,nargs='*',default=None,
             action="append",
-            metavar=('type','[params]'),help="TBD")
+            metavar=('type','[params]'),help=sregions_help)
 
     #Population size changes
     group = parser.add_argument_group("Population size history")
     group.add_argument('--burnin','-b',type=int,default=None,
             help="Initial number of generations to simulation. Default of None will be converted to 10*popsize")
-    group.add_argument('--epoch','-e',type=sregion_type,nargs='*',default=None,
+    group.add_argument('--epoch','-e',type=epoch_type,nargs='*',default=None,
             action='append',
             metavar=('TYPE POPSIZE NGENS'),help="Change population size.  TYPE must be either 'growth' or 'constant'. In the case of growth, the population size is adjusted to POPSIZE over NGENS generations.  In the case of 'constant', the population size is changed immediately to POPSIZE and evolved for NGENS generations.")
 
@@ -111,6 +124,7 @@ class SimRunner(object):
         self.popsize = int(args.popsize)
         self.nthreads=int(args.nthreads)
         self.nreps=int(args.nreps)
+        self.verbose=args.verbose
         if args.seed is not None:
             self.seed=int(args.seed)
         else:
@@ -130,7 +144,25 @@ class SimRunner(object):
             for i in args.sregion:
                 sregion_type = i[0]
                 if sregion_type == b'exp':
-                    self.sregions.append(fwdpy.ExpS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),mean=float(i[4]/(4.*float(self.popsize))),h=float(i[5])))
+                    if len(i) != 6:
+                        print("incorrect number of arguments for exponential DFE")
+                        sys.exit(0)
+                    self.sregions.append(fwdpy.ExpS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),mean=float(i[4])/(4.*float(self.popsize)),h=float(i[5])))
+                elif sregion_type == b'constant':
+                    if len(i) != 6:
+                        print("incorrect number of arguments for constant DFE")
+                        sys.exit(0)
+                    self.sregions.append(fwdpy.ConstantS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),mean=float(i[4])/(4.*float(self.popsize)),h=float(i[5])))
+                elif sregion_type == b'uniform':
+                    if len(i) != 7:
+                        print("incorrect number of arguments for uniform DFE")
+                        sys.exit(0)
+                    self.sregions.append(fwdpy.UniformS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),lo=float(i[4])/(4.*float(self.popsize)),hi=float(i[5])/(4.*float(self.popsize)),h=float(i[6])))
+                elif sregion_type == 'gamma':
+                    if len(i) != 7:
+                        print("incorrect number of arguments for gamma DFE")
+                        sys.exit(0)
+                    self.sregions.append(fwdpy.ExpS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),mean=float(i[4])/(4.*float(self.popsize)),shape=float(i[5]),h=float(i[6])))
                 else:
                     print("sregion type "+sregion_type+" not recognized")
                     sys.exit(0)
@@ -156,7 +188,25 @@ class SimRunner(object):
                 elif e[1] == 'growth':
                     numpy.append(self.nlist,fwdpy.demography.exponential_size_change(last_size,int(e[1]),int(e[2])))
                     last_size=int(e[1])
-
+    def __str__(self):
+        rep=b'Simulation details:\n'
+        rep+=b'Population size: ' + str(self.popsize) + b'\n'
+        rep+=b'Seed: ' + str(self.seed) + b'\n'
+        rep+=b'Number of threads: ' + str(self.nthreads) + b'\n'
+        rep+=b'Number of replicates per thread: ' + str(self.nreps) + b'\n'
+        rep+=b'Total neutral mutation rate (per gamete per generation): ' + str(self.neutral_mut_rate) + b'\n'
+        rep+=b'Total selected mutation rate (per gamete per generation): ' + str(self.selected_mut_rate) + b'\n'
+        rep+=b'Total recombination rate (per diploid per generation): ' + str(self.recrate) + b'\n'
+        rep+=b'Neutral regions:\n'
+        for i in self.nregions:
+            rep += str(i) + b'\n'
+        rep += b'Selected regions:\n'
+        for i in self.sregions:
+            rep += str(i) + b'\n'
+        rep += b'Recombination rate variation:\n'
+        for i in self.recregions:
+            rep += str(i) + b'\n'
+        return rep
     def run(self):
         rng=fwdpy.GSLrng(self.seed)
         fwdpy.evolve_regions_sampler(rng,self.popvec,
@@ -169,10 +219,11 @@ class SimRunner(object):
                 self.sregions,
                 self.recregions,
                 0)
-
 def popgen_cli_main(arg_list=None):
     parser=get_parser()
     args = parser.parse_args(arg_list)
     validate_parser(args)
     runner=SimRunner(args)
+    if args.verbose is True:
+        print(runner,file=sys.stderr)
     runner.run()
