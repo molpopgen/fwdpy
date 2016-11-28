@@ -25,6 +25,11 @@ import fwdpy
 import fwdpy.fitness
 import fwdpy.demography
 
+import fwdpy.console.dfe as dfe
+import fwdpy.console.validate as validate
+import fwdpy.console.demography as demography
+import fwdpy.console.common as common
+
 fwdpy_citation_text= """
 If you use fwdpy in your work, please cite the following article(s):
 
@@ -41,9 +46,6 @@ The following DFE models are allowed:
 (gamma start stop 4Nv/site mean_4Ns shape h), 
 where 4Nv/site is the scaled mutation rate.
 """
-
-def epoch_type(e):
-    return e
 
 def get_parser():
     """
@@ -63,58 +65,14 @@ def get_parser():
     #subparsers = parser.add_subparsers(dest="subcommand")
     #subparsers.required = True
 
-    #Arguments for "regions"
-    group = parser.add_argument_group("Mutation rates and distributiosn of effect sizes")
-    group.add_argument('--neutral','-n',type=float,nargs=3,default=None,
-            action="append",dest='nregion',
-            metavar=('START','STOP','4Nu/SITE'),help="Parameters are start, stop, theta per site")
-    group.add_argument('--recombination','-r',type=float,nargs=3,default=None,
-            action="append",dest='recregion',
-            metavar=('START','STOP','4Nr/SITE'),help="Parameters are start, stop, rho per site")
-    group.add_argument('--exp','-ex',type=float,nargs=5,action='append',default=[],
-            metavar=('START', 'STOP', '4Nv/SITE', 'MEAN_4Ns', 'DOMINANCE'))
-    group.add_argument('--gamma','-ga',type=float,nargs=6,action='append',default=[],
-            metavar=('START', 'STOP', '4Nv/SITE', '4Ns', 'SHAPE','DOMINANCE'))
-    group.add_argument('--constant','-co',type=float,nargs=5,action='append',default=[],
-            metavar=('START', 'STOP', '4Nv/SITE', '4Ns', 'DOMINANCE'))
-    group.add_argument('--uniform','-un',type=float,nargs=6,action='append',default=[],
-            metavar=('START', 'STOP', '4Nv/SITE', '4Ns_LO', '4Ns_HI','DOMINANCE'))
-
-    #Population size changes
-    group = parser.add_argument_group("Population size history")
-    group.add_argument('--burnin','-b',type=int,default=None,
-            help="Initial number of generations to simulation. Default of None will be converted to 10*popsize")
-    group.add_argument('--epoch','-e',type=epoch_type,nargs=3,default=None,
-            action='append',
-            metavar=('TYPE','POPSIZE','NGENS'),help="Change population size.  TYPE must be either 'growth' or 'constant'. In the case of growth, the population size is adjusted to POPSIZE over NGENS generations.  In the case of 'constant', the population size is changed immediately to POPSIZE and evolved for NGENS generations.")
-
-    #How many threads to use
-    group = parser.add_argument_group("Number of replicates. The total number of simulations run will be nthreads*nreps.")
-    group.add_argument('--nthreads','-T',type=int,default=1,action='store',
-            help="How many threads to use.")
-    group.add_argument('--nreps','-R',type=int,default=1,
-            help="Number of replicates to simulate per thread.")
-
-    group = parser.add_argument_group("Random number seeds")
-    group.add_argument('--seed','-S',type=int,default=None,
-            help="Random number seed.  If nothing is provided, a random seed will be generated")
+    dfe.add_popgen_dfe_parser(parser)
+    demography.add_epoch_parser(parser)
+    common.add_common_option_parser(parser)
 
     #Positional arguments
     parser.add_argument('popsize',type=int,default=None)
-
     return parser
 
-def validate_parser(parser):
-    error=False
-    if parser.popsize is None:
-        print("error: popsize cannot be None")
-        error=True
-    if parser.nregion is None and (parser.exp == [] and parser.gamma==[] and parser.constant ==[] and parser.uniform == []):
-        print("error: must specify at least one neutral region or distribution of fitness effects.")
-        error=True
-
-    if error is True:
-        sys.exit(0)
 
 class SimRunner(object):
     """
@@ -139,10 +97,10 @@ class SimRunner(object):
             self.burnin = int(args.burnin)
         if args.nregion is not None:
             for i in args.nregion:
-                self.nregions.append(fwdpy.Region(i[0],i[1],i[2]/(4.*float(self.popsize))))
+                self.nregions.append(fwdpy.Region(*i))
         if args.recregion is not None:
             for i in args.recregion:
-                self.recregions.append(fwdpy.Region(i[0],i[1],i[2]/(4.*float(self.popsize))))
+                self.recregions.append(fwdpy.Region(*i))
         for i in args.exp:
             self.sregions.append(fwdpy.ExpS(*i))
         for i in args.constant:
@@ -220,7 +178,9 @@ class SimRunner(object):
 def popgen_cli_main(arg_list=None):
     parser=get_parser()
     args = parser.parse_args(arg_list)
-    validate_parser(args)
+    dfe.rescale_neutral_mut_rec_params(args)
+    dfe.rescale_popgen_DFE(args)
+    validate.validate_parser(args)
     runner=SimRunner(args)
     if args.verbose is True:
         print(runner,file=sys.stderr)
