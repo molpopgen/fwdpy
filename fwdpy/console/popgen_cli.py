@@ -111,7 +111,6 @@ class SimRunner(object):
         for i in self.sregions:
             self.selected_mut_rate += i.w
 
-        self.popvec=fwdpy.SpopVec(self.nthreads,self.popsize)
         self.nlist=numpy.array([self.popsize]*self.burnin,dtype=numpy.uint32)
         last_size = self.popsize
         self.demography_string = b'\tBurn in at N = ' + str(self.popsize)
@@ -155,17 +154,20 @@ class SimRunner(object):
         return rep
     def run(self):
         rng=fwdpy.GSLrng(self.seed)
-        fwdpy.evolve_regions_sampler(rng,self.popvec,
-                fwdpy.NothingSampler(len(self.popvec)),
-                self.nlist,
-                self.neutral_mut_rate,
-                self.selected_mut_rate,
-                self.recrate,
-                self.nregions,
-                self.sregions,
-                self.recregions,
-                0)
-
+        for batch in range(self.nreps):
+            popvec=fwdpy.SpopVec(self.nthreads,self.popsize)
+            fwdpy.evolve_regions_sampler(rng,popvec,
+                    fwdpy.NothingSampler(len(popvec)),
+                    self.nlist,
+                    self.neutral_mut_rate,
+                    self.selected_mut_rate,
+                    self.recrate,
+                    self.nregions,
+                    self.sregions,
+                    self.recregions,
+                    0)
+            popvec.clear()
+            popvec=None
 def popgen_cli_main(arg_list=None):
     parser=get_parser()
     args = parser.parse_args(arg_list)
