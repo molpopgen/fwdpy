@@ -42,9 +42,6 @@ The following DFE models are allowed:
 where 4Nv/site is the scaled mutation rate.
 """
 
-def sregion_type(s):
-    return s
-
 def epoch_type(e):
     return e
 
@@ -67,16 +64,21 @@ def get_parser():
     #subparsers.required = True
 
     #Arguments for "regions"
-    group = parser.add_argument_group("Mutation rates and effect sizes")
-    group.add_argument('--nregion','-nr',type=float,nargs=3,default=None,
-            action="append",
-            metavar=('start','stop','4Nu/site'),help="Parameters are start, stop, theta per site")
-    group.add_argument('--recregion','-rr',type=float,nargs=3,default=None,
-            action="append",
-            metavar=('start','stop','4Nr/site'),help="Parameters are start, stop, rho per site")
-    group.add_argument('--sregion','-sr',type=sregion_type,nargs='+',default=None,
-            action="append",
-            metavar=('type','[params]'),help=sregions_help)
+    group = parser.add_argument_group("Mutation rates and distributiosn of effect sizes")
+    group.add_argument('--neutral','-n',type=float,nargs=3,default=None,
+            action="append",dest='nregion',
+            metavar=('START','STOP','4Nu/SITE'),help="Parameters are start, stop, theta per site")
+    group.add_argument('--recombination','-r',type=float,nargs=3,default=None,
+            action="append",dest='recregion',
+            metavar=('START','STOP','4Nr/SITE'),help="Parameters are start, stop, rho per site")
+    group.add_argument('--exp','-ex',type=float,nargs=5,action='append',default=[],
+            metavar=('START', 'STOP', '4Nv/SITE', 'MEAN_4Ns', 'DOMINANCE'))
+    group.add_argument('--gamma','-ga',type=float,nargs=6,action='append',default=[],
+            metavar=('START', 'STOP', '4Nv/SITE', '4Ns', 'SHAPE','DOMINANCE'))
+    group.add_argument('--constant','-co',type=float,nargs=5,action='append',default=[],
+            metavar=('START', 'STOP', '4Nv/SITE', '4Ns', 'DOMINANCE'))
+    group.add_argument('--uniform','-un',type=float,nargs=6,action='append',default=[],
+            metavar=('START', 'STOP', '4Nv/SITE', '4Ns_LO', '4Ns_HI','DOMINANCE'))
 
     #Population size changes
     group = parser.add_argument_group("Population size history")
@@ -87,7 +89,7 @@ def get_parser():
             metavar=('TYPE','POPSIZE','NGENS'),help="Change population size.  TYPE must be either 'growth' or 'constant'. In the case of growth, the population size is adjusted to POPSIZE over NGENS generations.  In the case of 'constant', the population size is changed immediately to POPSIZE and evolved for NGENS generations.")
 
     #How many threads to use
-    group = parser.add_argument_group("Number of threads, etc.")
+    group = parser.add_argument_group("Number of replicates. The total number of simulations run will be nthreads*nreps.")
     group.add_argument('--nthreads','-T',type=int,default=1,action='store',
             help="How many threads to use.")
     group.add_argument('--nreps','-R',type=int,default=1,
@@ -107,8 +109,8 @@ def validate_parser(parser):
     if parser.popsize is None:
         print("error: popsize cannot be None")
         error=True
-    if parser.nregion is None and parser.sregion is None:
-        print("error: must have at least one nregion or sregion")
+    if parser.nregion is None and (parser.exp == [] and parser.gamma==[] and parser.constant ==[] and parser.uniform == []):
+        print("error: must specify at least one neutral region or distribution of fitness effects.")
         error=True
 
     if error is True:
@@ -141,32 +143,14 @@ class SimRunner(object):
         if args.recregion is not None:
             for i in args.recregion:
                 self.recregions.append(fwdpy.Region(i[0],i[1],i[2]/(4.*float(self.popsize))))
-        if args.sregion is not None:
-            for i in args.sregion:
-                sregion_type = i[0]
-                if sregion_type == b'exp':
-                    if len(i) != 6:
-                        print("incorrect number of arguments for exponential DFE")
-                        sys.exit(0)
-                    self.sregions.append(fwdpy.ExpS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),mean=float(i[4])/(4.*float(self.popsize)),h=float(i[5])))
-                elif sregion_type == b'constant':
-                    if len(i) != 6:
-                        print("incorrect number of arguments for constant DFE")
-                        sys.exit(0)
-                    self.sregions.append(fwdpy.ConstantS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),mean=float(i[4])/(4.*float(self.popsize)),h=float(i[5])))
-                elif sregion_type == b'uniform':
-                    if len(i) != 7:
-                        print("incorrect number of arguments for uniform DFE")
-                        sys.exit(0)
-                    self.sregions.append(fwdpy.UniformS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),lo=float(i[4])/(4.*float(self.popsize)),hi=float(i[5])/(4.*float(self.popsize)),h=float(i[6])))
-                elif sregion_type == 'gamma':
-                    if len(i) != 7:
-                        print("incorrect number of arguments for gamma DFE")
-                        sys.exit(0)
-                    self.sregions.append(fwdpy.ExpS(beg=float(i[1]),end=float(i[2]),weight=float(i[3]),mean=float(i[4])/(4.*float(self.popsize)),shape=float(i[5]),h=float(i[6])))
-                else:
-                    print("sregion type "+sregion_type+" not recognized")
-                    sys.exit(0)
+        for i in args.exp:
+            self.sregions.append(fwdpy.ExpS(*i))
+        for i in args.constant:
+            self.sregions.append(fwdpy.ConstantS(*i))
+        for i in args.uniform:
+            self.sregions.append(fwdpy.UniformS(*i))
+        for i in args.gamma:
+            self.sregions.append(fwdpy.GammaS(*i))
 
         self.neutral_mut_rate=0.
         self.selected_mut_rate=0.
@@ -210,10 +194,10 @@ class SimRunner(object):
         rep+=b'\tTotal neutral mutation rate (per gamete per generation): ' + str(self.neutral_mut_rate) + b'\n'
         rep+=b'\tTotal selected mutation rate (per gamete per generation): ' + str(self.selected_mut_rate) + b'\n'
         rep+=b'\tTotal recombination rate (per diploid per generation): ' + str(self.recrate) + b'\n'
-        rep+=b'Neutral regions:\n'
+        rep+=b'Neutral mutations:\n'
         for i in self.nregions:
             rep += b'\t' + str(i) + b'\n'
-        rep += b'Selected regions:\n'
+        rep += b'Distributions of fitness effects:\n'
         for i in self.sregions:
             rep += b'\t' + str(i) + b'\n'
         rep += b'Recombination rate variation:\n'
@@ -232,6 +216,7 @@ class SimRunner(object):
                 self.sregions,
                 self.recregions,
                 0)
+
 def popgen_cli_main(arg_list=None):
     parser=get_parser()
     args = parser.parse_args(arg_list)
