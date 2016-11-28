@@ -38,15 +38,6 @@ Population Genetic Simulation of Large Populations,
 Genetics 198: 157-166; doi: 10.1534/genetics.114.165019
 """
 
-sregions_help="""
-The following DFE models are allowed:
-(constant start stop 4Nv/site 4Ns h),
-(exp start stop 4Nv/site mean_4Ns h),
-(uniform start stop 4Nv/site 4Ns_lo 4Ns_hi h),
-(gamma start stop 4Nv/site mean_4Ns shape h), 
-where 4Nv/site is the scaled mutation rate.
-"""
-
 def get_parser():
     """
     Returns an argparse.ArgumentParser
