@@ -6,8 +6,8 @@ class Epoch(argparse._AppendAction):
             str(epoch[0])
         except:
             parser.error("first argument to epoch must be convertible to string")
-        if (epoch[0] != b'growth' and epoch[0] != b'exp'):
-            parser.error("first argument to epoch must be 'growth' or 'exp'")
+        if (epoch[0] != b'growth' and epoch[0] != b'constant'):
+            parser.error("first argument to epoch must be 'growth' or 'constant'")
         try:
             int(epoch[1])
         except:
