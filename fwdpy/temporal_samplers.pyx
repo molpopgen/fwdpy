@@ -105,10 +105,10 @@ cdef class PopSampler(TemporalSampler):
             sfile.clear()
             nfile.clear()
             if selected_file is not None:
-                temp=selected_file+'.'+str(i)+'.gz'
+                temp=selected_file.encode('utf-8')+b'.'+str(i).encode('utf-8')+b'.gz'
                 sfile=temp
             if neutral_file is not None:
-                temp=neutral_file+'.'+str(i)+'.gz'
+                temp=neutral_file.encode('utf-8')+b'.'+str(i).encode('utf-8')+b'.gz'
                 nfile=temp
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
                 sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
