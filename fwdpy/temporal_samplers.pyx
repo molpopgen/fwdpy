@@ -122,7 +122,7 @@ cdef class PopSampler(TemporalSampler):
             raise IndexError("index out of range")
         return (<sample_n*>self.vec[i].get()).final()
     def __len__(self):
-        self.vec.size()
+        return self.vec.size()
 
 cdef class VASampler(TemporalSampler):
     """
