@@ -58,7 +58,7 @@ cdef class GameteView(object):
     The class is iterable, yielding :class:`fwdpy.views.MutationView`.  When iterating,
     neutral mutations come out first, followed by selected mutations.
 
-    In many use cases, it may make more sense to manuall iterate over neutral and 
+    In many use cases, it may make more sense to manually iterate over neutral and 
     selected separately.
     """
     def __cinit__(self,list neutral_mutations,list selected_mutations, int count,key):
