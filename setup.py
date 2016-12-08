@@ -168,6 +168,13 @@ extensions.extend(
                extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
 
+extensions.extend(
+    [Extension("fwdpy.matrix",
+            sources=["fwdpy/matrix"+EXTENSION],
+            language="c++",
+            include_dirs=GLOBAL_INCLUDES,
+            extra_compile_args=GLOBAL_COMPILE_ARGS,)]
+    )
 ##This is the list of extension modules
 PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
