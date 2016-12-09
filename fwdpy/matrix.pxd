@@ -26,18 +26,19 @@ cdef extern from "fwdpp/sugar/matrix.hpp" namespace "KTfwd" nogil:
 cdef class DataMatrix(object):
     """Matrix representation of a sample.
     Returned by :func:`fwdpy.matrix.haplotype_matrix` pr
-    :func:`fwdpy.matrix.genotype_matrix`"""
+    :func:`fwdpy.matrix.genotype_matrix`. All array 
+    types are array.array."""
     cdef readonly object neutral
     """Data for neutral positions"""
     cdef readonly object selected
     """Data for selected positions"""
-    cdef readonly list neutral_positions
+    cdef readonly object neutral_positions
     """Neutral positions"""
-    cdef readonly list selected_positions
+    cdef readonly object selected_positions
     """selected positions"""
-    cdef readonly list neutral_popfreq
+    cdef readonly object neutral_popfreq
     """Neutral frequencies in simulation"""
-    cdef readonly list selected_popfreq
+    cdef readonly object selected_popfreq
     """selected frequencies in simulation"""
     cdef readonly int nrow
     """Number of rows"""

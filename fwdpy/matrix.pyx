@@ -26,10 +26,10 @@ cdef class DataMatrix(object):
     def __cinit__(self,const data_matrix & d):
         self.neutral=array.array('h',d.neutral)
         self.selected=array.array('h',d.selected)
-        self.neutral_positions=d.neutral_positions
-        self.selected_positions=d.selected_positions
-        self.neutral_popfreq=d.neutral_popfreq
-        self.selected_popfreq=d.selected_popfreq
+        self.neutral_positions=array.array('d',d.neutral_positions)
+        self.selected_positions=array.array('d',d.selected_positions)
+        self.neutral_popfreq=array.array('d',d.neutral_popfreq)
+        self.selected_popfreq=array.array('d',d.selected_popfreq)
         self.nrow=d.nrow
         self.nn=len(self.neutral_positions)
         self.ns=len(self.selected_positions)
