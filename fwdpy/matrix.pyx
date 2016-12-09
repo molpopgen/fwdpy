@@ -51,7 +51,7 @@ def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=
     if deme is None:
         deme_=0
     if keys is None:
-        keys_ = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
+        keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
 
     if isinstance(pop,Spop):
         return fwdpp_haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys.first,keys.second,<size_t>deme_)
@@ -61,7 +61,7 @@ def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=T
     if deme is None:
         deme_=0
     if keys is None:
-        keys_ = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
+        keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
 
     if isinstance(pop,Spop):
         return fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys.first,keys.second,<size_t>deme_)
