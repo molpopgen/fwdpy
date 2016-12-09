@@ -1,6 +1,6 @@
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
-from fwdpy cimport uint,mcont_t
+from fwdpy cimport uint,mcont_t,ucont_t
 
 cdef extern from "fwdpp/sugar/matrix.hpp" namespace "KTfwd" nogil:
     cdef struct data_matrix:
@@ -24,10 +24,6 @@ cdef extern from "fwdpp/sugar/matrix.hpp" namespace "KTfwd" nogil:
             const vector[pair[size_t,uint]] & selected_keys, const size_t deme) except +
 
 cdef class DataMatrix(object):
-    """Matrix representation of a sample.
-    Returned by :func:`fwdpy.matrix.haplotype_matrix` pr
-    :func:`fwdpy.matrix.genotype_matrix`. All array 
-    types are array.array."""
     cdef readonly object neutral
     """Data for neutral positions"""
     cdef readonly object selected
@@ -46,13 +42,16 @@ cdef class DataMatrix(object):
     """Number of neutral mutations"""
     cdef readonly int ns
     """Number of selected nutations"""
+    cdef readonly bint ishaplotype
+    """True if haplotype matrix, False otherwise"""
 
 ctypedef pair[vector[pair[size_t,uint]],vector[pair[size_t,uint]]] key_pair
 
 #Uses some python list tricks, and hence nogil
 cdef sort_keys_by_position(key_pair & keys,const mcont_t & mutations)
 
-#For the following function, the argument keys is treated as if const.
+#For the following functions, the argument keys is treated as if const.
 #The argument is not declared const due to a current limitation with Cython
 cdef key_pair remove_fixed_keys(key_pair & keys,const uint n) nogil
-cdef key_pair apply_min_daf(key_pair & keys,const double n,const double x) nogil
+cdef key_pair apply_min_sample_daf(key_pair & keys,const double n,const double x) nogil
+cdef key_pair apply_min_pop_daf(key_pair & keys,const unsigned twoN,const double q, const ucont_t & mcounts) nogil
