@@ -42,9 +42,9 @@ def get_mutation_keys(pop,list individuals,include_neutral=True,include_selected
         
     #Apply filters to keys
     if remove_fixed is True:
-        keys = remove_fixed_keys(keys,2*individuals.size())
+        keys = remove_fixed_keys(keys,len(individuals))
     if min_daf is not None:
-        keys = apply_min_daf(keys,2*individuals.size(),min_daf)
+        keys = apply_min_daf(keys,len(individuals),min_daf)
 
 def hap_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
     deme_=deme
