@@ -181,6 +181,14 @@ def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,sort,min_sample_daf,min_pop_daf,deme)
     if isinstance(pop,Spop):
         return DataMatrix(fwdpp_haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),True)
+    if isinstance(pop,MlocusPop):
+        return DataMatrix(fwdpp_haplotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),True)
+    if isinstance(pop,MetaPop):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return DataMatrix(fwdpp_haplotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_),True)
+    else:
+        raise NotImplementedError("population type not supported")
 
 def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,sort=True,min_sample_daf=None,min_pop_daf=None,deme=None,keys=None):
     """
@@ -199,3 +207,11 @@ def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=T
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,sort,min_sample_daf,min_pop_daf,deme)
     if isinstance(pop,Spop):
         return DataMatrix(fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),False)
+    if isinstance(pop,MlocusPop):
+        return DataMatrix(fwdpp_genotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),False)
+    if isinstance(pop,MetaPop):
+        if deme is None:
+            raise RuntimeError("deme cannot be None")
+        return DataMatrix(fwdpp_genotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_),False)
+    else:
+        raise NotImplementedError("population type not supported")
