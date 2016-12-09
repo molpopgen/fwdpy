@@ -8,8 +8,6 @@ cdef extern from "fwdpp/sugar/matrix.hpp" namespace "KTfwd" nogil:
         vector[double] neutral_positions,selected_positions,neutral_popfreq,selected_popfreq
         size_t nrow
 
-    pair[double,double] foo "bar"(int) except+
-
     pair[vector[pair[size_t,uint]],vector[pair[size_t,uint]]] mutation_keys[POPTYPE] (const POPTYPE & pop,
             const vector[size_t] & inividuals,
             const bint include_neutral, 
