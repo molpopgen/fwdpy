@@ -46,7 +46,7 @@ def get_mutation_keys(pop,list individuals,include_neutral=True,include_selected
     if min_daf is not None:
         keys = apply_min_daf(keys,len(individuals),min_daf)
 
-def hap_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
+def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
     deme_=deme
     if deme is None:
         deme_=0
@@ -54,9 +54,9 @@ def hap_matrix(pop,list individuals,include_neutral=True,include_selected=True,r
         keys_ = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
 
     if isinstance(pop,Spop):
-        return haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys.first,keys.second,<size_t>deme_)
+        return fwdpp_haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys.first,keys.second,<size_t>deme_)
 
-def geno_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
+def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
     deme_=deme
     if deme is None:
         deme_=0
@@ -64,4 +64,4 @@ def geno_matrix(pop,list individuals,include_neutral=True,include_selected=True,
         keys_ = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
 
     if isinstance(pop,Spop):
-        return genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys.first,keys.second,<size_t>deme_)
+        return fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys.first,keys.second,<size_t>deme_)

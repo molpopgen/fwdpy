@@ -13,12 +13,12 @@ cdef extern from "fwdpp/sugar/matrix.hpp" namespace "KTfwd" nogil:
             const bint include_neutral, 
             const bint include_selected, const size_t deme) except +
 
-    DataMatrix genotype_matrix[POPTYPE](const POPTYPE & pop,
+    DataMatrix fwdpp_genotype_matrix"KTfwd::genotype_matrix"[POPTYPE](const POPTYPE & pop,
             const vector[size_t] & inividuals,
             const vector[pair[size_t,uint]] & neutral_keys,
             const vector[pair[size_t,uint]] & selected_keys, const size_t deme) except +
 
-    DataMatrix haplotype_matrix[POPTYPE](const POPTYPE & pop,
+    DataMatrix fwdpp_haplotype_matrix"KTfwd::haplotype_matrix"[POPTYPE](const POPTYPE & pop,
             const vector[size_t] & inividuals,
             const vector[pair[size_t,uint]] & neutral_keys,
             const vector[pair[size_t,uint]] & selected_keys, const size_t deme) except +
