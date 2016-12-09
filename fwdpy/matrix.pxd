@@ -1,6 +1,6 @@
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
-from fwdpy cimport uint
+from fwdpy cimport uint,mcont_t
 
 cdef extern from "fwdpp/sugar/matrix.hpp" namespace "KTfwd" nogil:
     cdef struct data_matrix:
@@ -46,7 +46,11 @@ cdef class DataMatrix(object):
     """Number of neutral mutations"""
     cdef readonly int ns
     """Number of selected nutations"""
+
 ctypedef pair[vector[pair[size_t,uint]],vector[pair[size_t,uint]]] key_pair
+
+#Uses some python list tricks, and hence nogil
+cdef sort_keys_by_position(key_pair & keys,const mcont_t & mutations)
 
 #For the following function, the argument keys is treated as if const.
 #The argument is not declared const due to a current limitation with Cython
