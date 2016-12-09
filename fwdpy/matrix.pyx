@@ -1,7 +1,7 @@
 from fwdpy cimport *
 from cython.operator cimport dereference as deref
 from fwdpy cimport uint
-
+import array
 cdef key_pair remove_fixed_keys(key_pair & keys,const uint n) nogil:
     cdef key_pair rv
     for i in keys.first:
@@ -22,6 +22,18 @@ cdef key_pair apply_min_daf(key_pair & keys,const double n,const double x) nogil
             rv.second.push_back(i)
     return rv
 
+cdef class DataMatrix(object):
+    def __cinit__(self,const data_matrix & d):
+        self.neutral=array.array('h',d.neutral)
+        self.selected=array.array('h',d.selected)
+        self.neutral_positions=d.neutral_positions
+        self.selected_positions=d.selected_positions
+        self.neutral_popfreq=d.neutral_popfreq
+        self.selected_popfreq=d.selected_popfreq
+        self.nrow=d.nrow
+        self.nn=len(self.neutral_positions)
+        self.ns=len(self.selected_positions)
+        
 def get_mutation_keys(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None):
     deme_=deme
     if deme is None:
@@ -41,18 +53,17 @@ def get_mutation_keys(pop,list individuals,include_neutral=True,include_selected
         keys = mutation_keys[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,include_neutral,include_selected,<size_t>deme_)
     #Apply filters to keys
     if remove_fixed is True:
-        keys = remove_fixed_keys(keys,len(individuals))
+        keys = remove_fixed_keys(keys,2*len(individuals))
     if min_daf is not None:
-        keys = apply_min_daf(keys,len(individuals),min_daf)
+        keys = apply_min_daf(keys,2*len(individuals),min_daf)
     return keys
 
 def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
     deme_=deme
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
-
     if isinstance(pop,Spop):
-        return fwdpp_haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_)
+        return DataMatrix(fwdpp_haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
 
 def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
     deme_=deme
@@ -61,4 +72,4 @@ def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=T
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
     if isinstance(pop,Spop):
-        return fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_)
+        return DataMatrix(fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
