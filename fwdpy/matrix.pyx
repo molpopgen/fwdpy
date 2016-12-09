@@ -39,17 +39,15 @@ def get_mutation_keys(pop,list individuals,include_neutral=True,include_selected
         if deme is None:
             raise RuntimeError("deme cannot be none")
         keys = mutation_keys[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,include_neutral,include_selected,<size_t>deme_)
-        
     #Apply filters to keys
     if remove_fixed is True:
         keys = remove_fixed_keys(keys,len(individuals))
     if min_daf is not None:
         keys = apply_min_daf(keys,len(individuals),min_daf)
+    return keys
 
 def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,min_daf=None,deme=None,keys=None):
     deme_=deme
-    if deme is None:
-        deme_=0
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
 
@@ -62,6 +60,5 @@ def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=T
         deme_=0
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,min_daf,deme)
-
     if isinstance(pop,Spop):
         return fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys.first,keys.second,<size_t>deme_)
