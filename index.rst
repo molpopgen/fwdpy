@@ -90,6 +90,10 @@ Functions and classes
    :members:
    :show-inheritance:
 
+.. automodule:: fwdpy.matrix
+   :members:
+   :show-inheritance:
+
 .. automodule:: fwdpy.slim
    :members:
    :show-inheritance:
@@ -105,6 +109,7 @@ Functions and classes
 .. automodule:: fwdpy.qtrait.qtrait
    :members:
    :show-inheritance:
+
 
 .. automodule:: fwdpy.qtrait_mloc.qtrait_mloc
    :members:
