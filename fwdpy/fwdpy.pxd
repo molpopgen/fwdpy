@@ -244,6 +244,8 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
     void apply_sampler_cpp[T](const vector[shared_ptr[T]] & popvec,
 			      const vector[unique_ptr[sampler_base]] & samplers)
 
+    void apply_sampler_single_cpp[T](const T *pop,const vector[unique_ptr[sampler_base]] & samplers)
+
 cdef extern from "sampler_no_sampling.hpp" namespace "fwdpy" nogil:
     cdef cppclass no_sampling(sampler_base):
         no_sampling()
