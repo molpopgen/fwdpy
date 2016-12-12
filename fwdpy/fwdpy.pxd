@@ -10,7 +10,7 @@ from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.cpp cimport hash
 from libcpp.unordered_set cimport unordered_set
 from cython_gsl cimport gsl_rng
-from fwdpy.structs cimport selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum,popsample_details
+from fwdpy.structs cimport selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
@@ -368,12 +368,6 @@ cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
             removeFixed, const vector[pair[double,double]] &)  except +
     vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
             removeFixed, const vector[pair[double,double]] &)  except +
-
-cdef extern from "haplotype_matrix.hpp" namespace "fwdpy" nogil:
-    haplotype_matrix make_haplotype_matrix(const singlepop_t * pop, const vector[size_t] & diploids) except +
-    haplotype_matrix make_haplotype_matrix(const metapop_t * pop, const vector[size_t] & diploids,const size_t deme) except +
-    haplotype_matrix make_haplotype_matrix(const multilocus_t * pop, const vector[size_t] & diploids) except +
-    map[string,vector[size_t]] make_genotype_matrix(const haplotype_matrix & hm)
 
 cdef extern from "fwdpy_add_mutations.hpp" namespace "fwdpy" nogil:
     size_t add_mutation_cpp(singlepop_t * pop,

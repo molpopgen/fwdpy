@@ -26,8 +26,8 @@ try:
     version = out.decode('utf-8').rstrip()
     print ("fwdpp version",version," found.")
     FWDPP_V=version
-    if version < '0.5.3':
-        sys.exit("fwdpp >= ,'0.5.3' required, but ",version, "found.")
+    if version < '0.5.4':
+        sys.exit("fwdpp >= ,'0.5.4' required, but ",version, "found.")
 except:
     sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
@@ -175,6 +175,14 @@ extensions.extend(
                include_dirs=GLOBAL_INCLUDES,
                extra_compile_args=GLOBAL_COMPILE_ARGS,)
     ]
+    )
+
+extensions.extend(
+    [Extension("fwdpy.matrix",
+            sources=["fwdpy/matrix"+EXTENSION],
+            language="c++",
+            include_dirs=GLOBAL_INCLUDES,
+            extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
 PKGS.append('fwdpy.fitness')
 PKGS.append('fwdpy.views')

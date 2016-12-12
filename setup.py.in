@@ -176,6 +176,14 @@ extensions.extend(
                extra_compile_args=GLOBAL_COMPILE_ARGS,)
     ]
     )
+
+extensions.extend(
+    [Extension("fwdpy.matrix",
+            sources=["fwdpy/matrix"+EXTENSION],
+            language="c++",
+            include_dirs=GLOBAL_INCLUDES,
+            extra_compile_args=GLOBAL_COMPILE_ARGS,)]
+    )
 PKGS.append('fwdpy.fitness')
 PKGS.append('fwdpy.views')
 
