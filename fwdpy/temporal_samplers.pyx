@@ -107,7 +107,7 @@ cdef class PopSampler(TemporalSampler):
             locus_boundaries=boundaries
         if n==1:
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
-                sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
+                sample_n(nsam,rng.thisptr.get(),neutral_file,selected_file,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
         else:
             for i in range(n):
                 sfile.clear()
