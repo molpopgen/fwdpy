@@ -175,7 +175,7 @@ extensions.extend(
             extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
 ##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.matrix','fwdpy.console']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.console']
 
 if QTRAIT is True:
     extensions.extend([
@@ -245,12 +245,10 @@ setup(name='@PACKAGE_NAME@',
                     'include':['*.hpp']},
       ext_modules=extensions,
 <<<<<<< HEAD
+<<<<<<< HEAD
       entry_points={
           'console_scripts': [
               'fwdpyPopgen=fwdpy.console.popgen_cli:popgen_cli_main'
         ]
         },
      )
-=======
-     ,'fwdpy.matrix')
->>>>>>> dev

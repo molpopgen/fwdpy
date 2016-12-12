@@ -90,27 +90,35 @@ cdef class PopSampler(TemporalSampler):
         :param nsam: The sample size to take
         :param rng: A :class:`fwdpy.fwdpy.GSLrng`
         :param removeFixed: (False) Whether or not to include fixations in the output.
-        :param neutral_file: (None) File name prefix where neutral data will be written in "ms" format.
-        :param selected_file: (None) File name prefix where selected data will be written in "ms" format.
+        :param neutral_file: (None) File name (or file name prefix) where neutral data will be written in "ms" format.
+        :param selected_file: (None) File name (or file name prefix) where selected data will be written in "ms" format.
         :param boundaries: (None) For a multi-locus simulation, this must be a list of tuples specifying the positional boundaries of each locus
         :param append: (False) Whether or not to append to output files, or over-write them.
 
-        ..note:: For each of the i threads, the ouput file names will be selected_file.i.gz, etc.
+        ..note:: 
+        
+            When n==1, the output file names will be neutral_file and selected file.  When n > 1,
+            the names will be neutral_file.i.gz and selected_file.i.gz for all :math:`0\leq i \le n`
+
         """
         cdef cppstring sfile,nfile
         cdef vector[pair[double,double]] locus_boundaries
         if boundaries is not None:
             locus_boundaries=boundaries
-        for i in range(n):
-            sfile.clear()
-            nfile.clear()
-            if selected_file is not None:
-                temp=selected_file.encode('utf-8')+b'.'+str(i).encode('utf-8')+b'.gz'
-                sfile=temp
-            if neutral_file is not None:
-                temp=neutral_file.encode('utf-8')+b'.'+str(i).encode('utf-8')+b'.gz'
-                nfile=temp
+        if n==1:
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
+                sample_n(nsam,rng.thisptr.get(),neutral_file,selected_file,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
+        else:
+            for i in range(n):
+                sfile.clear()
+                nfile.clear()
+                if selected_file is not None:
+                    temp=selected_file.encode('utf-8')+b'.'+str(i).encode('utf-8')+b'.gz'
+                    sfile=temp
+                if neutral_file is not None:
+                    temp=neutral_file.encode('utf-8')+b'.'+str(i).encode('utf-8')+b'.gz'
+                    nfile=temp
+                self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[sample_n](new
                 sample_n(nsam,rng.thisptr.get(),nfile,sfile,removeFixed,recordSamples,recordDetails,locus_boundaries,append)))
     def __iter__(self):
         for i in range(self.vec.size()):
@@ -201,6 +209,10 @@ def apply_sampler(PopVec pops,TemporalSampler sampler):
 
     :return: Nothing
     """
+
+    if not isinstance(pops,PopVec):
+        raise TypeError("Expecting PopVec.")
+
     if isinstance(pops,SpopVec):
         apply_sampler_cpp[singlepop_t]((<SpopVec>pops).pops,sampler.vec)
     elif isinstance(pops,MetaPopVec):
@@ -208,5 +220,25 @@ def apply_sampler(PopVec pops,TemporalSampler sampler):
     elif isinstance(pops,MlocusPopVec):
         apply_sampler_cpp[multilocus_t]((<MlocusPopVec>pops).pops,sampler.vec)
     else:
-        raise RuntimeError("PopVec type not supported")
-        
+        raise RuntimeError("PopVec/PopType type not supported")
+
+def apply_sampler_single(PopType pop,TemporalSampler sampler):
+    """
+    Apply a temporal sampler to an indivudal :class:`fwdpy.fwdpy.PopType`
+
+    :param pop: A :class:`fwdpy.fwdpy.PopType`
+    :param sampler: A :class:`fwdpy.fwdpy.TemporalSampler`
+
+    The use case for this function is applying very expensive temporal samplers
+    at the end of a simulation.  It is assumed that len(sampler)==1.
+    """
+    if not isinstance(pop,PopType):
+        raise TypeError("Expecting PopType.")
+    if isinstance(pop,Spop):
+        apply_sampler_single_cpp[singlepop_t]((<Spop>pop).pop.get(),sampler.vec)
+    elif isinstance(pop,MlocusPop):
+        apply_sampler_single_cpp[multilocus_t]((<MlocusPop>pop).pop.get(),sampler.vec)
+    elif isinstance(pop,MetaPop):
+        apply_sampler_single_cpp[metapop_t]((<MetaPop>pop).mpop.get(),sampler.vec)
+    else:
+        raise NotImplementedError("Not implemented for this type")
