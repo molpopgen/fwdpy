@@ -140,7 +140,6 @@ extensions = [
     Extension("fwdpy.internal.internal",
               sources=["fwdpy/internal/internal"+EXTENSION]+glob.glob("fwdpy/internal/*.cc"),
               language="c++",
-              include_dirs=GLOBAL_INCLUDES,
               extra_compile_args=GLOBAL_COMPILE_ARGS,
               extra_link_args=LINK_ARGS,
               libraries=LIBS),
@@ -176,7 +175,7 @@ extensions.extend(
             extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
 ##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.console']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.matrix','fwdpy.console']
 
 if QTRAIT is True:
     extensions.extend([
@@ -245,9 +244,13 @@ setup(name='fwdpy',
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
       ext_modules=extensions,
+<<<<<<< HEAD
       entry_points={
           'console_scripts': [
               'fwdpyPopgen=fwdpy.console.popgen_cli:popgen_cli_main'
         ]
         },
      )
+=======
+     ,'fwdpy.matrix')
+>>>>>>> dev
