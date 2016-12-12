@@ -245,4 +245,4 @@ setup(name='@PACKAGE_NAME@',
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
       ext_modules=extensions,
-     ,'fwdpy.matrix')
+      )
