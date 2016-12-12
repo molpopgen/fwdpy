@@ -52,12 +52,13 @@ namespace fwdpy
         virtual ~sampler_base() {}
     };
 
-	inline void clear_samplers(std::vector<std::unique_ptr<sampler_base>> & v)
-	{
-		v.clear();
-		std::vector<std::unique_ptr<sampler_base>> t;
-		v=std::move(t);
-	}
+    inline void
+    clear_samplers(std::vector<std::unique_ptr<sampler_base>> &v)
+    {
+        v.clear();
+        std::vector<std::unique_ptr<sampler_base>> t;
+        v = std::move(t);
+    }
 
     template <typename pop_t>
     inline void
@@ -93,6 +94,15 @@ namespace fwdpy
             }
         for (auto &t : threads)
             t.join();
+    }
+
+    template <typename T>
+    inline void
+    apply_sampler_single_cpp(
+        const T *pop,
+        const std::vector<std::unique_ptr<sampler_base>> &samplers)
+    {
+        apply_sampler_wrapper(samplers[0].get(), pop);
     }
 
     template <typename final_t> struct custom_sampler : public sampler_base

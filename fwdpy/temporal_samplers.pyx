@@ -209,6 +209,10 @@ def apply_sampler(PopVec pops,TemporalSampler sampler):
 
     :return: Nothing
     """
+
+    if not isinstance(pops,PopVec):
+        raise TypeError("Expecting PopVec.")
+
     if isinstance(pops,SpopVec):
         apply_sampler_cpp[singlepop_t]((<SpopVec>pops).pops,sampler.vec)
     elif isinstance(pops,MetaPopVec):
@@ -216,5 +220,25 @@ def apply_sampler(PopVec pops,TemporalSampler sampler):
     elif isinstance(pops,MlocusPopVec):
         apply_sampler_cpp[multilocus_t]((<MlocusPopVec>pops).pops,sampler.vec)
     else:
-        raise RuntimeError("PopVec type not supported")
-        
+        raise RuntimeError("PopVec/PopType type not supported")
+
+def apply_sampler_single(PopType pop,TemporalSampler sampler):
+    """
+    Apply a temporal sampler to an indivudal :class:`fwdpy.fwdpy.PopType`
+
+    :param pop: A :class:`fwdpy.fwdpy.PopType`
+    :param sampler: A :class:`fwdpy.fwdpy.TemporalSampler`
+
+    The use case for this function is applying very expensive temporal samplers
+    at the end of a simulation.  It is assumed that len(sampler)==1.
+    """
+    if not isinstance(pop,PopType):
+        raise TypeError("Expecting PopType.")
+    if isinstance(pop,Spop):
+        apply_sampler_single_cpp[singlepop_t]((<Spop>pop).pop.get(),sampler.vec)
+    elif isinstance(pop,MlocusPop):
+        apply_sampler_single_cpp[multilocus_t]((<MlocusPop>pop).pop.get(),sampler.vec)
+    elif isinstance(pop,MetaPop):
+        apply_sampler_single_cpp[metapop_t]((<MetaPop>pop).mpop.get(),sampler.vec)
+    else:
+        raise NotImplementedError("Not implemented for this type")
