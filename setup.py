@@ -176,7 +176,7 @@ extensions.extend(
             extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
 ##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.matrix']
 
 if QTRAIT is True:
     extensions.extend([
@@ -245,4 +245,4 @@ setup(name='fwdpy',
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
       ext_modules=extensions,
-     )
+     ,'fwdpy.matrix')
