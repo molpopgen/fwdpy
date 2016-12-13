@@ -64,6 +64,7 @@ cdef class MutationView(object):
             return not self == other
         else:
             raise NotImplementedError("rich comparison type not implmented.")
+
 cdef class GameteView(object):
     """
     An immutable view of a gamete.
@@ -104,6 +105,18 @@ cdef class GameteView(object):
         for m in muts:
             m['gam_key']=self.gam_key
         return muts
+    def __richcmp__(self,other,kind):
+        """
+        Rich comparison. == and != supported.
+
+        The comparison is based on the mutation types and not on n or gam_key.
+        """
+        if kind == 2:
+            return self.neutral==other.neutral and self.selected == other.selected
+        elif kind == 3:
+            return not self == other
+        else:
+            raise NotImplementedError("rich comparison type not implmented.")
 
 cdef class DiploidView(object):
     """
@@ -125,6 +138,20 @@ cdef class DiploidView(object):
         for i in muts:
             i['dip_key']=self.dip_key
         return muts
+    def __richcmp__(self,other,kind):
+        """
+        Rich comparison. == and != supported.
+
+        The comparison is based on the mutations carried on each gamete.
+        """
+        if kind == 2:
+            a=(self.first == other.first and self.second == other.second)
+            b=(self.first == other.second and self.second == other.first)
+            return a or b
+        elif kind == 3:
+            return not self == other
+        else:
+            raise NotImplementedError("rich comparison type not implmented.")
 
 cdef class MultiLocusDiploidView(object):
     """
@@ -155,6 +182,20 @@ cdef class MultiLocusDiploidView(object):
         loci = self.__addkeys__(self.first)
         loci2 = self.__addkeys__(self.second)
         return loci+loci2
+    def __richcmp__(self,other,kind):
+        """
+        Rich comparison. == and != supported.
+
+        The comparison is based on the mutations carried on each gamete.
+        """
+        if kind == 2:
+            a=(self.first == other.first and self.second == other.second)
+            b=(self.first == other.second and self.second == other.first)
+            return a or b
+        elif kind == 3:
+            return not self == other
+        else:
+            raise NotImplementedError("rich comparison type not implmented.")
 
 cdef MutationView empty_MutationView():
     return MutationView(None,None,None,None,None,None,None,None,None)
