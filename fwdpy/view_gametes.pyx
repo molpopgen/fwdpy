@@ -23,7 +23,6 @@ cdef list view_gametes_details(const gcont_t & gametes,const mcont_t & mutations
     return rv
 
 def view_gametes_metapop(MetaPop p, unsigned deme):
-    raise RuntimeError("needs refactoring")
     if deme >= len(p.popsizes()):
         raise IndexError("view_gametes: deme index out of range")
     temp1 = view_diploids(p,list(range(p.mpop.get().diploids[deme].size())),deme)
@@ -31,20 +30,15 @@ def view_gametes_metapop(MetaPop p, unsigned deme):
     unique_gams = []
     allgams = []
     for i in temp1:
-        if unique_gams.count(i['chrom0'])==0:
-            unique_gams.append(i['chrom0'])
-        if unique_gams.count(i['chrom1'])==0:
-            unique_gams.append(i['chrom1'])
-        allgams.append(i['chrom0'])
-        allgams.append(i['chrom1'])
-    #clear temp1 and fill it with unique gametes + their counts in this deme
-    temp1=[]
-    dummy=0
+        if unique_gams.count(i.first)==0:
+            unique_gams.append(i.first)
+        if unique_gams.count(i.second)==0:
+            unique_gams.append(i.second)
+        allgams.append(i.first)
+        allgams.append(i.second)
     for i in unique_gams:
-        temp1.append(i)
-        temp1[dummy]['n'] = allgams.count(i)
-        dummy+=1
-    return temp1
+        i.n=allgams.count(i)
+    return unique_gams
 
 def view_gametes(object p ,deme = None):
     """
@@ -84,4 +78,4 @@ def view_gametes(object p ,deme = None):
             raise RuntimeError("view_gametes: deme cannot be None when p is a MetaPop")
         return view_gametes_metapop(p,deme)
     else:
-        raise RuntimeError("view_gametes: unsupported object type")
+        raise NotImplementedError("view_gametes: unsupported object type")
