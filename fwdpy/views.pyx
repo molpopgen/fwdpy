@@ -50,7 +50,20 @@ cdef class MutationView(object):
         return {'position':self.pos,'count':self.n,'origin':self.g,
                 'fixation':self.ftime,'s':self.s,'h':self.h,'neutral':self.neutral,
                 'label':self.label,'mut_key':self.mut_key}
-
+    def __richcmp__(self,other,kind):
+        """
+        The following rich comparisons are supported:
+        < sorts on position
+        == and != compare pos,g,s, and h.
+        """
+        if kind == 0:
+            return self.pos < other.pos
+        if kind == 2:
+            return self.pos == other.pos and self.g == other.g and self.s == other.s and self.h == other.h
+        elif kind == 3:
+            return not self == other
+        else:
+            raise NotImplementedError("rich comparison type not implmented.")
 cdef class GameteView(object):
     """
     An immutable view of a gamete.

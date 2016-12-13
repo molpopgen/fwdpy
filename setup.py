@@ -161,7 +161,7 @@ extensions = [
 ]
 
 ##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.matrix']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
 extensions.extend(
     [Extension("fwdpy.fitness",
@@ -184,13 +184,6 @@ extensions.extend(
             include_dirs=GLOBAL_INCLUDES,
             extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
-<<<<<<< HEAD
-PKGS.append('fwdpy.fitness')
-PKGS.append('fwdpy.views')
-=======
-##This is the list of extension modules
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
->>>>>>> dev
 
 if QTRAIT is True:
     extensions.extend([
