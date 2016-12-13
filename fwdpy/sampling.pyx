@@ -53,17 +53,14 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
     """
     if isinstance(pop,Spop):
         return sample_sep_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
-        #return ms_sample_single_deme_sep(rng,pop,nsam,removeFixed)
     elif isinstance(pop,MetaPop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
         if deme >= len(pop):
             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
         return sample_separate[metapop_t](rng.thisptr.get(),deref((<MetaPop>pop).mpop.get()),deme,nsam,removeFixed)
-        #return ms_sample_metapop_sep(rng,pop,nsam,removeFixed,deme)
     elif isinstance(pop,MlocusPop):
         return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<MlocusPop>pop).pop.get()),nsam,removeFixed,locusBoundaries)
-        #return ms_sample_singlepop_mloc(rng,pop,nsam,removeFixed)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
@@ -114,7 +111,6 @@ def get_sample_details( sample_t ms_sample, PopType pop, locusID = None ):
                (<MetaPop>pop).mpop.get().generation,0)
     else:
         raise RuntimeError("unupported PopType")
-    #return pandas.DataFrame({'s':s,'h':h,'popfreq':p,'age':a,'dcount':c,'label':l})
 
 
 ###### Functions for manipulating samples.
