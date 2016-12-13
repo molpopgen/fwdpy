@@ -97,7 +97,47 @@ cdef class DataMatrix(object):
             else: return s
         if s is None: return n
         return numpy.append(n,s,1)
+    def as_sample(self):
+        """
+        Return a representation of the data in a form 
+        usable in pylibseq.
 
+        This function **only** makes sense if the matrix is a 
+        haplotype matirx. An exception will raise if a DataMatrix 
+        object represents a genotype matrix.
+
+        :return: A dictionary with elements 'neutral' and 'selected'
+
+        :rtype: dict
+
+        :raises TypeError: is self.ishaplotype is False
+        """
+        if self.ishaplotype is False: 
+            raise TypeError("cannot convert genotype matrix to libsequence sample format")
+        nm = self.nmatrix()
+        sm = self.smatrix()
+        #These will be lists of lists of characters,
+        #to be converted into list of tuple of float,string
+        ss=[]
+
+        rv={'neutral':[],'selected':[]}
+        if nm is not None:
+            ns=[]
+            for col in range(nm.shape[1]):
+                nsi=numpy.array(['0']*nm.shape[0])
+                nsi[numpy.where(nm[:,col]==1)[0]]='1'
+                nsi[numpy.where(nm[:,col]==2)[0]]='2'
+                ns.append(nsi)
+            rv['neutral']=[(i,"".join(j)) for i,j in zip(self.neutral_positions,ns)]
+        if sm is not None:
+            ss=[]
+            for col in range(sm.shape[1]):
+                ssi=numpy.array(['0']*sm.shape[0])
+                ssi[numpy.where(sm[:,col]==1)[0]]='1'
+                ssi[numpy.where(sm[:,col]==2)[0]]='2'
+                ss.append(ssi)
+            rv['selected']=[(i,"".join(j)) for i,j in zip(self.selected_positions,ss)]
+        return rv
 
 def get_mutation_keys(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,sort=True,min_sample_daf=None,min_pop_daf=None,deme=None):
     """
@@ -177,6 +217,7 @@ def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=
     :rtype: :class:`fwdpy.matrix.DataMatrix`
     """
     deme_=deme
+    if deme is None: deme_ = 0 
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,sort,min_sample_daf,min_pop_daf,deme)
     if isinstance(pop,Spop):
