@@ -42,8 +42,9 @@ cdef class DataMatrix(object):
     """Number of neutral mutations"""
     cdef readonly int ns
     """Number of selected nutations"""
-    cdef readonly bint ishaplotype
-    """True if haplotype matrix, False otherwise"""
+
+cdef class HaplotypeMatrix(DataMatrix):
+    pass
 
 ctypedef pair[vector[pair[size_t,uint]],vector[pair[size_t,uint]]] key_pair
 

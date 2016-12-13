@@ -44,13 +44,11 @@ cdef sort_keys_by_position(key_pair & keys,const mcont_t & mutations):
 cdef class DataMatrix(object):
     """
     Matrix representation of a sample.
-    Returned by :func:`fwdpy.matrix.haplotype_matrix` pr
-    :func:`fwdpy.matrix.genotype_matrix`. All array 
-    types are array.array.
+    All array types are array.array.
     
     .. versionadded:: 0.0.4
     """
-    def __cinit__(self,const data_matrix & d,bint hap):
+    def __cinit__(self,const data_matrix & d):
         self.neutral=array.array('h',d.neutral)
         self.selected=array.array('h',d.selected)
         self.neutral_positions=array.array('d',d.neutral_positions)
@@ -60,7 +58,6 @@ cdef class DataMatrix(object):
         self.nrow=d.nrow
         self.nn=len(self.neutral_positions)
         self.ns=len(self.selected_positions)
-        self.ishaplotype=hap
     def nmatrix(self,dtype = numpy.dtype('i1')):
         """
         Returns matrix of neutral sites
@@ -97,23 +94,23 @@ cdef class DataMatrix(object):
             else: return s
         if s is None: return n
         return numpy.append(n,s,1)
+
+cdef class HaplotypeMatrix(DataMatrix):
+    """
+    An extension of :class:`fwdpy.fwdpy.DataMatrix`
+    that allows for conversion to data formats compatible
+    wiht pylibseq/libsequence.
+    """
     def as_sample(self):
         """
         Return a representation of the data in a form 
         usable in pylibseq.
 
-        This function **only** makes sense if the matrix is a 
-        haplotype matirx. An exception will raise if a DataMatrix 
-        object represents a genotype matrix.
-
         :return: A dictionary with elements 'neutral' and 'selected'
 
         :rtype: dict
 
-        :raises TypeError: is self.ishaplotype is False
         """
-        if self.ishaplotype is False: 
-            raise TypeError("cannot convert genotype matrix to libsequence sample format")
         nm = self.nmatrix()
         sm = self.smatrix()
         #These will be lists of lists of characters,
@@ -214,20 +211,20 @@ def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=
 
     :param keys: (None) Pre-calculated mutation keys.  Must be a tuple of lists of positive integers. Exceptions will be raised if keys are invalid or out of range.
 
-    :rtype: :class:`fwdpy.matrix.DataMatrix`
+    :rtype: :class:`fwdpy.matrix.HaplotypeMatrix`
     """
     deme_=deme
     if deme is None: deme_ = 0 
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,sort,min_sample_daf,min_pop_daf,deme)
     if isinstance(pop,Spop):
-        return DataMatrix(fwdpp_haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),True)
+        return HaplotypeMatrix(fwdpp_haplotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     if isinstance(pop,MlocusPop):
-        return DataMatrix(fwdpp_haplotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),True)
+        return HaplotypeMatrix(fwdpp_haplotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     if isinstance(pop,MetaPop):
         if deme is None:
             raise RuntimeError("deme cannot be None")
-        return DataMatrix(fwdpp_haplotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_),True)
+        return HaplotypeMatrix(fwdpp_haplotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     else:
         raise NotImplementedError("population type not supported")
 
@@ -247,12 +244,12 @@ def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=T
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,sort,min_sample_daf,min_pop_daf,deme)
     if isinstance(pop,Spop):
-        return DataMatrix(fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),False)
+        return DataMatrix(fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     if isinstance(pop,MlocusPop):
-        return DataMatrix(fwdpp_genotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_),False)
+        return DataMatrix(fwdpp_genotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     if isinstance(pop,MetaPop):
         if deme is None:
             raise RuntimeError("deme cannot be None")
-        return DataMatrix(fwdpp_genotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_),False)
+        return DataMatrix(fwdpp_genotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     else:
         raise NotImplementedError("population type not supported")
