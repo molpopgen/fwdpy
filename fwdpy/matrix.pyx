@@ -95,6 +95,12 @@ cdef class DataMatrix(object):
         if s is None: return n
         return numpy.append(n,s,1)
 
+cdef class GenotypeMatrix(DataMatrix):
+    """
+    Interface is identical to :class:`fwdpy.fwdpy.DataMatrix`
+    """
+    pass
+
 cdef class HaplotypeMatrix(DataMatrix):
     """
     An extension of :class:`fwdpy.fwdpy.DataMatrix`
@@ -205,7 +211,7 @@ def get_mutation_keys(pop,list individuals,include_neutral=True,include_selected
 
 def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,sort=True,min_sample_daf=None,min_pop_daf=None,deme=None,keys=None):
     """
-    Generate a haplotype matrix stored in a :class:`fwdpy.matrix.DataMatrix`
+    Generate a haplotype matrix stored in a :class:`fwdpy.matrix.HaplotypeMatrix`
     
     All arguments are identical to :func:`fwdpy.matrix.get_mutation_keys` with the exception of:
 
@@ -230,13 +236,13 @@ def haplotype_matrix(pop,list individuals,include_neutral=True,include_selected=
 
 def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=True,remove_fixed=False,sort=True,min_sample_daf=None,min_pop_daf=None,deme=None,keys=None):
     """
-    Generate a genotype matrix stored in a :class:`fwdpy.matrix.DataMatrix`
+    Generate a genotype matrix stored in a :class:`fwdpy.matrix.GenotypeMatrix`
     
     All arguments are identical to :func:`fwdpy.matrix.get_mutation_keys` with the exception of:
 
     :param keys: (None) Pre-calculated mutation keys.  Must be a tuple of lists of positive integers. Exceptions will be raised if keys are invalid or out of range.
 
-    :rtype: :class:`fwdpy.matrix.DataMatrix`
+    :rtype: :class:`fwdpy.matrix.GenotypeMatrix`
     """
     deme_=deme
     if deme is None:
@@ -244,12 +250,12 @@ def genotype_matrix(pop,list individuals,include_neutral=True,include_selected=T
     if keys is None:
         keys = get_mutation_keys(pop,individuals,include_neutral,include_selected,remove_fixed,sort,min_sample_daf,min_pop_daf,deme)
     if isinstance(pop,Spop):
-        return DataMatrix(fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
+        return GenotypeMatrix(fwdpp_genotype_matrix[singlepop_t](deref((<Spop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     if isinstance(pop,MlocusPop):
-        return DataMatrix(fwdpp_genotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
+        return GenotypeMatrix(fwdpp_genotype_matrix[multilocus_t](deref((<MlocusPop>pop).pop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     if isinstance(pop,MetaPop):
         if deme is None:
             raise RuntimeError("deme cannot be None")
-        return DataMatrix(fwdpp_genotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_))
+        return GenotypeMatrix(fwdpp_genotype_matrix[metapop_t](deref((<MetaPop>pop).mpop.get()),individuals,keys[0],keys[1],<size_t>deme_))
     else:
         raise NotImplementedError("population type not supported")

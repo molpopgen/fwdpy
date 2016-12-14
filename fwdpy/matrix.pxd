@@ -43,6 +43,9 @@ cdef class DataMatrix(object):
     cdef readonly int ns
     """Number of selected nutations"""
 
+cdef class GenotypeMatrix(DataMatrix):
+    pass
+
 cdef class HaplotypeMatrix(DataMatrix):
     pass
 
