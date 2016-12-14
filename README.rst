@@ -159,143 +159,46 @@ This package *minimally* depends on:
 * fwdpp_
 * libsequence_
 
-The configure script will enforce minimum version numbers of these dependencies, if necessary.
-
 .. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 and cythonGSL_ installed on your system.
 
-.. note:: fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
-
 You also need a C++11-compliant compiler.  For linux users, GCC 4.8 or
-newer should suffice.  OS X users must use the clang-omp package from brew_, or gcc6 from brew_ if they use Anaconda.
-
-You may use one or the other of these libraries, but not both.  See the Performance subsection of the Installation section below for how to use these libraries.
+newer should suffice.  
 
 Notes for OS X users
 ---------------------------------
 
-Apple is making life difficult for OS X users.  The release of El Capitan made installing third-party Unix tools into /usr/local more difficult.  A lot of the instructions below ask you to use brew_ to install depdendencies.  Please make sure that you have a working brew_ setup before trying any of the below.  If your setup is not working, please do research online about fixing it, which is beyond the scope of this document.
+OS X users are recommended to use Anaconda_ instead of brew_.  Further, use the Anaconda_ version of GCC instead of the system (Xcode) Clang if you compile fwdpy from source.  This package requires OpenMP, which is not supported via the clang provided with Xcode.
 
-OS X users are recommended to use brew_ to install the various dependencies:
+See next section for some details.
 
-.. code-block:: bash
-
-   $ brew install clang-omp
-   $ brew install gsl
-   $ ##Risky:
-   $ brew install fwdpp
-
-**Important**: you need to install clang-omp on OS X!  This package
-uses openmp for parallelizing some tasks.  Sadly, OS X's compiler does
-not come with openmp support, and so you need a third-party compiler
-that does.
-
-For brew users, you may or may not have luck with their version of fwdpp_.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
-
-The required Python package dependencies are in the requirements.txt file that comes with the source.
-
-Anaconda (and OS X, again...)
+Anaconda
 ------------------------------------
 
-**As things stabilize, the dependencies, etc., will be installable from Bioconda.**
+Anaconda_ may be the easiest way to install this package for many users.  The dependencies are available via the Bioconda_ "channel".
 
-Anaconda_ allows user to manage their own Python installations for themselves. It is expecially useful on systems where you don't have root access.  Anaconda_ works by installing intself into $HOME/anaconda2 (for Python2) or $HOME/anaconda3 (for Python3).  Further, it works best if all dependencies are also installed in the same location.
-
-An advantage of Anaconda_ is that you can avoid some of the complications involved in managing dependencies. By using Anaconda_'s installation of the GCC compiler, you can can guarantee that dependencies are compatible with one another (*i.e.* no "ABI compatibility" issues).  However, this means you must manage the installation of the dependencies yourself.  Here, I outline how to do, based on what worked for me on my Ubuntu 16.04 system.
-
-.. note:: The "recipes" below were all tested on new user accounts, thus avoiding any complications due to settings in my main accounts.
-
-Ubuntu
-=====================
-
-I am assuming that Anaconda_ for Python2 is installed. I'm further assuming that this all works for their Python3 installation, as fwdpy is compatible with both major versions of Python. Finally, I assume that $HOME/anaconda2/bin is prepended to your $PATH, meaning that Anaconda_ binaries are preferred over system binaries.
-
-First, install Anaconda_'s GCC, GSL_, and zlib:
+Note that using Anaconda_ means over-riding some things that may be provided with your system.  For example, if you install dependencies via Bioconda_ and then wish to install fwdpy from source, you will need GCC from Anaconda_:
 
 .. code-block:: bash
 
-    $ conda install gcc
-    $ conda install gsl
-    $ conda install zlib
+    conda install gcc
 
-Now, we wish to install libsequence_, which depends on Intel's TBB library, which we will install as follows:
+The GCC version in Anaconda_ is 4.8.5, which is a bit old but sufficient for the C++11 features needed for all dependencies and for this package.
 
-.. code-block:: bash
+In order to make sure that the Anaconda_ GCC is used, you will need to make sure that the bin directory of your Anaconda installation is prepended to your users's PATH variable.
 
-    $ conda install -c dlr-sc tbb=4.3.6
-
-Get libsequence_'s dev branch and install:
+If we define CONDAROOT as the location of your Anaconda_ installation, then you should define the following environment variables for your user in the dotfile appropriate for your favorite shell.  For example, for the bash shell:
 
 .. code-block:: bash
 
-    $ git clone http://github.com/molpopgen/libsequence
-    $ cd libsequence
-    $ git branch dev
-    $ ./configure --prefix=$HOME/anaconda2
-    $ #change -j to some number of threads
-    $ #appropriate for your machine
-    $ make -j 40 && make install
+    export PATH=$CONDAROOT/bin:$PATH
+    export CPPFLAGS="-I$CONDAROOT/include $CPPFLAGS"
+    export CFLAGS="-I$CONDAROOT/include $CFLAGS"
+    export LDFLAGS=-L$CONDAROOT/lib $LDFLAGS"
+    export LD_LIBRARY_PATH="$CONDAROOT/lib:$LD_LIBRARY_PATH"
 
-Get fwdpp_'s dev branch and install:
+.. note::
 
-.. code-block:: bash
-
-    $ git clone http://github.com/molpopgen/fwdpp
-    $ cd fwdpp
-    $ git branch dev
-    $ ./configure --prefix=$HOME/anaconda2
-    $ make && make install
-
-Install cythonGSL_, which is a dependency for fwdpy:
-
-.. code-block:: bash
-
-    $ pip install cythongsl
-
-Get the dev branch of fwdpy and install:
-
-.. code-block:: bash
-
-    $ pip install git+git://github.com/molpopgen/fwdpy@dev --install-option="--use-cython"
-
-The result of all of the above is:
-
-* All dependencies are compiled with the same version of GCC, which is whatever Anaconda_ is currently using (GCC 4.8.5 at the time of this writing).
-* All dependencies get installed into $HOME/anaconda2
-* fwdpy is installed and linked against the dependencies in $HOME/anaconda2
-
-OS X
-=====================
-
-As is too often the case, the situation on OS X is more complex.  If you want to use Anaconda_ on OS X, then the following worked for me.  I did it using a Python3 installation this time, just for fun.
-
-For OS X, we will rely on installing the Anaconda_ GCC.  It is also possible to use GCC6 from brew_, but I will not document that here, and instead focus on the path of least resistance, which is an "all 'conda" approach.
-
-.. note:: Installing Anaconda_ GCC means that compiler will be preferrred over the Xcode installation of clang, which is aliased to GCC on OS X.  Thus, there may be side effects when you play outside the Anaconda world.
-
-All of the steps shown above for Ubuntu work, with the following modifications:
-
-Any steps involving a "./configure" command need to have $HOME/anaconda[2|3]/include added to CPPFLAGS:
-
-.. code-block:: bash
-
-    $ CPPFLAGS="-I$HOME/anaconda3/include" ./configure --prefix=$HOME/anaconda3
-
-(Use anaconda2 instead of anaconda3 as needed.)
-
-The command to install fwdpy from GitHub must be told which compilers to use.  No idea why, but Anaconda_ on OS X really likes to force the use of clang!
-
-.. code-block:: bash
-
-    $ CC=gcc CXX=g++ pip install git+git://github.com/molpopgen/fwdpy@dev --install-option="--use-cython"
-
-Finally, it is wise for OS X users to add the following to their .bash_profiles:
-
-.. code_block:: bash
-
-    $ LD_LIBRARY_PATH=$HOME/anaconda3/lib
-    $ export LD_LIBRARY_PATH
-
-Again, substitute anaconda2 as necessary.  For the record, no idea why this is needed on OS X but not Linux...
+    The above exports *prepend* Anaconda_ paths to existing paths (if they exist).  If you use the system GCC for your own work, then the PATH export may not be something you want set all of the time.
 
 What Python version?
 ==================================
@@ -311,12 +214,7 @@ The latest release of the package is available via PyPi_, and can be installed w
 
    $ pip install --upgrade fwdpy
 
-OS X users must first install clang-omp from brew_ and use the
-following command:
-
-.. code-block:: bash
-
-   $ CC=clang-omp CXX=clang-omp++ pip install fwdpy
+OS X users must first install a compiler that supports the -fopenmp option.  I recommend GCC from Anaconda_ (see above).
 
 Installation from GitHub
 ----------------------------------------
@@ -340,36 +238,11 @@ Installation from source
 
 First, install the dependencies (see above).
 
-**Special instructions for OS X users**
-
-All compiler commands below must be prefixed with:
+The best way to install the package is to use 'pip'.  Once you have cloned the source repo and 'cd' into it:
 
 .. code-block:: bash
 
-   $ CC=clang-omp CXX=clang-omp++
-
-This is currently necessary on OS X in order to use a version of clang that supports OpenMP protocols.
-
-Generic instructions:
-
-To install system-wide:
-
-.. code-block:: bash
-		
-   $ sudo python setup.py install
-
-To install for your user:
-
-.. code-block:: bash
-
-   $ python setup.py install --prefix=$HOME
-
-To uninstall:
-
-.. code-block:: bash
-
-   $ #use 'sudo' here if it is installed system-wide...
-   $ pip uninstall fwdpy
+    pip install . --upgrade --intall-option=--use-cython
 
 To build the package in place and run the unit tests:
 
@@ -418,7 +291,7 @@ Testing occurs via docstring tests and unit tests.  Here is how to test using bo
    $ #run the tests
    $ make -f Makefile.sphinx doctest
    $ #run the unit tests
-   # python -m unittest discover fwdpy/tests
+   $ python -m unittest discover fwdpy/tests
    
 
 Note for developers
@@ -437,7 +310,6 @@ You need Cython >= 0.24.0, so upgrade if you need to:
 .. code-block:: bash
 
    $ pip install --upgrade Cython
-
 
 If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
 
@@ -492,12 +364,11 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.4.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.5.4, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
    $ which fwdppConfig
-
 
 If the above command returns nothing, then it is very likely that fwdpp is either too old, missing entirely from your system, or it is installed somewhere non-standard.  For example, if you installed fwdpp locally for your user, and did not edit PATH to include ~/bin, then fwdppConfig cannot be called without referring to its complete path.
 
@@ -508,10 +379,8 @@ Your system's compiler has a default set of paths where it will look for header 
 
 **NOTE:** I sometimes get requests for installation help from users who have installed every dependency in a separate folder in their $HOME.  In other words, they have some setup that looks like this:
 
-
 * $HOME/software/gsl
 * $HOME/software/fwdpp
-
 
 If you insist on doing this, then you are on your own.  You have to manually pass in all of the -I and -L flags to all of these locations.   This setup is problematic because it violates the POSIX Filesystem Hierarchy Standard (http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard), and you cannot reasonably expect things to "just work" any more.  It would be best to start over, and simply install all of the dependencies into the following prefix:
 
@@ -520,6 +389,8 @@ If you insist on doing this, then you are on your own.  You have to manually pas
    $ $HOME/software
 
 Doing so will allow $HOME/software/include, etc., to be populated as they were intended to be.
+
+Better yet, use a system like Anaconda_ (see above).
 
 Documentation
 ===================
@@ -534,7 +405,6 @@ The API documentation may also be build using doxygen_:
    $ doxygen fwdpy.doxygen
 
 Then, load html/index.html in your browser.
-
 
 .. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _Cython: http://www.cython.org/
@@ -551,3 +421,4 @@ Then, load html/index.html in your browser.
 .. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
 .. _libsequence: http://molpopgen.github.io/libsequence
 .. _Anaconda: https://www.continuum.io/why-anaconda
+.. _Bioconda: https://bioconda.github.io
