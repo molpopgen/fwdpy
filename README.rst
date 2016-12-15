@@ -12,7 +12,7 @@ This package is implemented in terms of:
 3. libsequence_, which is a C++11 library for population genetic calculations.
 4. gsl_, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.
 
-..note:: libsequence_ is only used internally for some format conversions and other operations.
+.. note:: libsequence_ is only used internally for some format conversions and other operations.
 
 Please note that this package is likely to be quite unstable/actively developed.
 
