@@ -12,6 +12,8 @@ Contents:
    :maxdepth: 2
 
    README
+   docs/changelog
+   docs/todo
    docs/notes
    docs/rusers
 
