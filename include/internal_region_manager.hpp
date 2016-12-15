@@ -6,58 +6,57 @@
 #ifndef __FWDPY_INTERNAL_HPP__
 #define __FWDPY_INTERNAL_HPP__
 
-#include <vector>
 #include <fwdpp/extensions/callbacks.hpp>
 #include <fwdpp/forward_types.hpp>
+#include <vector>
 namespace fwdpy
 {
-  namespace internal
-  {
-    struct region_manager
-    /*!
-      \brief How regions are implemented in fwdpy.
-
-      This type is used in fwdpy/internal/internal.pyx to convert user input
-      to something that fwdpp can use.
-
-      Within fwdpp, the members of this struct are bound to objects defined in
-      fwdpp/extensions/regions.hpp
-
-      \note These callbacks are for the case where a mutation 
-      has a single 's' and 'h' value.
-    */
+    namespace internal
     {
-      //! Vector of callbacks for assiging s/h to mutations
-      std::vector<KTfwd::extensions::shmodel> callbacks;
-      /*
-	Key to deciphering what is below:
-	n* = neutral
-	s* = selected
-	r* = recombination
-	*b = beginning of region
-	*e = end of region
-	*w = weight assigned to region
-	*l = labels assigned to region
-       */
-      std::vector<double> nb,ne,nw,sb,se,sw,rb,re,rw;
-      using label_cont_t = std::vector<decltype(KTfwd::mutation_base::xtra)>;
-      label_cont_t nl,sl;
-      region_manager() : callbacks(std::vector<KTfwd::extensions::shmodel>()),
-			 nb(std::vector<double>()),
-			 ne(std::vector<double>()),
-			 nw(std::vector<double>()),
-			 sb(std::vector<double>()),
-			 se(std::vector<double>()),
-			 sw(std::vector<double>()),
-			 rb(std::vector<double>()),
-			 re(std::vector<double>()),
-			 rw(std::vector<double>()),
-			 nl(label_cont_t()),
-			 sl(label_cont_t())
-      {
-      }
-    };
-  }
+        struct region_manager
+        /*!
+          \brief How regions are implemented in fwdpy.
+
+          This type is used in fwdpy/internal/internal.pyx to convert user
+          input
+          to something that fwdpp can use.
+
+          Within fwdpp, the members of this struct are bound to objects defined
+          in
+          fwdpp/extensions/regions.hpp
+
+          \note These callbacks are for the case where a mutation
+          has a single 's' and 'h' value.
+        */
+        {
+            //! Vector of callbacks for assiging s/h to mutations
+            std::vector<KTfwd::extensions::shmodel> callbacks;
+            /*
+              Key to deciphering what is below:
+              n* = neutral
+              s* = selected
+              r* = recombination
+              *b = beginning of region
+              *e = end of region
+              *w = weight assigned to region
+              *l = labels assigned to region
+             */
+            std::vector<double> nb, ne, nw, sb, se, sw, rb, re, rw;
+            using label_cont_t
+                = std::vector<decltype(KTfwd::mutation_base::xtra)>;
+            label_cont_t nl, sl;
+            region_manager()
+                : callbacks(std::vector<KTfwd::extensions::shmodel>()),
+                  nb(std::vector<double>()), ne(std::vector<double>()),
+                  nw(std::vector<double>()), sb(std::vector<double>()),
+                  se(std::vector<double>()), sw(std::vector<double>()),
+                  rb(std::vector<double>()), re(std::vector<double>()),
+                  rw(std::vector<double>()), nl(label_cont_t()),
+                  sl(label_cont_t())
+            {
+            }
+        };
+    }
 }
 
 #endif

@@ -18,6 +18,7 @@ import platform, glob, sys, subprocess, os
 ##Check C/C++ dependencies
 FWDPP_V=""
 GSL_V=""
+LIBSEQ_V=""
 ##fwdpp
 try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
@@ -25,10 +26,20 @@ try:
     version = out.decode('utf-8').rstrip()
     print ("fwdpp version",version," found.")
     FWDPP_V=version
-    if version < '0.5.0':
-        sys.exit("fwdpp >= ,'0.5.0' required, but ",version, "found.")
+    if version < '0.5.4':
+        sys.exit("fwdpp >= ,'0.5.4' required, but ",version, "found.")
 except:
     sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
+
+##libseqeuence
+try:
+    proc = subprocess.Popen(['libsequenceConfig','--version'],stdout=subprocess.PIPE)
+    (out,err) = proc.communicate()
+    version = out.decode('utf-8').rstrip()
+    print ("libsequence version",version," found.")
+    LIBSEQ_V=version
+except:
+    sys.exit("libsequenceConfig not found.  Please install libsequence (http://github.com/molpopgen/libsequence)")
 
 ##GSL
 try:
@@ -57,7 +68,7 @@ else:
 ##Set up our dependent libraries
 GSLLIBS=["gsl","gslcblas"]
 #MEMLIBS=None
-LIBS=["gsl","gslcblas"]
+LIBS=["sequence","gsl","gslcblas","z"]
 
 #USETCMALLOC=False
 
@@ -98,23 +109,12 @@ try:
 except ImportError:
     sys.exit("import numpy failed.  Please install numpy")
 
-if platform.system() == 'Linux' or platform.system() == 'Darwin':
-    doc_dir = '/usr/local/share/doc/fwdpy'
-else:
-    try:
-        from win32com.shell import shellcon, shell
-        homedir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0)
-        appdir = 'fwdpy'
-        doc_dir = os.path.join(homedir, appdir)
-    except:
-        pass
-
 long_desc = open("README.rst").read()
 
 #EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
-                     str('-DPACKAGE_VERSION=')+'"0.0.4"',
+                     str('-DPACKAGE_VERSION=')+'"0.0.4pre1"',
                      '-DHAVE_INLINE'
 ]
 LINK_ARGS=["-std=c++11",'-fopenmp']
@@ -150,7 +150,7 @@ extensions = [
               include_dirs=GLOBAL_INCLUDES,
               extra_compile_args=GLOBAL_COMPILE_ARGS,
               extra_link_args=LINK_ARGS,
-              libraries=[]),
+              libraries=LIBS),
     Extension("fwdpy.demography.demography",
               sources=["fwdpy/demography/demography"+EXTENSION]+glob.glob("fwdpy/demography/*.cc"),
               language="c++",
@@ -168,6 +168,13 @@ extensions.extend(
                extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
 
+extensions.extend(
+    [Extension("fwdpy.matrix",
+            sources=["fwdpy/matrix"+EXTENSION],
+            language="c++",
+            include_dirs=GLOBAL_INCLUDES,
+            extra_compile_args=GLOBAL_COMPILE_ARGS,)]
+    )
 ##This is the list of extension modules
 PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
@@ -210,7 +217,7 @@ if USE_CYTHON:
     extensions = cythonize(extensions)
 
 setup(name='fwdpy',
-      version='0.0.4',
+      version='0.0.4pre1',
       author='Kevin R. Thornton',
       author_email='krthornt@uci.edu',
       maintainer='Kevin R. Thornton',
@@ -230,7 +237,7 @@ setup(name='fwdpy',
       packages=PKGS,
       py_modules=[],
       scripts=[],
-      data_files=[(doc_dir, ['COPYING', 'README.rst'])],
+      data_files=[('fwdpy',['COPYING', 'README.rst'])],
       ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
       headers=glob.glob("include/*.hpp"),
       package_data={'fwdpy':['*.pxd'],
@@ -238,4 +245,4 @@ setup(name='fwdpy',
                     'fwdpy.fwdpyio':['*.pxd'],
                     'include':['*.hpp']},
       ext_modules=extensions,
-     )
+      )

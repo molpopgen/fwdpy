@@ -15,3 +15,4 @@ cdef class MlocusMultTrait(MlocusFitness):
 cdef class MlocusPowerMeanTrait(MlocusFitness):
     cdef vector[double] SLd,MLd
     cdef double SLp,MLp
+

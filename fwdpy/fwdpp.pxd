@@ -15,7 +15,7 @@ from libcpp.utility cimport pair
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 from cython_gsl cimport gsl_rng,gsl_ran_discrete_t
-from libc.stdint cimport uint16_t
+from libc.stdint cimport uint16_t,uint32_t
 
 ##We will expose some low-level types from fwdpp:
 cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
@@ -26,8 +26,8 @@ cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
 
     cdef cppclass gamete_base[T]:
         unsigned n
-        vector[size_t] mutations
-        vector[size_t] smutations
+        vector[uint32_t] mutations
+        vector[uint32_t] smutations
 
 cdef extern from "fwdpp/sugar/popgenmut.hpp" namespace "KTfwd" nogil:
     cdef cppclass popgenmut(mutation_base):
@@ -55,14 +55,19 @@ cdef extern from "fwdpp/fitness_models.hpp" namespace "KTfwd" nogil:
                                               const MUTATION_CONTAINER &,
                                               const double &) const
 
-    cdef cppclass additive_diploid:
-        #Wrapper around site_depenent fitness for simple additive model w = 1+sum(effects over loc).
+    cdef cppclass multiplicative_diploid:
+        #Wrapper around site_depenent fitness for simple multiplicative model.
         #The final double is the "scaling" term (see fwdpp docs)
         double operator()[DIPLOID,GAMETE_CONTAINER,
                           MUTATION_CONTAINER](const DIPLOID &,
                                               const GAMETE_CONTAINER &,
                                               const MUTATION_CONTAINER &,
                                               const double &) const
+#For hashing/lookup tables:
+cdef extern from "fwdpp/fwd_functional.hpp" namespace "KTfwd" nogil:
+    cdef cppclass equal_eps:
+        bool operator()[T](const T & lhs, const T & rhs) const
+
 #fwdpp's debug functions
 cdef extern from "fwdpp/debug.hpp" namespace "KTfwd" nogil:
     bool check_sum[GAMETE_CONTAINER](const GAMETE_CONTAINER & gc, const unsigned twoN)
@@ -85,7 +90,10 @@ cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
     ctypedef pair[sample_t,sample_t] sep_sample_t
     #For metapopulations...
     sep_sample_t sample_separate[POPTYPE](const gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed) except+
-    
+
+cdef extern from "fwdpp/sugar/change_neutral.hpp" namespace "KTfwd" nogil:
+    void change_neutral[POPTYPE](POPTYPE & p, const size_t mut_index)
+
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
     cdef cppclass shmodel:

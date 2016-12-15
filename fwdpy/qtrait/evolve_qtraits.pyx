@@ -1,6 +1,7 @@
 import warnings,fwdpy
 from cython.view cimport array as cvarray
 from cpython cimport array
+from cython.operator cimport dereference as deref
 cimport cython
 from fwdpy.fitness cimport SpopFitness
 from fwdpy.fitness cimport SpopAdditive
@@ -129,13 +130,13 @@ def evolve_regions_qtrait_sampler_fitness(GSLrng rng,
     fwdpy.check_input_params(mu_neutral,mu_selected,recrate,nregions,sregions,recregions)
     if isinstance(fitness_function,SpopGBRTrait):
         check_gbr_sdist(sregions)
-    if sample <= 0:
-        raise RuntimeError("sample must be > 0")
+    if sample < 0:
+        raise RuntimeError("sample must be >= 0")
     if f < 0.:
         warnings.warn("f < 0 will be treated as 0")
         f=0
     rmgr = region_manager_wrapper()
     internal.make_region_manager(rmgr,nregions,sregions,recregions)
     cdef size_t listlen = len(nlist)
-    evolve_regions_qtrait_cpp(rng.thisptr,&pops.pops,
-                              slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,sample,rmgr.thisptr,fitness_function.wfxn)
+    evolve_regions_qtrait_cpp(rng.thisptr,pops.pops,
+                              slist.vec,&nlist[0],listlen,mu_neutral,mu_selected,recrate,f,sigmaE,optimum,VS,sample,rmgr.thisptr,deref(fitness_function.wfxn.get()))

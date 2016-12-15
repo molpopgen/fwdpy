@@ -50,7 +50,8 @@ class test_sample_details(unittest.TestCase):
         ##find it in the "mutation view" for that replicate
         for i in range(len(samples)):
             ##Make sure that lengths match up
-            self.assertEqual(len(samples[i][1]),len(details[i]))
+            for key in details[i]:
+                self.assertEqual(len(samples[i][1]),len(details[i][key]))
             for j in range(len(samples[i][1])):
                 mm=[X for X in mviews[i] if X['pos'] == samples[i][1][j][0]]
                 ##Make sure each position is uniuqe
@@ -59,9 +60,9 @@ class test_sample_details(unittest.TestCase):
                     ##Make sure that the position is equal to what we expect
                     self.assertEqual(mmi['pos'],samples[i][1][j][0])
                     ##Make sure selection coefficient matches up
-                    self.assertEqual(mmi['s'],details[i].s[j])
+                    self.assertEqual(mmi['s'],details[i]['s'][j])
                     EP=mmi['n']/float(2000) #"expected" frequency
-                    self.assertEqual(EP,details[i].p[j])
+                    self.assertEqual(EP,details[i]['p'][j])
 
 class test_Fixations(unittest.TestCase):
     def test_CountFixationsInSample1(self):
@@ -83,7 +84,7 @@ class test_Fixations(unittest.TestCase):
             FOUND=0
             for f in fixations[i]:
                 #...find it in the sample object for the correct replicate...
-                mm=[X for X in samples[i] if X[0] == f[1]['pos']]
+                mm=[X for X in samples[i] if X[0] == f['pos']]
                 FOUND+=len(mm)
             self.assertEqual(FOUND,len(fixations[i]))
     def test_CountFixationsInSample2(self):
@@ -94,11 +95,11 @@ class test_Fixations(unittest.TestCase):
             FOUNDN=0
             FOUNDS=0
             for f in fixations[i]:
-                if f[1]['neutral'] is True:
-                    mm=[X for X in samples[i][0] if X[0]==f[1]['pos']]
+                if f['neutral'] is True:
+                    mm=[X for X in samples[i][0] if X[0]==f['pos']]
                     FOUNDN+=len(mm)
                 else:
-                    mm=[X for X in samples[i][1] if X[0]==f[1]['pos']]
+                    mm=[X for X in samples[i][1] if X[0]==f['pos']]
                     FOUNDS+=len(mm)
                     self.assertEqual(FOUNDN+FOUNDS,len(fixations[i]))
     def test_CountFixationsInSample3(self):
@@ -111,11 +112,11 @@ class test_Fixations(unittest.TestCase):
             FOUNDN=0
             FOUNDS=0
             for f in fixations[i]:
-                if f[1]['neutral'] is True:
-                    mm=[X for X in samples[i][0] if X[0]==f[1]['pos']]
+                if f['neutral'] is True:
+                    mm=[X for X in samples[i][0] if X[0]==f['pos']]
                     FOUNDN+=len(mm)
                 else:
-                    mm=[X for X in samples[i][1] if X[0]==f[1]['pos']]
+                    mm=[X for X in samples[i][1] if X[0]==f['pos']]
                     FOUNDS+=len(mm)
                     self.assertEqual(FOUNDN+FOUNDS,0)
         ##Checks that no polymorphisms are present as fixations in sample
@@ -132,7 +133,7 @@ class test_Fixations(unittest.TestCase):
         for i in range(len(fixations)):
             FOUND=0
             for f in fixations[i]:
-                mm=[X for X in samples[i] if X[0] == f[1]['pos']]
+                mm=[X for X in samples[i] if X[0] == f['pos']]
                 FOUND+=len(mm)
                 self.assertEqual(FOUND,0)
         ##Checks that no polymorphisms are present as fixations in sample

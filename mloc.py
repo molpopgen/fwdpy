@@ -1,60 +1,68 @@
 import fwdpy as fp
 import fwdpy.qtrait_mloc as qtm
+import fwdpy.demography as fpd
 import numpy as np
 import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
+import fwdpy.fwdpyio as fpio
+import sys
+import gzip
+import pickle
 
-N=1000
-NLOCI=10
-NREPS=40
-x = fp.popvec_mloc(NREPS,N,NLOCI)
-print x[0].popsize()
-print len(x)
-rnge=fp.GSLrng(100)
-rngs=fp.GSLrng(200)
-nlist=np.array([N]*(10*N),dtype=np.uint32)
-theta_neutral_per_locus=0.0
-rho_per_locus=100.0
-little_r_per_locus=rho_per_locus/(4.0*float(N))
-mu_n_region=theta_neutral_per_locus/(4.0*float(N))
-mu_del_ttl=1e-3
+def get_nlist():
+    """
+    Generates a numpy array of the canges in N over time
 
-stats = qtm.evolve_qtraits_mloc_popstats(rnge,x,nlist,
-                                         [mu_n_region]*NLOCI,
-                                         [mu_del_ttl/float(NLOCI)]*NLOCI,
-                                         [0.1]*NLOCI,
-                                         [little_r_per_locus]*NLOCI,
-                                         [0.5]*(NLOCI-1),#loci unlinked
-                                         1)
-
-df1 = [pd.DataFrame(i) for i in stats]
-for i in range(len(df1)):
-    df1[i]['rep']=[i]*len(df1[i].index)
+    There are 5 epochs, with t=0 being the present.
     
-stats = qtm.evolve_qtraits_mloc_popstats(rnge,x,nlist,
-                                         [mu_n_region]*NLOCI,
-                                         [mu_del_ttl/float(NLOCI)]*NLOCI,
-                                         [0.1]*NLOCI,
-                                         [little_r_per_locus]*NLOCI,
-                                         [0.5]*(NLOCI-1),#loci unlinked
-                                         1,optimum=0.5)
+    E1: Ne= 7,310  from t=start(8N?) to t = - 5920 generation (Ancestral sizes until 5920 generations ago)
+    
+    E2: Ne =14,474 from t = -5920 to t = -2040 (Ancient growth at 5920 g ago)
+    
+    E3: Ne =1,861 from t= -2040 to t= -920 (OOA, first bottle neck 2040 g ago)
+    
+    E4: Ne = 1,032 to Ne = 9,300 during t = -920 to t = -205 ( second bottle neck and onset of 715 g of exponential growth at rate 0.31% per gen )  
+    
+    E5: Ne = 9,300 to Ne = 512,000 during t = -205 to t = -0 ( 205 g of exponential growth at rate 1.95% per gen )  
+    """
+    n=[7310]*(10*7310) #E1: evolve ancestral size to mutation/selection/drift equilibrium
+    n.extend([14474]*(5920-2040)) #E2
+    n.extend([1861]*(2040-920)) #E3
+    n.extend(fpd.exponential_size_change(1032,9300,920-205)) #E4
+    n.extend(fpd.exponential_size_change(9300,51200,205)) #E5
+    return n
 
+NLOCI=10
+NREPS=10
+rnge=fp.GSLrng(100)
+nlist=np.array(get_nlist(),dtype=np.uint32)
+theta_neutral=100.0
+rho_per_locus=100.0
+f=qtm.MlocusAdditiveTrait()
+delmuts=[1e-3]*NLOCI
+mmodels=[fp.GaussianS(0,1,1,0.25)]*len(delmuts)
+for i in mmodels:
+    print i
+nmuts=[theta_neutral/float(4*nlist[0])]*NLOCI
+recrates=[theta_neutral/float(4*nlist[0])]*NLOCI
 
-df2 = [pd.DataFrame(i) for i in stats]
-for i in range(len(df2)):
-    df2[i]['rep']=[i]*len(df2[i].index)
+pfile = gzip.open("pickle_out.p","wb")
 
-df = pd.concat([pd.concat(df1),pd.concat(df2)])
+for i in range(1):
+    x = fp.MlocusPopVec(NREPS,nlist[0],NLOCI)
+    sampler=fp.NothingSampler(len(x))
 
-g = df.groupby(['stat','generation']).mean()
-g.reset_index(inplace=True)
-fig = plt.figure()
-plt.plot(g[g.stat=='tbar'].generation,g[g.stat=='tbar'].value,label='Trait')
-plt.plot(g[g.stat=='tbar'].generation,g[g.stat=='wbar'].value,label='Fitness')
-plt.plot(g[g.stat=='tbar'].generation,g[g.stat=='varw'].value.multiply(100.0),label='100 x V(Fitness)')
-plt.plot(g[g.stat=='tbar'].generation,g[g.stat=='VG'].value.multiply(10.0),label='10 x VG')
-plt.xlabel("Time (generations)")
-plt.ylabel("Mean value")
-plt.legend(loc="upper left")
-plt.savefig("mloc_test.png")
+    qtm.evolve_qtraits_mloc_sample_fitness(rnge,x,sampler,f,
+            nlist[:5000],
+            nmuts,
+            delmuts,
+            mmodels,
+            recrates,
+            [0.0]*(NLOCI-1),sample=0,
+            VS=2,optimum=0.)
+    v = fp.view_mutations(x)
+    for i in v:
+        print i
+    for i in x:
+        d=fpio.serialize(i)
+        pickle.dump(d,pfile)
+pfile.close()

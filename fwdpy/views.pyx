@@ -1,5 +1,6 @@
 from cython.operator import dereference as deref,postincrement as inc
 from cython.parallel import parallel, prange
+from libcpp.limits cimport numeric_limits
 import pandas as pd
 
 cdef extern from "<algorithm>" namespace "std":
@@ -14,33 +15,41 @@ cdef extern from "<iterator>" namespace "std":
     back_insert_iterator[CONTAINER] back_inserter[CONTAINER](CONTAINER &)
 
     
-cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil:
+cdef popgen_mut_data get_mutation(const popgenmut & m,
+                                  size_t n) nogil:
     cdef popgen_mut_data rv
+    cdef numeric_limits[unsigned] ul
     rv.pos=m.pos
     rv.n=<unsigned>n
     rv.g=m.g
+    rv.ftime=ul.max()
     rv.s=m.s
     rv.h=m.h
     rv.neutral=m.neutral
     rv.label=m.xtra
     return rv
 
-cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
+cdef gamete_data get_gamete(const gamete_t & g,
+                            const mcont_t & mutations,
+                            const mcounts_cont_t & mcounts) nogil:
     cdef gamete_data rv
     cdef size_t i=0,j=g.mutations.size()
     while i<j:
-        rv.neutral.push_back(get_mutation(mutations[i],mcounts[i]))
+        rv.neutral.push_back(get_mutation(mutations[g.mutations[i]],mcounts[g.mutations[i]]))
         i+=1
 
     i=0
     j=g.smutations.size()
     while i<j:
-        rv.selected.push_back(get_mutation(mutations[i],mcounts[i]))
+        rv.selected.push_back(get_mutation(mutations[g.smutations[i]],mcounts[g.smutations[i]]))
         i+=1
     rv.n=g.n
     return rv
 
-cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
+cdef diploid_data get_diploid(const diploid_t & dip,
+                              const gcont_t & gametes,
+                              const mcont_t & mutations,
+                              const mcounts_cont_t & mcounts) nogil:
    cdef diploid_data rv
    rv.g=dip.g
    rv.e=dip.e
@@ -49,6 +58,8 @@ cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, c
    rv.chrom1=get_gamete(gametes[dip.second],mutations,mcounts)
    rv.n0 = <unsigned>rv.chrom0.selected.size()
    rv.n1 = <unsigned>rv.chrom1.selected.size()
+   rv.sh0=0.0
+   rv.sh1=0.0
    cdef size_t i = 0
    while i < rv.chrom0.selected.size():
        rv.sh0+=(rv.chrom0.selected[i].s*rv.chrom0.selected[i].h)
@@ -59,7 +70,10 @@ cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, c
        i+=1
    return rv
 
-cdef diploid_mloc_data get_diploid_mloc ( const dipvector_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
+cdef diploid_mloc_data get_diploid_mloc (const dipvector_t & dip,
+                                         const gcont_t & gametes,
+                                         const mcont_t & mutations,
+                                         const mcounts_cont_t & mcounts) nogil:
     cdef diploid_mloc_data rv
     cdef gamete_data gd
     rv.g=dip[0].g
@@ -83,7 +97,8 @@ cdef diploid_mloc_data get_diploid_mloc ( const dipvector_t & dip, const gcont_t
     return rv
 
 
-cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil:
+cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations,
+                                                    const mcounts_cont_t & mcounts) nogil:
     cdef vector[popgen_mut_data] rv
     cdef size_t i=0,j=mutations.size()
     while i!=j:
@@ -93,7 +108,7 @@ cdef vector[popgen_mut_data] view_mutations_details(const mcont_t & mutations, c
         i+=1
     return rv
 
-cdef vector[gamete_data] view_gametes_details( const singlepop_t * pop ) nogil:
+cdef vector[gamete_data] view_gametes_details(const singlepop_t * pop) nogil:
     cdef vector[gamete_data] rv
     cdef size_t i = 0, j = pop.gametes.size()
     while i!=j:
@@ -103,7 +118,7 @@ cdef vector[gamete_data] view_gametes_details( const singlepop_t * pop ) nogil:
         i+=1
     return rv
 
-cdef vector[gamete_data] view_gametes_details_mloc( const multilocus_t * pop ) nogil:
+cdef vector[gamete_data] view_gametes_details_mloc(const multilocus_t * pop) nogil:
     cdef vector[gamete_data] rv
     cdef size_t i = 0, j = pop.gametes.size()
     while i!=j:
@@ -113,22 +128,22 @@ cdef vector[gamete_data] view_gametes_details_mloc( const multilocus_t * pop ) n
         i+=1
     return rv
 
-cdef vector[diploid_data] view_diploids_details( const dipvector_t & diploids,
-                                                 const gcont_t & gametes,
-                                                 const mcont_t & mutations,
-                                                 const mcounts_cont_t & mcounts,
-                                                 const vector[unsigned] & indlist ) nogil:
+cdef vector[diploid_data] view_diploids_details(const dipvector_t & diploids,
+                                                const gcont_t & gametes,
+                                                const mcont_t & mutations,
+                                                const mcounts_cont_t & mcounts,
+                                                const vector[unsigned] & indlist) nogil:
     cdef vector[diploid_data] rv
     for i in range(indlist.size()):
         rv.push_back(get_diploid(diploids[indlist[i]],gametes,mutations,mcounts))
     return rv
 
 
-cdef vector[diploid_mloc_data] view_diploids_details_mloc( const vector[dipvector_t] & diploids,
-                                                 const gcont_t & gametes,
-                                                 const mcont_t & mutations,
-                                                 const mcounts_cont_t & mcounts,
-                                                 const vector[unsigned] & indlist ) nogil:
+cdef vector[diploid_mloc_data] view_diploids_details_mloc(const vector[dipvector_t] & diploids,
+                                                          const gcont_t & gametes,
+                                                          const mcont_t & mutations,
+                                                          const mcounts_cont_t & mcounts,
+                                                          const vector[unsigned] & indlist) nogil:
     cdef vector[diploid_mloc_data] rv
     for i in range(indlist.size()):
         rv.push_back(get_diploid_mloc(diploids[indlist[i]],gametes,mutations,mcounts))
@@ -200,7 +215,7 @@ def view_mutations_metapop(MetaPop p,unsigned deme):
         dummy+=1
     return rv
 
-def view_mutations( object p, deme = None ):
+def view_mutations(object p, deme = None):
     """
     Get detailed list of all mutations in the population
 
@@ -239,14 +254,10 @@ def view_mutations( object p, deme = None ):
     else:
         raise RuntimeError("view_mutations: unsupported object type")
     
-def view_gametes_singlepop( Spop p ):
-    #cdef gcont_t_itr beg = p.pop.get().gametes.begin()
-    #cdef gcont_t_itr end = p.pop.get().gametes.end()
+def view_gametes_singlepop(Spop p):
     return view_gametes_details(p.pop.get())
 
-def view_gametes_singlepop_mloc( MlocusPop p ):
-    #cdef gcont_t_itr beg = p.pop.get().gametes.begin()
-    #cdef gcont_t_itr end = p.pop.get().gametes.end()
+def view_gametes_singlepop_mloc(MlocusPop p):
     return view_gametes_details_mloc(p.pop.get())
 
 def view_gametes_popvec(SpopVec p):
@@ -256,7 +267,6 @@ def view_gametes_popvec(SpopVec p):
         int i
         vector[vector[gamete_data]] rv
     rv.resize(npops)
-    #for i in range(npops):
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i]=view_gametes_details(p.pops[i].get())
     return rv
@@ -268,12 +278,11 @@ def view_gametes_popvec_mloc(MlocusPopVec p):
         int i
         vector[vector[gamete_data]] rv
     rv.resize(npops)
-    #for i in range(npops):
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i]=view_gametes_details_mloc(p.pops[i].get())
     return rv
 
-def view_gametes_metapop( MetaPop p, unsigned deme ):
+def view_gametes_metapop(MetaPop p, unsigned deme):
     if deme >= len(p.popsizes()):
         raise IndexError("view_gametes: deme index out of range")
     temp1 = view_diploids(p,list(range(p.mpop.get().diploids[deme].size())),deme)
@@ -296,7 +305,7 @@ def view_gametes_metapop( MetaPop p, unsigned deme ):
         dummy+=1
     return temp1
 
-def view_gametes( object p ,deme = None):
+def view_gametes(object p ,deme = None):
     """
     Get detailed list of all gametes in the population
 
@@ -335,27 +344,26 @@ def view_gametes( object p ,deme = None):
     else:
         raise RuntimeError("view_gametes: unsupported object type")
 
-def view_diploids_singlepop( Spop p, list indlist ):
+def view_diploids_singlepop(Spop p, list indlist):
     for i in indlist:
         if i >= p.popsize():
             raise IndexError("index greater than population size")
     return view_diploids_details(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
 
-def view_diploids_singlepop_mloc( MlocusPop p, list indlist ):
+def view_diploids_singlepop_mloc(MlocusPop p, list indlist):
     for i in indlist:
         if i >= p.popsize():
             raise IndexError("index greater than population size")
     return view_diploids_details_mloc(p.pop.get().diploids,p.pop.get().gametes,p.pop.get().mutations,p.pop.get().mcounts,indlist)
 
 
-def view_diploids_popvec( SpopVec p, list indlist ):
+def view_diploids_popvec(SpopVec p, list indlist):
     cdef size_t npops = len(p),i
     cdef vector[vector[diploid_data]] rv
     rv.resize(npops)
     cdef vector[unsigned] il
     for i in indlist:
         il.push_back(<unsigned>(i))
-    #for i in range(npops):
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i] = view_diploids_details(p.pops[i].get().diploids,
                                       p.pops[i].get().gametes,
@@ -363,14 +371,13 @@ def view_diploids_popvec( SpopVec p, list indlist ):
                                       p.pops[i].get().mcounts,il)
     return rv
         
-def view_diploids_popvec_mloc( MlocusPopVec p, list indlist ):
+def view_diploids_popvec_mloc(MlocusPopVec p, list indlist):
     cdef size_t npops = len(p),i
     cdef vector[vector[diploid_mloc_data]] rv
     rv.resize(npops)
     cdef vector[unsigned] il
     for i in indlist:
         il.push_back(<unsigned>(i))
-    #for i in range(npops):
     for i in prange(npops,schedule='static',nogil=True,chunksize=1):
         rv[i] = view_diploids_details_mloc(p.pops[i].get().diploids,
                                            p.pops[i].get().gametes,
@@ -378,7 +385,7 @@ def view_diploids_popvec_mloc( MlocusPopVec p, list indlist ):
                                            p.pops[i].get().mcounts,il)
     return rv
 
-def view_diploids_metapop( MetaPop p, list indlist, unsigned deme ):
+def view_diploids_metapop(MetaPop p, list indlist, unsigned deme):
     psizes = p.popsizes()
     for i in indlist:
         for ps in psizes:
@@ -388,7 +395,7 @@ def view_diploids_metapop( MetaPop p, list indlist, unsigned deme ):
         raise IndexError("view_diploids: deme index out of range")
     return view_diploids_details(p.mpop.get().diploids[deme],p.mpop.get().gametes,p.mpop.get().mutations,p.mpop.get().mcounts,indlist)
     
-def view_diploids( object p, list indlist, deme = None ):
+def view_diploids(object p, list indlist, deme = None):
     """
     Get detailed list of a set of diploids in the population
 
@@ -427,18 +434,18 @@ def view_diploids( object p, list indlist, deme = None ):
     else:
         raise RuntimeError("view_diploids: unsupported object type")
 
-cdef diploid_view_to_sample_init_containers( list mutations, map[double,string] * rmap, list info, const size_t ttl_nsam ):
+cdef diploid_view_to_sample_init_containers(list mutations, map[double,string] * rmap, list info, const size_t ttl_nsam):
     cdef map[double,string].iterator map_itr
     cdef char ancestral = '0'
     rmap_info = []
     for mut in mutations:
         map_itr = rmap.find(mut['pos'])
         if map_itr == rmap.end():
-            rmap.insert( pair[double,string](mut['pos'],string(ttl_nsam,ancestral)) )
+            rmap.insert(pair[double,string](mut['pos'],string(ttl_nsam,ancestral)))
             info.append(mut)
     return info
 
-cdef diploid_view_to_sample_fill_containers_details( list mutations, map[double,string] * data, const unsigned offset ):
+cdef diploid_view_to_sample_fill_containers_details(list mutations, map[double,string] * data, const unsigned offset):
     cdef char derived = '1'
     cdef map[double,string].iterator map_itr
     for mut in mutations:
@@ -449,7 +456,7 @@ cdef diploid_view_to_sample_fill_containers_details( list mutations, map[double,
             raise IndexError("diploid_view_to_sample_fill_containers_details: offset out of range")
         deref(map_itr).second[offset]=derived
 
-cdef diploid_view_to_sample_fill_containers( list view, map[double,string] * neutral, map[double,string] * selected ): 
+cdef diploid_view_to_sample_fill_containers(list view, map[double,string] * neutral, map[double,string] * selected): 
     cdef unsigned I = 0
     cdef size_t ttl_nsam = 2*len(view)
     for dip in view:
@@ -461,7 +468,7 @@ cdef diploid_view_to_sample_fill_containers( list view, map[double,string] * neu
     if <size_t>I != len(view):
         raise RuntimeError("diploid_view_to_sample_fill_containers: indexing incorrect")
 
-cdef diploid_mloc_view_to_sample_fill_containers( list view, map[double,string] * neutral, map[double,string] * selected ): 
+cdef diploid_mloc_view_to_sample_fill_containers(list view, map[double,string] * neutral, map[double,string] * selected): 
     cdef unsigned I = 0
     cdef size_t ttl_nsam = 2*len(view)
     for dip in view:
@@ -480,7 +487,7 @@ ctypedef vector[pair[double,string]] fwdpy_sample_t
 ctypedef back_insert_iterator[fwdpy_sample_t] back_insert_itr
 
 #This doesn't appear to actually move, but it is cool that it compiles!
-cdef copy_map( map[double,string] & m, vector[pair[double,string]] & v):
+cdef copy_map(map[double,string] & m, vector[pair[double,string]] & v):
     move[map[double,string].iterator,back_insert_itr](m.begin(),m.end(),back_inserter[fwdpy_sample_t](v))
 
 def diploid_view_to_sample(list view):
@@ -608,7 +615,7 @@ cdef struct diploid_view_data:
     vector[double] s,h
     vector[unsigned] n,g,ind,chrom
 
-cdef void resize_dip_view_data( diploid_view_data & dv, size_t nr ) nogil:
+cdef void resize_dip_view_data(diploid_view_data & dv, size_t nr) nogil:
     dv.s.resize(nr)
     dv.h.resize(nr)
     dv.n.resize(nr)
@@ -616,12 +623,12 @@ cdef void resize_dip_view_data( diploid_view_data & dv, size_t nr ) nogil:
     dv.ind.resize(nr)
     dv.chrom.resize(nr)
 
-cdef size_t fill_dip_view_data( vector[popgen_mut_data].iterator gbeg,
-                                  vector[popgen_mut_data].iterator gend,
-                                  diploid_view_data & rv,
-                                  const size_t ROW,
-                                  const size_t IND,
-                                  const size_t ch) nogil:
+cdef size_t fill_dip_view_data(vector[popgen_mut_data].iterator gbeg,
+                               vector[popgen_mut_data].iterator gend,
+                               diploid_view_data & rv,
+                               const size_t ROW,
+                               const size_t IND,
+                               const size_t ch) nogil:
    cdef size_t R=ROW
    while gbeg != gend:
        rv.s[R] = deref(gbeg).s
@@ -675,7 +682,9 @@ cdef diploid_view_data view_diploids_pd_details(const singlepop_t * pop,
         IND+=1
         inc(beg)
 
-def view_diploids_pd_popvec( SpopVec p, vector[unsigned] & indlist, bint selectedOnly ):
+def view_diploids_pd_popvec(SpopVec p,
+                            vector[unsigned] & indlist,
+                            bint selectedOnly):
     cdef size_t npops = p.pops.size()
     cdef int i
     cdef vector[diploid_view_data] rv
@@ -684,10 +693,14 @@ def view_diploids_pd_popvec( SpopVec p, vector[unsigned] & indlist, bint selecte
         rv[i]=view_diploids_pd_details(p.pops[i].get(),indlist,selectedOnly)
     return rv
 
-def view_diploids_pd_singlepop( Spop p, vector[unsigned] & indlist, bint selectedOnly ):
+def view_diploids_pd_singlepop(Spop p,
+                               vector[unsigned] & indlist,
+                               bint selectedOnly):
     return view_diploids_pd_details(p.pop.get(),indlist,selectedOnly)
 
-def view_diploids_pd( object p, list indlist, bint selectedOnly = True ):
+def view_diploids_pd(object p,
+                     list indlist,
+                     bint selectedOnly = True):
     """
     Get detailed list of a set of diploids in the population
 
@@ -701,14 +714,14 @@ def view_diploids_pd( object p, list indlist, bint selectedOnly = True ):
     if isinstance(p,SpopVec):
         return [pd.DataFrame(i) for i in view_diploids_pd_popvec(p,indlist,selectedOnly)]
     elif isinstance(p,Spop):
-        return pd.DataFrame( view_diploids_pd_singlepop(p,indlist,selectedOnly) )
+        return pd.DataFrame(view_diploids_pd_singlepop(p,indlist,selectedOnly))
 
 cdef diploid_traits_singlepop(Spop p):
     rv=[]
     for i in range(p.pop.get().diploids.size()):
-        rv.append( {'g':p.pop.get().diploids[i].g,
-                    'e':p.pop.get().diploids[i].e,
-                    'w':p.pop.get().diploids[i].w} )
+        rv.append({'g':p.pop.get().diploids[i].g,
+                   'e':p.pop.get().diploids[i].e,
+                   'w':p.pop.get().diploids[i].w})
         
     return rv
 
@@ -718,9 +731,9 @@ cdef diploid_traits_popvec(SpopVec p):
 cdef diploid_traits_singlepop_mloc(MlocusPop p):
     rv=[]
     for i in range(p.pop.get().diploids.size()):
-        rv.append( {'g':p.pop.get().diploids[i][0].g,
-                    'e':p.pop.get().diploids[i][0].e,
-                    'w':p.pop.get().diploids[i][0].w} )
+        rv.append({'g':p.pop.get().diploids[i][0].g,
+                   'e':p.pop.get().diploids[i][0].e,
+                   'w':p.pop.get().diploids[i][0].w})
         
     return rv
 
@@ -733,18 +746,16 @@ cdef diploid_traits_mpop(MetaPop m, deme):
         raise RuntimeError("deme value out of range")
     rv=[]
     for i in range(m.mpop.get().diploids[deme].size()):
-        rv.append( {'g':m.mpop.get().diploids[deme][i].g,
-                    'e':m.mpop.get().diploids[deme][i].e,
-                    'w':m.mpop.get().diploids[deme][i].w} )
+        rv.append({'g':m.mpop.get().diploids[deme][i].g,
+                   'e':m.mpop.get().diploids[deme][i].e,
+                   'w':m.mpop.get().diploids[deme][i].w})
 
 cdef diploid_traits_mpopvec(MetaPopVec p,deme):
     return [diploid_traits_mpop(i,deme) for i in p]
 
-def diploid_traits( object p, deme = None ):
+def diploid_traits(object p, deme = None):
     """
     Return genetic value (g), environmental value (e), and fitness (w) for all diploids.
-
-    .. note:: "Standard population genetic" models do not update these values during simulation.
     """
     if isinstance(p,Spop):
         return diploid_traits_singlepop(p)

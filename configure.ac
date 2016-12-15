@@ -45,7 +45,7 @@ dnl 2) package version (i.e. 1.2)
 dnl 3) bug/info/project email address (i.e. bug-foo@gnu.org)
 dnl----
 dnl
-AC_INIT([fwdpy], [0.0.4], [krthornt@uci.edu])
+AC_INIT([fwdpy], [0.0.4pre1], [krthornt@uci.edu])
 
 
 dnl----
@@ -398,13 +398,13 @@ dnl Finish #
 dnl#########
 
 dnl Define the files to be configured
-AC_CONFIG_FILES([Makefile setup.py conf.py fwdpy.doxygen])
+AC_CONFIG_FILES([Makefile setup.py conf.py fwdpy.doxygen fwdpy/__init__.py])
 
 dnl stuff added by KRT
 
 AC_CONFIG_HEADERS([config.h])
 
-MINFWDPPVERSION="0.5.0"
+MINFWDPPVERSION="0.5.4"
 FWDPPVERSION=`fwdppConfig --version`
 AC_SUBST(MINFWDPP,$MINFWDPPVERSION)
 GSLVERSION=`gsl-config --version`
@@ -418,6 +418,15 @@ else
 	echo "fwdpp version $FWDPPVERSION detected"
 fi
 
+LIBSEQVERSION=`libsequenceConfig --version`
+MINLIBSEQ=1.8.0
+if test "$LIBSEQVERSION" \< $MINLIBSEQ
+then
+    AC_MSG_ERROR([fwdpp > $MINLIBSEQ required.  Please install recent version from
+                  http://github.com/molpopgen/libsequence])
+else
+    echo "libsequence version $LIBSEQVERSION detected"
+fi
 echo "GSL version $GSLVERSION detected"
 
 AC_DEFINE_UNQUOTED([FWDPP_VERSION],["$FWDPPVERSION"],[The version of fwdpp used to compile this software])
@@ -435,6 +444,8 @@ AC_LANG(C++)
 dnl check for things that are required to compile all examples and/or use library at all
 
 AC_CHECK_HEADER(fwdpp/diploid.hh,,[AC_MSG_ERROR(fwdpp/diploid.hh not found.  Please install the library.  Something is likely amiss with your system.  We got this far, meaning fwdppConfig was found, but we failed here, meaning the headers were not found.  That should not be possible unless fwdpp has been installed and then partially deleted from your system.)])
+AC_CHECK_HEADER(Sequence/SimData.hpp,,[AC_MSG_ERROR(Sequence/SimData.hpp not found.  Please install the library.  Something is likely amiss with your system.  We got this far, meaning libsequenceConfig was found, but we failed here, meaning the headers were not found.  That should not be possible unless libsequence has been installed and then partially deleted from your system.)])
+
 AC_CHECK_HEADER(fwdpp/sugar/sampling.hpp,,[AC_MSG_ERROR([fwdpp/sugar/sampling.hpp not found.  This probably means that you need a dev branch of fwdpp.  You probably need to email KRT directly and ask which one.  Sorry!])])
 AC_CHECK_HEADER(gsl/gsl_rng.h,HAVE_GSL=1,[AC_MSG_ERROR([gsl/gsl_rng.h not found.  Please install the GNU Scientific Library])])
 AC_CHECK_HEADER(gsl/gsl_randist.h,HAVE_GSL=1,[AC_MSG_ERROR([gsl/gsl_rng.h not found.  Please install the GNU Scientific Library])])

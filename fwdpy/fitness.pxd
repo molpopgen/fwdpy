@@ -2,6 +2,10 @@
 from fwdpy.fwdpy cimport singlepop_t,multilocus_t,diploid_t
 from fwdpy.fwdpp cimport popgenmut,gamete_base
 from libcpp.vector cimport vector
+from libcpp.memory cimport unique_ptr
+
+cdef extern from "<algorithm>" namespace "std" nogil:
+    T max[T](T,T)
 
 ctypedef gamete_base[void] gamete_t
 ctypedef vector[gamete_t] gcont_t
@@ -12,6 +16,7 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     ctypedef double(*fitness_function_finalizer)(double)
     ctypedef double(*haplotype_fitness_fxn_finalizer)(double,double)
     ctypedef double(*haplotype_fitness_fxn)(const gamete_t &, const mcont_t &)
+    ctypedef double(*single_region_fitness_callback)(const diploid_t &, const gcont_t &, const mcont_t &)
     
     cdef cppclass site_dependent_fitness_wrapper:
         double operator()[DIPLOID,GAMETE_CONTAINER,
@@ -22,9 +27,10 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
                                        const AA &, const Aa &,
                                        const FINAL &,
                                        const double &) const
-        
+    #stateless fitness object:
     cdef cppclass singlepop_fitness:
         singlepop_fitness()
+        singlepop_fitness(single_region_fitness_callback)
         singlepop_fitness(genotype_fitness_updater Aa,
 		          genotype_fitness_updater aa,
 		          fitness_function_finalizer wfinal,
@@ -49,25 +55,25 @@ cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
     multilocus_fitness make_mloc_custom_fitness(mlocus_fitness_fxn f)
     
 #Helper functions for making custom fitness functions
-cdef inline double return_w(const double w) nogil:
-    return max(0.0,w)
+cdef inline double return_w(double w) nogil:
+    return max[double](0.0,w)
 
-cdef inline double return_w_plus1(const double w) nogil:
-    return max(0.0,1.0+w)
+cdef inline double return_w_plus1(double w) nogil:
+    return max[double](0.0,1.0+w)
 
-cdef inline double return_trait_value(const double w) nogil:
+cdef inline double return_trait_value(double w) nogil:
     return w
 
-cdef inline double return_trait_value_minus1(const double w) nogil:
+cdef inline double return_trait_value_minus1(double w) nogil:
     return w-1.0
 
-cdef inline double het_additive_update(double & w, const popgenmut & m) nogil:
+cdef inline void het_additive_update(double & w, const popgenmut & m) nogil:
     (&w)[0] += m.s*m.h
 
-cdef inline double hom_additive_update_2(double & w, const popgenmut & m) nogil:
+cdef inline void hom_additive_update_2(double & w, const popgenmut & m) nogil:
     (&w)[0] += 2.0*m.s
 
-cdef inline double hom_additive_update_1(double & w, const popgenmut & m) nogil:
+cdef inline void hom_additive_update_1(double & w, const popgenmut & m) nogil:
     (&w)[0] += m.s
 
 cdef inline genotype_fitness_updater choose_additive_hom_updater(int scaling) nogil:
@@ -76,13 +82,13 @@ cdef inline genotype_fitness_updater choose_additive_hom_updater(int scaling) no
         return <genotype_fitness_updater>hom_additive_update_1
     return <genotype_fitness_updater>hom_additive_update_2
     
-cdef inline double het_mult_update(double & w, const popgenmut & m) nogil:
+cdef inline void het_mult_update(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+m.s*m.h)
 
-cdef inline double hom_mult_update_2(double & w, const popgenmut & m) nogil:
+cdef inline void hom_mult_update_2(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+2.0*m.s)
 
-cdef inline double hom_mult_update_1(double & w, const popgenmut & m) nogil:
+cdef inline void hom_mult_update_1(double & w, const popgenmut & m) nogil:
     (&w)[0] *= (1.0+m.s)
 
 cdef inline genotype_fitness_updater choose_mult_hom_updater(int scaling) nogil:
@@ -103,7 +109,7 @@ cdef class SpopFitness(object):
     """
     Base object for single-deme fitness functions
     """
-    cdef singlepop_fitness wfxn
+    cdef unique_ptr[singlepop_fitness] wfxn
     
 cdef class SpopAdditive(SpopFitness):
     pass

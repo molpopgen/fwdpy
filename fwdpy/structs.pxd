@@ -7,13 +7,15 @@
 from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libcpp.utility cimport pair
+from libc.stdint cimport uint16_t
 from fwdpy.fwdpp cimport sep_sample_t
 
-cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
-    cdef struct detailed_deme_sample:
-        sep_sample_t genotypes
-        vector[pair[double,double]] sh
-
+cdef extern from "sample.hpp" namespace "fwdpy" nogil:
+    cdef struct popsample_details:
+        vector[double] s, h, p
+        vector[unsigned] dcount, origin,generation,ftime, locus
+        vector[uint16_t] label
+    
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef struct selected_mut_data:
         double pos
@@ -47,20 +49,3 @@ cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
         double last_freq
         unsigned origin
         unsigned tlen
-
-cdef extern from "haplotype_matrix.hpp" namespace "fwdpy" nogil:
-    cdef struct haplotype_matrix:
-        vector[size_t] n
-        vector[size_t] s
-        vector[double] np
-        vector[double] sp
-        vector[double] nf
-        vector[double] sf
-        vector[double] G
-        vector[double] E
-        vector[double] w
-        vector[double] esizes
-        vector[double] h
-        size_t nrow
-        size_t ncol_n
-        size_t ncol_s

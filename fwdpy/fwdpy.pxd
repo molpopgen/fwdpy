@@ -7,11 +7,14 @@ from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
+from fwdpy.cpp cimport hash
+from libcpp.unordered_set cimport unordered_set
 from cython_gsl cimport gsl_rng
-from fwdpy.structs cimport detailed_deme_sample,selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,haplotype_matrix,VAcum
+from fwdpy.structs cimport selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
+ctypedef vector[unsigned] ucont_t
 
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
@@ -19,9 +22,10 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
     ctypedef gamete_base[void] gamete_t
     ctypedef vector[gamete_t] gcont_t
     ctypedef vector[popgenmut] mcont_t
-
+    ctypedef unordered_set[double,equal_eps] lookup_t
+    
     cdef cppclass diploid_t:
-        size_t first,second;
+        size_t first,second,label;
         double g,e,w
 
     ctypedef vector[diploid_t] dipvector_t
@@ -31,29 +35,41 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned N
         unsigned generation
         mcont_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         dipvector_t diploids
-        vector[popgenmut] fixations
-        vector[unsigned] fixation_times
+        mcont_t fixations
+        ucont_t fixation_times
+        lookup_t mut_lookup
         unsigned gen()
         unsigned popsize()
         int sane()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
+        void clear()
 
     cdef cppclass metapop_t:
-        metapop_t(vector[unsigned])
+        metapop_t(ucont_t)
         metapop_t(const singlepop_t &)
         unsigned generation
-        vector[unsigned] Ns
+        ucont_t Ns
         mcont_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         vector[dipvector_t] diploids
-        vector[popgenmut] fixations
-        vector[unsigned] fixation_times
-        vector[unsigned] popsizes()
+        mcont_t fixations
+        ucont_t fixation_times
+        lookup_t mut_lookup
+        ucont_t popsizes()
         int sane()
         int size()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
+        void clear()
 
     cdef cppclass multilocus_t:
         multilocus_t(unsigned,unsigned)
@@ -61,15 +77,21 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         unsigned generation
         unsigned N
         mcont_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         #This has different interpretation than for a metapop--see fwdpp dox
         vector[dipvector_t] diploids
-        vector[popgenmut] fixations
-        vector[unsigned] fixation_times
+        mcont_t fixations
+        ucont_t fixation_times
+        lookup_t mut_lookup
         int gen()
         int sane()
         int popsize()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
+        void clear()
 
     # Types based around KTfwd::generalmut_vec
     ctypedef vector[generalmut_vec] mlist_gm_vec_t
@@ -79,14 +101,20 @@ cdef extern from "types.hpp" namespace "fwdpy" nogil:
         const unsigned N
         const unsigned generation
         mlist_gm_vec_t mutations
-        vector[unsigned] mcounts
+        ucont_t mcounts
         gcont_t gametes
         vector[diploid_t] diploids
         vector[generalmut_vec] fixations
-        vector[unsigned] fixation_times
+        ucont_t fixation_times
+        lookup_t mut_lookup
         unsigned gen()
         unsigned popsize()
         int sane()
+        string serialize() const
+        void deserialize(const string &)
+        int tofile(const char *,bint)
+        void fromfile(const char *,size_t)
+        void clear()
 
     cdef cppclass GSLrng_t:
         GSLrng_t(unsigned)
@@ -136,27 +164,23 @@ cdef class PopVec(object):
 
 cdef class SpopVec(PopVec):
     cdef vector[shared_ptr[singlepop_t]] pops
-    cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_t]] newpops)
     cpdef append(self,SpopVec p)
 
 cdef class SpopGenMutVec(PopVec):
     cdef vector[shared_ptr[singlepop_gm_vec_t]] pops
-    cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[singlepop_gm_vec_t]] newpops)
 
 cdef class MetaPopVec(PopVec):
     cdef vector[shared_ptr[metapop_t]] mpops
-    cdef public object pympops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[metapop_t]]  & mpops)
     cpdef append(self,MetaPopVec p)
 
 cdef class MlocusPopVec(PopVec):
     cdef vector[shared_ptr[multilocus_t]] pops
-    cdef public object pypops
     cpdef size(self)
     cdef reset(self,const vector[shared_ptr[multilocus_t]] newpops)
     cpdef append(self,MlocusPopVec p)
@@ -170,9 +194,57 @@ cdef class GSLrng:
 cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
     cdef cppclass sampler_base:
         pass
+    void clear_samplers(vector[unique_ptr[sampler_base]] & v)
 
-    void apply_sampler_cpp[T]( const vector[shared_ptr[T]] & popvec,
-			       const vector[unique_ptr[sampler_base]] & samplers )
+    #This is a template for a custom temporal sampler
+    #Each generation, a "generation_t" is recorded, and
+    #are kept in a container alled FINALT, which is returned,
+    #and represents a time series of observations.
+    #The best policy is to keep FINALT as something coercible
+    #to Python via Cython directly.
+    cdef cppclass custom_sampler[FINALT](sampler_base):
+        FINALT final()
+        FINALT f
+        #To make a valid sampler, you must construct and object with a callback.
+        #Below are the constructors for singlepop_t, multilocus_t, and metapop_t,
+        #respectively.
+        custom_sampler(void(*)(const singlepop_t *, const unsigned, FINALT &))
+        custom_sampler(void(*)(const multilocus_t *, const unsigned, FINALT &))
+        custom_sampler(void(*)(const metapop_t *, const unsigned, FINALT &))
+        #You may register additional callbacks as needed
+        void register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &) )
+        void register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &))
+        void register_callback(void(*)(const metapop_t *, const unsigned, FINALT &))
+        #Typically, you won't need to register a cleanup callback,
+        #but the interface is provided anyways
+        void register_callback(void(*)(FINALT &))
+
+    #Template for custom temporal sampler that need additional data
+    #The DATAT may be arbitrary--it could contain parameters used
+    #for each call when sampling, or reusable buffers for intermediate
+    #compuations, etc.
+    cdef cppclass custom_sampler_data[FINALT,DATAT](sampler_base):
+        DATAT data
+        FINALT f
+        FINALT final()
+        #To make a valid sampler, you must construct and object with a callback.
+        #Below are the constructors for singlepop_t, multilocus_t, and metapop_t,
+        #respectively.  Each constructor also requires a DATAT, and DATAT must be copyable.
+        custom_sampler_data(void(*)(const singlepop_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
+        custom_sampler_data(void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &), const DATAT &)
+        custom_sampler_data(void(*)(const metapop_t *, const unsigned, FINALT &, DATAT & ), const DATAT &)
+        #You may register additional callbacks as needed
+        void register_callback(void(*)(const singlepop_t *, const unsigned, FINALT &, DATAT &))
+        void register_callback(void(*)(const multilocus_t *, const unsigned, FINALT &, DATAT &))
+        void register_callback(void(*)(const metapop_t *, const unsigned, FINALT &, DATAT &))
+        #if DATAT can get large, you may register a callback to clean it up
+        #when evolution functions exit
+        void register_callback(void(*)(FINALT &,DATAT &))
+                          
+    void apply_sampler_cpp[T](const vector[shared_ptr[T]] & popvec,
+			      const vector[unique_ptr[sampler_base]] & samplers)
+
+    void apply_sampler_single_cpp[T](const T *pop,const vector[unique_ptr[sampler_base]] & samplers)
 
 cdef extern from "sampler_no_sampling.hpp" namespace "fwdpy" nogil:
     cdef cppclass no_sampling(sampler_base):
@@ -188,15 +260,26 @@ cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
         additive_variance()
         vector[VAcum] final()
 
+ctypedef vector[pair[sep_sample_t,popsample_details]] popSampleData
+
 cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef cppclass sample_n(sampler_base):
-        sample_n(unsigned, const gsl_rng *)
-        vector[pair[uint,detailed_deme_sample]] final() const
+        sample_n(unsigned, const gsl_rng * r,
+                const string & nfile,const string & sfile,
+                bint removeFixed, bint recordSamples, bint recordDetails,
+                const vector[pair[double,double]] & boundaries,const bint append)
+        popSampleData rv
+        popSampleData final() const
+
+#The following typedefs help us with the
+#frequency tracker API.
+ctypedef pair[uint,double] genfreqPair
+ctypedef vector[pair[selected_mut_data,vector[genfreqPair]]] freqTraj
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
         selected_mut_tracker()
-        vector[pair[selected_mut_data, vector[pair[uint,double]]]] final() const
+        freqTraj final() const
 
 #Extension classes for temporal sampling
 cdef class TemporalSampler:
@@ -205,6 +288,7 @@ cdef class TemporalSampler:
     to be applied to simluated populations at regular intervals.
     """
     cdef vector[unique_ptr[sampler_base]] vec
+    cpdef size_t size(self)
 
 cdef class NothingSampler(TemporalSampler):
     pass
@@ -231,12 +315,12 @@ ctypedef vector[mcont_t_itr] mut_container_t
 ctypedef vector[gamete_t].iterator gcont_t_itr
 ctypedef vector[diploid_t].iterator dipvector_t_itr
 #vector of mutation counts (replaces KTfwd::mutation_base::n in fwdpp >= 0.4.4)
-ctypedef vector[unsigned] mcounts_cont_t
+ctypedef ucont_t mcounts_cont_t
 
 ##Define some low-level functions that may be useful for others
 cdef struct popgen_mut_data:
     double pos,s,h
-    unsigned n,g
+    unsigned n,g,ftime
     bint neutral
     uint16_t label
 
@@ -255,9 +339,6 @@ cdef struct diploid_mloc_data:
     vector[double] sh0,sh1
     vector[int] n0,n1
 
-#cdef popgen_mut_data get_mutation( const vector[popgenmut].iterator & ) nogil
-#cdef gamete_data get_gamete( const vector[gamete_t].iterator & ) nogil
-#cdef diploid_data get_diploid( const vector[diploid_t].iterator & itr ) nogil
 cdef popgen_mut_data get_mutation( const popgenmut & m, size_t n) nogil
 cdef gamete_data get_gamete( const gamete_t & g, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
 cdef diploid_data get_diploid( const diploid_t & dip, const gcont_t & gametes, const mcont_t & mutations, const mcounts_cont_t & mcounts) nogil
@@ -267,68 +348,35 @@ cdef diploid_mloc_data get_diploid_mloc( const dipvector_t & dip, const gcont_t 
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
 cdef extern from "sample.hpp" namespace "fwdpy" nogil:
-    void get_sh( const vector[pair[double,string]] & ms_sample,
-                 const vector[popgenmut] & mutations,
-                 const vector[unsigned] & mcounts,
+    popsample_details get_sh( const vector[pair[double,string]] & ms_sample,
+                 const mcont_t & mutations,
+                 const mcont_t & fixations,
+                 const ucont_t & fixation_times,
+                 const ucont_t & mcounts,
                  const unsigned & ttlN,
                  const unsigned & generation,
-                 vector[double] * s,vector[double] * h, vector[double] * p, vector[double] * a, vector[uint16_t] * l)
+                 const unsigned & locusID)
 
 cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
 
-cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
-    vector[selected_mut_data_tidy] tidy_trajectory_info( const vector[pair[selected_mut_data,vector[pair[uint,double]]]] & trajectories,
-                                                         const unsigned min_sojourn, const double min_freq);
 
+cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
+    vector[selected_mut_data_tidy] tidy_trajectory_info( const freqTraj & trajectories,
+                                                         const unsigned min_sojourn, const double min_freq,
+                                                         const unsigned remove_gone_before,
+                                                         const unsigned remove_arose_after)
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
-    vector[allele_age_data_t] allele_ages_details( const vector[pair[selected_mut_data,vector[pair[uint,double]]]] & trajectories,
+    vector[allele_age_data_t] allele_ages_details( const freqTraj & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +
 
-    vector[pair[selected_mut_data,vector[pair[uint,double]]]] merge_trajectories_details( vector[pair[selected_mut_data,vector[pair[uint,double]]]] traj1,
-                                                                                          const vector[pair[selected_mut_data,vector[pair[uint,double]]]] & traj2 )
+    freqTraj merge_trajectories_details( const freqTraj & traj1, const freqTraj & traj2 )
 
 ctypedef unsigned uint
 cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
-    # void evolve_regions_no_sampling_async(GSLrng_t * rng,
-    #                                       vector[shared_ptr[singlepop_t]] * pops,
-    #                                       const unsigned * Nvector,
-    #                                       const size_t Nvector_len,
-    #                                       const double mu_neutral,
-    #                                       const double mu_selected,
-    #                                       const double littler,
-    #                                       const double f,
-    #                                       const region_manager * rm,
-    #                                       const char * fitness) except +
-
-    # vector[vector[pair[uint,detailed_deme_sample]]] evolve_regions_sample_async(GSLrng_t * rng_evolve,GSLrng_t * rng_sample,
-    #                                                                     vector[shared_ptr[singlepop_t]] * pops,
-    #                                                                     const unsigned * Nvector,
-    #                                                                     const size_t Nvector_len,
-    #                                                                     const double mu_neutral,
-    #                                                                     const double mu_selected,
-    #                                                                     const double littler,
-    #                                                                     const double f,
-    #                                                                     const int sample,
-    #                                                                     const unsigned nsam,
-    #                                                                     const region_manager * rm,
-    #                                                                     const char * fitness) except +
-
-    # vector[vector[pair[selected_mut_data,vector[double]]]] evolve_regions_track_async(GSLrng_t * rng,
-    #                                                                                   vector[shared_ptr[singlepop_t]] * pops,
-    #                                                                                   const unsigned * Nvector,
-    #                                                                                   const size_t Nvector_len,
-    #                                                                                   const double mu_neutral,
-    #                                                                                   const double mu_selected,
-    #                                                                                   const double littler,
-    #                                                                                   const double f,
-    #                                                                                   const int sample,
-    #                                                                                   const region_manager * rm,
-    #                                                                                   const char * fitness) except +
-
     void evolve_regions_sampler_cpp( GSLrng_t * rng,
-				     vector[shared_ptr[singlepop_t]] * pops,
+				     vector[shared_ptr[singlepop_t]] & pops,
 				     vector[unique_ptr[sampler_base]] & samplers,
 				     const unsigned * Nvector,
 				     const size_t Nvector_length,
@@ -338,17 +386,21 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
 				     const double f,
 				     const int sample,
 				     const region_manager * rm,
-				     const singlepop_fitness & fitness)
+				     const singlepop_fitness & fitness) except +
 
 
 cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
     sample_t sample_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
     sep_sample_t sample_sep_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
-    vector[sample_t] sample_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
-    vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
+    vector[sample_t] sample_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
+            removeFixed, const vector[pair[double,double]] &)  except +
+    vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
+            removeFixed, const vector[pair[double,double]] &)  except +
 
-cdef extern from "haplotype_matrix.hpp" namespace "fwdpy" nogil:
-    haplotype_matrix make_haplotype_matrix(const singlepop_t * pop, const vector[size_t] & diploids) except +
-    haplotype_matrix make_haplotype_matrix(const metapop_t * pop, const vector[size_t] & diploids,const size_t deme) except +
-    haplotype_matrix make_haplotype_matrix(const multilocus_t * pop, const vector[size_t] & diploids) except +
-    map[string,vector[size_t]] make_genotype_matrix(const haplotype_matrix & hm)
+cdef extern from "fwdpy_add_mutations.hpp" namespace "fwdpy" nogil:
+    size_t add_mutation_cpp(singlepop_t * pop,
+                            const vector[size_t] & indlist,
+                            const vector[short] & clist,
+			    const double pos,
+			    const double s,
+			    const double h) except +
