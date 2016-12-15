@@ -9,7 +9,10 @@ This package is implemented in terms of:
 
 1. Cython_, which is a package allowing C++ and Python to work together
 2. fwdpp_, which is a C++11 template library for implementing efficient population genetic simulations
-3. gsl_, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.
+3. libsequence_, which is a C++11 library for population genetic calculations.
+4. gsl_, which is a C-language library for numerical methods.  This package uses the GSL random number generation system plus several other features.
+
+.. note:: libsequence_ is only used internally for some format conversions and other operations.
 
 Please note that this package is likely to be quite unstable/actively developed.
 
@@ -21,6 +24,18 @@ Citation
 See the project home page for details
 (http://molpopgen.github.io/fwdpy).
 
+TODO 
+=================
+
+* Document custom temporal samplers.  Target version 0.0.4
+* Add safety check to (de)serialization.  Current method trusts the input string completely.  This likely requires a
+  saftey-checking template that is specialized for each population type.  Target version 0.0.5.
+* Remove fwdpy.fwdpyio module in favor of object-level serialization.  Target version 0.0.5.
+* Serialization should be at the level of PopType and PopVec objects.  The latter can be done in parallel.  Target
+  version 0.0.5.
+* Serialization should support direct to/from file, with gzip as option via zlib. Target version 0.0.5.
+* Custom rules classes. This will allow "stateful" fitness models, and many other things.  Target version 0.0.5.
+
 Changelog (rough)
 =====================
 
@@ -31,27 +46,34 @@ Changes to the Python side:
 
 * "Evolve" functions are now much more generic due to fitness function
   objects and temporal sampler objects (see below)
+* The application of temporal samplers is now consistent for all types of simulation ("pop-gen", "quant-trait", etc.)
 * Added ability to use custom fitness functions!!! On the Python side,
   these work via :class:`fwdpy.fwdpy.SpopFitness` and :class:`fwdpy.fwdpy.MlocusFitness`
 * Class names now more "Pythonic".  This will break existing scripts.
 * Add fwdpy.demography module.
-* Add :class:`fwdpy.fwdpy.MlocusSpop`
-* Add :class:`fwdpy.fwdpy.MlocusSpopVec`
+* Add :class:`fwdpy.fwdpy.MlocusPop`
+* Add :class:`fwdpy.fwdpy.MlocusPopVec`
 * Add concept of a temporal sampler via
   :class:`fwdpy.fwdpy.TemporalSampler`.
 * Add temporal sampler objects :class:`fwdpy.fwdpy.NothingSampler`,
   :class:`fwdpy.fwdpy.QtraitStatsSampler`,
   :class:`fwdpy.fwdpy.PopSampler`,
-  :class:`fwdpy.fwdpy.VASampler`
+  :class:`fwdpy.fwdpy.VASampler`,
+  :class:`fwdpy.fwdpy.FreqSampler`
 * Add function :func:`fwdpy.fwdpy.apply_sampler`
 * Add :func:`fwdpy.fwdpy.tidy_trajectories`, which really speeds up
   coercion of mutation frequency trajectories to a pandas DataFrame.
 * Add :func:`fwdpy.fwdpy.hapmatrix` and :func:`fwdpy.fwdpy.genomatrix`
 * Added views of fixed mutations via :func:`fwdpy.fwdpy.view_fixations`
 * Better Python3 compatibility
+* Add support to serialize/deserialize :class:`fwdpy.fwdpy.MlocusPop`
+* Streamline implementation of the various :class:`fwdpy.fwdpy.PopVec` classes.  They no longer contain two containers,
+  and they yield :class:`fwdpy.fwdpy.PopType` objects upon iteration.
 
 Changes to the Cython/C++ back end:
 
+* diploid fitness now defaults to 1 instead of 0
+* Bug fixed in get_gamete in views.pyx.  This affected the output of almost all "views" functions except those viewing just mutations.
 * cythonGSL_ is now required. We expect to use more GSL in this package, and so it makes sense to not reinvent the wheel.
 * Massive reduction in code base
 * Update to Cython_ 0.24.0
@@ -64,7 +86,9 @@ Changes to the Cython/C++ back end:
 * Update how samples are taken from populations, reflecting a bug fix
   in fwdpp 0.4.9 that made the Cython wrappers in this package
   incorrect.
-  
+* Population objects in types.hpp now have serialization/deserialization functions.
+* Single-parameter constructors for population objects in types.hpp are now "explicit".
+
 0.0.3
 -----------------
 * Change from std::thread to std::async for concurrency.
@@ -133,46 +157,48 @@ This package *minimally* depends on:
 
 * GSL_
 * fwdpp_
-
-The configure script will enforce minimum version numbers of these dependencies, if necessary.
+* libsequence_
 
 .. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 and cythonGSL_ installed on your system.
 
-.. note:: fwdpy may require the 'dev' branch of fwdpp.  The configure script checks for *both* the correct dependency version number *and* specific header files within each depdency.  If the version number check passes, but a subsequent header check fails, then that is a sign that you need a development version of the relevant dependency.  The reason for this situation is that the development of fwdpy has generated ideas for how to make fwdpp more accessible.  This situation will remain until fwdpy stabilizes.
-
 You also need a C++11-compliant compiler.  For linux users, GCC 4.8 or
-newer should suffice.  OS X users must use the clang-omp package from brew_.
-
-You may use one or the other of these libraries, but not both.  See the Performance subsection of the Installation section below for how to use these libraries.
+newer should suffice.  
 
 Notes for OS X users
 ---------------------------------
 
-Apple is making life difficult for OS X users.  The release of El Capitan made installing third-party Unix tools into /usr/local more difficult.  A lot of the instructions below ask you to use brew_ to install depdendencies.  Please make sure that you have a working brew_ setup before trying any of the below.  If your setup is not working, please do research online about fixing it, which is beyond the scope of this document.
+OS X users are recommended to use Anaconda_ instead of brew_.  Further, use the Anaconda_ version of GCC instead of the system (Xcode) Clang if you compile fwdpy from source.  This package requires OpenMP, which is not supported via the clang provided with Xcode.
 
-OS X users are recommended to use brew_ to install the various dependencies:
+See next section for some details.
+
+Anaconda
+------------------------------------
+
+Anaconda_ may be the easiest way to install this package for many users.  The dependencies are available via the Bioconda_ "channel".
+
+Note that using Anaconda_ means over-riding some things that may be provided with your system.  For example, if you install dependencies via Bioconda_ and then wish to install fwdpy from source, you will need GCC from Anaconda_:
 
 .. code-block:: bash
 
-   $ brew install clang-omp
-   $ brew install gsl
-   $ ##Risky:
-   $ brew install fwdpp
+    conda install gcc
 
-**Important**: you need to install clang-omp on OS X!  This package
-uses openmp for parallelizing some tasks.  Sadly, OS X's compiler does
-not come with openmp support, and so you need a third-party compiler
-that does.
+The GCC version in Anaconda_ is 4.8.5, which is a bit old but sufficient for the C++11 features needed for all dependencies and for this package.
 
-For brew users, you may or may not have luck with their version of fwdpp_.  That package can change rapidly, and thus the brew version may get out-of-sync with the version required for this package.
+In order to make sure that the Anaconda_ GCC is used, you will need to make sure that the bin directory of your Anaconda installation is prepended to your users's PATH variable.
 
-The required Python package dependencies are in the requirements.txt file that comes with the source.
+If we define CONDAROOT as the location of your Anaconda_ installation, then you should define the following environment variables for your user in the dotfile appropriate for your favorite shell.  For example, for the bash shell:
 
-Anaconda (and OS X, again...)
-------------------------------------
+.. code-block:: bash
 
-Users have run into issues getting fwdpy working with Anaconda-based Python installations.  In fact, I've been unable to get the package to compile on OS X using Anaconda.  I recommend that OS X users use Python3 installed bia Homebrew in lieu of Anaconda.
+    export PATH=$CONDAROOT/bin:$PATH
+    export CPPFLAGS="-I$CONDAROOT/include $CPPFLAGS"
+    export CFLAGS="-I$CONDAROOT/include $CFLAGS"
+    export LDFLAGS=-L$CONDAROOT/lib $LDFLAGS"
+    export LD_LIBRARY_PATH="$CONDAROOT/lib:$LD_LIBRARY_PATH"
 
+.. note::
+
+    The above exports *prepend* Anaconda_ paths to existing paths (if they exist).  If you use the system GCC for your own work, then the PATH export may not be something you want set all of the time.
 
 What Python version?
 ==================================
@@ -188,12 +214,7 @@ The latest release of the package is available via PyPi_, and can be installed w
 
    $ pip install --upgrade fwdpy
 
-OS X users must first install clang-omp from brew_ and use the
-following command:
-
-.. code-block:: bash
-
-   $ CC=clang-omp CXX=clang-omp++ pip install fwdpy
+OS X users must first install a compiler that supports the -fopenmp option.  I recommend GCC from Anaconda_ (see above).
 
 Installation from GitHub
 ----------------------------------------
@@ -217,36 +238,11 @@ Installation from source
 
 First, install the dependencies (see above).
 
-**Special instructions for OS X users**
-
-All compiler commands below must be prefixed with:
+The best way to install the package is to use 'pip'.  Once you have cloned the source repo and 'cd' into it:
 
 .. code-block:: bash
 
-   $ CC=clang-omp CXX=clang-omp++
-
-This is currently necessary on OS X in order to use a version of clang that supports OpenMP protocols.
-
-Generic instructions:
-
-To install system-wide:
-
-.. code-block:: bash
-		
-   $ sudo python setup.py install
-
-To install for your user:
-
-.. code-block:: bash
-
-   $ python setup.py install --prefix=$HOME
-
-To uninstall:
-
-.. code-block:: bash
-
-   $ #use 'sudo' here if it is installed system-wide...
-   $ pip uninstall fwdpy
+    pip install . --upgrade --intall-option=--use-cython
 
 To build the package in place and run the unit tests:
 
@@ -295,7 +291,7 @@ Testing occurs via docstring tests and unit tests.  Here is how to test using bo
    $ #run the tests
    $ make -f Makefile.sphinx doctest
    $ #run the unit tests
-   # python -m unittest discover fwdpy/tests
+   $ python -m unittest discover fwdpy/tests
    
 
 Note for developers
@@ -314,7 +310,6 @@ You need Cython >= 0.24.0, so upgrade if you need to:
 .. code-block:: bash
 
    $ pip install --upgrade Cython
-
 
 If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
 
@@ -369,12 +364,11 @@ Troubleshooting the installation
 Incorrect fwdpp version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This package is compatible with fwdpp >= 0.4.8, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
+This package is compatible with fwdpp >= 0.5.4, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
 
 .. code-block:: bash
 
    $ which fwdppConfig
-
 
 If the above command returns nothing, then it is very likely that fwdpp is either too old, missing entirely from your system, or it is installed somewhere non-standard.  For example, if you installed fwdpp locally for your user, and did not edit PATH to include ~/bin, then fwdppConfig cannot be called without referring to its complete path.
 
@@ -385,10 +379,8 @@ Your system's compiler has a default set of paths where it will look for header 
 
 **NOTE:** I sometimes get requests for installation help from users who have installed every dependency in a separate folder in their $HOME.  In other words, they have some setup that looks like this:
 
-
 * $HOME/software/gsl
 * $HOME/software/fwdpp
-
 
 If you insist on doing this, then you are on your own.  You have to manually pass in all of the -I and -L flags to all of these locations.   This setup is problematic because it violates the POSIX Filesystem Hierarchy Standard (http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard), and you cannot reasonably expect things to "just work" any more.  It would be best to start over, and simply install all of the dependencies into the following prefix:
 
@@ -397,6 +389,8 @@ If you insist on doing this, then you are on your own.  You have to manually pas
    $ $HOME/software
 
 Doing so will allow $HOME/software/include, etc., to be populated as they were intended to be.
+
+Better yet, use a system like Anaconda_ (see above).
 
 Documentation
 ===================
@@ -412,7 +406,6 @@ The API documentation may also be build using doxygen_:
 
 Then, load html/index.html in your browser.
 
-
 .. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _Cython: http://www.cython.org/
 .. _GSL:  http://gnu.org/software/gsl
@@ -426,3 +419,6 @@ Then, load html/index.html in your browser.
 .. _fwdpy Google Group: https://groups.google.com/forum/#!forum/fwdpy-users
 .. _doxygen: http://doxygen.org
 .. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
+.. _libsequence: http://molpopgen.github.io/libsequence
+.. _Anaconda: https://www.continuum.io/why-anaconda
+.. _Bioconda: https://bioconda.github.io

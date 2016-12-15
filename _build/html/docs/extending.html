@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Extending fwdpy &mdash; fwdpy 0.0.4 documentation</title>
+    <title>Extending fwdpy &#8212; fwdpy 0.0.4pre1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,18 +14,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.4',
+        VERSION:     '0.0.4pre1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.4 documentation" href="../index.html" />
-    <link rel="next" title="Example: background selection" href="../examples/BGS.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Source code organization" href="code.html" /> 
   </head>
   <body role="document">
@@ -39,12 +40,9 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../examples/BGS.html" title="Example: background selection"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
           <a href="code.html" title="Source code organization"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -69,31 +67,31 @@
 <p>In order to compile any extension based on <em>fwdpy</em> will require knowledge of where your Python installation installs header files that come with extension modules.  <strong>In general, this will be the trickiest part of making a module based on fwdpy.</strong>  The section is quite detailed, in order to help you out.</p>
 <p>In general, there will be some ROOT directory where Python puts things.  What that ROOT is depend on how you installed a package.</p>
 <p>For example, when I use python3 to install the package on my OS X machine using the following command:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="c">#We must use an OMP-enabled clang on OS X:</span>
-<span class="nv">$ CC</span><span class="o">=</span>clang-omp <span class="nv">CXX</span><span class="o">=</span>clang-omp++ python3 setup.py install
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ <span class="c1">#We must use an OMP-enabled clang on OS X:</span>
+$ <span class="nv">CC</span><span class="o">=</span>clang-omp <span class="nv">CXX</span><span class="o">=</span>clang-omp++ python3 setup.py install
 </pre></div>
 </div>
 <p>I see this in the output:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>copying fwdpy/allele_ages.hpp -&gt; /usr/local/include/python3.5m/fwdpy
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ copying fwdpy/allele_ages.hpp -&gt; /usr/local/include/python3.5m/fwdpy
 </pre></div>
 </div>
 <p>This tells me that I need to add <em>-I/usr/local/include/python3.5m/fwdpy</em> when compiling an extension module based on fwdpy.</p>
 <p>Unfortunately, python does not seem to offer any automatic way of finding out where files are installed.  That said, python can give you hints:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">imp</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">imp</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="s">&#39;fwdpy&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">imp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">imp</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="s1">&#39;fwdpy&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span><span class="o">,</span><span class="nn">os</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fwdpy</span><span class="o">,</span><span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fwdpy</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>On my OS X machine, the latter gives:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="s">&#39;/usr/local/lib/python3.5/site-packages/fwdpy&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;/usr/local/lib/python3.5/site-packages/fwdpy&#39;</span>
 </pre></div>
 </div>
 <p>That path refers to where the <em>module itself</em> is installed.  The ROOT is /usr/local, you should be able to find the path to the headers with the help of our good friend bash:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>find /usr/local -name <span class="s2">&quot;*.hpp&quot;</span> <span class="p">|</span> grep fwdpy
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ find /usr/local -name <span class="s2">&quot;*.hpp&quot;</span> <span class="p">|</span> grep fwdpy
 </pre></div>
 </div>
 </div>
@@ -101,8 +99,8 @@
 <h2>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
 <p>Cython&#8217;s .pxd files have no analog to Python&#8217;s dosctrings.  However, those pxd files do tell you the name of the header where each C++ declaration can be found.  Those headers are (starting to be) documented into a reference manual using <a class="reference external" href="http://doxygen.org">doxygen</a>.  Currently, this is a work in progress.</p>
 <p>To build the API documentation:</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>./configure
-<span class="nv">$ </span>doxygen fwdpy.doxygen
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ ./configure
+$ doxygen fwdpy.doxygen
 </pre></div>
 </div>
 <p>Then, point your browser to html/index.html.</p>
@@ -127,21 +125,18 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="code.html"
                         title="previous chapter">Source code organization</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../examples/BGS.html"
-                        title="next chapter">Example: background selection</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/docs/extending.txt"
+      <li><a href="../_sources/docs/extending.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -161,17 +156,14 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../examples/BGS.html" title="Example: background selection"
-             >next</a> |</li>
-        <li class="right" >
           <a href="code.html" title="Source code organization"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+        &#169; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

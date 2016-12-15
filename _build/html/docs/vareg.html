@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Estimating cumulative \(V(A)\) in simulations of quantitative traits. &mdash; fwdpy 0.0.4 documentation</title>
+    <title>Estimating cumulative \(V(A)\) in simulations of quantitative traits. &#8212; fwdpy 0.0.4pre1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,17 +14,20 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.4',
+        VERSION:     '0.0.4pre1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.4 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Overview" href="plugins.html" />
     <link rel="prev" title="Copying populations in memory" href="../examples/copypops.html" /> 
   </head>
   <body role="document">
@@ -38,9 +41,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="plugins.html" title="Overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
           <a href="../examples/copypops.html" title="Copying populations in memory"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -71,8 +77,8 @@
 <div class="section" id="technical-notes">
 <h2>Technical Notes<a class="headerlink" href="#technical-notes" title="Permalink to this headline">¶</a></h2>
 <p>The above regression is equivalent to the following in R:</p>
-<div class="code R highlight-default"><div class="highlight"><pre><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">cbind</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">G</span><span class="p">)</span>
-<span class="n">FORMULA</span> <span class="o">&lt;-</span> <span class="n">paste</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&quot;~&quot;</span><span class="p">,</span> <span class="n">paste</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">collapse</span><span class="o">=</span><span class="s">&quot; + &quot;</span><span class="p">))</span>
+<div class="code R highlight-default"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">&lt;-</span> <span class="n">cbind</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">G</span><span class="p">)</span>
+<span class="n">FORMULA</span> <span class="o">&lt;-</span> <span class="n">paste</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;~&quot;</span><span class="p">,</span> <span class="n">paste</span><span class="p">(</span><span class="n">colnames</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">collapse</span><span class="o">=</span><span class="s2">&quot; + &quot;</span><span class="p">))</span>
 <span class="n">xx</span> <span class="o">=</span> <span class="n">summary</span><span class="p">(</span><span class="n">aov</span><span class="p">(</span><span class="n">lm</span><span class="p">(</span><span class="k">as</span><span class="o">.</span><span class="n">formula</span><span class="p">(</span><span class="n">FORMULA</span><span class="p">),</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -108,18 +114,21 @@
   <h4>Previous topic</h4>
   <p class="topless"><a href="../examples/copypops.html"
                         title="previous chapter">Copying populations in memory</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plugins.html"
+                        title="next chapter">Overview</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/docs/vareg.txt"
+      <li><a href="../_sources/docs/vareg.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -139,14 +148,17 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
+          <a href="plugins.html" title="Overview"
+             >next</a> |</li>
+        <li class="right" >
           <a href="../examples/copypops.html" title="Copying populations in memory"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+        &#169; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

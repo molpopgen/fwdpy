@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Example: background selection &mdash; fwdpy 0.0.4 documentation</title>
+    <title>Example: background selection &#8212; fwdpy 0.0.4pre1 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,19 +14,21 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.4',
+        VERSION:     '0.0.4pre1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="fwdpy 0.0.4 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Example of taking ‘views’ from simulated populations" href="views.html" />
-    <link rel="prev" title="Extending fwdpy" href="../docs/extending.html" /> 
+    <link rel="prev" title="How many threads to use?" href="../docs/threads.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,9 +44,9 @@
           <a href="views.html" title="Example of taking ‘views’ from simulated populations"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../docs/extending.html" title="Extending fwdpy"
+          <a href="../docs/threads.html" title="How many threads to use?"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -63,12 +65,12 @@
 <span class="math">\([-1,0)\)</span> and <span class="math">\([1,2)\)</span>.</li>
 <li>Recombination will be uniform throughout the region.</li>
 </ul>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Use Python 3&#39;s print a a function.</span>
-<span class="c">#This future-proofs the code in the notebook</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Use Python 3&#39;s print a a function.</span>
+<span class="c1">#This future-proofs the code in the notebook</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
-<span class="c">#Import fwdpy.  Give it a shorter name</span>
+<span class="c1">#Import fwdpy.  Give it a shorter name</span>
 <span class="kn">import</span> <span class="nn">fwdpy</span> <span class="k">as</span> <span class="nn">fp</span>
-<span class="c">##Other libs we need</span>
+<span class="c1">##Other libs we need</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">math</span>
@@ -76,110 +78,110 @@
 </div>
 <div class="section" id="establishing-regions-for-mutation-and-recombination">
 <h3>Establishing &#8216;regions&#8217; for mutation and recombination<a class="headerlink" href="#establishing-regions-for-mutation-and-recombination" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c"># Where neutral mutations occur:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Where neutral mutations occur:</span>
 <span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c"># Where selected mutations occur:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Where selected mutations occur:</span>
 <span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="n">beg</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
             <span class="n">fp</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c"># Recombination:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Recombination:</span>
 <span class="n">recregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="population-size-and-simulation-length">
 <h3>Population size and simulation length<a class="headerlink" href="#population-size-and-simulation-length" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Population size</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Population size</span>
 <span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
-<span class="c">#We&#39;ll evolve for 10N generations.</span>
-<span class="c">#nlist is a list of population sizes over time.</span>
-<span class="c">#len(nlist) is the length of the simulation</span>
-<span class="c">#We use numpy arrays for speed and optimised RAM</span>
-<span class="c">#use.  Note the dtype=np.uint32, which means 32-bit</span>
-<span class="c">#unsigned integer. Failure to use this type will</span>
-<span class="c">#cause a run-time error.</span>
+<span class="c1">#We&#39;ll evolve for 10N generations.</span>
+<span class="c1">#nlist is a list of population sizes over time.</span>
+<span class="c1">#len(nlist) is the length of the simulation</span>
+<span class="c1">#We use numpy arrays for speed and optimised RAM</span>
+<span class="c1">#use.  Note the dtype=np.uint32, which means 32-bit</span>
+<span class="c1">#unsigned integer. Failure to use this type will</span>
+<span class="c1">#cause a run-time error.</span>
 <span class="n">nlist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Initalize a random number generator with seed value of 101</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Initalize a random number generator with seed value of 101</span>
 <span class="n">rng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Simulate 40 replicate populations.  This uses C++11 threads behind the scenes:</span>
-<span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span>       <span class="c">#The random number generator</span>
-                         <span class="mi">40</span><span class="p">,</span>         <span class="c">#The number of pops to simulate = number of threads to use.</span>
-                         <span class="n">N</span><span class="p">,</span>         <span class="c">#Initial population size for each of the 40 demes</span>
-                         <span class="n">nlist</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span> <span class="c">#List of population sizes over time.</span>
-                         <span class="mf">0.005</span><span class="p">,</span>     <span class="c">#Neutral mutation rate (per gamete, per generation)</span>
-                         <span class="mf">0.01</span><span class="p">,</span>      <span class="c">#Deleterious mutation rate (per gamete, per generation)</span>
-                         <span class="mf">0.005</span><span class="p">,</span>     <span class="c">#Recombination rate (per diploid, per generation)</span>
-                         <span class="n">nregions</span><span class="p">,</span>  <span class="c">#Defined above</span>
-                         <span class="n">sregions</span><span class="p">,</span>  <span class="c">#Defined above</span>
-                         <span class="n">recregions</span><span class="p">)</span><span class="c">#Defined above</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Simulate 40 replicate populations.  This uses C++11 threads behind the scenes:</span>
+<span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span>       <span class="c1">#The random number generator</span>
+                         <span class="mi">40</span><span class="p">,</span>         <span class="c1">#The number of pops to simulate = number of threads to use.</span>
+                         <span class="n">N</span><span class="p">,</span>         <span class="c1">#Initial population size for each of the 40 demes</span>
+                         <span class="n">nlist</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span> <span class="c1">#List of population sizes over time.</span>
+                         <span class="mf">0.005</span><span class="p">,</span>     <span class="c1">#Neutral mutation rate (per gamete, per generation)</span>
+                         <span class="mf">0.01</span><span class="p">,</span>      <span class="c1">#Deleterious mutation rate (per gamete, per generation)</span>
+                         <span class="mf">0.005</span><span class="p">,</span>     <span class="c1">#Recombination rate (per diploid, per generation)</span>
+                         <span class="n">nregions</span><span class="p">,</span>  <span class="c1">#Defined above</span>
+                         <span class="n">sregions</span><span class="p">,</span>  <span class="c1">#Defined above</span>
+                         <span class="n">recregions</span><span class="p">)</span><span class="c1">#Defined above</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Now, pops is a Python list with len(pops) = 40</span>
-<span class="c">#Each element&#39;s type is fwdpy.singlepop</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Now, pops is a Python list with len(pops) = 40</span>
+<span class="c1">#Each element&#39;s type is fwdpy.singlepop</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pops</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pops</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span class="mi">40</span>
-<span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;fwdpy.fwdpy.Spop&#39;</span><span class="o">&gt;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">40</span>
+<span class="o">&lt;</span><span class="nb">type</span> <span class="s1">&#39;fwdpy.fwdpy.Spop&#39;</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="taking-samples-from-simulated-populations">
 <h2>Taking samples from simulated populations<a class="headerlink" href="#taking-samples-from-simulated-populations" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Use a list comprehension to get a random sample of size</span>
-<span class="c">#n = 20 from each replicate</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Use a list comprehension to get a random sample of size</span>
+<span class="c1">#n = 20 from each replicate</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 
-<span class="c">#Samples is now a list of tuples of two lists.</span>
-<span class="c">#Each list contains tuples of mutation positions and genotypes.</span>
-<span class="c">#The first list represents neutral variants.</span>
-<span class="c">#The second list represents variants affecting fitness (&#39;selected&#39; variants)</span>
-<span class="c">#We will manipulate/analyze these genotypes, etc.,</span>
-<span class="c">#in a later example</span>
+<span class="c1">#Samples is now a list of tuples of two lists.</span>
+<span class="c1">#Each list contains tuples of mutation positions and genotypes.</span>
+<span class="c1">#The first list represents neutral variants.</span>
+<span class="c1">#The second list represents variants affecting fitness (&#39;selected&#39; variants)</span>
+<span class="c1">#We will manipulate/analyze these genotypes, etc.,</span>
+<span class="c1">#in a later example</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[:</span><span class="mi">4</span><span class="p">]:</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="s">&quot;A sample from a population is a &quot;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;A sample from a population is a &quot;</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
-<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
-<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
-<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s1">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s1">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s1">&#39;tuple&#39;</span><span class="o">&gt;</span>
+<span class="n">A</span> <span class="n">sample</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">population</span> <span class="ow">is</span> <span class="n">a</span>  <span class="o">&lt;</span><span class="nb">type</span> <span class="s1">&#39;tuple&#39;</span><span class="o">&gt;</span>
 <span class="mi">40</span>
 </pre></div>
 </div>
 <div class="section" id="getting-additional-information-about-samples">
 <h3>Getting additional information about samples<a class="headerlink" href="#getting-additional-information-about-samples" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Again, use list comprehension to get the &#39;details&#39; of each sample</span>
-<span class="c">#Given that each object in samples is a tuple, and that the second</span>
-<span class="c">#item in each tuple represents selected mutations, i[1] in the line</span>
-<span class="c">#below means that we are getting the mutation information only for</span>
-<span class="c">#selected variants</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Again, use list comprehension to get the &#39;details&#39; of each sample</span>
+<span class="c1">#Given that each object in samples is a tuple, and that the second</span>
+<span class="c1">#item in each tuple represents selected mutations, i[1] in the line</span>
+<span class="c1">#below means that we are getting the mutation information only for</span>
+<span class="c1">#selected variants</span>
 <span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_sample_details</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="n">pops</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#details is now a list of pandas DataFrame objects</span>
-<span class="c">#Each DataFrame has the following columns:</span>
-<span class="c">#  a: mutation age (in generations)</span>
-<span class="c">#  h: dominance of the mutation</span>
-<span class="c">#  p: frequency of the mutation in the population</span>
-<span class="c">#  s: selection coefficient of the mutation</span>
-<span class="c">#  label: A label applied for mutations for each region.  Here, I use 0 for all regions</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#details is now a list of pandas DataFrame objects</span>
+<span class="c1">#Each DataFrame has the following columns:</span>
+<span class="c1">#  a: mutation age (in generations)</span>
+<span class="c1">#  h: dominance of the mutation</span>
+<span class="c1">#  p: frequency of the mutation in the population</span>
+<span class="c1">#  s: selection coefficient of the mutation</span>
+<span class="c1">#  label: A label applied for mutations for each region.  Here, I use 0 for all regions</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">details</span><span class="p">[:</span><span class="mi">4</span><span class="p">]:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre>      <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>      <span class="n">p</span>     <span class="n">s</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>      <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>      <span class="n">p</span>     <span class="n">s</span>
 <span class="mi">0</span>  <span class="mf">26.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.004</span> <span class="o">-</span><span class="mf">0.05</span>
       <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>       <span class="n">p</span>     <span class="n">s</span>
 <span class="mi">0</span>  <span class="mf">24.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span>
@@ -201,41 +203,41 @@
 <span class="mi">3</span>  <span class="mf">13.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#The order of the rows in each DataFrame is the</span>
-<span class="c">#same as the order as the objects in &#39;samples&#39;:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#The order of the rows in each DataFrame is the</span>
+<span class="c1">#same as the order as the objects in &#39;samples&#39;:</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s">&quot;Number of sites in samples[&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s">&quot;] = &quot;</span><span class="p">,</span>
-          <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span><span class="s">&quot;. Number of rows in DataFrame &quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span>
-          <span class="s">&quot; = &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">),</span><span class="n">sep</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of sites in samples[&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot;] = &quot;</span><span class="p">,</span>
+          <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span><span class="s2">&quot;. Number of rows in DataFrame &quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span>
+          <span class="s2">&quot; = &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">),</span><span class="n">sep</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">0</span> <span class="o">=</span> <span class="mi">1</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">0</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">6.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">1</span> <span class="o">=</span> <span class="mi">6</span>
 <span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">Number</span> <span class="n">of</span> <span class="n">sites</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">4.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">rows</span> <span class="ow">in</span> <span class="n">DataFrame</span> <span class="mi">3</span> <span class="o">=</span> <span class="mi">4</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Pandas DataFrames are cool.</span>
-<span class="c">#Let&#39;s add a column to each DataFrame</span>
-<span class="c">#specifying the mutation position,</span>
-<span class="c">#count of derived state,</span>
-<span class="c">#and a &quot;replicate ID&quot;</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Pandas DataFrames are cool.</span>
+<span class="c1">#Let&#39;s add a column to each DataFrame</span>
+<span class="c1">#specifying the mutation position,</span>
+<span class="c1">#count of derived state,</span>
+<span class="c1">#and a &quot;replicate ID&quot;</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">details</span><span class="p">)):</span>
-    <span class="c">##samples[i][1] again is the selected mutations in the sample taken</span>
-    <span class="c">##from the i-th replicate</span>
-    <span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s">&#39;pos&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>               <span class="c">#Mutation position</span>
-    <span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s">&#39;count&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="c">#No. occurrences of derived state in sample</span>
-    <span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>                    <span class="c">#Replicate id</span>
+    <span class="c1">##samples[i][1] again is the selected mutations in the sample taken</span>
+    <span class="c1">##from the i-th replicate</span>
+    <span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>               <span class="c1">#Mutation position</span>
+    <span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;count&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="c1">#No. occurrences of derived state in sample</span>
+    <span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">details</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>                    <span class="c1">#Replicate id</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">##Merge into 1 big DataFrame:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">##Merge into 1 big DataFrame:</span>
 <span class="n">BigTable</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">details</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s">&quot;This is the merged table:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is the merged table:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">BigTable</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span class="n">This</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">merged</span> <span class="n">table</span><span class="p">:</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">merged</span> <span class="n">table</span><span class="p">:</span>
         <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>       <span class="n">p</span>     <span class="n">s</span>       <span class="n">pos</span>  <span class="n">count</span>  <span class="nb">id</span>
 <span class="mi">0</span>    <span class="mf">26.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0040</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.283749</span>      <span class="mi">1</span>   <span class="mi">0</span>
 <span class="mi">0</span>    <span class="mf">24.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.320125</span>      <span class="mi">1</span>   <span class="mi">1</span>
@@ -309,19 +311,19 @@
 <p>We will use the <a class="reference external" href="http://molpopgen.github.io/pylibseq/">pylibseq</a>
 package to calculate summary statistics. pylibseq is a Python wrapper
 around <a class="reference external" href="http://molpopgen.github.io/libsequence/">libsequence</a>.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">libsequence.polytable</span> <span class="k">as</span> <span class="nn">polyt</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">libsequence.polytable</span> <span class="k">as</span> <span class="nn">polyt</span>
 <span class="kn">import</span> <span class="nn">libsequence.summstats</span> <span class="k">as</span> <span class="nn">sstats</span>
 
-<span class="c">#Convert neutral mutations into libsequence &quot;SimData&quot; objects,</span>
-<span class="c">#which are intended to handle binary (0/1) data like</span>
-<span class="c">#what comes out of these simulations</span>
+<span class="c1">#Convert neutral mutations into libsequence &quot;SimData&quot; objects,</span>
+<span class="c1">#which are intended to handle binary (0/1) data like</span>
+<span class="c1">#what comes out of these simulations</span>
 <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">polyt</span><span class="o">.</span><span class="n">simData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
 
-<span class="c">#Create &quot;factories&quot; for calculating the summary stats</span>
+<span class="c1">#Create &quot;factories&quot; for calculating the summary stats</span>
 <span class="n">an</span> <span class="o">=</span> <span class="p">[</span><span class="n">sstats</span><span class="o">.</span><span class="n">polySIM</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span>
 
-<span class="c">##Collect a bunch of summary stats into a pandas.DataFrame:</span>
-<span class="n">NeutralMutStats</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span><span class="s">&#39;npoly&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">numpoly</span><span class="p">(),</span><span class="s">&#39;thetaw&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetaw</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">an</span> <span class="p">])</span>
+<span class="c1">##Collect a bunch of summary stats into a pandas.DataFrame:</span>
+<span class="n">NeutralMutStats</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s1">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span><span class="s1">&#39;npoly&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">numpoly</span><span class="p">(),</span><span class="s1">&#39;thetaw&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetaw</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">an</span> <span class="p">])</span>
 
 <span class="n">NeutralMutStats</span>
 </pre></div>
@@ -592,15 +594,15 @@ the per gamete rate. (See Hudson and Kaplan (1995) PMC1206891 for
 details).</p>
 <p>For our parameters, we have
 <span class="math">\(E[\pi] = 20e^{-\frac{0.02}{0.1+0.005}},\)</span> which equals:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="nb">print</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="o">/</span><span class="p">(</span><span class="mf">0.1</span><span class="o">+</span><span class="mf">0.005</span><span class="p">)))</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.02</span><span class="o">/</span><span class="p">(</span><span class="mf">0.1</span><span class="o">+</span><span class="mf">0.005</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span class="mf">16.5313087525</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">16.5313087525</span>
 </pre></div>
 </div>
 <p>Now, let&#8217;s get the average $pi$ from 1000 simulated replicates.  We already have 40 replicates that we did above, so we&#8217;ll run another 24 sets of four populations.</p>
 <p>We will use standard Python to grow our collection of summary statistics.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span>
                          <span class="mi">40</span><span class="p">,</span>
                          <span class="n">N</span><span class="p">,</span>
@@ -614,11 +616,11 @@ details).</p>
     <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
     <span class="n">simdatasNeut</span> <span class="o">=</span> <span class="p">[</span><span class="n">polyt</span><span class="o">.</span><span class="n">simData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
     <span class="n">polySIMn</span> <span class="o">=</span> <span class="p">[</span><span class="n">sstats</span><span class="o">.</span><span class="n">polySIM</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">simdatasNeut</span><span class="p">]</span>
-    <span class="c">##Append stats into our growing DataFrame:</span>
+    <span class="c1">##Append stats into our growing DataFrame:</span>
     <span class="n">NeutralMutStats</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">NeutralMutStats</span><span class="p">,</span>
-                                   <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span>
-                                                       <span class="s">&#39;npoly&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">numpoly</span><span class="p">(),</span>
-                                                       <span class="s">&#39;thetaw&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetaw</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">polySIMn</span> <span class="p">])])</span>
+                                   <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s1">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span>
+                                                       <span class="s1">&#39;npoly&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">numpoly</span><span class="p">(),</span>
+                                                       <span class="s1">&#39;thetaw&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetaw</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">polySIMn</span> <span class="p">])])</span>
 </pre></div>
 </div>
 <div class="section" id="getting-the-mean-diversity">
@@ -629,11 +631,11 @@ get the mean using the built-in groupby and mean functions.</p>
 and process it using R&#8217;s
 <a class="reference external" href="http://cran.r-project.org/web/packages/dplyr/index.html">dplyr</a>
 package, which is a really excellent tool for this sort of thing.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span class="c">#Get means for each column:</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Get means for each column:</span>
 <span class="n">NeutralMutStats</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span class="n">npoly</span>      <span class="mf">58.571000</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">npoly</span>      <span class="mf">58.571000</span>
 <span class="n">thetapi</span>    <span class="mf">16.319800</span>
 <span class="n">thetaw</span>     <span class="mf">16.509385</span>
 <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
@@ -676,23 +678,23 @@ simulations, and it is quite close to the theoretical value.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../docs/extending.html"
-                        title="previous chapter">Extending <em>fwdpy</em></a></p>
+  <p class="topless"><a href="../docs/threads.html"
+                        title="previous chapter">How many threads to use?</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="views.html"
                         title="next chapter">Example of taking &#8216;views&#8217; from simulated populations</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/examples/BGS.txt"
+      <li><a href="../_sources/examples/BGS.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
@@ -715,14 +717,14 @@ simulations, and it is quite close to the theoretical value.</p>
           <a href="views.html" title="Example of taking ‘views’ from simulated populations"
              >next</a> |</li>
         <li class="right" >
-          <a href="../docs/extending.html" title="Extending fwdpy"
+          <a href="../docs/threads.html" title="How many threads to use?"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, Kevin Thornton.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+        &#169; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

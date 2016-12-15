@@ -37,24 +37,6 @@ Important concepts for setting up simulations
    docs/slim
    docs/threads
 
-Custom fitness models
-########################################################################################
-
-.. toctree::
-   :maxdepth: 2
-	      
-   docs/customAnalyses
-   docs/customFitness
-
-Notes for people wanting to work with the code
-####################################################################################
-
-.. toctree::
-   :maxdepth: 2
-	      
-   docs/code
-   docs/extending
-   
 Examples
 ##########################################
 
@@ -75,6 +57,23 @@ Special topics
 
    docs/vareg
 
+Plugins
+########################################################################################
+
+.. toctree::
+   :maxdepth: 2
+
+   docs/plugins
+
+Notes for people wanting to work with the code
+####################################################################################
+
+.. toctree::
+   :maxdepth: 2
+	      
+   docs/code
+   docs/extending
+   
 
 Functions and classes
 ##########################################
@@ -88,6 +87,10 @@ Functions and classes
    :show-inheritance:
 
 .. automodule:: fwdpy.demography
+   :members:
+   :show-inheritance:
+
+.. automodule:: fwdpy.matrix
    :members:
    :show-inheritance:
 
@@ -106,6 +109,7 @@ Functions and classes
 .. automodule:: fwdpy.qtrait.qtrait
    :members:
    :show-inheritance:
+
 
 .. automodule:: fwdpy.qtrait_mloc.qtrait_mloc
    :members:
