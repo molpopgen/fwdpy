@@ -114,7 +114,7 @@ long_desc = open("README.rst").read()
 #EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
-                     str('-DPACKAGE_VERSION=')+'"0.0.4"',
+                     str('-DPACKAGE_VERSION=')+'"0.0.4pre1"',
                      '-DHAVE_INLINE'
 ]
 LINK_ARGS=["-std=c++11",'-fopenmp']
@@ -217,7 +217,7 @@ if USE_CYTHON:
     extensions = cythonize(extensions)
 
 setup(name='fwdpy',
-      version='0.0.4',
+      version='0.0.4pre1',
       author='Kevin R. Thornton',
       author_email='krthornt@uci.edu',
       maintainer='Kevin R. Thornton',
