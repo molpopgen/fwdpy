@@ -45,7 +45,7 @@ dnl 2) package version (i.e. 1.2)
 dnl 3) bug/info/project email address (i.e. bug-foo@gnu.org)
 dnl----
 dnl
-AC_INIT([fwdpy], [0.0.4pre1], [krthornt@uci.edu])
+AC_INIT([fwdpy], [0.0.4.pre2], [krthornt@uci.edu])
 
 
 dnl----
