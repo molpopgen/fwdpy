@@ -21,14 +21,8 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
         double pos
         double esize
         unsigned origin
+        uint16_t label
 
-    cdef struct selected_mut_data_tidy:
-        double pos
-        double esize
-        double freq
-        unsigned origin
-        unsigned generation
-        
 cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
     cdef struct qtrait_stats_cython:
         string stat

@@ -56,22 +56,6 @@ namespace fwdpy
         }
     };
 
-    struct selected_mut_data_tidy
-    /*!
-      \brief Convenience type for conversion to dict -> pandas.DataFrame
-     */
-    {
-        double pos, esize, freq;
-        unsigned origin, generation;
-        using label_t = decltype(KTfwd::mutation_base::xtra);
-        label_t label;
-        selected_mut_data_tidy(unsigned o, unsigned g, double p, double q,
-                               double e, label_t l)
-            : pos(p), esize(e), freq(q), origin(o), generation(g), label(l)
-        {
-        }
-    };
-
     class selected_mut_tracker : public sampler_base
     /*!
       \brief A "sampler" for recording frequency trajectories of selected
@@ -166,13 +150,6 @@ namespace fwdpy
                 }
         }
     };
-
-    // non-inline!  This is part of fwdpy's main module.
-    std::vector<selected_mut_data_tidy>
-    tidy_trajectory_info(const selected_mut_tracker::final_t &trajectories,
-                         const unsigned min_sojourn, const double min_freq,
-                         const unsigned remove_gone_before,
-                         const unsigned remove_arose_after);
 }
 
 #endif

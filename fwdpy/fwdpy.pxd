@@ -10,7 +10,7 @@ from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.cpp cimport hash
 from libcpp.unordered_set cimport unordered_set
 from cython_gsl cimport gsl_rng
-from fwdpy.structs cimport selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
+from fwdpy.structs cimport selected_mut_data,qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
@@ -361,12 +361,6 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
 
-
-cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
-    vector[selected_mut_data_tidy] tidy_trajectory_info( const freqTraj & trajectories,
-                                                         const unsigned min_sojourn, const double min_freq,
-                                                         const unsigned remove_gone_before,
-                                                         const unsigned remove_arose_after)
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const freqTraj & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +

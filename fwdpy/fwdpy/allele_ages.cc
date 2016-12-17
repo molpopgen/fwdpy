@@ -20,18 +20,6 @@ namespace fwdpy
                            });
     }
 
-    bool
-    passes_minfreq_test(double minfreq,
-                        const std::vector<std::pair<unsigned, double>> &traj)
-    {
-        if (minfreq > 0.)
-            {
-                auto mx = find_max_element(traj);
-                return (mx->second >= minfreq);
-            }
-        return true;
-    }
-
     vector<allele_age_data_t>
     allele_ages_details(const selected_mut_tracker::final_t &trajectories,
                         const double minfreq, const unsigned minsojourn)
@@ -65,9 +53,6 @@ namespace fwdpy
     merge_trajectories_details(const selected_mut_tracker::final_t &traj1,
                                const selected_mut_tracker::final_t &traj2)
     {
-        // selected_mut_tracker::final_t rv(
-        //    new selected_mut_tracker::final_t::element_type(traj1->begin(),
-        //                                                    traj1->end()));
         selected_mut_tracker::final_t rv(traj1.begin(), traj1.end());
         for (auto &&t : traj2)
             {
@@ -84,38 +69,6 @@ namespace fwdpy
                     {
                         x->second.insert(x->second.end(), t.second.begin(),
                                          t.second.end());
-                    }
-            }
-        return rv;
-    }
-
-    std::vector<selected_mut_data_tidy>
-    tidy_trajectory_info(const selected_mut_tracker::final_t &trajectories,
-                         const unsigned min_sojourn, const double min_freq,
-                         // Warning: these next two are only accurate
-                         // to the extent that frequencies were sampled
-                         // each generation!
-                         const unsigned remove_gone_before,
-                         const unsigned remove_arose_after)
-    {
-        std::vector<selected_mut_data_tidy> rv;
-        for (const auto &ti : trajectories)
-            {
-                // Make sure that sojourn time filter is not applied to
-                // fixations, as
-                // those are usually of particular interest.
-                if (!ti.second.empty() && (ti.second.size() >= min_sojourn
-                                           || ti.second.back().second == 1.0)
-                    && ti.first.origin <= remove_arose_after
-                    && ti.second.back().first > remove_gone_before
-                    && passes_minfreq_test(min_freq, ti.second))
-                    {
-                        for (auto &&f : ti.second)
-                            {
-                                rv.emplace_back(
-                                    ti.first.origin, f.first, ti.first.pos,
-                                    f.second, ti.first.esize, ti.first.label);
-                            }
                     }
             }
         return rv;
