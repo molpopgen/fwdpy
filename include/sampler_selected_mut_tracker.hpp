@@ -135,8 +135,8 @@ namespace fwdpy
                                         {
                                             // Don't keep updating for fixed
                                             // variants
-                                            auto data_itr = data.begin()
-                                                            + __itr->second;
+                                            auto data_itr
+                                                = data.begin() + __itr->second;
                                             if (data_itr->second.back().second
                                                 < 1.)
                                                 {
