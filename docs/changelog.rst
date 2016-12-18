@@ -1,7 +1,12 @@
 Changelog (rough)
 =====================
 
-0.0.4
+0.0.4-rc3
+-------------------
+
+* :func:`fwdpy.fdwpy.tidy_trajectories` changed.  It is now implemented purely in Python and allows arbitrary functions to be passed as arguments to filter the data.
+
+0.0.4 (through release candidate 2)
 ----------------
 
 Changes to the Python side:
