@@ -26,30 +26,10 @@ def merge_trajectories(list trajectories1, list trajectories2):
         raise RuntimeError("the two input lists must be the same length")
     return merge_trajectories_details(trajectories1,trajectories2)
 
-cdef mergedict(dict x,dict y):
-    x.update(y)
-    return x
-
-def tidy_trajectories_details(freqTraj & trajectories,tuple args):
-    rv=[]
-    cdef vector[pair[selected_mut_data,vector[genfreqPair]]].iterator ti = trajectories.begin()
-    tie = trajectories.end()
-    cdef vector[pair[uint,double]].iterator sb,se
-    while ti != tie:
-        if deref(ti).second.empty() is False:
-            add_trajectory = True
-            if len(args) > 0:
-                tests = [ai(deref(ti)) for ai in args]
-                if tests.count(True) != len(args):
-                    add_trajectory = False
-            if add_trajectory:
-                sb = deref(ti).second.begin()
-                se = deref(ti).second.end()
-                while sb<se:
-                    rv.append(mergedict(deref(ti).first,{'generation':deref(sb).first,'freq':deref(sb).second}))
-                    sb+=1
-        ti+=1
-    return rv
+cdef copy_merge_dict(dict x,dict y):
+    z=x.copy()
+    z.update(y)
+    return z
 
 def tidy_trajectories(trajectories, *args):
     """
@@ -59,11 +39,38 @@ def tidy_trajectories(trajectories, *args):
     :param trajectories: A list of mutation frequency trajectories from :class:`fwdpy.fwdpy.FreqSampler`.
     :param args: Callable objects (functions/lambdas) that return True or False.  See note below.
 
-    .. note:: The sojourn time filter is not applied to fixations.  I'm assuming you are always interested in those.
+    .. note:: 
+        
+        The optional arguments must be callable functions (or lambdas) that expect a tuple
+        with two elements as an argument.  The first element in the tuple is a dict
+        with the following keys: pos, origin, esize, and label representing mutation
+        position, generation when it first appearted, effect size, and label, respectively.
+        Note that label is not currently used by many types of simualation.  The second
+        element in the tuple will be a list of tuples of length two.  The first element
+        is the generation and the second is the frequency in that generation.  This list
+        of tuples describes the frequency trajectory of the mutation over time. The list
+        is also sorted by generation. Your 
+        callable should do something with these data and return True if the result is acceptable.
+        Returning False means that the mutation will not be returned in the "tidied" data.
 
     The frequency data for each generation for each mutation are represented as a dict.
 
-    :rtype: list of dicts or generator to such a list
-    """
-    return tidy_trajectories_details(trajectories,*args)
+    :rtype: list of dicts
 
+    .. versionchanged:: 0.0.4-rc2
+
+        Added ability to filter results with custom functions.
+
+    """
+    rv=[]
+    for ti in trajectories:
+        if len(ti[1]) > 0:
+            add_trajectory = True
+            if len(args)>0:
+                tests=[i(ti) for i in args]
+                if tests.count(True) != len(args):
+                    add_trajectory=False
+            if add_trajectory is True:
+                for genfreq in ti[1]:
+                    rv.append(copy_merge_dict(ti[0],{'generation':genfreq[0],'freq':genfreq[1]}))
+    return rv
