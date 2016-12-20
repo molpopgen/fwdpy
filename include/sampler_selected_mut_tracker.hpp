@@ -96,6 +96,7 @@ namespace fwdpy
             : trajectories(trajectories_t()),
               data(final_t())
         {
+			data.reserve(1000000);
         }
 
       private:
