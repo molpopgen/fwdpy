@@ -47,8 +47,17 @@ cdef pair[double,vector[double]] sum_of_squares(const gsl_vector * v,
 
     cdef int gsl_rv
     gsl_rv = gsl_linalg_QR_decomp(m,TAU.get())
+    if gsl_rv != 0: #check for errors
+        gsl_set_error_handler(error_handler)
+        return rv
     gsl_rv = gsl_linalg_QR_unpack(m,TAU.get(),Q.get(),R.get())
+    if gsl_rv != 0:
+        gsl_set_error_handler(error_handler)
+        return rv
     gsl_rv = gsl_blas_dgemv(CblasTrans,1.0,Q.get(),v,0.0,SUMS.get())
+    if gsl_rv != 0:
+        gsl_set_error_handler(error_handler)
+        return rv
 
     cdef size_t i
     for i in range(0,m.size2): 
