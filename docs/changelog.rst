@@ -5,6 +5,7 @@ Changelog (rough)
 -------------------
 
 * :func:`fwdpy.fdwpy.tidy_trajectories` changed.  It is now implemented purely in Python and allows arbitrary functions to be passed as arguments to filter the data.
+* fwdpy.numeric_gsl added, providing a Cython (nogil) API to some numeric operations implemented in terms of the GSL 
 
 0.0.4 (through release candidate 2)
 ----------------
