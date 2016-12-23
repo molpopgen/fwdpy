@@ -175,7 +175,17 @@ extensions.extend(
             include_dirs=GLOBAL_INCLUDES,
             extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
-##This is the list of extension modules
+
+extensions.extend(
+    [Extension("fwdpy.numeric_gsl",
+            sources=["fwdpy/numeric_gsl"+EXTENSION],
+            language="c++",
+            include_dirs=GLOBAL_INCLUDES,
+            extra_compile_args=GLOBAL_COMPILE_ARGS,)]
+    )
+
+##This is the list of extension modules that are 
+##in distinct sub-directories with their own __init__.py
 PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
 if QTRAIT is True:
