@@ -181,7 +181,9 @@ extensions.extend(
             sources=["fwdpy/numeric_gsl"+EXTENSION],
             language="c++",
             include_dirs=GLOBAL_INCLUDES,
-            extra_compile_args=GLOBAL_COMPILE_ARGS,)]
+            extra_compile_args=GLOBAL_COMPILE_ARGS,
+            libraries=['gsl','gslcblas'],)
+            ]
     )
 
 ##This is the list of extension modules that are 
