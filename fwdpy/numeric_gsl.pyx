@@ -1,7 +1,6 @@
 from cython_gsl.gsl_blas cimport *
 from cython_gsl.gsl_linalg cimport * 
 from cython_gsl.gsl_math cimport * 
-from cython_gsl.gsl_errno cimport * 
 from libcpp.limits cimport numeric_limits
 
 #These are unique_ptr wrappers around
@@ -9,7 +8,7 @@ from libcpp.limits cimport numeric_limits
 from fwdpy.gsl cimport gsl_vector_ptr_t,gsl_matrix_ptr_t 
 #It is uncool to allow GSL to handle its errors in the default way,
 #so we need to manually handle things
-#from fwdpy.gsl cimport gsl_error_handler_t,gsl_set_error_handler_off,gsl_set_error_handler
+from fwdpy.gsl cimport gsl_error_handler_t,gsl_set_error_handler_off,gsl_set_error_handler
 
 cdef pair[double,vector[double]] sum_of_squares(const gsl_vector * v,
                                                 gsl_matrix * m) nogil:
