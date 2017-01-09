@@ -14,23 +14,9 @@ Both work, and both are pretty easy.
     #import our modules
     from __future__ import print_function
     import fwdpy as fp
+    import numpy as np
     import datetime
     import time
-
-.. code:: python
-
-    ##Info
-    dt=datetime.datetime.now()
-    print("This example was processed using ",fp.pkg_version(), "on",dt.month,"/",dt.day,"/",dt.year)
-    print("The dependency versions are",fp.pkg_dependencies())
-
-
-
-.. parsed-literal::
-
-    This example was processed using  {'fwdpy': '0.0.1'} on 10 / 30 / 2015
-    The dependency versions are {'libsequence': '1.8.7', 'GSL': '1.16', 'fwdpp': '0.4.0'}
-
 
 .. code:: python
 
@@ -92,11 +78,11 @@ Using `pylibseq <https://github.com/molpopgen/pylibseq>`__
 .. code:: python
 
     from libsequence.windows import Windows
-    from libsequence.polytable import simData
+    from libsequence.polytable import SimData
     for i in samples:
         ##We need to convert our list of tuples
         ##into types that pylibseq/libsequence understand:
-        windows = Windows(simData(i[0]),0.1,0.1,0,3)
+        windows = Windows(SimData(i[0]),0.1,0.1,0,3)
         ##Now, you can analyze the windows, etc.
         print(len(windows))
 
