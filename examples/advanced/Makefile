@@ -12,6 +12,7 @@
 
 all: BGSmp.rst
 
-clean: rm -f *.rst
+clean: 
+	rm -f *.rst
 
 
