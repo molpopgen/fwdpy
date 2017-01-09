@@ -1,18 +1,17 @@
 .SUFFIXES: .rst
 
-
-%.nbconvert.rst: %.ipynb 
-	echo $@
-	echo $%
-	echo $<
-	$(eval NBF := `basename $@ .nbconvert.rst`)
-	echo "NBF = " ${NBF}
+%.rst: %.ipynb 
+	$(eval NBF:=$(basename $@ .rst))
 	PYTHONPATH=../.. jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute $<
-	jupyter nbconvert --to rst ${NBF}.nbconvert.ipynb
-	rm -f ${NBF}
+	$(eval XX=$(NBF))
+	$(eval XX := ${XX:%=%.nbconvert.ipynb})
+	jupyter nbconvert --to rst $(XX)
+	$(eval XX=$(NBF))
+	$(eval XX := ${XX:%=%.nbconvert.rst})
+	mv -f $(XX) $@
 
-all: BGSmp.nbconvert.rst
+all: BGSmp.rst
 
-clean: rm -f *.nbconvert.rst
+clean: rm -f *.rst
 
 
