@@ -3,59 +3,9 @@
 #include "sampler_base.hpp"
 #include "types.hpp"
 #include <limits>
-
+#include <unordered_map>
 namespace fwdpy
 {
-    struct selected_mut_data
-    {
-        double pos, esize;
-        unsigned origin;
-        using label_t = decltype(KTfwd::mutation_base::xtra);
-        label_t label;
-        selected_mut_data(unsigned g, double p, double e, label_t l)
-            : pos(p), esize(e), origin(g), label(l)
-        {
-        }
-        selected_mut_data()
-            : pos(std::numeric_limits<double>::quiet_NaN()),
-              esize(std::numeric_limits<double>::quiet_NaN()),
-              origin(std::numeric_limits<unsigned>::max()),
-              label(std::numeric_limits<label_t>::max())
-        /*!
-          This constructor assigns NaN or "max_int"
-          values to members.
-         */
-        {
-        }
-        inline bool
-        operator==(const selected_mut_data &rhs) const noexcept
-        {
-            return this->origin == rhs.origin && this->pos == rhs.pos
-                   && this->esize == rhs.esize && this->label == rhs.label;
-        }
-        inline bool
-        operator<(const selected_mut_data &rhs) const noexcept
-        {
-            if (this->origin < rhs.origin)
-                return true;
-            if (rhs.origin < this->origin)
-                return false;
-            if (this->pos < rhs.pos)
-                return true;
-            if (rhs.pos < this->pos)
-                return false;
-            if (this->esize < rhs.esize)
-                return true;
-            if (rhs.esize < this->esize)
-                return false;
-            if (this->label < rhs.label)
-                return true;
-            if (rhs.label < this->label)
-                return false;
-            return false;
-        }
-    };
-
     class selected_mut_tracker : public sampler_base
     /*!
       \brief A "sampler" for recording frequency trajectories of selected
@@ -70,10 +20,10 @@ namespace fwdpy
 
           \note Used in fwdpy::selected_mut_tracker
         */
-        using trajectories_t = std::map<selected_mut_data, std::size_t>;
-        using final_t
-            = std::vector<std::pair<selected_mut_data,
-                                    std::vector<std::pair<unsigned, double>>>>;
+        using final_t = std::
+            unordered_map<KTfwd::uint_t,
+                          std::map<std::pair<double, double>,
+                                   std::vector<std::pair<unsigned, double>>>>;
 
         virtual void
         operator()(const singlepop_t *pop, const unsigned generation)
@@ -89,19 +39,16 @@ namespace fwdpy
         final_t
         final() const
         {
-            return data;
+            return trajectories;
         }
 
-        explicit selected_mut_tracker() noexcept
-            : trajectories(trajectories_t()),
-              data(final_t())
+        explicit selected_mut_tracker() noexcept : trajectories(final_t())
         {
-			data.reserve(1000000);
+            trajectories.reserve(1000000);
         }
 
       private:
-        trajectories_t trajectories;
-        final_t data;
+        final_t trajectories;
         template <typename pop_t>
         inline void
         call_operator_details(const pop_t *pop, const unsigned generation)
@@ -116,34 +63,46 @@ namespace fwdpy
                                     const auto freq
                                         = double(pop->mcounts[i])
                                           / double(2 * pop->diploids.size());
-                                    selected_mut_data __p(__m.g, __m.pos,
-                                                          __m.s, __m.xtra);
-                                    auto __itr = trajectories.find(__p);
+                                    auto __itr = trajectories.find(__m.g);
                                     if (__itr == trajectories.end())
                                         {
-                                            // update the data
-                                            data.emplace_back(
-                                                __p,
-                                                std::vector<std::pair<unsigned,
-                                                                      double>>(
-                                                    1, std::make_pair(
-                                                           generation, freq)));
-                                            // update index tree
-                                            trajectories[__p]
-                                                = data.size() - 1;
-                                        }
+											final_t::mapped_type m;
+											m[{__m.pos,__m.s}].push_back({generation,freq});
+                                            trajectories.emplace(
+                                                __m.g,std::move(m));
+										}
                                     else
                                         {
-                                            // Don't keep updating for fixed
-                                            // variants
-                                            auto data_itr
-                                                = data.begin() + __itr->second;
-                                            if (data_itr->second.back().second
-                                                < 1.)
+                                            auto __ps = __itr->second.find(
+                                                { __m.pos, __m.s });
+                                            if (__ps == __itr->second.end())
                                                 {
-                                                    data_itr->second
-                                                        .emplace_back(
-                                                            generation, freq);
+                                                    // update the data
+                                                    __itr->second.emplace(
+                                                        std::make_pair(__m.pos,
+                                                                       __m.s),
+                                                        std::
+                                                            vector<std::
+                                                                       pair<unsigned,
+                                                                            double>>(
+                                                                1,
+                                                                std::make_pair( generation,
+                                                                  freq )));
+                                                }
+                                            else
+                                                {
+                                                    // Don't keep updating for
+                                                    // fixed
+                                                    // variants
+                                                    if (__ps->second.back()
+                                                            .second
+                                                        < 1.)
+                                                        {
+                                                            __ps->second
+                                                                .emplace_back(
+                                                                    generation,
+                                                                    freq);
+                                                        }
                                                 }
                                         }
                                 }

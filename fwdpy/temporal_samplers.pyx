@@ -1,5 +1,6 @@
 from libcpp.string cimport string as cppstring
 from cython.operator cimport dereference as deref
+import pandas
 
 # distutils: language = c++
 cdef class TemporalSampler:
@@ -188,15 +189,24 @@ cdef class FreqSampler(TemporalSampler):
         """
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[selected_mut_tracker](new selected_mut_tracker()))
+    def __convert_data__(self,dict raw):
+        temp=[] #list of dicts with named stuff for pands
+        for origin in raw:
+            for ps in raw[origin]:
+                temp.extend([{b'origin':origin,b'pos':ps[0],b'esize':ps[1],b'generation':i[0],b'freq':i[1]} for i in raw[origin][ps]])
+        rv=pandas.DataFrame(temp)
+        rv.sort_values(by=['origin'])
+        rv.drop_duplicates(inplace=True)
+        return rv
     def __iter__(self):
         for i in range(self.vec.size()):
-            yield (<selected_mut_tracker*>self.vec[i].get()).final()
+            yield self.__convert_data__((<selected_mut_tracker*>self.vec[i].get()).final())
     def __next__(self):
         return next(self)
     def __getitem__(self,i):
         if i>=self.vec.size():
             raise IndexError("index out of range")
-        return (<selected_mut_tracker*>self.vec[i].get()).final()
+        return self.__convert_data__((<selected_mut_tracker*>self.vec[i].get()).final())
     def __len__(self):
         return self.vec.size()
 

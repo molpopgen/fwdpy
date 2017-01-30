@@ -9,8 +9,9 @@ from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
 from fwdpy.cpp cimport hash
 from libcpp.unordered_set cimport unordered_set
+from libcpp.unordered_map cimport unordered_map
 from cython_gsl cimport gsl_rng
-from fwdpy.structs cimport selected_mut_data,qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
+from fwdpy.structs cimport qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
@@ -274,7 +275,7 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
 #The following typedefs help us with the
 #frequency tracker API.
 ctypedef pair[uint,double] genfreqPair
-ctypedef vector[pair[selected_mut_data,vector[genfreqPair]]] freqTraj
+ctypedef unordered_map[uint,map[pair[double,double],vector[genfreqPair]]] freqTraj 
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
