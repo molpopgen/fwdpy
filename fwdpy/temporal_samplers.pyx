@@ -189,14 +189,18 @@ cdef class FreqSampler(TemporalSampler):
         """
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[selected_mut_tracker](new selected_mut_tracker()))
-    def __convert_data__(self,dict raw):
+    def __convert_data__(self,dict raw,origin_filter=None,pos_esize_filter=None,freq_filter=None):
         temp=[] #list of dicts with named stuff for pands
         for origin in raw:
-            for ps in raw[origin]:
-                temp.extend([{b'origin':origin,b'pos':ps[0],b'esize':ps[1],b'generation':i[0],b'freq':i[1]} for i in raw[origin][ps]])
+            if origin_filter is None or origin_filter(origin) is True:
+                for ps in raw[origin]:
+                    if pos_esize_filter is None or pos_esize_filter(ps) is True:
+                        if freq_filter is None or freq_filter(raw[origin][ps]) is True:
+                            temp.extend([{b'origin':origin,b'pos':ps[0],b'esize':ps[1],b'generation':i[0],b'freq':i[1]} for i in raw[origin][ps]])
         rv=pandas.DataFrame(temp)
         rv.sort_values(by=['origin'])
         rv.drop_duplicates(inplace=True)
+        rv.reset_index(inplace=True,drop=True)
         return rv
     def __iter__(self):
         for i in range(self.vec.size()):
@@ -206,9 +210,27 @@ cdef class FreqSampler(TemporalSampler):
     def __getitem__(self,i):
         if i>=self.vec.size():
             raise IndexError("index out of range")
-        return self.__convert_data__((<selected_mut_tracker*>self.vec[i].get()).final())
+        return self.__convert_data__(().final())
     def __len__(self):
         return self.vec.size()
+    def fetch(self,i,origin_filter=None,pos_esize_filter=None,freq_filter=None):
+        """
+        Fetch a filtered data set on allele frequency trajectories.
+
+        :param i: The index of the data set to retrieve.
+        :param origin_filter: (None) A callable to filter on the origin time of mutations.
+        :param pos_esize_filter: (None) A callable to filter on the position and effect size of a mutation.
+        :param freq_filter: (None) A callable to filter on the frequency trajectory itself.
+
+        Each callable must return True or False.  The callable "origin_filter" will receive a single,
+        non-negative integer for an argument.  "pos_esize_filter" will recieve a tuple with two elements,
+        position and effect size, respectively. Finally, "freq_filter" will recieve a list of tuples.  Each
+        tuple will contain (generation, freq) and will be sorted by generation in ascending order.
+        """
+        if i >= self.vec.size():
+            raise IndexError("index out of range")
+        raw=(<selected_mut_tracker*>self.vec[i].get()).final()
+        return self.__convert_data__(raw,origin_filter,pos_esize_filter,freq_filter)
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
     """
