@@ -20,10 +20,10 @@ namespace fwdpy
 
           \note Used in fwdpy::selected_mut_tracker
         */
-        using final_t = std::
-            unordered_map<KTfwd::uint_t,
-                          std::map<std::pair<double, double>,
-                                   std::vector<std::pair<unsigned, double>>>>;
+        using trajVec = std::vector<std::pair<unsigned, double>>;
+        using posEsize = std::pair<double, double>;
+        using innerMap = std::map<posEsize, trajVec>;
+        using final_t = std::unordered_map<KTfwd::uint_t, innerMap>;
 
         virtual void
         operator()(const singlepop_t *pop, const unsigned generation)
@@ -66,11 +66,14 @@ namespace fwdpy
                                     auto __itr = trajectories.find(__m.g);
                                     if (__itr == trajectories.end())
                                         {
-											final_t::mapped_type m;
-											m[{__m.pos,__m.s}].push_back({generation,freq});
-                                            trajectories.emplace(
-                                                __m.g,std::move(m));
-										}
+                                            final_t::mapped_type m;
+                                            trajVec v(1, { generation, freq });
+                                            v.reserve(50);
+                                            m[{ __m.pos, __m.s }]
+                                                = std::move(v);
+                                            trajectories.emplace(__m.g,
+                                                                 std::move(m));
+                                        }
                                     else
                                         {
                                             auto __ps = __itr->second.find(
@@ -86,8 +89,9 @@ namespace fwdpy
                                                                        pair<unsigned,
                                                                             double>>(
                                                                 1,
-                                                                std::make_pair( generation,
-                                                                  freq )));
+                                                                std::make_pair(
+                                                                    generation,
+                                                                    freq)));
                                                 }
                                             else
                                                 {
