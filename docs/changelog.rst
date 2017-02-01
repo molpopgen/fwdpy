@@ -6,7 +6,8 @@ Changelog (rough)
 
 * :func:`fwdpy.fdwpy.tidy_trajectories` changed.  It is now implemented purely in Python and allows arbitrary functions to be passed as arguments to filter the data.
 * fwdpy.numeric_gsl added, providing a Cython (nogil) API to some numeric operations implemented in terms of the GSL 
-
+* C++ back-end and Cython class definition of :class:`fwdpy.fwdpy.FreqSampler` refactored. New version is much, much faster!
+  
 0.0.4 (through release candidate 2)
 ----------------
 
