@@ -196,7 +196,7 @@ cdef class FreqSampler(TemporalSampler):
                 for ps in raw[origin]:
                     if pos_esize_filter is None or pos_esize_filter(ps) is True:
                         if freq_filter is None or freq_filter(raw[origin][ps]) is True:
-                            temp.extend([{b'origin':origin,b'pos':ps[0],b'esize':ps[1],b'generation':i[0],b'freq':i[1]} for i in raw[origin][ps]])
+                            temp.extend([{'origin':origin,'pos':ps[0],'esize':ps[1],'generation':i[0],'freq':i[1]} for i in raw[origin][ps]])
         rv=pandas.DataFrame(temp)
         rv.sort_values(by=['origin'])
         rv.drop_duplicates(inplace=True)
@@ -210,7 +210,7 @@ cdef class FreqSampler(TemporalSampler):
     def __getitem__(self,i):
         if i>=self.vec.size():
             raise IndexError("index out of range")
-        return self.__convert_data__(().final())
+        return self.__convert_data__((<selected_mut_tracker*>self.vec[i].get()).final())
     def __len__(self):
         return self.vec.size()
     def fetch(self,i,origin_filter=None,pos_esize_filter=None,freq_filter=None):
