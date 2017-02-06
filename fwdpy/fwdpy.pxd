@@ -281,6 +281,29 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
         selected_mut_tracker()
         freqTraj final() const
+    ctypedef bool(*origin_filter_fxn)(unsigned)
+    ctypedef bool(*pos_esize_filter_fxn)(const pair[double,double] &)
+    ctypedef bool(*freq_filter_fxn)(const vector[pair[uint,double]] &)
+    bint all_origins_pass(const unsigned)
+    bint all_pos_esize_pass(const pair[double, double] &)
+    bint all_freqs_pass(const vector[pair[uint, double]] &)
+    cdef cppclass trajFilter:
+        trajFilter()
+        origin_filter_fxn origin_filter
+        pos_esize_filter_fxn pos_esize_filter
+        freq_filter_fxn freq_filter
+        void register_callback(origin_filter_fxn)
+        void register_callback(pos_esize_filter_fxn)
+        void register_callback(freq_filter_fxn)
+    #using origin_filter_fxn = bool (*)(const unsigned);
+    #using pos_esize_filter_fxn = bool (*)(const std::pair<double, double> &);
+    #using freq_filter_fxn
+    #    = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>>);
+    void traj2sql(
+        const vector[unique_ptr[sampler_base]] &samplers,
+        origin_filter_fxn origin_filter, pos_esize_filter_fxn pos_esize_filter,
+        freq_filter_fxn freq_filter, const string &dbname, unsigned threshold,
+        const unsigned label, const bool onedb, const bool append) except+
 
 #Extension classes for temporal sampling
 cdef class TemporalSampler:
@@ -302,6 +325,9 @@ cdef class PopSampler(TemporalSampler):
 
 cdef class VASampler(TemporalSampler):
     pass
+
+cdef class TrajFilter:
+    cdef trajFilter tf
 
 cdef class FreqSampler(TemporalSampler):
     pass

@@ -129,6 +129,8 @@ GLOBAL_INCLUDES=['.','..','include']
 #use of --use-cython or not (see above).
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
+FWDPY_MAIN_LIBS=LIBS
+FWDPY_MAIN_LIBS.append('sqlite3')
 extensions = [
     Extension("fwdpy.fwdpy",
               sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files

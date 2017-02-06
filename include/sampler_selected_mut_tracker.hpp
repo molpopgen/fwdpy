@@ -47,6 +47,17 @@ namespace fwdpy
             trajectories.reserve(1000000);
         }
 
+        final_t::const_iterator
+        begin() const
+        {
+            return this->trajectories.cbegin();
+        }
+        final_t::const_iterator
+        end() const
+        {
+            return this->trajectories.cend();
+        }
+
       private:
         final_t trajectories;
         template <typename pop_t>
@@ -112,6 +123,48 @@ namespace fwdpy
                                 }
                         }
                 }
+        }
+    };
+
+    using origin_filter_fxn = bool (*)(const unsigned);
+    using pos_esize_filter_fxn = bool (*)(const std::pair<double, double> &);
+    using freq_filter_fxn
+        = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>> &);
+    void
+    traj2sql(const std::vector<std::unique_ptr<fwdpy::sampler_base>> &samplers,
+             origin_filter_fxn origin_filter,
+             pos_esize_filter_fxn pos_esize_filter,
+             freq_filter_fxn freq_filter, const std::string &dbname,
+             unsigned threshold, const unsigned label, const bool onedb,
+             const bool append);
+    bool all_origins_pass(const unsigned);
+    bool all_pos_esize_pass(const std::pair<double, double> &);
+    bool all_freqs_pass(const std::vector<std::pair<KTfwd::uint_t, double>> &);
+    struct trajFilter
+    {
+        origin_filter_fxn origin_filter;
+        pos_esize_filter_fxn pos_esize_filter;
+        freq_filter_fxn freq_filter;
+        trajFilter()
+            : origin_filter(&all_origins_pass),
+              pos_esize_filter(&all_pos_esize_pass),
+              freq_filter(&all_freqs_pass)
+        {
+        }
+        void
+        register_callback(origin_filter_fxn f)
+        {
+            origin_filter = f;
+        }
+        void
+        register_callback(pos_esize_filter_fxn f)
+        {
+            pos_esize_filter = f;
+        }
+        void
+        register_callback(freq_filter_fxn f)
+        {
+            freq_filter = f;
         }
     };
 }

@@ -174,6 +174,11 @@ cdef class VASampler(TemporalSampler):
             rv.push_back((<additive_variance*>(self.vec[i].get())).final())
         return rv
 
+cdef class TrajFilter:
+    def __cinit__(self):
+        self.tf=trajFilter()
+
+
 cdef class FreqSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` to track the frequencies of selected mutations over time.
@@ -231,6 +236,16 @@ cdef class FreqSampler(TemporalSampler):
             raise IndexError("index out of range")
         raw=(<selected_mut_tracker*>self.vec[i].get()).final()
         return self.__convert_data__(raw,origin_filter,pos_esize_filter,freq_filter)
+    def to_sql(self,dbname,TrajFilter traj_filter=None,threshold=5000,label=0,onedb=False):
+        if traj_filter is None:
+            traj_filter=TrajFilter()
+
+        traj2sql(self.vec,
+                traj_filter.tf.origin_filter,
+                traj_filter.tf.pos_esize_filter,
+                traj_filter.tf.freq_filter,
+                dbname,threshold,label,onedb,True)
+
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
     """
