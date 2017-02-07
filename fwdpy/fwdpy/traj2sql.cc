@@ -218,8 +218,9 @@ namespace
     traj2sql_details(const fwdpy::selected_mut_tracker &data,
                      fwdpy::origin_filter_fxn origin_filter,
                      fwdpy::pos_esize_filter_fxn pos_esize_filter,
-                     fwdpy::freq_filter_fxn freq_filter, unsigned threshold,
-                     const unsigned label, const bool onedb, const bool append)
+                     fwdpy::freq_filter_fxn freq_filter, const string &dbname,
+                     unsigned threshold, const unsigned label,
+                     const bool onedb, const bool append)
     {
         sqlite3 *db = open_database(dbname, label, onedb);
         create_table(db, onedb);
