@@ -58,26 +58,28 @@ namespace
             }
     }
 
-	void create_index(sqlite3 * db,const bool onedb)
-	{
-		string sql;
-		if(onedb)
-		{
-			sql = "create index rep_gen on freqs(rep,generation);";
-		}
-		else
-		{
-			sql = "create index gen on freqs(generation);";
-		}
-		char * error_message;
-		int rc = sqlite3_exec(db,sql.c_str(),NULL,NULL,&error_message);
-		if(rc!=SQLITE_OK)
-		{
-			string error(error_message);
-			sqlite3_free(error_message);
-			throw std::runtime_error(error.c_str());
-		}
-	}
+    void
+    create_index(sqlite3 *db, const bool onedb)
+    {
+        string sql;
+        if (onedb)
+            {
+                sql = "create index if not exists rep_gen on "
+                      "freqs(rep,generation);";
+            }
+        else
+            {
+                sql = "create index if not exists gen on freqs(generation);";
+            }
+        char *error_message;
+        int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &error_message);
+        if (rc != SQLITE_OK)
+            {
+                string error(error_message);
+                sqlite3_free(error_message);
+                throw std::runtime_error(error.c_str());
+            }
+    }
 
     sqlite3 *
     open_database(const string &dbname, const unsigned label, const bool onedb)
@@ -94,7 +96,7 @@ namespace
                         throw std::runtime_error("could not open database "
                                                  + n.str());
                     }
-				apply_sql_pragma(db);
+                apply_sql_pragma(db);
             }
         else
             {
@@ -104,8 +106,8 @@ namespace
                         throw std::runtime_error("could not open database "
                                                  + dbname);
                     }
-				lock_guard<mutex> lock(dblock);
-				apply_sql_pragma(db);
+                lock_guard<mutex> lock(dblock);
+                apply_sql_pragma(db);
             }
         return db;
     }
@@ -156,6 +158,15 @@ namespace
         sql += "generation int NOT NULL, origin int NOT NULL, pos real NOT ";
         sql += "NULL, esize real NOT NULL, freq real NOT NULL);";
         execute_sql_statement(db, sql, onedb);
+        if (onedb)
+            {
+                lock_guard<mutex> lock(dblock);
+                create_index(db, onedb);
+            }
+        else
+            {
+                create_index(db, onedb);
+            }
     }
 
     void
@@ -207,9 +218,8 @@ namespace
     traj2sql_details(const fwdpy::selected_mut_tracker &data,
                      fwdpy::origin_filter_fxn origin_filter,
                      fwdpy::pos_esize_filter_fxn pos_esize_filter,
-                     fwdpy::freq_filter_fxn freq_filter, const string &dbname,
-                     unsigned threshold, const unsigned label,
-                     const bool onedb, const bool append)
+                     fwdpy::freq_filter_fxn freq_filter, unsigned threshold,
+                     const unsigned label, const bool onedb, const bool append)
     {
         sqlite3 *db = open_database(dbname, label, onedb);
         create_table(db, onedb);
