@@ -6,6 +6,8 @@
 #include <sstream>
 #include <vector>
 #include <stdexcept>
+#include <cstdio>
+#include <iostream>
 #include <sqlite3.h>
 #include "sampler_selected_mut_tracker.hpp"
 
@@ -18,188 +20,288 @@ namespace
     // access to our db
     mutex dblock;
 
-    void
-    apply_sql_pragma(sqlite3 *db)
+    int
+    apply_sql_pragma(sqlite3 *db, char *error_message)
     {
-        char *error_message;
         // from http://blog.quibb.org/2010/08/fast-bulk-inserts-into-sqlite/
         int rc = sqlite3_exec(db, "PRAGMA synchronous=OFF", NULL, NULL,
                               &error_message);
 
         if (rc != SQLITE_OK)
             {
-                string error(error_message);
-                sqlite3_free(error_message);
-                throw std::runtime_error(error.c_str());
+                return rc;
             }
         rc = sqlite3_exec(db, "PRAGMA count_changes=OFF", NULL, NULL,
                           &error_message);
         if (rc != SQLITE_OK)
             {
-                string error(error_message);
-                sqlite3_free(error_message);
-                throw std::runtime_error(error.c_str());
+                return rc;
             }
         rc = sqlite3_exec(db, "PRAGMA journal_mode=MEMORY", NULL, NULL,
                           &error_message);
         if (rc != SQLITE_OK)
             {
-                string error(error_message);
-                sqlite3_free(error_message);
-                throw std::runtime_error(error.c_str());
+                return rc;
             }
         rc = sqlite3_exec(db, "PRAGMA temp_store=MEMORY", NULL, NULL,
                           &error_message);
-        if (rc != SQLITE_OK)
-            {
-                string error(error_message);
-                sqlite3_free(error_message);
-                throw std::runtime_error(error.c_str());
-            }
-    }
-
-    void
-    create_index(sqlite3 *db, const bool onedb)
-    {
-        string sql;
-        if (onedb)
-            {
-                sql = "create index if not exists rep_gen on "
-                      "freqs(rep,generation);";
-            }
-        else
-            {
-                sql = "create index if not exists gen on freqs(generation);";
-            }
-        char *error_message;
-        int rc = sqlite3_exec(db, sql.c_str(), NULL, NULL, &error_message);
-        if (rc != SQLITE_OK)
-            {
-                string error(error_message);
-                sqlite3_free(error_message);
-                throw std::runtime_error(error.c_str());
-            }
-    }
-
-    sqlite3 *
-    open_database(const string &dbname, const unsigned label, const bool onedb)
-    {
-        sqlite3 *db;
-
-        if (onedb == false)
-            {
-                ostringstream n;
-                n << dbname << '.' << label << ".db";
-                int i = sqlite3_open(n.str().c_str(), &db);
-                if (i)
-                    {
-                        throw std::runtime_error("could not open database "
-                                                 + n.str());
-                    }
-                apply_sql_pragma(db);
-            }
-        else
-            {
-                int i = sqlite3_open(dbname.c_str(), &db);
-                if (i)
-                    {
-                        throw std::runtime_error("could not open database "
-                                                 + dbname);
-                    }
-                lock_guard<mutex> lock(dblock);
-                apply_sql_pragma(db);
-            }
-        return db;
+        return rc;
     }
 
     int
-    sql_callback(void *NotUsed, int argc, char **argv, char **azColName)
+    execute_sql_statement(sqlite3 *db, const string &sql, char *error_message)
     {
+        return sqlite3_exec(db, sql.c_str(), NULL, NULL, &error_message);
+    }
+
+    // struct user_data_wrapper
+    //{
+    //    sqlite3 *recipient;
+    //    sqlite3_stmt *recipient_stmt;
+    //    explicit user_data_wrapper(sqlite3 *db_, sqlite3_stmt *stmt_)
+    //        : recipient(db_), recipient_stmt(stmt_)
+    //    {
+    //    }
+    //};
+
+    static int
+    sql_callback(void *data, int argc, char **argv, char **azColName)
+    {
+		//std::cout << "about 2 copy\n";
+		//for(int i=0;i<argc;++i)
+		//{
+		//	cout << argv[i] << ' ';
+		//}
+		//cout << '\n';
+        auto dp = reinterpret_cast<sqlite3_stmt *>(data);
+        int idx = 1;
+        sqlite3_bind_int(dp, idx, atoi(argv[idx-1])); // generation
+        idx++;
+        sqlite3_bind_int(dp, idx, atoi(argv[idx-1]));
+        idx++;
+        sqlite3_bind_double(dp, idx, strtod(argv[idx-1], NULL));
+        idx++;
+        sqlite3_bind_double(dp, idx, strtod(argv[idx-1], NULL));
+        idx++;
+        sqlite3_bind_double(dp, idx, strtod(argv[idx-1], NULL)); // freq
+		int rc = sqlite3_step(dp);
+		if(rc!=SQLITE_DONE)
+		{
+			std::cout << "oh crap\n";
+		}
+        sqlite3_reset(dp);
         return 0;
     };
 
-    void
-    execute_sql_statement(sqlite3 *db, const string &sql, const bool onedb)
+    class trajSQL
     {
+      private:
+        sqlite3 *db, *memdb;
+        sqlite3_stmt *stmt, *memdb_stmt;
         char *error_message;
-        if (onedb)
+        unsigned threshold;
+      public:
+        using callback_fxn_t = int (*)(void *, int, char **, char **);
+        explicit trajSQL(sqlite3 *db_, const string &dbname_,
+                         const unsigned threshold_, const bool append_);
+        virtual ~trajSQL() noexcept;
+        void handle_return_values(int rc, int line_num);
+        virtual void create_table(sqlite3 *db_);
+        virtual void create_index(sqlite3 *db_);
+        virtual void prepare_statements();
+        virtual void copy_from_mem_db(callback_fxn_t);
+        unsigned
+        apply_prepared_statement(sqlite3 *db_, sqlite3_stmt *stmt_,
+                                 const unsigned origin, const unsigned pos,
+                                 const unsigned esize,
+                                 const vector<pair<unsigned, double>> &freqs);
+        virtual void
+        operator()(const fwdpy::selected_mut_tracker::final_t &data);
+    };
+
+    trajSQL::trajSQL(sqlite3 *db_, const string &dbname_,
+                     const unsigned threshold_, const bool append_)
+        : db(nullptr), memdb(nullptr), stmt(nullptr), memdb_stmt(nullptr),
+          error_message(nullptr), threshold(threshold_)
+    {
+        //cout << "in constructor" << endl;
+        if (!append_)
             {
-                lock_guard<mutex> lock(dblock);
-                int rc = sqlite3_exec(db, sql.c_str(), sql_callback, 0,
-                                      &error_message);
-                if (rc != SQLITE_OK)
-                    {
-                        string error(error_message);
-                        sqlite3_free(error_message);
-                        throw std::runtime_error(error.c_str());
-                    }
+                remove(dbname_.c_str());
+            }
+        if (db_ != nullptr)
+            {
+                db = db_;
             }
         else
             {
-                int rc = sqlite3_exec(db, sql.c_str(), sql_callback, 0,
-                                      &error_message);
-                if (rc != SQLITE_OK)
-                    {
-                        string error(error_message);
-                        sqlite3_free(error_message);
-                        throw std::runtime_error(error.c_str());
-                    }
+                int rc = sqlite3_open(dbname_.c_str(), &db);
+                handle_return_values(rc, __LINE__);
+                create_table(db);
+                create_index(db);
+                rc = apply_sql_pragma(db, error_message);
+                handle_return_values(rc, __LINE__);
+                //cout << "opened db " << dbname_ << '\n';
+            }
+
+        int rc = sqlite3_open(":memory:", &memdb);
+        handle_return_values(rc, __LINE__);
+        create_table(memdb);
+        //cout << "opened :memory:" << endl;
+        rc = apply_sql_pragma(memdb, error_message);
+        handle_return_values(rc, __LINE__);
+    }
+
+    trajSQL::~trajSQL() noexcept
+    {
+        if (db != nullptr)
+            {
+                sqlite3_close(db);
+            }
+        if (memdb != nullptr)
+            {
+                sqlite3_close(memdb);
+            }
+        if (stmt != nullptr)
+            {
+                sqlite3_finalize(stmt);
+            }
+        if (memdb_stmt != nullptr)
+            {
+                sqlite3_finalize(memdb_stmt);
+            }
+        if (error_message != nullptr)
+            {
+                sqlite3_free(error_message);
             }
     }
 
     void
-    create_table(sqlite3 *db, const bool onedb)
+    trajSQL::handle_return_values(int rc, int line_num)
+    {
+        //cout << "handling a return value : " << this_thread::get_id() << ' '
+        //     << (rc == SQLITE_OK) << ' ' << line_num << ' '
+        //     << (error_message == NULL) << ' ' << (error_message == nullptr)
+        //     << '\n';
+        if (rc != SQLITE_OK)
+            {
+                string message(error_message);
+                message += " ";
+                message += to_string(line_num);
+                throw runtime_error(message);
+            }
+    }
+
+    void
+    trajSQL::create_table(sqlite3 *db_)
     {
         string sql("CREATE TABLE IF NOT EXISTS freqs(");
-        if (onedb)
-            {
-                sql += "rep int NOT NULL,";
-            }
         sql += "generation int NOT NULL, origin int NOT NULL, pos real NOT ";
         sql += "NULL, esize real NOT NULL, freq real NOT NULL);";
-        execute_sql_statement(db, sql, onedb);
-        if (onedb)
-            {
-                lock_guard<mutex> lock(dblock);
-                create_index(db, onedb);
-            }
-        else
-            {
-                create_index(db, onedb);
-            }
+        int rc = execute_sql_statement(db_, sql, this->error_message);
+        handle_return_values(rc, __LINE__);
     }
 
     void
-    initialize_insert_statement(ostringstream &sql, const bool onedb)
+    trajSQL::create_index(sqlite3 *db_)
     {
-        sql << "INSERT INTO FREQS (";
-        if (onedb)
-            {
-                sql << "rep,";
-            }
-        sql << "generation,origin,pos,esize,freq) VALUES(";
+        string sql = "create index if not exists gen on freqs (generation);";
+        int rc = execute_sql_statement(db_, sql, this->error_message);
+        handle_return_values(rc, __LINE__);
     }
 
-    unsigned
-    update_insert_statement(ostringstream &sql, const bool onedb,
-                            const unsigned label,
-                            const KTfwd::uint_t origin_time, const double pos,
-                            const double esize,
-                            const vector<pair<KTfwd::uint_t, double>> &freqs)
+    void
+    trajSQL::prepare_statements()
     {
+		string prepped_statement="insert into freqs values (?1,?2,?3,?4,?5);";
+        sqlite3_prepare_v2(db, prepped_statement.c_str(),
+                           prepped_statement.size(), &stmt, NULL);
+		if(stmt==NULL)
+		{
+			throw runtime_error("could not prepare statement for on-disk database.");
+		}
+        sqlite3_prepare_v2(memdb, prepped_statement.c_str(),
+                           prepped_statement.size(), &memdb_stmt, NULL);
+		if(memdb_stmt==NULL)
+		{
+			throw runtime_error("could not prepare statement for in-memory database.");
+		}
+    }
+
+
+    unsigned
+    trajSQL::apply_prepared_statement(
+        sqlite3 *db_, sqlite3_stmt *stmt_, const unsigned origin,
+        const unsigned pos, const unsigned esize,
+        const vector<pair<unsigned, double>> &freqs)
+    {
+		if(stmt_ == NULL)
+		{
+			throw std::runtime_error("NULL statement encountered");
+		}
         for (auto &&fi : freqs)
             {
-                initialize_insert_statement(sql, onedb);
-                if (onedb)
+                int idx = 1;
+                //cout << "insertions: " << this_thread::get_id() << ' '
+                //     << fi.first << ' ' << origin << ' ' << pos << ' ' << esize
+                //     << ' ' << fi.second << endl;
+                sqlite3_bind_int(stmt_, idx++,
+                                 static_cast<int>(fi.first)); // generation
+                sqlite3_bind_int(stmt_, idx++, static_cast<int>(origin));
+                sqlite3_bind_double(stmt_, idx++, pos);
+                sqlite3_bind_double(stmt_, idx++, esize);
+                sqlite3_bind_double(stmt_, idx++, fi.second); // freq
+                int rc = sqlite3_step(stmt_);
+                if (rc != SQLITE_DONE)
                     {
-                        sql << label << ',';
+                        ostringstream message;
+                        message << "Prepared statement could not be executed: "
+							<<this_thread::get_id() << ' ' << __LINE__ << ' ' << idx << ' ' << rc << '\n';
+                        throw std::runtime_error(message.str().c_str());
                     }
-                sql << fi.first << ',' << origin_time << ',' << pos << ','
-                    << esize << ',' << fi.second << ");\n";
+                sqlite3_reset(stmt_);
             }
         return static_cast<unsigned>(freqs.size());
     }
 
+    void trajSQL::copy_from_mem_db(callback_fxn_t)
+    {
+        string sql = "select * from freqs";
+		int rc=sqlite3_exec(db,"BEGIN TRANSACTION;",NULL,NULL,&error_message);
+		handle_return_values(rc,__LINE__);
+        rc = sqlite3_exec(memdb, sql.c_str(), sql_callback, (void *)stmt,
+                              &error_message);
+        handle_return_values(rc, __LINE__);
+		rc=sqlite3_exec(db,"COMMIT TRANSACTION;",NULL,NULL,&error_message);
+		handle_return_values(rc,__LINE__);
+        sql = "delete from freqs;";
+        rc = sqlite3_exec(memdb, sql.c_str(), NULL, NULL, &error_message);
+        handle_return_values(rc, __LINE__);
+    }
+
+    void
+    trajSQL::operator()(const fwdpy::selected_mut_tracker::final_t &data)
+    {
+        unsigned nrecords_passed = 0;
+        for (auto &&outer : data)
+            {
+                for (auto &&inner : outer.second)
+                    {
+                        nrecords_passed += apply_prepared_statement(
+                            memdb, memdb_stmt, outer.first, inner.first.first,
+                            inner.first.second, inner.second);
+                        if (nrecords_passed >= threshold)
+                            {
+                                copy_from_mem_db(sql_callback);
+                                threshold = 0;
+                            }
+                    }
+            }
+        if (nrecords_passed)
+            {
+                copy_from_mem_db(sql_callback);
+            }
+    }
     //
     // database columns are:
     // rep (int): only if onedb == true
@@ -222,46 +324,30 @@ namespace
                      unsigned threshold, const unsigned label,
                      const bool onedb, const bool append)
     {
-        sqlite3 *db = open_database(dbname, label, onedb);
-        create_table(db, onedb);
-
-        unsigned nrecords_passed = 0;
-        ostringstream sql;
-        for (auto &&outer : data)
+        // trajSQL(sqlite3 *db_, const string &dbname_,
+        //                 const unsigned threshold_, const bool append_);
+        if (onedb)
             {
-                if (origin_filter(outer.first))
+            }
+        else
+            {
+                try
                     {
-                        for (auto inner : outer.second)
-                            {
-                                if (pos_esize_filter(inner.first))
-                                    {
-                                        if (freq_filter(inner.second))
-                                            {
-                                                nrecords_passed
-                                                    += update_insert_statement(
-                                                        sql, onedb, label,
-                                                        outer.first,
-                                                        inner.first.first,
-                                                        inner.first.second,
-                                                        inner.second);
-                                                if (nrecords_passed
-                                                    > threshold)
-                                                    {
-                                                        execute_sql_statement(
-                                                            db, sql.str(),
-                                                            onedb);
-                                                        // reset buffer
-                                                        sql.str(string());
-                                                        nrecords_passed = 0;
-                                                    }
-                                            }
-                                    }
-                            }
+                        ostringstream db;
+                        db << dbname << '.' << label << ".db";
+                        auto name = db.str();
+                        //cout << name << '\n';
+                        trajSQL t(NULL, name, threshold, append);
+						t.prepare_statements();
+                        t(data.final());
+                    }
+                catch (std::runtime_error &re)
+                    {
+                        throw re;
                     }
             }
     }
 }
-
 namespace fwdpy
 {
     bool
