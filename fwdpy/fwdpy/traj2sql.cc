@@ -1,4 +1,4 @@
-#include <thread>
+#include <future>
 #include <mutex>
 #include <functional>
 #include <memory>
@@ -478,7 +478,7 @@ namespace
     // rep: only if onedb == true
     //
     // The table name will be 'freqs'
-    void
+    string
     traj2sql_details(const fwdpy::selected_mut_tracker &data,
                      fwdpy::origin_filter_fxn origin_filter,
                      fwdpy::pos_esize_filter_fxn pos_esize_filter,
@@ -486,15 +486,15 @@ namespace
                      unsigned threshold, const unsigned label,
                      const bool onedb, const bool append)
     {
-        if (onedb)
+        try
             {
-                trajSQLonedb t(dbname, threshold, label, append);
-                t.prepare_statements();
-                t(data.final());
-            }
-        else
-            {
-                try
+                if (onedb)
+                    {
+                        trajSQLonedb t(dbname, threshold, label, append);
+                        t.prepare_statements();
+                        t(data.final());
+                    }
+                else
                     {
                         ostringstream db;
                         db << dbname << '.' << label << ".db";
@@ -503,11 +503,12 @@ namespace
                         t.prepare_statements();
                         t(data.final());
                     }
-                catch (std::runtime_error &re)
-                    {
-                        throw re;
-                    }
             }
+        catch (std::runtime_error &re)
+            {
+                return string(re.what());
+            }
+        return string();
     }
 }
 
@@ -536,22 +537,30 @@ namespace fwdpy
              unsigned threshold, const unsigned label, const bool onedb,
              const bool append)
     {
-        vector<thread> threads;
-
+        vector<future<string>> tasks;
         unsigned dummy = 0;
         for (auto &&i : samplers)
             {
-                threads.emplace_back(
-                    traj2sql_details,
+                tasks.emplace_back(async(
+                    launch::async, traj2sql_details,
                     *dynamic_cast<fwdpy::selected_mut_tracker *>(i.get()),
                     origin_filter, pos_esize_filter, freq_filter, dbname,
-                    threshold, label + dummy, onedb, append);
+                    threshold, label + dummy, onedb, append));
                 dummy++;
             }
 
-        for (auto &t : threads)
+        ostringstream errors;
+        for (auto &t : tasks)
             {
-                t.join();
+                auto m = t.get();
+                if (!m.empty())
+                    {
+                        errors << m << '\n';
+                    }
+            }
+        if (!errors.str().empty())
+            {
+                throw runtime_error(errors.str());
             }
     }
 }
