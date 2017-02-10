@@ -1,3 +1,36 @@
+/* Write output from fwdpy::selected_mut_tracker
+ * to sqlite data bases.
+ *
+ * This files represents first attempts at learning the 
+ * sqlite3 C API in C++.
+ *
+ * Goal:
+ * We want to write either to different databases/thread
+ * or to 1/db from all threads.  The latter requires
+ * synchronization across threads, which is done via std::mutex
+ * and std::lock_guard.
+ *
+ * Solution: 
+ * We have a base class that is capable of writing to different
+ * db/thread.  A derived class redefines the relevant member functions
+ * and uses the locks in order to write to 1 db from many threads.
+ *
+ * Note:
+ * The class design itself is likely sub-optimal in a few respects,
+ * but it works.
+ *
+ * Lessons learned:
+ * 1. There are a lot of places where error-checking of sqlite3
+ * return values occurs.  Given that we want to throw an exception
+ * when return values indicate a problem, it is better to encapsulate
+ * the operations into a class rather than rely on a large set of functions.
+ *
+ * 2. This file is part of fwdpy, which is a shared object in a Python module.
+ * The C++ standard does not cover the behavior of dynamic libraries, meaning that it
+ * is conceivable that a global mutex variable in this file could affect ALL instances
+ * of fwdpy being run on the same machine.  Thus, we pass in shared_ptr<mutex> to all threads
+ * from the calling environment (which in this case is Python via Cython).
+ */
 #include <future>
 #include <memory>
 #include <mutex>
