@@ -42,6 +42,12 @@ namespace
             {
                 return rc;
             }
+        rc = sqlite3_exec(db, "PRAGMA cache_size(10000)", NULL, NULL,
+                          &error_message);
+        if (rc != SQLITE_OK)
+            {
+                return rc;
+            }
         rc = sqlite3_exec(db, "PRAGMA temp_store=MEMORY", NULL, NULL,
                           &error_message);
         return rc;
