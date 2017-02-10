@@ -7,7 +7,7 @@ from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
-from fwdpy.cpp cimport hash
+from fwdpy.cpp cimport hash,mutex
 from libcpp.unordered_set cimport unordered_set
 from libcpp.unordered_map cimport unordered_map
 from cython_gsl cimport gsl_rng
@@ -301,6 +301,7 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     #    = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>>);
     void traj2sql(
         const vector[unique_ptr[sampler_base]] &samplers,
+        const shared_ptr[mutex] & dblock,
         origin_filter_fxn origin_filter, pos_esize_filter_fxn pos_esize_filter,
         freq_filter_fxn freq_filter, const string &dbname, unsigned threshold,
         const unsigned label, const bool onedb, const bool append) except+

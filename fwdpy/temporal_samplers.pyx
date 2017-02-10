@@ -239,8 +239,9 @@ cdef class FreqSampler(TemporalSampler):
     def to_sql(self,dbname,TrajFilter traj_filter=None,threshold=5000,label=0,onedb=False):
         if traj_filter is None:
             traj_filter=TrajFilter()
-
-        traj2sql(self.vec,
+        cdef shared_ptr[mutex] dblock
+        dblock.reset(new mutex())
+        traj2sql(self.vec,dblock,
                 traj_filter.tf.origin_filter,
                 traj_filter.tf.pos_esize_filter,
                 traj_filter.tf.freq_filter,

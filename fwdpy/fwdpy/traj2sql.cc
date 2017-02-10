@@ -1,4 +1,5 @@
 #include <future>
+#include <memory>
 #include <mutex>
 #include <functional>
 #include <memory>
@@ -14,11 +15,6 @@ using namespace std;
 
 namespace
 {
-    // when onedb == true, we
-    // need to synchronise write
-    // access to our db
-    mutex dblock;
-
     int
     apply_sql_pragma(sqlite3 *db, char *error_message)
     {
@@ -312,12 +308,14 @@ namespace
     class trajSQLonedb : public trajSQL
     {
       private:
-        sqlite3 *init_db_mutex(const string &dbname, const bool append);
+        shared_ptr<mutex> dblock;
+        sqlite3 *init_db_mutex(const string &dbname, const bool append,shared_ptr<mutex> dblock_copy);
 
       public:
         const unsigned label;
         using base = trajSQL;
-        explicit trajSQLonedb(const string &dbname_, const unsigned threshold_,
+        explicit trajSQLonedb(const shared_ptr<mutex> &dblock_,
+                              const string &dbname_, const unsigned threshold_,
                               const unsigned label_, const bool append_);
         void prepare_statements() final;
         unsigned apply_prepared_statement(
@@ -330,13 +328,14 @@ namespace
         void create_index(sqlite3 *db) final;
     };
 
-    trajSQLonedb::trajSQLonedb(const string &dbname_,
+    trajSQLonedb::trajSQLonedb(const shared_ptr<mutex> &dblock_,
+                               const string &dbname_,
                                const unsigned threshold_,
                                const unsigned label_, const bool append_)
-        : base(init_db_mutex(dbname_, append_), dbname_, threshold_, true),
-          label(label_)
+        : base(init_db_mutex(dbname_, append_,dblock_), dbname_, threshold_, true),
+          dblock(dblock_), label(label_)
     {
-        lock_guard<mutex> lock(dblock);
+        lock_guard<mutex> lock(*dblock);
         create_table(db);
         create_index(db);
         int rc = apply_sql_pragma(db, error_message);
@@ -349,14 +348,14 @@ namespace
     }
 
     sqlite3 *
-    trajSQLonedb::init_db_mutex(const string &dbname, const bool append)
+    trajSQLonedb::init_db_mutex(const string &dbname, const bool append,shared_ptr<mutex> dblock_copy)
     {
         if (!append)
             {
                 remove(dbname.c_str());
             }
         sqlite3 *rv;
-        lock_guard<mutex> lock(dblock);
+        lock_guard<mutex> lock(*dblock_copy);
         int rc = sqlite3_open(dbname.c_str(), &rv);
         if (rc != SQLITE_OK)
             {
@@ -458,7 +457,7 @@ namespace
                             inner.first.second, inner.second);
                         if (nrecords_passed > threshold)
                             {
-                                lock_guard<mutex> lock(dblock);
+                                lock_guard<mutex> lock(*dblock);
                                 copy_from_mem_db(sql_callback_onedb);
                                 nrecords_passed = 0;
                             }
@@ -466,7 +465,7 @@ namespace
             }
         if (nrecords_passed)
             {
-                lock_guard<mutex> lock(dblock);
+                lock_guard<mutex> lock(*dblock);
                 copy_from_mem_db(sql_callback_onedb);
             }
     }
@@ -485,7 +484,8 @@ namespace
     //
     // The table name will be 'freqs'
     string
-    traj2sql_details(const fwdpy::selected_mut_tracker &data,
+    traj2sql_details(const shared_ptr<mutex> &dblock_,
+                     const fwdpy::selected_mut_tracker &data,
                      fwdpy::origin_filter_fxn origin_filter,
                      fwdpy::pos_esize_filter_fxn pos_esize_filter,
                      fwdpy::freq_filter_fxn freq_filter, const string &dbname,
@@ -496,7 +496,8 @@ namespace
             {
                 if (onedb)
                     {
-                        trajSQLonedb t(dbname, threshold, label, append);
+                        trajSQLonedb t(dblock_, dbname, threshold, label,
+                                       append);
                         t.prepare_statements();
                         t(data.final());
                     }
@@ -537,6 +538,7 @@ namespace fwdpy
     }
     void
     traj2sql(const vector<unique_ptr<fwdpy::sampler_base>> &samplers,
+             const shared_ptr<mutex> &dblock,
              fwdpy::origin_filter_fxn origin_filter,
              fwdpy::pos_esize_filter_fxn pos_esize_filter,
              fwdpy::freq_filter_fxn freq_filter, const string &dbname,
@@ -548,7 +550,7 @@ namespace fwdpy
         for (auto &&i : samplers)
             {
                 tasks.emplace_back(async(
-                    launch::async, traj2sql_details,
+                    launch::async, traj2sql_details, cref(dblock),
                     *dynamic_cast<fwdpy::selected_mut_tracker *>(i.get()),
                     origin_filter, pos_esize_filter, freq_filter, dbname,
                     threshold, label + dummy, onedb, append));

@@ -2,6 +2,7 @@
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
 #include "sampler_base.hpp"
 #include "types.hpp"
+#include <mutex>
 #include <limits>
 #include <unordered_map>
 namespace fwdpy
@@ -130,13 +131,12 @@ namespace fwdpy
     using pos_esize_filter_fxn = bool (*)(const std::pair<double, double> &);
     using freq_filter_fxn
         = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>> &);
-    void
-    traj2sql(const std::vector<std::unique_ptr<fwdpy::sampler_base>> &samplers,
-             origin_filter_fxn origin_filter,
-             pos_esize_filter_fxn pos_esize_filter,
-             freq_filter_fxn freq_filter, const std::string &dbname,
-             unsigned threshold, const unsigned label, const bool onedb,
-             const bool append);
+    void traj2sql(
+        const std::vector<std::unique_ptr<fwdpy::sampler_base>> &samplers,
+        const std::shared_ptr<std::mutex> &dblock, origin_filter_fxn origin_filter,
+        pos_esize_filter_fxn pos_esize_filter, freq_filter_fxn freq_filter,
+        const std::string &dbname, unsigned threshold, const unsigned label,
+        const bool onedb, const bool append);
     bool all_origins_pass(const unsigned);
     bool all_pos_esize_pass(const std::pair<double, double> &);
     bool all_freqs_pass(const std::vector<std::pair<KTfwd::uint_t, double>> &);
