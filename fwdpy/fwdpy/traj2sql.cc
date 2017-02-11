@@ -1,7 +1,7 @@
 /* Write output from fwdpy::selected_mut_tracker
  * to sqlite data bases.
  *
- * This files represents first attempts at learning the 
+ * This files represents first attempts at learning the
  * sqlite3 C API in C++.
  *
  * Goal:
@@ -10,7 +10,7 @@
  * synchronization across threads, which is done via std::mutex
  * and std::lock_guard.
  *
- * Solution: 
+ * Solution:
  * We have a base class that is capable of writing to different
  * db/thread.  A derived class redefines the relevant member functions
  * and uses the locks in order to write to 1 db from many threads.
@@ -26,9 +26,12 @@
  * the operations into a class rather than rely on a large set of functions.
  *
  * 2. This file is part of fwdpy, which is a shared object in a Python module.
- * The C++ standard does not cover the behavior of dynamic libraries, meaning that it
- * is conceivable that a global mutex variable in this file could affect ALL instances
- * of fwdpy being run on the same machine.  Thus, we pass in shared_ptr<mutex> to all threads
+ * The C++ standard does not cover the behavior of dynamic libraries, meaning
+ * that it
+ * is conceivable that a global mutex variable in this file could affect ALL
+ * instances
+ * of fwdpy being run on the same machine.  Thus, we pass in shared_ptr<mutex>
+ * to all threads
  * from the calling environment (which in this case is Python via Cython).
  */
 #include <future>
@@ -142,12 +145,14 @@ namespace
     {
         sqlite3 *db, *memdb;
         sqlite3_stmt *stmt, *memdb_stmt;
+        const fwdpy::trajFilter *tf;
         char *error_message;
         unsigned threshold;
 
         using callback_fxn_t = int (*)(void *, int, char **, char **);
-        explicit trajSQL(sqlite3 *db_, const string &dbname_,
-                         const unsigned threshold_, const bool append_);
+        explicit trajSQL(sqlite3 *db_, const fwdpy::trajFilter *tf_,
+                         const string &dbname_, const unsigned threshold_,
+                         const bool append_);
         virtual ~trajSQL() noexcept;
         void handle_return_values(int rc, int line_num);
         virtual void create_table(sqlite3 *db_); // needs overloading -- done
@@ -165,10 +170,11 @@ namespace
         void operator()(const fwdpy::selected_mut_tracker::final_t &data);
     };
 
-    trajSQL::trajSQL(sqlite3 *db_, const string &dbname_,
-                     const unsigned threshold_, const bool append_)
+    trajSQL::trajSQL(sqlite3 *db_, const fwdpy::trajFilter *tf_,
+                     const string &dbname_, const unsigned threshold_,
+                     const bool append_)
         : db(nullptr), memdb(nullptr), stmt(nullptr), memdb_stmt(nullptr),
-          error_message(nullptr), threshold(threshold_)
+          tf(tf_), error_message(nullptr), threshold(threshold_)
     {
         if (!append_)
             {
@@ -322,11 +328,21 @@ namespace
         sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, &error_message);
         for (auto &&outer : data)
             {
-                for (auto &&inner : outer.second)
+                if (this->tf->apply_origin_filter(outer.first))
                     {
-                        apply_prepared_statement(
-                            db, stmt, outer.first, inner.first.first,
-                            inner.first.second, inner.second);
+                        for (auto &&inner : outer.second)
+                            {
+                                if (this->tf->apply_pos_esize_filter(
+                                        inner.first)
+                                    && (this->tf->apply_freq_filter(
+                                           inner.second)))
+                                    {
+                                        apply_prepared_statement(
+                                            db, stmt, outer.first,
+                                            inner.first.first,
+                                            inner.first.second, inner.second);
+                                    }
+                            }
                     }
             }
         sqlite3_exec(db, "COMMIT TRANSACTION;", NULL, NULL, &error_message);
@@ -342,12 +358,14 @@ namespace
     {
       private:
         shared_ptr<mutex> dblock;
-        sqlite3 *init_db_mutex(const string &dbname, const bool append,shared_ptr<mutex> dblock_copy);
+        sqlite3 *init_db_mutex(const string &dbname, const bool append,
+                               shared_ptr<mutex> dblock_copy);
 
       public:
         const unsigned label;
         using base = trajSQL;
         explicit trajSQLonedb(const shared_ptr<mutex> &dblock_,
+                              const fwdpy::trajFilter *tf,
                               const string &dbname_, const unsigned threshold_,
                               const unsigned label_, const bool append_);
         void prepare_statements() final;
@@ -362,10 +380,12 @@ namespace
     };
 
     trajSQLonedb::trajSQLonedb(const shared_ptr<mutex> &dblock_,
+                               const fwdpy::trajFilter *tf,
                                const string &dbname_,
                                const unsigned threshold_,
                                const unsigned label_, const bool append_)
-        : base(init_db_mutex(dbname_, append_,dblock_), dbname_, threshold_, true),
+        : base(init_db_mutex(dbname_, append_, dblock_), tf, dbname_,
+               threshold_, true),
           dblock(dblock_), label(label_)
     {
         lock_guard<mutex> lock(*dblock);
@@ -381,7 +401,8 @@ namespace
     }
 
     sqlite3 *
-    trajSQLonedb::init_db_mutex(const string &dbname, const bool append,shared_ptr<mutex> dblock_copy)
+    trajSQLonedb::init_db_mutex(const string &dbname, const bool append,
+                                shared_ptr<mutex> dblock_copy)
     {
         if (!append)
             {
@@ -483,16 +504,30 @@ namespace
 
         for (auto &&outer : data)
             {
-                for (auto &&inner : outer.second)
+                if (this->tf->apply_origin_filter(outer.first))
                     {
-                        nrecords_passed += apply_prepared_statement(
-                            memdb, memdb_stmt, outer.first, inner.first.first,
-                            inner.first.second, inner.second);
-                        if (nrecords_passed > threshold)
+                        for (auto &&inner : outer.second)
                             {
-                                lock_guard<mutex> lock(*dblock);
-                                copy_from_mem_db(sql_callback_onedb);
-                                nrecords_passed = 0;
+                                if (this->tf->apply_pos_esize_filter(
+                                        inner.first)
+                                    && this->tf->apply_freq_filter(
+                                           inner.second))
+                                    {
+                                        nrecords_passed
+                                            += apply_prepared_statement(
+                                                memdb, memdb_stmt, outer.first,
+                                                inner.first.first,
+                                                inner.first.second,
+                                                inner.second);
+                                        if (nrecords_passed > threshold)
+                                            {
+                                                lock_guard<mutex> lock(
+                                                    *dblock);
+                                                copy_from_mem_db(
+                                                    sql_callback_onedb);
+                                                nrecords_passed = 0;
+                                            }
+                                    }
                             }
                     }
             }
@@ -519,9 +554,7 @@ namespace
     string
     traj2sql_details(const shared_ptr<mutex> &dblock_,
                      const fwdpy::selected_mut_tracker &data,
-                     fwdpy::origin_filter_fxn origin_filter,
-                     fwdpy::pos_esize_filter_fxn pos_esize_filter,
-                     fwdpy::freq_filter_fxn freq_filter, const string &dbname,
+                     const fwdpy::trajFilter *tf, const string &dbname,
                      unsigned threshold, const unsigned label,
                      const bool onedb, const bool append)
     {
@@ -529,7 +562,7 @@ namespace
             {
                 if (onedb)
                     {
-                        trajSQLonedb t(dblock_, dbname, threshold, label,
+                        trajSQLonedb t(dblock_, tf, dbname, threshold, label,
                                        append);
                         t.prepare_statements();
                         t(data.final());
@@ -539,7 +572,7 @@ namespace
                         ostringstream db;
                         db << dbname << '.' << label << ".db";
                         auto name = db.str();
-                        trajSQL t(NULL, name, threshold, append);
+                        trajSQL t(NULL, tf, name, threshold, append);
                         t.prepare_statements();
                         t(data.final());
                     }
@@ -571,22 +604,18 @@ namespace fwdpy
     }
     void
     traj2sql(const vector<unique_ptr<fwdpy::sampler_base>> &samplers,
-             const shared_ptr<mutex> &dblock,
-             fwdpy::origin_filter_fxn origin_filter,
-             fwdpy::pos_esize_filter_fxn pos_esize_filter,
-             fwdpy::freq_filter_fxn freq_filter, const string &dbname,
-             unsigned threshold, const unsigned label, const bool onedb,
-             const bool append)
+             const shared_ptr<mutex> &dblock, const fwdpy::trajFilter *tf,
+             const string &dbname, unsigned threshold, const unsigned label,
+             const bool onedb, const bool append)
     {
         vector<future<string>> tasks;
         unsigned dummy = 0;
         for (auto &&i : samplers)
             {
                 tasks.emplace_back(async(
-                    launch::async, traj2sql_details, cref(dblock),
-                    *dynamic_cast<fwdpy::selected_mut_tracker *>(i.get()),
-                    origin_filter, pos_esize_filter, freq_filter, dbname,
-                    threshold, label + dummy, onedb, append));
+                    launch::async, traj2sql_details, dblock,
+                    *dynamic_cast<fwdpy::selected_mut_tracker *>(i.get()), tf,
+                    dbname, threshold, label + dummy, onedb, append));
                 dummy++;
             }
 

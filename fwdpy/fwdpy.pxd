@@ -295,6 +295,12 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
         void register_callback(origin_filter_fxn)
         void register_callback(pos_esize_filter_fxn)
         void register_callback(freq_filter_fxn)
+    cdef cppclass trajFilterData[T]:
+        trajFilterData(const T &)
+        void register_callback(bool(*)(unsigned,const T&))
+        void register_callback(bool(*)(const pair[double,double]&,const T&))
+        void register_callback(bool(*)(const vector[pair[uint,double]]&,const T&))
+
     #using origin_filter_fxn = bool (*)(const unsigned);
     #using pos_esize_filter_fxn = bool (*)(const std::pair<double, double> &);
     #using freq_filter_fxn
@@ -302,8 +308,8 @@ cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     void traj2sql(
         const vector[unique_ptr[sampler_base]] &samplers,
         const shared_ptr[mutex] & dblock,
-        origin_filter_fxn origin_filter, pos_esize_filter_fxn pos_esize_filter,
-        freq_filter_fxn freq_filter, const string &dbname, unsigned threshold,
+        const trajFilter * tf,
+        const string &dbname, unsigned threshold,
         const unsigned label, const bool onedb, const bool append) except+
 
 #Extension classes for temporal sampling
@@ -328,7 +334,7 @@ cdef class VASampler(TemporalSampler):
     pass
 
 cdef class TrajFilter:
-    cdef trajFilter tf
+    cdef unique_ptr[trajFilter] tf
 
 cdef class FreqSampler(TemporalSampler):
     pass

@@ -176,7 +176,7 @@ cdef class VASampler(TemporalSampler):
 
 cdef class TrajFilter:
     def __cinit__(self):
-        self.tf=trajFilter()
+        self.tf.reset(new trajFilter())
 
 
 cdef class FreqSampler(TemporalSampler):
@@ -242,9 +242,7 @@ cdef class FreqSampler(TemporalSampler):
         cdef shared_ptr[mutex] dblock
         dblock.reset(new mutex())
         traj2sql(self.vec,dblock,
-                traj_filter.tf.origin_filter,
-                traj_filter.tf.pos_esize_filter,
-                traj_filter.tf.freq_filter,
+                traj_filter.tf.get(),
                 dbname,threshold,label,onedb,True)
 
 

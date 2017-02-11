@@ -131,12 +131,6 @@ namespace fwdpy
     using pos_esize_filter_fxn = bool (*)(const std::pair<double, double> &);
     using freq_filter_fxn
         = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>> &);
-    void traj2sql(
-        const std::vector<std::unique_ptr<fwdpy::sampler_base>> &samplers,
-        const std::shared_ptr<std::mutex> &dblock, origin_filter_fxn origin_filter,
-        pos_esize_filter_fxn pos_esize_filter, freq_filter_fxn freq_filter,
-        const std::string &dbname, unsigned threshold, const unsigned label,
-        const bool onedb, const bool append);
     bool all_origins_pass(const unsigned);
     bool all_pos_esize_pass(const std::pair<double, double> &);
     bool all_freqs_pass(const std::vector<std::pair<KTfwd::uint_t, double>> &);
@@ -151,22 +145,95 @@ namespace fwdpy
               freq_filter(&all_freqs_pass)
         {
         }
-        void
-        register_callback(origin_filter_fxn f)
+        virtual bool
+        apply_origin_filter(const unsigned origin) const
         {
-            origin_filter = f;
+            return origin_filter(origin);
+        }
+        virtual bool
+        apply_pos_esize_filter(const std::pair<double, double> &pe) const
+        {
+            return pos_esize_filter(pe);
+        }
+        virtual bool
+        apply_freq_filter(
+            const std::vector<std::pair<unsigned, double>> &freqs) const
+        {
+            return freq_filter(freqs);
+        }
+    };
+
+    template <typename T> class trajFilterData : public trajFilter
+    {
+      public:
+        using origin_filter_fxn_T = bool (*)(const unsigned, const T &);
+        using pos_esize_filter_fxn_T
+            = bool (*)(const std::pair<double, double> &, const T &);
+        using freq_filter_fxn_T
+            = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>> &,
+                       const T &);
+
+      private:
+        T data;
+        origin_filter_fxn_T *origin_filter;
+        pos_esize_filter_fxn_T *pos_esize_filter;
+        freq_filter_fxn_T *freq_filter;
+
+      public:
+        trajFilterData(const T &data_)
+            : data(data_), origin_filter(nullptr), pos_esize_filter(nullptr),
+              freq_filter(nullptr)
+        {
         }
         void
-        register_callback(pos_esize_filter_fxn f)
+        register_callback(origin_filter_fxn_T o)
         {
-            pos_esize_filter = f;
+            origin_filter = o;
         }
         void
-        register_callback(freq_filter_fxn f)
+        register_callback(pos_esize_filter_fxn_T p)
+        {
+            pos_esize_filter = p;
+        }
+        void
+        register_callback(freq_filter_fxn_T f)
         {
             freq_filter = f;
         }
+        bool
+        apply_origin_filter(const unsigned origin) const final
+        {
+            if (origin_filter == nullptr)
+                {
+                    return trajFilter::apply_origin_filter(origin);
+                }
+            return origin_filter(origin, data);
+        }
+        bool
+        apply_pos_esize_filter(const std::pair<double, double> &pe) const final
+        {
+            if (pos_esize_filter == nullptr)
+                {
+                    return trajFilter::apply_origin_filter(pe);
+                }
+            return pos_esize_filter(pe);
+        }
+        bool
+        apply_freq_filter(
+            const std::vector<std::pair<unsigned, double>> &freqs) const final
+        {
+            if (freq_filter == nullptr)
+                {
+                    return trajFilter::apply_freq_filter(freqs);
+                }
+            return freq_filter(freqs, data);
+        }
     };
+    void
+    traj2sql(const std::vector<std::unique_ptr<fwdpy::sampler_base>> &samplers,
+             const std::shared_ptr<std::mutex> &dblock, const trajFilter *tf,
+             const std::string &dbname, unsigned threshold,
+             const unsigned label, const bool onedb, const bool append);
 }
 
 #endif
