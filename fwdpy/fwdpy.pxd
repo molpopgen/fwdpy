@@ -333,8 +333,11 @@ cdef class PopSampler(TemporalSampler):
 cdef class VASampler(TemporalSampler):
     pass
 
-cdef class TrajFilter:
+cdef class TrajFilter(object):
     cdef unique_ptr[trajFilter] tf
+
+cdef class TrajExistedPast(TrajFilter):
+    pass
 
 cdef class FreqSampler(TemporalSampler):
     pass

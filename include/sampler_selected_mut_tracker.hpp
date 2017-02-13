@@ -175,9 +175,9 @@ namespace fwdpy
 
       private:
         T data;
-        origin_filter_fxn_T *origin_filter;
-        pos_esize_filter_fxn_T *pos_esize_filter;
-        freq_filter_fxn_T *freq_filter;
+        origin_filter_fxn_T origin_filter;
+        pos_esize_filter_fxn_T pos_esize_filter;
+        freq_filter_fxn_T freq_filter;
 
       public:
         trajFilterData(const T &data_)
@@ -214,9 +214,9 @@ namespace fwdpy
         {
             if (pos_esize_filter == nullptr)
                 {
-                    return trajFilter::apply_origin_filter(pe);
+                    return trajFilter::apply_pos_esize_filter(pe);
                 }
-            return pos_esize_filter(pe);
+            return pos_esize_filter(pe,data);
         }
         bool
         apply_freq_filter(

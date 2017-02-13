@@ -178,6 +178,17 @@ cdef class TrajFilter:
     def __cinit__(self):
         self.tf.reset(new trajFilter())
 
+cdef bool traj_existed_past(const vector[pair[uint,double]] & t,const unsigned & g) nogil:
+    if t.empty():
+        return False
+    if t.back().first >= g:
+        return True
+    return False
+
+cdef class TrajExistedPast(TrajFilter):
+    def __cinit__(self,unsigned g):
+        self.tf.reset(new trajFilterData[unsigned](g))
+        (<trajFilterData[unsigned]*>self.tf.get()).register_callback(&traj_existed_past)
 
 cdef class FreqSampler(TemporalSampler):
     """
