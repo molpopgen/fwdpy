@@ -4,9 +4,10 @@ Changelog (rough)
 0.0.4-rc3
 -------------------
 
-* :func:`fwdpy.fdwpy.tidy_trajectories` changed.  It is now implemented purely in Python and allows arbitrary functions to be passed as arguments to filter the data.
-* fwdpy.numeric_gsl added, providing a Cython (nogil) API to some numeric operations implemented in terms of the GSL 
+* :func:`fwdpy.fdwpy.tidy_trajectories` removed.
 * C++ back-end and Cython class definition of :class:`fwdpy.fwdpy.FreqSampler` refactored. New version is much, much faster!
+* :class:`fwdpy.fwdpy.FreqSampler` is now able to output directly to SQLite database files.  There is also a new member function called "fetch" that allows filtering of trajectories before returning them as a Pandas DataFrame object.
+* fwdpy.numeric_gsl added, providing a Cython (nogil) API to some numeric operations implemented in terms of the GSL 
   
 0.0.4 (through release candidate 2)
 ----------------
