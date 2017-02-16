@@ -10,7 +10,7 @@ Changelog (rough)
 * fwdpy.numeric_gsl added, providing a Cython (nogil) API to some numeric operations implemented in terms of the GSL 
   
 0.0.4 (through release candidate 2)
-----------------
+---------------------------------------
 
 Changes to the Python side:
 
