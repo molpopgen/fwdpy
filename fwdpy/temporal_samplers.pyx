@@ -175,6 +175,13 @@ cdef class VASampler(TemporalSampler):
         return rv
 
 cdef class TrajFilter:
+    """
+    Base class for filtering trajectories.
+
+    An instance of this object allows all trajectories to be written to file.
+
+    .. note:: See :py:meth:`~fwdpy.fwdpy.FreqSampler.to_sql`
+    """
     def __cinit__(self):
         self.tf.reset(new trajFilter())
 
@@ -186,7 +193,14 @@ cdef bool traj_existed_past(const vector[pair[uint,double]] & t,const unsigned &
     return False
 
 cdef class TrajExistedPast(TrajFilter):
+    """
+    A type of :class:`fwdpy.fwdpy.TrajFilter`.  Tests that a mutation existed
+    in the simulation past a certain generation.
+    """
     def __cinit__(self,unsigned g):
+        """
+        :param g: Generation.  A trajectory is kept if it existed until generation >= g.
+        """
         self.tf.reset(new trajFilterData[unsigned](g))
         (<trajFilterData[unsigned]*>self.tf.get()).register_callback(&traj_existed_past)
 
@@ -247,14 +261,32 @@ cdef class FreqSampler(TemporalSampler):
             raise IndexError("index out of range")
         raw=(<selected_mut_tracker*>self.vec[i].get()).final()
         return self.__convert_data__(raw,origin_filter,pos_esize_filter,freq_filter)
-    def to_sql(self,dbname,TrajFilter traj_filter=None,threshold=5000,label=0,onedb=False):
+    def to_sql(self,dbname,TrajFilter traj_filter=None,threshold=1000000,label=0,onedb=False,append=False):
+        """
+        Write output directly to SQLite database files.  Unlike
+        :py:meth:`~fwdpy.fwdpy.FreqSampler.fetch`, this function
+        requires an object of type :class:`fwdpy.fwdpy.TrajFilter`
+        to filter out unwanted trajectories.
+
+        This function skips the copy of data from C++ to Python, which may make it 
+        more efficient than using :py:meth:`~fwdpy.fwdpy.FreqSampler.fetch`.
+
+        :param dbname: Either the name of a database file (when onedb is True), or the prefix for file names (when onedb is False).
+        :param traj_filter: (None)  If None, :class:`fwdpy.fwdpy.TrajFilter` is used, which means all trajectories are written to file.  Otherwise, a custom object is used to filter.
+        :param threshold: (1,000,000) When onedb is True, this is the number of records to write to the in-memory database before writing to file.
+        :param label: (0) The starting value of the replicate id. When onedb is True, data from different replicates will have a "rep" column in the database, with rep goring from threshold to threshold + len(self)-1.
+        :param onedb: (False)  If False, each trajectory is written to a separate file.  If true, data are first written to in-memory databases and then flushed to disk at time intervals depending on the value of "threshold".
+        :param append: (False) If false, the output file will be deleted if it exsists.  Otherwise, it will be assumed to be a valid SQLite database and appended to.
+
+        .. note:: The schema of the resulting files can be checked with the sqlite3 command-line tool.
+        """
         if traj_filter is None:
             traj_filter=TrajFilter()
         cdef shared_ptr[mutex] dblock
         dblock.reset(new mutex())
         traj2sql(self.vec,dblock,
                 traj_filter.tf.get(),
-                dbname,threshold,label,onedb,True)
+                dbname,threshold,label,onedb,append)
 
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
