@@ -161,8 +161,8 @@ namespace
         virtual void copy_from_mem_db(callback_fxn_t c);
         virtual unsigned
         apply_prepared_statement(sqlite3 *db_, sqlite3_stmt *stmt_,
-                                 const unsigned origin, const unsigned pos,
-                                 const unsigned esize,
+                                 const unsigned origin, const double pos,
+                                 const double esize,
                                  const vector<pair<unsigned, double>> &freqs);
         virtual void
         call_operator_details(const fwdpy::selected_mut_tracker::final_t
@@ -224,6 +224,10 @@ namespace
     {
         if (rc != SQLITE_OK)
             {
+				if(error_message==nullptr)
+				{
+					throw runtime_error("error encounted without message: " + to_string(rc) + " " + to_string(line_num));
+				}
                 string message(error_message);
                 message += " ";
                 message += to_string(line_num);
@@ -261,19 +265,23 @@ namespace
                 throw runtime_error(
                     "could not prepare statement for on-disk database.");
             }
-        sqlite3_prepare_v2(memdb, prepped_statement.c_str(),
-                           prepped_statement.size(), &memdb_stmt, NULL);
-        if (memdb_stmt == NULL)
+        if (memdb != nullptr)
             {
-                throw runtime_error(
-                    "could not prepare statement for in-memory database.");
+                sqlite3_prepare_v2(memdb, prepped_statement.c_str(),
+                                   prepped_statement.size(), &memdb_stmt,
+                                   NULL);
+                if (memdb_stmt == NULL)
+                    {
+                        throw runtime_error("could not prepare statement for "
+                                            "in-memory database.");
+                    }
             }
     }
 
     unsigned
     trajSQL::apply_prepared_statement(
         sqlite3 *db_, sqlite3_stmt *stmt_, const unsigned origin,
-        const unsigned pos, const unsigned esize,
+        const double pos, const double esize,
         const vector<pair<unsigned, double>> &freqs)
     {
         if (stmt_ == NULL)
@@ -371,7 +379,7 @@ namespace
         void prepare_statements() final;
         unsigned apply_prepared_statement(
             sqlite3 *db_, sqlite3_stmt *stmt_, const unsigned origin,
-            const unsigned pos, const unsigned esize,
+            const double pos, const double esize,
             const vector<pair<unsigned, double>> &freqs) final;
         void call_operator_details(
             const fwdpy::selected_mut_tracker::final_t &data) final;
@@ -388,7 +396,7 @@ namespace
                threshold_, true),
           dblock(dblock_), label(label_)
     {
-        lock_guard<mutex> lock(*dblock);
+        lock_guard<mutex> lock(*(this->dblock));
         create_table(db);
         create_index(db);
         int rc = apply_sql_pragma(db, error_message);
@@ -463,7 +471,7 @@ namespace
     unsigned
     trajSQLonedb::apply_prepared_statement(
         sqlite3 *db_, sqlite3_stmt *stmt_, const unsigned origin,
-        const unsigned pos, const unsigned esize,
+        const double pos, const double esize,
         const vector<pair<unsigned, double>> &freqs)
     {
         if (stmt_ == NULL)
