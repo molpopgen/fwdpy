@@ -33,6 +33,8 @@
  * of fwdpy being run on the same machine.  Thus, we pass in shared_ptr<mutex>
  * to all threads
  * from the calling environment (which in this case is Python via Cython).
+ *
+ * 3. Create the index last (after all inserts).  The speed difference is shocking.
  */
 #include <future>
 #include <memory>
