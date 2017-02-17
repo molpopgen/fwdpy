@@ -164,10 +164,13 @@ namespace
                                  const unsigned origin, const double pos,
                                  const double esize,
                                  const vector<pair<unsigned, double>> &freqs);
-        virtual void
-        call_operator_details(const fwdpy::selected_mut_tracker::final_t
-                                  &data); // needs overloading -- Done
-        void operator()(const fwdpy::selected_mut_tracker::final_t &data);
+        virtual void call_operator_details(
+            fwdpy::selected_mut_tracker::final_t::const_iterator begin,
+            fwdpy::selected_mut_tracker::final_t::const_iterator
+                end); // needs overloading -- Done
+        void
+        operator()(fwdpy::selected_mut_tracker::final_t::const_iterator begin,
+                   fwdpy::selected_mut_tracker::final_t::const_iterator end);
     };
 
     trajSQL::trajSQL(sqlite3 *db_, const fwdpy::trajFilter *tf_,
@@ -189,7 +192,7 @@ namespace
                 int rc = sqlite3_open(dbname_.c_str(), &db);
                 handle_return_values(rc, __LINE__);
                 create_table(db);
-                //create_index(db);
+                // create_index(db);
                 rc = apply_sql_pragma(db, error_message);
                 handle_return_values(rc, __LINE__);
             }
@@ -224,10 +227,12 @@ namespace
     {
         if (rc != SQLITE_OK)
             {
-				if(error_message==nullptr)
-				{
-					throw runtime_error("error encounted without message: " + to_string(rc) + " " + to_string(line_num));
-				}
+                if (error_message == nullptr)
+                    {
+                        throw runtime_error("error encounted without message: "
+                                            + to_string(rc) + " "
+                                            + to_string(line_num));
+                    }
                 string message(error_message);
                 message += " ";
                 message += to_string(line_num);
@@ -329,16 +334,17 @@ namespace
     }
     void
     trajSQL::call_operator_details(
-        const fwdpy::selected_mut_tracker::final_t &data)
+        fwdpy::selected_mut_tracker::final_t::const_iterator begin,
+        fwdpy::selected_mut_tracker::final_t::const_iterator end)
     {
         // unsigned nrecords_passed = 0;
 
         sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, &error_message);
-        for (auto &&outer : data)
+        for (; begin != end; ++begin)
             {
-                if (this->tf->apply_origin_filter(outer.first))
+                if (this->tf->apply_origin_filter(begin->first))
                     {
-                        for (auto &&inner : outer.second)
+                        for (auto &&inner : begin->second)
                             {
                                 if (this->tf->apply_pos_esize_filter(
                                         inner.first)
@@ -346,7 +352,7 @@ namespace
                                            inner.second)))
                                     {
                                         apply_prepared_statement(
-                                            db, stmt, outer.first,
+                                            db, stmt, begin->first,
                                             inner.first.first,
                                             inner.first.second, inner.second);
                                     }
@@ -354,13 +360,15 @@ namespace
                     }
             }
         sqlite3_exec(db, "COMMIT TRANSACTION;", NULL, NULL, &error_message);
-	this->create_index(db);
+        this->create_index(db);
     }
 
     void
-    trajSQL::operator()(const fwdpy::selected_mut_tracker::final_t &data)
+    trajSQL::
+    operator()(fwdpy::selected_mut_tracker::final_t::const_iterator begin,
+               fwdpy::selected_mut_tracker::final_t::const_iterator end)
     {
-        call_operator_details(data);
+        call_operator_details(begin, end);
     }
 
     class trajSQLonedb : public trajSQL
@@ -383,7 +391,8 @@ namespace
             const double pos, const double esize,
             const vector<pair<unsigned, double>> &freqs) final;
         void call_operator_details(
-            const fwdpy::selected_mut_tracker::final_t &data) final;
+            fwdpy::selected_mut_tracker::final_t::const_iterator begin,
+            fwdpy::selected_mut_tracker::final_t::const_iterator end) final;
         void create_table(sqlite3 *db) final;
         void create_index(sqlite3 *db) final;
     };
@@ -507,15 +516,16 @@ namespace
 
     void
     trajSQLonedb::call_operator_details(
-        const fwdpy::selected_mut_tracker::final_t &data)
+        fwdpy::selected_mut_tracker::final_t::const_iterator begin,
+        fwdpy::selected_mut_tracker::final_t::const_iterator end)
     {
         unsigned nrecords_passed = 0;
 
-        for (auto &&outer : data)
+        for (; begin != end; ++begin)
             {
-                if (this->tf->apply_origin_filter(outer.first))
+                if (this->tf->apply_origin_filter(begin->first))
                     {
-                        for (auto &&inner : outer.second)
+                        for (auto &&inner : begin->second)
                             {
                                 if (this->tf->apply_pos_esize_filter(
                                         inner.first)
@@ -524,7 +534,8 @@ namespace
                                     {
                                         nrecords_passed
                                             += apply_prepared_statement(
-                                                memdb, memdb_stmt, outer.first,
+                                                memdb, memdb_stmt,
+                                                begin->first,
                                                 inner.first.first,
                                                 inner.first.second,
                                                 inner.second);
@@ -574,7 +585,7 @@ namespace
                         trajSQLonedb t(dblock_, tf, dbname, threshold, label,
                                        append);
                         t.prepare_statements();
-                        t(data.final());
+                        t(data.begin(),data.end());
                     }
                 else
                     {
@@ -583,7 +594,7 @@ namespace
                         auto name = db.str();
                         trajSQL t(NULL, tf, name, threshold, append);
                         t.prepare_statements();
-                        t(data.final());
+                        t(data.begin(),data.end());
                     }
             }
         catch (std::runtime_error &re)
