@@ -34,7 +34,8 @@
  * to all threads
  * from the calling environment (which in this case is Python via Cython).
  *
- * 3. Create the index last (after all inserts).  The speed difference is shocking.
+ * 3. Create the index last (after all inserts).  The speed difference is
+ * shocking.
  */
 #include <future>
 #include <memory>
@@ -313,6 +314,7 @@ namespace
                                 << ' ' << idx << ' ' << rc << '\n';
                         throw std::runtime_error(message.str().c_str());
                     }
+                sqlite3_reset(stmt_);
             }
         return static_cast<unsigned>(freqs.size());
     }
@@ -376,13 +378,13 @@ namespace
     {
       private:
         shared_ptr<mutex> dblock;
-        sqlite3 *init_db_mutex(const string &dbname, const bool append,
-                               shared_ptr<mutex> dblock_copy);
+        // sqlite3 *init_db_mutex(const string &dbname, const bool append,
+        //                       shared_ptr<mutex> dblock_copy);
 
       public:
         const unsigned label;
         using base = trajSQL;
-        explicit trajSQLonedb(const shared_ptr<mutex> &dblock_,
+        explicit trajSQLonedb(sqlite3 *db_, const shared_ptr<mutex> &dblock_,
                               const fwdpy::trajFilter *tf,
                               const string &dbname_, const unsigned threshold_,
                               const unsigned label_, const bool append_);
@@ -398,18 +400,17 @@ namespace
         void create_index(sqlite3 *db) final;
     };
 
-    trajSQLonedb::trajSQLonedb(const shared_ptr<mutex> &dblock_,
+    trajSQLonedb::trajSQLonedb(sqlite3 *db_, const shared_ptr<mutex> &dblock_,
                                const fwdpy::trajFilter *tf,
                                const string &dbname_,
                                const unsigned threshold_,
                                const unsigned label_, const bool append_)
-        : base(init_db_mutex(dbname_, append_, dblock_), tf, dbname_,
-               threshold_, true),
-          dblock(dblock_), label(label_)
+        : base(db_, tf, dbname_, threshold_, true), dblock(dblock_),
+          label(label_)
     {
         lock_guard<mutex> lock(*(this->dblock));
-        create_table(db);
-        create_index(db);
+        // create_table(db);
+        // create_index(db);
         int rc = apply_sql_pragma(db, error_message);
         handle_return_values(rc, __LINE__);
         rc = sqlite3_open(":memory:", &memdb);
@@ -419,23 +420,23 @@ namespace
         handle_return_values(rc, __LINE__);
     }
 
-    sqlite3 *
-    trajSQLonedb::init_db_mutex(const string &dbname, const bool append,
-                                shared_ptr<mutex> dblock_copy)
-    {
-        if (!append)
-            {
-                remove(dbname.c_str());
-            }
-        sqlite3 *rv;
-        lock_guard<mutex> lock(*dblock_copy);
-        int rc = sqlite3_open(dbname.c_str(), &rv);
-        if (rc != SQLITE_OK)
-            {
-                throw std::runtime_error("Could not open " + dbname);
-            }
-        return rv;
-    }
+    // sqlite3 *
+    // trajSQLonedb::init_db_mutex(const string &dbname, const bool append,
+    //                            shared_ptr<mutex> dblock_copy)
+    //{
+    //    if (!append)
+    //        {
+    //            remove(dbname.c_str());
+    //        }
+    //    sqlite3 *rv;
+    //    lock_guard<mutex> lock(*dblock_copy);
+    //    int rc = sqlite3_open(dbname.c_str(), &rv);
+    //    if (rc != SQLITE_OK)
+    //        {
+    //            throw std::runtime_error("Could not open " + dbname);
+    //        }
+    //    return rv;
+    //}
 
     void
     trajSQLonedb::create_table(sqlite3 *db_)
@@ -510,6 +511,7 @@ namespace
                                 << ' ' << idx << ' ' << rc << '\n';
                         throw std::runtime_error(message.str().c_str());
                     }
+                sqlite3_reset(stmt_);
             }
         return static_cast<unsigned>(freqs.size());
     }
@@ -582,8 +584,10 @@ namespace
             {
                 if (onedb)
                     {
-                        trajSQLonedb t(dblock_, tf, dbname, threshold, label,
-                                       append);
+                        sqlite3 *db; // will be closed by class destructor
+                        sqlite3_open(dbname.c_str(), &db);
+                        trajSQLonedb t(db, dblock_, tf, dbname, threshold,
+                                       label, append);
                         t.prepare_statements();
                         t(data.begin(), data.end());
                     }
@@ -628,6 +632,46 @@ namespace fwdpy
              const string &dbname, unsigned threshold, const unsigned label,
              const bool onedb, const bool append)
     {
+        if (onedb)
+            // create the common, shared db
+            {
+                sqlite3 *db;
+                int rc = sqlite3_open(dbname.c_str(), &db);
+                if (rc != SQLITE_OK)
+                    {
+                        throw runtime_error("could not open shared database "
+                                            + dbname);
+                    }
+                string sql("CREATE TABLE IF NOT EXISTS freqs(");
+                sql += "rep int not null, generation int NOT NULL, origin int "
+                       "NOT "
+                       "NULL, pos real NOT ";
+                sql += "NULL, esize real NOT NULL, freq real NOT NULL);";
+                char *error_message = nullptr;
+                rc = execute_sql_statement(db, sql, error_message);
+                if (rc != SQLITE_OK)
+                    {
+                        if (error_message != nullptr)
+                            {
+                                sqlite3_free(error_message);
+                            }
+                        throw runtime_error("could not create table "
+                                            "on shared database "
+                                            + dbname);
+                    }
+                rc = apply_sql_pragma(db, error_message);
+                if (rc != SQLITE_OK)
+
+                    {
+                        if (error_message != nullptr)
+                            {
+                                sqlite3_free(error_message);
+                            }
+                        throw runtime_error(
+                            "could not apply PRAGMA to shared database "
+                            + dbname);
+                    }
+            }
         vector<future<string>> tasks;
         unsigned dummy = 0;
         for (auto &&i : samplers)
@@ -651,6 +695,34 @@ namespace fwdpy
         if (!errors.str().empty())
             {
                 throw runtime_error(errors.str());
+            }
+        if (onedb)
+            {
+                // need to create the index
+                sqlite3 *db;
+                int rc = sqlite3_open(dbname.c_str(), &db);
+                if (rc != SQLITE_OK)
+                    {
+                        if (db != NULL)
+                            {
+                                sqlite3_close(db);
+                            }
+                        throw runtime_error("could not open shared database "
+                                            "to create the index "
+                                            + dbname);
+                    }
+                apply_sql_pragma(db, NULL);
+                string sql = "create index if not exists rep_gen on freqs "
+                             "(rep,generation);";
+                rc = execute_sql_statement(db, sql, NULL);
+                if (rc != SQLITE_OK)
+                    {
+                        sqlite3_close(db);
+                        throw runtime_error(
+                            "could not create index on shared database "
+                            + dbname);
+                    }
+                sqlite3_close(db);
             }
     }
 }
