@@ -311,7 +311,6 @@ namespace
                                 << ' ' << idx << ' ' << rc << '\n';
                         throw std::runtime_error(message.str().c_str());
                     }
-                sqlite3_reset(stmt_);
             }
         return static_cast<unsigned>(freqs.size());
     }
@@ -509,7 +508,6 @@ namespace
                                 << ' ' << idx << ' ' << rc << '\n';
                         throw std::runtime_error(message.str().c_str());
                     }
-                sqlite3_reset(stmt_);
             }
         return static_cast<unsigned>(freqs.size());
     }
@@ -585,7 +583,7 @@ namespace
                         trajSQLonedb t(dblock_, tf, dbname, threshold, label,
                                        append);
                         t.prepare_statements();
-                        t(data.begin(),data.end());
+                        t(data.begin(), data.end());
                     }
                 else
                     {
@@ -594,7 +592,7 @@ namespace
                         auto name = db.str();
                         trajSQL t(NULL, tf, name, threshold, append);
                         t.prepare_statements();
-                        t(data.begin(),data.end());
+                        t(data.begin(), data.end());
                     }
             }
         catch (std::runtime_error &re)
