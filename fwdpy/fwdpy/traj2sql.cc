@@ -189,7 +189,7 @@ namespace
                 int rc = sqlite3_open(dbname_.c_str(), &db);
                 handle_return_values(rc, __LINE__);
                 create_table(db);
-                create_index(db);
+                //create_index(db);
                 rc = apply_sql_pragma(db, error_message);
                 handle_return_values(rc, __LINE__);
             }
@@ -354,6 +354,7 @@ namespace
                     }
             }
         sqlite3_exec(db, "COMMIT TRANSACTION;", NULL, NULL, &error_message);
+	this->create_index(db);
     }
 
     void
