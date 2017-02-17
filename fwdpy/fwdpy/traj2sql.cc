@@ -696,33 +696,5 @@ namespace fwdpy
             {
                 throw runtime_error(errors.str());
             }
-        if (onedb)
-            {
-                // need to create the index
-                sqlite3 *db;
-                int rc = sqlite3_open(dbname.c_str(), &db);
-                if (rc != SQLITE_OK)
-                    {
-                        if (db != NULL)
-                            {
-                                sqlite3_close(db);
-                            }
-                        throw runtime_error("could not open shared database "
-                                            "to create the index "
-                                            + dbname);
-                    }
-                apply_sql_pragma(db, NULL);
-                string sql = "create index if not exists rep_gen on freqs "
-                             "(rep,generation);";
-                rc = execute_sql_statement(db, sql, NULL);
-                if (rc != SQLITE_OK)
-                    {
-                        sqlite3_close(db);
-                        throw runtime_error(
-                            "could not create index on shared database "
-                            + dbname);
-                    }
-                sqlite3_close(db);
-            }
     }
 }
