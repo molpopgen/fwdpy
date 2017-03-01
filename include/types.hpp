@@ -36,7 +36,7 @@ namespace fwdpy
     using gcont_t = std::vector<gamete_t>;
 
 #ifdef CUSTOM_DIPLOID_BASE
-	struct diploid_t : public KTfwd::tags::::custom_diploid_t
+	struct diploid_t : public KTfwd::tags::custom_diploid_t
 #else
     struct diploid_t
 #endif
