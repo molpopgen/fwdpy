@@ -10,7 +10,9 @@
 #include "fwdpy_serialization.hpp"
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
+#ifdef CUSTOM_DIPLOID_BASE
 #include <fwdpp/tags/diploid_tags.hpp>
+#endif
 #include <gsl/gsl_statistics_double.h>
 #include <map>
 #include <memory>
@@ -33,7 +35,11 @@ namespace fwdpy
     //! Typedef for gamete container
     using gcont_t = std::vector<gamete_t>;
 
-    struct diploid_t : public KTfwd::tags::custom_diploid_t
+#ifdef CUSTOM_DIPLOID_BASE
+	struct diploid_t : public KTfwd::tags::::custom_diploid_t
+#else
+    struct diploid_t
+#endif
     /*!
       \brief Custom diploid type.
     */
