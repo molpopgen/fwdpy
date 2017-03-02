@@ -20,7 +20,7 @@ ctypedef vector[unsigned] ucont_t
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
-    ctypedef gamete_base[void] gamete_t
+    ctypedef gamete_base gamete_t
     ctypedef vector[gamete_t] gcont_t
     ctypedef vector[popgenmut] mcont_t
     ctypedef unordered_set[double,equal_eps] lookup_t
