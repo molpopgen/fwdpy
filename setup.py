@@ -236,6 +236,14 @@ if USE_CYTHON:
     from Cython.Build import cythonize
     extensions = cythonize(extensions)
 
+generated_package_data={}
+for root, dirnames, filenames in os.walk('fwdpy'):
+    g=glob.glob(root+'/*.pxd')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        print(replace)
+        generated_package_data[replace]=['*.pxd']
+
 setup(name='fwdpy',
       version='0.0.4-rc3',
       author='Kevin R. Thornton',
@@ -260,9 +268,6 @@ setup(name='fwdpy',
       data_files=[('fwdpy',['COPYING', 'README.rst'])],
       ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
       headers=glob.glob("include/*.hpp"),
-      package_data={'fwdpy':['*.pxd'],
-                    'fwdpy.internal':['*.pxd'],
-                    'fwdpy.fwdpyio':['*.pxd'],
-                    'include':['*.hpp']},
+      package_data=generated_package_data,
       ext_modules=extensions,
       )
