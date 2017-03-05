@@ -241,7 +241,6 @@ for root, dirnames, filenames in os.walk('fwdpy'):
     g=glob.glob(root+'/*.pxd')
     if len(g)>0:
         replace=root.replace('/','.')
-        print(replace)
         generated_package_data[replace]=['*.pxd']
 
 setup(name='@PACKAGE_NAME@',
