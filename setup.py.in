@@ -196,7 +196,7 @@ extensions.extend(
 
 ##This is the list of extension modules that are 
 ##in distinct sub-directories with their own __init__.py
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.headers']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
 if QTRAIT is True:
     extensions.extend([
@@ -240,16 +240,13 @@ generated_package_data={}
 for root, dirnames, filenames in os.walk('fwdpy'):
     g=glob.glob(root+'/*.pxd')
     if len(g)>0:
-        print( "found pxd")
         replace=root.replace('/','.')
         generated_package_data[replace]=['*.pxd']
     g=glob.glob(root+'/*.hpp')
     if len(g)>0:
-        print("found hpp")
         replace=root.replace('/','.')
+        PKGS.append(replace) #If there's a header file, we add the directory as a package
         generated_package_data[replace]=['*.hpp']
-
-print(generated_package_data)
 
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
