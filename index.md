@@ -8,7 +8,7 @@ The source code is [here](https://github.com/molpopgen/fwdpy)
 
 ## Documentation
 
-* [Manual](_build/html/index.html) in html format.
+* [Manual](doc/_build/html/index.html) in html format.
 
 ## Examples
 
