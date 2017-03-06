@@ -3,8 +3,6 @@
 from libcpp.vector cimport vector
 from libcpp.utility cimport pair
 from libcpp.string cimport string
-## for DataFrame
-import pandas
 
 include "classes.pyx"
 include "sampling.pyx"
@@ -33,3 +31,11 @@ def cite():
     Returns how to cite this package
     """
     fwdpy_citation()
+
+def get_includes():
+    """
+    Returns absolute path to location of fwdpy headers
+    """
+    import os,fwdpy
+    return os.path.abspath(fwdpy.__file__).split('lib')[0]+'include/fwdpy'
+
