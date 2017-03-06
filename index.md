@@ -1,23 +1,23 @@
-##The fwdpy home page
+# The fwdpy home page
 
 This is the homepage for __fwdpy__, which is an Python package for forward-time population- and quantitative- genetic simulations.
 
-###Source code
+## Source code
 
 The source code is [here](https://github.com/molpopgen/fwdpy)
 
-### Documentation
+## Documentation
 
 * [Manual](_build/html/index.html) in html format.
 
-#### Examples
+## Examples
 
-Here are some examples generated using [Iptyhon](http://ipython.org/)/[Jupyter](https://jupyter.org/):
+Here are some examples generated using [Ipython](http://ipython.org/)/[Jupyter](https://jupyter.org/):
 
-* [Background selection](examples/BGS.html)
-* [Sliding windows](examples/windows.html)
+* [Background selection](doc/examples/BGS.html)
+* [Sliding windows](doc/examples/windows.html)
 
-###Citation
+## Citation
 
 If you use __fwdpy__ for yor research, please cite the following manuscript, which is the basis for this package:
 
