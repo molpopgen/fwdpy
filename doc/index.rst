@@ -11,11 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   README
-   docs/changelog
-   docs/todo
-   docs/notes
-   docs/rusers
+   ../README
+   pages/changelog
+   pages/todo
+   pages/notes
+   pages/rusers
 
 Theoretical concepts 
 ##########################################
@@ -23,7 +23,7 @@ Theoretical concepts
 .. toctree::
    :maxdepth: 2
 
-   docs/background
+   pages/background
 
 Important concepts for setting up simulations 
 ####################################################################################
@@ -31,13 +31,13 @@ Important concepts for setting up simulations
 .. toctree::
    :maxdepth: 2
 
-   docs/popsizes
-   docs/demography
-   docs/regions
+   pages/popsizes
+   pages/demography
+   pages/regions
    examples/temporalSampling
-   docs/summstats
-   docs/slim
-   docs/threads
+   pages/summstats
+   pages/slim
+   pages/threads
 
 Examples
 ##########################################
@@ -57,7 +57,7 @@ Special topics
 .. toctree::
    :maxdepth: 2
 
-   docs/vareg
+   pages/vareg
 
 Plugins
 ########################################################################################
@@ -65,7 +65,7 @@ Plugins
 .. toctree::
    :maxdepth: 2
 
-   docs/plugins
+   pages/plugins
 
 Notes for people wanting to work with the code
 ####################################################################################
@@ -73,8 +73,8 @@ Notes for people wanting to work with the code
 .. toctree::
    :maxdepth: 2
 	      
-   docs/code
-   docs/extending
+   pages/code
+   pages/extending
    
 
 Functions and classes
