@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Processing SLiM input files &#8212; fwdpy 0.0.4-rc3 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.4-rc3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How many threads to use?" href="threads.html" />
+    <link rel="prev" title="Calculating summary statistics" href="summstats.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="How many threads to use?"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="summstats.html" title="Calculating summary statistics"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="processing-slim-input-files">
+<h1>Processing SLiM input files<a class="headerlink" href="#processing-slim-input-files" title="Permalink to this headline">¶</a></h1>
+<p><strong>fwdpy</strong> has the ability to read in the same input files as Phillip Messer&#8217;s <a class="reference external" href="http://messerlab.org/software/">SLiM</a> simulation software, which is accomplished by the function <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.readslim()</span></code>.</p>
+<p>This function does <strong>not</strong> read in all of the information in an input file.  Instead it reads in the following sections:</p>
+<ul class="simple">
+<li>#MUTATION RATE</li>
+<li>#MUTATION TYPES</li>
+<li>#GENOMIC ELEMENT TYPES</li>
+<li>#CHROMOSOME ORGANIZATION</li>
+<li>#RECOMBINATION RATE</li>
+</ul>
+<p>These blocks are parsed and converted into data types that may serve as the input parameters for functions like <a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></code></a>.</p>
+<div class="section" id="differences-between-slim-and-fwdpy">
+<h2>Differences between SLiM and fwdpy<a class="headerlink" href="#differences-between-slim-and-fwdpy" title="Permalink to this headline">¶</a></h2>
+<p>There are several important differences between <a class="reference external" href="http://messerlab.org/software/">SLiM</a> and this package.</p>
+<div class="section" id="scaling-of-fitnesses">
+<h3>Scaling of fitnesses<a class="headerlink" href="#scaling-of-fitnesses" title="Permalink to this headline">¶</a></h3>
+<p>For diploid genotypes <span class="math">\(AA\)</span>, <span class="math">\(Aa\)</span>, and <span class="math">\(aa\)</span>, <a class="reference external" href="http://messerlab.org/software/">SLiM</a> calculates fitness as <span class="math">\(1\)</span>, <span class="math">\(1+sh\)</span>, and <span class="math">\(1+s\)</span>, respectively, where <span class="math">\(s\)</span> is the selection coefficient and <span class="math">\(h\)</span> the dominance associated with the <span class="math">\(a\)</span> allele.  In <strong>fwdpy</strong>, the fitnesses of the three genotypes are <span class="math">\(1\)</span>, <span class="math">\(1+sh\)</span>, and <span class="math">\(1+2s\)</span>, respectively.   To account for this difference, <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.readslim()</span></code> halves the selection coefficient (or the mean <span class="math">\(s\)</span> for distributions on selection coefficients) and doubles the dominance found in the #MUTATION TYPES block of a <a class="reference external" href="http://messerlab.org/software/">SLiM</a> input file.</p>
+<p><strong>IMPORTANT:</strong> <a class="reference external" href="http://messerlab.org/software/">SLiM</a> input files should be generated according to that software&#8217;s manual!!!  In other words, co-dominance should be coded as <span class="math">\(h=0.5\)</span> and you should allow <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.readslim()</span></code> to convert it to one automatically!  Further, the fitnesses of the three genotypes should be treated as  <span class="math">\(1\)</span>, <span class="math">\(1+sh\)</span>, and <span class="math">\(1+s\)</span>, respectively. The intent here is to allow pre-existing <a class="reference external" href="http://messerlab.org/software/">SLiM</a> input files to be used in <strong>fwdpy</strong> with no additional modification.</p>
+</div>
+<div class="section" id="discrete-vs-continuous-positions">
+<h3>Discrete vs continuous positions<a class="headerlink" href="#discrete-vs-continuous-positions" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://messerlab.org/software/">SLiM</a>&#8216;s mutation model involves <em>discrete</em> positions along the genome.  Therefore, the output from that software contains mutations with postitions whose values are integers.  Likewise, recombination events occur between integer-valued positions in <a class="reference external" href="http://messerlab.org/software/">SLiM</a>.</p>
+<p>Internally, this package uses <a class="reference external" href="http://github.com/molpopgen/fwdpp">fwdpp</a> to model mutation and recombination positions as <em>continuous</em> random variables along genomic intervals in a fashion similar to the coalescent simulation <a class="reference external" href="http://home.uchicago.edu/~rhudson1">ms</a>.  (Techincally, <a class="reference external" href="http://home.uchicago.edu/~rhudson1">ms</a> treats mutation as continuous and recombination breakpoints as discrete, but let&#8217;s ignore that point for now.)</p>
+<p>An additional difference is that <a class="reference external" href="http://messerlab.org/software/">SLiM</a> is paramterized in terms of &#8220;per base pair&#8221; mutation and recombination rates and this package uses &#8220;per region&#8221; rates.</p>
+<p><a class="reference internal" href="../index.html#fwdpy.fwdpy.evolve_regions" title="fwdpy.fwdpy.evolve_regions"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.evolve_regions()</span></code></a> adjusts the <a class="reference external" href="http://messerlab.org/software/">SLiM</a> input file to account for these differences.  Let&#8217;s consider the following setup for recombination rates:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">#RECOMBINATION RATE</div>
+<div class="line">10000 1e-7</div>
+<div class="line">20000 2e-7</div>
+<div class="line">30000 3e-7</div>
+</div>
+</div></blockquote>
+<p>The block above means that genomic positions 1 through 10,000 have a recombination rate of <span class="math">\(10^{-7}\)</span> <em>per base pair</em> (bp).  Positions 10,001 through 20,000 have a recombination rate of <span class="math">\(2 \times 10^{-7}/\mathrm{bp}\)</span>, and positions 20,001 through 30,000 have a recombination rate of <span class="math">\(3 \times 10^{-7}/\mathrm{bp}\)</span>.  The total/cumulative recombination rate is <span class="math">\(10^4\times(10^{-7} + 2\times 10^{-7} + 3 \times 10^{-7}) = 0.006\)</span>
+The function <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.readslim()</span></code> will  convert the above block to three half-open, continuous intervals:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><span class="math">\([0,10000)\)</span>, with <em>total</em> recombination rate <span class="math">\(10^{-7}\times(10^4-0) = 10^{-3}\)</span></div>
+<div class="line"><span class="math">\([10000,20000)\)</span> with <em>total</em> recombination rate <span class="math">\(2 \times 10^{-7}\times(2\times 10^4-10^4) = 2\times10^{-3}\)</span></div>
+<div class="line"><span class="math">\([20000,30000)\)</span> with <em>total</em> recombination rate <span class="math">\(3 \times 10^{-7}\times(3\times 10^4-2\times 10^4) = 3\times10^{-3}\)</span></div>
+</div>
+</div></blockquote>
+<p>You can see that the total recombination rate is the same (<span class="math">\(0.006\)</span>).  The difference from <a class="reference external" href="http://messerlab.org/software/">SLiM</a> is that crossover positions will be drawn from continuous uniform distributions.</p>
+<p>The intervals where mutations occur are treated similarly.  Further, for a given genomic element, the mutation rate to a particular mutation type is the mutation rate specified in the #MUTATION RATE block times the weight assigned to that mutation type divided by the sum of all weights for all mutation types occuring in that genomic element.</p>
+</div>
+</div>
+<div class="section" id="a-word-of-caution">
+<h2>A word of caution<a class="headerlink" href="#a-word-of-caution" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://messerlab.org/software/">SLiM</a> allows different mutations to have the same position label.  This software does not.  This difference may be relevant when comparing simulation output to theoretical predictions, which typically come from the infinitely-many sites assumption that this package models.  For a region of length <span class="math">\(L\)</span>, as <span class="math">\(\mu_{bp}\)</span> (the mutation rate per base pair) the output of <a class="reference external" href="http://messerlab.org/software/">SLiM</a> and <strong>fwdpy</strong> should be comparable for large <span class="math">\(L\)</span> and <span class="math">\(\mu_{bp} \to 0\)</span>.  When mutation rates are large relative to <span class="math">\(L\)</span>, <a class="reference external" href="http://messerlab.org/software/">SLiM</a>&#8216;s mutation scheme becomes a quasi-finite-sites model.</p>
+</div>
+<div class="section" id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Gene conversion is not currently supported</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Processing SLiM input files</a><ul>
+<li><a class="reference internal" href="#differences-between-slim-and-fwdpy">Differences between SLiM and fwdpy</a><ul>
+<li><a class="reference internal" href="#scaling-of-fitnesses">Scaling of fitnesses</a></li>
+<li><a class="reference internal" href="#discrete-vs-continuous-positions">Discrete vs continuous positions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-word-of-caution">A word of caution</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="summstats.html"
+                        title="previous chapter">Calculating summary statistics</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="threads.html"
+                        title="next chapter">How many threads to use?</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/pages/slim.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="threads.html" title="How many threads to use?"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="summstats.html" title="Calculating summary statistics"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, Kevin Thornton.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
