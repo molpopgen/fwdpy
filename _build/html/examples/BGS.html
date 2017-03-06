@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Example: background selection &#8212; fwdpy 0.0.4pre1 documentation</title>
+    <title>Example: background selection &#8212; fwdpy 0.0.4-rc3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.4pre1',
+        VERSION:     '0.0.4-rc3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="../docs/threads.html" title="How many threads to use?"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -72,7 +72,7 @@
 <span class="kn">import</span> <span class="nn">fwdpy</span> <span class="k">as</span> <span class="nn">fp</span>
 <span class="c1">##Other libs we need</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">math</span>
 </pre></div>
 </div>
@@ -167,7 +167,7 @@
 <span class="c1">#item in each tuple represents selected mutations, i[1] in the line</span>
 <span class="c1">#below means that we are getting the mutation information only for</span>
 <span class="c1">#selected variants</span>
-<span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_sample_details</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="n">pops</span><span class="p">)]</span>
+<span class="n">details</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">get_sample_details</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">j</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="n">pops</span><span class="p">)]</span>
 </pre></div>
 </div>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#details is now a list of pandas DataFrame objects</span>
@@ -181,26 +181,26 @@
     <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>      <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>      <span class="n">p</span>     <span class="n">s</span>
-<span class="mi">0</span>  <span class="mf">26.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.004</span> <span class="o">-</span><span class="mf">0.05</span>
-      <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>       <span class="n">p</span>     <span class="n">s</span>
-<span class="mi">0</span>  <span class="mf">24.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">1</span>  <span class="mf">61.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">2</span>  <span class="mf">43.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0030</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">3</span>   <span class="mf">9.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">4</span>  <span class="mf">54.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0040</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">5</span>   <span class="mf">4.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>
-      <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>       <span class="n">p</span>     <span class="n">s</span>
-<span class="mi">0</span>  <span class="mf">16.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">1</span>  <span class="mf">25.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0015</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">2</span>  <span class="mf">17.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">3</span>   <span class="mf">2.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">4</span>  <span class="mf">60.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0045</span> <span class="o">-</span><span class="mf">0.05</span>
-      <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>       <span class="n">p</span>     <span class="n">s</span>
-<span class="mi">0</span>  <span class="mf">10.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0045</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">1</span>  <span class="mf">47.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0300</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">2</span>  <span class="mf">32.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>
-<span class="mi">3</span>  <span class="mf">13.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">dcount</span>       <span class="n">ftime</span>  <span class="n">generation</span>    <span class="n">h</span>  <span class="n">label</span>  <span class="n">locus</span>  <span class="n">origin</span>      <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9974</span>  <span class="mf">0.004</span> <span class="o">-</span><span class="mf">0.05</span>
+   <span class="n">dcount</span>       <span class="n">ftime</span>  <span class="n">generation</span>    <span class="n">h</span>  <span class="n">label</span>  <span class="n">locus</span>  <span class="n">origin</span>       <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9976</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">1</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9939</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">2</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9957</span>  <span class="mf">0.0030</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">3</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9991</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">4</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9946</span>  <span class="mf">0.0040</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">5</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9996</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>
+   <span class="n">dcount</span>       <span class="n">ftime</span>  <span class="n">generation</span>    <span class="n">h</span>  <span class="n">label</span>  <span class="n">locus</span>  <span class="n">origin</span>       <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9984</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">1</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9975</span>  <span class="mf">0.0015</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">2</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9983</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">3</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9998</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">4</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9940</span>  <span class="mf">0.0045</span> <span class="o">-</span><span class="mf">0.05</span>
+   <span class="n">dcount</span>       <span class="n">ftime</span>  <span class="n">generation</span>    <span class="n">h</span>  <span class="n">label</span>  <span class="n">locus</span>  <span class="n">origin</span>       <span class="n">p</span>     <span class="n">s</span>
+<span class="mi">0</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9990</span>  <span class="mf">0.0045</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">1</span>       <span class="mi">2</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9953</span>  <span class="mf">0.0300</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">2</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9968</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>
+<span class="mi">3</span>       <span class="mi">1</span>  <span class="mi">4294967295</span>       <span class="mi">10000</span>  <span class="mf">1.0</span>      <span class="mi">0</span>      <span class="mi">0</span>    <span class="mi">9987</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>
 </pre></div>
 </div>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#The order of the rows in each DataFrame is the</span>
@@ -231,79 +231,141 @@
 </pre></div>
 </div>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">##Merge into 1 big DataFrame:</span>
-<span class="n">BigTable</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">details</span><span class="p">)</span>
+<span class="n">BigTable</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">details</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is the merged table:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">BigTable</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">merged</span> <span class="n">table</span><span class="p">:</span>
-        <span class="n">a</span>    <span class="n">h</span>  <span class="n">label</span>       <span class="n">p</span>     <span class="n">s</span>       <span class="n">pos</span>  <span class="n">count</span>  <span class="nb">id</span>
-<span class="mi">0</span>    <span class="mf">26.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0040</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.283749</span>      <span class="mi">1</span>   <span class="mi">0</span>
-<span class="mi">0</span>    <span class="mf">24.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.320125</span>      <span class="mi">1</span>   <span class="mi">1</span>
-<span class="mi">1</span>    <span class="mf">61.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0090</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.119514</span>      <span class="mi">1</span>   <span class="mi">1</span>
-<span class="mi">2</span>    <span class="mf">43.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0030</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.102664</span>      <span class="mi">1</span>   <span class="mi">1</span>
-<span class="mi">3</span>     <span class="mf">9.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.042025</span>      <span class="mi">1</span>   <span class="mi">1</span>
-<span class="mi">4</span>    <span class="mf">54.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0040</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.443235</span>      <span class="mi">1</span>   <span class="mi">1</span>
-<span class="mi">5</span>     <span class="mf">4.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.804796</span>      <span class="mi">1</span>   <span class="mi">1</span>
-<span class="mi">0</span>    <span class="mf">16.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.632548</span>      <span class="mi">1</span>   <span class="mi">2</span>
-<span class="mi">1</span>    <span class="mf">25.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0015</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.460367</span>      <span class="mi">1</span>   <span class="mi">2</span>
-<span class="mi">2</span>    <span class="mf">17.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.119099</span>      <span class="mi">1</span>   <span class="mi">2</span>
-<span class="mi">3</span>     <span class="mf">2.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.055915</span>      <span class="mi">1</span>   <span class="mi">2</span>
-<span class="mi">4</span>    <span class="mf">60.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0045</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.587909</span>      <span class="mi">1</span>   <span class="mi">2</span>
-<span class="mi">0</span>    <span class="mf">10.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0045</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.480663</span>      <span class="mi">1</span>   <span class="mi">3</span>
-<span class="mi">1</span>    <span class="mf">47.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0300</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.354161</span>      <span class="mi">2</span>   <span class="mi">3</span>
-<span class="mi">2</span>    <span class="mf">32.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.351797</span>      <span class="mi">1</span>   <span class="mi">3</span>
-<span class="mi">3</span>    <span class="mf">13.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.381058</span>      <span class="mi">1</span>   <span class="mi">3</span>
-<span class="mi">0</span>     <span class="mf">8.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.897565</span>      <span class="mi">1</span>   <span class="mi">4</span>
-<span class="mi">1</span>    <span class="mf">92.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0125</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.751551</span>      <span class="mi">1</span>   <span class="mi">4</span>
-<span class="mi">2</span>     <span class="mf">3.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.123021</span>      <span class="mi">1</span>   <span class="mi">4</span>
-<span class="mi">3</span>     <span class="mf">1.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.088541</span>      <span class="mi">1</span>   <span class="mi">4</span>
-<span class="mi">4</span>    <span class="mf">19.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0065</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.242531</span>      <span class="mi">1</span>   <span class="mi">4</span>
-<span class="mi">5</span>     <span class="mf">3.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.813220</span>      <span class="mi">1</span>   <span class="mi">4</span>
-<span class="mi">0</span>    <span class="mf">13.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0025</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.438263</span>      <span class="mi">1</span>   <span class="mi">5</span>
-<span class="mi">1</span>   <span class="mf">136.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0130</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.243305</span>      <span class="mi">1</span>   <span class="mi">5</span>
-<span class="mi">2</span>    <span class="mf">62.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.196773</span>      <span class="mi">1</span>   <span class="mi">5</span>
-<span class="mi">3</span>    <span class="mf">10.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0015</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.483931</span>      <span class="mi">1</span>   <span class="mi">5</span>
-<span class="mi">4</span>    <span class="mf">23.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0075</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.723836</span>      <span class="mi">1</span>   <span class="mi">5</span>
-<span class="mi">0</span>    <span class="mf">17.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0025</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.818220</span>      <span class="mi">1</span>   <span class="mi">6</span>
-<span class="mi">1</span>    <span class="mf">19.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0120</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.323753</span>      <span class="mi">1</span>   <span class="mi">6</span>
-<span class="mi">2</span>     <span class="mf">7.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0050</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.047837</span>      <span class="mi">1</span>   <span class="mi">6</span>
-<span class="o">..</span>    <span class="o">...</span>  <span class="o">...</span>    <span class="o">...</span>     <span class="o">...</span>   <span class="o">...</span>       <span class="o">...</span>    <span class="o">...</span>  <span class="o">..</span>
-<span class="mi">0</span>    <span class="mf">41.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0060</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.923395</span>      <span class="mi">1</span>  <span class="mi">33</span>
-<span class="mi">1</span>    <span class="mf">20.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0080</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.880657</span>      <span class="mi">1</span>  <span class="mi">33</span>
-<span class="mi">2</span>    <span class="mf">25.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0040</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.501588</span>      <span class="mi">1</span>  <span class="mi">33</span>
-<span class="mi">3</span>    <span class="mf">24.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0095</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.434086</span>      <span class="mi">1</span>  <span class="mi">33</span>
-<span class="mi">4</span>    <span class="mf">10.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.897750</span>      <span class="mi">1</span>  <span class="mi">33</span>
-<span class="mi">0</span>     <span class="mf">2.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.521129</span>      <span class="mi">1</span>  <span class="mi">34</span>
-<span class="mi">1</span>     <span class="mf">7.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0030</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.083328</span>      <span class="mi">1</span>  <span class="mi">34</span>
-<span class="mi">2</span>    <span class="mf">42.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0075</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.777795</span>      <span class="mi">1</span>  <span class="mi">34</span>
-<span class="mi">0</span>    <span class="mf">22.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.703952</span>      <span class="mi">1</span>  <span class="mi">35</span>
-<span class="mi">1</span>    <span class="mf">41.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0125</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.385990</span>      <span class="mi">1</span>  <span class="mi">35</span>
-<span class="mi">2</span>    <span class="mf">16.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0065</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.091824</span>      <span class="mi">1</span>  <span class="mi">35</span>
-<span class="mi">3</span>    <span class="mf">15.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.257222</span>      <span class="mi">1</span>  <span class="mi">35</span>
-<span class="mi">4</span>    <span class="mf">18.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0065</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.772582</span>      <span class="mi">1</span>  <span class="mi">35</span>
-<span class="mi">0</span>    <span class="mf">12.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.595274</span>      <span class="mi">1</span>  <span class="mi">36</span>
-<span class="mi">1</span>     <span class="mf">8.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0005</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.499114</span>      <span class="mi">1</span>  <span class="mi">36</span>
-<span class="mi">2</span>    <span class="mf">12.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0070</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.416441</span>      <span class="mi">1</span>  <span class="mi">36</span>
-<span class="mi">3</span>    <span class="mf">18.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.320007</span>      <span class="mi">1</span>  <span class="mi">36</span>
-<span class="mi">4</span>    <span class="mf">25.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.178538</span>      <span class="mi">1</span>  <span class="mi">36</span>
-<span class="mi">5</span>    <span class="mf">24.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0075</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.530433</span>      <span class="mi">1</span>  <span class="mi">36</span>
-<span class="mi">0</span>     <span class="mf">9.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0110</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.941568</span>      <span class="mi">1</span>  <span class="mi">37</span>
-<span class="mi">1</span>    <span class="mf">15.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0040</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.498442</span>      <span class="mi">1</span>  <span class="mi">37</span>
-<span class="mi">0</span>     <span class="mf">4.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.221834</span>      <span class="mi">1</span>  <span class="mi">38</span>
-<span class="mi">1</span>     <span class="mf">8.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0060</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.537788</span>      <span class="mi">1</span>  <span class="mi">38</span>
-<span class="mi">2</span>     <span class="mf">2.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0010</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.738061</span>      <span class="mi">1</span>  <span class="mi">38</span>
-<span class="mi">3</span>    <span class="mf">18.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0165</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.994364</span>      <span class="mi">1</span>  <span class="mi">38</span>
-<span class="mi">0</span>    <span class="mf">22.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0030</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.983060</span>      <span class="mi">1</span>  <span class="mi">39</span>
-<span class="mi">1</span>    <span class="mf">19.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0035</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.475971</span>      <span class="mi">1</span>  <span class="mi">39</span>
-<span class="mi">2</span>     <span class="mf">7.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0020</span> <span class="o">-</span><span class="mf">0.05</span> <span class="o">-</span><span class="mf">0.105493</span>      <span class="mi">1</span>  <span class="mi">39</span>
-<span class="mi">3</span>    <span class="mf">14.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0095</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.197116</span>      <span class="mi">2</span>  <span class="mi">39</span>
-<span class="mi">4</span>     <span class="mf">2.0</span>  <span class="mf">1.0</span>      <span class="mi">0</span>  <span class="mf">0.0015</span> <span class="o">-</span><span class="mf">0.05</span>  <span class="mf">1.257867</span>      <span class="mi">1</span>  <span class="mi">39</span>
+<pre class="literal-block">
+This is the merged table:
+    dcount       ftime  generation    h  label  locus  origin       p     s  0        1  4294967295       10000  1.0      0      0    9974  0.0040 -0.05
+0        1  4294967295       10000  1.0      0      0    9976  0.0090 -0.05
+1        1  4294967295       10000  1.0      0      0    9939  0.0090 -0.05
+2        1  4294967295       10000  1.0      0      0    9957  0.0030 -0.05
+3        1  4294967295       10000  1.0      0      0    9991  0.0005 -0.05
+4        1  4294967295       10000  1.0      0      0    9946  0.0040 -0.05
+5        1  4294967295       10000  1.0      0      0    9996  0.0035 -0.05
+0        1  4294967295       10000  1.0      0      0    9984  0.0035 -0.05
+1        1  4294967295       10000  1.0      0      0    9975  0.0015 -0.05
+2        1  4294967295       10000  1.0      0      0    9983  0.0020 -0.05
+3        1  4294967295       10000  1.0      0      0    9998  0.0010 -0.05
+4        1  4294967295       10000  1.0      0      0    9940  0.0045 -0.05
+0        1  4294967295       10000  1.0      0      0    9990  0.0045 -0.05
+1        2  4294967295       10000  1.0      0      0    9953  0.0300 -0.05
+2        1  4294967295       10000  1.0      0      0    9968  0.0035 -0.05
+3        1  4294967295       10000  1.0      0      0    9987  0.0005 -0.05
+0        1  4294967295       10000  1.0      0      0    9992  0.0010 -0.05
+1        1  4294967295       10000  1.0      0      0    9908  0.0125 -0.05
+2        1  4294967295       10000  1.0      0      0    9997  0.0010 -0.05
+3        1  4294967295       10000  1.0      0      0    9999  0.0005 -0.05
+4        1  4294967295       10000  1.0      0      0    9981  0.0065 -0.05
+5        1  4294967295       10000  1.0      0      0    9997  0.0010 -0.05
+0        1  4294967295       10000  1.0      0      0    9987  0.0025 -0.05
+1        1  4294967295       10000  1.0      0      0    9864  0.0130 -0.05
+2        1  4294967295       10000  1.0      0      0    9938  0.0035 -0.05
+3        1  4294967295       10000  1.0      0      0    9990  0.0015 -0.05
+4        1  4294967295       10000  1.0      0      0    9977  0.0075 -0.05
+0        1  4294967295       10000  1.0      0      0    9983  0.0025 -0.05
+1        1  4294967295       10000  1.0      0      0    9981  0.0120 -0.05
+2        1  4294967295       10000  1.0      0      0    9993  0.0050 -0.05
+..     ...         ...         ...  ...    ...    ...     ...     ...   ...
+0        1  4294967295       10000  1.0      0      0    9959  0.0060 -0.05
+1        1  4294967295       10000  1.0      0      0    9980  0.0080 -0.05
+2        1  4294967295       10000  1.0      0      0    9975  0.0040 -0.05
+3        1  4294967295       10000  1.0      0      0    9976  0.0095 -0.05
+4        1  4294967295       10000  1.0      0      0    9990  0.0005 -0.05
+0        1  4294967295       10000  1.0      0      0    9998  0.0010 -0.05
+1        1  4294967295       10000  1.0      0      0    9993  0.0030 -0.05
+2        1  4294967295       10000  1.0      0      0    9958  0.0075 -0.05
+0        1  4294967295       10000  1.0      0      0    9978  0.0035 -0.05
+1        1  4294967295       10000  1.0      0      0    9959  0.0125 -0.05
+2        1  4294967295       10000  1.0      0      0    9984  0.0065 -0.05
+3        1  4294967295       10000  1.0      0      0    9985  0.0020 -0.05
+4        1  4294967295       10000  1.0      0      0    9982  0.0065 -0.05
+0        1  4294967295       10000  1.0      0      0    9988  0.0020 -0.05
+1        1  4294967295       10000  1.0      0      0    9992  0.0005 -0.05
+2        1  4294967295       10000  1.0      0      0    9988  0.0070 -0.05
+3        1  4294967295       10000  1.0      0      0    9982  0.0020 -0.05
+4        1  4294967295       10000  1.0      0      0    9975  0.0020 -0.05
+5        1  4294967295       10000  1.0      0      0    9976  0.0075 -0.05
+0        1  4294967295       10000  1.0      0      0    9991  0.0110 -0.05
+1        1  4294967295       10000  1.0      0      0    9985  0.0040 -0.05
+0        1  4294967295       10000  1.0      0      0    9996  0.0035 -0.05
+1        1  4294967295       10000  1.0      0      0    9992  0.0060 -0.05
+2        1  4294967295       10000  1.0      0      0    9998  0.0010 -0.05
+3        1  4294967295       10000  1.0      0      0    9982  0.0165 -0.05
+0        1  4294967295       10000  1.0      0      0    9978  0.0030 -0.05
+1        1  4294967295       10000  1.0      0      0    9981  0.0035 -0.05
+2        1  4294967295       10000  1.0      0      0    9993  0.0020 -0.05
+3        2  4294967295       10000  1.0      0      0    9986  0.0095 -0.05
+4        1  4294967295       10000  1.0      0      0    9998  0.0015 -0.05
 
-<span class="p">[</span><span class="mi">143</span> <span class="n">rows</span> <span class="n">x</span> <span class="mi">8</span> <span class="n">columns</span><span class="p">]</span>
-</pre></div>
-</div>
+         pos  count  id
+0   1.283749      1   0
+0  -0.320125      1   1
+1  -0.119514      1   1
+2  -0.102664      1   1
+3   1.042025      1   1
+4   1.443235      1   1
+5   1.804796      1   1
+0  -0.632548      1   2
+1  -0.460367      1   2
+2  -0.119099      1   2
+3  -0.055915      1   2
+4   1.587909      1   2
+0  -0.480663      1   3
+1  -0.354161      2   3
+2   1.351797      1   3
+3   1.381058      1   3
+0  -0.897565      1   4
+1  -0.751551      1   4
+2  -0.123021      1   4
+3  -0.088541      1   4
+4   1.242531      1   4
+5   1.813220      1   4
+0  -0.438263      1   5
+1  -0.243305      1   5
+2  -0.196773      1   5
+3   1.483931      1   5
+4   1.723836      1   5
+0  -0.818220      1   6
+1  -0.323753      1   6
+2  -0.047837      1   6
+..       ...    ...  ..
+0  -0.923395      1  33
+1  -0.880657      1  33
+2  -0.501588      1  33
+3   1.434086      1  33
+4   1.897750      1  33
+0  -0.521129      1  34
+1  -0.083328      1  34
+2   1.777795      1  34
+0  -0.703952      1  35
+1  -0.385990      1  35
+2   1.091824      1  35
+3   1.257222      1  35
+4   1.772582      1  35
+0  -0.595274      1  36
+1  -0.499114      1  36
+2  -0.416441      1  36
+3  -0.320007      1  36
+4   1.178538      1  36
+5   1.530433      1  36
+0  -0.941568      1  37
+1  -0.498442      1  37
+0  -0.221834      1  38
+1   1.537788      1  38
+2   1.738061      1  38
+3   1.994364      1  38
+0  -0.983060      1  39
+1  -0.475971      1  39
+2  -0.105493      1  39
+3   1.197116      2  39
+4   1.257867      1  39
+
+[143 rows x 12 columns]
+</pre>
 </div>
 </div>
 <div class="section" id="summary-statistics-from-samples">
@@ -317,13 +379,13 @@ around <a class="reference external" href="http://molpopgen.github.io/libsequenc
 <span class="c1">#Convert neutral mutations into libsequence &quot;SimData&quot; objects,</span>
 <span class="c1">#which are intended to handle binary (0/1) data like</span>
 <span class="c1">#what comes out of these simulations</span>
-<span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">polyt</span><span class="o">.</span><span class="n">simData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
+<span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">polyt</span><span class="o">.</span><span class="n">SimData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
 
 <span class="c1">#Create &quot;factories&quot; for calculating the summary stats</span>
-<span class="n">an</span> <span class="o">=</span> <span class="p">[</span><span class="n">sstats</span><span class="o">.</span><span class="n">polySIM</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span>
+<span class="n">an</span> <span class="o">=</span> <span class="p">[</span><span class="n">sstats</span><span class="o">.</span><span class="n">PolySIM</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="p">]</span>
 
 <span class="c1">##Collect a bunch of summary stats into a pandas.DataFrame:</span>
-<span class="n">NeutralMutStats</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s1">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span><span class="s1">&#39;npoly&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">numpoly</span><span class="p">(),</span><span class="s1">&#39;thetaw&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetaw</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">an</span> <span class="p">])</span>
+<span class="n">NeutralMutStats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s1">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span><span class="s1">&#39;npoly&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">numpoly</span><span class="p">(),</span><span class="s1">&#39;thetaw&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetaw</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">an</span> <span class="p">])</span>
 
 <span class="n">NeutralMutStats</span>
 </pre></div>
@@ -600,8 +662,11 @@ details).</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">16.5313087525</span>
 </pre></div>
 </div>
-<p>Now, let&#8217;s get the average $pi$ from 1000 simulated replicates.  We already have 40 replicates that we did above, so we&#8217;ll run another 24 sets of four populations.</p>
-<p>We will use standard Python to grow our collection of summary statistics.</p>
+<p>Now, let&#8217;s get the average <span class="math">\(\pi\)</span> from 1000 simulated replicates.
+We already have 40 replicates that we did above, so we&#8217;ll run another 24
+sets of four populations.</p>
+<p>We will use standard Python to grow our collection of summary
+statistics.</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
     <span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span>
                          <span class="mi">40</span><span class="p">,</span>
@@ -614,11 +679,11 @@ details).</p>
                          <span class="n">sregions</span><span class="p">,</span>
                          <span class="n">recregions</span><span class="p">)</span>
     <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
-    <span class="n">simdatasNeut</span> <span class="o">=</span> <span class="p">[</span><span class="n">polyt</span><span class="o">.</span><span class="n">simData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
-    <span class="n">polySIMn</span> <span class="o">=</span> <span class="p">[</span><span class="n">sstats</span><span class="o">.</span><span class="n">polySIM</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">simdatasNeut</span><span class="p">]</span>
+    <span class="n">simdatasNeut</span> <span class="o">=</span> <span class="p">[</span><span class="n">polyt</span><span class="o">.</span><span class="n">SimData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
+    <span class="n">polySIMn</span> <span class="o">=</span> <span class="p">[</span><span class="n">sstats</span><span class="o">.</span><span class="n">PolySIM</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">simdatasNeut</span><span class="p">]</span>
     <span class="c1">##Append stats into our growing DataFrame:</span>
-    <span class="n">NeutralMutStats</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">NeutralMutStats</span><span class="p">,</span>
-                                   <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s1">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span>
+    <span class="n">NeutralMutStats</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">NeutralMutStats</span><span class="p">,</span>
+                                   <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span> <span class="p">{</span><span class="s1">&#39;thetapi&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetapi</span><span class="p">(),</span>
                                                        <span class="s1">&#39;npoly&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">numpoly</span><span class="p">(),</span>
                                                        <span class="s1">&#39;thetaw&#39;</span><span class="p">:</span><span class="n">i</span><span class="o">.</span><span class="n">thetaw</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">polySIMn</span> <span class="p">])])</span>
 </pre></div>
@@ -719,7 +784,7 @@ simulations, and it is quite close to the theoretical value.</p>
         <li class="right" >
           <a href="../docs/threads.html" title="How many threads to use?"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

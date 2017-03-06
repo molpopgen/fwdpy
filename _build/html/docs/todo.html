@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How many threads to use? &#8212; fwdpy 0.0.4-rc3 documentation</title>
+    <title>TODO &#8212; fwdpy 0.0.4-rc3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -27,8 +27,8 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Example: background selection" href="../examples/BGS.html" />
-    <link rel="prev" title="Processing SLiM input files" href="slim.html" /> 
+    <link rel="next" title="Modules in this package" href="notes.html" />
+    <link rel="prev" title="Changelog (rough)" href="changelog.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -41,10 +41,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../examples/BGS.html" title="Example: background selection"
+          <a href="notes.html" title="Modules in this package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="slim.html" title="Processing SLiM input files"
+          <a href="changelog.html" title="Changelog (rough)"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
@@ -55,15 +55,18 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="how-many-threads-to-use">
-<h1>How many threads to use?<a class="headerlink" href="#how-many-threads-to-use" title="Permalink to this headline">¶</a></h1>
-<p>Many of the simulation functions in this package allow you to simulate more than one replicate at a time.   Each replicate will be simulated using a different thread of execution.</p>
-<p>In order to maximize performance, you want to use the &#8220;right&#8221; number of threads.  However, that number is hard to know, as it depends on many things, including:</p>
+  <div class="section" id="todo">
+<h1>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li>The population size(s) being simulated.</li>
-<li>The number of cores on your machine.</li>
+<li>Document custom temporal samplers.  Target version 0.0.4</li>
+<li>Add safety check to (de)serialization.  Current method trusts the input string completely.  This likely requires a
+saftey-checking template that is specialized for each population type.  Target version 0.0.5.</li>
+<li>Remove fwdpy.fwdpyio module in favor of object-level serialization.  Target version 0.0.5.</li>
+<li>Serialization should be at the level of PopType and PopVec objects.  The latter can be done in parallel.  Target
+version 0.0.5.</li>
+<li>Serialization should support direct to/from file, with gzip as option via zlib. Target version 0.0.5.</li>
+<li>Custom rules classes. This will allow &#8220;stateful&#8221; fitness models, and many other things.  Target version 0.0.5.</li>
 </ul>
-<p>If you have a 64-core machine, you may or may not see a 100% load on that machine with 64 cores.  On the UCI HPC system, we may see loads more like 95-97%.  If you want to squeeze out the remaining few percent, run 32 core jobs and merge the output.</p>
 </div>
 
 
@@ -73,15 +76,15 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="slim.html"
-                        title="previous chapter">Processing SLiM input files</a></p>
+  <p class="topless"><a href="changelog.html"
+                        title="previous chapter">Changelog (rough)</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../examples/BGS.html"
-                        title="next chapter">Example: background selection</a></p>
+  <p class="topless"><a href="notes.html"
+                        title="next chapter">Modules in this package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/docs/threads.rst.txt"
+      <li><a href="../_sources/docs/todo.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -109,10 +112,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../examples/BGS.html" title="Example: background selection"
+          <a href="notes.html" title="Modules in this package"
              >next</a> |</li>
         <li class="right" >
-          <a href="slim.html" title="Processing SLiM input files"
+          <a href="changelog.html" title="Changelog (rough)"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>

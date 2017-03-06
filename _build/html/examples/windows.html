@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Example: Sliding windows &#8212; fwdpy 0.0.4pre1 documentation</title>
+    <title>Example: Sliding windows &#8212; fwdpy 0.0.4-rc3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.4pre1',
+        VERSION:     '0.0.4-rc3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="views.html" title="Example of taking ‘views’ from simulated populations"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -66,18 +66,9 @@
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#import our modules</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">fwdpy</span> <span class="k">as</span> <span class="nn">fp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">time</span>
-</pre></div>
-</div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">##Info</span>
-<span class="n">dt</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This example was processed using &quot;</span><span class="p">,</span><span class="n">fp</span><span class="o">.</span><span class="n">pkg_version</span><span class="p">(),</span> <span class="s2">&quot;on&quot;</span><span class="p">,</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">,</span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span><span class="p">,</span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The dependency versions are&quot;</span><span class="p">,</span><span class="n">fp</span><span class="o">.</span><span class="n">pkg_dependencies</span><span class="p">())</span>
-</pre></div>
-</div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">example</span> <span class="n">was</span> <span class="n">processed</span> <span class="n">using</span>  <span class="p">{</span><span class="s1">&#39;fwdpy&#39;</span><span class="p">:</span> <span class="s1">&#39;0.0.1&#39;</span><span class="p">}</span> <span class="n">on</span> <span class="mi">10</span> <span class="o">/</span> <span class="mi">30</span> <span class="o">/</span> <span class="mi">2015</span>
-<span class="n">The</span> <span class="n">dependency</span> <span class="n">versions</span> <span class="n">are</span> <span class="p">{</span><span class="s1">&#39;libsequence&#39;</span><span class="p">:</span> <span class="s1">&#39;1.8.7&#39;</span><span class="p">,</span> <span class="s1">&#39;GSL&#39;</span><span class="p">:</span> <span class="s1">&#39;1.16&#39;</span><span class="p">,</span> <span class="s1">&#39;fwdpp&#39;</span><span class="p">:</span> <span class="s1">&#39;0.4.0&#39;</span><span class="p">}</span>
 </pre></div>
 </div>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#set up our sim</span>
@@ -126,11 +117,11 @@ half-open interval <span class="math">\([0,3)\)</span></p>
 <div class="section" id="using-pylibseq">
 <h3>Using <a class="reference external" href="https://github.com/molpopgen/pylibseq">pylibseq</a><a class="headerlink" href="#using-pylibseq" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">libsequence.windows</span> <span class="k">import</span> <span class="n">Windows</span>
-<span class="kn">from</span> <span class="nn">libsequence.polytable</span> <span class="k">import</span> <span class="n">simData</span>
+<span class="kn">from</span> <span class="nn">libsequence.polytable</span> <span class="k">import</span> <span class="n">SimData</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
     <span class="c1">##We need to convert our list of tuples</span>
     <span class="c1">##into types that pylibseq/libsequence understand:</span>
-    <span class="n">windows</span> <span class="o">=</span> <span class="n">Windows</span><span class="p">(</span><span class="n">simData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="n">Windows</span><span class="p">(</span><span class="n">SimData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
     <span class="c1">##Now, you can analyze the windows, etc.</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">windows</span><span class="p">))</span>
 </pre></div>
@@ -212,7 +203,7 @@ processed them and let them go out of scope.</p>
         <li class="right" >
           <a href="views.html" title="Example of taking ‘views’ from simulated populations"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

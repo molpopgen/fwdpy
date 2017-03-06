@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>fwdpy: forward simulation in Python using fwdpp &#8212; fwdpy 0.0.4pre1 documentation</title>
+    <title>fwdpy: forward simulation in Python using fwdpp &#8212; fwdpy 0.0.4-rc3 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.4pre1',
+        VERSION:     '0.0.4-rc3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Modules in this package" href="docs/notes.html" />
+    <link rel="next" title="Changelog (rough)" href="docs/changelog.html" />
     <link rel="prev" title="Welcome to fwdpy’s documentation!" href="index.html" /> 
   </head>
   <body role="document">
@@ -41,12 +41,12 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="docs/notes.html" title="Modules in this package"
+          <a href="docs/changelog.html" title="Changelog (rough)"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -76,87 +76,6 @@
 <h2>Citation<a class="headerlink" href="#citation" title="Permalink to this headline">¶</a></h2>
 <p>See the project home page for details
 (<a class="reference external" href="http://molpopgen.github.io/fwdpy">http://molpopgen.github.io/fwdpy</a>).</p>
-</div>
-<div class="section" id="todo">
-<h2>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Document custom temporal samplers.  Target version 0.0.4</li>
-<li>Add safety check to (de)serialization.  Current method trusts the input string completely.  This likely requires a
-saftey-checking template that is specialized for each population type.  Target version 0.0.5.</li>
-<li>Remove fwdpy.fwdpyio module in favor of object-level serialization.  Target version 0.0.5.</li>
-<li>Serialization should be at the level of PopType and PopVec objects.  The latter can be done in parallel.  Target
-version 0.0.5.</li>
-<li>Serialization should support direct to/from file, with gzip as option via zlib. Target version 0.0.5.</li>
-<li>Custom rules classes. This will allow &#8220;stateful&#8221; fitness models, and many other things.  Target version 0.0.5.</li>
-</ul>
-</div>
-<div class="section" id="changelog-rough">
-<h2>Changelog (rough)<a class="headerlink" href="#changelog-rough" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>0.0.4<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>Changes to the Python side:</p>
-<ul class="simple">
-<li>&#8220;Evolve&#8221; functions are now much more generic due to fitness function
-objects and temporal sampler objects (see below)</li>
-<li>The application of temporal samplers is now consistent for all types of simulation (&#8220;pop-gen&#8221;, &#8220;quant-trait&#8221;, etc.)</li>
-<li>Added ability to use custom fitness functions!!! On the Python side,
-these work via <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.SpopFitness</span></code> and <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusFitness</span></code></li>
-<li>Class names now more &#8220;Pythonic&#8221;.  This will break existing scripts.</li>
-<li>Add fwdpy.demography module.</li>
-<li>Add <a class="reference internal" href="index.html#fwdpy.fwdpy.MlocusPop" title="fwdpy.fwdpy.MlocusPop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusPop</span></code></a></li>
-<li>Add <a class="reference internal" href="index.html#fwdpy.fwdpy.MlocusPopVec" title="fwdpy.fwdpy.MlocusPopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusPopVec</span></code></a></li>
-<li>Add concept of a temporal sampler via
-<a class="reference internal" href="index.html#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a>.</li>
-<li>Add temporal sampler objects <a class="reference internal" href="index.html#fwdpy.fwdpy.NothingSampler" title="fwdpy.fwdpy.NothingSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.NothingSampler</span></code></a>,
-<a class="reference internal" href="index.html#fwdpy.fwdpy.QtraitStatsSampler" title="fwdpy.fwdpy.QtraitStatsSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.QtraitStatsSampler</span></code></a>,
-<a class="reference internal" href="index.html#fwdpy.fwdpy.PopSampler" title="fwdpy.fwdpy.PopSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopSampler</span></code></a>,
-<a class="reference internal" href="index.html#fwdpy.fwdpy.VASampler" title="fwdpy.fwdpy.VASampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.VASampler</span></code></a>,
-<a class="reference internal" href="index.html#fwdpy.fwdpy.FreqSampler" title="fwdpy.fwdpy.FreqSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.FreqSampler</span></code></a></li>
-<li>Add function <a class="reference internal" href="index.html#fwdpy.fwdpy.apply_sampler" title="fwdpy.fwdpy.apply_sampler"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.apply_sampler()</span></code></a></li>
-<li>Add <a class="reference internal" href="index.html#fwdpy.fwdpy.tidy_trajectories" title="fwdpy.fwdpy.tidy_trajectories"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.tidy_trajectories()</span></code></a>, which really speeds up
-coercion of mutation frequency trajectories to a pandas DataFrame.</li>
-<li>Add <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.hapmatrix()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.genomatrix()</span></code></li>
-<li>Added views of fixed mutations via <a class="reference internal" href="index.html#fwdpy.fwdpy.view_fixations" title="fwdpy.fwdpy.view_fixations"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.view_fixations()</span></code></a></li>
-<li>Better Python3 compatibility</li>
-<li>Add support to serialize/deserialize <a class="reference internal" href="index.html#fwdpy.fwdpy.MlocusPop" title="fwdpy.fwdpy.MlocusPop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusPop</span></code></a></li>
-<li>Streamline implementation of the various <a class="reference internal" href="index.html#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a> classes.  They no longer contain two containers,
-and they yield <a class="reference internal" href="index.html#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> objects upon iteration.</li>
-</ul>
-<p>Changes to the Cython/C++ back end:</p>
-<ul class="simple">
-<li>diploid fitness now defaults to 1 instead of 0</li>
-<li>Bug fixed in get_gamete in views.pyx.  This affected the output of almost all &#8220;views&#8221; functions except those viewing just mutations.</li>
-<li><a class="reference external" href="https://pypi.python.org/pypi/CythonGSL">cythonGSL</a> is now required. We expect to use more GSL in this package, and so it makes sense to not reinvent the wheel.</li>
-<li>Massive reduction in code base</li>
-<li>Update to <a class="reference external" href="http://www.cython.org/">Cython</a> 0.24.0</li>
-<li>Generic temporal samplers and fitness functions are now supported.</li>
-<li>Expose more fwdpp types for multi-locus/region simulations</li>
-<li>Expose fwdpp&#8217;s fitness function objects site_dependent_fitness,
-additive_diploid, and multiplicative_diploid.  Call operators
-(e.g. operator()) are only exposed for custom diploids.</li>
-<li>More unit tests of sampling and &#8220;views&#8221;</li>
-<li>Update how samples are taken from populations, reflecting a bug fix
-in fwdpp 0.4.9 that made the Cython wrappers in this package
-incorrect.</li>
-<li>Population objects in types.hpp now have serialization/deserialization functions.</li>
-<li>Single-parameter constructors for population objects in types.hpp are now &#8220;explicit&#8221;.</li>
-</ul>
-</div>
-<div class="section" id="id2">
-<h3>0.0.3<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>Change from std::thread to std::async for concurrency.</li>
-<li>The asynchronous futures allow for the same &#8220;evolve&#8221; function to be
-used in different contexts.</li>
-<li>The different contexts include calculating things from the
-population every &#8220;k&#8221; generation or doing nothing.</li>
-<li>These things are implemented as classes with call operators and a
-minimal set of API requirements.</li>
-<li>Fixed a bug in &#8220;mutation views&#8221;</li>
-<li>Better parameter checking for various &#8220;evolve&#8221; functions</li>
-<li>Source code re-organized so that all header files are installed</li>
-</ul>
-</div>
 </div>
 <div class="section" id="features">
 <h2>Features:<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
@@ -371,8 +290,8 @@ slowly:</p>
 </div>
 <p>If the above command returns nothing, then it is very likely that fwdpp is either too old, missing entirely from your system, or it is installed somewhere non-standard.  For example, if you installed fwdpp locally for your user, and did not edit PATH to include ~/bin, then fwdppConfig cannot be called without referring to its complete path.</p>
 </div>
-<div class="section" id="id3">
-<h4>Dependencies in non-standard locations<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id1">
+<h4>Dependencies in non-standard locations<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>Your system&#8217;s compiler has a default set of paths where it will look for header files, libraries, etc.  Typically, these paths will include /usr and /usr/local.  If you have installed the dependencies somewhere else (your home directory, for example), then the ./configure script may not be able to find them automatically.</p>
 <p><strong>NOTE:</strong> I sometimes get requests for installation help from users who have installed every dependency in a separate folder in their $HOME.  In other words, they have some setup that looks like this:</p>
 <ul class="simple">
@@ -410,12 +329,6 @@ $ doxygen fwdpy.doxygen
   <ul>
 <li><a class="reference internal" href="#">fwdpy: forward simulation in Python using fwdpp</a><ul>
 <li><a class="reference internal" href="#citation">Citation</a></li>
-<li><a class="reference internal" href="#todo">TODO</a></li>
-<li><a class="reference internal" href="#changelog-rough">Changelog (rough)</a><ul>
-<li><a class="reference internal" href="#id1">0.0.4</a></li>
-<li><a class="reference internal" href="#id2">0.0.3</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#features">Features:</a></li>
 <li><a class="reference internal" href="#google-group">Google Group</a></li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
@@ -438,7 +351,7 @@ $ doxygen fwdpy.doxygen
 <li><a class="reference internal" href="#rough-guide-to-installation-on-uci-hpc">Rough guide to installation on UCI HPC</a></li>
 <li><a class="reference internal" href="#troubleshooting-the-installation">Troubleshooting the installation</a><ul>
 <li><a class="reference internal" href="#incorrect-fwdpp-version">Incorrect fwdpp version</a></li>
-<li><a class="reference internal" href="#id3">Dependencies in non-standard locations</a></li>
+<li><a class="reference internal" href="#id1">Dependencies in non-standard locations</a></li>
 </ul>
 </li>
 </ul>
@@ -452,8 +365,8 @@ $ doxygen fwdpy.doxygen
   <p class="topless"><a href="index.html"
                         title="previous chapter">Welcome to fwdpy&#8217;s documentation!</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="docs/notes.html"
-                        title="next chapter">Modules in this package</a></p>
+  <p class="topless"><a href="docs/changelog.html"
+                        title="next chapter">Changelog (rough)</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -485,12 +398,12 @@ $ doxygen fwdpy.doxygen
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="docs/notes.html" title="Modules in this package"
+          <a href="docs/changelog.html" title="Changelog (rough)"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Welcome to fwdpy’s documentation!"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

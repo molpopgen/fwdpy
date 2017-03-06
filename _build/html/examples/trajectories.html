@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Tracking mutation frequencies &#8212; fwdpy 0.0.4pre1 documentation</title>
+    <title>Tracking mutation frequencies &#8212; fwdpy 0.0.4-rc3 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.4pre1',
+        VERSION:     '0.0.4-rc3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="windows.html" title="Example: Sliding windows"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -102,7 +102,7 @@
                                   <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rawTraj</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">tidy_trajectories</span><span class="p">(</span><span class="n">sampler</span><span class="o">.</span><span class="n">get</span><span class="p">())]</span>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">rawTraj</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">tidy_trajectories</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sampler</span><span class="p">]</span>
 <span class="c1">#This example has only 1 set of trajectories, so let&#39;s make a variable for thet</span>
 <span class="c1">#single replicate</span>
 <span class="n">traj</span><span class="o">=</span><span class="n">rawTraj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -111,18 +111,18 @@
 <span class="nb">print</span> <span class="n">traj</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>      <span class="n">esize</span>    <span class="n">freq</span>  <span class="n">generation</span>  <span class="n">origin</span>       <span class="n">pos</span>
-<span class="mi">0</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0005</span>           <span class="mi">2</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
-<span class="mi">1</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0010</span>           <span class="mi">3</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
-<span class="mi">2</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0010</span>           <span class="mi">4</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
-<span class="mi">3</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0010</span>           <span class="mi">5</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
-<span class="mi">4</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0015</span>           <span class="mi">6</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
-           <span class="n">esize</span>    <span class="n">freq</span>  <span class="n">generation</span>  <span class="n">origin</span>       <span class="n">pos</span>
-<span class="mi">104416</span> <span class="o">-</span><span class="mf">0.155373</span>  <span class="mf">0.0005</span>       <span class="mi">10000</span>    <span class="mi">9998</span>  <span class="mf">1.912775</span>
-<span class="mi">104417</span> <span class="o">-</span><span class="mf">0.035017</span>  <span class="mf">0.0005</span>        <span class="mi">9999</span>    <span class="mi">9998</span>  <span class="mf">1.949638</span>
-<span class="mi">104418</span> <span class="o">-</span><span class="mf">0.035017</span>  <span class="mf">0.0010</span>       <span class="mi">10000</span>    <span class="mi">9998</span>  <span class="mf">1.949638</span>
-<span class="mi">104419</span> <span class="o">-</span><span class="mf">0.042471</span>  <span class="mf">0.0005</span>       <span class="mi">10000</span>    <span class="mi">9999</span>  <span class="mf">1.738310</span>
-<span class="mi">104420</span> <span class="o">-</span><span class="mf">0.030944</span>  <span class="mf">0.0005</span>       <span class="mi">10000</span>    <span class="mi">9999</span>  <span class="mf">1.805271</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>      <span class="n">esize</span>    <span class="n">freq</span>  <span class="n">generation</span>  <span class="n">label</span>  <span class="n">origin</span>       <span class="n">pos</span>
+<span class="mi">0</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0005</span>           <span class="mi">1</span>      <span class="mi">0</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
+<span class="mi">1</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0005</span>           <span class="mi">2</span>      <span class="mi">0</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
+<span class="mi">2</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0010</span>           <span class="mi">3</span>      <span class="mi">0</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
+<span class="mi">3</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0010</span>           <span class="mi">4</span>      <span class="mi">0</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
+<span class="mi">4</span> <span class="o">-</span><span class="mf">0.066601</span>  <span class="mf">0.0010</span>           <span class="mi">5</span>      <span class="mi">0</span>       <span class="mi">0</span>  <span class="mf">1.125086</span>
+           <span class="n">esize</span>    <span class="n">freq</span>  <span class="n">generation</span>  <span class="n">label</span>  <span class="n">origin</span>       <span class="n">pos</span>
+<span class="mi">104420</span> <span class="o">-</span><span class="mf">0.035017</span>  <span class="mf">0.0010</span>       <span class="mi">10000</span>      <span class="mi">0</span>    <span class="mi">9998</span>  <span class="mf">1.949638</span>
+<span class="mi">104421</span> <span class="o">-</span><span class="mf">0.155373</span>  <span class="mf">0.0005</span>        <span class="mi">9999</span>      <span class="mi">0</span>    <span class="mi">9998</span>  <span class="mf">1.912775</span>
+<span class="mi">104422</span> <span class="o">-</span><span class="mf">0.155373</span>  <span class="mf">0.0005</span>       <span class="mi">10000</span>      <span class="mi">0</span>    <span class="mi">9998</span>  <span class="mf">1.912775</span>
+<span class="mi">104423</span> <span class="o">-</span><span class="mf">0.030944</span>  <span class="mf">0.0005</span>       <span class="mi">10000</span>      <span class="mi">0</span>    <span class="mi">9999</span>  <span class="mf">1.805271</span>
+<span class="mi">104424</span> <span class="o">-</span><span class="mf">0.042471</span>  <span class="mf">0.0005</span>       <span class="mi">10000</span>      <span class="mi">0</span>    <span class="mi">9999</span>  <span class="mf">1.738310</span>
 <span class="mf">1.0</span>
 </pre></div>
 </div>
@@ -145,6 +145,7 @@
       <th>esize</th>
       <th>freq</th>
       <th>generation</th>
+      <th>label</th>
       <th>origin</th>
     </tr>
   </thead>
@@ -155,6 +156,7 @@
       <td>0.001812</td>
       <td>1.0</td>
       <td>2612</td>
+      <td>0</td>
       <td>43</td>
     </tr>
   </tbody>
@@ -178,7 +180,7 @@ positively selected,</p>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">traj</span><span class="p">[</span><span class="n">traj</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;generation&#39;</span><span class="p">],</span><span class="n">traj</span><span class="p">[</span><span class="n">traj</span><span class="p">[</span><span class="s1">&#39;pos&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;freq&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<img alt="../_images/trajectories_11_0.png" src="../_images/trajectories_11_0.png" />
+<img alt="../_images/trajectories.nbconvert_11_0.png" src="../_images/trajectories.nbconvert_11_0.png" />
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#Let&#39;s get histogram of effect sizes for all mutations that did not fix</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
@@ -187,10 +189,10 @@ positively selected,</p>
 <span class="n">mfreq</span><span class="p">[</span><span class="n">mfreq</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span><span class="o">&lt;</span><span class="mf">1.0</span><span class="p">][</span><span class="s1">&#39;esize&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="n">at</span> <span class="mh">0x7fa2e45f1790</span><span class="o">&gt;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">_subplots</span><span class="o">.</span><span class="n">AxesSubplot</span> <span class="n">at</span> <span class="mh">0x7f0982a55f50</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<img alt="../_images/trajectories_12_1.png" src="../_images/trajectories_12_1.png" />
+<img alt="../_images/trajectories.nbconvert_12_1.png" src="../_images/trajectories.nbconvert_12_1.png" />
 </div>
 </div>
 </div>
@@ -256,7 +258,7 @@ positively selected,</p>
         <li class="right" >
           <a href="windows.html" title="Example: Sliding windows"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

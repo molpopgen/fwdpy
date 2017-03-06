@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to fwdpy’s documentation! &#8212; fwdpy 0.0.4pre1 documentation</title>
+    <title>Welcome to fwdpy’s documentation! &#8212; fwdpy 0.0.4-rc3 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.4pre1',
+        VERSION:     '0.0.4-rc3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -58,8 +58,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="README.html">fwdpy: forward simulation in Python using fwdpp</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="README.html#citation">Citation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#todo">TODO</a></li>
-<li class="toctree-l2"><a class="reference internal" href="README.html#changelog-rough">Changelog (rough)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#features">Features:</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#google-group">Google Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="README.html#examples">Examples</a></li>
@@ -72,6 +70,13 @@
 <li class="toctree-l2"><a class="reference internal" href="README.html#documentation">Documentation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="docs/changelog.html">Changelog (rough)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/changelog.html#rc3">0.0.4-rc3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/changelog.html#through-release-candidate-2">0.0.4 (through release candidate 2)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/changelog.html#id1">0.0.3</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docs/todo.html">TODO</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs/notes.html">Modules in this package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/notes.html#notes-on-the-documentation">Notes on the documentation</a></li>
 </ul>
@@ -109,12 +114,6 @@
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#specific-examples">Specific examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/regions.html#how-to-set-up-a-model">How to set up a model</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/temporalSampling.html">Temporal sampling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/temporalSampling.html#sampling-nothing">Sampling nothing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/temporalSampling.html#take-samples-from-population">Take samples from population</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/temporalSampling.html#tracking-mutation-frequencies">Tracking mutation frequencies</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/summstats.html">Calculating summary statistics</a></li>
@@ -300,10 +299,68 @@
 <p>A <a class="reference internal" href="#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a> to track the frequencies of selected mutations over time.</p>
 <p>This type is a model of an iterable container.  Return values may be either yielded
 or accessed via [i].</p>
+<dl class="method">
+<dt id="fwdpy.fwdpy.FreqSampler.fetch">
+<code class="descname">fetch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.FreqSampler.fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch a filtered data set on allele frequency trajectories.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>i</strong> &#8211; The index of the data set to retrieve.</li>
+<li><strong>origin_filter</strong> &#8211; (None) A callable to filter on the origin time of mutations.</li>
+<li><strong>pos_esize_filter</strong> &#8211; (None) A callable to filter on the position and effect size of a mutation.</li>
+<li><strong>freq_filter</strong> &#8211; (None) A callable to filter on the frequency trajectory itself.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Each callable must return True or False.  The callable &#8220;origin_filter&#8221; will receive a single,
+non-negative integer for an argument.  &#8220;pos_esize_filter&#8221; will recieve a tuple with two elements,
+position and effect size, respectively. Finally, &#8220;freq_filter&#8221; will recieve a list of tuples.  Each
+tuple will contain (generation, freq) and will be sorted by generation in ascending order.</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="fwdpy.fwdpy.FreqSampler.next">
 <code class="descname">next</code><a class="headerlink" href="#fwdpy.fwdpy.FreqSampler.next" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="fwdpy.fwdpy.FreqSampler.to_sql">
+<code class="descname">to_sql</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.FreqSampler.to_sql" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write output directly to SQLite database files.  Unlike
+<a class="reference internal" href="#fwdpy.fwdpy.FreqSampler.fetch" title="fwdpy.fwdpy.FreqSampler.fetch"><code class="xref py py-meth docutils literal"><span class="pre">fetch()</span></code></a>, this function
+requires an object of type <a class="reference internal" href="#fwdpy.fwdpy.TrajFilter" title="fwdpy.fwdpy.TrajFilter"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TrajFilter</span></code></a>
+to filter out unwanted trajectories.</p>
+<p>This function skips the copy of data from C++ to Python, which may make it 
+more efficient than using <a class="reference internal" href="#fwdpy.fwdpy.FreqSampler.fetch" title="fwdpy.fwdpy.FreqSampler.fetch"><code class="xref py py-meth docutils literal"><span class="pre">fetch()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dbname</strong> &#8211; Either the name of a database file (when onedb is True), or the prefix for file names (when onedb is False).</li>
+<li><strong>traj_filter</strong> &#8211; (None)  If None, <a class="reference internal" href="#fwdpy.fwdpy.TrajFilter" title="fwdpy.fwdpy.TrajFilter"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TrajFilter</span></code></a> is used, which means all trajectories are written to file.  Otherwise, a custom object is used to filter.</li>
+<li><strong>threshold</strong> &#8211; (1,000,000) When onedb is True, this is the number of records to write to the in-memory database before writing to file.</li>
+<li><strong>label</strong> &#8211; <ol class="arabic" start="0">
+<li>The starting value of the replicate id. When onedb is True, data from different replicates will have a &#8220;rep&#8221; column in the database, with rep goring from threshold to threshold + len(self)-1.</li>
+</ol>
+</li>
+<li><strong>onedb</strong> &#8211; (False)  If False, each trajectory is written to a separate file.  If true, data are first written to in-memory databases and then flushed to disk at time intervals depending on the value of &#8220;threshold&#8221;.</li>
+<li><strong>append</strong> &#8211; (False) If false, the output file will be deleted if it exsists.  Otherwise, it will be assumed to be a valid SQLite database and appended to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The schema of the resulting files can be checked with the sqlite3 command-line tool.</p>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -851,6 +908,26 @@ to be applied to simluated populations at regular intervals.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="fwdpy.fwdpy.TrajExistedPast">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">TrajExistedPast</code><a class="headerlink" href="#fwdpy.fwdpy.TrajExistedPast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.TrajFilter" title="fwdpy.fwdpy.TrajFilter"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TrajFilter</span></code></a></p>
+<p>A type of <a class="reference internal" href="#fwdpy.fwdpy.TrajFilter" title="fwdpy.fwdpy.TrajFilter"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TrajFilter</span></code></a>.  Tests that a mutation existed
+in the simulation past a certain generation.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fwdpy.fwdpy.TrajFilter">
+<em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">TrajFilter</code><a class="headerlink" href="#fwdpy.fwdpy.TrajFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base class for filtering trajectories.</p>
+<p>An instance of this object allows all trajectories to be written to file.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">See <a class="reference internal" href="#fwdpy.fwdpy.FreqSampler.to_sql" title="fwdpy.fwdpy.FreqSampler.to_sql"><code class="xref py py-meth docutils literal"><span class="pre">to_sql()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
 <dt id="fwdpy.fwdpy.UniformS">
 <em class="property">class </em><code class="descclassname">fwdpy.fwdpy.</code><code class="descname">UniformS</code><a class="headerlink" href="#fwdpy.fwdpy.UniformS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#fwdpy.fwdpy.Sregion" title="fwdpy.fwdpy.Sregion"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Sregion</span></code></a></p>
@@ -968,14 +1045,6 @@ or accessed via [i].</p>
 <span class="go">[{&#39;g&#39;: 0, &#39;h&#39;: 1.0, &#39;pos&#39;: 0.01, &#39;n&#39;: 4, &#39;s&#39;: 0.0, &#39;ftime&#39;: 4294967295, &#39;label&#39;: 0, &#39;neutral&#39;: True}]</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="function">
-<dt id="fwdpy.fwdpy.allele_ages">
-<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">allele_ages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.allele_ages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate allele age information from mutation frequency trajectories.</p>
-<p>The return value is a list of dicts that include the generation when the mutation arose, its effect size, 
-maximum frequency, and the number of times a frequency was recorded for that mutation.</p>
 </dd></dl>
 
 <dl class="function">
@@ -1333,6 +1402,12 @@ pandas.DataFrame objects with the information about the mutations present in the
 </dd></dl>
 
 <dl class="function">
+<dt id="fwdpy.fwdpy.get_includes">
+<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">get_includes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.get_includes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns absolute path to location of fwdpy headers</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="fwdpy.fwdpy.get_sample_details">
 <code class="descclassname">fwdpy.fwdpy.</code><code class="descname">get_sample_details</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.get_sample_details" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get additional details for population samples</p>
@@ -1472,16 +1547,6 @@ In general, it will be more convenient to call <a class="reference internal" hre
 </dd></dl>
 
 <dl class="function">
-<dt id="fwdpy.fwdpy.merge_trajectories">
-<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">merge_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.merge_trajectories" title="Permalink to this definition">¶</a></dt>
-<dd><p>Take two sets of mutation trajectories and merge them.</p>
-<p>The intended use case is that trajectories2 are from a later time point of the same
-simulations used to generate trajectories 1.  For example, trajectories 1 may represent 
-mutations arising during evolution to equilibrium, and trajectories2 represent what happend
-during a bottleneck.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="fwdpy.fwdpy.ms_sample">
 <code class="descclassname">fwdpy.fwdpy.</code><code class="descname">ms_sample</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.ms_sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take a sample from a set of simulated populations.</p>
@@ -1576,41 +1641,6 @@ during a bottleneck.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="fwdpy.fwdpy.tidy_trajectories">
-<code class="descclassname">fwdpy.fwdpy.</code><code class="descname">tidy_trajectories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.fwdpy.tidy_trajectories" title="Permalink to this definition">¶</a></dt>
-<dd><p>Take a set of allele frequency trajectories and &#8216;tidy&#8217; them for easier coercion into
-a pandas.DataFrame.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>trajectories</strong> &#8211; A list of mutation frequency trajectories from <a class="reference internal" href="#fwdpy.fwdpy.FreqSampler" title="fwdpy.fwdpy.FreqSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.FreqSampler</span></code></a>.</li>
-<li><strong>min_sojourn</strong> &#8211; Exclude mutations that segregate for fewer generations than this value.</li>
-<li><strong>min_freq</strong> &#8211; Exclude mutations that never reach a frequency <span class="math">\(\geq\)</span> this value.</li>
-<li><strong>remove_arose_after</strong> &#8211; (None) Do not include mutations whose origin times are &gt; this value.</li>
-<li><strong>remove_gone_before</strong> &#8211; (None) Do not include mutations whose last recorded generation are &lt;= this value.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The sojourn time filter is not applied to fixations.  I&#8217;m assuming you are always interested in those.</p>
-</div>
-<p>The frequency data for each generation for each mutation are represesnted as a dict.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list of dicts or generator to such a list</td>
 </tr>
 </tbody>
 </table>
@@ -2256,6 +2286,94 @@ back in.</p>
 </div>
 </dd></dl>
 
+<span class="target" id="module-fwdpy.qtrait.qtrait"></span><dl class="class">
+<dt id="fwdpy.qtrait.qtrait.SpopGBRTrait">
+<em class="property">class </em><code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">SpopGBRTrait</code><a class="headerlink" href="#fwdpy.qtrait.qtrait.SpopGBRTrait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.SpopFitness" title="fwdpy.fitness.SpopFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.SpopFitness</span></code></a></p>
+<p>The &#8220;gene-based recessive&#8221; (GBR) model of Thornton et al (2013) PLoS Genetics.</p>
+<p>The genetic value is the geometric mean of haplotype effect sizes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be really careful with this one!  Fitnesses are undefined if the sum of effect sizes on a haplotype is <span class="math">\(&lt; 0:\)</span>.  The intended use case is to calculate a trait value under models with effect sizes <span class="math">\(&gt;0\)</span>.</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.qtrait.qtrait.evolve_regions_qtrait">
+<code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">evolve_regions_qtrait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.qtrait.qtrait.evolve_regions_qtrait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evolve a quantitative trait with variable mutation, fitness effects, and recombination rates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rng</strong> &#8211; a <code class="xref py py-class docutils literal"><span class="pre">GSLrng</span></code></li>
+<li><strong>npops</strong> &#8211; The number of populations to simulate.  This is equal to the number of threads that will be used!</li>
+<li><strong>N</strong> &#8211; The diploid population size to simulate</li>
+<li><strong>nlist</strong> &#8211; An array view of a NumPy array.  This represents the population sizes over time.  The length of this view is the length of the simulation in generations. The view must be of an array of 32 bit, unsigned integers (see example).</li>
+<li><strong>mu_neutral</strong> &#8211; The mutation rate to variants not affecting fitness (&#8220;neutral&#8221; mutations).  The unit is per gamete, per generation.</li>
+<li><strong>mu_selected</strong> &#8211; The mutation rate to variants affecting fitness (&#8220;selected&#8221; mutations).  The unit is per gamete, per generation.</li>
+<li><strong>recrate</strong> &#8211; The recombination rate in the regions (per diploid, per generation)</li>
+<li><strong>nregions</strong> &#8211; A list specifying where neutral mutations occur</li>
+<li><strong>sregions</strong> &#8211; A list specifying where selected mutations occur</li>
+<li><strong>recregions</strong> &#8211; A list specifying how the genetic map varies along the region</li>
+<li><strong>sigmaE</strong> &#8211; The standard deviation in random variation to add to trait value</li>
+<li><strong>optimum</strong> &#8211; The optimum trait value. <strong>Default = 0.0</strong></li>
+<li><strong>f</strong> &#8211; The selfing probabilty. <strong>Default = 0.0</strong></li>
+<li><strong>VS</strong> &#8211; The total variance in selection intensity. <strong>Default = 1.0</strong></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">RuntimeError if parameters do not pass checks</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.qtrait.qtrait.ew2010_effects">
+<code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">ew2010_effects</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.qtrait.qtrait.ew2010_effects" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pop</strong> &#8211; A <a class="reference internal" href="#fwdpy.fwdpy.Spop" title="fwdpy.fwdpy.Spop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.Spop</span></code></a> simulated using <code class="xref py py-func docutils literal"><span class="pre">fwdpy.qtrait.qtrait.evolve_qtrait()</span></code> and/or <code class="xref py py-func docutils literal"><span class="pre">fwdp.qtrait.qtrait.evolve_qtrait_more()</span></code></li>
+<li><strong>tau</strong> &#8211; The coupling of trait value to fitness effect of mutation</li>
+<li><strong>sigma</strong> &#8211; The standard deviation for Gaussian noise applied to trait value.  Generates the <span class="math">\(\epsilon\)</span> term in E-W&#8217;s paper</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fwdpy.qtrait.qtrait.ew2010_traits">
+<code class="descclassname">fwdpy.qtrait.qtrait.</code><code class="descname">ew2010_traits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fwdpy.qtrait.qtrait.ew2010_traits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement model of Eyre-Walker 2010</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The citation is www.pnas.org/cgi/doi/10.1073/pnas.0906182107.
+We implement the simple additive case here.</p>
+</div>
+</dd></dl>
+
+<span class="target" id="module-fwdpy.qtrait_mloc.qtrait_mloc"></span><dl class="class">
+<dt id="fwdpy.qtrait_mloc.qtrait_mloc.MlocusGBRTrait">
+<em class="property">class </em><code class="descclassname">fwdpy.qtrait_mloc.qtrait_mloc.</code><code class="descname">MlocusGBRTrait</code><a class="headerlink" href="#fwdpy.qtrait_mloc.qtrait_mloc.MlocusGBRTrait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fwdpy.fitness.MlocusFitness" title="fwdpy.fitness.MlocusFitness"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fitness.MlocusFitness</span></code></a></p>
+<p>The &#8220;gene-based recessive&#8221; (GBR) trait model of Thornton et al (2013) PLoS Genetics.</p>
+<p>The GBR model is applied to each region, and then the final value is the sum over regions.</p>
+<p>The fitness (or genetic value as it was used in that paper) is the geometric mean 
+of haplotype effect sizes.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be really careful with this one!  Fitnesses are undefined if the sum of effect sizes on a haplotype is <span class="math">\(&lt; 0:\)</span>.  The intended use case is to calculate a trait value under models with effect sizes <span class="math">\(&gt;0\)</span>.</p>
+</div>
+</dd></dl>
+
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -2324,7 +2442,7 @@ back in.</p>
         <li class="right" >
           <a href="README.html" title="fwdpy: forward simulation in Python using fwdpp"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.4pre1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">fwdpy 0.0.4-rc3 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
