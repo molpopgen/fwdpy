@@ -67,30 +67,47 @@ namespace fwdpy
                     throw std::runtime_error(
                         "sampling interval must be non-negative");
                 }
-            std::vector<std::thread> threads;
             qtrait_mloc_rules rules(
                 sigmaE, optimum, VS,
                 *std::max_element(Nvector, Nvector + Nvector_length));
-            std::vector<std::unique_ptr<multilocus_fitness>> fitnesses;
-            for (std::size_t i = 0; i < pops->size(); ++i)
+            if (pops->size() > 1)
                 {
-                    fitnesses.emplace_back(
-                        std::unique_ptr<multilocus_fitness>(fitness.clone()));
+                    std::vector<std::thread> threads;
+                    std::vector<std::unique_ptr<multilocus_fitness>> fitnesses;
+                    for (std::size_t i = 0; i < pops->size(); ++i)
+                        {
+                            fitnesses.emplace_back(
+                                std::unique_ptr<multilocus_fitness>(
+                                    fitness.clone()));
+                        }
+                    for (std::size_t i = 0; i < pops->size(); ++i)
+                        {
+                            threads.emplace_back(std::thread(
+                                evolve_qtrait_mloc_cpp_details<qtrait_mloc_rules>,
+                                pops->operator[](i).get(),
+                                std::ref(fitnesses[i]), std::ref(*samplers[i]),
+                                gsl_rng_get(rng->get()), Nvector,
+                                Nvector_length, neutral_mutation_rates,
+                                selected_mutation_rates, shmodels,
+                                within_region_rec_rates,
+                                between_region_rec_rates, f, interval, rules));
+                        }
+                    for (auto &t : threads)
+                        {
+                            t.join();
+                        }
                 }
-            for (std::size_t i = 0; i < pops->size(); ++i)
+            else
                 {
-                    threads.emplace_back(std::thread(
-                        evolve_qtrait_mloc_cpp_details<qtrait_mloc_rules>,
-                        pops->operator[](i).get(), std::ref(fitnesses[i]),
-                        std::ref(*samplers[i]), gsl_rng_get(rng->get()),
-                        Nvector, Nvector_length, neutral_mutation_rates,
-                        selected_mutation_rates, shmodels,
-                        within_region_rec_rates, between_region_rec_rates, f,
-                        interval, rules));
-                }
-            for (auto &t : threads)
-                {
-                    t.join();
+                    auto fitness_clone
+                        = std::unique_ptr<multilocus_fitness>(fitness.clone());
+                    evolve_qtrait_mloc_cpp_details<qtrait_mloc_rules>(
+                        pops->operator[](0).get(), fitness_clone, *samplers[0],
+                        gsl_rng_get(rng->get()), Nvector, Nvector_length,
+                        neutral_mutation_rates, selected_mutation_rates,
+                        shmodels, within_region_rec_rates,
+                        between_region_rec_rates, f, interval,
+                        std::move(rules));
                 }
         }
 
@@ -120,28 +137,43 @@ namespace fwdpy
                     throw std::runtime_error(
                         "sampling interval must be non-negative");
                 }
-            std::vector<std::thread> threads;
             qtrait_mloc_rules rules(
                 sigmaE, optimum, VS,
                 *std::max_element(Nvector, Nvector + Nvector_length));
-            std::vector<std::unique_ptr<multilocus_fitness>> fitnesses;
-            for (std::size_t i = 0; i < pops->size(); ++i)
+            if (pops->size() > 1)
                 {
-                    fitnesses.emplace_back(
-                        std::unique_ptr<multilocus_fitness>(fitness.clone()));
+                    std::vector<std::thread> threads;
+                    std::vector<std::unique_ptr<multilocus_fitness>> fitnesses;
+                    for (std::size_t i = 0; i < pops->size(); ++i)
+                        {
+                            fitnesses.emplace_back(
+                                std::unique_ptr<multilocus_fitness>(
+                                    fitness.clone()));
+                        }
+                    for (std::size_t i = 0; i < pops->size(); ++i)
+                        {
+                            threads.emplace_back(std::thread(
+                                evolve_qtrait_mloc_regions_cpp_details<qtrait_mloc_rules>,
+                                pops->operator[](i).get(),
+                                std::ref(fitnesses[i]), std::ref(*samplers[i]),
+                                gsl_rng_get(rng->get()), Nvector,
+                                Nvector_length, rm, between_region_rec_rates,
+                                f, interval, rules));
+                        }
+                    for (auto &t : threads)
+                        {
+                            t.join();
+                        }
                 }
-            for (std::size_t i = 0; i < pops->size(); ++i)
+            else
                 {
-                    threads.emplace_back(std::thread(
-                        evolve_qtrait_mloc_regions_cpp_details<qtrait_mloc_rules>,
-                        pops->operator[](i).get(), std::ref(fitnesses[i]),
-                        std::ref(*samplers[i]), gsl_rng_get(rng->get()), 
-						Nvector,Nvector_length,rm,
-                        between_region_rec_rates, f, interval, rules));
-                }
-            for (auto &t : threads)
-                {
-                    t.join();
+                    auto fitness_clone
+                        = std::unique_ptr<multilocus_fitness>(fitness.clone());
+                    evolve_qtrait_mloc_regions_cpp_details<qtrait_mloc_rules>(
+                        pops->operator[](0).get(), fitness_clone, *samplers[0],
+                        gsl_rng_get(rng->get()), Nvector, Nvector_length, rm,
+                        between_region_rec_rates, f, interval,
+                        std::move(rules));
                 }
         }
     }

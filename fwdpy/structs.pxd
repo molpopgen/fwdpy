@@ -16,19 +16,6 @@ cdef extern from "sample.hpp" namespace "fwdpy" nogil:
         vector[unsigned] dcount, origin,generation,ftime, locus
         vector[uint16_t] label
     
-cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
-    cdef struct selected_mut_data:
-        double pos
-        double esize
-        unsigned origin
-
-    cdef struct selected_mut_data_tidy:
-        double pos
-        double esize
-        double freq
-        unsigned origin
-        unsigned generation
-        
 cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
     cdef struct qtrait_stats_cython:
         string stat

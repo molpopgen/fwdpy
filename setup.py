@@ -19,6 +19,7 @@ import platform, glob, sys, subprocess, os
 FWDPP_V=""
 GSL_V=""
 LIBSEQ_V=""
+CUSTOM_DIPLOID_BASE=1
 ##fwdpp
 try:
     proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
@@ -28,6 +29,8 @@ try:
     FWDPP_V=version
     if version < '0.5.4':
         sys.exit("fwdpp >= ,'0.5.4' required, but ",version, "found.")
+    if version >= '0.5.5':
+        CUSTOM_DIPLOID_BASE=0
 except:
     sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
@@ -114,9 +117,12 @@ long_desc = open("README.rst").read()
 #EXTENSION="@EXTENSION@"
 
 GLOBAL_COMPILE_ARGS=['-std=c++11','-fopenmp',
-                     str('-DPACKAGE_VERSION=')+'"0.0.4pre1"',
+                     str('-DPACKAGE_VERSION=')+'"0.0.4-rc3"',
                      '-DHAVE_INLINE'
 ]
+if CUSTOM_DIPLOID_BASE != 0:
+    GLOBAL_COMPILE_ARGS.append('-DCUSTOM_DIPLOID_BASE')
+
 LINK_ARGS=["-std=c++11",'-fopenmp']
 GLOBAL_INCLUDES=['.','..','include']
 
@@ -129,6 +135,8 @@ GLOBAL_INCLUDES=['.','..','include']
 #use of --use-cython or not (see above).
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
+FWDPY_MAIN_LIBS=LIBS
+FWDPY_MAIN_LIBS.append('sqlite3')
 extensions = [
     Extension("fwdpy.fwdpy",
               sources=["fwdpy/fwdpy"+EXTENSION]+glob.glob("fwdpy/fwdpy/*.cc"), # the Cython source and additional C++ source files
@@ -175,7 +183,19 @@ extensions.extend(
             include_dirs=GLOBAL_INCLUDES,
             extra_compile_args=GLOBAL_COMPILE_ARGS,)]
     )
-##This is the list of extension modules
+
+extensions.extend(
+    [Extension("fwdpy.numeric_gsl",
+            sources=["fwdpy/numeric_gsl"+EXTENSION],
+            language="c++",
+            include_dirs=GLOBAL_INCLUDES,
+            extra_compile_args=GLOBAL_COMPILE_ARGS,
+            libraries=['gsl','gslcblas'],)
+            ]
+    )
+
+##This is the list of extension modules that are 
+##in distinct sub-directories with their own __init__.py
 PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
 
 if QTRAIT is True:
@@ -216,8 +236,15 @@ if USE_CYTHON:
     from Cython.Build import cythonize
     extensions = cythonize(extensions)
 
+generated_package_data={}
+for root, dirnames, filenames in os.walk('fwdpy'):
+    g=glob.glob(root+'/*.pxd')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        generated_package_data[replace]=['*.pxd']
+
 setup(name='fwdpy',
-      version='0.0.4pre1',
+      version='0.0.4-rc3',
       author='Kevin R. Thornton',
       author_email='krthornt@uci.edu',
       maintainer='Kevin R. Thornton',
@@ -228,9 +255,9 @@ setup(name='fwdpy',
       download_url='http://github.com/molpopgen/fwdpy',
       classifiers=['Intended Audience :: Science/Research',
                    'Topic :: Scientific/Engineering :: Bio-Informatics',
-                   'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)'],
+                   'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)'],
       platforms=['Linux','OS X'],
-      license='GPL >= 2',
+      license='GPL >= 3',
       requires=['pandas','numpy'],
       provides=['fwdpy'],
       obsoletes=['none'],
@@ -240,9 +267,6 @@ setup(name='fwdpy',
       data_files=[('fwdpy',['COPYING', 'README.rst'])],
       ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
       headers=glob.glob("include/*.hpp"),
-      package_data={'fwdpy':['*.pxd'],
-                    'fwdpy.internal':['*.pxd'],
-                    'fwdpy.fwdpyio':['*.pxd'],
-                    'include':['*.hpp']},
+      package_data=generated_package_data,
       ext_modules=extensions,
       )

@@ -2,76 +2,11 @@
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
 #include "sampler_base.hpp"
 #include "types.hpp"
+#include <mutex>
 #include <limits>
-
+#include <unordered_map>
 namespace fwdpy
 {
-    struct selected_mut_data
-    {
-        double pos, esize;
-        unsigned origin;
-        using label_t = decltype(KTfwd::mutation_base::xtra);
-        label_t label;
-        selected_mut_data(unsigned g, double p, double e, label_t l)
-            : pos(p), esize(e), origin(g), label(l)
-        {
-        }
-        selected_mut_data()
-            : pos(std::numeric_limits<double>::quiet_NaN()),
-              esize(std::numeric_limits<double>::quiet_NaN()),
-              origin(std::numeric_limits<unsigned>::max()),
-              label(std::numeric_limits<label_t>::max())
-        /*!
-          This constructor assigns NaN or "max_int"
-          values to members.
-         */
-        {
-        }
-        inline bool
-        operator==(const selected_mut_data &rhs) const noexcept
-        {
-            return this->origin == rhs.origin && this->pos == rhs.pos
-                   && this->esize == rhs.esize && this->label == rhs.label;
-        }
-        inline bool
-        operator<(const selected_mut_data &rhs) const noexcept
-        {
-            if (this->origin < rhs.origin)
-                return true;
-            if (rhs.origin < this->origin)
-                return false;
-            if (this->pos < rhs.pos)
-                return true;
-            if (rhs.pos < this->pos)
-                return false;
-            if (this->esize < rhs.esize)
-                return true;
-            if (rhs.esize < this->esize)
-                return false;
-            if (this->label < rhs.label)
-                return true;
-            if (rhs.label < this->label)
-                return false;
-            return false;
-        }
-    };
-
-    struct selected_mut_data_tidy
-    /*!
-      \brief Convenience type for conversion to dict -> pandas.DataFrame
-     */
-    {
-        double pos, esize, freq;
-        unsigned origin, generation;
-        using label_t = decltype(KTfwd::mutation_base::xtra);
-        label_t label;
-        selected_mut_data_tidy(unsigned o, unsigned g, double p, double q,
-                               double e, label_t l)
-            : pos(p), esize(e), freq(q), origin(o), generation(g), label(l)
-        {
-        }
-    };
-
     class selected_mut_tracker : public sampler_base
     /*!
       \brief A "sampler" for recording frequency trajectories of selected
@@ -86,10 +21,10 @@ namespace fwdpy
 
           \note Used in fwdpy::selected_mut_tracker
         */
-        using trajectories_t = std::map<selected_mut_data, std::size_t>;
-        using final_t
-            = std::vector<std::pair<selected_mut_data,
-                                    std::vector<std::pair<unsigned, double>>>>;
+        using trajVec = std::vector<std::pair<unsigned, double>>;
+        using posEsize = std::pair<double, double>;
+        using innerMap = std::map<posEsize, trajVec>;
+        using final_t = std::unordered_map<KTfwd::uint_t, innerMap>;
 
         virtual void
         operator()(const singlepop_t *pop, const unsigned generation)
@@ -105,18 +40,27 @@ namespace fwdpy
         final_t
         final() const
         {
-            return data;
+            return trajectories;
         }
 
-        explicit selected_mut_tracker() noexcept
-            : trajectories(trajectories_t()),
-              data(final_t())
+        explicit selected_mut_tracker() noexcept : trajectories(final_t())
         {
+            trajectories.reserve(1000000);
+        }
+
+        final_t::const_iterator
+        begin() const
+        {
+            return this->trajectories.cbegin();
+        }
+        final_t::const_iterator
+        end() const
+        {
+            return this->trajectories.cend();
         }
 
       private:
-        trajectories_t trajectories;
-        final_t data;
+        final_t trajectories;
         template <typename pop_t>
         inline void
         call_operator_details(const pop_t *pop, const unsigned generation)
@@ -131,34 +75,50 @@ namespace fwdpy
                                     const auto freq
                                         = double(pop->mcounts[i])
                                           / double(2 * pop->diploids.size());
-                                    selected_mut_data __p(__m.g, __m.pos,
-                                                          __m.s, __m.xtra);
-                                    auto __itr = trajectories.find(__p);
+                                    auto __itr = trajectories.find(__m.g);
                                     if (__itr == trajectories.end())
                                         {
-                                            // update the data
-                                            data.emplace_back(
-                                                __p,
-                                                std::vector<std::pair<unsigned,
-                                                                      double>>(
-                                                    1, std::make_pair(
-                                                           generation, freq)));
-                                            // update index tree
-                                            trajectories[__p]
-                                                = data.size() - 1;
+                                            final_t::mapped_type m;
+                                            trajVec v(1, { generation, freq });
+                                            v.reserve(50);
+                                            m[{ __m.pos, __m.s }]
+                                                = std::move(v);
+                                            trajectories.emplace(__m.g,
+                                                                 std::move(m));
                                         }
                                     else
                                         {
-                                            // Don't keep updating for fixed
-                                            // variants
-                                            auto data_itr = data.begin()
-                                                            + __itr->second;
-                                            if (data_itr->second.back().second
-                                                < 1.)
+                                            auto __ps = __itr->second.find(
+                                                { __m.pos, __m.s });
+                                            if (__ps == __itr->second.end())
                                                 {
-                                                    data_itr->second
-                                                        .emplace_back(
-                                                            generation, freq);
+                                                    // update the data
+                                                    __itr->second.emplace(
+                                                        std::make_pair(__m.pos,
+                                                                       __m.s),
+                                                        std::
+                                                            vector<std::
+                                                                       pair<unsigned,
+                                                                            double>>(
+                                                                1,
+                                                                std::make_pair(
+                                                                    generation,
+                                                                    freq)));
+                                                }
+                                            else
+                                                {
+                                                    // Don't keep updating for
+                                                    // fixed
+                                                    // variants
+                                                    if (__ps->second.back()
+                                                            .second
+                                                        < 1.)
+                                                        {
+                                                            __ps->second
+                                                                .emplace_back(
+                                                                    generation,
+                                                                    freq);
+                                                        }
                                                 }
                                         }
                                 }
@@ -167,12 +127,113 @@ namespace fwdpy
         }
     };
 
-    // non-inline!  This is part of fwdpy's main module.
-    std::vector<selected_mut_data_tidy>
-    tidy_trajectory_info(const selected_mut_tracker::final_t &trajectories,
-                         const unsigned min_sojourn, const double min_freq,
-                         const unsigned remove_gone_before,
-                         const unsigned remove_arose_after);
+    using origin_filter_fxn = bool (*)(const unsigned);
+    using pos_esize_filter_fxn = bool (*)(const std::pair<double, double> &);
+    using freq_filter_fxn
+        = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>> &);
+    bool all_origins_pass(const unsigned);
+    bool all_pos_esize_pass(const std::pair<double, double> &);
+    bool all_freqs_pass(const std::vector<std::pair<KTfwd::uint_t, double>> &);
+    struct trajFilter
+    {
+        origin_filter_fxn origin_filter;
+        pos_esize_filter_fxn pos_esize_filter;
+        freq_filter_fxn freq_filter;
+        trajFilter()
+            : origin_filter(&all_origins_pass),
+              pos_esize_filter(&all_pos_esize_pass),
+              freq_filter(&all_freqs_pass)
+        {
+        }
+        virtual bool
+        apply_origin_filter(const unsigned origin) const
+        {
+            return origin_filter(origin);
+        }
+        virtual bool
+        apply_pos_esize_filter(const std::pair<double, double> &pe) const
+        {
+            return pos_esize_filter(pe);
+        }
+        virtual bool
+        apply_freq_filter(
+            const std::vector<std::pair<unsigned, double>> &freqs) const
+        {
+            return freq_filter(freqs);
+        }
+    };
+
+    template <typename T> class trajFilterData : public trajFilter
+    {
+      public:
+        using origin_filter_fxn_T = bool (*)(const unsigned, const T &);
+        using pos_esize_filter_fxn_T
+            = bool (*)(const std::pair<double, double> &, const T &);
+        using freq_filter_fxn_T
+            = bool (*)(const std::vector<std::pair<KTfwd::uint_t, double>> &,
+                       const T &);
+
+      private:
+        T data;
+        origin_filter_fxn_T origin_filter;
+        pos_esize_filter_fxn_T pos_esize_filter;
+        freq_filter_fxn_T freq_filter;
+
+      public:
+        trajFilterData(const T &data_)
+            : data(data_), origin_filter(nullptr), pos_esize_filter(nullptr),
+              freq_filter(nullptr)
+        {
+        }
+        void
+        register_callback(origin_filter_fxn_T o)
+        {
+            origin_filter = o;
+        }
+        void
+        register_callback(pos_esize_filter_fxn_T p)
+        {
+            pos_esize_filter = p;
+        }
+        void
+        register_callback(freq_filter_fxn_T f)
+        {
+            freq_filter = f;
+        }
+        bool
+        apply_origin_filter(const unsigned origin) const final
+        {
+            if (origin_filter == nullptr)
+                {
+                    return trajFilter::apply_origin_filter(origin);
+                }
+            return origin_filter(origin, data);
+        }
+        bool
+        apply_pos_esize_filter(const std::pair<double, double> &pe) const final
+        {
+            if (pos_esize_filter == nullptr)
+                {
+                    return trajFilter::apply_pos_esize_filter(pe);
+                }
+            return pos_esize_filter(pe,data);
+        }
+        bool
+        apply_freq_filter(
+            const std::vector<std::pair<unsigned, double>> &freqs) const final
+        {
+            if (freq_filter == nullptr)
+                {
+                    return trajFilter::apply_freq_filter(freqs);
+                }
+            return freq_filter(freqs, data);
+        }
+    };
+    void
+    traj2sql(const std::vector<std::unique_ptr<fwdpy::sampler_base>> &samplers,
+             const std::shared_ptr<std::mutex> &dblock, const trajFilter *tf,
+             const std::string &dbname, unsigned threshold,
+             const unsigned label, const bool onedb, const bool append);
 }
 
 #endif

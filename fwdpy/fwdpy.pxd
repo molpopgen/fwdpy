@@ -7,10 +7,11 @@ from libcpp.map cimport map
 
 from fwdpy.internal.internal cimport *
 from fwdpy.fwdpp cimport popgenmut,gamete_base
-from fwdpy.cpp cimport hash
+from fwdpy.cpp cimport hash,mutex
 from libcpp.unordered_set cimport unordered_set
+from libcpp.unordered_map cimport unordered_map
 from cython_gsl cimport gsl_rng
-from fwdpy.structs cimport selected_mut_data,selected_mut_data_tidy,qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
+from fwdpy.structs cimport qtrait_stats_cython,allele_age_data_t,VAcum,popsample_details
 from fwdpy.fitness cimport singlepop_fitness
 
 ##Create hooks to C++ types
@@ -19,7 +20,7 @@ ctypedef vector[unsigned] ucont_t
 #Wrap the classes:
 cdef extern from "types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
-    ctypedef gamete_base[void] gamete_t
+    ctypedef gamete_base gamete_t
     ctypedef vector[gamete_t] gcont_t
     ctypedef vector[popgenmut] mcont_t
     ctypedef unordered_set[double,equal_eps] lookup_t
@@ -274,12 +275,35 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
 #The following typedefs help us with the
 #frequency tracker API.
 ctypedef pair[uint,double] genfreqPair
-ctypedef vector[pair[selected_mut_data,vector[genfreqPair]]] freqTraj
+ctypedef unordered_map[uint,map[pair[double,double],vector[genfreqPair]]] freqTraj 
 
 cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
         selected_mut_tracker()
         freqTraj final() const
+
+    ctypedef bool(*origin_filter_fxn)(unsigned)
+    ctypedef bool(*pos_esize_filter_fxn)(const pair[double,double] &)
+    ctypedef bool(*freq_filter_fxn)(const vector[pair[uint,double]] &)
+
+    cdef cppclass trajFilter:
+        trajFilter()
+        origin_filter_fxn origin_filter
+        pos_esize_filter_fxn pos_esize_filter
+        freq_filter_fxn freq_filter
+
+    cdef cppclass trajFilterData[T]:
+        trajFilterData(const T &)
+        void register_callback(bool(*)(unsigned,const T&))
+        void register_callback(bool(*)(const pair[double,double]&,const T&))
+        void register_callback(bool(*)(const vector[pair[uint,double]]&,const T&))
+
+    void traj2sql(
+        const vector[unique_ptr[sampler_base]] &samplers,
+        const shared_ptr[mutex] & dblock,
+        const trajFilter * tf,
+        const string &dbname, unsigned threshold,
+        const unsigned label, const bool onedb, const bool append) except+
 
 #Extension classes for temporal sampling
 cdef class TemporalSampler:
@@ -300,6 +324,12 @@ cdef class PopSampler(TemporalSampler):
     pass
 
 cdef class VASampler(TemporalSampler):
+    pass
+
+cdef class TrajFilter(object):
+    cdef unique_ptr[trajFilter] tf
+
+cdef class TrajExistedPast(TrajFilter):
     pass
 
 cdef class FreqSampler(TemporalSampler):
@@ -361,12 +391,6 @@ cdef extern from "deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
 
-
-cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
-    vector[selected_mut_data_tidy] tidy_trajectory_info( const freqTraj & trajectories,
-                                                         const unsigned min_sojourn, const double min_freq,
-                                                         const unsigned remove_gone_before,
-                                                         const unsigned remove_arose_after)
 cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const freqTraj & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +

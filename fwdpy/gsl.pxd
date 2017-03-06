@@ -16,3 +16,10 @@ cdef extern from "gsl.hpp" namespace "fwdpy::gsl" nogil:
     #So we define functions to make and return them
     gsl_matrix_shared_ptr_t make_gsl_matrix_shared_ptr_t(const size_t size1, const size_t size2)
     gsl_vector_shared_ptr_t make_gsl_vector_shared_ptr_t(const size_t size1)
+
+#CythonGSL does not export error stuff
+cdef extern from "gsl/gsl_errno.h" nogil:
+    ctypedef void gsl_error_handler_t(const char * reason, const char * file,
+                                      int line, int gsl_errno)
+    gsl_error_handler_t * gsl_set_error_handler (gsl_error_handler_t * new_handler)
+    gsl_error_handler_t * gsl_set_error_handler_off ()

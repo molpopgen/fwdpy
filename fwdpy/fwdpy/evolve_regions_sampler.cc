@@ -110,29 +110,48 @@ namespace fwdpy
             throw std::runtime_error("selfing probabilty must be 0<=f<=1.");
         if (sample < 0)
             throw std::runtime_error("sampling interval must be non-negative");
-        std::vector<std::thread> threads;
         wf_rules rules;
-        std::vector<std::unique_ptr<singlepop_fitness>> fitnesses;
-        for (std::size_t i = 0; i < pops.size(); ++i)
+        if (pops.size() > 1)
             {
-                fitnesses.emplace_back(
-                    std::unique_ptr<singlepop_fitness>(fitness.clone()));
+                std::vector<std::unique_ptr<singlepop_fitness>> fitnesses;
+                for (std::size_t i = 0; i < pops.size(); ++i)
+                    {
+                        fitnesses.emplace_back(
+                            std::unique_ptr<singlepop_fitness>(
+                                fitness.clone()));
+                    }
+
+                std::vector<std::thread> threads;
+                for (std::size_t i = 0; i < pops.size(); ++i)
+                    {
+                        threads.emplace_back(std::thread(
+                            evolve_regions_sampler_cpp_details, pops[i].get(),
+                            gsl_rng_get(rng->get()), Nvector, Nvector_length,
+                            mu_neutral, mu_selected, littler, f,
+                            std::ref(fitnesses[i]), sample,
+                            KTfwd::extensions::discrete_mut_model(
+                                rm->nb, rm->ne, rm->nw, rm->sb, rm->se, rm->sw,
+                                rm->callbacks),
+                            KTfwd::extensions::discrete_rec_model(
+                                rm->rb, rm->rw, rm->rw),
+                            std::ref(*samplers[i]), rules));
+                    }
+                for (auto &t : threads)
+                    t.join();
             }
-        for (std::size_t i = 0; i < pops.size(); ++i)
+        else // don't spawn threads all willy-nilly!
             {
-                threads.emplace_back(std::thread(
-                    evolve_regions_sampler_cpp_details,
-                    pops[i].get(), gsl_rng_get(rng->get()),
-                    Nvector, Nvector_length, mu_neutral, mu_selected, littler,
-                    f, std::ref(fitnesses[i]), sample,
+				auto fitness_ptr = std::unique_ptr<singlepop_fitness>(fitness.clone());
+                evolve_regions_sampler_cpp_details(
+                    pops[0].get(), gsl_rng_get(rng->get()), Nvector,
+                    Nvector_length, mu_neutral, mu_selected, littler, f,
+                    std::ref(fitness_ptr), sample,
                     KTfwd::extensions::discrete_mut_model(
                         rm->nb, rm->ne, rm->nw, rm->sb, rm->se, rm->sw,
                         rm->callbacks),
                     KTfwd::extensions::discrete_rec_model(rm->rb, rm->rw,
                                                           rm->rw),
-                    std::ref(*samplers[i]), rules));
+                    std::ref(*samplers[0]), rules);
             }
-        for (auto &t : threads)
-            t.join();
     }
 }

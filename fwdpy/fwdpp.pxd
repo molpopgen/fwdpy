@@ -24,7 +24,7 @@ cdef extern from "fwdpp/forward_types.hpp" namespace "KTfwd" nogil:
         uint16_t xtra
         bool neutral
 
-    cdef cppclass gamete_base[T]:
+    cdef cppclass gamete_base[T=*]:
         unsigned n
         vector[uint32_t] mutations
         vector[uint32_t] smutations

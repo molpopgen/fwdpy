@@ -1,5 +1,6 @@
 from libcpp.string cimport string as cppstring
 from cython.operator cimport dereference as deref
+import pandas
 
 # distutils: language = c++
 cdef class TemporalSampler:
@@ -173,6 +174,36 @@ cdef class VASampler(TemporalSampler):
             rv.push_back((<additive_variance*>(self.vec[i].get())).final())
         return rv
 
+cdef class TrajFilter:
+    """
+    Base class for filtering trajectories.
+
+    An instance of this object allows all trajectories to be written to file.
+
+    .. note:: See :py:meth:`~fwdpy.fwdpy.FreqSampler.to_sql`
+    """
+    def __cinit__(self):
+        self.tf.reset(new trajFilter())
+
+cdef bool traj_existed_past(const vector[pair[uint,double]] & t,const unsigned & g) nogil:
+    if t.empty():
+        return False
+    if t.back().first >= g:
+        return True
+    return False
+
+cdef class TrajExistedPast(TrajFilter):
+    """
+    A type of :class:`fwdpy.fwdpy.TrajFilter`.  Tests that a mutation existed
+    in the simulation past a certain generation.
+    """
+    def __cinit__(self,unsigned g):
+        """
+        :param g: Generation.  A trajectory is kept if it existed until generation >= g.
+        """
+        self.tf.reset(new trajFilterData[unsigned](g))
+        (<trajFilterData[unsigned]*>self.tf.get()).register_callback(&traj_existed_past)
+
 cdef class FreqSampler(TemporalSampler):
     """
     A :class:`fwdpy.fwdpy.TemporalSampler` to track the frequencies of selected mutations over time.
@@ -188,17 +219,75 @@ cdef class FreqSampler(TemporalSampler):
         """
         for i in range(n):
             self.vec.push_back(<unique_ptr[sampler_base]>unique_ptr[selected_mut_tracker](new selected_mut_tracker()))
+    def __convert_data__(self,dict raw,origin_filter=None,pos_esize_filter=None,freq_filter=None):
+        temp=[] #list of dicts with named stuff for pands
+        for origin in raw:
+            if origin_filter is None or origin_filter(origin) is True:
+                for ps in raw[origin]:
+                    if pos_esize_filter is None or pos_esize_filter(ps) is True:
+                        if freq_filter is None or freq_filter(raw[origin][ps]) is True:
+                            temp.extend([{'origin':origin,'pos':ps[0],'esize':ps[1],'generation':i[0],'freq':i[1]} for i in raw[origin][ps]])
+        rv=pandas.DataFrame(temp)
+        rv.sort_values(by=['origin'])
+        rv.drop_duplicates(inplace=True)
+        rv.reset_index(inplace=True,drop=True)
+        return rv
     def __iter__(self):
         for i in range(self.vec.size()):
-            yield (<selected_mut_tracker*>self.vec[i].get()).final()
+            yield self.__convert_data__((<selected_mut_tracker*>self.vec[i].get()).final())
     def __next__(self):
         return next(self)
     def __getitem__(self,i):
         if i>=self.vec.size():
             raise IndexError("index out of range")
-        return (<selected_mut_tracker*>self.vec[i].get()).final()
+        return self.__convert_data__((<selected_mut_tracker*>self.vec[i].get()).final())
     def __len__(self):
         return self.vec.size()
+    def fetch(self,i,origin_filter=None,pos_esize_filter=None,freq_filter=None):
+        """
+        Fetch a filtered data set on allele frequency trajectories.
+
+        :param i: The index of the data set to retrieve.
+        :param origin_filter: (None) A callable to filter on the origin time of mutations.
+        :param pos_esize_filter: (None) A callable to filter on the position and effect size of a mutation.
+        :param freq_filter: (None) A callable to filter on the frequency trajectory itself.
+
+        Each callable must return True or False.  The callable "origin_filter" will receive a single,
+        non-negative integer for an argument.  "pos_esize_filter" will recieve a tuple with two elements,
+        position and effect size, respectively. Finally, "freq_filter" will recieve a list of tuples.  Each
+        tuple will contain (generation, freq) and will be sorted by generation in ascending order.
+        """
+        if i >= self.vec.size():
+            raise IndexError("index out of range")
+        raw=(<selected_mut_tracker*>self.vec[i].get()).final()
+        return self.__convert_data__(raw,origin_filter,pos_esize_filter,freq_filter)
+    def to_sql(self,dbname,TrajFilter traj_filter=None,threshold=1000000,label=0,onedb=False,append=False):
+        """
+        Write output directly to SQLite database files.  Unlike
+        :py:meth:`~fwdpy.fwdpy.FreqSampler.fetch`, this function
+        requires an object of type :class:`fwdpy.fwdpy.TrajFilter`
+        to filter out unwanted trajectories.
+
+        This function skips the copy of data from C++ to Python, which may make it 
+        more efficient than using :py:meth:`~fwdpy.fwdpy.FreqSampler.fetch`.
+
+        :param dbname: Either the name of a database file (when onedb is True), or the prefix for file names (when onedb is False).
+        :param traj_filter: (None)  If None, :class:`fwdpy.fwdpy.TrajFilter` is used, which means all trajectories are written to file.  Otherwise, a custom object is used to filter.
+        :param threshold: (1,000,000) When onedb is True, this is the number of records to write to the in-memory database before writing to file.
+        :param label: (0) The starting value of the replicate id. When onedb is True, data from different replicates will have a "rep" column in the database, with rep goring from threshold to threshold + len(self)-1.
+        :param onedb: (False)  If False, each trajectory is written to a separate file.  If true, data are first written to in-memory databases and then flushed to disk at time intervals depending on the value of "threshold".
+        :param append: (False) If false, the output file will be deleted if it exsists.  Otherwise, it will be assumed to be a valid SQLite database and appended to.
+
+        .. note:: The schema of the resulting files can be checked with the sqlite3 command-line tool.
+        """
+        if traj_filter is None:
+            traj_filter=TrajFilter()
+        cdef shared_ptr[mutex] dblock
+        dblock.reset(new mutex())
+        traj2sql(self.vec,dblock,
+                traj_filter.tf.get(),
+                dbname,threshold,label,onedb,append)
+
 
 def apply_sampler(PopVec pops,TemporalSampler sampler):
     """
