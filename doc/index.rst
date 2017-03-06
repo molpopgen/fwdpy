@@ -11,7 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   ../README
+   README
    pages/changelog
    pages/todo
    pages/notes
