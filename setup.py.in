@@ -124,7 +124,7 @@ if CUSTOM_DIPLOID_BASE != 0:
     GLOBAL_COMPILE_ARGS.append('-DCUSTOM_DIPLOID_BASE')
 
 LINK_ARGS=["-std=c++11",'-fopenmp']
-GLOBAL_INCLUDES=['.','..','include']
+GLOBAL_INCLUDES=['.','..','fwdpy/headers']
 
 #Cython generates .cpp files from the .pyx files
 #In general, we wisht to complies the .cpp files
@@ -196,7 +196,7 @@ extensions.extend(
 
 ##This is the list of extension modules that are 
 ##in distinct sub-directories with their own __init__.py
-PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography']
+PKGS=['fwdpy','fwdpy.internal','fwdpy.fwdpyio','fwdpy.demography','fwdpy.headers']
 
 if QTRAIT is True:
     extensions.extend([
@@ -240,8 +240,16 @@ generated_package_data={}
 for root, dirnames, filenames in os.walk('fwdpy'):
     g=glob.glob(root+'/*.pxd')
     if len(g)>0:
+        print( "found pxd")
         replace=root.replace('/','.')
         generated_package_data[replace]=['*.pxd']
+    g=glob.glob(root+'/*.hpp')
+    if len(g)>0:
+        print("found hpp")
+        replace=root.replace('/','.')
+        generated_package_data[replace]=['*.hpp']
+
+print(generated_package_data)
 
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
@@ -266,7 +274,7 @@ setup(name='@PACKAGE_NAME@',
       scripts=[],
       data_files=[('fwdpy',['COPYING', 'README.rst'])],
       ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
-      headers=glob.glob("include/*.hpp"),
+      #headers=glob.glob("include/*.hpp"),
       package_data=generated_package_data,
       ext_modules=extensions,
       )

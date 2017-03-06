@@ -37,5 +37,5 @@ def get_includes():
     Returns absolute path to location of fwdpy headers
     """
     import os,fwdpy
-    return os.path.abspath(fwdpy.__file__).split('lib')[0]+'include/fwdpy'
+    return os.path.dirname(fwdpy.__file__)+'/headers'
 
