@@ -240,23 +240,46 @@ if USE_CYTHON:
 
 generated_package_data={}
 for root, dirnames, filenames in os.walk('fwdpy'):
-    g=glob.glob(root+'/*.pxd')
+    if 'fwdpp' not in root:
+        g=glob.glob(root+'/*.pxd')
+        if len(g)>0:
+            replace=root.replace('/','.')
+            generated_package_data[replace]=['*.pxd']
+    g=glob.glob(root+'/*.hpp')
     if len(g)>0:
         replace=root.replace('/','.')
-        generated_package_data[replace]=['*.pxd']
-    if 'testsuite' not in root:
-        g=glob.glob(root+'/*.hpp')
-        if len(g)>0:
-            replace=root.replace('/','.')
+        PKGS.append(replace) #If there's a header file, we add the directory as a package
+        generated_package_data[replace]=['*.hpp']
+    
+#add in the fwdpp headers, excluding directories other
+#than the library itself
+for root, dirnames, filenames in os.walk('fwdpy/headers/fwdpp/fwdpp'):
+    g=glob.glob(root+'/*.hh')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        if replace not in PKGS:
             PKGS.append(replace) #If there's a header file, we add the directory as a package
+        generated_package_data[replace]=['*.hh']
+    g=glob.glob(root+'/*.hh')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        if replace not in PKGS:
+            PKGS.append(replace) #If there's a header file, we add the directory as a package
+        try:
+            if '*.hpp' not in generated_package_data[replace]:
+                generated_package_data[replace].append('*.hpp')
+        except:
             generated_package_data[replace]=['*.hpp']
-        g=glob.glob(root+'/*.tcc')
-        if len(g)>0:
-            replace=root.replace('/','.')
+    g=glob.glob(root+'/*.tcc')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        if replace not in PKGS:
             PKGS.append(replace) #If there's a template implementation file, we add the directory as a package
-            generated_package_data[replace].append('*.tcc')
-
-print(generated_package_data)
+        try:
+            if '*.tcc' not in generated_package_data[replace]:
+                generated_package_data[replace].append('*.tcc')
+        except:
+            generated_package_data[replace]=['*.tcc']
 
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
