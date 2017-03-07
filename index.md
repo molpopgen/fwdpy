@@ -8,6 +8,8 @@ The source code is [here](https://github.com/molpopgen/fwdpy)
 
 ## Documentation
 
+__The manual is currently offline.  Working on getting it up on readthedocs.org.__
+
 * [Manual](doc/_build/html/index.html) in html format.
 
 ## Examples
