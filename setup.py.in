@@ -133,6 +133,8 @@ GLOBAL_INCLUDES=['.','..','fwdpy/headers']
 #re-process the .pyx files.
 #This variable handes that choice, based on
 #use of --use-cython or not (see above).
+if len(glob.glob("fwdpy/*cpp"))==0:
+    USE_CYTHON=1
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
 FWDPY_MAIN_LIBS=LIBS
