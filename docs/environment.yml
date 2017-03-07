@@ -5,6 +5,7 @@ channels:
     - r
     - bioconda
 dependencies:
+    - python==3.5
     - gsl
     - pandas
     - numpy
