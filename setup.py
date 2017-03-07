@@ -244,11 +244,19 @@ for root, dirnames, filenames in os.walk('fwdpy'):
     if len(g)>0:
         replace=root.replace('/','.')
         generated_package_data[replace]=['*.pxd']
-    g=glob.glob(root+'/*.hpp')
-    if len(g)>0:
-        replace=root.replace('/','.')
-        PKGS.append(replace) #If there's a header file, we add the directory as a package
-        generated_package_data[replace]=['*.hpp']
+    if 'testsuite' not in root:
+        g=glob.glob(root+'/*.hpp')
+        if len(g)>0:
+            replace=root.replace('/','.')
+            PKGS.append(replace) #If there's a header file, we add the directory as a package
+            generated_package_data[replace]=['*.hpp']
+        g=glob.glob(root+'/*.tcc')
+        if len(g)>0:
+            replace=root.replace('/','.')
+            PKGS.append(replace) #If there's a template implementation file, we add the directory as a package
+            generated_package_data[replace].append('*.tcc')
+
+print(generated_package_data)
 
 setup(name='fwdpy',
       version='0.0.4-rc3',

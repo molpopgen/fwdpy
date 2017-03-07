@@ -39,3 +39,9 @@ def get_includes():
     import os,fwdpy
     return os.path.dirname(fwdpy.__file__)+'/headers'
 
+def get_fwdpp_includes():
+    """
+    Returns absolute path to location of the fwdpp headers 
+    installed along with fwdpy.
+    """
+    return get_includes()+'/fwdpp'
