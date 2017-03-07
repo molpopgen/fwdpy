@@ -52,7 +52,10 @@ script:
     - export CPPFLAGS="-I$HOME/miniconda/include $CPPFLAGS"
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
     #- pip install --upgrade Cython  cythongsl
-    #We must force OS X to use GCC.
+    #fwdpp is included as a submodule,
+    #so we need to initalize it here:
     - git submodule init
+    - git submodule update
+    #We must force OS X to use GCC.
     - CC=gcc CXX=g++ python setup.py build_ext -i --use-cython --qtrait
     - python -m unittest discover fwdpy/tests
