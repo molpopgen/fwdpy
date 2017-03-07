@@ -3214,7 +3214,7 @@ pkgpyexecdir=\${pyexecdir}/$PACKAGE_NAME
 
 
 
-ac_config_files="$ac_config_files Makefile setup.py doc/conf.py fwdpy.doxygen fwdpy/__init__.py"
+ac_config_files="$ac_config_files Makefile setup.py fwdpy.doxygen fwdpy/__init__.py"
 
 
 
@@ -5218,7 +5218,6 @@ do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "setup.py") CONFIG_FILES="$CONFIG_FILES setup.py" ;;
-    "doc/conf.py") CONFIG_FILES="$CONFIG_FILES doc/conf.py" ;;
     "fwdpy.doxygen") CONFIG_FILES="$CONFIG_FILES fwdpy.doxygen" ;;
     "fwdpy/__init__.py") CONFIG_FILES="$CONFIG_FILES fwdpy/__init__.py" ;;
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
