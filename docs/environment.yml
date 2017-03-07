@@ -1,0 +1,15 @@
+name: fwdpy_docs
+channels:
+    - conda-forge
+    - defaults
+    - r
+    - bioconda
+dependencies:
+    - gcc
+    - gsl
+    - pandas
+    - numpy
+    - cython
+    - cythongsl
+    - libsequence
+    - fwdpp
