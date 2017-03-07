@@ -124,7 +124,7 @@ if CUSTOM_DIPLOID_BASE != 0:
     GLOBAL_COMPILE_ARGS.append('-DCUSTOM_DIPLOID_BASE')
 
 LINK_ARGS=["-std=c++11",'-fopenmp']
-GLOBAL_INCLUDES=['.','..','fwdpy/headers']
+GLOBAL_INCLUDES=['.','..','fwdpy/headers','fwdpy/headers/fwdpp']
 
 #Cython generates .cpp files from the .pyx files
 #In general, we wisht to complies the .cpp files

@@ -1,5 +1,5 @@
 CXX=c++
-CXXFLAGS:=-std=c++11
+CXXFLAGS:=-std=c++11 -Ifwdpy/headers/fwdpp
 
 DIR=check_deps
 

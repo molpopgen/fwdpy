@@ -44,7 +44,7 @@ install:
     - conda install gcc
     # Need GSL 1.16, which is the "bioconda-approved" version
     - conda install -c r gsl
-    - conda install -c bioconda libsequence fwdpp
+    - conda install -c bioconda libsequence 
     - conda install pandas numpy Cython
     - conda install -c conda-forge cythongsl=0.2.1
 script:
@@ -53,5 +53,6 @@ script:
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
     #- pip install --upgrade Cython  cythongsl
     #We must force OS X to use GCC.
+    - git submodule init
     - CC=gcc CXX=g++ python setup.py build_ext -i --use-cython --qtrait
     - python -m unittest discover fwdpy/tests
