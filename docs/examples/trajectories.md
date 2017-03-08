@@ -141,7 +141,7 @@ for i in mpos:
 ```
 
 
-![png](trajectories.nbconvert_files/trajectories.nbconvert_11_0.png)
+![png](trajectories_files/trajectories_11_0.png)
 
 
 
@@ -157,12 +157,12 @@ mfreq[mfreq['freq']<1.0]['esize'].hist()
 
 
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7f7e0f53c610>
+    <matplotlib.axes._subplots.AxesSubplot at 0x7f396f0f7090>
 
 
 
 
-![png](trajectories.nbconvert_files/trajectories.nbconvert_12_1.png)
+![png](trajectories_files/trajectories_12_1.png)
 
 
 

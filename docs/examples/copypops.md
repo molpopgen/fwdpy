@@ -32,7 +32,7 @@ pops
 
 
 
-    <fwdpy.fwdpy.SpopVec at 0x7fcbe45daea0>
+    <fwdpy.fwdpy.popvec at 0x7faaace9e2b8>
 
 
 
@@ -44,7 +44,7 @@ pops2
 
 
 
-    <fwdpy.fwdpy.SpopVec at 0x7fcbe45dabd0>
+    <fwdpy.fwdpy.popvec at 0x7faaace9e310>
 
 
 
