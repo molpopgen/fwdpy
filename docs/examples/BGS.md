@@ -677,9 +677,9 @@ NeutralMutStats.mean(0)
 
 
 
-    npoly      58.571000
-    thetapi    16.319800
-    thetaw     16.509385
+    npoly      58.372000
+    thetapi    16.251858
+    thetaw     16.453293
     dtype: float64
 
 

@@ -82,8 +82,6 @@ def get_fixation_times(trajectories):
 
 Now, run the simulation itself.
 
-__Warning:__ I'm running this using 40 processors, and it takes about 20Gb of RAM, so your machine may not be able to handle this.
-
 _Note:_  I'm only doing 40 replicates for each $s$, which is of course limiting.
 
 This example runs in a few minutes on my machine.
@@ -166,11 +164,12 @@ print(p)
 
 
 
-![png](FixationTimes1.nbconvert_files/FixationTimes1.nbconvert_10_1.png)
+![png](FixationTimes1_files/FixationTimes1_10_1.png)
 
 
 
 ```python
+#Take a look at the mean time to fixation
 dataForR.groupby(['s']).mean()
 ```
 

@@ -36,7 +36,7 @@ All of the above is pretty standard. Let's make a copy of *pops*:
 
 .. parsed-literal::
 
-    <fwdpy.fwdpy.SpopVec at 0x7f8dcc38b900>
+    <fwdpy.fwdpy.popvec at 0x7faaace9e2b8>
 
 
 
@@ -49,7 +49,7 @@ All of the above is pretty standard. Let's make a copy of *pops*:
 
 .. parsed-literal::
 
-    <fwdpy.fwdpy.SpopVec at 0x7f8dcc38b690>
+    <fwdpy.fwdpy.popvec at 0x7faaace9e310>
 
 
 

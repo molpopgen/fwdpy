@@ -52,8 +52,10 @@
 .highlight .err { border: 1px solid #FF0000 } /* Error */
 .highlight .k { color: #008000; font-weight: bold } /* Keyword */
 .highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
 .highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
 .highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
 .highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
 .highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #A00000 } /* Generic.Deleted */
@@ -88,6 +90,7 @@
 .highlight .nv { color: #19177C } /* Name.Variable */
 .highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
 .highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
 .highlight .mf { color: #666666 } /* Literal.Number.Float */
 .highlight .mh { color: #666666 } /* Literal.Number.Hex */
 .highlight .mi { color: #666666 } /* Literal.Number.Integer */
@@ -173,7 +176,12 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Sliding-windows">Sliding windows<a class="anchor-link" href="#Sliding-windows">&#182;</a></h1><p>This is an example of running a simulation and getting a set of sliding windows from the output</p>
+<h1 id="Example:-Sliding-windows">Example: Sliding windows<a class="anchor-link" href="#Example:-Sliding-windows">&#182;</a></h1><p>There are two basic ways of getting sliding windows from simulated data:</p>
+<ol>
+<li>Manually</li>
+<li>Using <a href="https://github.com/molpopgen/pylibseq">pylibseq</a></li>
+</ol>
+<p>Both work, and both are pretty easy.</p>
 
 </div>
 </div>
@@ -183,11 +191,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#import our modules</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#import our modules</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">fwdpy</span> <span class="kn">as</span> <span class="nn">fp</span>
-<span class="kn">import</span> <span class="nn">fwdpy.libseq</span> <span class="kn">as</span> <span class="nn">lseq</span>
-<span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -203,38 +209,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">##Info</span>
-<span class="n">dt</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;This example was processed using &quot;</span><span class="p">,</span><span class="n">fp</span><span class="o">.</span><span class="n">pkg_version</span><span class="p">(),</span> <span class="s">&quot;on&quot;</span><span class="p">,</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span><span class="p">,</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="n">dt</span><span class="o">.</span><span class="n">day</span><span class="p">,</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;The dependency versions are&quot;</span><span class="p">,</span><span class="n">fp</span><span class="o">.</span><span class="n">pkg_dependencies</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>This example was processed using  {&apos;fwdpy&apos;: &apos;0.0.1&apos;} on 9 / 23 / 2015
-The dependency versions are {&apos;libsequence&apos;: &apos;1.8.7&apos;, &apos;GSL&apos;: &apos;1.16&apos;, &apos;fwdpp&apos;: &apos;0.3.8&apos;}
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#set up our sim</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#set up our sim</span>
 <span class="n">rng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
 <span class="n">nregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
 <span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.1</span><span class="p">),</span><span class="n">fp</span><span class="o">.</span><span class="n">ExpS</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.001</span><span class="p">)]</span>
@@ -249,10 +224,10 @@ The dependency versions are {&apos;libsequence&apos;: &apos;1.8.7&apos;, &apos;G
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#Run the sim</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Run the sim</span>
 <span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="n">popsizes</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span><span class="mf">0.001</span><span class="p">,</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.001</span><span class="p">,</span><span class="n">nregions</span><span class="p">,</span><span class="n">sregions</span><span class="p">,</span><span class="n">rregions</span><span class="p">)</span>
 </pre></div>
 
@@ -263,10 +238,10 @@ The dependency versions are {&apos;libsequence&apos;: &apos;1.8.7&apos;, &apos;G
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#Take samples from the simulation</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Take samples from the simulation</span>
 <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">get_samples</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">pops</span><span class="p">]</span>
 </pre></div>
 
@@ -280,77 +255,28 @@ The dependency versions are {&apos;libsequence&apos;: &apos;1.8.7&apos;, &apos;G
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Calculating-sliding-windows">Calculating sliding windows<a class="anchor-link" href="#Calculating-sliding-windows">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#For each of the neutral mutations in each sample, we will split</span>
-<span class="c">#the samples up into non-overlapping windows of size 0.1</span>
-<span class="n">windows</span> <span class="o">=</span> <span class="p">[</span><span class="n">lseq</span><span class="o">.</span><span class="n">windows</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Summary-stats-from-each-window">Summary stats from each window<a class="anchor-link" href="#Summary-stats-from-each-window">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c">#For each window in each sample, get the basic summary statistics</span>
-<span class="n">stats</span> <span class="o">=</span> <span class="p">[[</span><span class="n">lseq</span><span class="o">.</span><span class="n">summstats</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">windows</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Printing these outputs will be messy as the output is a bunch of dict objects.  Let's merge all the output into a giant pandas.DataFrame for easier handling.</p>
+<h2 id="Calculating-sliding-windows">Calculating sliding windows<a class="anchor-link" href="#Calculating-sliding-windows">&#182;</a></h2><p>We are going to want non-overlapping widwos of size 0.1.</p>
+<p>One thing to keep track of is the total size of our region, which is the half-open interval $[0,3)$</p>
+<h3 id="Manual-method">Manual method<a class="anchor-link" href="#Manual-method">&#182;</a></h3><p>Let's just do it using pure Python:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">allstats</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-<span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">3.</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="n">stops</span> <span class="o">=</span> <span class="n">starts</span> <span class="o">+</span> <span class="mf">0.1</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stats</span><span class="p">)):</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">temp</span><span class="p">[</span><span class="s">&#39;replicate&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="n">temp</span><span class="p">[</span><span class="s">&#39;starts&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">starts</span>
-    <span class="n">temp</span><span class="p">[</span><span class="s">&#39;stops&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">stops</span>
-    <span class="n">allstats</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">allstats</span><span class="p">,</span><span class="n">temp</span><span class="p">])</span>
-
-<span class="c">#Now, that&#39;s cleaner!</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">allstats</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
-<span class="k">print</span> <span class="p">(</span><span class="n">allstats</span><span class="o">.</span><span class="n">tail</span><span class="p">())</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1">##We will only look at neutral mutations, which are element 0 of each sampl</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span><span class="n">start</span> <span class="ow">and</span> <span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">start</span><span class="o">+</span><span class="mf">0.1</span><span class="p">)]</span>
+        <span class="n">windows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">+=</span> <span class="mf">0.1</span>
+    <span class="c1">##We now have a full set of windows that we can do something with</span>
+    <span class="k">print</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">windows</span><span class="p">))</span>  <span class="c1">##There should be 30, and many will be empy</span>
 </pre></div>
 
 </div>
@@ -363,36 +289,10 @@ The dependency versions are {&apos;libsequence&apos;: &apos;1.8.7&apos;, &apos;G
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   S  dsingletons    hprime  replicate  singletons  starts  stops      tajd  \
-0  0            0       NaN          0           0     0.0    0.1       NaN   
-1  0            0       NaN          0           0     0.1    0.2       NaN   
-2  0            0       NaN          0           0     0.2    0.3       NaN   
-3  1            0 -1.871112          0           0     0.3    0.4  0.722614   
-4  0            0       NaN          0           0     0.4    0.5       NaN   
-
-     thetah   thetapi   thetaw  
-0  0.000000  0.000000  0.00000  
-1  0.000000  0.000000  0.00000  
-2  0.000000  0.000000  0.00000  
-3  1.184211  0.394737  0.28187  
-4  0.000000  0.000000  0.00000  
-
-[5 rows x 11 columns]
-    S  dsingletons    hprime  replicate  singletons  starts  stops      tajd  \
-25  0            0       NaN          3           0     2.5    2.6       NaN   
-26  2            1  0.498665          3           1     2.6    2.7  0.063253   
-27  0            0       NaN          3           0     2.7    2.8       NaN   
-28  1            0 -1.397097          3           0     2.8    2.9  1.025883   
-29  1            1  0.224533          3           1     2.9    3.0 -1.164391   
-
-      thetah   thetapi    thetaw  
-25  0.000000  0.000000  0.000000  
-26  0.263158  0.578947  0.563739  
-27  0.000000  0.000000  0.000000  
-28  1.031579  0.442105  0.281870  
-29  0.005263  0.100000  0.281870  
-
-[5 rows x 11 columns]
+<pre>30
+30
+30
+30
 </pre>
 </div>
 </div>
@@ -400,6 +300,63 @@ The dependency versions are {&apos;libsequence&apos;: &apos;1.8.7&apos;, &apos;G
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Using-pylibseq">Using <a href="https://github.com/molpopgen/pylibseq">pylibseq</a><a class="anchor-link" href="#Using-pylibseq">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">libsequence.windows</span> <span class="kn">import</span> <span class="n">Windows</span>
+<span class="kn">from</span> <span class="nn">libsequence.polytable</span> <span class="kn">import</span> <span class="n">SimData</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+    <span class="c1">##We need to convert our list of tuples</span>
+    <span class="c1">##into types that pylibseq/libsequence understand:</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="n">Windows</span><span class="p">(</span><span class="n">SimData</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+    <span class="c1">##Now, you can analyze the windows, etc.</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">windows</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>30
+30
+30
+30
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Well, the pylibseq version is clearly more compact.  Of course, you can/should abstract the pure Python version into a standalone function.</p>
+<p>Why would you ever use the manual version?  It can save you memory.  The pylibseq version constructs an iterable list of windows, meaning that there is an object allocated for each window.  For the manual version above, we grew a list of objects, but we could just have easily processed them and let them go out of scope.</p>
+
+</div>
+</div>
 </div>
     </div>
   </div>

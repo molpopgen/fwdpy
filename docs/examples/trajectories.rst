@@ -151,7 +151,7 @@ Frequency trajectory of fixations
 
 
 
-.. image:: trajectories.nbconvert_files/trajectories.nbconvert_11_0.png
+.. image:: trajectories_files/trajectories_11_0.png
 
 
 .. code:: python
@@ -168,11 +168,11 @@ Frequency trajectory of fixations
 
 .. parsed-literal::
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7f7e0f53c610>
+    <matplotlib.axes._subplots.AxesSubplot at 0x7f396f0f7090>
 
 
 
 
-.. image:: trajectories.nbconvert_files/trajectories.nbconvert_12_1.png
+.. image:: trajectories_files/trajectories_12_1.png
 
 
