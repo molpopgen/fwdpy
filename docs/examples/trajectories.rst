@@ -57,7 +57,7 @@ Run a simulation
 
 .. code:: python
 
-    rawTraj = [pd.DataFrame(fp.tidy_trajectories(i)) for i in sampler]
+    rawTraj = [i for i in sampler]
     #This example has only 1 set of trajectories, so let's make a variable for thet
     #single replicate
     traj=rawTraj[0]
@@ -68,18 +68,18 @@ Run a simulation
 
 .. parsed-literal::
 
-          esize    freq  generation  label  origin       pos
-    0 -0.066601  0.0005           1      0       0  1.125086
-    1 -0.066601  0.0005           2      0       0  1.125086
-    2 -0.066601  0.0010           3      0       0  1.125086
-    3 -0.066601  0.0010           4      0       0  1.125086
-    4 -0.066601  0.0010           5      0       0  1.125086
-               esize    freq  generation  label  origin       pos
-    104420 -0.035017  0.0010       10000      0    9998  1.949638
-    104421 -0.155373  0.0005        9999      0    9998  1.912775
-    104422 -0.155373  0.0005       10000      0    9998  1.912775
-    104423 -0.030944  0.0005       10000      0    9999  1.805271
-    104424 -0.042471  0.0005       10000      0    9999  1.738310
+          esize    freq  generation  origin       pos
+    0 -0.314966  0.0005           1       0  1.382760
+    1 -0.021193  0.0005           1       0  1.367676
+    2 -0.066601  0.0005           1       0  1.125086
+    3 -0.066601  0.0005           2       0  1.125086
+    4 -0.066601  0.0010           3       0  1.125086
+               esize    freq  generation  origin       pos
+    104420 -0.016016  0.0005        9999    9998  1.773315
+    104421 -0.155373  0.0005        9999    9998  1.912775
+    104422 -0.155373  0.0005       10000    9998  1.912775
+    104423 -0.042471  0.0005       10000    9999  1.738310
+    104424 -0.030944  0.0005       10000    9999  1.805271
     1.0
 
 
@@ -109,7 +109,6 @@ Max mutation frequencies
           <th>esize</th>
           <th>freq</th>
           <th>generation</th>
-          <th>label</th>
           <th>origin</th>
         </tr>
       </thead>
@@ -120,7 +119,6 @@ Max mutation frequencies
           <td>0.001812</td>
           <td>1.0</td>
           <td>2612</td>
-          <td>0</td>
           <td>43</td>
         </tr>
       </tbody>
@@ -170,7 +168,7 @@ Frequency trajectory of fixations
 
 .. parsed-literal::
 
-    <matplotlib.axes._subplots.AxesSubplot at 0x7f0982a55f50>
+    <matplotlib.axes._subplots.AxesSubplot at 0x7f7e0f53c610>
 
 
 
