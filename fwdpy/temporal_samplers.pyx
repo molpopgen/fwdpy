@@ -227,6 +227,8 @@ cdef class FreqSampler(TemporalSampler):
                     if pos_esize_filter is None or pos_esize_filter(ps) is True:
                         if freq_filter is None or freq_filter(raw[origin][ps]) is True:
                             temp.extend([{'origin':origin,'pos':ps[0],'esize':ps[1],'generation':i[0],'freq':i[1]} for i in raw[origin][ps]])
+        if len(temp)==0:
+            return pandas.DataFrame()
         rv=pandas.DataFrame(temp)
         rv.sort_values(by=['origin'])
         rv.drop_duplicates(inplace=True)
