@@ -19,20 +19,20 @@ import platform, glob, sys, subprocess, os
 FWDPP_V=""
 GSL_V=""
 LIBSEQ_V=""
-CUSTOM_DIPLOID_BASE=1
+CUSTOM_DIPLOID_BASE=0
 ##fwdpp
-try:
-    proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
-    (out,err) = proc.communicate()
-    version = out.decode('utf-8').rstrip()
-    print ("fwdpp version",version," found.")
-    FWDPP_V=version
-    if version < '@MINFWDPP@':
-        sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
-    if version >= '0.5.5':
-        CUSTOM_DIPLOID_BASE=0
-except:
-    sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
+#try:
+#    proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
+#    (out,err) = proc.communicate()
+#    version = out.decode('utf-8').rstrip()
+#    print ("fwdpp version",version," found.")
+#    FWDPP_V=version
+#    if version < '@MINFWDPP@':
+#        sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
+#    if version >= '0.5.5':
+#        CUSTOM_DIPLOID_BASE=0
+#except:
+#    sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
 ##libseqeuence
 try:
