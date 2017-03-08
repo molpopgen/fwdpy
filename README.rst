@@ -80,7 +80,7 @@ This package *minimally* depends on:
 * GSL_
 * libsequence_
 
-.. node:: fwdpp_ is not a build dependency. The library is included with fwdpy and its headers are installed as package data.
+.. note:: fwdpp_ is not a build dependency. The library is included with fwdpy and its headers are installed as package data.
 
 .. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 and cythonGSL_ installed on your system.
 
