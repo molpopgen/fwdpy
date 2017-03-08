@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changelog (rough) &#8212; fwdpy 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TODO" href="todo.html" />
+    <link rel="prev" title="fwdpy: forward simulation in Python using fwdpp" href="../README.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="changelog-rough">
+<h1>Changelog (rough)<a class="headerlink" href="#changelog-rough" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="rc3">
+<h2>0.0.4-rc3<a class="headerlink" href="#rc3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a href="#id2"><span class="problematic" id="id3">fwdpy_</span></a> is now included with fwdpy!  Further, the <a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a> headers are installed as package data, meaning that plugins/extensions to fwdpy always have access to the version of <a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a> used to build fwdpy.</li>
+<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.get_includes" title="fwdpy.fwdpy.get_includes"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_includes()</span></code></a> and <a class="reference internal" href="../index.html#fwdpy.fwdpy.get_fwdpp_includes" title="fwdpy.fwdpy.get_fwdpp_includes"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.get_fwdpp_includes()</span></code></a> return the locations of the instaled fwdpy and <a class="reference external" href="http://molpopgen.github.io/fwdpp">fwdpp</a> headers, respectively.</li>
+<li><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fdwpy.tidy_trajectories()</span></code> removed.</li>
+<li>C++ back-end and <a class="reference external" href="http://www.cython.org/">Cython</a> class definition of <a class="reference internal" href="../index.html#fwdpy.fwdpy.FreqSampler" title="fwdpy.fwdpy.FreqSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.FreqSampler</span></code></a> refactored. New version is much, much faster!</li>
+<li><a class="reference internal" href="../index.html#fwdpy.fwdpy.FreqSampler" title="fwdpy.fwdpy.FreqSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.FreqSampler</span></code></a> is now able to output directly to SQLite database files.  There is also a new member function called &#8220;fetch&#8221; that allows filtering of trajectories before returning them as a Pandas DataFrame object.</li>
+<li>fwdpy.numeric_gsl added, providing a <a class="reference external" href="http://www.cython.org/">Cython</a> (nogil) API to some numeric operations implemented in terms of the GSL</li>
+</ul>
+</div>
+<div class="section" id="through-release-candidate-2">
+<h2>0.0.4 (through release candidate 2)<a class="headerlink" href="#through-release-candidate-2" title="Permalink to this headline">¶</a></h2>
+<p>Changes to the Python side:</p>
+<ul class="simple">
+<li>&#8220;Evolve&#8221; functions are now much more generic due to fitness function
+objects and temporal sampler objects (see below)</li>
+<li>The application of temporal samplers is now consistent for all types of simulation (&#8220;pop-gen&#8221;, &#8220;quant-trait&#8221;, etc.)</li>
+<li>Added ability to use custom fitness functions!!! On the Python side,
+these work via <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.SpopFitness</span></code> and <code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusFitness</span></code></li>
+<li>Class names now more &#8220;Pythonic&#8221;.  This will break existing scripts.</li>
+<li>Add fwdpy.demography module.</li>
+<li>Add <a class="reference internal" href="../index.html#fwdpy.fwdpy.MlocusPop" title="fwdpy.fwdpy.MlocusPop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusPop</span></code></a></li>
+<li>Add <a class="reference internal" href="../index.html#fwdpy.fwdpy.MlocusPopVec" title="fwdpy.fwdpy.MlocusPopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusPopVec</span></code></a></li>
+<li>Add concept of a temporal sampler via
+<a class="reference internal" href="../index.html#fwdpy.fwdpy.TemporalSampler" title="fwdpy.fwdpy.TemporalSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.TemporalSampler</span></code></a>.</li>
+<li>Add temporal sampler objects <a class="reference internal" href="../index.html#fwdpy.fwdpy.NothingSampler" title="fwdpy.fwdpy.NothingSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.NothingSampler</span></code></a>,
+<a class="reference internal" href="../index.html#fwdpy.fwdpy.QtraitStatsSampler" title="fwdpy.fwdpy.QtraitStatsSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.QtraitStatsSampler</span></code></a>,
+<a class="reference internal" href="../index.html#fwdpy.fwdpy.PopSampler" title="fwdpy.fwdpy.PopSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopSampler</span></code></a>,
+<a class="reference internal" href="../index.html#fwdpy.fwdpy.VASampler" title="fwdpy.fwdpy.VASampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.VASampler</span></code></a>,
+<a class="reference internal" href="../index.html#fwdpy.fwdpy.FreqSampler" title="fwdpy.fwdpy.FreqSampler"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.FreqSampler</span></code></a></li>
+<li>Add function <a class="reference internal" href="../index.html#fwdpy.fwdpy.apply_sampler" title="fwdpy.fwdpy.apply_sampler"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.apply_sampler()</span></code></a></li>
+<li>Add <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.tidy_trajectories()</span></code>, which really speeds up
+coercion of mutation frequency trajectories to a pandas DataFrame.</li>
+<li>Add <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.hapmatrix()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.genomatrix()</span></code></li>
+<li>Added views of fixed mutations via <a class="reference internal" href="../index.html#fwdpy.fwdpy.view_fixations" title="fwdpy.fwdpy.view_fixations"><code class="xref py py-func docutils literal"><span class="pre">fwdpy.fwdpy.view_fixations()</span></code></a></li>
+<li>Better Python3 compatibility</li>
+<li>Add support to serialize/deserialize <a class="reference internal" href="../index.html#fwdpy.fwdpy.MlocusPop" title="fwdpy.fwdpy.MlocusPop"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.MlocusPop</span></code></a></li>
+<li>Streamline implementation of the various <a class="reference internal" href="../index.html#fwdpy.fwdpy.PopVec" title="fwdpy.fwdpy.PopVec"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopVec</span></code></a> classes.  They no longer contain two containers,
+and they yield <a class="reference internal" href="../index.html#fwdpy.fwdpy.PopType" title="fwdpy.fwdpy.PopType"><code class="xref py py-class docutils literal"><span class="pre">fwdpy.fwdpy.PopType</span></code></a> objects upon iteration.</li>
+</ul>
+<p>Changes to the <a class="reference external" href="http://www.cython.org/">Cython</a>/C++ back end:</p>
+<ul class="simple">
+<li>diploid fitness now defaults to 1 instead of 0</li>
+<li>Bug fixed in get_gamete in views.pyx.  This affected the output of almost all &#8220;views&#8221; functions except those viewing just mutations.</li>
+<li><a class="reference external" href="https://pypi.python.org/pypi/CythonGSL">cythonGSL</a> is now required. We expect to use more GSL in this package, and so it makes sense to not reinvent the wheel.</li>
+<li>Massive reduction in code base</li>
+<li>Update to <a class="reference external" href="http://www.cython.org/">Cython</a> 0.24.0</li>
+<li>Generic temporal samplers and fitness functions are now supported.</li>
+<li>Expose more fwdpp types for multi-locus/region simulations</li>
+<li>Expose fwdpp&#8217;s fitness function objects site_dependent_fitness,
+additive_diploid, and multiplicative_diploid.  Call operators
+(e.g. operator()) are only exposed for custom diploids.</li>
+<li>More unit tests of sampling and &#8220;views&#8221;</li>
+<li>Update how samples are taken from populations, reflecting a bug fix
+in fwdpp 0.4.9 that made the <a class="reference external" href="http://www.cython.org/">Cython</a> wrappers in this package
+incorrect.</li>
+<li>Population objects in types.hpp now have serialization/deserialization functions.</li>
+<li>Single-parameter constructors for population objects in types.hpp are now &#8220;explicit&#8221;.</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h2>0.0.3<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Change from std::thread to std::async for concurrency.</li>
+<li>The asynchronous futures allow for the same &#8220;evolve&#8221; function to be
+used in different contexts.</li>
+<li>The different contexts include calculating things from the
+population every &#8220;k&#8221; generation or doing nothing.</li>
+<li>These things are implemented as classes with call operators and a
+minimal set of API requirements.</li>
+<li>Fixed a bug in &#8220;mutation views&#8221;</li>
+<li>Better parameter checking for various &#8220;evolve&#8221; functions</li>
+<li>Source code re-organized so that all header files are installed</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Changelog (rough)</a><ul>
+<li><a class="reference internal" href="#rc3">0.0.4-rc3</a></li>
+<li><a class="reference internal" href="#through-release-candidate-2">0.0.4 (through release candidate 2)</a></li>
+<li><a class="reference internal" href="#id1">0.0.3</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../README.html" title="previous chapter">fwdpy: forward simulation in Python using fwdpp</a></li>
+      <li>Next: <a href="todo.html" title="next chapter">TODO</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/pages/changelog.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, KRT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/pages/changelog.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

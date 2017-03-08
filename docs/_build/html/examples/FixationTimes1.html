@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Distribution of fixation times with background selection &#8212; fwdpy 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="distribution-of-fixation-times-with-background-selection">
+<h1>Distribution of fixation times with background selection<a class="headerlink" href="#distribution-of-fixation-times-with-background-selection" title="Permalink to this headline">¶</a></h1>
+<p>This example mixes the simulation of positive selection with
+strongly-deleterious mutations (background selection, or &#8220;BGS&#8221; for
+short).</p>
+<p>The setup of the BGS model is the same as the other example. This
+example adds the following:</p>
+<ol class="arabic simple">
+<li>Include a class of beneficial mutations (<img class="math" src="../_images/math/b9625c3448dc825310482fdeb2708393d021a6e6.png" alt="s&gt;0"/>) and fitnesses
+<img class="math" src="../_images/math/527f6d993bfe1e4a95ad92a9b1bd22697bdae115.png" alt="1, 1+s, 1+2s"/> for the three genotypes.</li>
+<li>We will track the frequency trajectories of all selected mutations
+during every simulation</li>
+<li>From those trajectories, we will get the fixation times of all
+beneficial mutations.</li>
+<li>These fixation times will be recorded in a pandas DataFrame.</li>
+</ol>
+<p>This is the really cool part:</p>
+<ol class="arabic simple" start="5">
+<li>We will send that DataFrame to R for plotting using ggplot.</li>
+</ol>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span>
+</pre></div>
+</div>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">fwdpy</span> <span class="k">as</span> <span class="nn">fp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+<p>Our simulation is set up in the same manner that Hudson, Kaplan, and
+colleagues used to study the structured coalescent:</p>
+<ol class="arabic simple">
+<li>Our locus of interest has mutations occurring along the interval
+<img class="math" src="../_images/math/4d9fb905a283a65f369c2ff72530591621f241b1.png" alt="[0,1)"/>.</li>
+<li>That locus is flanked by loci where mutations causing BGS occur.</li>
+</ol>
+<p>The relevant details here are:</p>
+<ol class="arabic simple">
+<li>We will simulate no neutral variants.</li>
+<li>Our positively-selected variants will occur in the &#8220;locus&#8221; of
+interest.</li>
+<li>Recombination will take place as a uniform process across all
+regions.</li>
+</ol>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#We will simulate no neutral mutations</span>
+<span class="n">nregions</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1">#These are our &quot;BGS loci&quot;</span>
+<span class="n">sregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="n">beg</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+
+<span class="c1">#Recombination is uniform across whole region</span>
+<span class="n">recregions</span> <span class="o">=</span> <span class="p">[</span><span class="n">fp</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">beg</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+
+<span class="c1">#Population size</span>
+<span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
+<span class="c1">##Evolve for 20N generations with constant N</span>
+<span class="n">nlist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">N</span><span class="p">]</span><span class="o">*</span><span class="mi">20</span><span class="o">*</span><span class="n">N</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint32</span><span class="p">)</span>
+
+<span class="c1">#Random number generator</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">GSLrng</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We need to define a function to go from trajectories of selected
+mutations to lists of fixation times. This function is trivial with
+Python&#8217;s &#8220;list comprehensions&#8221;:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_fixation_times</span><span class="p">(</span><span class="n">trajectories</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a set of trajectories, creates a list of fixation times, which is</span>
+<span class="sd">    returned.</span>
+
+<span class="sd">    The elements in trajectories are a list, with element 0 a &#39;dict&#39; containing</span>
+<span class="sd">    info about each variant, and element 1 being a list of frequencies over time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">groups</span><span class="o">=</span><span class="n">trajectories</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span><span class="s1">&#39;esize&#39;</span><span class="p">,</span><span class="s1">&#39;origin&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">1.</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;this group is not a fixation&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]</span>
+    <span class="c1">#return[len(i[1]) for i in trajectories if max(i[1])==1 and i[0][b&#39;esize&#39;]&gt;0]</span>
+</pre></div>
+</div>
+<p>Now, run the simulation itself.</p>
+<p><strong>Warning:</strong> I&#8217;m running this using 40 processors, and it takes about
+20Gb of RAM, so your machine may not be able to handle this.</p>
+<p><em>Note:</em> I&#8217;m only doing 40 replicates for each <img class="math" src="../_images/math/63751cb2e98ba393b0f22e45ca127c3cebb61487.png" alt="s"/>, which is of
+course limiting.</p>
+<p>This example runs in a few minutes on my machine.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1">#This will be our range of selection coefficients</span>
+<span class="n">svals</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="n">e</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1">#This will be our number of populations/replicates</span>
+<span class="n">NPOPS</span><span class="o">=</span><span class="mi">40</span>
+
+<span class="c1">#A list to collect our intermediate pandas DataFrames</span>
+<span class="n">df</span><span class="o">=</span><span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">svals</span><span class="p">:</span>
+        <span class="c1">#Copy sregions from above</span>
+        <span class="n">sregions_current</span><span class="o">=</span><span class="n">sregions</span>
+        <span class="c1">#Add a new region with +ve-ly selected variants.</span>
+        <span class="c1">#NEED TO ADD A COMMENT ABOUT WHAT THE WEIGHT HERE MEANS</span>
+        <span class="n">sregions_current</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">ConstantS</span><span class="p">(</span><span class="n">beg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">end</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="n">e</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">,</span><span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="c1">#Create a vector of 40 pops.</span>
+        <span class="c1">#This means that fwdpy will use 40 threads to simulate the 40 replicates.</span>
+        <span class="n">pops</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">SpopVec</span><span class="p">(</span><span class="n">NPOPS</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+        <span class="n">sampler</span><span class="o">=</span><span class="n">fp</span><span class="o">.</span><span class="n">FreqSampler</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pops</span><span class="p">))</span>
+        <span class="n">traj</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">evolve_regions_sampler</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span>
+                                        <span class="n">pops</span><span class="p">,</span>
+                                        <span class="n">sampler</span><span class="p">,</span>
+                                        <span class="n">nlist</span><span class="p">[</span><span class="mi">0</span><span class="p">:],</span> <span class="c1">#List of population sizes over time.</span>
+                                        <span class="mf">0.0</span><span class="p">,</span>     <span class="c1">#Neutral mutation rate = 0 (per gamete, per generation)</span>
+                                        <span class="mf">0.001</span><span class="p">,</span>      <span class="c1">#Mutation rate to selected variants(per gamete, per generation)</span>
+                                        <span class="mf">0.005</span><span class="p">,</span>     <span class="c1">#Recombination rate (per diploid, per generation)</span>
+                                        <span class="n">nregions</span><span class="p">,</span>  <span class="c1">#Defined above</span>
+                                        <span class="n">sregions_current</span><span class="p">,</span>  <span class="c1">#Defined above</span>
+                                        <span class="n">recregions</span><span class="p">,</span>  <span class="c1">#Defined above</span>
+                                        <span class="mi">1</span><span class="p">)</span><span class="c1">#update mutation frequency trajectories every generation</span>
+        <span class="c1">#We now have a list of trajectory objects,</span>
+        <span class="c1">#and our task is to collect the fixations from</span>
+        <span class="c1">#them.</span>
+        <span class="n">raw_ftimes</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_fixation_times</span><span class="p">(</span><span class="n">sampler</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">freq_filter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="mf">1.</span> <span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sampler</span><span class="p">))]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">raw_ftimes</span><span class="p">:</span>
+            <span class="c1">#Create a pandas DataFrame</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;s&#39;</span><span class="p">:[</span><span class="n">s</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="s1">&#39;ftimes&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">}))</span>
+
+<span class="c1">#catenate all the DataFrames, and we&#39;ll send them to R for plotting.</span>
+<span class="n">dataForR</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="n">require</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="n">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">186</span><span class="p">:</span> <span class="n">RRuntimeWarning</span><span class="p">:</span> <span class="n">Loading</span> <span class="n">required</span> <span class="n">package</span><span class="p">:</span> <span class="n">ggplot2</span>
+
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">RRuntimeWarning</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">dataForR</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">ggplot</span><span class="p">(</span><span class="n">dataForR</span><span class="p">,</span><span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ftimes</span><span class="p">,</span><span class="n">y</span><span class="o">=..</span><span class="n">density</span><span class="o">..</span><span class="p">))</span> <span class="o">+</span>
+<span class="n">geom_histogram</span><span class="p">()</span> <span class="o">+</span>
+<span class="n">facet_wrap</span><span class="p">(</span> <span class="o">~</span><span class="n">s</span><span class="p">,</span><span class="n">nrow</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span>
+<span class="n">xlab</span><span class="p">(</span><span class="s2">&quot;Fixation time (generations)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<pre class="literal-block">
+/usr/local/lib/python2.7/dist-packages/rpy2/rinterface/__init__.py:186: RRuntimeWarning: <cite>stat_bin()</cite> using <cite>bins = 30</cite>. Pick better value with <cite>binwidth</cite>.
+
+  warnings.warn(x, RRuntimeWarning)
+</pre>
+<img alt="../_images/FixationTimes1.nbconvert_10_1.png" src="../_images/FixationTimes1.nbconvert_10_1.png" />
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">dataForR</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;s&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>ftimes</th>
+    </tr>
+    <tr>
+      <th>s</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0.001</th>
+      <td>3834.000000</td>
+    </tr>
+    <tr>
+      <th>0.010</th>
+      <td>1221.666667</td>
+    </tr>
+    <tr>
+      <th>0.050</th>
+      <td>377.150538</td>
+    </tr>
+    <tr>
+      <th>0.100</th>
+      <td>259.683168</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/examples/FixationTimes1.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, KRT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/examples/FixationTimes1.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

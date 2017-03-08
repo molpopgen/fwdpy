@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Fitness models &#8212; fwdpy 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Example: modeling changes in population size" href="popsizes.html" />
+    <link rel="prev" title="A note for R users" href="rusers.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fitness-models">
+<h1>Fitness models<a class="headerlink" href="#fitness-models" title="Permalink to this headline">¶</a></h1>
+<p>Unless otherwise specified, the fitness of a diploid will typically be calculated according to an &#8220;additive&#8221; model or a &#8220;multiplicative&#8221; model.  For a particular position with two segregating alleles, there are three possible genotypes, <em>AA</em>, <em>Aa</em>, and <em>aa</em>, which represent the non-mutant homozygote, the heterozygote, and the mutant homozygote respectively.  For &#8216;standard&#8217; models in population-genetics, a mutation typically has a &#8216;selection coefficient&#8217;, <em>s</em>, which you can think of as the amount by which a mutation changes the reproductive success of a genotype, and <em>h</em>, which is a modifier of the mutation&#8217;s effect on fitness in a heterozygote.</p>
+<p>The standard models of fitness in population genetics are either additive: <img class="math" src="../_images/math/126bcca4f9398674cf6a5762b710aaced9667733.png" alt="w = 1 + \sum_i w_i"/>, where <img class="math" src="../_images/math/1caac5f874f508b298a9b1dcf65af7fe3823f9cc.png" alt="w_i"/> is 0, <img class="math" src="../_images/math/cabfc99a50a4ca3310923c0ac2147ca61e82b799.png" alt="sh"/>, or <img class="math" src="../_images/math/d48fdb13317368b22d1ed345a1b15753793b3be3.png" alt="2s"/> for genotypes <em>AA</em>, <em>Aa</em>, and <em>aa</em>, respectively, or multiplicative: <img class="math" src="../_images/math/57b69673c00f3a37cc2b7475d0ae857b4105be11.png" alt="w=\prod_i w_i"/>, , where <img class="math" src="../_images/math/1caac5f874f508b298a9b1dcf65af7fe3823f9cc.png" alt="w_i"/> is 1, <img class="math" src="../_images/math/d176a6a5c40b0ad57a1f1755451ad764229857e1.png" alt="1+sh"/>, or <img class="math" src="../_images/math/3c944f09cd56b4b4ced1e7449af275d11ca8d3c3.png" alt="1+2s"/> for genotypes <em>AA</em>, <em>Aa</em>, and <em>aa</em>, respectively.  The former approximates the latter for small <img class="math" src="../_images/math/63751cb2e98ba393b0f22e45ca127c3cebb61487.png" alt="s"/>.</p>
+<p>For better or worse, these are the standard models of population genetics and the scalings of fitness in the above table are the same ones used to give classic results on fixation probabilities, times to fixation, etc.  For further information, please consult Crow and Kimura (1970).</p>
+</div>
+<div class="section" id="theoretical-details">
+<h1>Theoretical details<a class="headerlink" href="#theoretical-details" title="Permalink to this headline">¶</a></h1>
+<p>In the absence of natural selection, the distribution of levels of variation (number of mutations, frequencies, correlation amongst mutation frequencies, etc.) are governed by two parameters, <img class="math" src="../_images/math/df23723807bbfcc3bd7020fa06a105d89c48fa5f.png" alt="\theta = 4N_e\mu"/> and <img class="math" src="../_images/math/83c5c8b58f18d8959b01a80e0ce541b5bcf2dd31.png" alt="\rho = 4N_er,"/> where :math`N_e` is the &#8220;coalescent effective size&#8221; of the population (Sjodin <em>et al.</em>, 2005), <img class="math" src="../_images/math/d79e8a2c7ce54906c2b25549da38bdbe02cf40d6.png" alt="\mu"/> is the mutation rate (per gamete, per generation, to mutations that do not affect fitness and occur according to an the infinitely-many sites scheme of Kimura, 1969), and <img class="math" src="../_images/math/eaa6ad49a7f78fe5a13b486690163bf2dc7e3e60.png" alt="r"/> is the rate of crossing over in the region (per diploid, per generation).  I suggest that readers consult Wakeley, 2009, as a starting point for understanding what these parameters imply about expectations for samples, etc., under various models.</p>
+<p>In a forward simulation, you need to pick an <img class="math" src="../_images/math/f4170ed8938b79490d8923857962695514a8e4cb.png" alt="N"/>, which is your diploid population size.  You also need to have some idea of how large a <img class="math" src="../_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> and <img class="math" src="../_images/math/9a51ab9a0b521705e1e8762fac6bdd6f11771758.png" alt="\rho"/> to use.  This can be a complex issue (more on that below), but we&#8217;ll do some back-of-the-envelope stuff here.  The following table present the average number of differences per nucleotide (<img class="math" src="../_images/math/a8d3b1d86ae13f42b261e6012f8c719ab08434c3.png" alt="\theta_\pi"/> per site) between two individuals in the two most important species on the planet:</p>
+<ul class="simple">
+<li>Humans, where nucleotide diversity per site is <img class="math" src="../_images/math/0f65c87a3e42e871daf2b81e03c16ddb3b6c56b9.png" alt="\approx 10^{-3}"/></li>
+<li><em>Drosophila melanogaster</em> (from N. America), where diversity per site is <img class="math" src="../_images/math/00a9585bca72643b02183714ae954e871d1b3af3.png" alt="\approx 10^{-2}"/></li>
+</ul>
+<p>Thus, if you choose an <img class="math" src="../_images/math/f4170ed8938b79490d8923857962695514a8e4cb.png" alt="N"/> and a neutral mutation rate such that <img class="math" src="../_images/math/7b922c9fdca72a653d0191f9322872afc96bcc90.png" alt="\theta = 10^3"/>, then that value correponds to approximately 1 megabase in &#8220;humans&#8221; and 100 kilobases in &#8220;flies&#8221;.</p>
+<div class="section" id="the-relationship-between-forward-time-and-backward-time-coalescent-simulations">
+<h2>The relationship between forward-time and backward-time (coalescent) simulations.<a class="headerlink" href="#the-relationship-between-forward-time-and-backward-time-coalescent-simulations" title="Permalink to this headline">¶</a></h2>
+<p>The reason why we go through all of the <img class="math" src="../_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> business above is because someone using this package may wish to compare to the results of coalescent simulations that run <em>backwards</em> in time.  In a forward simulation where <img class="math" src="../_images/math/f4170ed8938b79490d8923857962695514a8e4cb.png" alt="N"/> changes over time, it is easiest to parameterize everything in terms of the <img class="math" src="../_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> and <img class="math" src="../_images/math/9a51ab9a0b521705e1e8762fac6bdd6f11771758.png" alt="\rho"/> at the _beginning_ of the simulation.  However, a coalescent simulation like <a class="reference external" href="http://home.uchicago.edu/~rhudson1/source/mksamples.html">ms</a> treats treats <img class="math" src="../_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/> as <img class="math" src="../_images/math/ae5aebdf239788fc6e50a61c830438ab6ec170dd.png" alt="4N_{e,0}\mu"/>, where <img class="math" src="../_images/math/bad12be5b361636c85ca88938d5ad7a91d3b6c43.png" alt="N_{e,0}"/> is  the coalscent size at time 0 in the past (which is also known as the present).  Thus, if you simulate a model with changing population sizes using this package and want to compare it to the output of something like <a class="reference external" href="http://home.uchicago.edu/~rhudson1/source/mksamples.html">ms</a>, then you should be prepared to do a little math to adjust <img class="math" src="../_images/math/3be04d4207434584251f6921820c24ac9fa8c6f1.png" alt="\theta"/>, etc., so that the parameters are indeed comparable.</p>
+</div>
+</div>
+<div class="section" id="references">
+<h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Crow, J. F., &amp; Kimura, M. (1970). An introduction to population genetics theory. An Introduction to Population Genetics Theory.</li>
+<li>Kimura, M. (1969). The number of heterozygous nucleotide sites maintained in a finite population due to steady flux of mutations. Genetics, 61(4), 893-903.</li>
+<li>Thornton, K. R. (2014). A C++ Template Library for Efficient Forward-Time Population Genetic Simulation of Large Populations. Genetics, 198, 157-166. <a class="reference external" href="http://doi.org/10.1534/genetics.114.165019">http://doi.org/10.1534/genetics.114.165019</a></li>
+<li>Sjödin, P., Kaj, I., Krone, S., Lascoux, M., &amp; Nordborg, M. (2005). On the Meaning and Existence of an Effective Population Size. Genetics, 169(2), 1061-1070. <a class="reference external" href="http://doi.org/10.1534/genetics.104.026799">http://doi.org/10.1534/genetics.104.026799</a></li>
+<li>Wakeley, J. (2009). Coalescent Theory. Roberts &amp; Company Publishers.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fitness models</a></li>
+<li><a class="reference internal" href="#theoretical-details">Theoretical details</a><ul>
+<li><a class="reference internal" href="#the-relationship-between-forward-time-and-backward-time-coalescent-simulations">The relationship between forward-time and backward-time (coalescent) simulations.</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="rusers.html" title="previous chapter">A note for R users</a></li>
+      <li>Next: <a href="popsizes.html" title="next chapter">Example: modeling changes in population size</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/pages/background.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, KRT.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/pages/background.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
