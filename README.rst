@@ -78,8 +78,9 @@ This section assumes that all packages are installed in fairly standard location
 This package *minimally* depends on:
 
 * GSL_
-* fwdpp_
 * libsequence_
+
+.. note:: fwdpp_ is not a build dependency. The library is included with fwdpy and its headers are installed as package data.
 
 .. note:: If installing from GitHub, then you also must have Cython_ >= 0.24.0 and cythonGSL_ installed on your system.
 
@@ -134,7 +135,7 @@ The latest release of the package is available via PyPi_, and can be installed w
 
 .. code-block:: bash
 
-   $ pip install --upgrade fwdpy
+   pip install --upgrade fwdpy
 
 OS X users must first install a compiler that supports the -fopenmp option.  I recommend GCC from Anaconda_ (see above).
 
@@ -145,7 +146,7 @@ You may also use pip to install from GitHub.  However, doing so requires that Cy
 
 .. code-block:: bash
 
-   $ pip install git+git://github.com/molpopgen/fwdpy --install-option="--use-cython"
+   pip install git+git://github.com/molpopgen/fwdpy --install-option="--use-cython"
 
 The above command installs the latest version of the 'master' branch.  Users wanting latest and buggiest may find this useful.  OS X users should follow the instructions for using clang-omp shown above.
 
@@ -153,7 +154,7 @@ Do this at your own risk. While the version number of the master branch may be t
 
 To install a specific branch:
 
-   $ pip install git+git://github.com/molpopgen/fwdpy@branchname --install-option="--use-cython"
+   pip install git+git://github.com/molpopgen/fwdpy@branchname --install-option="--use-cython"
 
 Installation from source
 ----------------------------------------
@@ -164,16 +165,20 @@ The best way to install the package is to use 'pip'.  Once you have cloned the s
 
 .. code-block:: bash
 
+    git submodule init
+    git submodule update
     pip install . --upgrade --intall-option=--use-cython
 
 To build the package in place and run the unit tests:
 
 .. code-block:: bash
 
-   $ #build package locally:
-   $ python setup.py build_ext -i
-   $ #run the unit tests:
-   $ python -m unittest discover fwdpy/tests
+    git submodule init
+    git submodule update
+    #build package locally:
+    python setup.py build_ext -i
+    #run the unit tests:
+    python -m unittest discover fwdpy/tests
 
 Dependencies in non-standard locations
 ----------------------------------------------------------------------------------------
@@ -197,7 +202,7 @@ CPPFLAGS and LDFLAGS:
 
 .. code-block:: bash
 
-   $ CPPFLAGS="-I$HOME/include" LDFLAGS="-L$HOME/lib" pip install fwdpy
+   CPPFLAGS="-I$HOME/include" LDFLAGS="-L$HOME/lib" pip install fwdpy
 
 Testing
 ======================================
@@ -206,14 +211,14 @@ Testing occurs via docstring tests and unit tests.  Here is how to test using bo
 
 .. code-block:: bash
 
-   $ #build the package
-   $ python setup.py build_ext -i
-   $ #build the manual--requires Sphinx
-   $ make -f Makefile.sphinx html
-   $ #run the tests
-   $ make -f Makefile.sphinx doctest
-   $ #run the unit tests
-   $ python -m unittest discover fwdpy/tests
+   #build the package
+   python setup.py build_ext -i
+   #build the manual--requires Sphinx
+   make -f Makefile.sphinx html
+   #run the tests
+   make -f Makefile.sphinx doctest
+   #run the unit tests
+   python -m unittest discover fwdpy/tests
    
 
 Note for developers
@@ -225,13 +230,13 @@ In order to modify the package, you will need Cython installed:
 
 .. code-block:: bash
 
-   $ pip install Cython
+   pip install Cython
 
 You need Cython >= 0.24.0, so upgrade if you need to:
 
 .. code-block:: bash
 
-   $ pip install --upgrade Cython
+   pip install --upgrade Cython
 
 If you wish to modify the package, then you will want setup.py to "re-Cythonize" when you make changes to the package source code.
 
@@ -239,7 +244,7 @@ To do this, use the setup.py script as follows:
 
 .. code-block:: bash
 
-   $ python setup.py build_ext -i --use-cython
+   python setup.py build_ext -i --use-cython
 
 Now, Cython will be a compilation depdendency, and any changes to .pyx/.pyd/.cc files in this package will trigger Cython to regenerate the .cpp files that make up the core of the package.
 
@@ -251,7 +256,7 @@ flag set by Python's distutils:
 
 .. code-block:: bash
 
-   $ OPT= python setup.py build_ext -i
+   OPT= python setup.py build_ext -i
 
 Doing this will mean that the fwdpp back-end will *not* be compiled
 with -DNDEBUG, which will enable aggressive run-time correctness
@@ -264,35 +269,10 @@ slowly:
 
 .. code-block:: bash
 
-   $ OPT=-O2 python setup.py build_ext -i
+   OPT=-O2 python setup.py build_ext -i
    
-
-Rough guide to installation on UCI HPC
------------------------------------------
-
-Use the following module:
-
-.. code-block:: bash
-
-   $ module load krthornt/thorntonlab
-
-That command loads the proper dependencies for compiling much of the tools that we use.
-
-**Note**: this module replaces/over-rules some modules already on HPC.  The "thorntonlab" modules are all consistently compiled with a GCC version that we've deemed suitable.
-
 Troubleshooting the installation
 -----------------------------------------
-
-Incorrect fwdpp version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This package is compatible with fwdpp >= 0.5.4, which means that you should have a binary installed on your systems called fwdppConfig.  You can check if you have it:
-
-.. code-block:: bash
-
-   $ which fwdppConfig
-
-If the above command returns nothing, then it is very likely that fwdpp is either too old, missing entirely from your system, or it is installed somewhere non-standard.  For example, if you installed fwdpp locally for your user, and did not edit PATH to include ~/bin, then fwdppConfig cannot be called without referring to its complete path.
 
 Dependencies in non-standard locations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -308,7 +288,7 @@ If you insist on doing this, then you are on your own.  You have to manually pas
 
 .. code-block:: bash
 
-   $ $HOME/software
+   $HOME/software
 
 Doing so will allow $HOME/software/include, etc., to be populated as they were intended to be.
 
@@ -323,8 +303,8 @@ The API documentation may also be build using doxygen_:
 
 .. code-block:: bash
 
-   $ ./configure
-   $ doxygen fwdpy.doxygen
+   ./configure
+   doxygen fwdpy.doxygen
 
 Then, load html/index.html in your browser.
 

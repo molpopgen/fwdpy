@@ -19,20 +19,20 @@ import platform, glob, sys, subprocess, os
 FWDPP_V=""
 GSL_V=""
 LIBSEQ_V=""
-CUSTOM_DIPLOID_BASE=1
+CUSTOM_DIPLOID_BASE=0
 ##fwdpp
-try:
-    proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
-    (out,err) = proc.communicate()
-    version = out.decode('utf-8').rstrip()
-    print ("fwdpp version",version," found.")
-    FWDPP_V=version
-    if version < '@MINFWDPP@':
-        sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
-    if version >= '0.5.5':
-        CUSTOM_DIPLOID_BASE=0
-except:
-    sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
+#try:
+#    proc = subprocess.Popen(['fwdppConfig','--version'],stdout=subprocess.PIPE)
+#    (out,err) = proc.communicate()
+#    version = out.decode('utf-8').rstrip()
+#    print ("fwdpp version",version," found.")
+#    FWDPP_V=version
+#    if version < '@MINFWDPP@':
+#        sys.exit("fwdpp >= ,'@MINFWDPP@' required, but ",version, "found.")
+#    if version >= '0.5.5':
+#        CUSTOM_DIPLOID_BASE=0
+#except:
+#    sys.exit("fwdppConfig not found.  Please install fwdpp (http://github.com/molpopgen/fwdpp)")
 
 ##libseqeuence
 try:
@@ -124,7 +124,7 @@ if CUSTOM_DIPLOID_BASE != 0:
     GLOBAL_COMPILE_ARGS.append('-DCUSTOM_DIPLOID_BASE')
 
 LINK_ARGS=["-std=c++11",'-fopenmp']
-GLOBAL_INCLUDES=['.','..','include']
+GLOBAL_INCLUDES=['.','..','fwdpy/headers','fwdpy/headers/fwdpp']
 
 #Cython generates .cpp files from the .pyx files
 #In general, we wisht to complies the .cpp files
@@ -133,6 +133,8 @@ GLOBAL_INCLUDES=['.','..','include']
 #re-process the .pyx files.
 #This variable handes that choice, based on
 #use of --use-cython or not (see above).
+if len(glob.glob("fwdpy/*cpp"))==0:
+    USE_CYTHON=1
 EXTENSION = '.pyx' if USE_CYTHON else '.cpp'
 
 FWDPY_MAIN_LIBS=LIBS
@@ -238,10 +240,46 @@ if USE_CYTHON:
 
 generated_package_data={}
 for root, dirnames, filenames in os.walk('fwdpy'):
-    g=glob.glob(root+'/*.pxd')
+    if 'fwdpp' not in root:
+        g=glob.glob(root+'/*.pxd')
+        if len(g)>0:
+            replace=root.replace('/','.')
+            generated_package_data[replace]=['*.pxd']
+    g=glob.glob(root+'/*.hpp')
     if len(g)>0:
         replace=root.replace('/','.')
-        generated_package_data[replace]=['*.pxd']
+        PKGS.append(replace) #If there's a header file, we add the directory as a package
+        generated_package_data[replace]=['*.hpp']
+    
+#add in the fwdpp headers, excluding directories other
+#than the library itself
+for root, dirnames, filenames in os.walk('fwdpy/headers/fwdpp/fwdpp'):
+    g=glob.glob(root+'/*.hh')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        if replace not in PKGS:
+            PKGS.append(replace) #If there's a header file, we add the directory as a package
+        generated_package_data[replace]=['*.hh']
+    g=glob.glob(root+'/*.hh')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        if replace not in PKGS:
+            PKGS.append(replace) #If there's a header file, we add the directory as a package
+        try:
+            if '*.hpp' not in generated_package_data[replace]:
+                generated_package_data[replace].append('*.hpp')
+        except:
+            generated_package_data[replace]=['*.hpp']
+    g=glob.glob(root+'/*.tcc')
+    if len(g)>0:
+        replace=root.replace('/','.')
+        if replace not in PKGS:
+            PKGS.append(replace) #If there's a template implementation file, we add the directory as a package
+        try:
+            if '*.tcc' not in generated_package_data[replace]:
+                generated_package_data[replace].append('*.tcc')
+        except:
+            generated_package_data[replace]=['*.tcc']
 
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
@@ -266,7 +304,7 @@ setup(name='@PACKAGE_NAME@',
       scripts=[],
       data_files=[('fwdpy',['COPYING', 'README.rst'])],
       ##Note: when installing the git repo, headers will be put somewhere like /usr/local/include/pythonVERSION/fwdpy
-      headers=glob.glob("include/*.hpp"),
+      #headers=glob.glob("include/*.hpp"),
       package_data=generated_package_data,
       ext_modules=extensions,
       )

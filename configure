@@ -3222,24 +3222,17 @@ ac_config_headers="$ac_config_headers config.h"
 
 
 MINFWDPPVERSION="0.5.4"
-FWDPPVERSION=`fwdppConfig --version`
 MINFWDPP=$MINFWDPPVERSION
 
 GSLVERSION=`gsl-config --version`
 
-if test "$FWDPPVERSION" \< $MINFWDPPVERSION
 
-then
-	as_fn_error $? "fwdpp > $MINFWDPPVERSION required, please install from http://github.com/molpopgen/fwdpp" "$LINENO" 5
-else
-	echo "fwdpp version $FWDPPVERSION detected"
-fi
 
 LIBSEQVERSION=`libsequenceConfig --version`
 MINLIBSEQ=1.8.0
 if test "$LIBSEQVERSION" \< $MINLIBSEQ
 then
-    as_fn_error $? "fwdpp > $MINLIBSEQ required.  Please install recent version from
+    as_fn_error $? "libsequence > $MINLIBSEQ required.  Please install recent version from
                   http://github.com/molpopgen/libsequence" "$LINENO" 5
 else
     echo "libsequence version $LIBSEQVERSION detected"
@@ -3248,17 +3241,10 @@ echo "GSL version $GSLVERSION detected"
 
 
 cat >>confdefs.h <<_ACEOF
-#define FWDPP_VERSION "$FWDPPVERSION"
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
 #define GSL_VERSION "$GSLVERSION"
 _ACEOF
 
 
-#AC_ARG_ENABLE([tcmalloc],AS_HELP_STRING([--enable-tcmalloc],[Enable linking to Google's tcmalloc library, if present.]))
-#AC_ARG_ENABLE([tbbprx],AS_HELP_STRING([--enable-tbbprx],[Enable linking to Intels's tbb proxy library, if present.]))
 
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -4310,14 +4296,6 @@ fi
 done
 
 
-ac_fn_cxx_check_header_mongrel "$LINENO" "fwdpp/diploid.hh" "ac_cv_header_fwdpp_diploid_hh" "$ac_includes_default"
-if test "x$ac_cv_header_fwdpp_diploid_hh" = xyes; then :
-
-else
-  as_fn_error meaning fwdppConfig was found "fwdpp/diploid.hh not found.  Please install the library.  Something is likely amiss with your system.  We got this far" "$LINENO" 5
-fi
-
-
 ac_fn_cxx_check_header_mongrel "$LINENO" "Sequence/SimData.hpp" "ac_cv_header_Sequence_SimData_hpp" "$ac_includes_default"
 if test "x$ac_cv_header_Sequence_SimData_hpp" = xyes; then :
 
@@ -4325,14 +4303,6 @@ else
   as_fn_error meaning libsequenceConfig was found "Sequence/SimData.hpp not found.  Please install the library.  Something is likely amiss with your system.  We got this far" "$LINENO" 5
 fi
 
-
-
-ac_fn_cxx_check_header_mongrel "$LINENO" "fwdpp/sugar/sampling.hpp" "ac_cv_header_fwdpp_sugar_sampling_hpp" "$ac_includes_default"
-if test "x$ac_cv_header_fwdpp_sugar_sampling_hpp" = xyes; then :
-
-else
-  as_fn_error $? "fwdpp/sugar/sampling.hpp not found.  This probably means that you need a dev branch of fwdpp.  You probably need to email KRT directly and ask which one.  Sorry!" "$LINENO" 5
-fi
 
 
 ac_fn_cxx_check_header_mongrel "$LINENO" "gsl/gsl_rng.h" "ac_cv_header_gsl_gsl_rng_h" "$ac_includes_default"
@@ -4510,14 +4480,6 @@ ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ex
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
-#if test "x$enable_tcmalloc" = xyes
-#then
-#AC_CHECK_LIB([tcmalloc],[tc_cfree],[AC_SUBST(TCMALLOC,"tcmalloc")],[AC_SUBST(TCMALLOC,"None")])
-#fi
-#if test "x$enable_tbbprx" = xyes
-#then
-#AC_CHECK_LIB([tbbmalloc_proxy],[main],[AC_SUBST(TBBPRX,"tbbmalloc_proxy")],[AC_SUBST(TBBPRX,"None")])
-#fi
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'

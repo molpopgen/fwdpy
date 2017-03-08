@@ -80,36 +80,13 @@ You will need three files:
 
 The contents of foo.pyx contain whatever code you need to write for your module.
 
-foo.pyxbld contains the following:
+foo.pyxbld contains the information needed to compile the plugin on the fly.  fwdpy is capable of generating these files for you:
 
-.. code-block:: cython
+.. code-block:: python
 
    import fwdpy as fp
-   #This is the best guess as to the location of fwdpy headers on a POSIX system.
-   #Windows users are out of luck.
-   import re
-   fwdpy_includes=fp.__file__
-   fwdpy_includes=re.sub('lib','include',fwdpy_includes)
-   fwdpy_includes=re.sub('site-packages/','',fwdpy_includes)
-   fwdpy_includes=re.sub(r'/__init__.+','',fwdpy_includes)
-   p=re.compile(r'python3.\d+')
-   f=p.findall(fwdpy_includes)
-   for i in f:
-      fwdpy_includes=re.sub(i,i+'m',fwdpy_includes)
-   def make_ext(modname, pyxfilename):
-       from distutils.extension import Extension
-       return Extension(name=modname,
-		sources=[pyxfilename],
-		#Tell Cython that this is a C++ module
-                language='c++',
-		#Tell Cython that there are headers to include in these locations:
-		include_dirs=[fwdpy_includes],
-		#Tell Cython that compiling requires this flag to the C++ compiler:
-		extra_compile_args=['-std=c++11'])
-
-.. note:: The "pyxbld" file will contain the same code for **all** custom modules that only depend on Cython_ code.  You just need to copy/paste that and rename it to match the prefix of your .pyx files
-
-.. note:: That "fwdpy_includes" stuff represents a best guess as to where the *fwdpy* have been installed.  This has been tested under Python 2 and Python 3 on my systems.  I doubt that this will work on the default OS X install of Python (which is fine--OS X is actually not a target platform for fwdpy).  That said, this *should* work on *most* Linux systems.  It also works on the 'brew version of Python 3 for OS X.  Dunno about Anaconda, but Anaconda and fwdpy don't currently get along anyways.
+   #Generate foo.pyxbld
+   fp.make_pyxbld('foo')
 
 .. note:: If you are using the clang compiler, be prepared for a metric ton(ne) of compiler warnings.  These warnings are from the Cython-generated C++ code.
 

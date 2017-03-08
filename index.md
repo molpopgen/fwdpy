@@ -16,8 +16,9 @@ __The manual is currently offline.  Working on getting it up on readthedocs.org.
 
 Here are some examples generated using [Ipython](http://ipython.org/)/[Jupyter](https://jupyter.org/):
 
-* [Background selection](doc/examples/BGS.html)
-* [Sliding windows](doc/examples/windows.html)
+* [Background selection](doc/examples/BGS)
+* [Distribution of fixation times](doc/examples/FixationTimes1)
+* [Sliding windows](doc/examples/windows)
 
 ## Citation
 

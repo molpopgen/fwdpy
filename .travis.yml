@@ -44,14 +44,19 @@ install:
     - conda install gcc
     # Need GSL 1.16, which is the "bioconda-approved" version
     - conda install -c r gsl
-    - conda install -c bioconda libsequence fwdpp
+    - conda install -c bioconda libsequence 
     - conda install pandas numpy Cython
     - conda install -c conda-forge cythongsl=0.2.1
 script:
-    - export DYLD_FALLBACK_LIBRARY_PATH=$HOME/miniconda/lib
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export LD_LIBRARY_PATH=$HOME/miniconda/lib; fi;
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export DYLD_FALLBACK_LIBRARY_PATH=$HOME/miniconda/lib; fi;
     - export CPPFLAGS="-I$HOME/miniconda/include $CPPFLAGS"
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
     #- pip install --upgrade Cython  cythongsl
+    #fwdpp is included as a submodule,
+    #so we need to initalize it here:
+    - git submodule init
+    - git submodule update
     #We must force OS X to use GCC.
     - CC=gcc CXX=g++ python setup.py build_ext -i --use-cython --qtrait
     - python -m unittest discover fwdpy/tests
