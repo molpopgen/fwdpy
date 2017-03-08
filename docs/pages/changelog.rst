@@ -4,10 +4,12 @@ Changelog (rough)
 0.0.4-rc3
 -------------------
 
+* fwdpy_ is now included with fwdpy!  Further, the fwdpp_ headers are installed as package data, meaning that plugins/extensions to fwdpy always have access to the version of fwdpp_ used to build fwdpy.
+* :func:`fwdpy.fwdpy.get_includes` and :func:`fwdpy.fwdpy.get_fwdpp_includes` return the locations of the instaled fwdpy and fwdpp_ headers, respectively.
 * :func:`fwdpy.fdwpy.tidy_trajectories` removed.
-* C++ back-end and Cython class definition of :class:`fwdpy.fwdpy.FreqSampler` refactored. New version is much, much faster!
+* C++ back-end and Cython_ class definition of :class:`fwdpy.fwdpy.FreqSampler` refactored. New version is much, much faster!
 * :class:`fwdpy.fwdpy.FreqSampler` is now able to output directly to SQLite database files.  There is also a new member function called "fetch" that allows filtering of trajectories before returning them as a Pandas DataFrame object.
-* fwdpy.numeric_gsl added, providing a Cython (nogil) API to some numeric operations implemented in terms of the GSL 
+* fwdpy.numeric_gsl added, providing a Cython_ (nogil) API to some numeric operations implemented in terms of the GSL 
   
 0.0.4 (through release candidate 2)
 ---------------------------------------
@@ -40,7 +42,7 @@ Changes to the Python side:
 * Streamline implementation of the various :class:`fwdpy.fwdpy.PopVec` classes.  They no longer contain two containers,
   and they yield :class:`fwdpy.fwdpy.PopType` objects upon iteration.
 
-Changes to the Cython/C++ back end:
+Changes to the Cython_/C++ back end:
 
 * diploid fitness now defaults to 1 instead of 0
 * Bug fixed in get_gamete in views.pyx.  This affected the output of almost all "views" functions except those viewing just mutations.
@@ -54,7 +56,7 @@ Changes to the Cython/C++ back end:
   (e.g. operator()) are only exposed for custom diploids.
 * More unit tests of sampling and "views"
 * Update how samples are taken from populations, reflecting a bug fix
-  in fwdpp 0.4.9 that made the Cython wrappers in this package
+  in fwdpp 0.4.9 that made the Cython_ wrappers in this package
   incorrect.
 * Population objects in types.hpp now have serialization/deserialization functions.
 * Single-parameter constructors for population objects in types.hpp are now "explicit".
@@ -72,5 +74,6 @@ Changes to the Cython/C++ back end:
 * Better parameter checking for various "evolve" functions
 * Source code re-organized so that all header files are installed
 
+.. _fwdpp: http://molpopgen.github.io/fwdpp
 .. _Cython: http://www.cython.org/
 .. _cythonGSL: https://pypi.python.org/pypi/CythonGSL
