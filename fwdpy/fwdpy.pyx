@@ -45,3 +45,30 @@ def get_fwdpp_includes():
     installed along with fwdpy.
     """
     return get_includes()+'/fwdpp'
+
+def make_pyxbld(pkgname):
+    """
+    When writing Cython extensions to be used as "plugins",
+    each .pyx file needs a .pyxbld file.  This function
+    auto-generates that file.
+
+    :param pkgname: For plugin.pyx, pkgname=plugin
+
+    .. note:: The output file will be over-written if it exists.
+    """
+    ofile = pkgname + '.pyxbld'
+    text="""
+import fwdpy as fp
+fwdpy_includes=fp.get_includes()
+fwdpp_includes=fp.get_fwdpp_includes()
+def make_ext(modname, pyxfilename):
+    from distutils.extension import Extension
+    return Extension(name=modname,
+                     sources=[pyxfilename],
+                     language='c++',
+		     include_dirs=[fwdpy_includes,fwdpp_includes],
+		     extra_compile_args=['-std=c++11'],
+		     libraries=['sequence','gsl','gslcblas','pthread'])
+"""
+    with open(ofile,'w') as output:
+        output.write(text.format())
