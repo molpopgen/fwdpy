@@ -10,15 +10,15 @@ The source code is [here](https://github.com/molpopgen/fwdpy)
 
 __The manual is currently offline.  Working on getting it up on readthedocs.org.__
 
-* [Manual](doc/_build/html/index.html) in html format.
+* [Manual](docs/_build/html/index.html) in html format.
 
 ## Examples
 
 Here are some examples generated using [Ipython](http://ipython.org/)/[Jupyter](https://jupyter.org/):
 
-* [Background selection](doc/examples/BGS)
-* [Distribution of fixation times](doc/examples/FixationTimes1)
-* [Sliding windows](doc/examples/windows)
+* [Background selection](docs/examples/BGS)
+* [Distribution of fixation times](docs/examples/FixationTimes1)
+* [Sliding windows](docs/examples/windows)
 
 ## Citation
 
