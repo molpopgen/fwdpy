@@ -17,6 +17,10 @@ __The manual is currently offline.  Working on getting it up on readthedocs.org.
 Here are some examples generated using [Ipython](http://ipython.org/)/[Jupyter](https://jupyter.org/):
 
 * [Background selection](docs/examples/BGS)
+* ["Views" of populations](docs/examples/views)
+* [Deep copies of simulated populations](docs/examples/copypops)
+* [Trajectories of selected mutations](docs/examples/trajectories)
+* [Recording from simulations over time](docs/examples/temporalSampling)
 * [Distribution of fixation times](docs/examples/FixationTimes1)
 * [Sliding windows](docs/examples/windows)
 
