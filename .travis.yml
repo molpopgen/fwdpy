@@ -48,7 +48,8 @@ install:
     - conda install pandas numpy Cython
     - conda install -c conda-forge cythongsl=0.2.1
 script:
-    - export DYLD_FALLBACK_LIBRARY_PATH=$HOME/miniconda/lib
+    - if [ "$TRAVIS_OS_NAME" == "linux" ]; then export LD_LIBRARY_PATH=$HOME/miniconda/lib; fi;
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then export DYLD_FALLBACK_LIBRARY_PATH=$HOME/miniconda/lib; fi;
     - export CPPFLAGS="-I$HOME/miniconda/include $CPPFLAGS"
     - export LDFLAGS="-L$HOME/miniconda/lib $LDFLAGS"
     #- pip install --upgrade Cython  cythongsl
