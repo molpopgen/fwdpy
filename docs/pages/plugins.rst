@@ -80,26 +80,13 @@ You will need three files:
 
 The contents of foo.pyx contain whatever code you need to write for your module.
 
-foo.pyxbld contains the following:
+foo.pyxbld contains the information needed to compile the plugin on the fly.  fwdpy is capable of generating these files for you:
 
-.. code-block:: cython
+.. code-block:: python
 
    import fwdpy as fp
-   import re
-   fwdpy_includes=fp.get_includes()
-   fwdpp_includes=fp.get_fwdpp_includes()
-   def make_ext(modname, pyxfilename):
-       from distutils.extension import Extension
-       return Extension(name=modname,
-		sources=[pyxfilename],
-		#Tell Cython that this is a C++ module
-                language='c++',
-		#Tell Cython that there are headers to include in these locations:
-		include_dirs=[fwdpy_includes,fwdpp_includes],
-		#Tell Cython that compiling requires this flag to the C++ compiler:
-		extra_compile_args=['-std=c++11'])
-
-.. note:: The "pyxbld" file will contain the same code for **all** custom modules that only depend on Cython_ code.  You just need to copy/paste that and rename it to match the prefix of your .pyx files
+   #Generate foo.pyxbld
+   fp.make_pyxbld('foo')
 
 .. note:: If you are using the clang compiler, be prepared for a metric ton(ne) of compiler warnings.  These warnings are from the Cython-generated C++ code.
 
