@@ -1,10 +1,9 @@
-recursive-include fwdpy  *.pyx *.px[di] *.cpp
-recursive-include include *.hpp
+recursive-include fwdpy  *.pyx *.px[di] *.cpp *.hpp
 recursive-include m4 *.m4
 include configure
 include setup.py.in
 include config.h.in
 include Makefile.in
-include conf.py.in
+include docs/conf.py.in
 include aclocal.m4
 recursive-include check_deps *

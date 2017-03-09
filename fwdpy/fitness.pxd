@@ -7,7 +7,7 @@ from libcpp.memory cimport unique_ptr
 cdef extern from "<algorithm>" namespace "std" nogil:
     T max[T](T,T)
 
-ctypedef gamete_base[void] gamete_t
+ctypedef gamete_base gamete_t
 ctypedef vector[gamete_t] gcont_t
 ctypedef vector[popgenmut] mcont_t
 
