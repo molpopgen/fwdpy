@@ -22,6 +22,34 @@ simulations. Further, the technique of writing results to an SQLite
 database is very powerful as it allows many analyses ("aggregations") to
 be done without loading all of your simulation results into RAM.
 
+Rationale
+---------
+
+We designed fwdpy to run simulations in parallel with ease. The design
+enables work flows where you run a "batch" of simulations and then
+process them as you need. However, this can create a bottleneck on the
+CPU resources when the processing is done back on the Python side:
+
+1. Run a bunch of simulations in parallel
+2. Process each replicate serially
+3. Return to step 1 until you've obtained the desired number of
+   replicates
+
+An alternative is to use Python's built-in support for multiprocessing,
+which boils down to running jobs in separate Python threads and thus
+bypassing the dreaded GIL. This design allows you to set up the
+equivalent of a thread pool for running your simulations. Each process
+runs a single simulation, processes it, and then exits.
+
+The main challenge with this design is that it requires better
+organization on your end. You need to write the function that will be
+farmed out to other processes, and its arguments must consist of pure
+Python types, meaning that none of fwdpy's Cython-based classes can be
+used.
+
+The other challenge is synchronizing the output. Here, we use
+multiprocessing.Lock to do that for us.
+
 .. code:: python
 
     #Use Python 3's print a a function.
@@ -47,6 +75,7 @@ BGS example.
 
 .. code:: python
 
+    LOCK=mp.Lock()
     def simulate_async(args):
         """
         This function will be run in a separate process
@@ -81,28 +110,33 @@ BGS example.
         #Initalize a random number generator with seed value of 101
         rng = fp.GSLrng(seed)
     
-        summstats=[]
-        for replicate in range(0,25,1):
-            pops = fp.evolve_regions(rng,  
-                                 1,       #Simulate only 1 population at a time     
-                                 N,        
-                                 nlist[0:],
-                                 0.005,    
-                                 0.01,     
-                                 0.005,    
-                                 nregions, 
-                                 sregions, 
-                                 recregions)
-            sample = fp.get_samples(rng,pops[0],20)
-            simdatasNeut = polyt.SimData(sample[0])
-            polySIMn = sstats.PolySIM(simdatasNeut)
-            ##Append stats into our growing DataFrame:
-            summstats.append({'thetapi':polySIMn.thetapi(),'npoly':polySIMn.numpoly(),'thetaw':polySIMn.thetaw()})
+        pops = fp.evolve_regions(rng,  
+                             1,       #Simulate only 1 population at a time     
+                             N,        
+                             nlist[0:],
+                             0.005,    
+                             0.01,     
+                             0.005,    
+                             nregions, 
+                             sregions, 
+                             recregions)
+        sample = fp.get_samples(rng,pops[0],20)
+        simdatasNeut = polyt.SimData(sample[0])
+        polySIMn = sstats.PolySIM(simdatasNeut)
+        ##Append stats into our growing DataFrame:
+        summstats=[{'thetapi':polySIMn.thetapi(),'npoly':polySIMn.numpoly(),'thetaw':polySIMn.thetaw()}]
         DF=pd.DataFrame(summstats)
+        
+        #We must prevent multiple processes from
+        #writing to the database at once.
+        #We use our global lock as a mutex 
+        #to ensure that only 1 process is writing
+        #at a time.
+        LOCK.acquire()
         con = sqlite3.connect(dbname)
         DF.to_sql(tablename,con,if_exists='append',index=False)
         con.close()
-
+        LOCK.release()
 
 Run the simulations
 ===================
@@ -115,11 +149,19 @@ function using 40 separate processes.
     if os.path.isfile('BGSmp.db'):
         os.remove('BGSmp.db')
     np.random.seed(101)
-    args=[(seed,'BGSmp.db','stats') for seed in np.random.randint(0,42000000,40)]
+    #Generate the arguments to pass to simulate_async.
+    #The arguments for mp.Pool.imap_unordered must be a tuple.
+    #Our list of arguments will be 1000 elements long. Each tuple
+    #contains a random seed.  If this were a study for publication,
+    #I would be more careful and guarantee that each seed is unique.
+    args=[(seed,'BGSmp.db','stats') for seed in np.random.randint(0,42000000,1000)]
     #P a thread pool using the number of processors on your machine
     #If you have < 40 cores, it'll spawn new processes as old ones finish.
-    #for i in args: simulate_async(i)
     P=mp.Pool() 
+    #Pass the arguments along to the process pool.
+    #This will run 1,000 replicate simulations
+    #and output data from each to our sqlite3 
+    #database.
     P.imap_unordered(simulate_async,args)
     P.close()
     P.join()
