@@ -1,18 +1,20 @@
 .SUFFIXES: .rst
 
-%.rst: %.ipynb 
-	$(eval NBF:=$(basename $@ .rst))
-	PYTHONPATH=../.. jupyter nbconvert --ExecutePreprocessor.timeout=3600 --to notebook --execute $<
-	$(eval XX=$(NBF))
-	$(eval XX := ${XX:%=%.nbconvert.ipynb})
-	jupyter nbconvert --to rst $(XX)
-	$(eval XX=$(NBF))
-	$(eval XX := ${XX:%=%.nbconvert.rst})
-	mv -f $(XX) $@
+%.html: %.ipynb
+	PYTHONPATH=../../.. jupyter nbconvert --ExecutePreprocessor.timeout=3600 --execute $<
 
-all: BGSmp.rst
+%.md: %.ipynb %.html
+	jupyter nbconvert --to markdown $<
+
+%.rst: %.ipynb %.html
+	jupyter nbconvert --to rst $<
+
+RST=BGSmp.rst
+MD=BGSmp.md
+
+all: $(RST) $(MD)
 
 clean: 
-	rm -f *.rst
-
+	rm -f $(RST) $(MD)
+	rm -f trajectories.nbconvert_files/*
 
