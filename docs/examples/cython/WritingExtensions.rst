@@ -24,8 +24,8 @@ compile and import your module into a script using
 For user's familiar with `Rcpp <http://rcpp.org>`__, think of pyimport
 as the analog to their ``sourceCpp`` function.
 
-When using pyxbld, the function ``fwdpy.make_pyxbld`` will help you out
-a lot--please see its documentation in the reference manual.
+When using pyximport, the function ``fwdpy.make_pyxbld`` will help you
+out a lot--please see its documentation in the reference manual.
 
 If you start writing a lot of extensions or your extensions require
 C++11 features that Cython cannot handle, then you may want to consider
@@ -36,6 +36,15 @@ code <http://github.com/molpopgen/fwdpy>`__ is organized.
 Linux vs OS X
 -------------
 
+Due to issues with compiler support on OS X, Linux is the intended
+platform for using fwdpy. It is possible to install the package if you
+use GCC, which you can install via Anaconda.
+
+When compiling extensions, Python's distutils attempts to force use of
+the same compiler used to build Python. On OS X, that means clang, but
+fwdpy requires GCC on OS X. Thus, you need to force the use of GCC via
+the CC/CXX environment variables.
+
 An important note
 -----------------
 
@@ -43,6 +52,14 @@ Many of the example functions below actually end up replicating things
 that are already doable in fwdpy. In other words, you don't need any of
 the stuff below to do what is below. These are examples for the point of
 documenting the C++/Cython API that you have access to.
+
+Cython 'magic' lines
+--------------------
+
+Every Cython code block in this document begins with a line starting
+"%%cython". That's another 'magic' command for the Jupyter notebooks. It
+contains info needed to compile each code block. You can basically
+ignore that.
 
 .. code:: python
 
@@ -77,15 +94,7 @@ following constraints to keep things simple:
 
 -  We will only process single-deme objects (type fwdpy.Spop).
 
-Cython 'magic' lines
---------------------
-
-Every Cython code block in this document begins with a line starting
-"%%cython". That's another 'magic' command for the Jupyter notebooks. It
-contains info needed to compile each code block. You can basically
-ignore that.
-
-On to our code for the SFS
+On to our code for the SFS:
 
 .. code:: python
 
@@ -167,26 +176,204 @@ On to our code for the SFS
     nregions=[fp.Region(0,1,1)]
     sregions=[]
     recregions=nregions
+    #Simulate 10 populations
     pops = fp.evolve_regions(rng,10,N,nlist,theta/(4.*float(N)),0.,theta/(4.*float(N)),nregions,sregions,recregions)
 
 .. code:: python
 
     sfs_pop=sfs(pops[0])
     print(sfs_pop[0:10])
-
-
-.. parsed-literal::
-
-    [106  49  40  37  14  16  11  16   2   4]
-
-
-.. code:: python
-
     print(type(sfs_pop))
 
 
 .. parsed-literal::
 
+    [106  49  40  37  14  16  11  16   2   4]
     <type 'numpy.ndarray'>
 
+
+Get the mean SFS for our 10 replicates:
+
+.. code:: python
+
+    mean_sfs = np.sum([sfs(i) for i in pops],axis=0)/10.
+    mean_sfs
+
+
+
+
+.. parsed-literal::
+
+    array([ 109. ,   50.1,   36.5, ...,    0. ,    0. ,    0. ])
+
+
+
+Pythonic or not?
+----------------
+
+The ``sfs_cpp`` function takes a const pointer for an argument. If we
+relax that constraint, we can write some of the details in a more
+relaxed, Pythonic manner:
+
+.. code:: python
+
+    %%cython --cplus --compile-args=-std=c++11 -I $fwdpy_includes -I $fwdpp_includes -l sequence -l gsl -l gslcblas
+    from fwdpy.fwdpy cimport *
+    import numpy as np
+    #A non-const pointer now:
+    cdef vector[unsigned] sfs_cpp_pythonic(singlepop_t * pop):
+        cdef vector[unsigned] rv
+        rv.resize(2*pop.N,0)
+        cdef size_t i = 0
+        #When operating in a non-const
+        #context, you can use 
+        #Python-like syntax
+        #to iterate over C++
+        #containers:
+        for i in pop.mcounts:
+            if i>0:
+                rv[i-1]+=1
+        return rv
+    
+    def sfs_pythonic(Spop pop):
+        """
+        This is another Python function that will return the 
+        SFS for a fwdpy.Spop object.
+        
+        :param pop: A :class:`fwdpy.fwdpy.Spop`
+        
+        :return: The site-frequency spectrum for pop
+        
+        :rtype: numpy.array with dtype numpy.uint32
+        """
+        return np.array(sfs_cpp_pythonic(pop.pop.get()),dtype=np.uint32)
+
+We get the same results:
+
+.. code:: python
+
+    mean_sfs = np.sum([sfs_pythonic(i) for i in pops],axis=0)/10.
+    mean_sfs
+
+
+
+
+.. parsed-literal::
+
+    array([ 109. ,   50.1,   36.5, ...,    0. ,    0. ,    0. ])
+
+
+
+Why would you use the more complex first method? From a C++ purist's
+perspective, the latter function protoype (with the non-const pointer
+argument) is annoying. While the function does not modify the input
+value, but you cannot know that without reading its implementation in
+detail. Personally, I like having the function fail to compile if I
+accidentally try to modify a constant object.
+
+Getting the SFS from fwdpy
+--------------------------
+
+Remember, the above code replicates existing fwdpy features. To get the
+SFS, use "views" of the mutations in your simulation:
+
+.. code:: python
+
+    mean_sfs_views = np.array([0.]*2*N)
+    for v in fp.view_mutations(pops):
+        for m in v:
+            mean_sfs_views[m['n']-1]+=1
+    mean_sfs_views /= 10.
+    mean_sfs_views
+
+
+
+
+.. parsed-literal::
+
+    array([ 109. ,   50.1,   36.5, ...,    0. ,    0. ,    0. ])
+
+
+
+Separating the neutral and selected SFS
+=======================================
+
+.. code:: python
+
+    #Now simulated selected variants
+    sregions=[fp.GammaS(0,1,0.9,-0.043,0.23,1),
+             fp.ExpS(0,1,0.1,0.01,1)]
+    theta_selected = 0.1*theta
+    #Re-simulate 10 populations
+    pops = fp.evolve_regions(rng,10,N,nlist,theta/(4.*float(N)),theta_selected/(4.*float(N)),theta/(4.*float(N)),nregions,sregions,recregions)
+
+.. code:: python
+
+    %%cython --cplus --compile-args=-std=c++11 -I $fwdpy_includes -I $fwdpp_includes -l sequence -l gsl -l gslcblas
+    #Import all Cython symbols defined
+    #in fwdpy's main module
+    from fwdpy.fwdpy cimport *
+    from libcpp.utility cimport pair
+    import numpy as np
+    
+    ctypedef vector[unsigned] vu
+    
+    cdef pair[vu,vu] sfs_sep_cpp(const singlepop_t * pop):
+        cdef pair[vu,vu] rv
+        rv.first.resize(2*pop.N,0)
+        rv.second.resize(2*pop.N,0)
+        cdef size_t i = 0
+        for i in range(pop.mcounts.size()):
+            if pop.mcounts[i]>0:
+                #Populations store their mutations
+                #in a vector. A mutation
+                #contains a boolean recording its
+                #"neutrality":
+                if pop.mutations[i].neutral is True:
+                    #The first element will be the
+                    #neutral SFS
+                    rv.first[pop.mcounts[i]-1]+=1
+                else:
+                    #The second will be the selected
+                    #SFS
+                    rv.second[pop.mcounts[i]-1]+=1
+        #Return the SFS to Python.
+        #Cython auto-converts the
+        #pair of vectors to a 
+        #tuple of lists
+        return rv
+    
+    def sfs_sep(Spop pop):
+        """
+        This is the Python function that will return the 
+        SFS for a fwdpy.Spop object.  The sfs will be 
+        separate for neutral variants
+        
+        :param pop: A :class:`fwdpy.fwdpy.Spop`
+        
+        :return: The site-frequency spectrum for pop, separating
+        neutral and selected variants
+        
+        :rtype: tuple of numpy.array with dtype numpy.uint32
+        """
+        return np.array(sfs_sep_cpp(pop.pop.get()),dtype=np.uint32)
+
+Let's apply our new function and get the mean normalized SFS for neutral
+and selected variants.
+
+.. code:: python
+
+    pop_sfs_sep = [sfs_sep(i) for i in pops]
+    #Note that we need to cast one array from uint32 to float,
+    #so that numpy promotes the calculation to floating-point.
+    mean_norm_sfs_neut = np.sum([i[0].astype(np.float)/np.sum(i[0]) for i in pop_sfs_sep],axis=0) / float(len(pops))
+    mean_norm_sfs_sel = np.sum([i[1].astype(np.float)/np.sum(i[1]) for i in pop_sfs_sep],axis=0) / float(len(pops))
+    print(mean_norm_sfs_neut)
+    print(mean_norm_sfs_sel)
+
+
+.. parsed-literal::
+
+    [ 0.18459531  0.07918477  0.06201459 ...,  0.          0.          0.        ]
+    [ 0.22176807  0.08613146  0.07475673 ...,  0.          0.          0.        ]
 
