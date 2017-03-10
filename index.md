@@ -26,6 +26,19 @@ Here are some examples generated using [Ipython](http://ipython.org/)/[Jupyter](
 * [Distribution of fixation times](docs/examples/FixationTimes1)
 * [Sliding windows](docs/examples/windows)
 
+## Advanced examples
+
+These examples use Python's built-in multiprocessing features to run simulations and synchronize writing output from multiple threads:
+
+* [Background selection](docs/examples/advanced/BGSmd)
+* [Ages of selected alleles](docs/examples/advanced/SelectedAlleleAges)
+
+## Extending fwdpy
+
+A major goal of __fwdpy__ is to make it extensible, which can be done via Python, Cython, and/or C++.  The Cython option simplifies the use of C++ in writing extensions:
+
+* [Extending fwdpy using Cython](docs/examples/cython/WritingExtensions)
+
 ## Citation
 
 If you use __fwdpy__ for yor research, please cite the following manuscript, which is the basis for this package:
