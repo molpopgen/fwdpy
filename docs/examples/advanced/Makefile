@@ -12,6 +12,8 @@
 RST=BGSmp.rst SelectedAlleleAges.rst
 MD=BGSmp.md SelectedAlleleAges.md
 
+.INTERMEDIATE: trajectories.db BGSmp.db
+	
 all: $(RST) $(MD)
 
 clean: 
