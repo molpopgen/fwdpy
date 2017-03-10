@@ -9,14 +9,12 @@
 %.rst: %.ipynb %.html
 	jupyter nbconvert --to rst $<
 
-RST=BGSmp.rst SelectedAlleleAges.rst
-MD=BGSmp.md SelectedAlleleAges.md
+RST=WritingExtensions.rst
+MD=WritingExtensions.md
 
-.INTERMEDIATE: trajectories.db BGSmp.db
 	
 all: $(RST) $(MD)
 
 clean: 
 	rm -f $(RST) $(MD)
-	rm -f trajectories.nbconvert_files/*
 
