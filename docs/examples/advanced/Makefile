@@ -9,8 +9,8 @@
 %.rst: %.ipynb %.html
 	jupyter nbconvert --to rst $<
 
-RST=BGSmp.rst
-MD=BGSmp.md
+RST=BGSmp.rst SelectedAlleleAges.rst
+MD=BGSmp.md SelectedAlleleAges.md
 
 all: $(RST) $(MD)
 
