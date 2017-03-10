@@ -30,7 +30,7 @@ Here are some examples generated using [Ipython](http://ipython.org/)/[Jupyter](
 
 These examples use Python's built-in multiprocessing features to run simulations and synchronize writing output from multiple threads:
 
-* [Background selection](docs/examples/advanced/BGSmd)
+* [Background selection](docs/examples/advanced/BGSmp)
 * [Ages of selected alleles](docs/examples/advanced/SelectedAlleleAges)
 
 ## Extending fwdpy
