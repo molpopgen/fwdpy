@@ -459,22 +459,6 @@ def load_fitness(Spop pop):
     return load_fitness_cpp(pop.pop.get())
 ```
 
-    
-    Error compiling Cython file:
-    ------------------------------------------------------------
-    ...
-        cdef vector[map_type] rv
-        cdef size_t i=0
-        cdef map_type m
-        cdef unsigned n1,n2
-        for i in range(pop.N):
-            cdef int yy
-                ^
-    ------------------------------------------------------------
-    
-    /home/kevin/.cache/ipython/cython/_cython_magic_7d6321d48da52a31a7498f86665583e0.pyx:19:13: cdef statement not allowed here
-
-
 Let's apply the function to the first population and generate histograms from the results:
 
 
