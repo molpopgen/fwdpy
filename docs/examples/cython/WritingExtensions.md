@@ -39,7 +39,15 @@ Every Cython code block in this document begins with a line starting "%%cython".
 ```python
 import fwdpy as fp
 import numpy as np
+import matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
 ```
+
+    /usr/local/lib/python2.7/dist-packages/matplotlib/font_manager.py:273: UserWarning: Matplotlib is building the font cache using fc-list. This may take a moment.
+      warnings.warn('Matplotlib is building the font cache using fc-list. This may take a moment.')
+
 
 # Finding the headers
 fwdpy provides functions that reveal the locations of both the fwdpy C++ header files and the fwdpp C++ header files that are installed along with fwdpy.  You need to know these locations!
@@ -267,9 +275,10 @@ from libcpp.utility cimport pair
 import numpy as np
 
 ctypedef vector[unsigned] vu
+ctypedef pair[vu,vu] pvuvu
 
-cdef pair[vu,vu] sfs_sep_cpp(const singlepop_t * pop):
-    cdef pair[vu,vu] rv
+cdef pvuvu sfs_sep_cpp(const singlepop_t * pop):
+    cdef pvuvu rv
     rv.first.resize(2*pop.N,0)
     rv.second.resize(2*pop.N,0)
     cdef size_t i = 0
@@ -322,6 +331,258 @@ print(mean_norm_sfs_neut)
 print(mean_norm_sfs_sel)
 ```
 
-    [ 0.18459531  0.07918477  0.06201459 ...,  0.          0.          0.        ]
-    [ 0.22176807  0.08613146  0.07475673 ...,  0.          0.          0.        ]
+    [ 0.18159607  0.08006132  0.05788657 ...,  0.          0.          0.        ]
+    [ 0.27737227  0.08540649  0.08842448 ...,  0.          0.00243902  0.        ]
+
+
+# The relationship between frequency and "s" (or effect size)
+
+Here, we write a function that returns the frequency of a mutation in the population and its selection coefficient/effect size.
+
+This examples shows off some of Cython's quirks :).
+
+
+```python
+%%cython --cplus --compile-args=-std=c++11 -I $fwdpy_includes -I $fwdpp_includes -l sequence -l gsl -l gslcblas
+
+from fwdpy.fwdpy cimport *
+from libcpp.utility cimport pair
+import numpy as np
+
+ctypedef vector[double] vd
+ctypedef pair[vd,vd] pvdvd
+
+#Annoyingly, Cython currently does not 
+#expose std::make_pair, so we will 
+#do it here ourselves!
+#If we don't have std::make_pair,
+#we end up making extra temporary copies
+#of our return values in memory.  That's 
+#not cool, as we're doing this because
+#we care about efficiency!
+cdef extern from "<utility>" namespace "std" nogil:
+    pair[T,U] make_pair[T,U](T&,U&)
+
+cdef pvdvd freq_esize_cpp(const singlepop_t * pop):
+    cdef vd freq,esize
+    cdef double twoN = 2.0*float(pop.N)
+    cdef size_t i = 0
+    cdef size_t nm=0
+    for i in range(pop.mcounts.size()):
+        if pop.mcounts[i]>0:
+            if pop.mutations[i].neutral is False:
+                freq.push_back(float(pop.mcounts[i])/twoN)
+                #s records the effect size/selection coefficient
+                esize.push_back(pop.mutations[i].s)
+    #For some reason, we need to provide casts
+    #so that Cython can get the types right for the call to
+    #make_pair:
+    return make_pair(<vd>freq,<vd>esize)
+
+def freq_esize(Spop pop):
+    return freq_esize_cpp(pop.pop.get())
+```
+
+Let's get the result for our first population and plot it using matplotlib:
+
+
+```python
+x = freq_esize(pops[0])
+x[0]
+fig,ax=plt.subplots()
+ax.scatter(x[0],x[1])
+ax.set_xlabel("Mutation frequency")
+ax.set_ylabel("Selection coefficient")
+ax.set_xlim(0,1)
+```
+
+
+
+
+    (0, 1)
+
+
+
+
+![png](WritingExtensions_files/WritingExtensions_26_1.png)
+
+
+# The number of selected mutations per diploid plus fitness of each diploid
+
+In this section, we learn to process diploids.  We take advantage of Cython's automatic C++ map to Python dict conversion for our return value.
+
+The key concepts here are:
+
+1. Diploids are pairs of integers
+2. Each integer refers to a gamete in pop.gametes
+3. A gamete contains two containers, mutations and smutations, which represent neutral and selected mutations, respectively.
+
+
+```python
+%%cython --cplus --compile-args=-std=c++11 -I $fwdpy_includes -I $fwdpp_includes -l sequence -l gsl -l gslcblas
+
+from fwdpy.fwdpy cimport *
+from libcpp.utility cimport pair
+from libcpp.string cimport string as cppstring
+from libcpp.map cimport map
+import numpy as np
+
+ctypedef map[string,double] map_type
+
+cdef vector[map_type] load_fitness_cpp(const singlepop_t * pop):
+    #Cython requires C-like declarations,
+    #meaning that variables cannot be declared
+    #in loop bodies.
+    cdef vector[map_type] rv
+    cdef size_t i=0
+    cdef map_type m
+    cdef unsigned n1,n2
+    for i in range(pop.N):
+        #initialize empty
+        #map
+        m = map_type()
+        #Update the fitness
+        m['w'] = pop.diploids[i].w
+        #Get no. selected mutations
+        #on first gamete. A diploid
+        #is modeled after pair[size_t,size_t],
+        #with each integer referring to each
+        #allele.
+        n1 = pop.gametes[pop.diploids[i].first].smutations.size()
+        #Same deal for the second
+        n2 = pop.gametes[pop.diploids[i].second].smutations.size()
+        m['load'] = n1+n2
+        rv.push_back(m)
+    return rv
+    
+def load_fitness(Spop pop):
+    return load_fitness_cpp(pop.pop.get())
+```
+
+    
+    Error compiling Cython file:
+    ------------------------------------------------------------
+    ...
+        cdef vector[map_type] rv
+        cdef size_t i=0
+        cdef map_type m
+        cdef unsigned n1,n2
+        for i in range(pop.N):
+            cdef int yy
+                ^
+    ------------------------------------------------------------
+    
+    /home/kevin/.cache/ipython/cython/_cython_magic_7d6321d48da52a31a7498f86665583e0.pyx:19:13: cdef statement not allowed here
+
+
+Let's apply the function to the first population and generate histograms from the results:
+
+
+```python
+load = load_fitness(pops[0])
+n, bins, patches = plt.hist([i['w'] for i in load], 50, normed=0, facecolor='green', alpha=0.75)
+plt.xlabel("Fitness")
+plt.ylabel("Number of individuals")
+```
+
+
+
+
+    <matplotlib.text.Text at 0x7fabba17b7d0>
+
+
+
+
+![png](WritingExtensions_files/WritingExtensions_30_1.png)
+
+
+
+```python
+n, bins, patches = plt.hist([i['load'] for i in load], 50, normed=0, facecolor='green', alpha=0.75)
+plt.xlabel("Number of selected mutations")
+plt.ylabel("Number of individuals")
+```
+
+
+
+
+    <matplotlib.text.Text at 0x7fabb9f78650>
+
+
+
+
+![png](WritingExtensions_files/WritingExtensions_31_1.png)
+
+
+# The mean effect size of selected mutations on each haplotype in each diploid
+
+In this example, we learn how to access the actual mutations on each diploid.
+
+One thing we learn here is that fwdpy provides a bunch of typedefs for various data objects.  These include:
+
+* diploid_t = a diploid
+* gamete_t = a gamete
+* gcont_t = vector[gamete_t]
+* mutation_t = a mutation
+* mcont_t = vector[mutation_t]
+
+
+```python
+%%cython --cplus --compile-args=-std=c++11 -I $fwdpy_includes -I $fwdpp_includes -l sequence -l gsl -l gslcblas
+
+from fwdpy.fwdpy cimport *
+
+#I really should add this to Cython in a PR :)
+cdef extern from "<utility>" namespace "std" nogil:
+    pair[T,U] make_pair[T,U](T&,U&)
+
+ctypedef vector[pair[double,double]] return_type
+
+#Define a second function to save a bunch of copy/paste
+#in our main work function
+cdef double get_mean_s(const gamete_t & g,const mcont_t & mutations):
+    if g.smutations.empty():
+        return 0.
+    cdef sum_s=0.
+    cdef size_t i
+    #The containers in each gametes
+    #contain unsigned 32-bit integers
+    #referring to locations in the 
+    #mutations container
+    for i in range(g.smutations.size()):
+            sum_s += mutations[g.smutations[i]].s
+    return sum_s/<double>g.smutations.size()
+
+cdef return_type mean_s_cpp(const singlepop_t * pop):
+    cdef return_type rv
+    cdef size_t i
+    cdef double m1,m2
+    for i in range(pop.diploids.size()):
+        m1=get_mean_s(pop.gametes[pop.diploids[i].first],pop.mutations)
+        m2=get_mean_s(pop.gametes[pop.diploids[i].second],pop.mutations)
+        rv.push_back(make_pair(<double>m1,<double>m2))
+    return rv
+
+
+def mean_s(Spop pop):
+    return mean_s_cpp(pop.pop.get())    
+```
+
+
+```python
+s_per_dip=mean_s(pops[0])
+n, bins, patches = plt.hist([i[0]+i[1] for i in s_per_dip], 50, normed=0, facecolor='green', alpha=0.75)
+plt.xlabel("Sum of mean s per chromosome")
+plt.ylabel("Number of individuals")
+```
+
+
+
+
+    <matplotlib.text.Text at 0x7fabf40ed550>
+
+
+
+
+![png](WritingExtensions_files/WritingExtensions_34_1.png)
 
