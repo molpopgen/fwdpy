@@ -331,8 +331,8 @@ print(mean_norm_sfs_neut)
 print(mean_norm_sfs_sel)
 ```
 
-    [ 0.18159607  0.08006132  0.05788657 ...,  0.          0.          0.        ]
-    [ 0.27737227  0.08540649  0.08842448 ...,  0.          0.00243902  0.        ]
+    [ 0.18459531  0.07918477  0.06201459 ...,  0.          0.          0.        ]
+    [ 0.22176807  0.08613146  0.07475673 ...,  0.          0.          0.        ]
 
 
 # The relationship between frequency and "s" (or effect size)
@@ -472,7 +472,7 @@ plt.ylabel("Number of individuals")
 
 
 
-    <matplotlib.text.Text at 0x7fabba17b7d0>
+    <matplotlib.text.Text at 0x7fda29b9de50>
 
 
 
@@ -490,7 +490,7 @@ plt.ylabel("Number of individuals")
 
 
 
-    <matplotlib.text.Text at 0x7fabb9f78650>
+    <matplotlib.text.Text at 0x7fda29761bd0>
 
 
 
@@ -563,7 +563,7 @@ plt.ylabel("Number of individuals")
 
 
 
-    <matplotlib.text.Text at 0x7fabf40ed550>
+    <matplotlib.text.Text at 0x7fda29a58690>
 
 
 
