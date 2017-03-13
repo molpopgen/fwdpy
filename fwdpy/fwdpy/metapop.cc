@@ -1,4 +1,4 @@
-#include "types.hpp"
+#include "fwdpy/types.hpp"
 #include <fwdpp/sugar/demography.hpp>
 #include <fwdpp/util.hpp>
 #include <gsl/gsl_randist.h>

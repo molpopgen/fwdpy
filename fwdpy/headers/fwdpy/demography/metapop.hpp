@@ -8,7 +8,7 @@
 #ifndef __FWDPY_METAPOP_HPP__
 #define __FWDPY_METAPOP_HPP__
 
-#include "types.hpp"
+#include "fwdpy/types.hpp"
 #include <fwdpp/sugar/metapop.hpp>
 #include <gsl/gsl_randist.h>
 

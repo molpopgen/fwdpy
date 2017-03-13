@@ -1,7 +1,7 @@
 from libcpp.memory cimport unique_ptr,shared_ptr
 from cython_gsl cimport gsl_vector,gsl_matrix
 
-cdef extern from "gsl.hpp" namespace "fwdpy::gsl" nogil:
+cdef extern from "fwdpy/gsl/gsl.hpp" namespace "fwdpy::gsl" nogil:
     cdef cppclass gsl_matrix_deleter:
         pass
     cdef cppclass gsl_vector_deleter:

@@ -1,7 +1,7 @@
 #ifndef FWDPY_QTRAIT_MLOC_RULES_HPP
 #define FWDPY_QTRAIT_MLOC_RULES_HPP
 
-#include "fwdpy_fitness.hpp"
+#include "fwdpy/fitness.hpp"
 #include <cmath>
 #include <fwdpp/internal/gsl_discrete.hpp>
 

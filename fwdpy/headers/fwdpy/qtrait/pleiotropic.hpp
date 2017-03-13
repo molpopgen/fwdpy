@@ -1,9 +1,9 @@
 #ifndef __FWDPY_QTRAITS_HPP__
 #define __FWDPY_QTRAITS_HPP__
 
-#include "internal_region_manager.hpp"
-#include "qtrait_details.hpp"
-#include "types.hpp"
+#include "fwdpy/internal/region_manager.hpp"
+#include "fwdpy/qtrait/details.hpp"
+#include "fwdpy/types.hpp"
 #include <fwdpp/extensions/callbacks.hpp>
 #include <limits>
 #include <map>

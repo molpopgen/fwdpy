@@ -41,7 +41,7 @@ cdef class MlocusMultTrait(MlocusFitness):
     def __cinit__(self,double scaling = 2.0):
         self.wfxn=make_mloc_multiplicative_trait(scaling)
 
-cdef extern from "qtrait_evolve_mlocus.hpp" namespace "fwdpy::qtrait" nogil:
+cdef extern from "fwdpy/qtrait_mloc/evolve.hpp" namespace "fwdpy::qtrait" nogil:
     void evolve_qtrait_mloc_cpp( GSLrng_t * rng,
 			         vector[shared_ptr[multilocus_t]] * pops,
 			         vector[unique_ptr[sampler_base]] & samplers,

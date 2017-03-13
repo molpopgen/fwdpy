@@ -10,8 +10,8 @@
 #include <memory>
 #include <cstddef>
 #include <sstream>
-#include "types.hpp"
-#include "gsl.hpp"
+#include "fwdpy/types.hpp"
+#include "fwdpy/gsl/gsl.hpp"
 namespace fwdpy
 {
     namespace gsl_data_matrix

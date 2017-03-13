@@ -1,8 +1,8 @@
 #ifndef FWDPY_SAMPLE_N_HPP
 #define FWDPY_SAMPLE_N_HPP
 
-#include "sampler_base.hpp"
-#include "types.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
+#include "fwdpy/types.hpp"
 #include <Sequence/SimData.hpp>
 #include <algorithm>
 #include <fwdpp/diploid.hh>

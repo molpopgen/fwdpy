@@ -1,4 +1,4 @@
-#include "sample.hpp"
+#include "fwdpy/sample.hpp"
 #include <algorithm>
 #include <fwdpp/diploid.hh>
 #include <limits>

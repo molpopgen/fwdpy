@@ -1,7 +1,7 @@
 #ifndef FWDPY_NO_SAMPLING_HPP
 #define FWDPY_NO_SAMPLING_HPP
 
-#include "sampler_base.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
 /*!
   \defgroup samplers Function objects to record info from simulations at
   regular intervals.

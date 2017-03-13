@@ -39,11 +39,11 @@ cdef class SpopMultTrait(SpopFitness):
                                                                         return_trait_value_minus1,
                                                                         1.0))
 
-cdef extern from "qtrait_evolve_rules.hpp" namespace "fwdpy::qtrait" nogil:
+cdef extern from "fwdpy/qtrait/rules.hpp" namespace "fwdpy::qtrait" nogil:
     cdef cppclass qtrait_model_rules:
         qtrait_model_rules(const double & sigmaE, const double & optimum, const double & VS, const unsigned maxN)
 
-cdef extern from "qtrait_pleiotropic.hpp" namespace "fwdpy::qtrait" nogil:    
+cdef extern from "fwdpy/qtrait/pleiotropic.hpp" namespace "fwdpy::qtrait" nogil:    
     cdef struct ew_mut_details:
         double s
         double e

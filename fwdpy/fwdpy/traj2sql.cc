@@ -48,7 +48,7 @@
 #include <stdexcept>
 #include <cstdio>
 #include <sqlite3.h>
-#include "sampler_selected_mut_tracker.hpp"
+#include "fwdpy/temporal_samplers/sampler_selected_mut_tracker.hpp"
 
 using namespace std;
 

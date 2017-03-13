@@ -1,7 +1,7 @@
 #ifndef __FWDPY_QTRAIT_DETAILS_HPP__
 #define __FWDPY_QTRAIT_DETAILS_HPP__
 
-#include "types.hpp"
+#include "fwdpy/types.hpp"
 #include <fwdpp/experimental/sample_diploid.hpp>
 #include <fwdpp/extensions/regions.hpp>
 

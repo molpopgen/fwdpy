@@ -13,7 +13,7 @@ cdef class SpopAdditiveTrait(SpopFitness):
 cdef class SpopMultTrait(SpopFitness):
     pass
 
-cdef extern from "qtrait_evolve.hpp" namespace "fwdpy::qtrait" nogil:
+cdef extern from "fwdpy/qtrait/evolve.hpp" namespace "fwdpy::qtrait" nogil:
     void evolve_regions_qtrait_cpp(GSLrng_t * rng,
 				   vector[shared_ptr[singlepop_t]] & pops,
 				   vector[unique_ptr[sampler_base]] & samplers,

@@ -11,12 +11,12 @@
 #include <type_traits>
 #include <vector>
 
-#include "evolve_regions_sampler.hpp"
-#include "fwdpy_fitness.hpp"
-#include "reserve.hpp"
-#include "sampler_base.hpp"
-#include "types.hpp"
-#include "wf_rules.hpp"
+#include "fwdpy/evolve_regions_sampler.hpp"
+#include "fwdpy/fitness.hpp"
+#include "fwdpy/reserve.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
+#include "fwdpy/types.hpp"
+#include "fwdpy/wf_rules.hpp"
 
 using namespace std;
 

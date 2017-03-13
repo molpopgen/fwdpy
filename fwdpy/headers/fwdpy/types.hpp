@@ -7,7 +7,7 @@
 #ifndef __FWDPY_TYPES__
 #define __FWDPY_TYPES__
 
-#include "fwdpy_serialization.hpp"
+#include "fwdpy/serialization.hpp"
 #include <fwdpp/sugar.hpp>
 #include <fwdpp/sugar/GSLrng_t.hpp>
 #ifdef CUSTOM_DIPLOID_BASE

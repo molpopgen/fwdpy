@@ -1,13 +1,12 @@
 #ifndef FWDPY_QTRAIT_EVOLVE_MLOCUS_HPP
 #define FWDPY_QTRAIT_EVOLVE_MLOCUS_HPP
 
-#include "fwdpp_features.hpp"
-#include "fwdpy_fitness.hpp"
-#include "internal_region_manager.hpp"
-#include "reserve.hpp"
-#include "sampler_base.hpp"
-#include "sampler_base.hpp"
-#include "types.hpp"
+#include "fwdpy/fwdpp_features.hpp"
+#include "fwdpy/fitness.hpp"
+#include "fwdpy/internal/region_manager.hpp"
+#include "fwdpy/reserve.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
+#include "fwdpy/types.hpp"
 #include <algorithm>
 #include <exception>
 #include <functional>

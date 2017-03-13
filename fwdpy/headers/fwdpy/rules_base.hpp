@@ -1,8 +1,8 @@
 #ifndef FWDPY_RULES_BASE_HPP
 #define FWDPY_RULES_BASE_HPP
 
-#include "fwdpy_fitness.hpp"
-#include "types.hpp"
+#include "fwdpy/fitness.hpp"
+#include "fwdpy/types.hpp"
 #include <fwdpp/internal/gsl_discrete.hpp>
 #include <stdexcept>
 #include <vector>

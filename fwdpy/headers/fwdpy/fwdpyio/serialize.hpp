@@ -1,8 +1,8 @@
 #ifndef __FWDPY_SERIALIZE_HPP__
 #define __FWDPY_SERIALIZE_HPP__
 
-#include "serialization_common.hpp"
-#include "types.hpp"
+#include "fwdpy/serialization_common.hpp"
+#include "fwdpy/types.hpp"
 #include <fwdpp/sugar/serialization.hpp>
 #include <memory>
 #include <sstream>

@@ -1,7 +1,7 @@
 #ifndef FWDPY_SAMPLER_BASE_HPP
 #define FWDPY_SAMPLER_BASE_HPP
 
-#include "types.hpp"
+#include "fwdpy/types.hpp"
 #include <stdexcept>
 #include <thread>
 #include <vector>

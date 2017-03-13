@@ -8,7 +8,7 @@
 #ifndef FWDPY_ADD_MUTATIONS_HPP
 #define FWDPY_ADD_MUTATIONS_HPP
 
-#include "types.hpp"
+#include "fwdpy/types.hpp"
 
 namespace fwdpy
 {

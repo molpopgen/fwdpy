@@ -1,4 +1,4 @@
-#include "deps.hpp"
+#include "fwdpy/deps.hpp"
 #include <iostream>
 
 using namespace std;

@@ -20,13 +20,13 @@
 #include <utility>
 #include <vector>
 
-#include "internal_region_manager.hpp"
-#include "qtrait_details.hpp"
-#include "qtrait_evolve.hpp"
-#include "qtrait_evolve_rules.hpp"
-#include "sampler_additive_variance.hpp"
-#include "sampler_no_sampling.hpp"
-#include "types.hpp"
+#include "fwdpy/internal/region_manager.hpp"
+#include "fwdpy/qtrait/details.hpp"
+#include "fwdpy/qtrait/evolve.hpp"
+#include "fwdpy/qtrait/rules.hpp"
+#include "fwdpy/temporal_samplers/sampler_additive_variance.hpp"
+#include "fwdpy/temporal_samplers/sampler_no_sampling.hpp"
+#include "fwdpy/types.hpp"
 
 using namespace std;
 

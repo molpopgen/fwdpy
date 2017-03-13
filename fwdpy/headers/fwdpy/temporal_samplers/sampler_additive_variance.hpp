@@ -15,10 +15,10 @@
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_sf_pow_int.h>
 #include <gsl/gsl_statistics_double.h>
-#include "gsl_data_matrix.hpp"
-#include "sampler_base.hpp"
-#include "types.hpp"
-#include "gsl.hpp"
+#include "fwdpy/gsl/gsl_data_matrix.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
+#include "fwdpy/types.hpp"
+#include "fwdpy/gsl/gsl.hpp"
 #include <algorithm>
 #include <cmath>
 #include <memory>

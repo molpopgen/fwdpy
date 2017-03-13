@@ -1,9 +1,9 @@
 #ifndef FWDPY_EVOLVE_REGIONS_SAMPLER_HPP
 #define FWDPY_EVOLVE_REGIONS_SAMPLER_HPP
-#include "fwdpy_fitness.hpp"
-#include "internal_region_manager.hpp"
-#include "sampler_base.hpp"
-#include "types.hpp"
+#include "fwdpy/fitness.hpp"
+#include "fwdpy/internal/region_manager.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
+#include "fwdpy/types.hpp"
 #include <memory>
 #include <vector>
 namespace fwdpy

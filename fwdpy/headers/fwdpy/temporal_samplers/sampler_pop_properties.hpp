@@ -1,11 +1,11 @@
 #ifndef FWDPY_POP_PROPERTIES_HPP
 #define FWDPY_POP_PROPERTIES_HPP
 
-#include "types.hpp"
 #include <array>
-#include <sampler_base.hpp>
 #include <string>
 #include <vector>
+#include "fwdpy/types.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
 
 namespace fwdpy
 {

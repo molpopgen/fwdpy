@@ -11,7 +11,7 @@ ctypedef gamete_base gamete_t
 ctypedef vector[gamete_t] gcont_t
 ctypedef vector[popgenmut] mcont_t
 
-cdef extern from "fwdpy_fitness.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/fitness.hpp" namespace "fwdpy" nogil:
     ctypedef void(*genotype_fitness_updater)(double &, const popgenmut &)
     ctypedef double(*fitness_function_finalizer)(double)
     ctypedef double(*haplotype_fitness_fxn_finalizer)(double,double)

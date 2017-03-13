@@ -1,7 +1,7 @@
 #ifndef __FWDPY_HOCRULES_HPP__
 #define __FWDPY_HOCRULES_HPP__
 
-#include "rules_base.hpp"
+#include "fwdpy/rules_base.hpp"
 #include <cmath>
 #include <gsl/gsl_sf_pow_int.h>
 /*

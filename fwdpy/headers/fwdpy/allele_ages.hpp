@@ -1,7 +1,7 @@
 #ifndef FWDPY_ALLELE_AGES_HPP
 #define FWDPY_ALLELE_AGES_HPP
 
-#include "sampler_selected_mut_tracker.hpp"
+#include "fwdpy/temporal_samplers/sampler_selected_mut_tracker.hpp"
 #include <limits>
 namespace fwdpy
 {

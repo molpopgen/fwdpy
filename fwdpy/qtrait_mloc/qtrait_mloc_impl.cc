@@ -12,9 +12,9 @@
 #include <utility>
 #include <vector>
 
-#include "qtrait_evolve_mlocus.hpp"
-#include "qtrait_mloc_rules.hpp"
-#include "types.hpp"
+#include "fwdpy/qtrait_mloc/evolve.hpp"
+#include "fwdpy/qtrait_mloc/rules.hpp"
+#include "fwdpy/types.hpp"
 
 using namespace std;
 

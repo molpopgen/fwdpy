@@ -18,7 +18,7 @@ from fwdpy.fitness cimport singlepop_fitness
 ctypedef vector[unsigned] ucont_t
 
 #Wrap the classes:
-cdef extern from "types.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/types.hpp" namespace "fwdpy" nogil:
     # "Standard" popgen types
     ctypedef gamete_base gamete_t
     ctypedef vector[gamete_t] gcont_t
@@ -192,7 +192,7 @@ cdef class GSLrng:
 
 #Functions relating to built-in temporal sampling features
 
-cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/temporal_samplers/sampler_base.hpp" namespace "fwdpy" nogil:
     cdef cppclass sampler_base:
         pass
     void clear_samplers(vector[unique_ptr[sampler_base]] & v)
@@ -247,23 +247,23 @@ cdef extern from "sampler_base.hpp" namespace "fwdpy" nogil:
 
     void apply_sampler_single_cpp[T](const T *pop,const vector[unique_ptr[sampler_base]] & samplers)
 
-cdef extern from "sampler_no_sampling.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/temporal_samplers/sampler_no_sampling.hpp" namespace "fwdpy" nogil:
     cdef cppclass no_sampling(sampler_base):
         no_sampling()
 
-cdef extern from "sampler_pop_properties.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/temporal_samplers/sampler_pop_properties.hpp" namespace "fwdpy" nogil:
     cdef cppclass pop_properties(sampler_base):
         pop_properties(double optimum)
         vector[qtrait_stats_cython] final() const
 
-cdef extern from "sampler_additive_variance.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/temporal_samplers/sampler_additive_variance.hpp" namespace "fwdpy" nogil:
     cdef cppclass additive_variance(sampler_base):
         additive_variance()
         vector[VAcum] final()
 
 ctypedef vector[pair[sep_sample_t,popsample_details]] popSampleData
 
-cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/temporal_samplers/sampler_sample_n.hpp" namespace "fwdpy" nogil:
     cdef cppclass sample_n(sampler_base):
         sample_n(unsigned, const gsl_rng * r,
                 const string & nfile,const string & sfile,
@@ -277,7 +277,7 @@ cdef extern from "sampler_sample_n.hpp" namespace "fwdpy" nogil:
 ctypedef pair[uint,double] genfreqPair
 ctypedef unordered_map[uint,map[pair[double,double],vector[genfreqPair]]] freqTraj 
 
-cdef extern from "sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/temporal_samplers/sampler_selected_mut_tracker.hpp" namespace "fwdpy" nogil:
     cdef cppclass selected_mut_tracker(sampler_base):
         selected_mut_tracker()
         freqTraj final() const
@@ -377,7 +377,7 @@ cdef diploid_mloc_data get_diploid_mloc( const dipvector_t & dip, const gcont_t 
 ##Now, wrap the functions.
 ##To whatever extent possible, we avoid cdef externs in favor of Cython fxns based on cpp types.
 ##Many of the functions below rely on templates or other things that are too complex for Cython to handle at the moment
-cdef extern from "sample.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/sample.hpp" namespace "fwdpy" nogil:
     popsample_details get_sh( const vector[pair[double,string]] & ms_sample,
                  const mcont_t & mutations,
                  const mcont_t & fixations,
@@ -387,18 +387,18 @@ cdef extern from "sample.hpp" namespace "fwdpy" nogil:
                  const unsigned & generation,
                  const unsigned & locusID)
 
-cdef extern from "deps.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/deps.hpp" namespace "fwdpy" nogil:
     vector[string] fwdpy_version()
     void fwdpy_citation()
 
-cdef extern from "allele_ages.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/allele_ages.hpp" namespace "fwdpy" nogil:
     vector[allele_age_data_t] allele_ages_details( const freqTraj & trajectories,
 						   const double minfreq, const unsigned minsojourn ) except +
 
     freqTraj merge_trajectories_details( const freqTraj & traj1, const freqTraj & traj2 )
 
 ctypedef unsigned uint
-cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
     void evolve_regions_sampler_cpp( GSLrng_t * rng,
 				     vector[shared_ptr[singlepop_t]] & pops,
 				     vector[unique_ptr[sampler_base]] & samplers,
@@ -413,7 +413,7 @@ cdef extern from "evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
 				     const singlepop_fitness & fitness) except +
 
 
-cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/sampling_wrappers.hpp" namespace "fwdpy" nogil:
     sample_t sample_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
     sep_sample_t sample_sep_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
     vector[sample_t] sample_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
@@ -421,7 +421,7 @@ cdef extern from "sampling_wrappers.hpp" namespace "fwdpy" nogil:
     vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
             removeFixed, const vector[pair[double,double]] &)  except +
 
-cdef extern from "fwdpy_add_mutations.hpp" namespace "fwdpy" nogil:
+cdef extern from "fwdpy/add_mutations.hpp" namespace "fwdpy" nogil:
     size_t add_mutation_cpp(singlepop_t * pop,
                             const vector[size_t] & indlist,
                             const vector[short] & clist,

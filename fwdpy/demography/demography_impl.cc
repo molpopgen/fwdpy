@@ -1,4 +1,4 @@
-#include "metapop.hpp"
+#include "fwdpy/demography/metapop.hpp"
 #include <exception>
 #include <fwdpp/sugar/demography.hpp>
 namespace fwdpy

@@ -1,4 +1,4 @@
-#include "fwdpy_add_mutations.hpp"
+#include "fwdpy/add_mutations.hpp"
 #include <fwdpp/sugar/add_mutation.hpp>
 #include <stdexcept>
 

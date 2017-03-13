@@ -1,8 +1,8 @@
 /*
   Reference: www.pnas.org/cgi/doi/10.1073/pnas.0906182107
 */
-#include "qtrait_pleiotropic.hpp"
-#include "types.hpp"
+#include "fwdpy/qtrait/pleiotropic.hpp"
+#include "fwdpy/types.hpp"
 #include <algorithm>
 #include <cmath>
 #include <gsl/gsl_randist.h>

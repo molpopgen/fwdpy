@@ -1,7 +1,7 @@
 #ifndef FWDPY_GET_SELECTED_MUT_DATA_HPP
 #define FWDPY_GET_SELECTED_MUT_DATA_HPP
-#include "sampler_base.hpp"
-#include "types.hpp"
+#include "fwdpy/temporal_samplers/sampler_base.hpp"
+#include "fwdpy/types.hpp"
 #include <mutex>
 #include <limits>
 #include <unordered_map>
