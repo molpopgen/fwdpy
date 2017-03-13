@@ -1,11 +1,11 @@
 
-Extending fwdpy with Cython
-===========================
+Extending fwdpy with Cython functions
+=====================================
 
 Cython makes it easy to `share
 definitions <http://docs.cython.org/en/latest/src/userguide/sharing_declarations.html>`__
-between packages, making it easy to use fwdpy's types to write custom
-code. Further, as fwdpy depends on and installs
+between packages, allowing access fwdpy's types to write custom code.
+Further, as fwdpy depends on and installs
 `fwdpp <https://molpopgen.github.io/fwdpp>`__, you get access to many of
 that library's features. Even better, you can write your extensions and
 ignore a lot of gory details regarding compiling and linking--Cython
@@ -37,8 +37,8 @@ Linux vs OS X
 -------------
 
 Due to issues with compiler support on OS X, Linux is the intended
-platform for using fwdpy. It is possible to install the package if you
-use GCC, which you can install via Anaconda.
+platform for using fwdpy. It is possible to install the package on OS
+Xif you use GCC, which you can install via Anaconda.
 
 When compiling extensions, Python's distutils attempts to force use of
 the same compiler used to build Python. On OS X, that means clang, but
@@ -60,6 +60,15 @@ Every Cython code block in this document begins with a line starting
 "%%cython". That's another 'magic' command for the Jupyter notebooks. It
 contains info needed to compile each code block. You can basically
 ignore that.
+
+Relevant C++ background
+=======================
+
+You should be familiar with the following C++ types:
+
+-  `std::vector <http://en.cppreference.com/w/cpp/container/vector>`__
+-  `std::map <http://en.cppreference.com/w/cpp/container/map>`__
+-  `std::pair <http://en.cppreference.com/w/cpp/utility/pair>`__
 
 .. code:: python
 
@@ -173,7 +182,7 @@ On to our code for the SFS:
         """
         #Here, we call our Cython function.
         #The fwdpy.Spop type contains a
-        #std::unique_ptr[singlepop_t] object
+        #std::shared_ptr[singlepop_t] object
         #called "pop".  So, we send the raw pointer
         #to our Cython function:
         return np.array(sfs_cpp(pop.pop.get()),dtype=np.uint32)
@@ -281,6 +290,77 @@ argument) is annoying. While the function does not modify the input
 value, but you cannot know that without reading its implementation in
 detail. Personally, I like having the function fail to compile if I
 accidentally try to modify a constant object.
+
+Raw pointer vs shared\_ptr?
+---------------------------
+
+C++11 programmers will note that I'm passing a raw pointer to the SFS
+function. We could just as easily pass a const reference to the smart
+pointer. If we do that, we have to understand that Cython does not
+distinguish the C++ -> and . (period) operators, which is tricky for us.
+When using a C++ smart pointer, -> gives member access to the pointer's
+ata while the period (.) operator gives access to the smart pointer's
+data and/or member functions. The solution is we must allways use the
+smart pointer's ``get()`` member function and trust in our compiler to
+optimize it away:
+
+.. code:: python
+
+    %%cython --cplus --compile-args=-std=c++11 -I $fwdpy_includes -I $fwdpp_includes -l sequence -l gsl -l gslcblas
+    from fwdpy.fwdpy cimport *
+    import numpy as np
+    
+    #Pass in the shared_ptr as a const reference:
+    cdef vector[unsigned] sfs_cpp_shared_ptr(const shared_ptr[singlepop_t] & pop):
+        cdef vector[unsigned] rv
+        #Have to use get
+        rv.resize(2*pop.get().N,0)
+        cdef size_t i = 0
+        #have to use get
+        for i in pop.get().mcounts:
+            if i>0:
+                rv[i-1]+=1
+        return rv
+    
+    def sfs_shared_ptr(Spop pop):
+        """
+        This is another Python function that will return the 
+        SFS for a fwdpy.Spop object.
+        
+        :param pop: A :class:`fwdpy.fwdpy.Spop`
+        
+        :return: The site-frequency spectrum for pop
+        
+        :rtype: numpy.array with dtype numpy.uint32
+        """
+        return np.array(sfs_cpp_shared_ptr(pop.pop),dtype=np.uint32)
+
+Ultimately, it is up to you which you prefer. However, it is non-obvious
+that all compilers will optimize away all calls to ``get()``.
+
+Of course, we get the same answer:
+
+.. code:: python
+
+    mean_sfs = np.sum([sfs_shared_ptr(i) for i in pops],axis=0)/10.
+    mean_sfs
+
+
+
+
+.. parsed-literal::
+
+    array([ 109. ,   50.1,   36.5, ...,    0. ,    0. ,    0. ])
+
+
+
+Caveat: future API changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+One weakness of passing in the ``shared_ptr`` is that we may consider
+changing the ``shared_ptr`` to ``unique_ptr`` in the future. Such a
+change is transparent to all of our previous function, but
+``sfs_cpp_shared_ptr`` would be affected by the API change.
 
 Getting the SFS from fwdpy
 --------------------------
@@ -462,7 +542,7 @@ matplotlib:
 
 
 
-.. image:: WritingExtensions_files/WritingExtensions_26_1.png
+.. image:: WritingExtensions_files/WritingExtensions_31_1.png
 
 
 The number of selected mutations per diploid plus fitness of each diploid
@@ -535,12 +615,12 @@ from the results:
 
 .. parsed-literal::
 
-    <matplotlib.text.Text at 0x7fda29b9de50>
+    <matplotlib.text.Text at 0x7f596147bf10>
 
 
 
 
-.. image:: WritingExtensions_files/WritingExtensions_30_1.png
+.. image:: WritingExtensions_files/WritingExtensions_35_1.png
 
 
 .. code:: python
@@ -554,12 +634,12 @@ from the results:
 
 .. parsed-literal::
 
-    <matplotlib.text.Text at 0x7fda29761bd0>
+    <matplotlib.text.Text at 0x7f595f5b7590>
 
 
 
 
-.. image:: WritingExtensions_files/WritingExtensions_31_1.png
+.. image:: WritingExtensions_files/WritingExtensions_36_1.png
 
 
 The mean effect size of selected mutations on each haplotype in each diploid
@@ -630,10 +710,10 @@ various data objects. These include:
 
 .. parsed-literal::
 
-    <matplotlib.text.Text at 0x7fda29a58690>
+    <matplotlib.text.Text at 0x7f595f3d7590>
 
 
 
 
-.. image:: WritingExtensions_files/WritingExtensions_34_1.png
+.. image:: WritingExtensions_files/WritingExtensions_39_1.png
 
