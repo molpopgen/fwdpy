@@ -1,5 +1,5 @@
 from cython.operator cimport dereference as deref
-from fwdpy.fwdpp cimport sep_sample_t,sample_t,gsl_rng
+from fwdpy.fwdpp cimport sep_sample_t,sample_t,gsl_rng,sample_single,sample_separate_single,sample_separate_meta,sample_separate_mlocus
 import numpy as np
 import pandas as pd
 
@@ -23,11 +23,11 @@ def ms_sample(GSLrng rng, PopType pop, int nsam, bint removeFixed = True):
     >>> s = [fwdpy.ms_sample(rng,i,10) for i in pop]
     """
     if isinstance(pop,Spop):
-        return sample_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
+        return sample_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, removeFixed)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 
-def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme = None, locusBoundaries = None):
+def get_samples(GSLrng rng, PopType pop, unsigned nsam, bint removeFixed = True, deme = None, locusBoundaries = None):
     """
     Take a sample from a set of simulated populations.
 
@@ -51,16 +51,18 @@ def get_samples(GSLrng rng, PopType pop, int nsam, bint removeFixed = True, deme
     >>> pop = fwdpy.evolve_regions(rng,3,1000,popsizes[0:],0.001,0,0.001,[fwdpy.Region(0,1,1)],[],[fwdpy.Region(0,1,1)])
     >>> s = [fwdpy.get_samples(rng,i,10) for i in pop]
     """
+    cdef vector[pair[double,double]] lb
     if isinstance(pop,Spop):
-        return sample_sep_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, int(removeFixed))
+        return sample_separate_single[singlepop_t](rng.thisptr.get(),deref((<Spop>pop).pop.get()),nsam, removeFixed)
     elif isinstance(pop,MetaPop):
         if deme is None:
             raise RuntimeError("deme may not be set to None when sampling from a meta-population")
         if deme >= len(pop):
             raise RuntimeError("value for deme out of range. len(pop) = "+str(len(pop))+", but deme = "+str(deme))
-        return sample_separate[metapop_t](rng.thisptr.get(),deref((<MetaPop>pop).mpop.get()),deme,nsam,removeFixed)
+        return sample_separate_meta[metapop_t](rng.thisptr.get(),deref((<MetaPop>pop).mpop.get()),deme,nsam,removeFixed)
     elif isinstance(pop,MlocusPop):
-        return sample_sep_single_mloc[multilocus_t](rng.thisptr.get(),deref((<MlocusPop>pop).pop.get()),nsam,removeFixed,locusBoundaries)
+        lb=locusBoundaries
+        return sample_separate_mlocus[multilocus_t](rng.thisptr.get(),deref((<MlocusPop>pop).pop.get()),nsam,removeFixed,lb)
     else:
         raise ValueError("ms_sample: unsupported type of popcontainer")
 

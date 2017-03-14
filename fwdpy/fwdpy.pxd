@@ -412,15 +412,6 @@ cdef extern from "fwdpy/evolve_regions_sampler.hpp" namespace "fwdpy" nogil:
 				     const region_manager * rm,
 				     const singlepop_fitness & fitness) except +
 
-
-cdef extern from "fwdpy/sampling_wrappers.hpp" namespace "fwdpy" nogil:
-    sample_t sample_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
-    sep_sample_t sample_sep_single[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool removeFixed)  except +
-    vector[sample_t] sample_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
-            removeFixed, const vector[pair[double,double]] &)  except +
-    vector[sep_sample_t] sample_sep_single_mloc[POPTYPE](gsl_rng * r,const POPTYPE & p, const unsigned nsam, const bool
-            removeFixed, const vector[pair[double,double]] &)  except +
-
 cdef extern from "fwdpy/add_mutations.hpp" namespace "fwdpy" nogil:
     size_t add_mutation_cpp(singlepop_t * pop,
                             const vector[size_t] & indlist,
