@@ -102,6 +102,27 @@ cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
 cdef extern from "fwdpp/sugar/change_neutral.hpp" namespace "KTfwd" nogil:
     void change_neutral[POPTYPE](POPTYPE & p, const size_t mut_index)
 
+cdef extern from "fwdpp/sugar/matrix.hpp" namespace "KTfwd" nogil:
+    cdef struct data_matrix:
+        vector[char] neutral,selected
+        vector[double] neutral_positions,selected_positions,neutral_popfreq,selected_popfreq
+        size_t nrow
+
+    pair[vector[pair[size_t,uint]],vector[pair[size_t,uint]]] mutation_keys[POPTYPE](const POPTYPE & pop,
+            const vector[size_t] & inividuals,
+            const bint include_neutral, 
+            const bint include_selected, const size_t deme) except +
+
+    data_matrix fwdpp_genotype_matrix"KTfwd::genotype_matrix"[POPTYPE](const POPTYPE & pop,
+            const vector[size_t] & inividuals,
+            const vector[pair[size_t,uint]] & neutral_keys,
+            const vector[pair[size_t,uint]] & selected_keys, const size_t deme) except +
+
+    data_matrix fwdpp_haplotype_matrix"KTfwd::haplotype_matrix"[POPTYPE](const POPTYPE & pop,
+            const vector[size_t] & inividuals,
+            const vector[pair[size_t,uint]] & neutral_keys,
+            const vector[pair[size_t,uint]] & selected_keys, const size_t deme) except +
+
 ## fwdpp's extensions sub-library:    
 cdef extern from "fwdpp/extensions/callbacks.hpp" namespace "KTfwd::extensions":
     cdef cppclass shmodel:
