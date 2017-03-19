@@ -109,14 +109,27 @@ cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
                             const POPTYPE &,const unsigned
                             deme , const unsigned nsam , const bool removeFixed) except+
 
-    #Take specific samples from the population
+    #Take specific samples from the population.
+    #These can all throw if vectors contain
+    #out-of-range values.
     sample_t sample_single_ind"KTfwd::sample"[POPTYPE](const POPTYPE &,
                             const vector[size_t] &,
-                            const bint removeFixed)
+                            const bint removeFixed) except+
     sep_sample_t sample_separate_single_ind"KTfwd::sample_separate"[POPTYPE](const POPTYPE &,
                             const vector[size_t] &,
-                            const bint removeFixed)
-
+                            const bint removeFixed) except+
+    vector[sample_t] sample_mlocus_ind"KTfwd::sample"[POPTYPE](const POPTYPE &, 
+                            const vector[size_t] &,const bint removeFixed,
+                            const vector[pair[double,double]] &) except+
+    vector[sep_sample_t] sample_separate_mlocus_ind"KTfwd::sample_separate"[POPTYPE](const POPTYPE &,
+                            const vector[size_t] &, 
+                            const bint removeFixed,const vector[pair[double,double]] &) except+
+    sample_t sample_meta_ind"KTfwd::sample"[POPTYPE](const POPTYPE &,const unsigned deme,
+                            const vector[size_t] &, const bool removeFixed) except+
+    sep_sample_t sample_separate_meta_ind"KTfwd::sample_separate"[POPTYPE](const POPTYPE &,
+                            const unsigned deme ,const vector[size_t] &,
+                            const bool removeFixed) except+
+    
 cdef extern from "fwdpp/sugar/change_neutral.hpp" namespace "KTfwd" nogil:
     void change_neutral[POPTYPE](POPTYPE & p, const size_t mut_index)
 
