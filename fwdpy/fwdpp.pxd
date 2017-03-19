@@ -88,16 +88,34 @@ cdef extern from "fwdpp/sugar/generalmut.hpp" namespace "KTfwd" nogil:
 cdef extern from "fwdpp/sugar/sampling.hpp" namespace "KTfwd" nogil:
     ctypedef vector[pair[double,string]] sample_t
     ctypedef pair[sample_t,sample_t] sep_sample_t
-    sample_t sample[POPTYPE](const gsl_rng *,const POPTYPE &, const unsigned nsam, const bint removeFixed)
-    sample_t sample_single"KTfwd::sample"[POPTYPE](const gsl_rng *,const POPTYPE &, const unsigned nsam, const bint removeFixed)
-    sep_sample_t sample_separate_single"KTfwd::sample_separate"[POPTYPE](const gsl_rng *,const POPTYPE &, const unsigned nsam, const bint removeFixed)
-    vector[sample_t] sample_mlocus"KTfwd::sample"[POPTYPE](const gsl_rng *,const POPTYPE &, const unsigned nsam, const bint
-            removeFixed,const vector[pair[double,double]] &)
-    vector[sep_sample_t] sample_separate_mlocus"KTfwd::sample_separate"[POPTYPE](const gsl_rng *,const POPTYPE &, const unsigned
-            nsam, const bint removeFixed,const vector[pair[double,double]] &)
-    sample_t sample_meta"KTfwd::sample"[POPTYPE](const gsl_rng *,const POPTYPE &,const unsigned deme , const unsigned nsam , const bool removeFixed) except+
-    sep_sample_t sample_separate_meta"KTfwd::sample_separate"[POPTYPE](const gsl_rng *,const POPTYPE &,const unsigned
-            deme , const unsigned nsam , const bool removeFixed) except+
+
+    #Take random samples from a population
+    sample_t sample[POPTYPE](const gsl_rng *,const POPTYPE &, 
+                            const unsigned nsam, const bint removeFixed)
+    sample_t sample_single"KTfwd::sample"[POPTYPE](const gsl_rng *,
+                            const POPTYPE &, const unsigned nsam, const bint removeFixed)
+    sep_sample_t sample_separate_single"KTfwd::sample_separate"[POPTYPE](const gsl_rng *,
+                            const POPTYPE &, const unsigned nsam, const bint removeFixed)
+    vector[sample_t] sample_mlocus"KTfwd::sample"[POPTYPE](const gsl_rng *,
+                            const POPTYPE &, const unsigned nsam, const bint
+                            removeFixed,const vector[pair[double,double]] &) except+
+    vector[sep_sample_t] sample_separate_mlocus"KTfwd::sample_separate"[POPTYPE](const gsl_rng *,
+                            const POPTYPE &, const unsigned
+                            nsam, const bint removeFixed,const vector[pair[double,double]] &) except+
+    sample_t sample_meta"KTfwd::sample"[POPTYPE](const gsl_rng *,
+                            const POPTYPE &,const unsigned deme,
+                            const unsigned nsam , const bool removeFixed) except+
+    sep_sample_t sample_separate_meta"KTfwd::sample_separate"[POPTYPE](const gsl_rng *,
+                            const POPTYPE &,const unsigned
+                            deme , const unsigned nsam , const bool removeFixed) except+
+
+    #Take specific samples from the population
+    sample_t sample_single_ind"KTfwd::sample"[POPTYPE](const POPTYPE &,
+                            const vector[size_t] &,
+                            const bint removeFixed)
+    sep_sample_t sample_separate_single_ind"KTfwd::sample_separate"[POPTYPE](const POPTYPE &,
+                            const vector[size_t] &,
+                            const bint removeFixed)
 
 cdef extern from "fwdpp/sugar/change_neutral.hpp" namespace "KTfwd" nogil:
     void change_neutral[POPTYPE](POPTYPE & p, const size_t mut_index)
