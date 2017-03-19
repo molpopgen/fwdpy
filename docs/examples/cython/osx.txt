@@ -1,0 +1,1 @@
+DYLD_FALLBACK_LIBRARY_PATH=/Users/kevin/anaconda3/lib CXX=g++ CC=gcc PYTHONPATH=../../.. jupyter notebook WritingExtensions.ipynb
